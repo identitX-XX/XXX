@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Noir default (brand) */
+  --noir: #0a0a0d;
+  --surface: #121116;
+  --raised: #1a1922;
+  --ink: #f4f1f5;
+  --muted: #9a96a6;
+  --line: rgba(255, 255, 255, 0.08);
+  --fuchsia: #ff2e8b;
+  --orange: #ff7a3c;
+}
+
+.light {
+  --noir: #f7f5f4;
+  --surface: #ffffff;
+  --raised: #ffffff;
+  --ink: #16141a;
+  --muted: #6b6774;
+  --line: rgba(20, 18, 26, 0.1);
+  --fuchsia: #e01f7a;
+  --orange: #f26522;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: var(--noir);
+  color: var(--ink);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--fuchsia);
+  color: #fff;
+}
+
+/* Thin, quiet scrollbars */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+
+.brand-gradient {
+  background-image: linear-gradient(120deg, var(--fuchsia), var(--orange));
+}
+.brand-text {
+  background-image: linear-gradient(120deg, var(--fuchsia), var(--orange));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+input,
+textarea {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
