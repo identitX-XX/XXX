@@ -154,7 +154,8 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           style={{
             width: "min(76vw, 280px)",
             aspectRatio: "1 / 1",
-            backgroundImage: "url('/hero.jpg')",
+            backgroundImage: "backgroundImage: "url('/hero.jpg%20.jpg')",
+",
             backgroundSize: "cover",
             backgroundPosition: "center",
             WebkitMaskImage: mask,
