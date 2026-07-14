@@ -4,11 +4,16 @@ import { ReactNode, useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Onboarding } from "./Onboarding";
+import { Welcome } from "./Welcome";
+
+
 import { Brand, NavList } from "./Sidebar";
 
 export function ClientShell({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false); 
+  const [started, setStarted] = useState(false);
+
   const onboarded = useStore((s) => s.onboarded);
   const theme = useStore((s) => s.theme);
   const setTheme = useStore((s) => s.setTheme);
@@ -31,6 +36,7 @@ export function ClientShell({ children }: { children: ReactNode }) {
     );
   }
 
+if (!onboarded && !started) return <Welcome onStart={() => setStarted(true)} />;
   if (!onboarded) return <Onboarding />;
 
   return (
