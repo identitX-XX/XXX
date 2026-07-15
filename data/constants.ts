@@ -27,7 +27,6 @@ export const RADAR_AXES = [
   "Vision",
   "Intuition",
 ];
-
 export const NAV = [
   { href: "/dashboard", label: "Tableau de bord" },
   { href: "/explorer", label: "Explorer" },
@@ -35,6 +34,9 @@ export const NAV = [
   { href: "/dna", label: "ADN personnel" },
   { href: "/coach", label: "Coach IA" },
   { href: "/journal", label: "Journal" },
+  { href: "/cartographie", label: "Cartographie" },
   { href: "/reports", label: "Rapports" },
   { href: "/settings", label: "Paramètres" },
 ];
+
+
