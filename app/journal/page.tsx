@@ -1,11 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { Plus, Trash2 } from "lucide-react";
-import { useStore } from "@/store/useStore";
-import { Button, Card, PageHead, Slider, TextArea, TextInput } from "@/components/ui";
-
-const METRIC = (label: string, value: number) => ({ label, value });
 
 export default function JournalPage() {
   const journal = useStore((s) => s.journal);
