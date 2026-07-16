@@ -35,6 +35,8 @@ export const NAV = [
   { href: "/coach", label: "Coach IA" },
   { href: "/journal", label: "Journal" },
   { href: "/cartographie", label: "Cartographie" },
+    { href: "/synthese", label: "Synthèse" },
+
   { href: "/reports", label: "Rapports" },
   { href: "/settings", label: "Paramètres" },
 ];
