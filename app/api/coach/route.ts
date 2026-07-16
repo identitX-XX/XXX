@@ -80,3 +80,10 @@ ${context || "Aucune donnée disponible pour le moment — invite la personne à
     return Response.json({ error: "IdentitX est momentanément injoignable." }, { status: 502 });
   }
 }
+
+export async function GET() {
+  return Response.json({
+    ok: true,
+    hasKey: Boolean(process.env.ANTHROPIC_API_KEY),
+  });
+}
