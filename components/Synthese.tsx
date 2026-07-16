@@ -17,6 +17,48 @@ type Entry = {
 
 type Identity = { id: string; name: string; given: number; received: number };
 
+type DeclaredProfile = {
+  name?: string;
+  goal?: string;
+  keyword?: string;
+  blocker?: string;
+  understand?: string;
+  values?: string[];
+  strengths?: string[];
+  fear?: string;
+  ambition?: string;
+};
+
+// Retrouve le profil d'onboarding dans le localStorage (store persisté),
+// sans dépendre du nom exact de la clé.
+function findDeclaredProfile(): DeclaredProfile | null {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (!key) continue;
+      const raw = localStorage.getItem(key);
+      if (!raw || raw[0] !== "{") continue;
+      let obj: unknown;
+      try {
+        obj = JSON.parse(raw);
+      } catch {
+        continue;
+      }
+      const o = obj as Record<string, unknown>;
+      const state = (o.state ?? o) as Record<string, unknown>;
+      const cand = (state.profile ?? o.profile ?? state.p) as DeclaredProfile | undefined;
+      if (
+        cand &&
+        typeof cand === "object" &&
+        ("fear" in cand || "ambition" in cand || "keyword" in cand || "values" in cand)
+      ) {
+        return cand;
+      }
+    }
+  } catch {}
+  return null;
+}
+
 type Scenario = {
   id: string;
   eyebrow: string;
@@ -105,7 +147,7 @@ function classify(g: number, r: number): string {
 
 // ===================== Moteur de scénarios =====================
 
-function buildScenarios(entries: Entry[], identities: Identity[], date: string): Scenario[] {
+function buildScenarios(entries: Entry[], identities: Identity[], date: string, profile: DeclaredProfile | null): Scenario[] {
   const out: Scenario[] = [];
 
   const mg7 = rollingAverage(entries, 7, date);
@@ -254,6 +296,80 @@ function buildScenarios(entries: Entry[], identities: Identity[], date: string):
     !out.some((s) => s.id === "generosite" || s.id === "elan")
   ) {
     out.push(vampireScenario(vampires, bilan));
+  }
+
+  // --- Règles « déclaré vs vécu » : le profil d'onboarding confronté aux mesures ---
+
+  const firstValue = profile?.values?.find((v) => v && v.trim().length > 0);
+
+  // P1 : la peur démentie par les faits
+  if (profile?.fear && profile.fear.trim() && expo !== null && expo >= 6) {
+    out.push({
+      id: "peur-dementie",
+      eyebrow: "Déclaré vs vécu",
+      titre: "La peur démentie",
+      constat: `À ton arrivée, tu as nommé cette peur : « ${profile.fear.trim()} ». Or ton exposition réelle tourne à ${expo}/10 sur 7 jours — tu fais déjà, régulièrement, ce que cette peur est censée interdire.`,
+      priorite: "Prendre acte : les faits contredisent la peur. Elle décrit ton passé, plus ton présent.",
+      direction: "Reformuler cette peur à la lumière de ce que tu fais réellement — ou la retirer de ton récit.",
+      leviers: [
+        "Noter trois moments récents où tu as agi malgré elle",
+        "Réécrire la peur au passé : « j'avais peur de… » et observer l'effet",
+      ],
+      vigilance: ["Garder une peur périmée comme excuse de réserve"],
+    });
+  }
+
+  // P2 : l'ambition sans carburant
+  if (profile?.ambition && profile.ambition.trim() && expo !== null && expo < 5) {
+    out.push({
+      id: "ambition-carburant",
+      eyebrow: "Déclaré vs vécu",
+      titre: "L'ambition sans carburant",
+      constat: `Ton ambition déclarée à 12 mois : « ${profile.ambition.trim()} ». Ton exposition réelle : ${expo}/10. Le cap existe, mais le moteur qui l'atteint — l'exposition — tourne au ralenti.`,
+      priorite: "Reconnecter l'ambition aux actes : une ambition sans exposition reste une intention.",
+      direction: "Chaque exposition de la semaine doit pointer vers l'ambition, même de loin.",
+      leviers: [
+        "Identifier LA prochaine exposition qui rapproche concrètement de cette ambition",
+        "La programmer avec une date avant dimanche",
+      ],
+      vigilance: ["Préparer encore au lieu d'exposer déjà", "Reformuler l'ambition au lieu de l'alimenter"],
+    });
+  }
+
+  // P3 : la valeur contredite par la constellation
+  if (firstValue && bilan !== null && bilan < 0) {
+    out.push({
+      id: "valeur-contredite",
+      eyebrow: "Déclaré vs vécu",
+      titre: "La valeur contredite",
+      constat: `Tu as déclaré « ${firstValue.trim()} » parmi tes valeurs dominantes. Or ta constellation d'identités te coûte plus qu'elle ne te rend (bilan ${bilan})${vampires.length ? ` — notamment ${vampires.map((v) => `« ${v.name} »`).join(", ")}` : ""}. Ta vie quotidienne contredit ta valeur n°1.`,
+      priorite: "Réaligner les rôles sur la valeur — pas l'inverse.",
+      direction: `Que chaque rôle conservé passe le test : sert-il « ${firstValue.trim()} » ?`,
+      leviers: [
+        vampires.length
+          ? `Passer « ${vampires[0].name} » au test de la valeur : le renégocier ou le quitter`
+          : "Passer chaque rôle drainant au test de la valeur",
+        "Nommer un rôle qui incarnerait pleinement cette valeur — et lui ouvrir de l'espace",
+      ],
+      vigilance: ["Vivre ses valeurs en théorie et ses rôles en pratique"],
+    });
+  }
+
+  // P4 : le blocage à réinterroger
+  if (profile?.blocker && profile.blocker.trim() && clarte !== null && clarte >= 6) {
+    out.push({
+      id: "blocage-reinterroge",
+      eyebrow: "Déclaré vs vécu",
+      titre: "Le blocage à réinterroger",
+      constat: `Ton blocage déclaré à l'arrivée : « ${profile.blocker.trim()} ». Ta clarté cognitive tient pourtant à ${clarte}/10 sur la semaine — l'esprit est net. Ce blocage est-il encore réel, ou est-ce un souvenir qui s'attarde ?`,
+      priorite: "Vérifier si le blocage d'hier gouverne encore aujourd'hui.",
+      direction: "Le tester dans le réel une fois cette semaine, plutôt que le tenir pour acquis.",
+      leviers: [
+        "Décrire ce que serait la première preuve que le blocage a cédé",
+        "Provoquer une situation où il devrait se manifester — et observer",
+      ],
+      vigilance: ["Entretenir un blocage identitaire devenu simple habitude de langage"],
+    });
   }
 
   // --- Règle 7 : expansion installée ---
@@ -425,6 +541,7 @@ function ConstellationBg() {
 export function Synthese() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [identities, setIdentities] = useState<Identity[]>([]);
+  const [profile, setProfile] = useState<DeclaredProfile | null>(null);
   const [loaded, setLoaded] = useState(false);
   const date = new Date().toISOString().slice(0, 10);
 
@@ -437,12 +554,13 @@ export function Synthese() {
       const m = localStorage.getItem(MAP_KEY);
       if (m) setIdentities(JSON.parse(m));
     } catch {}
+    setProfile(findDeclaredProfile());
     setLoaded(true);
   }, []);
 
   const scenarios = useMemo(
-    () => (loaded ? buildScenarios(entries, identities, date) : []),
-    [loaded, entries, identities, date]
+    () => (loaded ? buildScenarios(entries, identities, date, profile) : []),
+    [loaded, entries, identities, date, profile]
   );
 
   const mg7 = rollingAverage(entries, 7, date);
@@ -577,7 +695,9 @@ export function Synthese() {
             animation: "idx-rise .7s .16s ease both",
           }}
         >
-          Le croisement de ton journal et de ta constellation — priorités, direction, leviers.
+          {profile?.keyword && profile.keyword.trim()
+            ? `Sous le signe de « ${profile.keyword.trim()} » — ton journal et ta constellation, croisés.`
+            : "Le croisement de ton journal et de ta constellation — priorités, direction, leviers."}
         </p>
 
         {/* Bandeau de mesures */}
@@ -755,4 +875,3 @@ export function Synthese() {
     </div>
   );
 }
-
