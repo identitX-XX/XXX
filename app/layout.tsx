@@ -33,7 +33,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" className={`${fraunces.variable} ${inter.variable}`}>
-      <body className="font-sans antialiased">
+           <Gate>
+          <ClientShell>{children}</ClientShell>
+        </Gate>
+
         <ClientShell>{children}</ClientShell>
       </body>
     </html>
