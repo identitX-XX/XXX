@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
+import { Gate } from "@/components/Gate";
 
 const fraunces = Fraunces({
   subsets: ["latin"],
