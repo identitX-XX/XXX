@@ -1,4 +1,5 @@
-exporexport const maxDuration = 60;
+export const maxDuration = 60;
+
 
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
