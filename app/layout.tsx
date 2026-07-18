@@ -33,12 +33,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={`${fraunces.variable} ${inter.variable}`}>
-           <Gate>
+    <html lang="fr" className={fraunces.variable + " " + inter.variable}>
+      <body>
+        <Gate>
           <ClientShell>{children}</ClientShell>
         </Gate>
-
-        <ClientShell>{children}</ClientShell>
       </body>
     </html>
   );
