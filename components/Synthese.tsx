@@ -584,7 +584,7 @@ export function Synthese() {
       <div
         style={{
           height: 1,
-          background: `linear-gradient(90deg, ${color}66, transparent 70%)`,
+          background: `linear-gradient(90deg, color-mix(in srgb, ${color} 40%, transparent), transparent 70%)`,
           marginBottom: 8,
         }}
       />
@@ -596,9 +596,9 @@ export function Synthese() {
     <div
       style={{
         minHeight: "100svh",
-        background: "#0A090D",
-        color: "#F4EEEA",
-        fontFamily: "'Inter','Outfit',sans-serif",
+        background: "var(--noir)",
+        color: "var(--ink)",
+        fontFamily: "var(--font-inter),'Outfit',sans-serif",
         fontWeight: 300,
         position: "relative",
         overflow: "hidden",
@@ -644,7 +644,7 @@ export function Synthese() {
         <div
           className="idx-rise"
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-fraunces),serif",
             fontWeight: 500,
             fontSize: 15,
             letterSpacing: ".16em",
@@ -652,13 +652,13 @@ export function Synthese() {
             animation: "idx-rise .7s ease both",
           }}
         >
-          Identit<span style={{ color: "#FF4FA3" }}>X</span>
+          Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
         </div>
 
         <h1
           className="idx-rise"
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-fraunces),serif",
             fontWeight: 400,
             fontSize: "clamp(30px,7.5vw,50px)",
             lineHeight: 1.06,
@@ -670,7 +670,7 @@ export function Synthese() {
           La{" "}
           <span
             style={{
-              background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+              background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               color: "transparent",
@@ -684,10 +684,10 @@ export function Synthese() {
         <p
           className="idx-rise"
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-fraunces),serif",
             fontStyle: "italic",
             fontSize: 15.5,
-            color: "#DFCBD8",
+            color: "var(--muted)",
             textAlign: "center",
             maxWidth: 430,
             margin: "16px 0 0",
@@ -724,9 +724,9 @@ export function Synthese() {
             <div key={m.l} style={{ textAlign: "center" }}>
               <div
                 style={{
-                  fontFamily: "'Fraunces',serif",
+                  fontFamily: "var(--font-fraunces),serif",
                   fontSize: 22,
-                  background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+                  background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   color: "transparent",
@@ -772,19 +772,19 @@ export function Synthese() {
                   fontSize: 10,
                   letterSpacing: ".3em",
                   textTransform: "uppercase",
-                  color: "#FF8A4C",
+                  color: "var(--orange)",
                 }}
               >
                 {s.eyebrow}
               </div>
               <h2
                 style={{
-                  fontFamily: "'Fraunces',serif",
+                  fontFamily: "var(--font-fraunces),serif",
                   fontWeight: 400,
                   fontSize: 27,
                   lineHeight: 1.12,
                   margin: "10px 0 0",
-                  background: "linear-gradient(90deg,#F4EEEA 40%,#FF4FA3)",
+                  background: "linear-gradient(90deg,var(--ink) 40%,var(--fuchsia))",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   color: "transparent",
@@ -803,15 +803,15 @@ export function Synthese() {
                 {s.constat}
               </p>
 
-              {strate("Priorité", "#FF4FA3", (
-                <p style={{ fontSize: 14, lineHeight: 1.55, margin: 0, color: "#F4EEEA" }}>{s.priorite}</p>
+              {strate("Priorité", "var(--fuchsia)", (
+                <p style={{ fontSize: 14, lineHeight: 1.55, margin: 0, color: "var(--ink)" }}>{s.priorite}</p>
               ))}
 
-              {strate("Direction", "#FF8A4C", (
-                <p style={{ fontSize: 14, lineHeight: 1.55, margin: 0, color: "#F4EEEA" }}>{s.direction}</p>
+              {strate("Direction", "var(--orange)", (
+                <p style={{ fontSize: 14, lineHeight: 1.55, margin: 0, color: "var(--ink)" }}>{s.direction}</p>
               ))}
 
-              {strate("Leviers", "#DFCBD8", (
+              {strate("Leviers", "var(--muted)", (
                 <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                   {s.leviers.map((l, k) => (
                     <div key={k} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -822,7 +822,7 @@ export function Synthese() {
                           width: 5,
                           height: 5,
                           borderRadius: "50%",
-                          background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+                          background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
                           flexShrink: 0,
                         }}
                       />
@@ -832,7 +832,7 @@ export function Synthese() {
                 </div>
               ))}
 
-              {strate("Vigilance", "#FF5A5A", (
+              {strate("Vigilance", "var(--danger)", (
                 <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                   {s.vigilance.map((v, k) => (
                     <div key={k} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
@@ -843,7 +843,7 @@ export function Synthese() {
                           width: 5,
                           height: 5,
                           borderRadius: "50%",
-                          background: "#FF5A5A",
+                          background: "var(--danger)",
                           flexShrink: 0,
                         }}
                       />

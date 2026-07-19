@@ -125,7 +125,7 @@ function Emblem({ size = 54 }: { size?: number }) {
             width: 6,
             height: 6,
             borderRadius: "50%",
-            background: "#FF4FA3",
+            background: "var(--fuchsia)",
             boxShadow: "0 0 10px rgba(255,79,163,.8)",
           }}
         />
@@ -133,11 +133,11 @@ function Emblem({ size = 54 }: { size?: number }) {
       <svg
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#FF4FA3"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{ position: "absolute", inset: size * 0.24, width: size * 0.52, height: size * 0.52 }}
+        style={{ position: "absolute", inset: size * 0.24, width: size * 0.52, height: size * 0.52, color: "var(--fuchsia)" }}
       >
         <circle cx="12" cy="12" r="9.2" />
         <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
@@ -212,9 +212,9 @@ export function CoachIA() {
     <div
       style={{
         minHeight: "100svh",
-        background: "#0A090D",
-        color: "#F4EEEA",
-        fontFamily: "'Inter','Outfit',sans-serif",
+        background: "var(--noir)",
+        color: "var(--ink)",
+        fontFamily: "var(--font-inter),'Outfit',sans-serif",
         fontWeight: 300,
         display: "flex",
         flexDirection: "column",
@@ -243,7 +243,7 @@ export function CoachIA() {
 
       <h1
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontWeight: 400,
           fontSize: "clamp(26px,6.4vw,40px)",
           margin: "14px 0 0",
@@ -253,7 +253,7 @@ export function CoachIA() {
         Parle avec{" "}
         <span
           style={{
-            background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+            background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",
@@ -265,10 +265,10 @@ export function CoachIA() {
 
       <p
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontStyle: "italic",
           fontSize: 14.5,
-          color: "#DFCBD8",
+          color: "var(--muted)",
           margin: "10px 0 0",
           textAlign: "center",
           maxWidth: 400,
@@ -308,7 +308,7 @@ export function CoachIA() {
                 background: "rgba(255,79,163,.08)",
                 border: "1px solid rgba(255,79,163,.28)",
                 borderRadius: 999,
-                color: "#F4EEEA",
+                color: "var(--ink)",
                 fontSize: 11.5,
                 letterSpacing: ".08em",
                 padding: "9px 14px",
@@ -366,7 +366,7 @@ export function CoachIA() {
               alignSelf: "flex-start",
               padding: "12px 16px",
               fontSize: 13,
-              color: "#FF8A4C",
+              color: "var(--orange)",
               animation: "idx-pulse 1.4s ease infinite",
             }}
           >
@@ -379,7 +379,7 @@ export function CoachIA() {
             style={{
               alignSelf: "center",
               fontSize: 12.5,
-              color: "#FF5A5A",
+              color: "var(--danger)",
               textAlign: "center",
               padding: "8px 14px",
               border: "1px solid rgba(255,90,90,.3)",
@@ -417,11 +417,11 @@ export function CoachIA() {
               background: "rgba(38,22,41,.7)",
               border: "1px solid rgba(255,138,76,.25)",
               borderRadius: 14,
-              color: "#F4EEEA",
+              color: "var(--ink)",
               fontSize: 15,
               padding: "14px 15px",
               outline: "none",
-              fontFamily: "'Inter',sans-serif",
+              fontFamily: "var(--font-inter),sans-serif",
               backdropFilter: "blur(10px)",
               WebkitBackdropFilter: "blur(10px)",
             }}
@@ -434,8 +434,8 @@ export function CoachIA() {
               background:
                 loading || !input.trim()
                   ? "rgba(255,79,163,.25)"
-                  : "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
-              color: "#0A090D",
+                  : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
+              color: "var(--noir)",
               border: "none",
               borderRadius: 14,
               padding: "0 20px",

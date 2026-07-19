@@ -86,15 +86,15 @@ export function Welcome({ onStart }: { onStart: () => void }) {
   }, []);
 
   const mask =
-    "radial-gradient(ellipse 62% 62% at 50% 46%, #000 42%, rgba(0,0,0,.55) 60%, transparent 76%)";
+    "radial-gradient(ellipse 62% 62% at 50% 46%, black 42%, rgba(0,0,0,.55) 60%, transparent 76%)";
 
   return (
     <div
       style={{
         minHeight: "100svh",
-        background: "#0A090D",
-        color: "#F4EEEA",
-        fontFamily: "'Inter','Outfit',sans-serif",
+        background: "var(--noir)",
+        color: "var(--ink)",
+        fontFamily: "var(--font-inter),'Outfit',sans-serif",
         fontWeight: 300,
         position: "relative",
         overflow: "hidden",
@@ -137,7 +137,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
       >
         <div
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-fraunces),serif",
             fontWeight: 500,
             fontSize: 19,
             letterSpacing: ".16em",
@@ -145,7 +145,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
             marginBottom: 18,
           }}
         >
-          Identit<span style={{ color: "#FF4FA3" }}>X</span>
+          Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
         </div>
 
         <div
@@ -166,7 +166,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
 
         <h1
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-fraunces),serif",
             fontWeight: 400,
             fontSize: "clamp(28px,7.4vw,52px)",
             lineHeight: 1.08,
@@ -177,7 +177,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           Bienvenue dans{" "}
           <span
             style={{
-              background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+              background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               color: "transparent",
@@ -189,11 +189,11 @@ export function Welcome({ onStart }: { onStart: () => void }) {
 
         <p
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-fraunces),serif",
             fontStyle: "italic",
             fontSize: 17,
             lineHeight: 1.5,
-            color: "#DFCBD8",
+            color: "var(--muted)",
             maxWidth: 420,
             margin: "18px 0 0",
           }}
@@ -223,7 +223,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
                 fontSize: 11,
                 letterSpacing: ".26em",
                 textTransform: "uppercase",
-                color: i % 2 === 0 ? "#FF8A4C" : "#F4EEEA",
+                color: i % 2 === 0 ? "var(--orange)" : "var(--ink)",
                 padding: "8px 14px",
                 background: "rgba(255,138,76,.08)",
                 borderRadius: 999,
@@ -247,7 +247,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
                 width: 8,
                 height: 8,
                 borderRadius: "50%",
-                background: "#FF4FA3",
+                background: "var(--fuchsia)",
                 boxShadow: "0 0 12px rgba(255,79,163,.8)",
               }}
             />
@@ -267,7 +267,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "#FF8A4C",
+                background: "var(--orange)",
                 boxShadow: "0 0 10px rgba(255,138,76,.8)",
               }}
             />
@@ -275,11 +275,11 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           <svg
             viewBox="0 0 24 24"
             fill="none"
-            stroke="#FF4FA3"
+            stroke="currentColor"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            style={{ position: "absolute", inset: 20, width: 38, height: 38 }}
+            style={{ position: "absolute", inset: 20, width: 38, height: 38, color: "var(--fuchsia)" }}
           >
             <circle cx="12" cy="12" r="9.2" />
             <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
@@ -290,12 +290,12 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           onClick={onStart}
           style={{
             marginTop: 20,
-            background: "#FF4FA3",
-            color: "#0A090D",
+            background: "var(--fuchsia)",
+            color: "var(--noir)",
             border: "none",
             borderRadius: 14,
             cursor: "pointer",
-            fontFamily: "'Inter','Outfit',sans-serif",
+            fontFamily: "var(--font-inter),'Outfit',sans-serif",
             fontWeight: 500,
             fontSize: 13,
             letterSpacing: ".22em",

@@ -19,6 +19,11 @@ const config: Config = {
         line: "var(--line)",
         fuchsia: "var(--fuchsia)",
         orange: "var(--orange)",
+        danger: "var(--danger)",
+        violet: "var(--violet)",
+        gold: "var(--gold)",
+        cyan: "var(--cyan)",
+        slate: "var(--slate)",
       },
       fontFamily: {
         display: ["var(--font-fraunces)", "Georgia", "serif"],
