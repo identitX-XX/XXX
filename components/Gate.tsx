@@ -64,8 +64,6 @@ export function Gate({ children }: { children: React.ReactNode }) {
         overflow: "hidden",
       }}
     >
-      <style>{`@keyframes idx-spin { to { transform: rotate(360deg) } }`}</style>
-
       <div
         aria-hidden="true"
         style={{

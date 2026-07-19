@@ -178,7 +178,6 @@ export function CoachIA() {
       }}
     >
       <style>{`
-        @keyframes idx-spin { to { transform: rotate(360deg) } }
         @keyframes idx-pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
       `}</style>
 

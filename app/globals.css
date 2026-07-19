@@ -87,6 +87,23 @@ textarea {
   outline: none;
 }
 
+/* Constellation emblem / background animations (centralized — were inlined
+   per-screen via <style> tags in Gate, Welcome, CoachIA, JournalFusion, Synthese). */
+@keyframes idx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes idx-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
