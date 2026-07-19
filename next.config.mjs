@@ -1,10 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  // Safety net for a first deploy you can't test locally: a stray type or
-  // lint warning won't block the Vercel build. Re-enable both once it's live
-  // and you can iterate.
-  typescript: { ignoreBuildErrors: true },
+  // Type errors now fail the build (the codebase type-checks cleanly).
+  // ESLint is still skipped at build time; flip this too once lint is clean.
+  typescript: { ignoreBuildErrors: false },
   eslint: { ignoreDuringBuilds: true },
 };
 
