@@ -63,3 +63,31 @@ export interface Scores {
 }
 
 export type Theme = "dark" | "light";
+
+// ---- Constellation slices (journal d'expansion, cartographie, chat coach) ----
+
+/** Une entrée du journal d'expansion (4 dimensions notées /10). */
+export interface FusionEntry {
+  date: string; // "YYYY-MM-DD"
+  etatInterne: number | null;
+  clarte: number | null;
+  actionRelationnelle: number | null;
+  exposition: number | null;
+  poidsJour?: number;
+  gratitude?: string;
+  pensees?: string;
+}
+
+/** Une identité de la cartographie cognitive (énergie donnée / reçue /10). */
+export interface Identity {
+  id: string;
+  name: string;
+  given: number;
+  received: number;
+}
+
+/** Un message du chat Coach IA (distinct de l'ancien CoachMessage). */
+export interface ChatMsg {
+  role: "user" | "assistant";
+  content: string;
+}

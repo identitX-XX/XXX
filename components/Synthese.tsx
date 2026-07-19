@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useStore } from "@/store/useStore";
 
 // ===================== Types & données =====================
 
@@ -29,36 +30,6 @@ type DeclaredProfile = {
   ambition?: string;
 };
 
-// Retrouve le profil d'onboarding dans le localStorage (store persisté),
-// sans dépendre du nom exact de la clé.
-function findDeclaredProfile(): DeclaredProfile | null {
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (!key) continue;
-      const raw = localStorage.getItem(key);
-      if (!raw || raw[0] !== "{") continue;
-      let obj: unknown;
-      try {
-        obj = JSON.parse(raw);
-      } catch {
-        continue;
-      }
-      const o = obj as Record<string, unknown>;
-      const state = (o.state ?? o) as Record<string, unknown>;
-      const cand = (state.profile ?? o.profile ?? state.p) as DeclaredProfile | undefined;
-      if (
-        cand &&
-        typeof cand === "object" &&
-        ("fear" in cand || "ambition" in cand || "keyword" in cand || "values" in cand)
-      ) {
-        return cand;
-      }
-    }
-  } catch {}
-  return null;
-}
-
 type Scenario = {
   id: string;
   eyebrow: string;
@@ -69,9 +40,6 @@ type Scenario = {
   leviers: string[];
   vigilance: string[];
 };
-
-const JOURNAL_KEY = "identitx-journal-fusion";
-const MAP_KEY = "identitx-cognitive-map";
 
 const WEIGHTS = {
   etatInterne: 0.15,
@@ -539,28 +507,14 @@ function ConstellationBg() {
 // ===================== Composant principal =====================
 
 export function Synthese() {
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [identities, setIdentities] = useState<Identity[]>([]);
-  const [profile, setProfile] = useState<DeclaredProfile | null>(null);
-  const [loaded, setLoaded] = useState(false);
+  const entries = useStore((s) => s.journalFusion);
+  const identities = useStore((s) => s.identities);
+  const profile = useStore((s) => s.profile);
   const date = new Date().toISOString().slice(0, 10);
 
-  useEffect(() => {
-    try {
-      const j = localStorage.getItem(JOURNAL_KEY);
-      if (j) setEntries(JSON.parse(j));
-    } catch {}
-    try {
-      const m = localStorage.getItem(MAP_KEY);
-      if (m) setIdentities(JSON.parse(m));
-    } catch {}
-    setProfile(findDeclaredProfile());
-    setLoaded(true);
-  }, []);
-
   const scenarios = useMemo(
-    () => (loaded ? buildScenarios(entries, identities, date, profile) : []),
-    [loaded, entries, identities, date, profile]
+    () => buildScenarios(entries, identities, date, profile),
+    [entries, identities, date, profile]
   );
 
   const mg7 = rollingAverage(entries, 7, date);

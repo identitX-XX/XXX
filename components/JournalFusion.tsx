@@ -1,21 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useStore } from "@/store/useStore";
+import { FusionEntry as Entry } from "@/types";
 
-// ===== Types & scoring (inline, zéro dépendance) =====
-
-type Entry = {
-  date: string; // "YYYY-MM-DD"
-  etatInterne: number | null;
-  clarte: number | null;
-  actionRelationnelle: number | null;
-  exposition: number | null;
-  poidsJour?: number;
-  gratitude?: string;
-  pensees?: string;
-};
-
-const STORAGE_KEY = "identitx-journal-fusion";
+// ===== Scoring (inline, zéro dépendance) =====
 
 const WEIGHTS = {
   etatInterne: 0.15,
@@ -170,24 +159,9 @@ function Emblem({ size = 78 }: { size?: number }) {
 
 // ===== Composant principal =====
 export function JournalFusion() {
-  const [entries, setEntries] = useState<Entry[]>([]);
-  const [loaded, setLoaded] = useState(false);
+  const entries = useStore((s) => s.journalFusion);
+  const setJournalFusion = useStore((s) => s.setJournalFusion);
   const date = today();
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setEntries(JSON.parse(raw));
-    } catch {}
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
-    } catch {}
-  }, [entries, loaded]);
 
   const entry: Entry = useMemo(
     () =>
@@ -205,13 +179,11 @@ export function JournalFusion() {
   );
 
   const setField = (key: keyof Entry, value: number | string) => {
-    setEntries((prev) => {
-      const rest = prev.filter((e) => e.date !== date);
-      return [...rest, { ...entry, [key]: value }];
-    });
+    const rest = entries.filter((e) => e.date !== date);
+    setJournalFusion([...rest, { ...entry, [key]: value }]);
   };
 
-  const removeEntry = (d: string) => setEntries((prev) => prev.filter((e) => e.date !== d));
+  const removeEntry = (d: string) => setJournalFusion(entries.filter((e) => e.date !== d));
 
   const score = dailyScore(entry);
   const mg7 = rollingAverage(entries, 7, date);
