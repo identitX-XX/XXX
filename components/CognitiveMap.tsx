@@ -1,15 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { useStore } from "@/store/useStore";
+import { Identity } from "@/types";
 
-type Identity = {
-  id: string;
-  name: string;
-  given: number; // énergie donnée 0-10
-  received: number; // énergie reçue 0-10
-};
-
-const STORAGE_KEY = "identitx-cognitive-map";
 const COLORS = ["var(--fuchsia)", "var(--orange)", "var(--muted)", "var(--violet)", "var(--gold)", "var(--cyan)"];
 
 function classify(g: number, r: number): { label: string; color: string; hint: string } {
@@ -24,39 +18,24 @@ function classify(g: number, r: number): { label: string; color: string; hint: s
 }
 
 export function CognitiveMap({ onDone }: { onDone?: () => void }) {
-  const [identities, setIdentities] = useState<Identity[]>([]);
+  const identities = useStore((s) => s.identities);
+  const setIdentities = useStore((s) => s.setIdentities);
   const [draft, setDraft] = useState("");
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) setIdentities(JSON.parse(raw));
-    } catch {}
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(identities));
-    } catch {}
-  }, [identities, loaded]);
 
   const add = () => {
     const name = draft.trim();
     if (!name || identities.length >= 8) return;
-    setIdentities((prev) => [
-      ...prev,
+    setIdentities([
+      ...identities,
       { id: Date.now().toString(36), name, given: 5, received: 5 },
     ]);
     setDraft("");
   };
 
   const update = (id: string, key: "given" | "received", value: number) =>
-    setIdentities((prev) => prev.map((it) => (it.id === id ? { ...it, [key]: value } : it)));
+    setIdentities(identities.map((it) => (it.id === id ? { ...it, [key]: value } : it)));
 
-  const remove = (id: string) => setIdentities((prev) => prev.filter((it) => it.id !== id));
+  const remove = (id: string) => setIdentities(identities.filter((it) => it.id !== id));
 
   const bilan = useMemo(() => {
     if (identities.length === 0) return null;

@@ -19,6 +19,9 @@ export default function SettingsPage() {
       journal: state.journal,
       radar: state.radar,
       coach: state.coach,
+      journalFusion: state.journalFusion,
+      identities: state.identities,
+      coachChat: state.coachChat,
       onboarded: state.onboarded,
     });
     flash("Export généré.");

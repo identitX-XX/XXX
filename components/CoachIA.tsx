@@ -1,27 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-
-// ===================== Types =====================
-
-type ChatMessage = { role: "user" | "assistant"; content: string };
-
-type Entry = {
-  date: string;
-  etatInterne: number | null;
-  clarte: number | null;
-  actionRelationnelle: number | null;
-  exposition: number | null;
-  poidsJour?: number;
-  gratitude?: string;
-  pensees?: string;
-};
-
-type Identity = { id: string; name: string; given: number; received: number };
-
-const CHAT_KEY = "identitx-coach-chat";
-const JOURNAL_KEY = "identitx-journal-fusion";
-const MAP_KEY = "identitx-cognitive-map";
+import { useStore } from "@/store/useStore";
+import { ChatMsg, FusionEntry, Identity, Profile } from "@/types";
 
 // ===================== Contexte : les trois couches =====================
 
@@ -33,80 +14,62 @@ function classify(g: number, r: number): string {
   return "Dormante";
 }
 
-function buildContext(): string {
+function buildContext(
+  profile: Profile,
+  journalFusion: FusionEntry[],
+  identities: Identity[]
+): string {
   const parts: string[] = [];
-  try {
-    // Couche 1 — profil déclaré (onboarding, clé inconnue → scan)
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (!key) continue;
-      const raw = localStorage.getItem(key);
-      if (!raw || raw[0] !== "{") continue;
-      let obj: unknown;
-      try {
-        obj = JSON.parse(raw);
-      } catch {
-        continue;
-      }
-      const o = obj as Record<string, unknown>;
-      const state = (o.state ?? o) as Record<string, unknown>;
-      const p = (state.profile ?? o.profile) as Record<string, unknown> | undefined;
-      if (p && typeof p === "object" && ("fear" in p || "ambition" in p || "values" in p)) {
-        parts.push(
-          "PROFIL DÉCLARÉ À L'ARRIVÉE : " +
-            JSON.stringify({
-              prenom: p.name,
-              objectif: p.goal,
-              motCle: p.keyword,
-              blocage: p.blocker,
-              comprendre: p.understand,
-              valeurs: p.values,
-              forces: p.strengths,
-              peur: p.fear,
-              ambition: p.ambition,
-            })
-        );
-        break;
-      }
-    }
-  } catch {}
 
-  try {
-    // Couche 2 — journal (14 dernières entrées)
-    const raw = localStorage.getItem(JOURNAL_KEY);
-    if (raw) {
-      const entries = (JSON.parse(raw) as Entry[])
-        .sort((a, b) => (a.date < b.date ? 1 : -1))
-        .slice(0, 14);
-      if (entries.length) {
-        parts.push(
-          "JOURNAL D'EXPANSION (entrées récentes, dimensions notées /10 — étatInterne, clarté, actionRelationnelle, exposition) : " +
-            JSON.stringify(entries)
-        );
-      }
-    }
-  } catch {}
+  // Couche 1 — profil déclaré (onboarding)
+  const hasProfile =
+    profile.name ||
+    profile.keyword ||
+    profile.fear ||
+    profile.ambition ||
+    profile.values.some(Boolean);
+  if (hasProfile) {
+    parts.push(
+      "PROFIL DÉCLARÉ À L'ARRIVÉE : " +
+        JSON.stringify({
+          prenom: profile.name,
+          objectif: profile.goal,
+          motCle: profile.keyword,
+          blocage: profile.blocker,
+          comprendre: profile.understand,
+          valeurs: profile.values,
+          forces: profile.strengths,
+          peur: profile.fear,
+          ambition: profile.ambition,
+        })
+    );
+  }
 
-  try {
-    // Couche 3 — cartographie des identités
-    const raw = localStorage.getItem(MAP_KEY);
-    if (raw) {
-      const ids = JSON.parse(raw) as Identity[];
-      if (ids.length) {
-        parts.push(
-          "CARTOGRAPHIE DES IDENTITÉS (énergie donnée / reçue /10, et classification) : " +
-            JSON.stringify(
-              ids.map((i) => ({
-                role: i.name,
-                donnee: i.given,
-                recue: i.received,
-                type: classify(i.given, i.received),
-              }))
-            )
-        );
-      }
-    }
-  } catch {}
+  // Couche 2 — journal d'expansion (14 dernières entrées)
+  const entries = [...journalFusion]
+    .sort((a, b) => (a.date < b.date ? 1 : -1))
+    .slice(0, 14);
+  if (entries.length) {
+    parts.push(
+      "JOURNAL D'EXPANSION (entrées récentes, dimensions notées /10 — étatInterne, clarté, actionRelationnelle, exposition) : " +
+        JSON.stringify(entries)
+    );
+  }
+
+  // Couche 3 — cartographie des identités
+  if (identities.length) {
+    parts.push(
+      "CARTOGRAPHIE DES IDENTITÉS (énergie donnée / reçue /10, et classification) : " +
+        JSON.stringify(
+          identities.map((i) => ({
+            role: i.name,
+            donnee: i.given,
+            recue: i.received,
+            type: classify(i.given, i.received),
+          }))
+        )
+    );
+  }
 
   return parts.join("\n\n");
 }
@@ -149,37 +112,31 @@ function Emblem({ size = 54 }: { size?: number }) {
 // ===================== Composant principal =====================
 
 export function CoachIA() {
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const messages = useStore((s) => s.coachChat);
+  const setCoachChat = useStore((s) => s.setCoachChat);
+  const profile = useStore((s) => s.profile);
+  const journalFusion = useStore((s) => s.journalFusion);
+  const identities = useStore((s) => s.identities);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(CHAT_KEY);
-      if (raw) setMessages(JSON.parse(raw));
-    } catch {}
-    setLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (!loaded) return;
-    try {
-      localStorage.setItem(CHAT_KEY, JSON.stringify(messages.slice(-40)));
-    } catch {}
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loaded]);
+  }, [messages]);
 
-  const context = useMemo(() => (loaded ? buildContext() : ""), [loaded]);
+  const context = useMemo(
+    () => buildContext(profile, journalFusion, identities),
+    [profile, journalFusion, identities]
+  );
 
   const send = async () => {
     const text = input.trim();
     if (!text || loading) return;
     setError(null);
-    const next: ChatMessage[] = [...messages, { role: "user", content: text }];
-    setMessages(next);
+    const next: ChatMsg[] = [...messages, { role: "user", content: text }];
+    setCoachChat(next.slice(-40));
     setInput("");
     setLoading(true);
     try {
@@ -192,7 +149,9 @@ export function CoachIA() {
       if (!r.ok || !data.reply) {
         setError(data.error ?? "Réponse indisponible. Réessaie.");
       } else {
-        setMessages((prev) => [...prev, { role: "assistant", content: data.reply }]);
+        setCoachChat(
+          [...next, { role: "assistant" as const, content: data.reply as string }].slice(-40)
+        );
       }
     } catch {
       setError("Connexion impossible. Vérifie le réseau et réessaie.");
@@ -201,12 +160,7 @@ export function CoachIA() {
     }
   };
 
-  const reset = () => {
-    setMessages([]);
-    try {
-      localStorage.removeItem(CHAT_KEY);
-    } catch {}
-  };
+  const reset = () => setCoachChat([]);
 
   return (
     <div
