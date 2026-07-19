@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useStore } from "@/store/useStore";
 import { ChatMsg, FusionEntry, Identity, Profile } from "@/types";
+import { Emblem } from "./Emblem";
 
 // ===================== Contexte : les trois couches =====================
 
@@ -74,41 +75,6 @@ function buildContext(
   return parts.join("\n\n");
 }
 
-// ===================== Emblème =====================
-
-function Emblem({ size = 54 }: { size?: number }) {
-  return (
-    <div aria-hidden="true" style={{ position: "relative", width: size, height: size }}>
-      <div style={{ position: "absolute", inset: 0, animation: "idx-spin 9s linear infinite" }}>
-        <span
-          style={{
-            position: "absolute",
-            top: -3,
-            left: "calc(50% - 3px)",
-            width: 6,
-            height: 6,
-            borderRadius: "50%",
-            background: "var(--fuchsia)",
-            boxShadow: "0 0 10px rgba(255,79,163,.8)",
-          }}
-        />
-      </div>
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        style={{ position: "absolute", inset: size * 0.24, width: size * 0.52, height: size * 0.52, color: "var(--fuchsia)" }}
-      >
-        <circle cx="12" cy="12" r="9.2" />
-        <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
-      </svg>
-    </div>
-  );
-}
-
 // ===================== Composant principal =====================
 
 export function CoachIA() {
@@ -178,7 +144,6 @@ export function CoachIA() {
       }}
     >
       <style>{`
-        @keyframes idx-spin { to { transform: rotate(360deg) } }
         @keyframes idx-pulse { 0%,100%{opacity:.35} 50%{opacity:1} }
       `}</style>
 
@@ -193,7 +158,7 @@ export function CoachIA() {
         }}
       />
 
-      <Emblem />
+      <Emblem size={54} dual={false} />
 
       <h1
         style={{

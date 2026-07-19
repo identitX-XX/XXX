@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useStore } from "@/store/useStore";
+import { ConstellationBg } from "./ConstellationBg";
 
 // ===================== Types & données =====================
 
@@ -414,95 +415,6 @@ function vampireScenario(vampires: Identity[], bilan: number | null): Scenario {
   };
 }
 
-// ===================== Constellation de fond =====================
-
-function ConstellationBg() {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const c = canvasRef.current;
-    if (!c) return;
-    const ctx = c.getContext("2d");
-    if (!ctx) return;
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = window.devicePixelRatio || 1;
-    const N = 40;
-    const LINK = 150;
-    let W = 0;
-    let H = 0;
-    let raf = 0;
-    const nodes: { x: number; y: number; vx: number; vy: number; r: number; gold: boolean }[] = [];
-
-    const resize = () => {
-      W = c.width = window.innerWidth * dpr;
-      H = c.height = window.innerHeight * dpr;
-      c.style.width = window.innerWidth + "px";
-      c.style.height = window.innerHeight + "px";
-      if (nodes.length === 0) {
-        for (let i = 0; i < N; i++) {
-          nodes.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            vx: (Math.random() - 0.5) * 0.12 * dpr,
-            vy: (Math.random() - 0.5) * 0.12 * dpr,
-            r: (Math.random() * 1.4 + 0.8) * dpr,
-            gold: Math.random() < 0.35,
-          });
-        }
-      }
-    };
-
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H);
-      for (const n of nodes) {
-        if (!reduced) {
-          n.x += n.vx;
-          n.y += n.vy;
-          if (n.x < 0 || n.x > W) n.vx *= -1;
-          if (n.y < 0 || n.y > H) n.vy *= -1;
-        }
-      }
-      for (let i = 0; i < N; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < N; j++) {
-          const b = nodes[j];
-          const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < LINK * dpr) {
-            ctx.strokeStyle = "rgba(255,138,76," + (1 - d / (LINK * dpr)) * 0.08 + ")";
-            ctx.lineWidth = dpr * 0.5;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-      for (const n of nodes) {
-        ctx.fillStyle = n.gold ? "rgba(255,79,163,.3)" : "rgba(255,138,76,.26)";
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      if (!reduced) raf = requestAnimationFrame(draw);
-    };
-
-    resize();
-    draw();
-    window.addEventListener("resize", resize);
-    return () => {
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
-      style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.8 }}
-    />
-  );
-}
 
 // ===================== Composant principal =====================
 
@@ -559,7 +471,6 @@ export function Synthese() {
       }}
     >
       <style>{`
-        @keyframes idx-spin { to { transform: rotate(360deg) } }
         @keyframes idx-rise {
           from { opacity: 0; transform: translateY(22px) }
           to { opacity: 1; transform: translateY(0) }

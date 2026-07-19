@@ -1,90 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
-type Node = { x: number; y: number; vx: number; vy: number; r: number; gold: boolean };
+import { Emblem } from "./Emblem";
+import { ConstellationBg } from "./ConstellationBg";
 
 export function Welcome({ onStart }: { onStart: () => void }) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-  useEffect(() => {
-    const c = canvasRef.current;
-    if (!c) return;
-    const ctx = c.getContext("2d");
-    if (!ctx) return;
-
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = window.devicePixelRatio || 1;
-    const N = 46;
-    const LINK = 150;
-    let W = 0;
-    let H = 0;
-    let raf = 0;
-    const nodes: Node[] = [];
-
-    const resize = () => {
-      W = c.width = window.innerWidth * dpr;
-      H = c.height = window.innerHeight * dpr;
-      c.style.width = window.innerWidth + "px";
-      c.style.height = window.innerHeight + "px";
-      if (nodes.length === 0) {
-        for (let i = 0; i < N; i++) {
-          nodes.push({
-            x: Math.random() * W,
-            y: Math.random() * H,
-            vx: (Math.random() - 0.5) * 0.14 * dpr,
-            vy: (Math.random() - 0.5) * 0.14 * dpr,
-            r: (Math.random() * 1.4 + 0.8) * dpr,
-            gold: Math.random() < 0.35,
-          });
-        }
-      }
-    };
-
-    const draw = () => {
-      ctx.clearRect(0, 0, W, H);
-      for (const n of nodes) {
-        if (!reduced) {
-          n.x += n.vx;
-          n.y += n.vy;
-          if (n.x < 0 || n.x > W) n.vx *= -1;
-          if (n.y < 0 || n.y > H) n.vy *= -1;
-        }
-      }
-      for (let i = 0; i < N; i++) {
-        const a = nodes[i];
-        for (let j = i + 1; j < N; j++) {
-          const b = nodes[j];
-          const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d < LINK * dpr) {
-            const alpha = (1 - d / (LINK * dpr)) * 0.1;
-            ctx.strokeStyle = "rgba(255,138,76," + alpha + ")";
-            ctx.lineWidth = dpr * 0.5;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-      for (const n of nodes) {
-        ctx.fillStyle = n.gold ? "rgba(255,79,163,.35)" : "rgba(255,138,76,.30)";
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      if (!reduced) raf = requestAnimationFrame(draw);
-    };
-
-    resize();
-    draw();
-    window.addEventListener("resize", resize);
-    return () => {
-      window.removeEventListener("resize", resize);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
   const mask =
     "radial-gradient(ellipse 62% 62% at 50% 46%, black 42%, rgba(0,0,0,.55) 60%, transparent 76%)";
 
@@ -100,15 +19,13 @@ export function Welcome({ onStart }: { onStart: () => void }) {
         overflow: "hidden",
       }}
     >
-      <style>{`
-        @keyframes idx-spin { to { transform: rotate(360deg) } }
-        @keyframes idx-breathe { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
-      `}</style>
-
-      <canvas
-        ref={canvasRef}
-        aria-hidden="true"
-        style={{ position: "fixed", inset: 0, zIndex: 0, pointerEvents: "none", opacity: 0.9 }}
+      <ConstellationBg
+        count={46}
+        speed={0.14}
+        linkOpacity={0.1}
+        dotFuchsia={0.35}
+        dotOrange={0.3}
+        opacity={0.9}
       />
 
       <div
@@ -234,56 +151,8 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           ))}
         </div>
 
-        <div
-          aria-hidden="true"
-          style={{ position: "relative", width: 78, height: 78, margin: "30px 0 6px" }}
-        >
-          <div style={{ position: "absolute", inset: 0, animation: "idx-spin 9s linear infinite" }}>
-            <span
-              style={{
-                position: "absolute",
-                top: -4,
-                left: "calc(50% - 4px)",
-                width: 8,
-                height: 8,
-                borderRadius: "50%",
-                background: "var(--fuchsia)",
-                boxShadow: "0 0 12px rgba(255,79,163,.8)",
-              }}
-            />
-          </div>
-          <div
-            style={{
-              position: "absolute",
-              inset: 12,
-              animation: "idx-spin 14s linear infinite reverse",
-            }}
-          >
-            <span
-              style={{
-                position: "absolute",
-                bottom: -3,
-                left: "calc(50% - 3px)",
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: "var(--orange)",
-                boxShadow: "0 0 10px rgba(255,138,76,.8)",
-              }}
-            />
-          </div>
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{ position: "absolute", inset: 20, width: 38, height: 38, color: "var(--fuchsia)" }}
-          >
-            <circle cx="12" cy="12" r="9.2" />
-            <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
-          </svg>
+        <div style={{ margin: "30px 0 6px" }}>
+          <Emblem size={78} />
         </div>
 
         <button

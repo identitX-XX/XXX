@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Emblem } from "./Emblem";
 
 const GATE_KEY = "identitx-gate";
 
@@ -64,8 +65,6 @@ export function Gate({ children }: { children: React.ReactNode }) {
         overflow: "hidden",
       }}
     >
-      <style>{`@keyframes idx-spin { to { transform: rotate(360deg) } }`}</style>
-
       <div
         aria-hidden="true"
         style={{
@@ -77,33 +76,8 @@ export function Gate({ children }: { children: React.ReactNode }) {
         }}
       />
 
-      <div aria-hidden="true" style={{ position: "relative", width: 70, height: 70, marginBottom: 22 }}>
-        <div style={{ position: "absolute", inset: 0, animation: "idx-spin 9s linear infinite" }}>
-          <span
-            style={{
-              position: "absolute",
-              top: -4,
-              left: "calc(50% - 4px)",
-              width: 8,
-              height: 8,
-              borderRadius: "50%",
-              background: "var(--fuchsia)",
-              boxShadow: "0 0 12px rgba(255,79,163,.8)",
-            }}
-          />
-        </div>
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ position: "absolute", inset: 17, width: 36, height: 36, color: "var(--fuchsia)" }}
-        >
-          <circle cx="12" cy="12" r="9.2" />
-          <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
-        </svg>
+      <div style={{ marginBottom: 22 }}>
+        <Emblem size={70} dual={false} />
       </div>
 
       <div
