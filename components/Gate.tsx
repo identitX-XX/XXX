@@ -51,9 +51,9 @@ export function Gate({ children }: { children: React.ReactNode }) {
     <div
       style={{
         minHeight: "100svh",
-        background: "#0A090D",
-        color: "#F4EEEA",
-        fontFamily: "'Inter','Outfit',sans-serif",
+        background: "var(--noir)",
+        color: "var(--ink)",
+        fontFamily: "var(--font-inter),'Outfit',sans-serif",
         fontWeight: 300,
         display: "flex",
         flexDirection: "column",
@@ -87,7 +87,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
               width: 8,
               height: 8,
               borderRadius: "50%",
-              background: "#FF4FA3",
+              background: "var(--fuchsia)",
               boxShadow: "0 0 12px rgba(255,79,163,.8)",
             }}
           />
@@ -95,11 +95,11 @@ export function Gate({ children }: { children: React.ReactNode }) {
         <svg
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#FF4FA3"
+          stroke="currentColor"
           strokeWidth="1.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ position: "absolute", inset: 17, width: 36, height: 36 }}
+          style={{ position: "absolute", inset: 17, width: 36, height: 36, color: "var(--fuchsia)" }}
         >
           <circle cx="12" cy="12" r="9.2" />
           <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
@@ -108,22 +108,22 @@ export function Gate({ children }: { children: React.ReactNode }) {
 
       <div
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontWeight: 500,
           fontSize: 17,
           letterSpacing: ".16em",
           textTransform: "uppercase",
         }}
       >
-        Identit<span style={{ color: "#FF4FA3" }}>X</span>
+        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
       </div>
 
       <p
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontStyle: "italic",
           fontSize: 15,
-          color: "#DFCBD8",
+          color: "var(--muted)",
           margin: "14px 0 26px",
           textAlign: "center",
           maxWidth: 320,
@@ -149,11 +149,11 @@ export function Gate({ children }: { children: React.ReactNode }) {
             background: "rgba(255,138,76,.06)",
             border: error ? "1px solid rgba(255,90,90,.6)" : "1px solid rgba(255,138,76,.25)",
             borderRadius: 14,
-            color: "#F4EEEA",
+            color: "var(--ink)",
             fontSize: 16,
             padding: "15px 16px",
             outline: "none",
-            fontFamily: "'Inter',sans-serif",
+            fontFamily: "var(--font-inter),sans-serif",
             textAlign: "center",
             letterSpacing: ".2em",
           }}
@@ -166,8 +166,8 @@ export function Gate({ children }: { children: React.ReactNode }) {
             background:
               loading || !code.trim()
                 ? "rgba(255,79,163,.25)"
-                : "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
-            color: "#0A090D",
+                : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
+            color: "var(--noir)",
             border: "none",
             borderRadius: 14,
             padding: "0 20px",
@@ -181,7 +181,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
       </div>
 
       {error && (
-        <div style={{ marginTop: 14, fontSize: 13, color: "#FF5A5A" }}>
+        <div style={{ marginTop: 14, fontSize: 13, color: "var(--danger)" }}>
           Code incorrect — réessaie.
         </div>
       )}

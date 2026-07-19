@@ -95,18 +95,18 @@ function scoreLabel(s: number): string {
 }
 
 const LABEL_COLORS: Record<string, string> = {
-  contraction: "#FF5A5A",
-  maintenance: "#DFCBD8",
-  ouverture: "#F4EEEA",
-  expansion: "#FF8A4C",
-  "expansion soutenue": "#FF4FA3",
+  contraction: "var(--danger)",
+  maintenance: "var(--muted)",
+  ouverture: "var(--ink)",
+  expansion: "var(--orange)",
+  "expansion soutenue": "var(--fuchsia)",
 };
 
 const DIM_META: { key: (typeof DIMS)[number]; label: string; color: string }[] = [
-  { key: "etatInterne", label: "État interne", color: "#DFCBD8" },
-  { key: "clarte", label: "Clarté cognitive", color: "#F4EEEA" },
-  { key: "actionRelationnelle", label: "Action relationnelle", color: "#FF8A4C" },
-  { key: "exposition", label: "Exposition à l'expansion", color: "#FF4FA3" },
+  { key: "etatInterne", label: "État interne", color: "var(--muted)" },
+  { key: "clarte", label: "Clarté cognitive", color: "var(--ink)" },
+  { key: "actionRelationnelle", label: "Action relationnelle", color: "var(--orange)" },
+  { key: "exposition", label: "Exposition à l'expansion", color: "var(--fuchsia)" },
 ];
 
 function today(): string {
@@ -133,7 +133,7 @@ function Emblem({ size = 78 }: { size?: number }) {
             width: 8,
             height: 8,
             borderRadius: "50%",
-            background: "#FF4FA3",
+            background: "var(--fuchsia)",
             boxShadow: "0 0 12px rgba(255,79,163,.8)",
           }}
         />
@@ -147,7 +147,7 @@ function Emblem({ size = 78 }: { size?: number }) {
             width: 6,
             height: 6,
             borderRadius: "50%",
-            background: "#FF8A4C",
+            background: "var(--orange)",
             boxShadow: "0 0 10px rgba(255,138,76,.8)",
           }}
         />
@@ -155,11 +155,11 @@ function Emblem({ size = 78 }: { size?: number }) {
       <svg
         viewBox="0 0 24 24"
         fill="none"
-        stroke="#FF4FA3"
+        stroke="currentColor"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        style={{ position: "absolute", inset: size * 0.26, width: size * 0.49, height: size * 0.49 }}
+        style={{ position: "absolute", inset: size * 0.26, width: size * 0.49, height: size * 0.49, color: "var(--fuchsia)" }}
       >
         <circle cx="12" cy="12" r="9.2" />
         <path d="M15.5 8.5l-2.2 5-5 2.2 2.2-5 5-2.2Z" />
@@ -241,11 +241,11 @@ export function JournalFusion() {
     background: "rgba(255,138,76,.06)",
     border: "1px solid rgba(255,138,76,.2)",
     borderRadius: 12,
-    color: "#F4EEEA",
+    color: "var(--ink)",
     fontSize: 14,
     padding: "12px 13px",
     outline: "none",
-    fontFamily: "'Inter',sans-serif",
+    fontFamily: "var(--font-inter),sans-serif",
     marginTop: 8,
   };
 
@@ -253,9 +253,9 @@ export function JournalFusion() {
     <div
       style={{
         minHeight: "100svh",
-        background: "#0A090D",
-        color: "#F4EEEA",
-        fontFamily: "'Inter','Outfit',sans-serif",
+        background: "var(--noir)",
+        color: "var(--ink)",
+        fontFamily: "var(--font-inter),'Outfit',sans-serif",
         fontWeight: 300,
         padding: "48px 20px 80px",
         display: "flex",
@@ -270,21 +270,21 @@ export function JournalFusion() {
 
       <div
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontWeight: 500,
           fontSize: 15,
           letterSpacing: ".16em",
           textTransform: "uppercase",
         }}
       >
-        Identit<span style={{ color: "#FF4FA3" }}>X</span>
+        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
       </div>
 
       <Emblem />
 
       <h1
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontWeight: 400,
           fontSize: "clamp(24px,6vw,38px)",
           lineHeight: 1.1,
@@ -295,7 +295,7 @@ export function JournalFusion() {
         Journal d'
         <span
           style={{
-            background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+            background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",
@@ -307,10 +307,10 @@ export function JournalFusion() {
 
       <p
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontStyle: "italic",
           fontSize: 15,
-          color: "#DFCBD8",
+          color: "var(--muted)",
           textAlign: "center",
           maxWidth: 420,
           margin: 0,
@@ -327,7 +327,7 @@ export function JournalFusion() {
             fontSize: 10,
             letterSpacing: ".26em",
             textTransform: "uppercase",
-            color: "#FF8A4C",
+            color: "var(--orange)",
             marginBottom: 14,
           }}
         >
@@ -378,7 +378,7 @@ export function JournalFusion() {
             step={0.5}
             value={entry.poidsJour ?? 1}
             onChange={(e) => setField("poidsJour", Number(e.target.value))}
-            style={{ width: "100%", accentColor: "#DFCBD8", marginTop: 4 }}
+            style={{ width: "100%", accentColor: "var(--muted)", marginTop: 4 }}
             aria-label="Poids du jour"
           />
         </div>
@@ -405,9 +405,9 @@ export function JournalFusion() {
           <div style={{ textAlign: "center", marginTop: 16 }}>
             <div
               style={{
-                fontFamily: "'Fraunces',serif",
+                fontFamily: "var(--font-fraunces),serif",
                 fontSize: 40,
-                background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+                background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 color: "transparent",
@@ -420,7 +420,7 @@ export function JournalFusion() {
                 fontSize: 10,
                 letterSpacing: ".26em",
                 textTransform: "uppercase",
-                color: LABEL_COLORS[scoreLabel(score)] ?? "#DFCBD8",
+                color: LABEL_COLORS[scoreLabel(score)] ?? "var(--muted)",
               }}
             >
               {scoreLabel(score)}
@@ -436,7 +436,7 @@ export function JournalFusion() {
             fontSize: 10,
             letterSpacing: ".26em",
             textTransform: "uppercase",
-            color: "#FF8A4C",
+            color: "var(--orange)",
             marginBottom: 14,
           }}
         >
@@ -445,13 +445,13 @@ export function JournalFusion() {
 
         <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center" }}>
           <div>
-            <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26 }}>{mg7 ?? "—"}</div>
+            <div style={{ fontFamily: "var(--font-fraunces),serif", fontSize: 26 }}>{mg7 ?? "—"}</div>
             <div style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(244,238,234,.45)" }}>
               MG 7 JOURS
             </div>
           </div>
           <div>
-            <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26 }}>{mg30 ?? "—"}</div>
+            <div style={{ fontFamily: "var(--font-fraunces),serif", fontSize: 26 }}>{mg30 ?? "—"}</div>
             <div style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(244,238,234,.45)" }}>
               MG 30 JOURS
             </div>
@@ -459,9 +459,9 @@ export function JournalFusion() {
           <div>
             <div
               style={{
-                fontFamily: "'Fraunces',serif",
+                fontFamily: "var(--font-fraunces),serif",
                 fontSize: 26,
-                color: prog && prog.points >= 0 ? "#FF8A4C" : "#FF5A5A",
+                color: prog && prog.points >= 0 ? "var(--orange)" : "var(--danger)",
               }}
             >
               {prog ? `${prog.points > 0 ? "+" : ""}${prog.points}` : "—"}
@@ -502,9 +502,9 @@ export function JournalFusion() {
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <span
                     style={{
-                      fontFamily: "'Fraunces',serif",
+                      fontFamily: "var(--font-fraunces),serif",
                       fontSize: 17,
-                      color: "#FF4FA3",
+                      color: "var(--fuchsia)",
                     }}
                   >
                     {frDate(e.date)}
@@ -513,9 +513,9 @@ export function JournalFusion() {
                     {s !== null && (
                       <span
                         style={{
-                          fontFamily: "'Fraunces',serif",
+                          fontFamily: "var(--font-fraunces),serif",
                           fontSize: 20,
-                          background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+                          background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
                           WebkitBackgroundClip: "text",
                           backgroundClip: "text",
                           color: "transparent",
@@ -562,11 +562,11 @@ export function JournalFusion() {
                 {e.gratitude && (
                   <div style={{ marginTop: 12, fontSize: 13, lineHeight: 1.5 }}>
                     <span style={{ color: "rgba(244,238,234,.45)" }}>Gratitude : </span>
-                    <span style={{ color: "#DFCBD8", fontStyle: "italic" }}>{e.gratitude}</span>
+                    <span style={{ color: "var(--muted)", fontStyle: "italic" }}>{e.gratitude}</span>
                   </div>
                 )}
                 {e.pensees && (
-                  <div style={{ marginTop: 6, fontSize: 13, color: "#F4EEEA", lineHeight: 1.5 }}>
+                  <div style={{ marginTop: 6, fontSize: 13, color: "var(--ink)", lineHeight: 1.5 }}>
                     {e.pensees}
                   </div>
                 )}

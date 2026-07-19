@@ -3,15 +3,21 @@
 @tailwind utilities;
 
 :root {
-  /* Noir default (brand) */
-  --noir: #0a0a0d;
+  /* Noir default (brand) — constellation palette (single source of truth) */
+  --noir: #0a090d;
   --surface: #121116;
   --raised: #1a1922;
-  --ink: #f4f1f5;
-  --muted: #9a96a6;
+  --ink: #f4eeea;
+  --muted: #dfcbd8;
   --line: rgba(255, 255, 255, 0.08);
-  --fuchsia: #ff2e8b;
-  --orange: #ff7a3c;
+  --fuchsia: #ff4fa3;
+  --orange: #ff8a4c;
+  /* Support / data-viz */
+  --danger: #ff5a5a;
+  --violet: #c86bff;
+  --gold: #ffd16b;
+  --cyan: #6be3ff;
+  --slate: #8e8497;
 }
 
 .light {
@@ -21,8 +27,13 @@
   --ink: #16141a;
   --muted: #6b6774;
   --line: rgba(20, 18, 26, 0.1);
-  --fuchsia: #e01f7a;
-  --orange: #f26522;
+  --fuchsia: #e0418f;
+  --orange: #ee7636;
+  --danger: #d64545;
+  --violet: #a94fe0;
+  --gold: #c9971f;
+  --cyan: #1f93ad;
+  --slate: #6b6774;
 }
 
 * {

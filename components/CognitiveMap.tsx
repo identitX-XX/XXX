@@ -10,17 +10,17 @@ type Identity = {
 };
 
 const STORAGE_KEY = "identitx-cognitive-map";
-const COLORS = ["#FF4FA3", "#FF8A4C", "#DFCBD8", "#C86BFF", "#FFD16B", "#6BE3FF"];
+const COLORS = ["var(--fuchsia)", "var(--orange)", "var(--muted)", "var(--violet)", "var(--gold)", "var(--cyan)"];
 
 function classify(g: number, r: number): { label: string; color: string; hint: string } {
   const hi = 5.5;
   if (r >= hi && g < hi)
-    return { label: "Source", color: "#FF8A4C", hint: "Te nourrit plus qu'elle ne coûte. À amplifier." };
+    return { label: "Source", color: "var(--orange)", hint: "Te nourrit plus qu'elle ne coûte. À amplifier." };
   if (r >= hi && g >= hi)
-    return { label: "Moteur", color: "#FF4FA3", hint: "Intense mais rentable. À doser, pas à couper." };
+    return { label: "Moteur", color: "var(--fuchsia)", hint: "Intense mais rentable. À doser, pas à couper." };
   if (r < hi && g >= hi)
-    return { label: "Vampire", color: "#FF5A5A", hint: "Coûte sans rendre. À renégocier ou quitter." };
-  return { label: "Dormante", color: "#8E8497", hint: "Peu investie, peu nourrissante. À réveiller ou archiver." };
+    return { label: "Vampire", color: "var(--danger)", hint: "Coûte sans rendre. À renégocier ou quitter." };
+  return { label: "Dormante", color: "var(--slate)", hint: "Peu investie, peu nourrissante. À réveiller ou archiver." };
 }
 
 export function CognitiveMap({ onDone }: { onDone?: () => void }) {
@@ -80,16 +80,16 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
     letterSpacing: ".18em",
     textTransform: "uppercase" as const,
     fill: "rgba(244,238,234,.34)",
-    fontFamily: "'Inter',sans-serif",
+    fontFamily: "var(--font-inter),sans-serif",
   });
 
   return (
     <div
       style={{
         minHeight: "100svh",
-        background: "#0A090D",
-        color: "#F4EEEA",
-        fontFamily: "'Inter','Outfit',sans-serif",
+        background: "var(--noir)",
+        color: "var(--ink)",
+        fontFamily: "var(--font-inter),'Outfit',sans-serif",
         fontWeight: 300,
         padding: "48px 20px 80px",
         display: "flex",
@@ -99,7 +99,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
     >
       <div
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontWeight: 500,
           fontSize: 15,
           letterSpacing: ".16em",
@@ -107,12 +107,12 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           marginBottom: 8,
         }}
       >
-        Identit<span style={{ color: "#FF4FA3" }}>X</span>
+        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
       </div>
 
       <h1
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontWeight: 400,
           fontSize: "clamp(24px,6vw,38px)",
           lineHeight: 1.1,
@@ -123,7 +123,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
         Cartographie des{" "}
         <span
           style={{
-            background: "linear-gradient(90deg,#FF4FA3,#FF8A4C)",
+            background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",
@@ -135,10 +135,10 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
 
       <p
         style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-fraunces),serif",
           fontStyle: "italic",
           fontSize: 15,
-          color: "#DFCBD8",
+          color: "var(--muted)",
           textAlign: "center",
           maxWidth: 400,
           margin: "14px 0 28px",
@@ -161,19 +161,19 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             background: "rgba(255,138,76,.06)",
             border: "1px solid rgba(255,138,76,.25)",
             borderRadius: 12,
-            color: "#F4EEEA",
+            color: "var(--ink)",
             fontSize: 14,
             padding: "13px 14px",
             outline: "none",
-            fontFamily: "'Inter',sans-serif",
+            fontFamily: "var(--font-inter),sans-serif",
           }}
         />
         <button
           onClick={add}
           disabled={!draft.trim() || identities.length >= 8}
           style={{
-            background: draft.trim() && identities.length < 8 ? "#FF4FA3" : "rgba(255,79,163,.25)",
-            color: "#0A090D",
+            background: draft.trim() && identities.length < 8 ? "var(--fuchsia)" : "rgba(255,79,163,.25)",
+            color: "var(--noir)",
             border: "none",
             borderRadius: 12,
             padding: "0 18px",
@@ -220,16 +220,15 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
                   cx={toX(it.given)}
                   cy={toY(it.received)}
                   r={7}
-                  fill={c}
                   opacity={0.9}
-                  style={{ transition: "cx .25s ease, cy .25s ease" }}
+                  style={{ fill: c, transition: "cx .25s ease, cy .25s ease" }}
                 />
-                <circle cx={toX(it.given)} cy={toY(it.received)} r={12} fill={c} opacity={0.15} />
+                <circle cx={toX(it.given)} cy={toY(it.received)} r={12} opacity={0.15} style={{ fill: c }} />
                 <text
                   x={toX(it.given)}
                   y={toY(it.received) - 14}
                   textAnchor="middle"
-                  style={{ fontSize: 9.5, fill: "#F4EEEA", fontFamily: "'Inter',sans-serif" }}
+                  style={{ fontSize: 9.5, fill: "var(--ink)", fontFamily: "var(--font-inter),sans-serif" }}
                 >
                   {it.name}
                 </text>
@@ -256,14 +255,14 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             >
               <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                 <span style={{ width: 10, height: 10, borderRadius: "50%", background: c, boxShadow: `0 0 10px ${c}` }} />
-                <span style={{ fontFamily: "'Fraunces',serif", fontSize: 17, flex: 1 }}>{it.name}</span>
+                <span style={{ fontFamily: "var(--font-fraunces),serif", fontSize: 17, flex: 1 }}>{it.name}</span>
                 <span
                   style={{
                     fontSize: 10,
                     letterSpacing: ".2em",
                     textTransform: "uppercase",
                     color: verdict.color,
-                    border: `1px solid ${verdict.color}55`,
+                    border: `1px solid color-mix(in srgb, ${verdict.color} 33%, transparent)`,
                     borderRadius: 999,
                     padding: "5px 10px",
                   }}
@@ -289,7 +288,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
               <div style={{ marginTop: 14 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "rgba(244,238,234,.55)" }}>
                   <span>Énergie donnée</span>
-                  <span style={{ color: "#FF8A4C" }}>{it.given}</span>
+                  <span style={{ color: "var(--orange)" }}>{it.given}</span>
                 </div>
                 <input
                   type="range"
@@ -297,7 +296,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
                   max={10}
                   value={it.given}
                   onChange={(e) => update(it.id, "given", Number(e.target.value))}
-                  style={{ width: "100%", accentColor: "#FF8A4C", marginTop: 4 }}
+                  style={{ width: "100%", accentColor: "var(--orange)", marginTop: 4 }}
                   aria-label={`Énergie donnée par ${it.name}`}
                 />
               </div>
@@ -305,7 +304,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
               <div style={{ marginTop: 10 }}>
                 <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "rgba(244,238,234,.55)" }}>
                   <span>Énergie reçue</span>
-                  <span style={{ color: "#FF4FA3" }}>{it.received}</span>
+                  <span style={{ color: "var(--fuchsia)" }}>{it.received}</span>
                 </div>
                 <input
                   type="range"
@@ -313,7 +312,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
                   max={10}
                   value={it.received}
                   onChange={(e) => update(it.id, "received", Number(e.target.value))}
-                  style={{ width: "100%", accentColor: "#FF4FA3", marginTop: 4 }}
+                  style={{ width: "100%", accentColor: "var(--fuchsia)", marginTop: 4 }}
                   aria-label={`Énergie reçue de ${it.name}`}
                 />
               </div>
@@ -340,21 +339,21 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             textAlign: "center",
           }}
         >
-          <div style={{ fontSize: 10, letterSpacing: ".26em", textTransform: "uppercase", color: "#FF8A4C" }}>
+          <div style={{ fontSize: 10, letterSpacing: ".26em", textTransform: "uppercase", color: "var(--orange)" }}>
             Bilan énergétique
           </div>
           <div
             style={{
-              fontFamily: "'Fraunces',serif",
+              fontFamily: "var(--font-fraunces),serif",
               fontSize: 34,
               marginTop: 8,
-              color: bilan.delta >= 0 ? "#FF8A4C" : "#FF5A5A",
+              color: bilan.delta >= 0 ? "var(--orange)" : "var(--danger)",
             }}
           >
             {bilan.delta > 0 ? "+" : ""}
             {bilan.delta}
           </div>
-          <div style={{ fontSize: 13, color: "#DFCBD8", marginTop: 6, lineHeight: 1.5 }}>
+          <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 6, lineHeight: 1.5 }}>
             {bilan.delta >= 0
               ? "Ta constellation te rend plus qu'elle ne te coûte."
               : "Ta constellation te coûte plus qu'elle ne te rend."}
@@ -375,12 +374,12 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           onClick={onDone}
           style={{
             marginTop: 26,
-            background: "#FF4FA3",
-            color: "#0A090D",
+            background: "var(--fuchsia)",
+            color: "var(--noir)",
             border: "none",
             borderRadius: 14,
             cursor: "pointer",
-            fontFamily: "'Inter','Outfit',sans-serif",
+            fontFamily: "var(--font-inter),'Outfit',sans-serif",
             fontWeight: 500,
             fontSize: 13,
             letterSpacing: ".22em",
