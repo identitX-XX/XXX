@@ -5,8 +5,9 @@ import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Profile } from "@/types";
 import { Button, Label, Slider, TextArea, TextInput } from "./ui";
+import { ParcoursOverview } from "./ParcoursOverview";
 
-const STEPS = 6;
+const STEPS = 7;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
@@ -167,6 +168,16 @@ export function Onboarding() {
               <Label>Une ambition à 12 mois</Label>
               <TextArea value={p.ambition} onChange={(v) => set({ ambition: v })} rows={3} />
             </div>
+          </>
+        )}
+
+        {step === 6 && (
+          <>
+            <Head
+              t="Ton parcours en un coup d'œil"
+              s="Voici les huit étapes qui t'attendent. Tu pourras y revenir à tout moment."
+            />
+            <ParcoursOverview />
           </>
         )}
       </div>
