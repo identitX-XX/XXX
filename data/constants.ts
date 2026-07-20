@@ -30,6 +30,7 @@ export const RADAR_AXES = [
 export const NAV = [
   { href: "/dashboard", label: "Tableau de bord" },
   { href: "/parcours", label: "Quête IdentitX" },
+  { href: "/parcours-archetypes", label: "12 Archétypes" },
   { href: "/explorer", label: "Explorer" },
   { href: "/timeline", label: "Ligne de vie" },
   { href: "/dna", label: "ADN personnel" },
