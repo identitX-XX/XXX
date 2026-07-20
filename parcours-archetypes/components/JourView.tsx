@@ -2,7 +2,11 @@
 // parcours-archetypes/components/JourView.tsx
 // L'écran-laboratoire d'une journée : les 10 sections + la saisie (curseurs par
 // sphère, émotions, micro-défi, note). À la clôture → store.repondreJour, qui
-// fait avancer le moteur d'évolution. Style IdentitX, inline (drop-in safe).
+// fait avancer le moteur d'évolution.
+//
+// Relecture : si une réponse existe déjà pour ce jour (`reponse`), l'écran est
+// en LECTURE SEULE et réaffiche les choix enregistrés. L'historique n'est
+// jamais perdu ni écrasé (repondreJour est idempotent).
 
 import { useMemo, useState } from "react";
 import { EMOTIONS, SPHERES, archetypeByKey, phaseDuJour } from "../archetypes";
@@ -22,36 +26,46 @@ const sans = "var(--font-inter), system-ui, sans-serif";
 
 export function JourView({
   jour,
+  reponse,
   onClose,
 }: {
   jour: Jour;
+  reponse?: ReponseJour;
   onClose?: (r: ReponseJour) => void;
 }) {
   const repondreJour = useParcoursStore((s) => s.repondreJour);
-  const dejaFait = useParcoursStore((s) => Boolean(s.reponses[jour.n]));
+  const readOnly = Boolean(reponse);
   const a = archetypeByKey[jour.archetype];
   const phase = phaseDuJour(jour.n);
 
   const [curseurs, setCurseurs] = useState<Record<SphereKey, number>>(() => {
+    if (reponse) return reponse.curseurs;
     const init = {} as Record<SphereKey, number>;
     for (const s of SPHERES) init[s.key] = s.key === jour.sphereFocus ? 55 : 25;
     return init;
   });
-  const [emotions, setEmotions] = useState<EmotionKey[]>([]);
-  const [intensiteDefi, setIntensiteDefi] = useState(40);
-  const [note, setNote] = useState("");
+  const [emotions, setEmotions] = useState<EmotionKey[]>(
+    reponse ? reponse.emotions : []
+  );
+  const [intensiteDefi, setIntensiteDefi] = useState(
+    reponse ? reponse.intensiteDefi : 40
+  );
+  const [note, setNote] = useState(reponse ? reponse.note : "");
 
   const sectionsByKind = useMemo(
     () => Object.fromEntries(jour.sections.map((s) => [s.kind, s])),
     [jour]
   );
 
-  const toggleEmotion = (k: EmotionKey) =>
+  const toggleEmotion = (k: EmotionKey) => {
+    if (readOnly) return;
     setEmotions((prev) =>
       prev.includes(k) ? prev.filter((e) => e !== k) : [...prev, k]
     );
+  };
 
   const cloturer = () => {
+    if (readOnly) return;
     const r: ReponseJour = {
       jour: jour.n,
       archetype: jour.archetype,
@@ -69,7 +83,7 @@ export function JourView({
   return (
     <div style={{ maxWidth: 640, margin: "0 auto", fontFamily: sans, color: INK }}>
       {/* En-tête */}
-      <div style={{ marginBottom: 24 }}>
+      <div style={{ marginBottom: 20 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
           Jour {jour.n} / 30 · {phase.label}
         </div>
@@ -78,6 +92,24 @@ export function JourView({
         </h1>
         <p style={{ fontSize: 14, lineHeight: 1.55, color: MUTED, margin: 0 }}>{a.lens}</p>
       </div>
+
+      {/* Bandeau relecture */}
+      {readOnly && (
+        <div
+          style={{
+            marginBottom: 18,
+            borderRadius: 12,
+            border: `1px solid ${LINE}`,
+            background: "rgba(255,79,163,0.06)",
+            padding: "10px 14px",
+            fontSize: 12.5,
+            color: MUTED,
+          }}
+        >
+          Tu revois une journée déjà close — tes choix sont conservés, rien
+          n'est modifiable ici.
+        </div>
+      )}
 
       {/* Sections narratives */}
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -109,13 +141,15 @@ export function JourView({
                   min={0}
                   max={100}
                   value={curseurs[s.key]}
+                  disabled={readOnly}
                   onChange={(e) =>
                     setCurseurs((prev) => ({ ...prev, [s.key]: Number(e.target.value) }))
                   }
                   style={{
                     width: "100%",
                     accentColor: FUCHSIA,
-                    cursor: "pointer",
+                    cursor: readOnly ? "default" : "pointer",
+                    opacity: readOnly ? 0.7 : 1,
                   }}
                 />
               </div>
@@ -135,14 +169,16 @@ export function JourView({
                 <button
                   key={e.key}
                   onClick={() => toggleEmotion(e.key)}
+                  disabled={readOnly && !on}
                   style={{
                     borderRadius: 999,
                     padding: "7px 14px",
                     fontSize: 12,
-                    cursor: "pointer",
+                    cursor: readOnly ? "default" : "pointer",
                     border: `1px solid ${on ? "transparent" : LINE}`,
                     background: on ? `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})` : "transparent",
                     color: on ? "#fff" : MUTED,
+                    opacity: readOnly && !on ? 0.35 : 1,
                   }}
                 >
                   {e.label}
@@ -159,8 +195,9 @@ export function JourView({
             min={0}
             max={100}
             value={intensiteDefi}
+            disabled={readOnly}
             onChange={(e) => setIntensiteDefi(Number(e.target.value))}
-            style={{ width: "100%", accentColor: ORANGE, cursor: "pointer" }}
+            style={{ width: "100%", accentColor: ORANGE, cursor: readOnly ? "default" : "pointer", opacity: readOnly ? 0.7 : 1 }}
           />
         </Bloc>
 
@@ -170,6 +207,7 @@ export function JourView({
             value={note}
             onChange={(e) => setNote(e.target.value)}
             rows={3}
+            readOnly={readOnly}
             placeholder={sectionsByKind["note"]?.texte}
             style={{
               width: "100%",
@@ -182,6 +220,7 @@ export function JourView({
               fontSize: 14,
               padding: "12px 14px",
               lineHeight: 1.5,
+              opacity: readOnly ? 0.85 : 1,
             }}
           />
         </Bloc>
@@ -199,21 +238,21 @@ export function JourView({
       <div style={{ marginTop: 24, display: "flex", justifyContent: "flex-end" }}>
         <button
           onClick={cloturer}
-          disabled={dejaFait}
+          disabled={readOnly}
           style={{
             borderRadius: 999,
             padding: "13px 26px",
             fontSize: 13,
             fontWeight: 500,
             letterSpacing: "0.04em",
-            cursor: dejaFait ? "default" : "pointer",
+            cursor: readOnly ? "default" : "pointer",
             border: "none",
             color: "#fff",
-            opacity: dejaFait ? 0.4 : 1,
+            opacity: readOnly ? 0.4 : 1,
             background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
           }}
         >
-          {dejaFait ? "Journée close ✓" : "Clore la journée"}
+          {readOnly ? "Journée close ✓" : "Clore la journée"}
         </button>
       </div>
     </div>
