@@ -75,7 +75,11 @@ export function RadarArchetypes({ data }: { data: PointRadar[] }) {
     <div>
       <Titre>Radar des 12 lentilles</Titre>
       <ResponsiveContainer width="100%" height={320}>
-        <RadarChart data={court} outerRadius="72%">
+        <RadarChart
+          data={court}
+          outerRadius="66%"
+          margin={{ top: 16, right: 28, bottom: 16, left: 28 }}
+        >
           <PolarGrid stroke={LINE} />
           <PolarAngleAxis
             dataKey="court"
