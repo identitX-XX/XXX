@@ -1,11 +1,10 @@
 // parcours-archetypes/archetypes.ts
-// LE SEUL FICHIER DE CONTENU. Remplace librement les textes ci-dessous sans
-// toucher au moteur : tout le reste (évolution, indicateurs, charts) est
-// agnostique du contenu.
+// LE SEUL FICHIER DE CONTENU. Le moteur (évolution, indicateurs, charts) est
+// agnostique : réécrire ici ne casse rien tant que les `key` restent stables.
 //
-// [DÉFAUTS — à relire / réécrire] Les 12 lentilles, 5 sphères, 6 émotions,
-// 4 phases. Rédigés en « lentille » (regarde / observe / repère…), jamais
-// « tu es X ». La 12e — La Métamorphe — est la lentille de clôture (J30).
+// Voix « lentille » : une invitation à regarder (« observe… », « repère… »),
+// jamais un verdict « tu es X ». La 12e — La Métamorphe — clôt le parcours
+// (J30) : la lentille qui refuse toute étiquette.
 
 import { Archetype, Emotion, Phase, Sphere } from "./types";
 
@@ -13,73 +12,73 @@ export const ARCHETYPES: Archetype[] = [
   {
     key: "explorateur",
     name: "L'Explorateur·rice",
-    lens: "Repère ce qui te pousse à partir, à élargir l'horizon plutôt qu'à t'installer.",
+    lens: "Observe ce qui s'ouvre quand tu oses l'inconnu — et ce que rester en place te coûte.",
     hue: 28,
   },
   {
     key: "sage",
     name: "Le·la Sage",
-    lens: "Observe comment tu cherches à comprendre avant d'agir, et où le savoir te rassure.",
+    lens: "Regarde comment tu cherches à comprendre avant d'agir, et où le savoir te met à l'abri.",
     hue: 265,
   },
   {
     key: "createur",
     name: "Le·la Créateur·rice",
-    lens: "Remarque ce que tu as besoin de faire exister qui n'était pas là avant.",
+    lens: "Remarque ce que tu as besoin de faire exister, qui n'était pas là avant toi.",
     hue: 330,
   },
   {
     key: "rebelle",
     name: "Le·la Rebelle",
-    lens: "Vois ce que tu refuses de suivre, et ce que ta rupture cherche à protéger.",
+    lens: "Vois ce que tu refuses de suivre, et ce que ton « non » cherche à protéger.",
     hue: 5,
   },
   {
     key: "protecteur",
     name: "Le·la Protecteur·rice",
-    lens: "Repère qui et quoi tu veux mettre à l'abri, et ce que tu portes pour eux.",
+    lens: "Repère qui et quoi tu veux mettre à l'abri, et ce que tu portes sans le dire.",
     hue: 150,
   },
   {
     key: "amoureux",
     name: "L'Amoureux·se",
-    lens: "Regarde ce qui t'attache, ce que tu chéris et ce que la proximité révèle.",
+    lens: "Regarde ce qui t'attache, ce que tu chéris, et ce que la proximité fait remonter.",
     hue: 345,
   },
   {
     key: "batisseur",
     name: "Le·la Bâtisseur·se",
-    lens: "Observe où tu prends la responsabilité de l'ordre, de la durée et du cap.",
+    lens: "Observe où tu prends en charge la durée, l'ordre et le cap — pour toi et pour les autres.",
     hue: 210,
   },
   {
     key: "guerisseur",
     name: "Le·la Guérisseur·se",
-    lens: "Remarque où tu transformes la douleur — la tienne, celle des autres — en apaisement.",
+    lens: "Remarque où tu transformes la douleur — la tienne, celle d'autrui — en apaisement.",
     hue: 175,
   },
   {
     key: "joueur",
     name: "Le·la Joueur·se",
-    lens: "Observe où le jeu et l'humour te libèrent de ce qui pèse trop.",
+    lens: "Observe où le jeu, la légèreté et l'humour te rendent à toi-même.",
     hue: 48,
   },
   {
     key: "passeur",
     name: "Le·la Passeur·se",
-    lens: "Vois ce que tu te sens appelé·e à transmettre, et à qui tu ouvres un chemin.",
+    lens: "Vois ce que tu te sens appelé·e à transmettre, et à qui tu ouvres un passage.",
     hue: 95,
   },
   {
     key: "reveur",
     name: "Le·la Rêveur·se",
-    lens: "Regarde où tu cherches encore l'émerveillement et le droit de tout recommencer.",
+    lens: "Regarde où vit ton émerveillement, et ce que ton imaginaire refuse d'abandonner.",
     hue: 300,
   },
   {
     key: "metamorphe",
     name: "La Métamorphe",
-    lens: "Observe ce qui, en toi, ne cesse de se transformer — et refuse de se figer.",
+    lens: "Observe ce qui, en toi, ne cesse de se transformer — et se refuse à toute étiquette.",
     hue: 190,
   },
 ];
@@ -106,25 +105,25 @@ export const PHASES: Phase[] = [
     key: "revelation",
     label: "Révélation",
     jours: [1, 8],
-    intention: "Laisser apparaître les lentilles qui te sont les plus familières.",
+    intention: "Laisser paraître les lentilles qui te viennent le plus naturellement.",
   },
   {
     key: "exploration",
     label: "Exploration",
     jours: [9, 16],
-    intention: "Essayer des lentilles moins spontanées, dans d'autres sphères.",
+    intention: "Essayer des lentilles moins familières, dans d'autres sphères que d'habitude.",
   },
   {
     key: "tension",
     label: "Tension",
     jours: [17, 24],
-    intention: "Rencontrer les frictions entre lentilles et contextes.",
+    intention: "Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent.",
   },
   {
     key: "metamorphose",
     label: "Métamorphose",
     jours: [25, 30],
-    intention: "Intégrer ce qui bouge — sans se refermer sur une identité fixe.",
+    intention: "Intégrer ce qui a bougé — sans se refermer sur une identité fixe.",
   },
 ];
 
