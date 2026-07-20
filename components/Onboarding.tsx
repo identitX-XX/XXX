@@ -44,7 +44,7 @@ export function Onboarding() {
 
   const next = () => (step < STEPS - 1 ? setStep(step + 1) : complete(p));
   const back = () => setStep(Math.max(0, step - 1));
-  const canNext = step === 0 ? p.name.trim().length > 0 : true;
+  const canNext = step === 1 ? p.name.trim().length > 0 : true;
 
   return (
     <div className="mx-auto flex min-h-screen max-w-lg flex-col justify-center px-6 py-12">
@@ -68,7 +68,7 @@ export function Onboarding() {
       </div>
 
       <div key={step} className="animate-fade-up space-y-6">
-        {step === 0 && (
+        {step === 1 && (
           <>
             <Head t="Faisons connaissance" s="Trois repères pour poser le décor." />
             <div>
@@ -90,7 +90,7 @@ export function Onboarding() {
           </>
         )}
 
-        {step === 1 && (
+        {step === 2 && (
           <>
             <Head t="Où tu regardes" s="Ce qui oriente ton moment présent." />
             <div>
@@ -113,7 +113,7 @@ export function Onboarding() {
           </>
         )}
 
-        {step === 2 && (
+        {step === 3 && (
           <>
             <Head t="Ton état intérieur" s="Sans te juger, à l'instant T." />
             <Slider label="Niveau d'énergie perçu" value={p.energy} onChange={(v) => set({ energy: v })} />
@@ -121,7 +121,7 @@ export function Onboarding() {
           </>
         )}
 
-        {step === 3 && (
+        {step === 4 && (
           <>
             <Head t="Les zones de friction" s="Nommer, c'est déjà reprendre la main." />
             <div>
@@ -135,7 +135,7 @@ export function Onboarding() {
           </>
         )}
 
-        {step === 4 && (
+        {step === 5 && (
           <>
             <Head t="Tes appuis" s="Trois valeurs, trois forces." />
             <div>
@@ -157,7 +157,7 @@ export function Onboarding() {
           </>
         )}
 
-        {step === 5 && (
+        {step === 6 && (
           <>
             <Head t="Le cap" s="Une peur à regarder, une direction à tenir." />
             <div>
@@ -171,11 +171,11 @@ export function Onboarding() {
           </>
         )}
 
-        {step === 6 && (
+        {step === 0 && (
           <>
             <Head
               t="Ton parcours en un coup d'œil"
-              s="Voici les huit étapes qui t'attendent. Tu pourras y revenir à tout moment."
+              s="Avant de commencer, voici les huit étapes de ta quête. Tu pourras y revenir à tout moment."
             />
             <ParcoursOverview />
           </>
