@@ -62,9 +62,14 @@ function Titre({ children }: { children: React.ReactNode }) {
 
 // 1. Radar des 12 archétypes — la pièce signature.
 export function RadarArchetypes({ data }: { data: PointRadar[] }) {
+  // Libellé court : on retire l'article de tête (L', Le, La, Le·la) puis on
+  // garde le premier mot distinctif. (Pas de flag /i sur une classe de
+  // lettres, sinon on mangerait la 1re lettre du nom.)
   const court = data.map((d) => ({
     ...d,
-    court: d.name.replace(/^L[eae'·\s]+/i, "").split(/[\s·]/)[0],
+    court: d.name
+      .replace(/^(Le·la|Le|La|L['’])\s*/, "")
+      .split(/[\s·]/)[0],
   }));
   return (
     <div>
@@ -137,7 +142,16 @@ export function EquilibreSpheres({ data }: { data: PartSphere[] }) {
   );
 }
 
-// 4. Jauge de cohérence (anneau CSS).
+// 4. Cohérence identitaire — libellé qualitatif (jamais un verdict chiffré :
+// l'outil refuse d'étiqueter). L'anneau donne l'allure, le mot donne le sens.
+function libelleCoherence(v: number): string {
+  if (v < 25) return "en formation";
+  if (v < 45) return "qui s'esquisse";
+  if (v < 65) return "qui se précise";
+  if (v < 82) return "claire";
+  return "affirmée";
+}
+
 export function JaugeCoherence({ valeur }: { valeur: number }) {
   const angle = (Math.max(0, Math.min(100, valeur)) / 100) * 360;
   return (
@@ -163,18 +177,21 @@ export function JaugeCoherence({ valeur }: { valeur: number }) {
               background: "#0a090d",
               display: "grid",
               placeItems: "center",
+              textAlign: "center",
               fontFamily: "var(--font-fraunces), serif",
-              fontSize: 24,
+              fontSize: 13,
+              lineHeight: 1.2,
               color: INK,
+              padding: "0 6px",
             }}
           >
-            {Math.round(valeur)}
+            {libelleCoherence(valeur)}
           </div>
         </div>
         <p style={{ fontSize: 12, lineHeight: 1.5, color: MUTED, margin: 0 }}>
-          Clarté d'une lentille dominante + stabilité dans le temps. Jamais
-          l'uniformité entre contextes : une lentille peut se lire autrement
-          selon la sphère.
+          Non pas « à quel point tu es X », mais la clarté d'une lentille
+          dominante et sa stabilité dans le temps. Jamais l'uniformité entre
+          contextes : une lentille peut se lire autrement selon la sphère.
         </p>
       </div>
     </div>
