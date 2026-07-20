@@ -29,7 +29,7 @@ export const RADAR_AXES = [
 ];
 export const NAV = [
   { href: "/dashboard", label: "Tableau de bord" },
-  { href: "/parcours", label: "Vue d'ensemble" },
+  { href: "/parcours", label: "Quête IdentitX" },
   { href: "/explorer", label: "Explorer" },
   { href: "/timeline", label: "Ligne de vie" },
   { href: "/dna", label: "ADN personnel" },
