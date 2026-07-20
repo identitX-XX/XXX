@@ -74,6 +74,11 @@ const LEGACY_KEYS = {
   coachChat: "identitx-coach-chat",
 } as const;
 
+// Even older: the pre-JournalFusion expansion journal (dead Journal.tsx).
+// Its DailyEntry shape is a subset of FusionEntry, so entries merge straight
+// into journalFusion, deduped by date (v1 -> v2 step).
+const LEGACY_JOURNAL_KEY = "identitx-journal";
+
 export const useStore = create<AppState>()(
   persist(
     (set, get) => ({
@@ -155,11 +160,14 @@ export const useStore = create<AppState>()(
     }),
     {
       name: "identitx",
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
-      // One-shot migration: absorb the pre-Bloc-3 standalone localStorage keys
-      // (journal d'expansion, cartographie, chat coach) into the unified store,
-      // then drop the legacy keys. Runs once for existing users (v0 -> v1).
+      // One-shot migrations: absorb the pre-Bloc-3 standalone localStorage keys
+      // into the unified store, then drop them. Cumulative and version-gated so
+      // already-migrated users still receive later steps:
+      //   v0 -> v1: the three constellation keys (journal fusion, map, chat).
+      //   v1 -> v2: the even older identitx-journal expansion journal (dead
+      //             Journal.tsx), merged into journalFusion, deduped by date.
       migrate: (persisted, version) => {
         const s = (persisted ?? {}) as Partial<AppState>;
         if (version < 1) {
@@ -174,6 +182,27 @@ export const useStore = create<AppState>()(
                 localStorage.removeItem(LEGACY_KEYS[slice]);
               }
             );
+          } catch {}
+        }
+        if (version < 2) {
+          try {
+            const raw = localStorage.getItem(LEGACY_JOURNAL_KEY);
+            if (raw) {
+              const legacy = JSON.parse(raw) as FusionEntry[];
+              if (Array.isArray(legacy)) {
+                const existing = s.journalFusion ?? [];
+                const seen = new Set(existing.map((e) => e.date));
+                const merged = [...existing];
+                for (const e of legacy) {
+                  if (e && e.date && !seen.has(e.date)) {
+                    merged.push(e);
+                    seen.add(e.date);
+                  }
+                }
+                s.journalFusion = merged;
+              }
+            }
+            localStorage.removeItem(LEGACY_JOURNAL_KEY);
           } catch {}
         }
         return s as AppState;
