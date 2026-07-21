@@ -7,9 +7,6 @@ import { ConstellationBg } from "./ConstellationBg";
 // On y vend la transformation (le résultat), pas les fonctionnalités : promesse
 // claire, trois piliers de valeur, une réassurance, un seul CTA confiant.
 export function Welcome({ onStart }: { onStart: () => void }) {
-  const mask =
-    "radial-gradient(ellipse 62% 62% at 50% 46%, black 42%, rgba(0,0,0,.55) 60%, transparent 76%)";
-
   return (
     <div
       style={{
@@ -68,18 +65,15 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
         </div>
 
-        <div
-          role="img"
-          aria-label="Portrait"
+        <img
+          src="/hero-portrait.png"
+          alt="Portrait au trait"
+          className="hero-portrait"
           style={{
-            width: "min(58vw, 190px)",
-            aspectRatio: "1 / 1",
-            backgroundImage: "url('/hero.jpg%20.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            WebkitMaskImage: mask,
-            maskImage: mask,
-            marginBottom: 6,
+            width: "min(66vw, 265px)",
+            height: "auto",
+            objectFit: "contain",
+            marginBottom: 4,
             animation: "idx-breathe 8s ease-in-out infinite",
           }}
         />
@@ -95,7 +89,6 @@ export function Welcome({ onStart }: { onStart: () => void }) {
             maxWidth: 620,
           }}
         >
-          Un scénario clair,{" "}
           <span
             style={{
               background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
@@ -104,7 +97,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
               color: "transparent",
             }}
           >
-            aligné sur qui tu es.
+            Aligné sur ta trajectoire.
           </span>
         </h1>
 
@@ -120,7 +113,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           }}
         >
           En 30 jours, transforme tes objectifs dispersés — perso, pro,
-          relationnel — en une trajectoire nette.
+          relationnel — en un cap clair et net.
         </p>
 
         {/* Trois piliers de valeur : ce que l'utilisateur repart avec. */}
