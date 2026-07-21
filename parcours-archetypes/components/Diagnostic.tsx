@@ -74,7 +74,7 @@ export function Diagnostic() {
           style={ghost}
           onClick={() => { setResult(null); setStep(0); setAnswers({}); }}
         >
-          Refaire le diagnostic
+          Refaire ma quête
         </button>
       </div>
     );
@@ -83,11 +83,11 @@ export function Diagnostic() {
   return (
     <div style={wrap}>
       <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
-        Diagnostic · ~2 min
+        Ma quête · ~3 min
       </div>
-      <h1 style={h1}>Identifie ton archétype</h1>
+      <h1 style={h1}>Je commence ma quête</h1>
       <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 0", lineHeight: 1.5 }}>
-        En 8 questions, on repère — parmi <strong style={{ color: INK }}>12 archétypes</strong> —
+        En 12 questions, on repère — parmi <strong style={{ color: INK }}>12 archétypes</strong> —
         celui qui te met le plus en mouvement. Il ouvrira tes 30 jours.
       </p>
       <Link

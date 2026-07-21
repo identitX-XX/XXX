@@ -10,7 +10,7 @@ import { ARCHETYPES, PHASES, SPHERES } from "@/parcours-archetypes/archetypes";
 const PONTS = [
   {
     amont: "Explorer · ADN personnel",
-    role: "alimentent le diagnostic",
+    role: "alimentent ta quête",
     detail:
       "Ce que la Quête révèle de toi ouvre le parcours : ton archétype ouvre le J1, ton secondaire la charnière (J15).",
   },
