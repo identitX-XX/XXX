@@ -32,7 +32,7 @@ export const NAV = [
   { href: "/parcours", label: "Quête IdentitX" },
   { href: "/parcours-archetypes", label: "12 Archétypes" },
   { href: "/explorer", label: "Explorer" },
-  { href: "/timeline", label: "Ligne de vie" },
+  { href: "/progression", label: "Progression" },
   { href: "/dna", label: "ADN personnel" },
   { href: "/coach", label: "Coach IA" },
   { href: "/journal", label: "Journal" },
@@ -57,7 +57,7 @@ export const JOURNEY: JourneyStep[] = [
     href: "/explorer",
     title: "Explorer",
     phrase:
-      "Réponds à des questions ciblées pour révéler tes traits, valeurs et motifs.",
+      "Réponds à des questions ciblées pour révéler tes caractéristiques, valeurs et motifs.",
   },
   {
     href: "/timeline",
@@ -68,7 +68,7 @@ export const JOURNEY: JourneyStep[] = [
   {
     href: "/dna",
     title: "ADN personnel",
-    phrase: "Tes traits et motifs récurrents réunis en un profil.",
+    phrase: "Tes caractéristiques et motifs récurrents réunis en un profil.",
   },
   {
     href: "/cartographie",

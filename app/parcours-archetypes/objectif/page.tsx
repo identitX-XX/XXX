@@ -12,7 +12,7 @@ const PONTS = [
     amont: "Explorer · ADN personnel",
     role: "alimentent le diagnostic",
     detail:
-      "Ce que la Quête révèle de toi ouvre le parcours : dominant + secondaire donnent la première lentille (J1) et la charnière (J15).",
+      "Ce que la Quête révèle de toi ouvre le parcours : dominant + secondaire donnent le premier dominant (J1) et la charnière (J15).",
   },
   {
     amont: "Journal · Coach IdentitX",
@@ -34,7 +34,7 @@ export default function ObjectifPage() {
       <PageHead
         eyebrow="Objectif"
         title="Pourquoi les 12 archétypes"
-        sub="Un archétype n'est jamais une étiquette (« tu es… ») : c'est une lentille d'exploration, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
+        sub="Un dominant n'est jamais une étiquette (« tu es… ») : c'est ce qui te met le plus en mouvement, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
       />
 
       <Link
@@ -50,9 +50,9 @@ export default function ObjectifPage() {
         <h2 className="font-display text-xl font-light text-ink">L'intention</h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
           Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
-          tu es — traits, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
+          tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
           archétypes</strong> les met en mouvement : 30 jours pour observer, à travers 12
-          lentilles, comment ces facettes s'activent selon tes contextes. Chaque
+          dominants, comment ces facettes s'activent selon tes contextes. Chaque
           soir, la matrice « respire » — ce que tu n'as pas réactivé retombe —
           pour qu'aucune identité ne se fige.
         </p>
@@ -125,7 +125,7 @@ export default function ObjectifPage() {
 
       {/* Les 12 lentilles + les 5 sphères */}
       <h2 className="mb-3 font-display text-xl font-light text-ink">
-        Les 12 lentilles
+        Les 12 dominants
       </h2>
       <p className="mb-4 text-sm text-muted">
         Lues à travers 5 sphères — {SPHERES.map((s) => s.label).join(" · ")}.

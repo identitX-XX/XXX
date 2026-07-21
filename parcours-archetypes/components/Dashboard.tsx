@@ -68,7 +68,7 @@ export function Dashboard() {
         </h1>
         {!vide && (
           <p style={{ fontSize: 13, color: MUTED, margin: "6px 0 0" }}>
-            Une lentille dominante aujourd'hui, jamais une étiquette : demain,
+            Un dominant qui ressort aujourd'hui, jamais une étiquette : demain,
             la respiration rebat les cartes.
           </p>
         )}
@@ -97,7 +97,7 @@ export function Dashboard() {
             <JaugeCoherence valeur={coherenceCourante(etat)} />
             <div style={{ marginTop: 18 }}>
               <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>
-                Top 3 lentilles actives
+                Top 3 dominants actifs
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {top.map((t, i) => (
