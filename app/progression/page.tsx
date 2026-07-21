@@ -164,8 +164,8 @@ export default function ProgressionPage() {
           jourCourant={prog.jourCourant}
           selected={Math.min(prog.jourCourant, 30)}
           reponses={reponses}
-          onSelect={() => router.push("/parcours-archetypes")}
-          legende="Ton avancement · clique un jour pour l'ouvrir"
+          onSelect={(n) => router.push(`/parcours-archetypes?jour=${n}`)}
+          legende="Ton avancement · clique un jour pour le revoir"
         />
       </div>
 

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowUpRight } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
@@ -13,12 +14,25 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 
 // Route du module. Tant que le dominant n'est pas déterminé, on présente le
 // diagnostic (écran-miroir). Une fois fait, il ouvre le parcours 30 jours.
+// Enveloppé dans <Suspense> car on lit le paramètre ?jour= (useSearchParams).
 export default function ParcoursArchetypesPage() {
+  return (
+    <Suspense fallback={null}>
+      <ParcoursContent />
+    </Suspense>
+  );
+}
+
+function ParcoursContent() {
   const parcours = useParcoursStore((s) => s.parcours);
   const jourCourant = useParcoursStore((s) => s.etat.jourCourant);
   const reponses = useParcoursStore((s) => s.reponses);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const objectifs = useParcoursStore((s) => s.objectifs);
+
+  // Jour demandé via l'URL (?jour=N), p. ex. depuis la Progression.
+  const searchParams = useSearchParams();
+  const jourParam = Number(searchParams.get("jour"));
 
   // Jour sélectionné à l'écran (suit le jour courant par défaut, mais on peut
   // revenir sur n'importe quelle journée déjà close).
@@ -26,6 +40,12 @@ export default function ParcoursArchetypesPage() {
   useEffect(() => {
     setSelectedDay((d) => (d == null ? Math.min(jourCourant, 30) : d));
   }, [jourCourant]);
+  // Ouvre le jour demandé par l'URL (s'il est atteint).
+  useEffect(() => {
+    if (jourParam >= 1 && jourParam <= 30 && jourParam <= jourCourant) {
+      setSelectedDay(jourParam);
+    }
+  }, [jourParam, jourCourant]);
 
   const jourN = selectedDay ?? Math.min(jourCourant, 30);
   const jour = parcours.jours.find((j) => j.n === jourN) ?? null;

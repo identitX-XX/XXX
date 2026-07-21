@@ -73,7 +73,7 @@ export function RadarArchetypes({ data }: { data: PointRadar[] }) {
   }));
   return (
     <div>
-      <Titre>Radar des 12 dominants</Titre>
+      <Titre>Radar des 12 archétypes</Titre>
       <ResponsiveContainer width="100%" height={320}>
         <RadarChart
           data={court}
