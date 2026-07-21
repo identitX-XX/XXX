@@ -28,6 +28,17 @@ const PONTS = [
   },
 ];
 
+function FicheBloc({ titre, texte }: { titre: string; texte: string }) {
+  return (
+    <div>
+      <div className="text-xs font-semibold uppercase tracking-wider text-ink">
+        {titre}
+      </div>
+      <p className="mt-1 text-sm leading-relaxed text-muted">{texte}</p>
+    </div>
+  );
+}
+
 export default function ObjectifPage() {
   return (
     <div>
@@ -130,18 +141,33 @@ export default function ObjectifPage() {
       <p className="mb-4 text-sm text-muted">
         Lues à travers 5 sphères — {SPHERES.map((s) => s.label).join(" · ")}.
       </p>
-      <div className="mb-10 grid gap-3 sm:grid-cols-2">
-        {ARCHETYPES.map((a, i) => (
-          <Card key={a.key} className="flex items-start gap-3 p-4">
-            <span className="mt-0.5 font-display text-sm text-muted">{i + 1}</span>
-            <div>
-              <div className="font-display text-base font-light text-ink">
-                {a.name}
+      <div className="mb-10 grid gap-3">
+        {ARCHETYPES.map((a, i) => {
+          const riche = a.essence || a.force || a.ombre;
+          return (
+            <Card key={a.key} className="p-5">
+              <div className="flex items-baseline gap-3">
+                <span className="font-display text-sm text-muted">{i + 1}</span>
+                <div className="font-display text-lg font-light text-ink">
+                  {a.name}
+                </div>
               </div>
-              <p className="mt-0.5 text-sm leading-relaxed text-muted">{a.lens}</p>
-            </div>
-          </Card>
-        ))}
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{a.lens}</p>
+              {riche && (
+                <details className="mt-3">
+                  <summary className="cursor-pointer text-xs font-medium uppercase tracking-wider text-fuchsia marker:text-fuchsia">
+                    Lire la fiche
+                  </summary>
+                  <div className="mt-4 flex flex-col gap-4 border-t border-line pt-4">
+                    {a.essence && <FicheBloc titre="Essence" texte={a.essence} />}
+                    {a.force && <FicheBloc titre="Force" texte={a.force} />}
+                    {a.ombre && <FicheBloc titre="Ombre" texte={a.ombre} />}
+                  </div>
+                </details>
+              )}
+            </Card>
+          );
+        })}
       </div>
 
       <Link
