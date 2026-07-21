@@ -6,7 +6,7 @@
 
 import { EtatEvolution, SphereKey } from "./types";
 import { archetypeByKey, sphereByKey } from "./archetypes";
-import { equilibreSpheres, lentilleDominante, topLentilles } from "./indicateurs";
+import { equilibreSpheres, archetypeDominant, topArchetypes } from "./indicateurs";
 
 export type Perimetre = "perso" | "pro" | "relationnel";
 
@@ -49,8 +49,8 @@ export function genererScenarios(
   const dom = archetypeByKey[dominantKey as keyof typeof archetypeByKey];
   const sec = archetypeByKey[secondaireKey as keyof typeof archetypeByKey];
   const spheres = equilibreSpheres(etat);
-  const dominantActuel = lentilleDominante(etat)?.name ?? dom.name;
-  const top = topLentilles(etat, 3);
+  const dominantActuel = archetypeDominant(etat)?.name ?? dom.name;
+  const top = topArchetypes(etat, 3);
 
   // Sphère perso la plus vive (corps / création / sens).
   const spherePerso = sphereByKey[sphereDuPerimetre(spheres, ["corps", "creation", "sens"])];

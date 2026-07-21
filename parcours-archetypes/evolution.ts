@@ -8,7 +8,7 @@
 //             jamais une identité verrouillée.
 //
 // La cohérence identitaire mesure CLARTÉ + STABILITÉ, jamais l'uniformité
-// entre sphères : une même lentille peut s'exprimer autrement selon le
+// entre sphères : une même capsule identitaire peut s'exprimer autrement selon le
 // contexte, et c'est sain.
 
 import {
@@ -70,7 +70,7 @@ export function initialiser(diag: Diagnostic): EtatEvolution {
 }
 
 // --- Étape 1 : EMA sur la réponse du jour -----------------------------------
-// La lentille du jour est renforcée dans chaque sphère selon les curseurs ;
+// La capsule identitaire du jour est renforcée dans chaque sphère selon les curseurs ;
 // la sphère de focus pèse davantage. EMA : m = (1-α)·m + α·signal.
 
 export function appliquerReponse(
@@ -132,7 +132,7 @@ export function spheresDepuisMatrice(m: Matrice): Record<SphereKey, number> {
 }
 
 // --- Cohérence = clarté + stabilité (jamais uniformité) ---------------------
-// clarté   : à quel point une (ou deux) lentille(s) se détache(nt) du fond.
+// clarté   : à quel point une (ou deux) capsule identitaire(s) se détache(nt) du fond.
 // stabilité: à quel point le dominant reste le même d'un jour à l'autre.
 
 export function clarte(radar: Record<ArchetypeKey, number>): number {

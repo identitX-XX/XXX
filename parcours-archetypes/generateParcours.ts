@@ -4,7 +4,7 @@
 // parcours.json sans toucher au moteur.
 //
 // Rotation par défaut : le dominant ouvre J1, le secondaire arrive à la
-// charnière J15, La Métamorphe clôt J30, et les 12 lentilles sont vues ~2 fois.
+// charnière J15, La Métamorphe clôt J30, et les 12 capsules identitaires sont vues ~2 fois.
 
 import {
   ArchetypeKey,
@@ -24,9 +24,9 @@ import {
 
 const JOURS = 30;
 
-// Construit l'ordre des lentilles sur 30 jours.
+// Construit l'ordre des capsules identitaires sur 30 jours.
 export function rotationArchetypes(diag: Diagnostic): ArchetypeKey[] {
-  // On veut ~2 passages par lentille. Base = deux fois la liste des 12 (24),
+  // On veut ~2 passages par capsule identitaire. Base = deux fois la liste des 12 (24),
   // complétée pour atteindre 30, puis on impose les ancres.
   const autres = ARCHETYPE_KEYS.filter((a) => a !== "metamorphe");
   const pool: ArchetypeKey[] = [];
@@ -81,11 +81,11 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
       "Intention du jour",
       `Jour ${n} · phase « ${p.label} ». ${p.intention}`
     ),
-    mk("lentille", "Ton dominant du jour", `${a.name} — ${a.lens}`),
+    mk("capsule", "Ta capsule identitaire du jour", `${a.name} — ${a.lens}`),
     mk(
       "observation",
       "Observation guidée",
-      `Aujourd'hui, porte ce dominant sur ta sphère « ${s.label} ». Que remarques-tu que tu ne voyais pas hier ?`
+      `Aujourd'hui, explore cette capsule identitaire sur ta sphère « ${s.label} ». Que remarques-tu que tu ne voyais pas hier ?`
     ),
     mk(
       "defi",
@@ -95,12 +95,12 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     mk(
       "question",
       "Question ouverte",
-      `Quand ce dominant s'active en toi, qu'est-ce qu'il cherche à protéger ou à faire grandir ?`
+      `Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?`
     ),
     mk(
       "curseurs",
       "Où ça vibre",
-      `Règle, sphère par sphère, l'intensité de ce dominant aujourd'hui. Elle peut être forte au travail et absente ailleurs — c'est normal.`
+      `Règle, sphère par sphère, l'intensité de cette capsule identitaire aujourd'hui. Elle peut être forte au travail et absente ailleurs — c'est normal.`
     ),
     mk(
       "emotions",
@@ -110,7 +110,7 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     mk(
       "note",
       "Note libre",
-      `Un mot, une image, une phrase. Ce que ce dominant a fait remonter.`
+      `Un mot, une image, une phrase. Ce que cette capsule identitaire a fait remonter.`
     ),
     mk(
       "echo",

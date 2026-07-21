@@ -30,7 +30,7 @@ export const RADAR_AXES = [
 export const NAV = [
   { href: "/dashboard", label: "Tableau de bord" },
   { href: "/parcours", label: "Quête IdentitX" },
-  { href: "/parcours-archetypes", label: "12 Archétypes" },
+  { href: "/parcours-archetypes", label: "Ton archétype" },
   { href: "/explorer", label: "Explorer" },
   { href: "/progression", label: "Progression" },
   { href: "/dna", label: "ADN personnel" },
@@ -54,16 +54,22 @@ export type JourneyStep = {
 
 export const JOURNEY: JourneyStep[] = [
   {
+    href: "/parcours-archetypes",
+    title: "Ton archétype",
+    phrase:
+      "Réponds à une batterie de questions pour identifier ton archétype — avant tout le reste.",
+  },
+  {
     href: "/explorer",
     title: "Explorer",
     phrase:
       "Réponds à des questions ciblées pour révéler tes caractéristiques, valeurs et motifs.",
   },
   {
-    href: "/timeline",
-    title: "Ligne de vie",
+    href: "/progression",
+    title: "Progression",
     phrase:
-      "Place les moments clés de ton parcours et vois ce qui t'a façonnée.",
+      "Cartographie ton avancement sur 30 jours, jour après jour.",
   },
   {
     href: "/dna",

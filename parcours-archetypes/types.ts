@@ -1,6 +1,6 @@
 // parcours-archetypes/types.ts
 // Toutes les interfaces du module. Local-first, aucun backend.
-// Un archétype est une LENTILLE d'exploration (jamais « tu es X ») : il se lit
+// Un archétype est une CAPSULE IDENTITAIRE d'exploration (jamais « tu es X ») : il se lit
 // différemment selon les sphères de vie, et son activation respire dans le temps.
 
 // --- Référentiels -----------------------------------------------------------
@@ -34,7 +34,7 @@ export type PhaseKey = "revelation" | "exploration" | "tension" | "metamorphose"
 export interface Archetype {
   key: ArchetypeKey;
   name: string;
-  // La lentille : une invitation à regarder, jamais un verdict.
+  // La capsule identitaire : une invitation à regarder, jamais un verdict.
   lens: string;
   // Une teinte pour la data-viz (HSL hue 0..360).
   hue: number;
@@ -63,7 +63,7 @@ export interface Phase {
 
 export type SectionKind =
   | "intention"
-  | "lentille"
+  | "capsule"
   | "observation"
   | "defi"
   | "question"
@@ -83,7 +83,7 @@ export interface Section {
 export interface Jour {
   n: number; // 1..30
   phase: PhaseKey;
-  archetype: ArchetypeKey; // la lentille du jour
+  archetype: ArchetypeKey; // la capsule identitaire du jour
   sphereFocus: SphereKey;
   titre: string;
   sections: Section[]; // toujours 10
@@ -100,7 +100,7 @@ export interface ReponseJour {
   jour: number;
   archetype: ArchetypeKey;
   sphereFocus: SphereKey;
-  // Intensité ressentie de la lentille dans chaque sphère (0..100).
+  // Intensité ressentie de la capsule identitaire dans chaque sphère (0..100).
   curseurs: Record<SphereKey, number>;
   emotions: EmotionKey[];
   intensiteDefi: number; // 0..100

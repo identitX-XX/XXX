@@ -12,7 +12,7 @@ const PONTS = [
     amont: "Explorer · ADN personnel",
     role: "alimentent le diagnostic",
     detail:
-      "Ce que la Quête révèle de toi ouvre le parcours : dominant + secondaire donnent le premier dominant (J1) et la charnière (J15).",
+      "Ce que la Quête révèle de toi ouvre le parcours : ton archétype ouvre le J1, ton secondaire la charnière (J15).",
   },
   {
     amont: "Journal · Coach IdentitX",
@@ -34,7 +34,7 @@ export default function ObjectifPage() {
       <PageHead
         eyebrow="Objectif"
         title="Pourquoi les 12 archétypes"
-        sub="Un dominant n'est jamais une étiquette (« tu es… ») : c'est ce qui te met le plus en mouvement, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
+        sub="Ton archétype n'est jamais une étiquette (« tu es… ») : c'est ce qui te met le plus en mouvement, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
       />
 
       <Link
@@ -52,7 +52,7 @@ export default function ObjectifPage() {
           Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
           tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
           archétypes</strong> les met en mouvement : 30 jours pour observer, à travers 12
-          dominants, comment ces facettes s'activent selon tes contextes. Chaque
+          archétypes, comment ces facettes s'activent selon tes contextes. Chaque
           soir, la matrice « respire » — ce que tu n'as pas réactivé retombe —
           pour qu'aucune identité ne se fige.
         </p>
@@ -123,9 +123,9 @@ export default function ObjectifPage() {
         ))}
       </div>
 
-      {/* Les 12 lentilles + les 5 sphères */}
+      {/* Les 12 archétypes + les 5 sphères */}
       <h2 className="mb-3 font-display text-xl font-light text-ink">
-        Les 12 dominants
+        Les 12 archétypes
       </h2>
       <p className="mb-4 text-sm text-muted">
         Lues à travers 5 sphères — {SPHERES.map((s) => s.label).join(" · ")}.

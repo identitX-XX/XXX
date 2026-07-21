@@ -10,7 +10,7 @@ import { phaseDuJour } from "@/parcours-archetypes/archetypes";
 import {
   coherenceCourante,
   courbeEvolution,
-  lentilleDominante,
+  archetypeDominant,
   progression,
 } from "@/parcours-archetypes/indicateurs";
 
@@ -33,7 +33,7 @@ export default function ProgressionPage() {
         />
         <Card className="p-6">
           <p className="text-sm text-muted">
-            Commence par déterminer ton archétype dominant, puis reviens suivre
+            Commence par identifier ton archétype, puis reviens suivre
             ton chemin jour après jour.
           </p>
           <Link
@@ -50,7 +50,7 @@ export default function ProgressionPage() {
 
   const prog = progression(etat);
   const phase = phaseDuJour(Math.min(prog.jourCourant, 30));
-  const dom = lentilleDominante(etat);
+  const dom = archetypeDominant(etat);
   const courbe = courbeEvolution(etat);
   const trend =
     courbe.length >= 2 ? courbe[courbe.length - 1].coherence - courbe[0].coherence : 0;
@@ -90,7 +90,7 @@ export default function ProgressionPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-5">
-            <div className="text-xs uppercase tracking-wider text-muted">Archétype dominant</div>
+            <div className="text-xs uppercase tracking-wider text-muted">Ton archétype</div>
             <div className="mt-1 font-display text-lg font-light text-ink">
               {dom ? dom.name : "—"}
             </div>
