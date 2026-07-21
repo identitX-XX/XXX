@@ -7,6 +7,7 @@
 
 import {
   ArchetypeKey,
+  ClimatJour,
   EmotionKey,
   EtatEvolution,
   ReponseJour,
@@ -18,6 +19,7 @@ import {
   archetypeByKey,
   emotionByKey,
 } from "./archetypes";
+import { climatIndex } from "./climat";
 
 export interface Revelation {
   id: string; // stable : sert au feedback persistant
@@ -47,7 +49,8 @@ function estPositive(e: EmotionKey): boolean {
 
 export function genererRevelations(
   etat: EtatEvolution,
-  reponses: Record<number, ReponseJour>
+  reponses: Record<number, ReponseJour>,
+  climat: Record<number, ClimatJour> = {}
 ): Revelation[] {
   const H = etat.historique;
   const R = Object.values(reponses);
@@ -172,6 +175,38 @@ export function genererRevelations(
           force: Math.min(1, 0.44 + dpp / 200),
         });
       }
+    }
+  }
+
+  // 7) Ré-attribution : un creux de clarté qui coïncide avec un climat corporel
+  // agité. Le différenciateur éthique — « c'est le contexte, pas un échec ».
+  const climJours = Object.values(climat).sort((a, b) => a.jour - b.jour);
+  if (climJours.length >= 4) {
+    const cohBase = moyenne(H.map((h) => h.coherence));
+    const recents = climJours.slice(-5);
+    const turbRecent = moyenne(recents.map(climatIndex));
+    const cohRecent = moyenne(
+      recents
+        .map((c) => H.find((h) => h.jour === c.jour)?.coherence)
+        .filter((x): x is number => x != null)
+    );
+    if (cohRecent > 0 && turbRecent >= 52 && cohRecent <= cohBase - 6) {
+      revs.push({
+        id: "reattribution",
+        kind: "climat",
+        titre:
+          "Tes derniers jours plus flous coïncident avec un climat corporel plus agité. Ce n'est pas un manque de ta part — c'est le contexte.",
+        preuve: `Climat moyen ${Math.round(turbRecent)}/100 (agité) sur tes derniers jours notés · clarté ${Math.round(cohRecent)} contre ${Math.round(cohBase)} d'habitude.`,
+        force: Math.min(1, 0.55 + (turbRecent - 52) / 100 + (cohBase - cohRecent) / 100),
+      });
+    } else if (cohRecent > 0 && turbRecent < 38 && cohRecent >= cohBase + 5) {
+      revs.push({
+        id: "climat-apaise",
+        kind: "climat",
+        titre: "Ton climat s'apaise, et ta clarté remonte avec lui.",
+        preuve: `Climat moyen ${Math.round(turbRecent)}/100 (apaisé) · clarté ${Math.round(cohRecent)} contre ${Math.round(cohBase)} d'habitude.`,
+        force: Math.min(1, 0.5 + (cohRecent - cohBase) / 100),
+      });
     }
   }
 

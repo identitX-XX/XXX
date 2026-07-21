@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { ArrowRight, Flame } from "lucide-react";
-import { Card, PageHead } from "@/components/ui";
+import { Card, PageHead, Slider } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
+import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 
 // Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
 // jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
@@ -231,7 +233,75 @@ export default function AujourdhuiPage() {
         </div>
       )}
 
+      <ClimatCard jour={n} />
+
       <SecondPlan prog={prog} />
+    </div>
+  );
+}
+
+// Couche « climat & corps » (optionnelle, locale) : un relevé rapide qui, une
+// fois quelques jours notés, nourrit la ré-attribution (« c'est le contexte,
+// pas un échec »). Trois curseurs, aucune injonction, rien de médical.
+function ClimatCard({ jour }: { jour: number }) {
+  const climat = useParcoursStore((s) => s.climat);
+  const noter = useParcoursStore((s) => s.noterClimat);
+  const existing = climat[jour];
+
+  const [edit, setEdit] = useState(false);
+  const [sommeil, setSommeil] = useState(existing?.sommeil ?? 60);
+  const [energie, setEnergie] = useState(existing?.energie ?? 55);
+  const [vagues, setVagues] = useState(existing?.vagues ?? 20);
+
+  const save = () => {
+    noter({ jour, date: new Date().toISOString(), sommeil, energie, vagues });
+    setEdit(false);
+  };
+
+  if (existing && !edit) {
+    const idx = climatIndex(existing);
+    return (
+      <div className="mt-4 animate-fade-up">
+        <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+              Climat du jour · {climatLabel(idx)}
+            </div>
+            <p className="mt-1 max-w-md text-sm text-muted">{climatPhrase(idx)}</p>
+          </div>
+          <button
+            onClick={() => setEdit(true)}
+            className="flex-none self-start rounded-full border border-line px-4 py-2 text-xs text-muted transition-colors hover:border-fuchsia hover:text-fuchsia sm:self-auto"
+          >
+            Réajuster
+          </button>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 animate-fade-up">
+      <Card className="p-5 sm:p-6">
+        <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+          Climat &amp; corps · optionnel
+        </div>
+        <p className="mt-1 text-sm text-muted">
+          Un relevé rapide de ton terrain du jour. Il reste sur ton appareil et
+          sert à remettre tes journées en contexte — jamais un diagnostic.
+        </p>
+        <div className="mt-5 grid gap-4 sm:grid-cols-3">
+          <Slider label="Sommeil" value={sommeil} onChange={setSommeil} />
+          <Slider label="Énergie" value={energie} onChange={setEnergie} />
+          <Slider label="Vagues / bouffées" value={vagues} onChange={setVagues} />
+        </div>
+        <button
+          onClick={save}
+          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white"
+        >
+          Enregistrer mon climat
+        </button>
+      </Card>
     </div>
   );
 }

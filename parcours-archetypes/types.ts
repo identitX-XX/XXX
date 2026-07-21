@@ -144,6 +144,17 @@ export interface Objectifs {
   relationnel: string;
 }
 
+// Couche « climat & corps » (dimension COR du twin). Optionnelle, locale.
+// Sert la RÉ-ATTRIBUTION : relier un creux de clarté à un climat corporel
+// agité — « c'est le contexte, pas un échec ». Jamais un diagnostic médical.
+export interface ClimatJour {
+  jour: number;
+  date: string; // ISO
+  sommeil: number; // 0..100 — qualité ressentie
+  energie: number; // 0..100 — énergie physique
+  vagues: number; // 0..100 — intensité des vagues / bouffées / volatilité (0 = calme)
+}
+
 // --- Constantes réglables du moteur ----------------------------------------
 
 export interface ReglagesEvolution {
