@@ -105,19 +105,19 @@ export const PHASES: Phase[] = [
     key: "revelation",
     label: "Révélation",
     jours: [1, 8],
-    intention: "Laisser paraître les lentilles qui te viennent le plus naturellement.",
+    intention: "Laisser paraître les archétypes qui te viennent le plus naturellement.",
   },
   {
     key: "exploration",
     label: "Exploration",
     jours: [9, 16],
-    intention: "Essayer des lentilles moins familières, dans d'autres sphères que d'habitude.",
+    intention: "Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude.",
   },
   {
     key: "tension",
     label: "Tension",
     jours: [17, 24],
-    intention: "Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent.",
+    intention: "Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent.",
   },
   {
     key: "metamorphose",

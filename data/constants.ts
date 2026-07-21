@@ -32,7 +32,7 @@ export const NAV = [
   { href: "/parcours", label: "Quête IdentitX" },
   { href: "/parcours-archetypes", label: "12 Archétypes" },
   { href: "/explorer", label: "Explorer" },
-  { href: "/timeline", label: "Ligne de vie" },
+  { href: "/progression", label: "Progression" },
   { href: "/dna", label: "ADN personnel" },
   { href: "/coach", label: "Coach IA" },
   { href: "/journal", label: "Journal" },

@@ -12,7 +12,7 @@
           "id": "j1-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 1 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 1 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j1-lentille",
@@ -81,7 +81,7 @@
           "id": "j2-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 2 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 2 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j2-lentille",
@@ -150,7 +150,7 @@
           "id": "j3-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 3 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 3 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j3-lentille",
@@ -219,7 +219,7 @@
           "id": "j4-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 4 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 4 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j4-lentille",
@@ -288,7 +288,7 @@
           "id": "j5-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 5 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 5 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j5-lentille",
@@ -357,7 +357,7 @@
           "id": "j6-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 6 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 6 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j6-lentille",
@@ -426,7 +426,7 @@
           "id": "j7-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 7 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 7 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j7-lentille",
@@ -495,7 +495,7 @@
           "id": "j8-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 8 · phase « Révélation ». Laisser paraître les lentilles qui te viennent le plus naturellement."
+          "texte": "Jour 8 · phase « Révélation ». Laisser paraître les archétypes qui te viennent le plus naturellement."
         },
         {
           "id": "j8-lentille",
@@ -564,7 +564,7 @@
           "id": "j9-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 9 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 9 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j9-lentille",
@@ -633,7 +633,7 @@
           "id": "j10-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 10 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 10 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j10-lentille",
@@ -702,7 +702,7 @@
           "id": "j11-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 11 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 11 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j11-lentille",
@@ -771,7 +771,7 @@
           "id": "j12-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 12 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 12 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j12-lentille",
@@ -840,7 +840,7 @@
           "id": "j13-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 13 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 13 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j13-lentille",
@@ -909,7 +909,7 @@
           "id": "j14-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 14 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 14 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j14-lentille",
@@ -978,7 +978,7 @@
           "id": "j15-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 15 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 15 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j15-lentille",
@@ -1047,7 +1047,7 @@
           "id": "j16-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 16 · phase « Exploration ». Essayer des lentilles moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Jour 16 · phase « Exploration ». Essayer des archétypes moins familiers, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j16-lentille",
@@ -1116,7 +1116,7 @@
           "id": "j17-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 17 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 17 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j17-lentille",
@@ -1185,7 +1185,7 @@
           "id": "j18-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 18 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 18 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j18-lentille",
@@ -1254,7 +1254,7 @@
           "id": "j19-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 19 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 19 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j19-lentille",
@@ -1323,7 +1323,7 @@
           "id": "j20-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 20 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 20 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j20-lentille",
@@ -1392,7 +1392,7 @@
           "id": "j21-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 21 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 21 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j21-lentille",
@@ -1461,7 +1461,7 @@
           "id": "j22-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 22 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 22 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j22-lentille",
@@ -1530,7 +1530,7 @@
           "id": "j23-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 23 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 23 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j23-lentille",
@@ -1599,7 +1599,7 @@
           "id": "j24-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 24 · phase « Tension ». Rencontrer les frictions : quand deux lentilles, ou une lentille et un contexte, se contredisent."
+          "texte": "Jour 24 · phase « Tension ». Rencontrer les frictions : quand deux archétypes, ou un archétype et un contexte, se contredisent."
         },
         {
           "id": "j24-lentille",

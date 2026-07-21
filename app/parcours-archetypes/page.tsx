@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { PageHead } from "@/components/ui";
+import { DayStrip } from "@/components/DayStrip";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
 import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { JourView } from "@/parcours-archetypes/components/JourView";
@@ -79,63 +80,6 @@ export default function ParcoursArchetypesPage() {
       <Dashboard />
       </>
       )}
-    </div>
-  );
-}
-
-function DayStrip({
-  jourCourant,
-  selected,
-  reponses,
-  onSelect,
-}: {
-  jourCourant: number;
-  selected: number;
-  reponses: Record<number, unknown>;
-  onSelect: (n: number) => void;
-}) {
-  return (
-    <div className="mb-8">
-      <div className="mb-2 text-xs uppercase tracking-wider text-muted">
-        Tes 30 jours · clique pour revoir une journée
-      </div>
-      <div className="flex flex-wrap gap-1.5">
-        {Array.from({ length: 30 }).map((_, i) => {
-          const n = i + 1;
-          const done = Boolean(reponses[n]);
-          const current = n === jourCourant;
-          const locked = n > jourCourant;
-          const isSel = n === selected;
-          return (
-            <button
-              key={n}
-              onClick={() => !locked && onSelect(n)}
-              disabled={locked}
-              aria-current={isSel}
-              title={
-                locked
-                  ? `Jour ${n} — à venir`
-                  : done
-                  ? `Jour ${n} — revoir`
-                  : `Jour ${n} — aujourd'hui`
-              }
-              className={[
-                "h-8 w-8 rounded-lg text-xs font-medium transition-all",
-                isSel ? "ring-2 ring-fuchsia ring-offset-2 ring-offset-noir" : "",
-                done
-                  ? "brand-gradient text-white"
-                  : current
-                  ? "border border-fuchsia text-fuchsia"
-                  : locked
-                  ? "border border-line text-muted opacity-40"
-                  : "border border-line text-muted hover:border-fuchsia hover:text-fuchsia",
-              ].join(" ")}
-            >
-              {n}
-            </button>
-          );
-        })}
-      </div>
     </div>
   );
 }
