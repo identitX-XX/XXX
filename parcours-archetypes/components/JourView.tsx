@@ -51,6 +51,7 @@ export function JourView({
     reponse ? reponse.intensiteDefi : 40
   );
   const [note, setNote] = useState(reponse ? reponse.note : "");
+  const [closed, setClosed] = useState<ReponseJour | null>(null);
 
   const sectionsByKind = useMemo(
     () => Object.fromEntries(jour.sections.map((s) => [s.kind, s])),
@@ -76,9 +77,53 @@ export function JourView({
       note,
       date: new Date().toISOString(),
     };
-    repondreJour(r);
-    onClose?.(r);
+    repondreJour(r); // historise la journée (reponses + snapshot d'évolution)
+    setClosed(r); // → écran de feedback avant d'avancer
   };
+
+  // Feedback de clôture : la journée vient d'être enregistrée.
+  if (closed) {
+    const emoLabels = EMOTIONS.filter((e) => closed.emotions.includes(e.key)).map((e) => e.label);
+    return (
+      <div style={{ maxWidth: 560, margin: "0 auto", fontFamily: sans, color: INK, textAlign: "center", paddingTop: 24 }}>
+        <div
+          style={{
+            width: 56, height: 56, borderRadius: "50%", margin: "0 auto 18px",
+            display: "grid", placeItems: "center", color: "#fff", fontSize: 26,
+            background: `linear-gradient(135deg, ${FUCHSIA}, ${ORANGE})`,
+          }}
+        >
+          ✓
+        </div>
+        <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
+          Jour {jour.n} · clos
+        </div>
+        <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 30, margin: "8px 0 10px", color: INK }}>
+          Journée enregistrée
+        </h1>
+        <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.6, margin: "0 auto", maxWidth: 420 }}>
+          Ce que tu as vécu avec <strong style={{ color: INK }}>{a.name}</strong> est conservé.
+          Tu pourras y revenir à tout moment depuis ta <strong style={{ color: INK }}>Progression</strong>.
+          Ce soir, la matrice respire ; demain rebat les cartes.
+        </p>
+        {emoLabels.length > 0 && (
+          <div style={{ marginTop: 14, fontSize: 13, color: MUTED }}>
+            Émotions du jour : <span style={{ color: INK }}>{emoLabels.join(" · ")}</span>
+          </div>
+        )}
+        <button
+          onClick={() => onClose?.(closed)}
+          style={{
+            marginTop: 26, padding: "14px 28px", borderRadius: 999, border: "none",
+            color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer",
+            background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+          }}
+        >
+          {jour.n < 30 ? "Continuer vers demain →" : "Voir mon bilan →"}
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div style={{ maxWidth: 640, margin: "0 auto", fontFamily: sans, color: INK }}>
