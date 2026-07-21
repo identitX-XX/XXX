@@ -3,6 +3,9 @@
 import { Emblem } from "./Emblem";
 import { ConstellationBg } from "./ConstellationBg";
 
+// Écran d'accueil = première impression, donc surface de conversion n°1.
+// On y vend la transformation (le résultat), pas les fonctionnalités : promesse
+// claire, trois piliers de valeur, une réassurance, un seul CTA confiant.
 export function Welcome({ onStart }: { onStart: () => void }) {
   const mask =
     "radial-gradient(ellipse 62% 62% at 50% 46%, black 42%, rgba(0,0,0,.55) 60%, transparent 76%)";
@@ -56,10 +59,10 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           style={{
             fontFamily: "var(--font-fraunces),serif",
             fontWeight: 500,
-            fontSize: 19,
+            fontSize: 18,
             letterSpacing: ".16em",
             textTransform: "uppercase",
-            marginBottom: 18,
+            marginBottom: 22,
           }}
         >
           Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
@@ -67,16 +70,16 @@ export function Welcome({ onStart }: { onStart: () => void }) {
 
         <div
           role="img"
-          aria-label="Portrait — Marina"
+          aria-label="Portrait"
           style={{
-            width: "min(76vw, 280px)",
+            width: "min(58vw, 190px)",
             aspectRatio: "1 / 1",
             backgroundImage: "url('/hero.jpg%20.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
             WebkitMaskImage: mask,
             maskImage: mask,
-            marginBottom: 10,
+            marginBottom: 6,
             animation: "idx-breathe 8s ease-in-out infinite",
           }}
         />
@@ -85,13 +88,14 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           style={{
             fontFamily: "var(--font-fraunces),serif",
             fontWeight: 400,
-            fontSize: "clamp(28px,7.4vw,52px)",
-            lineHeight: 1.08,
+            fontSize: "clamp(30px,7.2vw,50px)",
+            lineHeight: 1.06,
             letterSpacing: "-.01em",
-            margin: "8px 0 0",
+            margin: "6px 0 0",
+            maxWidth: 620,
           }}
         >
-          Bienvenue dans{" "}
+          Un scénario clair,{" "}
           <span
             style={{
               background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
@@ -100,7 +104,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
               color: "transparent",
             }}
           >
-            IdentitX
+            aligné sur qui tu es.
           </span>
         </h1>
 
@@ -111,69 +115,100 @@ export function Welcome({ onStart }: { onStart: () => void }) {
             fontSize: 17,
             lineHeight: 1.5,
             color: "var(--muted)",
-            maxWidth: 420,
+            maxWidth: 440,
             margin: "18px 0 0",
           }}
         >
-          Explore ta constellation identitaire — et transforme-la en trajectoire.
+          En 30 jours, transforme tes objectifs dispersés — perso, pro,
+          relationnel — en une trajectoire nette.
         </p>
 
+        {/* Trois piliers de valeur : ce que l'utilisateur repart avec. */}
         <div
           style={{
-            marginTop: 28,
-            maxWidth: 420,
+            marginTop: 30,
+            maxWidth: 460,
             width: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
             gap: 10,
-            padding: "20px 18px",
-            background:
-              "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.5), rgba(10,9,13,0) 100%)",
-            borderRadius: 20,
           }}
         >
-          {["Moi", "Marina", "Origine X", "Optimiste"].map((t, i) => (
-            <span
-              key={t}
+          {[
+            { i: "🧭", t: "Ton archétype", s: "révélé en 12 questions" },
+            { i: "📅", t: "30 jours guidés", s: "une capsule, ≈ 4 min/jour" },
+            { i: "✨", t: "Ton scénario", s: "3 sorties activables" },
+          ].map((p) => (
+            <div
+              key={p.t}
               style={{
-                fontSize: 11,
-                letterSpacing: ".26em",
-                textTransform: "uppercase",
-                color: i % 2 === 0 ? "var(--orange)" : "var(--ink)",
-                padding: "8px 14px",
-                background: "rgba(255,138,76,.08)",
-                borderRadius: 999,
+                padding: "16px 10px",
+                borderRadius: 16,
+                border: "1px solid var(--line)",
+                background:
+                  "radial-gradient(130% 130% at 50% 0%, rgba(255,255,255,.04), rgba(255,255,255,0) 100%)",
               }}
             >
-              {t}
-            </span>
+              <div style={{ fontSize: 22, lineHeight: 1 }}>{p.i}</div>
+              <div
+                style={{
+                  marginTop: 8,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "var(--ink)",
+                }}
+              >
+                {p.t}
+              </div>
+              <div style={{ marginTop: 3, fontSize: 11, color: "var(--muted)" }}>
+                {p.s}
+              </div>
+            </div>
           ))}
         </div>
 
-        <div style={{ margin: "30px 0 6px" }}>
-          <Emblem size={78} />
+        {/* Réassurance : le local-first est un argument, pas un détail. */}
+        <div
+          style={{
+            marginTop: 18,
+            fontSize: 12,
+            color: "var(--muted)",
+            display: "flex",
+            alignItems: "center",
+            gap: 7,
+          }}
+        >
+          <span aria-hidden="true">🔒</span>
+          100 % local — rien ne quitte ton appareil.
+        </div>
+
+        <div style={{ margin: "26px 0 4px" }}>
+          <Emblem size={64} />
         </div>
 
         <button
           onClick={onStart}
           style={{
-            marginTop: 20,
-            background: "var(--fuchsia)",
-            color: "var(--noir)",
+            marginTop: 16,
+            background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
+            color: "#fff",
             border: "none",
-            borderRadius: 14,
+            borderRadius: 999,
             cursor: "pointer",
             fontFamily: "var(--font-inter),'Outfit',sans-serif",
-            fontWeight: 500,
-            fontSize: 13,
-            letterSpacing: ".22em",
-            textTransform: "uppercase",
-            padding: "17px 32px",
+            fontWeight: 600,
+            fontSize: 15,
+            letterSpacing: ".01em",
+            padding: "16px 34px",
+            boxShadow: "0 10px 40px -12px var(--fuchsia)",
           }}
         >
-          Continuer →
+          Commencer ma quête →
         </button>
+
+        <div style={{ marginTop: 14, fontSize: 11.5, color: "var(--muted)" }}>
+          Accès sur invitation · tes journées déjà vécues t'attendent.
+        </div>
       </main>
     </div>
   );
