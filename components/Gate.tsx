@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-const GATE_KEY = "identitx-gate";
+// Clé versionnée : la bumper invalide tous les accès mémorisés → chacun doit
+// ressaisir le code. À incrémenter à chaque rotation du GATE_CODE (Vercel).
+const GATE_KEY = "identitx-gate-2";
 
 export function Gate({ children }: { children: React.ReactNode }) {
   const [unlocked, setUnlocked] = useState(false);
