@@ -60,7 +60,7 @@ export function Diagnostic() {
 
         <div style={{ ...card, marginTop: 12 }}>
           <div style={{ fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
-            En appui
+            Secondaire
           </div>
           <div style={{ fontFamily: serif, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14, lineHeight: 1.5 }}>{sec.lens}</p>
