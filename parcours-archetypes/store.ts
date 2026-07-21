@@ -6,6 +6,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import parcoursData from "./parcours.json";
 import {
+  ClimatJour,
   Diagnostic,
   EtatEvolution,
   Objectifs,
@@ -30,6 +31,8 @@ interface StoreParcours {
   // Retour de l'utilisatrice sur les révélations (anti-Barnum) : « oui, ça me
   // parle » ou « non » → une révélation infirmée est écartée et pénalisée.
   revelationsFeedback: Record<string, "oui" | "non">;
+  // Couche climat & corps (optionnelle), un relevé par jour de parcours.
+  climat: Record<number, ClimatJour>;
 
   // Reçoit le résultat de l'écran-miroir amont, régénère le parcours sur mesure
   // (J1 = dominant, J30 = La Métamorphe) et amorce la matrice.
@@ -44,6 +47,9 @@ interface StoreParcours {
   // Note une révélation (« oui » / « non ») — boucle de recalibration.
   noterRevelation: (id: string, v: "oui" | "non") => void;
 
+  // Enregistre le climat & corps du jour.
+  noterClimat: (c: ClimatJour) => void;
+
   // Réinitialise tout (garde le parcours de base généré).
   reinitialiser: () => void;
 }
@@ -57,6 +63,7 @@ export const useParcoursStore = create<StoreParcours>()(
       reponses: {},
       etat: etatDepart(),
       revelationsFeedback: {},
+      climat: {},
 
       initialiserParcours: (diag) =>
         set({
@@ -65,6 +72,7 @@ export const useParcoursStore = create<StoreParcours>()(
           reponses: {},
           etat: initialiser(diag),
           revelationsFeedback: {},
+          climat: {},
         }),
 
       definirObjectifs: (o) => set({ objectifs: o }),
@@ -82,6 +90,8 @@ export const useParcoursStore = create<StoreParcours>()(
       noterRevelation: (id, v) =>
         set({ revelationsFeedback: { ...get().revelationsFeedback, [id]: v } }),
 
+      noterClimat: (c) => set({ climat: { ...get().climat, [c.jour]: c } }),
+
       reinitialiser: () =>
         set({
           diagnostic: null,
@@ -92,6 +102,7 @@ export const useParcoursStore = create<StoreParcours>()(
           reponses: {},
           etat: etatDepart(),
           revelationsFeedback: {},
+          climat: {},
         }),
     }),
     {

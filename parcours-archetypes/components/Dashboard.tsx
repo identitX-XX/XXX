@@ -141,10 +141,11 @@ export function Dashboard() {
 function Revelations() {
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
+  const climat = useParcoursStore((s) => s.climat);
   const feedback = useParcoursStore((s) => s.revelationsFeedback);
   const noter = useParcoursStore((s) => s.noterRevelation);
 
-  const toutes = genererRevelations(etat, reponses);
+  const toutes = genererRevelations(etat, reponses, climat);
   const visibles = toutes.filter((r) => feedback[r.id] !== "non").slice(0, 3);
   if (visibles.length === 0) return null;
 
