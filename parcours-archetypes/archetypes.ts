@@ -178,8 +178,18 @@ export const ARCHETYPES: Archetype[] = [
   {
     key: "metamorphe",
     name: "La Métamorphe",
-    lens: "Observe ce qui, en toi, ne cesse de se transformer — et se refuse à toute étiquette.",
+    lens: "Observe ce qui, en toi, ne trouve plus naturellement sa place. Certaines façons d'être ne disparaissent pas parce qu'elles étaient erronées ; elles deviennent simplement trop étroites pour contenir la personne que tu es en train de devenir. Aujourd'hui, porte moins ton attention sur ce que tu cherches à acquérir que sur ce que la vie t'invite peut-être à laisser derrière toi.",
     hue: 190,
+    essence:
+      "Le Métamorphe ne cherche pas à devenir quelqu'un d'autre. Son mouvement profond consiste à permettre à l'identité de continuer à évoluer sans rester prisonnière de ses propres réussites, de ses blessures ou de ses anciennes définitions. Il comprend que toute existence traverse des seuils où ce qui nous a longtemps protégés cesse progressivement de nous faire grandir. La métamorphose n'efface pas le passé ; elle l'intègre dans une organisation plus vaste. Ce qui change n'est pas seulement ce que tu fais, mais la manière dont tu te racontes, dont tu habites le temps et dont tu reconnais ce qui, en toi, demeure vivant malgré les transformations. Devenir ne consiste pas à accumuler des versions de soi, mais à laisser émerger une cohérence toujours plus profonde.",
+    force:
+      "Lorsque cette dynamique circule librement, tu développes une relation paisible au changement. Tu n'as plus besoin de défendre avec acharnement les identités qui t'ont construit, car tu reconnais qu'elles ont rempli leur fonction avant de devenir des étapes. Tu accueilles les transitions non comme des ruptures, mais comme des réorganisations du vivant. Les pertes cessent d'être uniquement des fins ; elles deviennent aussi des espaces où de nouvelles possibilités peuvent apparaître. Cette souplesse transforme ta manière d'agir, de choisir et d'aimer. Tu acceptes de ne plus toujours te reconnaître dans les récits anciens, parce que tu découvres que la fidélité la plus profonde ne consiste pas à rester identique, mais à demeurer en accord avec ce qui cherche aujourd'hui à prendre vie. Tu comprends alors que l'identité n'est pas une destination. Elle est un mouvement d'intégration qui ne cesse jamais de se réinventer.",
+    ombre:
+      "Toute capacité de transformation porte cependant un risque. À force d'aimer le changement, tu peux finir par confondre évolution et mouvement permanent. Tu quittes avant d'habiter, tu recommences avant d'approfondir, tu cherches une nouvelle version de toi dès que l'inconfort apparaît. L'identité devient alors un projet sans cesse renouvelé plutôt qu'un lieu où l'expérience peut lentement se déposer. À l'inverse, il arrive aussi que tu résistes à une métamorphose devenue nécessaire parce qu'elle exige le deuil d'une image de toi qui t'a longtemps permis d'exister. Dans les deux cas, le vivant ralentit. Soit parce qu'il ne trouve jamais le temps de s'enraciner, soit parce qu'il demeure attaché à une forme qui ne peut plus le contenir. La métamorphose demande autant le courage de changer que celui de laisser chaque transformation produire ses propres racines.",
+    question:
+      "Quelle identité continues-tu de protéger avec le plus de soin… alors qu'elle t'a déjà offert tout ce qu'elle pouvait t'apprendre, et qu'elle attend peut-être désormais d'être honorée en étant doucement laissée derrière toi ?",
+    defi:
+      "Aujourd'hui, complète cette phrase sans chercher à être cohérent : « Je ne suis plus obligé(e) d'être la personne qui… ». Écris la première réponse qui vient. Puis reste deux minutes avec cette seule phrase, sans chercher à la corriger ni à l'expliquer. Observe ce qui s'ouvre lorsque tu autorises une ancienne définition de toi-même à perdre silencieusement son évidence.",
   },
 ];
 
