@@ -87,6 +87,20 @@ textarea {
   outline: none;
 }
 
+/* Accessibilité : anneau de focus net et cohérent au clavier, invisible à la
+   souris. */
+:focus-visible {
+  outline: 2px solid var(--fuchsia);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Défilement doux entre ancres (désactivé si l'utilisateur préfère moins de
+   mouvement — voir le garde-fou plus bas). */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Constellation emblem / background animations (centralized — were inlined
    per-screen via <style> tags in Gate, Welcome, CoachIA, JournalFusion, Synthese). */
 @keyframes idx-spin {
@@ -105,6 +119,9 @@ textarea {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
   *,
   *::before,
   *::after {
