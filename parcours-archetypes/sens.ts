@@ -181,5 +181,5 @@ export function calculerDiagnostic(
   const dominant = scores[0]?.a ?? "explorateur";
   const secondaire =
     scores.find((s) => s.a !== dominant)?.a ?? "sage";
-  return { dominant, secondaire };
+  return { dominant, secondaire, tally: brut as Diagnostic["tally"] };
 }

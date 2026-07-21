@@ -8,6 +8,7 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
+import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
 
 // Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
 // jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
@@ -92,6 +93,10 @@ export default function AujourdhuiPage() {
         title={salut.titre}
         sub="Une seule chose compte : vivre ta journée. Le reste peut attendre."
       />
+
+      {/* Time-to-aha : avant même d'avoir vécu un jour, une première lecture
+          sourcée sur tes réponses. Disparaît dès la première journée close. */}
+      {prog.faits === 0 && <PremiereLecture />}
 
       {/* Célébration de cap : reste affichée tant qu'on est pile sur un jalon
           (7/14/21) — la fenêtre de célébration, jusqu'à la journée suivante. */}
@@ -236,6 +241,42 @@ export default function AujourdhuiPage() {
       <ClimatCard jour={n} />
 
       <SecondPlan prog={prog} />
+    </div>
+  );
+}
+
+// « Ta première lecture » : l'aha du jour 1, sourcé sur ses vraies réponses.
+function PremiereLecture() {
+  const diagnostic = useParcoursStore((s) => s.diagnostic);
+  const objectifs = useParcoursStore((s) => s.objectifs);
+  if (!diagnostic) return null;
+
+  const pl = premiereLecture(diagnostic, objectifs);
+  return (
+    <div
+      className="mb-4 rounded-2xl border p-6 animate-fade-up"
+      style={{
+        borderColor: "color-mix(in srgb, var(--fuchsia) 32%, transparent)",
+        background:
+          "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
+      }}
+    >
+      <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+        Ta première lecture · à vérifier sur 30 jours
+      </div>
+      <h2 className="mt-1 font-display text-xl font-light text-ink">{pl.titre}</h2>
+      <p className="mt-2 text-sm leading-relaxed text-muted">{pl.corps}</p>
+      <div className="mt-4 flex flex-col gap-2.5">
+        {pl.points.map((p, i) => (
+          <div key={i} className="flex gap-2.5 text-sm text-ink">
+            <span
+              className="mt-1.5 h-1.5 w-1.5 flex-none rounded-sm"
+              style={{ background: "linear-gradient(180deg,var(--fuchsia),var(--orange))" }}
+            />
+            <span className="leading-relaxed">{p}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
