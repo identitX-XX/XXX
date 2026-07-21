@@ -9,6 +9,7 @@ import { Welcome } from "./Welcome";
 
 import { Brand, NavList } from "./Sidebar";
 import { NextStep } from "./NextStep";
+import { JourneyBar } from "./JourneyBar";
 
 export function ClientShell({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -91,6 +92,7 @@ if (!onboarded && !started) return <Welcome onStart={() => setStarted(true)} />;
 
       <main className="px-5 py-8 lg:ml-64 lg:px-12 lg:py-12">
         <div className="mx-auto max-w-5xl">
+          <JourneyBar />
           {children}
           <NextStep />
         </div>
