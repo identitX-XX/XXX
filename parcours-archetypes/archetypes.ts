@@ -98,26 +98,66 @@ export const ARCHETYPES: Archetype[] = [
   {
     key: "batisseur",
     name: "Le·la Bâtisseur·se",
-    lens: "Observe où tu prends en charge la durée, l'ordre et le cap — pour toi et pour les autres.",
+    lens: "Observe ce à quoi tu consacres durablement ton énergie. Remarque ce qui résiste au temps parce que tu choisis, jour après jour, de lui offrir une place dans ta vie. Puis interroge ce qui, en toi, construit véritablement… et ce qui cherche parfois à édifier des certitudes pour se protéger de l'imprévisible.",
     hue: 210,
+    essence:
+      "Le Bâtisseur ne cherche pas seulement à accomplir ; il cherche à inscrire dans la durée ce qui possède une valeur suffisamment profonde pour mériter son engagement. Son mouvement consiste à transformer une intention en réalité vivante, non par la force, mais par la constance. Il comprend que toute œuvre durable naît moins de l'intensité d'un élan que de la fidélité quotidienne qui lui permet de prendre forme. Il ne confond pas vitesse et progression. Il accepte que certaines constructions exigent du temps parce qu'elles transforment progressivement celui qui les porte. Bâtir, c'est consentir à devenir la personne capable de soutenir ce que l'on souhaite voir exister.",
+    force:
+      "Lorsque cette dynamique circule librement, tu développes une relation apaisée au temps. Tu n'es plus gouverné par l'urgence de réussir ni par l'impatience de voir les résultats apparaître immédiatement. Tu discernes les gestes qui produisent des effets durables et tu leur accordes une attention régulière, même lorsqu'ils demeurent invisibles aux yeux des autres. Cette stabilité ne réduit pas ta créativité ; elle lui offre un terrain où s'incarner. Les idées cessent d'être de simples possibilités pour devenir des expériences vécues, capables de transformer ton existence et parfois celle des autres. Tu découvres que la véritable solidité n'est pas la rigidité. Elle réside dans une structure suffisamment vivante pour évoluer sans perdre sa cohérence. Les fondations ne sont pas des limites : elles rendent la croissance possible.",
+    ombre:
+      "Toute capacité à construire peut se transformer en besoin de contrôler. À force de rechercher la stabilité, tu peux finir par préférer ce qui est prévisible à ce qui est vivant. Les habitudes deviennent des forteresses, les responsabilités se multiplient et chaque changement semble menacer un équilibre patiemment construit. Il arrive aussi que tu mesures ta valeur à ce que tu produis ou à ce que tu maintiens debout. Le repos devient difficile, l'imperfection inquiétante et le lâcher-prise presque impensable. Peu à peu, l'œuvre que tu avais bâtie pour soutenir la vie risque d'exiger toute ton énergie afin d'être préservée. Ce qui devait offrir une assise devient alors une structure dont tu te sens prisonnier. Les murs continuent de tenir, mais ils empêchent parfois les fenêtres de s'ouvrir.",
+    question:
+      "Qu'es-tu en train de construire avec le plus de constance… et cette construction agrandit-elle encore ta vie, ou lui demandes-tu désormais de préserver une version de toi qui a déjà commencé à changer ?",
+    defi:
+      "Choisis aujourd'hui une action simple que tu repousses depuis plusieurs jours parce qu'elle te paraît trop modeste pour faire une différence. Consacre-lui deux minutes, sans chercher à la terminer. Observe ce qui se transforme lorsque tu cesses d'attendre un grand élan pour honorer une direction qui compte réellement.",
   },
   {
     key: "guerisseur",
     name: "Le·la Guérisseur·se",
-    lens: "Remarque où tu transformes la douleur — la tienne, celle d'autrui — en apaisement.",
+    lens: "Remarque ce qui, en toi, cherche moins à effacer les blessures qu'à leur donner une place où elles ne gouvernent plus silencieusement ton existence. Observe ce que tu apaises spontanément, chez toi comme chez les autres. Puis demande-toi si ce mouvement naît d'une présence véritable… ou du besoin que la douleur disparaisse au plus vite.",
     hue: 175,
+    essence:
+      "Le Guérisseur ne poursuit ni la perfection ni le retour à un état antérieur. Son mouvement profond consiste à permettre au vivant de retrouver sa capacité d'intégration lorsque l'expérience l'a fragmenté. Il sait que certaines blessures ne disparaissent pas ; elles changent de fonction lorsqu'elles cessent d'être le centre autour duquel toute l'identité s'organise. Guérir n'est pas oublier, encore moins effacer. C'est retrouver une continuité intérieure suffisamment vaste pour que la douleur ne soit plus le seul langage disponible. La transformation commence lorsque ce qui était figé retrouve la possibilité de circuler, d'être ressenti, compris puis doucement intégré à l'histoire de soi.",
+    force:
+      "Lorsque cette dynamique circule librement, tu développes une présence qui transforme davantage par sa qualité que par ses réponses. Tu ne cherches plus immédiatement à expliquer, réparer ou soulager. Tu offres un espace où ce qui semblait insupportable peut progressivement retrouver une forme de mouvement. Cette disponibilité agit d'abord sur toi. Tu apprends à accueillir tes propres émotions sans les considérer comme des défaillances à corriger. Tu découvres que la vulnérabilité n'est pas l'opposé de la solidité, mais l'une des conditions de sa construction. Peu à peu, les expériences cessent d'être divisées entre celles qu'il faudrait conserver et celles qu'il faudrait oublier. Elles deviennent les différentes expressions d'une même vie en transformation. La guérison apparaît alors moins comme un résultat que comme une manière nouvelle d'entrer en relation avec soi, avec les autres et avec le temps.",
+    ombre:
+      "Toute capacité à apaiser peut devenir une manière subtile d'éviter sa propre vulnérabilité. À force d'accompagner les blessures des autres, tu peux différer la rencontre avec les tiennes. Le soin devient alors une identité, parfois même une condition pour te sentir légitime ou indispensable. Tu peux également croire que toute souffrance appelle une intervention, alors que certaines expériences demandent avant tout une présence capable de supporter qu'elles suivent leur propre rythme. Peu à peu, réparer remplace rencontrer. Tu portes ce qui ne t'appartient plus, tu anticipes ce qui n'est pas encore advenu et tu t'épuises à maintenir des équilibres qui ne dépendent pas de toi. Ce qui devait libérer le vivant risque alors de le maintenir dans une dépendance discrète. La compassion se transforme en responsabilité excessive, et la générosité oublie parfois de revenir jusqu'à toi.",
+    question:
+      "Lorsque tu cherches à réparer ce qui souffre, quelle part de toi espère secrètement que, si tout autour de toi retrouve enfin son équilibre, certaines de tes propres blessures n'auront plus besoin d'être entendues ?",
+    defi:
+      "Aujourd'hui, lorsqu'une émotion inconfortable apparaît, résiste pendant deux minutes à l'envie de l'expliquer, de la résoudre ou de la faire disparaître. Accorde-lui simplement une présence calme. Observe ce qui change lorsque tu cesses de considérer ce qui est ressenti comme un problème à corriger et commences à l'accueillir comme une information sur ton expérience.",
   },
   {
     key: "joueur",
     name: "Le·la Joueur·se",
-    lens: "Observe où le jeu, la légèreté et l'humour te rendent à toi-même.",
+    lens: "Observe les moments où tu cesses de vouloir maîtriser chaque chose. Remarque ce qui devient possible lorsque la curiosité prend, même brièvement, la place du contrôle. Puis interroge ce que le sérieux protège parfois en toi… et ce que le jeu pourrait discrètement remettre en mouvement.",
     hue: 48,
+    essence:
+      "Le Joueur ne cherche pas à fuir la réalité ; il en explore les possibilités avec une liberté que la peur ignore souvent. Son mouvement profond consiste à créer un espace où l'erreur cesse d'être une menace pour redevenir une source de découverte. Il comprend que le vivant n'évolue pas seulement par l'effort, mais aussi par l'expérimentation. Jouer, ce n'est pas prendre les choses à la légère ; c'est accepter qu'elles puissent être approchées autrement. Dans cet espace où rien n'est encore définitivement fixé, l'imagination dialogue avec l'expérience, les habitudes perdent un instant leur évidence et de nouvelles manières d'être deviennent envisageables. Le jeu rappelle que toute transformation commence par une permission intérieure : celle d'essayer sans avoir déjà besoin de réussir.",
+    force:
+      "Lorsque cette dynamique circule librement, tu développes une souplesse qui transforme ta relation au monde. Les imprévus deviennent moins menaçants parce qu'ils cessent d'être immédiatement interprétés comme des obstacles. Tu explores avant de conclure, tu expérimentes avant de juger, tu accueilles l'incertitude comme un espace d'apprentissage plutôt que comme une faille à combler. Cette disposition nourrit également ta créativité et tes relations. Les échanges gagnent en spontanéité, les idées circulent plus librement et les solutions apparaissent souvent là où la rigidité ne voyait qu'une impasse. Tu découvres que la légèreté n'est pas l'absence de profondeur ; elle est parfois la forme la plus subtile de l'intelligence. En relâchant momentanément la nécessité d'avoir raison, tu retrouves la capacité de découvrir.",
+    ombre:
+      "Toute liberté peut cependant devenir une manière d'éviter l'engagement. Le jeu perd alors sa fonction d'exploration pour devenir une stratégie d'évitement. Tu passes d'une possibilité à une autre sans leur laisser le temps de mûrir. L'humour masque ce qui demanderait à être nommé, l'ironie protège d'une implication plus profonde et la légèreté devient un refuge contre le risque d'être réellement touché. Il arrive aussi que tu recherches sans cesse la nouveauté afin de ne jamais rencontrer l'inconfort de la répétition, alors que certaines transformations exigent précisément de demeurer assez longtemps au même endroit. Ce qui devait ouvrir le champ des possibles peut alors disperser ton énergie. Le mouvement demeure, mais la profondeur se dérobe.",
+    question:
+      "À quel moment as-tu commencé à croire que grandir exigeait de devenir plus sérieux… et que perdrais-tu réellement si tu t'autorisais de nouveau à explorer avant de maîtriser ?",
+    defi:
+      "Aujourd'hui, choisis une action ordinaire que tu accomplis chaque jour. Pendant deux minutes, réalise-la autrement : change ton rythme, ton ordre, ton regard ou ta manière de faire. N'essaie pas d'être plus efficace. Observe simplement ce que cette variation révèle de tes automatismes et de la liberté qui existe encore à l'intérieur d'eux.",
   },
   {
     key: "passeur",
     name: "Le·la Passeur·se",
-    lens: "Vois ce que tu te sens appelé·e à transmettre, et à qui tu ouvres un passage.",
+    lens: "Observe ce que tu transmets sans toujours en avoir conscience. Remarque les expériences, les idées, les gestes ou les silences qui continuent leur chemin à travers toi. Puis interroge-toi : ce que tu donnes naît-il d'un désir d'être reconnu… ou de la conviction intime que certaines richesses ne prennent tout leur sens qu'en étant partagées ?",
     hue: 95,
+    essence:
+      "Le Passeur ne cherche pas à laisser une empreinte ; il veille à ce que ce qui l'a profondément transformé puisse continuer de vivre au-delà de lui. Son mouvement profond consiste à relier ce qui semblait séparé : les générations, les savoirs, les expériences, les sensibilités, les mondes intérieurs. Il comprend que toute connaissance demeure inachevée tant qu'elle ne devient pas relation. Transmettre n'est pas reproduire. C'est accueillir un héritage, le laisser se transformer au contact de sa propre existence, puis l'offrir à nouveau sous une forme capable d'éclairer quelqu'un d'autre. Le Passeur ne conserve pas le vivant ; il accompagne sa circulation.",
+    force:
+      "Lorsque cette dynamique circule librement, tu développes une capacité rare : celle de rendre les choses complexes profondément accessibles sans les appauvrir. Tu écoutes avant de parler, tu cherches moins à convaincre qu'à faire émerger une compréhension chez l'autre. Ce que tu transmets ne s'impose jamais ; cela ouvre un espace où chacun peut construire son propre sens. Tu découvres que la véritable transmission ne consiste pas à reproduire fidèlement ce que tu sais, mais à éveiller chez l'autre une intelligence qui lui appartient déjà. Tu deviens alors un lien plutôt qu'un centre, un seuil plutôt qu'une destination. Ce qui circule à travers toi continue d'évoluer sans avoir besoin de te ressembler.",
+    ombre:
+      "Toute vocation à transmettre peut discrètement se transformer en besoin d'être indispensable. Tu peux finir par croire que les autres ont besoin de toi pour avancer, ou mesurer la valeur de ce que tu apportes à la reconnaissance que tu reçois en retour. Il arrive également que tu transmettes davantage des réponses que des questions, des certitudes que des chemins, des héritages que tu n'as pas encore pleinement examinés. La transmission cesse alors d'être un passage ; elle devient une répétition. Ce qui devait faire circuler le vivant risque de le figer. Tu portes un flambeau sans toujours remarquer que la lumière demande parfois à changer de direction pour continuer d'éclairer.",
+    question:
+      "Que souhaites-tu réellement transmettre… un savoir, une manière de regarder le monde, ou la liberté pour chacun de découvrir un chemin qui ne ressemblera peut-être jamais au tien ?",
+    defi:
+      "Aujourd'hui, partage avec une personne une expérience qui t'a profondément transformé, sans lui dire ce qu'elle devrait en faire. Contente-toi de raconter ce qui a changé ton regard. Puis observe ce qui naît lorsque tu transmets sans chercher à orienter la manière dont l'autre recevra ce que tu lui offres.",
   },
   {
     key: "reveur",
