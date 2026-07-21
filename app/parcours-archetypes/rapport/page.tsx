@@ -36,7 +36,7 @@ export default function RapportPage() {
       <PageHead
         eyebrow="Rapport"
         title="Tes 3 scénarios de sortie"
-        sub="Trois voies concrètes, une par périmètre, éclairées par tes 30 jours. Active celle qui te parle — elle devient ton plan."
+        sub="Tes objectifs dispersés, ramenés à un scénario clair et aligné : trois voies concrètes, une par périmètre, éclairées par tes 30 jours. Active celle qui te parle — elle devient ton plan."
       />
 
       <Link
