@@ -57,7 +57,7 @@ function ParcoursContent() {
       <PageHead
         eyebrow="Module"
         title="Parcours des 12 archétypes"
-        sub="30 jours, 12 archétypes, 5 sphères. Ton archétype n'est jamais une étiquette : il se lit autrement selon les contextes — et il respire, jamais figé."
+        sub="30 jours, 12 archétypes, 5 sphères. Ton archétype n'est pas une étiquette : il se lit autrement selon les contextes, et respire au fil des jours."
       />
 
       <Link

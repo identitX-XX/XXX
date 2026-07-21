@@ -52,12 +52,12 @@ export default function ProgressionPage() {
         <PageHead
           eyebrow="Avancement"
           title="Ta progression"
-          sub="Ton avancement sur 30 jours apparaîtra ici, une fois ton parcours lancé."
+          sub="Ta carte des 30 jours s'ouvrira ici, dès que ta quête sera lancée."
         />
         <Card className="p-6">
           <p className="text-sm text-muted">
-            Commence par identifier ton archétype, puis reviens suivre
-            ton chemin jour après jour.
+            Commence par révéler ton archétype — puis reviens voir le chemin
+            se dessiner, jour après jour.
           </p>
           <Link
             href="/parcours-archetypes"

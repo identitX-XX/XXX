@@ -47,8 +47,8 @@ export function Diagnostic() {
         </div>
         <h1 style={h1}>Ton archétype</h1>
         <p style={{ color: MUTED, fontSize: 15, margin: "0 0 22px" }}>
-          Ce qui te met le plus en mouvement, d'après tes réponses. Pas une
-          étiquette : un point de départ, qui va respirer sur 30 jours.
+          Ce qui te met le plus en mouvement, d'après tes réponses. Pas un verdict :
+          un point de départ, qui respirera au fil des 30 jours.
         </p>
 
         <div style={{ ...card, borderColor: "color-mix(in srgb, #ff4fa3 40%, rgba(255,255,255,.1))" }}>
@@ -87,8 +87,8 @@ export function Diagnostic() {
       </div>
       <h1 style={h1}>Je commence ma quête</h1>
       <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 0", lineHeight: 1.5 }}>
-        En 12 questions, on repère — parmi <strong style={{ color: INK }}>12 archétypes</strong> —
-        celui qui te met le plus en mouvement. Il ouvrira tes 30 jours.
+        Douze questions. Parmi <strong style={{ color: INK }}>12 archétypes</strong>, celui
+        qui te met le plus en mouvement se dessine — et ouvre tes 30 jours.
       </p>
       <Link
         href="/parcours-archetypes/objectif"
