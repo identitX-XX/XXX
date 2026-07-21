@@ -22,12 +22,14 @@ test("un jour dont l'archétype a un contenu enrichi utilise SES question/défi"
   assert.equal(defi.texte, archetypeByKey.createur.defi);
 });
 
-test("un archétype sans contenu enrichi retombe sur le gabarit générique", () => {
+test("couverture 12/12 : chaque journée porte la question et le défi rédigés de son archétype", () => {
   const p = generateParcours(diag);
-  const jour = p.jours.find((j) => j.archetype === "explorateur"); // pas encore enrichi
-  if (jour) {
-    const question = jour.sections.find((s) => s.kind === "question")!;
-    assert.match(question.texte, /qu'est-ce qu'elle cherche à protéger/);
+  for (const j of p.jours) {
+    const a = archetypeByKey[j.archetype];
+    const question = j.sections.find((s) => s.kind === "question")!;
+    const defi = j.sections.find((s) => s.kind === "defi")!;
+    assert.equal(question.texte, a.question, `question manquante pour ${a.key}`);
+    assert.equal(defi.texte, a.defi, `défi manquant pour ${a.key}`);
   }
 });
 
