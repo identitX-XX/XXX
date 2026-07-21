@@ -31,7 +31,7 @@ export interface PartSphere {
   part: number; // 0..100 en % de l'énergie totale
 }
 
-export interface TopLentille {
+export interface RangArchetype {
   key: ArchetypeKey;
   name: string;
   valeur: number;
@@ -47,8 +47,8 @@ export function radarCourant(etat: EtatEvolution): PointRadar[] {
   }));
 }
 
-// Top N lentilles actives.
-export function topLentilles(etat: EtatEvolution, n = 3): TopLentille[] {
+// Top N capsules identitaires actives.
+export function topArchetypes(etat: EtatEvolution, n = 3): RangArchetype[] {
   return radarCourant(etat)
     .slice()
     .sort((a, b) => b.valeur - a.valeur)
@@ -56,8 +56,8 @@ export function topLentilles(etat: EtatEvolution, n = 3): TopLentille[] {
     .map((p) => ({ key: p.key, name: p.name, valeur: p.valeur }));
 }
 
-// Lentille dominante du moment.
-export function lentilleDominante(etat: EtatEvolution): TopLentille | null {
+// Capsule identitaire dominante du moment.
+export function archetypeDominant(etat: EtatEvolution): RangArchetype | null {
   if (!etat.historique.length && moyenneNulle(etat)) return null;
   const k = dominant(radarDepuisMatrice(etat.matrice));
   return {

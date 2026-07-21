@@ -45,7 +45,7 @@ export function Diagnostic() {
         <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
           Ton miroir
         </div>
-        <h1 style={h1}>Ton dominant</h1>
+        <h1 style={h1}>Ton archétype</h1>
         <p style={{ color: MUTED, fontSize: 15, margin: "0 0 22px" }}>
           Ce qui te met le plus en mouvement, d'après tes réponses. Pas une
           étiquette : un point de départ, qui va respirer sur 30 jours.
@@ -53,7 +53,7 @@ export function Diagnostic() {
 
         <div style={{ ...card, borderColor: "color-mix(in srgb, #ff4fa3 40%, rgba(255,255,255,.1))" }}>
           <div style={{ fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", color: FUCHSIA }}>
-            Dominant
+            Archétype
           </div>
           <div style={{ fontFamily: serif, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14.5, lineHeight: 1.55 }}>{dom.lens}</p>
@@ -85,7 +85,7 @@ export function Diagnostic() {
       <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
         Diagnostic · ~2 min
       </div>
-      <h1 style={h1}>Trouvons ton dominant</h1>
+      <h1 style={h1}>Identifie ton archétype</h1>
       <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 0", lineHeight: 1.5 }}>
         En 8 questions, on repère — parmi <strong style={{ color: INK }}>12 archétypes</strong> —
         celui qui te met le plus en mouvement. Il ouvrira tes 30 jours.

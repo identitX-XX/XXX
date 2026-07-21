@@ -9,10 +9,10 @@ import {
   courbeEvolution,
   equilibreSpheres,
   heatmapEmotions,
-  lentilleDominante,
+  archetypeDominant,
   progression,
   radarCourant,
-  topLentilles,
+  topArchetypes,
 } from "../indicateurs";
 import {
   BarreProgression,
@@ -51,8 +51,8 @@ export function Dashboard() {
   const etat = useParcoursStore((s) => s.etat);
 
   const radar = radarCourant(etat);
-  const dom = lentilleDominante(etat);
-  const top = topLentilles(etat, 3);
+  const dom = archetypeDominant(etat);
+  const top = topArchetypes(etat, 3);
   const prog = progression(etat);
   const vide = etat.historique.length === 0;
 
@@ -68,7 +68,7 @@ export function Dashboard() {
         </h1>
         {!vide && (
           <p style={{ fontSize: 13, color: MUTED, margin: "6px 0 0" }}>
-            Un dominant qui ressort aujourd'hui, jamais une étiquette : demain,
+            L'archétype qui ressort aujourd'hui, jamais une étiquette : demain,
             la respiration rebat les cartes.
           </p>
         )}

@@ -35,7 +35,7 @@ export default function ParcoursArchetypesPage() {
       <PageHead
         eyebrow="Module"
         title="Parcours des 12 archétypes"
-        sub="30 jours, 12 archétypes, 5 sphères. Ton archétype dominant n'est jamais une étiquette : il se lit autrement selon les contextes — et il respire, jamais figé."
+        sub="30 jours, 12 archétypes, 5 sphères. Ton archétype n'est jamais une étiquette : il se lit autrement selon les contextes — et il respire, jamais figé."
       />
 
       <Link

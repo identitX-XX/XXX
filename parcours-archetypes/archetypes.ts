@@ -2,9 +2,9 @@
 // LE SEUL FICHIER DE CONTENU. Le moteur (évolution, indicateurs, charts) est
 // agnostique : réécrire ici ne casse rien tant que les `key` restent stables.
 //
-// Voix « lentille » : une invitation à regarder (« observe… », « repère… »),
+// Voix « capsule identitaire » : une invitation à regarder (« observe… », « repère… »),
 // jamais un verdict « tu es X ». La 12e — La Métamorphe — clôt le parcours
-// (J30) : la lentille qui refuse toute étiquette.
+// (J30) : la capsule identitaire qui refuse toute étiquette.
 
 import { Archetype, Emotion, Phase, Sphere } from "./types";
 

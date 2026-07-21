@@ -193,9 +193,9 @@ export function JaugeCoherence({ valeur }: { valeur: number }) {
           </div>
         </div>
         <p style={{ fontSize: 12, lineHeight: 1.5, color: MUTED, margin: 0 }}>
-          Non pas « à quel point tu es X », mais la clarté d'un dominant qui
+          Non pas « à quel point tu es X », mais la clarté de l'archétype qui
           ressort et sa stabilité dans le temps. Jamais l'uniformité entre
-          contextes : un dominant peut se lire autrement selon la sphère.
+          contextes : un archétype peut se lire autrement selon la sphère.
         </p>
       </div>
     </div>
