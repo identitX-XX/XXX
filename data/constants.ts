@@ -28,6 +28,7 @@ export const RADAR_AXES = [
   "Intuition",
 ];
 export const NAV = [
+  { href: "/aujourdhui", label: "Aujourd'hui" },
   { href: "/dashboard", label: "Tableau de bord" },
   { href: "/parcours", label: "Quête IdentitX" },
   { href: "/parcours-archetypes", label: "Ton archétype" },
