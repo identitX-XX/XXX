@@ -7,6 +7,7 @@ import { ArrowRight, Flame } from "lucide-react";
 import { Card, PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
+import { Chapitres } from "@/components/Chapitres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
 import {
@@ -222,6 +223,8 @@ export default function ProgressionPage() {
           </div>
         </Card>
       )}
+
+      <Chapitres />
 
       {/* Frise d'avancement */}
       <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
