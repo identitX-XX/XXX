@@ -111,6 +111,50 @@ export const QUESTIONS: QuestionDiag[] = [
       { label: "Avoir aimé et été aimé·e pleinement", archetype: "amoureux" },
     ],
   },
+  {
+    id: "q9",
+    question: "Dans un projet, ce qui te fait vibrer ?",
+    options: [
+      { label: "Partir vers l'inconnu", archetype: "explorateur" },
+      { label: "Comprendre en profondeur", archetype: "sage" },
+      { label: "Donner forme à une idée neuve", archetype: "createur" },
+      { label: "Qu'il tienne dans la durée", archetype: "batisseur" },
+      { label: "Qu'il aide vraiment quelqu'un", archetype: "guerisseur" },
+    ],
+  },
+  {
+    id: "q10",
+    question: "Ta plus grande peur ?",
+    options: [
+      { label: "M'enfermer, m'ennuyer", archetype: "explorateur" },
+      { label: "Me tromper faute d'avoir compris", archetype: "sage" },
+      { label: "Perdre ceux que j'aime", archetype: "amoureux" },
+      { label: "Ne pas être libre d'être moi", archetype: "rebelle" },
+      { label: "Ne rien laisser derrière moi", archetype: "passeur" },
+    ],
+  },
+  {
+    id: "q11",
+    question: "Un dimanche idéal ?",
+    options: [
+      { label: "Explorer un endroit nouveau", archetype: "explorateur" },
+      { label: "Me plonger dans un projet créatif", archetype: "createur" },
+      { label: "Rire, jouer, sans programme", archetype: "joueur" },
+      { label: "Rêvasser, imaginer, flâner", archetype: "reveur" },
+      { label: "Un moment cocon avec les miens", archetype: "protecteur" },
+    ],
+  },
+  {
+    id: "q12",
+    question: "Ce qui te rend le plus fier·e de toi ?",
+    options: [
+      { label: "Avoir tenu bon dans l'épreuve", archetype: "batisseur" },
+      { label: "Avoir aidé quelqu'un à aller mieux", archetype: "guerisseur" },
+      { label: "Avoir transmis quelque chose", archetype: "passeur" },
+      { label: "Avoir osé être différent·e", archetype: "rebelle" },
+      { label: "Avoir aimé sans retenue", archetype: "amoureux" },
+    ],
+  },
 ];
 
 // Combien de fois chaque archétype apparaît dans les options (pour normaliser).

@@ -40,7 +40,7 @@ export default function ProgressionPage() {
             href="/parcours-archetypes"
             className="mt-4 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white"
           >
-            Faire le diagnostic
+            Je commence ma quête
             <ArrowRight size={15} />
           </Link>
         </Card>
