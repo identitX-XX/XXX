@@ -5,23 +5,17 @@ import { useEffect, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
+import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { DIAGNOSTIC_DEFAUT } from "@/parcours-archetypes/generateParcours";
 
-// Route de démonstration du module drop-in `parcours-archetypes/`.
-// À l'usage réel, `initialiserParcours` reçoit le diagnostic de l'écran-miroir
-// amont ; ici on amorce avec un diagnostic par défaut pour la preview.
+// Route du module. Tant que le dominant n'est pas déterminé, on présente le
+// diagnostic (écran-miroir). Une fois fait, il ouvre le parcours 30 jours.
 export default function ParcoursArchetypesPage() {
   const parcours = useParcoursStore((s) => s.parcours);
   const jourCourant = useParcoursStore((s) => s.etat.jourCourant);
   const reponses = useParcoursStore((s) => s.reponses);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
-  const initialiserParcours = useParcoursStore((s) => s.initialiserParcours);
-
-  useEffect(() => {
-    if (!diagnostic) initialiserParcours(DIAGNOSTIC_DEFAUT);
-  }, [diagnostic, initialiserParcours]);
 
   // Jour sélectionné à l'écran (suit le jour courant par défaut, mais on peut
   // revenir sur n'importe quelle journée déjà close).
@@ -40,7 +34,7 @@ export default function ParcoursArchetypesPage() {
       <PageHead
         eyebrow="Module"
         title="Parcours des 12 archétypes"
-        sub="30 jours, 12 lentilles, 5 sphères. Un archétype n'est jamais une étiquette : c'est une lentille qui se lit autrement selon les contextes — et qui respire, jamais figée."
+        sub="30 jours, 12 dominants, 5 sphères. Un dominant n'est jamais une étiquette : il se lit autrement selon les contextes — et il respire, jamais figé."
       />
 
       <Link
@@ -50,6 +44,11 @@ export default function ParcoursArchetypesPage() {
         Objectif &amp; place dans ton parcours
         <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5" />
       </Link>
+
+      {!diagnostic ? (
+        <Diagnostic />
+      ) : (
+      <>
 
       {/* Frise des 30 jours : relecture de l'historique, sans rien perdre */}
       <DayStrip
@@ -78,6 +77,8 @@ export default function ParcoursArchetypesPage() {
       )}
 
       <Dashboard />
+      </>
+      )}
     </div>
   );
 }

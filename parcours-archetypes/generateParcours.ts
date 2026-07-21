@@ -81,11 +81,11 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
       "Intention du jour",
       `Jour ${n} · phase « ${p.label} ». ${p.intention}`
     ),
-    mk("lentille", "La lentille", `${a.name} — ${a.lens}`),
+    mk("lentille", "Ton dominant du jour", `${a.name} — ${a.lens}`),
     mk(
       "observation",
       "Observation guidée",
-      `Aujourd'hui, porte cette lentille sur ta sphère « ${s.label} ». Que remarques-tu que tu ne voyais pas hier ?`
+      `Aujourd'hui, porte ce dominant sur ta sphère « ${s.label} ». Que remarques-tu que tu ne voyais pas hier ?`
     ),
     mk(
       "defi",
@@ -95,12 +95,12 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     mk(
       "question",
       "Question ouverte",
-      `Quand cette lentille s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?`
+      `Quand ce dominant s'active en toi, qu'est-ce qu'il cherche à protéger ou à faire grandir ?`
     ),
     mk(
       "curseurs",
       "Où ça vibre",
-      `Règle, sphère par sphère, l'intensité de cette lentille aujourd'hui. Elle peut être forte au travail et absente ailleurs — c'est normal.`
+      `Règle, sphère par sphère, l'intensité de ce dominant aujourd'hui. Elle peut être forte au travail et absente ailleurs — c'est normal.`
     ),
     mk(
       "emotions",
@@ -110,7 +110,7 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     mk(
       "note",
       "Note libre",
-      `Un mot, une image, une phrase. Ce que la lentille a fait remonter.`
+      `Un mot, une image, une phrase. Ce que ce dominant a fait remonter.`
     ),
     mk(
       "echo",

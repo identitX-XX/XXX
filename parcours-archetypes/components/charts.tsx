@@ -73,7 +73,7 @@ export function RadarArchetypes({ data }: { data: PointRadar[] }) {
   }));
   return (
     <div>
-      <Titre>Radar des 12 lentilles</Titre>
+      <Titre>Radar des 12 dominants</Titre>
       <ResponsiveContainer width="100%" height={320}>
         <RadarChart
           data={court}
@@ -193,9 +193,9 @@ export function JaugeCoherence({ valeur }: { valeur: number }) {
           </div>
         </div>
         <p style={{ fontSize: 12, lineHeight: 1.5, color: MUTED, margin: 0 }}>
-          Non pas « à quel point tu es X », mais la clarté d'une lentille
-          dominante et sa stabilité dans le temps. Jamais l'uniformité entre
-          contextes : une lentille peut se lire autrement selon la sphère.
+          Non pas « à quel point tu es X », mais la clarté d'un dominant qui
+          ressort et sa stabilité dans le temps. Jamais l'uniformité entre
+          contextes : un dominant peut se lire autrement selon la sphère.
         </p>
       </div>
     </div>
