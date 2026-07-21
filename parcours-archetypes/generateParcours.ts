@@ -90,12 +90,14 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     mk(
       "defi",
       "Micro-défi",
-      `Un geste concret, tout petit, inspiré par « ${a.name} » dans « ${s.label} ». Rien d'héroïque : quelque chose de faisable avant ce soir.`
+      a.defi ??
+        `Un geste concret, tout petit, inspiré par « ${a.name} » dans « ${s.label} ». Rien d'héroïque : quelque chose de faisable avant ce soir.`
     ),
     mk(
       "question",
       "Question ouverte",
-      `Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?`
+      a.question ??
+        `Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?`
     ),
     mk(
       "curseurs",

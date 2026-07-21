@@ -38,6 +38,12 @@ export interface Archetype {
   lens: string;
   // Une teinte pour la data-viz (HSL hue 0..360).
   hue: number;
+  // Contenu enrichi (optionnel, rempli progressivement à la main).
+  essence?: string; // ce qu'il cherche au fond → fiche, synthèse, rapport
+  force?: string; // son don quand il est vivant → fiche, rapport
+  ombre?: string; // son piège quand il déborde → fiche, « moteur ou piège »
+  question?: string; // → section « Question ouverte » de la journée
+  defi?: string; // → section « Micro-défi » de la journée
 }
 
 export interface Sphere {
