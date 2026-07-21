@@ -18,8 +18,18 @@ export const ARCHETYPES: Archetype[] = [
   {
     key: "sage",
     name: "Le·la Sage",
-    lens: "Regarde comment tu cherches à comprendre avant d'agir, et où le savoir te met à l'abri.",
+    lens: "Observe la manière dont tu donnes sens à ce que tu vis. Entre l'événement et ce que tu en conclus s'interpose toujours un regard, souvent si familier qu'il devient invisible. Aujourd'hui, porte moins ton attention sur tes réponses que sur la façon dont naissent tes questions.",
     hue: 265,
+    essence:
+      "Le Sage ne cherche pas à accumuler des certitudes ; il cultive une disponibilité à ce qui les transforme. Son mouvement profond consiste à laisser le réel élargir progressivement les formes par lesquelles il le comprend. Il sait que toute perception est déjà une interprétation et que l'expérience précède toujours les récits que nous en faisons. Sa quête n'est donc pas celle d'une vérité définitive, mais d'un regard suffisamment souple pour accueillir la complexité sans la réduire. Plus sa compréhension s'affine, moins il éprouve le besoin de conclure. Il découvre qu'une conscience mature ne possède pas davantage de réponses : elle entretient avec l'incertitude une relation plus paisible.",
+    force:
+      "Lorsque cette dynamique circule librement, elle transforme profondément ta manière d'habiter le monde. Tu deviens moins réactif aux apparences immédiates et davantage attentif aux liens qui relient les événements entre eux. Les situations cessent d'être isolées ; elles s'inscrivent dans un ensemble plus vaste où chaque expérience éclaire discrètement les autres. Cette qualité de regard ralentit le jugement sans affaiblir la décision. Au contraire, elle permet d'agir avec davantage de justesse parce que l'action ne naît plus uniquement de l'émotion du moment, mais d'une compréhension progressivement intégrée. Tu découvres alors que la lucidité n'est pas une distance prise avec la vie. Elle est une manière plus profonde d'y participer, sans être continuellement gouverné par l'urgence de réagir.",
+    ombre:
+      "Toute recherche de compréhension peut, à son tour, devenir une stratégie de protection. Il arrive que l'analyse remplace l'expérience, que la réflexion diffère la rencontre ou que la quête de cohérence cherche, sans le dire, à préserver une ancienne représentation de soi. L'esprit affine alors ses raisonnements avec une remarquable précision, tandis que certaines émotions demeurent à l'abri de cette intelligence. La pensée cesse d'éclairer le vécu ; elle l'organise suffisamment pour ne plus avoir à le traverser. Peu à peu, le besoin de comprendre chaque chose peut masquer une difficulté plus discrète : accepter que certaines dimensions de l'existence ne se laissent ni maîtriser ni résoudre. Le savoir devient alors une protection contre l'inconnu, alors qu'il aurait pu devenir une manière de mieux l'habiter.",
+    question:
+      "Quelle certitude continues-tu de défendre avec le plus de conviction… simplement parce qu'elle t'évite encore de regarder le monde depuis un lieu qui te transformerait ?",
+    defi:
+      "Aujourd'hui, choisis une situation sur laquelle ton opinion te semble parfaitement établie. Pendant deux minutes, suspends-la sans chercher à la remplacer. Observe ce qui devient perceptible lorsque ton regard cesse, un instant, d'exiger d'avoir raison avant de comprendre.",
   },
   {
     key: "createur",
