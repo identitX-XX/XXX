@@ -7,6 +7,7 @@ import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
 import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
+import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 
@@ -17,6 +18,7 @@ export default function ParcoursArchetypesPage() {
   const jourCourant = useParcoursStore((s) => s.etat.jourCourant);
   const reponses = useParcoursStore((s) => s.reponses);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
+  const objectifs = useParcoursStore((s) => s.objectifs);
 
   // Jour sélectionné à l'écran (suit le jour courant par défaut, mais on peut
   // revenir sur n'importe quelle journée déjà close).
@@ -48,6 +50,8 @@ export default function ParcoursArchetypesPage() {
 
       {!diagnostic ? (
         <Diagnostic />
+      ) : !objectifs ? (
+        <Objectifs />
       ) : (
       <>
 

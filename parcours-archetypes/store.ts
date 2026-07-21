@@ -8,6 +8,7 @@ import parcoursData from "./parcours.json";
 import {
   Diagnostic,
   EtatEvolution,
+  Objectifs,
   Parcours,
   ReponseJour,
 } from "./types";
@@ -23,12 +24,16 @@ function etatDepart(): EtatEvolution {
 interface StoreParcours {
   parcours: Parcours;
   diagnostic: Diagnostic | null;
+  objectifs: Objectifs | null;
   reponses: Record<number, ReponseJour>;
   etat: EtatEvolution;
 
   // Reçoit le résultat de l'écran-miroir amont, régénère le parcours sur mesure
   // (J1 = dominant, J30 = La Métamorphe) et amorce la matrice.
   initialiserParcours: (diag: Diagnostic) => void;
+
+  // Pose les objectifs de départ (un par périmètre : perso / pro / relationnel).
+  definirObjectifs: (o: Objectifs) => void;
 
   // Clôt une journée : enregistre la réponse et fait avancer le moteur.
   repondreJour: (r: ReponseJour) => void;
@@ -42,6 +47,7 @@ export const useParcoursStore = create<StoreParcours>()(
     (set, get) => ({
       parcours: parcoursBase,
       diagnostic: null,
+      objectifs: null,
       reponses: {},
       etat: etatDepart(),
 
@@ -52,6 +58,8 @@ export const useParcoursStore = create<StoreParcours>()(
           reponses: {},
           etat: initialiser(diag),
         }),
+
+      definirObjectifs: (o) => set({ objectifs: o }),
 
       repondreJour: (r) => {
         const { etat, reponses } = get();
@@ -66,6 +74,7 @@ export const useParcoursStore = create<StoreParcours>()(
       reinitialiser: () =>
         set({
           diagnostic: null,
+          objectifs: null,
           parcours: get().diagnostic
             ? generateParcours(DIAGNOSTIC_DEFAUT)
             : parcoursBase,

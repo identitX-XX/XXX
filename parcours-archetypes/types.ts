@@ -134,6 +134,16 @@ export interface Diagnostic {
   secondaire: ArchetypeKey;
 }
 
+// Objectif que l'utilisateur pose au départ, sur chacun de ses trois
+// périmètres de vie. Sert de cap aux 30 jours et nourrit le rapport final.
+export type PerimetreKey = "perso" | "pro" | "relationnel";
+
+export interface Objectifs {
+  perso: string;
+  pro: string;
+  relationnel: string;
+}
+
 // --- Constantes réglables du moteur ----------------------------------------
 
 export interface ReglagesEvolution {
