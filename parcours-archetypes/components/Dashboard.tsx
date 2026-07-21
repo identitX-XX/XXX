@@ -4,6 +4,7 @@
 // indicateurs, et dispose les 6 visualisations. Style IdentitX, inline.
 
 import { useParcoursStore } from "../store";
+import { genererRevelations } from "../revelations";
 import {
   coherenceCourante,
   courbeEvolution,
@@ -74,6 +75,8 @@ export function Dashboard() {
         )}
       </div>
 
+      <Revelations />
+
       {vide ? (
         <Carte>
           <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.6, margin: 0 }}>
@@ -130,4 +133,107 @@ export function Dashboard() {
       )}
     </div>
   );
+}
+
+// Bloc « Ce qui ressort » : les révélations sourcées & falsifiables. Chaque
+// insight cite sa preuve ; l'utilisatrice peut l'infirmer (« Pas vraiment »),
+// ce qui l'écarte — la crédibilité se gagne, elle ne se décrète pas.
+function Revelations() {
+  const etat = useParcoursStore((s) => s.etat);
+  const reponses = useParcoursStore((s) => s.reponses);
+  const feedback = useParcoursStore((s) => s.revelationsFeedback);
+  const noter = useParcoursStore((s) => s.noterRevelation);
+
+  const toutes = genererRevelations(etat, reponses);
+  const visibles = toutes.filter((r) => feedback[r.id] !== "non").slice(0, 3);
+  if (visibles.length === 0) return null;
+
+  return (
+    <div
+      style={{
+        marginBottom: 24,
+        borderRadius: 18,
+        border: `1px solid ${LINE}`,
+        background:
+          "radial-gradient(130% 130% at 0% 0%, rgba(255,79,163,0.07), rgba(255,255,255,0.02) 60%)",
+        padding: 22,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 4 }}>
+        <span style={{ fontFamily: serif, fontWeight: 400, fontSize: 22, color: INK }}>
+          Ce qui ressort
+        </span>
+        <span style={{ fontSize: 12, color: MUTED }}>
+          d'après tes {etat.historique.length} journées · sourcé, jamais une étiquette
+        </span>
+      </div>
+
+      <div style={{ display: "flex", flexDirection: "column", gap: 14, marginTop: 14 }}>
+        {visibles.map((r) => {
+          const confirme = feedback[r.id] === "oui";
+          return (
+            <div
+              key={r.id}
+              style={{
+                display: "flex",
+                gap: 14,
+                paddingTop: 14,
+                borderTop: `1px solid ${LINE}`,
+              }}
+            >
+              <span
+                style={{
+                  flex: "none",
+                  marginTop: 6,
+                  width: 8,
+                  height: 8,
+                  borderRadius: 3,
+                  background: "linear-gradient(180deg, #ff4fa3, #ff8a4c)",
+                }}
+              />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 15, color: INK, lineHeight: 1.45 }}>{r.titre}</div>
+                <div style={{ fontSize: 12.5, color: MUTED, marginTop: 4, lineHeight: 1.5 }}>
+                  {r.preuve}
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 10 }}>
+                  {confirme ? (
+                    <span style={{ fontSize: 12.5, color: FUCHSIA }}>✓ Noté — ça te parle</span>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => noter(r.id, "oui")}
+                        style={btnRev(true)}
+                      >
+                        Ça me parle
+                      </button>
+                      <button
+                        onClick={() => noter(r.id, "non")}
+                        style={btnRev(false)}
+                      >
+                        Pas vraiment
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function btnRev(primary: boolean): React.CSSProperties {
+  return {
+    fontFamily: sans,
+    fontSize: 12.5,
+    padding: "6px 13px",
+    borderRadius: 999,
+    cursor: "pointer",
+    color: primary ? "#fff" : MUTED,
+    border: primary ? "none" : `1px solid ${LINE}`,
+    background: primary ? "linear-gradient(90deg,#ff4fa3,#ff8a4c)" : "transparent",
+  };
 }

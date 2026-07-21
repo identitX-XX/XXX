@@ -27,6 +27,9 @@ interface StoreParcours {
   objectifs: Objectifs | null;
   reponses: Record<number, ReponseJour>;
   etat: EtatEvolution;
+  // Retour de l'utilisatrice sur les révélations (anti-Barnum) : « oui, ça me
+  // parle » ou « non » → une révélation infirmée est écartée et pénalisée.
+  revelationsFeedback: Record<string, "oui" | "non">;
 
   // Reçoit le résultat de l'écran-miroir amont, régénère le parcours sur mesure
   // (J1 = dominant, J30 = La Métamorphe) et amorce la matrice.
@@ -37,6 +40,9 @@ interface StoreParcours {
 
   // Clôt une journée : enregistre la réponse et fait avancer le moteur.
   repondreJour: (r: ReponseJour) => void;
+
+  // Note une révélation (« oui » / « non ») — boucle de recalibration.
+  noterRevelation: (id: string, v: "oui" | "non") => void;
 
   // Réinitialise tout (garde le parcours de base généré).
   reinitialiser: () => void;
@@ -50,6 +56,7 @@ export const useParcoursStore = create<StoreParcours>()(
       objectifs: null,
       reponses: {},
       etat: etatDepart(),
+      revelationsFeedback: {},
 
       initialiserParcours: (diag) =>
         set({
@@ -57,6 +64,7 @@ export const useParcoursStore = create<StoreParcours>()(
           parcours: generateParcours(diag),
           reponses: {},
           etat: initialiser(diag),
+          revelationsFeedback: {},
         }),
 
       definirObjectifs: (o) => set({ objectifs: o }),
@@ -71,6 +79,9 @@ export const useParcoursStore = create<StoreParcours>()(
         });
       },
 
+      noterRevelation: (id, v) =>
+        set({ revelationsFeedback: { ...get().revelationsFeedback, [id]: v } }),
+
       reinitialiser: () =>
         set({
           diagnostic: null,
@@ -80,6 +91,7 @@ export const useParcoursStore = create<StoreParcours>()(
             : parcoursBase,
           reponses: {},
           etat: etatDepart(),
+          revelationsFeedback: {},
         }),
     }),
     {
