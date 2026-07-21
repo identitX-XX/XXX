@@ -151,3 +151,66 @@ export function progression(etat: EtatEvolution, total = 30): Progression {
     jourCourant: etat.jourCourant,
   };
 }
+
+// Momentum : le moteur de rétention. Série de jours calendaires consécutifs
+// (« ne casse pas la chaîne »), record, et jalons (7/14/21/30). Tout dérivé des
+// dates ISO de l'historique — pur, déterministe.
+export interface Momentum {
+  serie: number; // jours calendaires consécutifs jusqu'à aujourd'hui (ou hier)
+  record: number; // meilleure série jamais atteinte
+  actifAujourdhui: boolean; // une journée a-t-elle été close aujourd'hui
+  jalonAtteint: number | null; // un cap (7/14/21/30) est-il pile franchi
+  prochainJalon: number | null; // prochain cap à viser
+  resteAvantJalon: number; // journées restantes avant ce cap
+}
+
+const JALONS = [7, 14, 21, 30];
+
+// Index de jour calendaire local (minuit local), stable et comparable.
+function jourCal(iso: string): number {
+  const d = new Date(iso);
+  return Math.floor((d.getTime() - d.getTimezoneOffset() * 60000) / 86400000);
+}
+
+export function momentum(etat: EtatEvolution): Momentum {
+  const faits = etat.historique.length;
+  const jours = Array.from(
+    new Set(etat.historique.map((h) => jourCal(h.date)))
+  ).sort((a, b) => a - b);
+
+  // Record : plus longue suite de jours calendaires consécutifs.
+  let record = 0;
+  let run = 0;
+  let prev: number | null = null;
+  for (const j of jours) {
+    run = prev !== null && j === prev + 1 ? run + 1 : 1;
+    if (run > record) record = run;
+    prev = j;
+  }
+
+  // Série courante : suite se terminant aujourd'hui — ou hier (grâce : la
+  // journée du jour n'est pas encore forcément close).
+  const today = jourCal(new Date().toISOString());
+  let serie = 0;
+  if (jours.length) {
+    const last = jours[jours.length - 1];
+    if (last === today || last === today - 1) {
+      serie = 1;
+      for (let i = jours.length - 2; i >= 0; i--) {
+        if (jours[i] === jours[i + 1] - 1) serie++;
+        else break;
+      }
+    }
+  }
+
+  const prochainJalon = JALONS.find((j) => j > faits) ?? null;
+
+  return {
+    serie,
+    record,
+    actifAujourdhui: jours.length ? jours[jours.length - 1] === today : false,
+    jalonAtteint: JALONS.includes(faits) ? faits : null,
+    prochainJalon,
+    resteAvantJalon: prochainJalon ? prochainJalon - faits : 0,
+  };
+}

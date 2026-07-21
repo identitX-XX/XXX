@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Flame } from "lucide-react";
 import { Card, PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
-import { progression } from "@/parcours-archetypes/indicateurs";
+import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 
-// Home « Aujourd'hui » : l'app s'ouvre sur la seule chose du jour — ta capsule
-// identitaire + ton avancement — au lieu d'un menu. Le reste est un tiroir.
+// Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
+// jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
+// C'est la surface de rétention : momentum visible, cap à viser, un seul CTA.
 export default function AujourdhuiPage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const objectifs = useParcoursStore((s) => s.objectifs);
@@ -16,11 +17,12 @@ export default function AujourdhuiPage() {
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
 
-  // Pas encore lancé : on flèche vers la prochaine étape à faire.
+  // Amorce : tant que le parcours n'est pas armé, on flèche l'étape suivante
+  // avec un fil de progression clair (2 étapes avant le Jour 1).
   if (!diagnostic) {
     return (
       <Amorce
-        eyebrow="Aujourd'hui"
+        etape={1}
         titre="Commence par toi"
         texte="Réponds à une batterie de 12 questions pour identifier ton archétype. C'est le point de départ de tes 30 jours."
         cta="Je commence ma quête"
@@ -30,15 +32,16 @@ export default function AujourdhuiPage() {
   if (!objectifs) {
     return (
       <Amorce
-        eyebrow="Aujourd'hui"
+        etape={2}
         titre="Pose ton cap"
-        texte="Formule un objectif par périmètre — perso, pro, relationnel. Il te servira de boussole."
+        texte="Formule un objectif par périmètre — perso, pro, relationnel. Il te servira de boussole sur les 30 jours."
         cta="Poser mon cap"
       />
     );
   }
 
   const prog = progression(etat);
+  const mo = momentum(etat);
   const termine = prog.jourCourant > 30;
   const n = Math.min(prog.jourCourant, 30);
   const jour = parcours.jours.find((j) => j.n === n) ?? null;
@@ -46,121 +49,279 @@ export default function AujourdhuiPage() {
   const phase = phaseDuJour(n);
   const angle = (prog.part / 100) * 360;
   const dejaFait = Boolean(reponses[n]);
+  const salut = salutation();
+
+  if (termine) {
+    return (
+      <div>
+        <PageHead
+          eyebrow="Aujourd'hui"
+          title="Ta quête est accomplie"
+          sub="30 jours. Il est temps de recueillir ce qui ressort."
+        />
+        <Card className="overflow-hidden p-0 animate-fade-up">
+          <div className="relative brand-gradient px-8 py-10 text-center text-white">
+            <div className="text-4xl">🎉</div>
+            <h2 className="mt-2 font-display text-3xl font-light">
+              Les 30 jours sont accomplis
+            </h2>
+            <p className="mx-auto mt-2 max-w-md text-sm text-white/90">
+              Ton rapport te propose trois scénarios activables sur tes
+              périmètres perso, pro et relationnel.
+            </p>
+            <Link
+              href="/parcours-archetypes/rapport"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-noir transition-transform hover:scale-[1.02]"
+            >
+              Voir mon bilan
+              <ArrowRight size={16} />
+            </Link>
+          </div>
+        </Card>
+        <SecondPlan prog={prog} />
+      </div>
+    );
+  }
 
   return (
     <div>
       <PageHead
-        eyebrow="Aujourd'hui"
-        title="Ton rendez-vous du jour"
+        eyebrow={salut.eyebrow}
+        title={salut.titre}
         sub="Une seule chose compte : vivre ta journée. Le reste peut attendre."
       />
 
-      {termine ? (
-        <Card className="p-8 text-center">
-          <div className="text-3xl">🎉</div>
-          <h2 className="mt-2 font-display text-2xl font-light text-ink">
-            Tes 30 jours sont accomplis
-          </h2>
-          <p className="mx-auto mt-2 max-w-md text-sm text-muted">
-            Il est temps de recueillir ce qui ressort : ton rapport te propose
-            trois scénarios activables sur tes périmètres.
-          </p>
-          <Link
-            href="/parcours-archetypes/rapport"
-            className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white"
-          >
-            Voir mon bilan
-            <ArrowRight size={16} />
-          </Link>
-        </Card>
-      ) : (
-        <Card className="p-6 sm:p-8">
-          <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center">
-            {/* Anneau d'avancement */}
+      {/* Célébration de cap : reste affichée tant qu'on est pile sur un jalon
+          (7/14/21) — la fenêtre de célébration, jusqu'à la journée suivante. */}
+      {mo.jalonAtteint && mo.jalonAtteint < 30 && (
+        <div
+          className="mb-4 flex items-center gap-3 rounded-2xl border px-5 py-3 text-sm animate-fade-up"
+          style={{
+            borderColor: "color-mix(in srgb, var(--fuchsia) 40%, transparent)",
+            background: "color-mix(in srgb, var(--fuchsia) 7%, transparent)",
+          }}
+        >
+          <span className="text-lg">✨</span>
+          <span className="text-ink">
+            Cap des <b>{mo.jalonAtteint} jours</b> franchi. Tu tiens ta quête —
+            continue sur cette lancée.
+          </span>
+        </div>
+      )}
+
+      <Card className="p-6 sm:p-8 animate-fade-up">
+        <div className="flex flex-col items-center gap-7 sm:flex-row sm:items-center">
+          {/* Anneau d'avancement, avec aura de la teinte du jour */}
+          <div className="relative flex-none">
             <div
+              aria-hidden
+              className="absolute inset-0 rounded-full blur-2xl opacity-40"
               style={{
-                width: 120, height: 120, borderRadius: "50%", flex: "none",
+                background: arch
+                  ? `radial-gradient(circle, hsl(${arch.hue} 90% 60%), transparent 70%)`
+                  : "transparent",
+              }}
+            />
+            <div
+              className="relative"
+              style={{
+                width: 132,
+                height: 132,
+                borderRadius: "50%",
                 background: `conic-gradient(var(--fuchsia) ${angle}deg, var(--line) ${angle}deg)`,
-                display: "grid", placeItems: "center",
+                display: "grid",
+                placeItems: "center",
               }}
             >
-              <div className="grid h-[96px] w-[96px] place-items-center rounded-full bg-noir text-center">
+              <div className="grid h-[108px] w-[108px] place-items-center rounded-full bg-surface text-center">
                 <div>
-                  <div className="font-display text-3xl text-ink">{prog.faits}</div>
-                  <div className="text-[10px] uppercase tracking-wider text-muted">/ 30 jours</div>
+                  <div className="font-display text-4xl leading-none text-ink">
+                    {prog.faits}
+                  </div>
+                  <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted">
+                    / 30 jours
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* La capsule du jour */}
-            <div className="flex-1 text-center sm:text-left">
-              <div className="text-xs uppercase tracking-wider text-fuchsia">
+          {/* La capsule du jour + CTA */}
+          <div className="flex-1 text-center sm:text-left">
+            <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.16em] text-fuchsia sm:justify-start">
+              <span>
                 Jour {n} · phase {phase.label}
-              </div>
-              <h2 className="mt-1 font-display text-2xl font-light text-ink">
-                {arch ? arch.name : "Ta capsule du jour"}
-              </h2>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{arch?.lens}</p>
-              <Link
-                href="/parcours-archetypes"
-                className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white"
-              >
-                {dejaFait ? "Revoir ma journée" : "Vivre ma journée"}
-                <ArrowRight size={16} />
-              </Link>
-              <div className="mt-2 text-xs text-muted">≈ 4 min · le soir, idéalement</div>
+              </span>
+            </div>
+            <h2 className="mt-1.5 font-display text-2xl font-light text-ink sm:text-[1.7rem]">
+              {arch ? arch.name : "Ta capsule du jour"}
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              {arch?.lens}
+            </p>
+            <Link
+              href="/parcours-archetypes"
+              className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
+            >
+              {dejaFait ? "Revoir ma journée" : "Vivre ma journée"}
+              <ArrowRight
+                size={16}
+                className="transition-transform group-hover:translate-x-0.5"
+              />
+            </Link>
+            <div className="mt-2 text-xs text-muted">
+              ≈ 4 min · le soir, idéalement
             </div>
           </div>
-        </Card>
+        </div>
+      </Card>
+
+      {/* Momentum : série + prochain cap. Le levier « ne casse pas la chaîne ». */}
+      {prog.faits > 0 && (
+        <div
+          className="mt-4 grid gap-4 sm:grid-cols-2 animate-fade-up"
+          style={{ animationDelay: "60ms" }}
+        >
+          <Card className="flex items-center gap-4 p-5">
+            <div
+              className="grid h-11 w-11 flex-none place-items-center rounded-full"
+              style={{
+                background: "color-mix(in srgb, var(--orange) 14%, transparent)",
+                color: "var(--orange)",
+              }}
+            >
+              <Flame size={20} />
+            </div>
+            <div>
+              <div className="font-display text-xl text-ink">
+                {mo.serie > 0
+                  ? `${mo.serie} jour${mo.serie > 1 ? "s" : ""} d'affilée`
+                  : "Reprends le fil"}
+              </div>
+              <div className="text-xs text-muted">
+                {mo.serie > 0
+                  ? mo.record > mo.serie
+                    ? `Ton record : ${mo.record} jours`
+                    : "C'est ta meilleure série — tiens-la."
+                  : "Une journée aujourd'hui relance ta série."}
+              </div>
+            </div>
+          </Card>
+
+          {mo.prochainJalon && (
+            <Card className="flex flex-col justify-center gap-2 p-5">
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm text-ink">
+                  Prochain cap · {mo.prochainJalon} jours
+                </span>
+                <span className="text-xs text-muted">
+                  plus que {mo.resteAvantJalon}
+                </span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-line">
+                <div
+                  className="h-full rounded-full brand-gradient transition-all"
+                  style={{
+                    width: `${Math.round((prog.faits / mo.prochainJalon) * 100)}%`,
+                  }}
+                />
+              </div>
+            </Card>
+          )}
+        </div>
       )}
 
-      {/* Le reste, en second plan */}
-      <div className="mt-8">
-        <div className="mb-3 text-xs uppercase tracking-wider text-muted">Explorer</div>
-        <div className="flex flex-wrap gap-3">
-          {[
-            { href: "/progression", label: "Ma progression" },
-            ...(prog.faits >= 5 ? [{ href: "/parcours-archetypes/rapport", label: "Mon rapport" }] : []),
-            { href: "/parcours", label: "Ma quête (les modules)" },
-            { href: "/dashboard", label: "Tableau de bord" },
-          ].map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-fuchsia hover:text-fuchsia"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </div>
+      <SecondPlan prog={prog} />
+    </div>
+  );
+}
+
+// Le reste des modules, volontairement en second plan (un tiroir, pas un menu).
+function SecondPlan({ prog }: { prog: { faits: number } }) {
+  const liens = [
+    { href: "/progression", label: "Ma progression" },
+    ...(prog.faits >= 5
+      ? [{ href: "/parcours-archetypes/rapport", label: "Mon rapport" }]
+      : []),
+    { href: "/parcours", label: "Ma quête (les modules)" },
+    { href: "/dashboard", label: "Tableau de bord" },
+  ];
+  return (
+    <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
+      <div className="mb-3 text-xs uppercase tracking-[0.16em] text-muted">
+        Explorer
+      </div>
+      <div className="flex flex-wrap gap-3">
+        {liens.map((l) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            className="rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-fuchsia hover:text-fuchsia"
+          >
+            {l.label}
+          </Link>
+        ))}
       </div>
     </div>
   );
 }
 
+// Salutation selon l'heure — chaleureuse, jamais bavarde.
+function salutation(): { eyebrow: string; titre: string } {
+  const h = new Date().getHours();
+  if (h < 6) return { eyebrow: "Aujourd'hui", titre: "Encore debout ?" };
+  if (h < 12) return { eyebrow: "Ce matin", titre: "Prends un instant pour toi" };
+  if (h < 18)
+    return { eyebrow: "Cet après-midi", titre: "Ton rendez-vous du jour" };
+  return { eyebrow: "Ce soir", titre: "Ton rendez-vous du soir" };
+}
+
 function Amorce({
-  eyebrow,
+  etape,
   titre,
   texte,
   cta,
 }: {
-  eyebrow: string;
+  etape: 1 | 2;
   titre: string;
   texte: string;
   cta: string;
 }) {
   return (
     <div>
-      <PageHead eyebrow={eyebrow} title="Ton rendez-vous du jour" sub="Une étape à la fois." />
-      <Card className="p-8 text-center">
-        <h2 className="font-display text-2xl font-light text-ink">{titre}</h2>
+      <PageHead
+        eyebrow="Bienvenue"
+        title="Deux étapes avant ton Jour 1"
+        sub="Arme ta quête — ça prend quelques minutes, une seule fois."
+      />
+      <Card className="p-8 text-center animate-fade-up">
+        {/* Fil de progression de l'amorce */}
+        <div className="mb-6 flex items-center justify-center gap-2">
+          {[1, 2].map((s) => (
+            <span
+              key={s}
+              className={`h-1.5 rounded-full transition-all ${
+                s === etape ? "w-8 brand-gradient" : "w-4 bg-line"
+              }`}
+            />
+          ))}
+        </div>
+        <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+          Étape {etape} sur 2
+        </div>
+        <h2 className="mt-2 font-display text-2xl font-light text-ink">
+          {titre}
+        </h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted">{texte}</p>
         <Link
           href="/parcours-archetypes"
-          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white"
+          className="group mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
         >
           {cta}
-          <ArrowRight size={16} />
+          <ArrowRight
+            size={16}
+            className="transition-transform group-hover:translate-x-0.5"
+          />
         </Link>
       </Card>
     </div>
