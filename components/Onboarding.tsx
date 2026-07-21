@@ -55,7 +55,13 @@ export function Onboarding() {
         <span className="font-display text-lg tracking-tight text-ink">IDENTITX</span>
       </div>
 
-      {/* Progress */}
+      {/* Progress — un repère de friction : où j'en suis, combien de temps. */}
+      <div className="mb-2 flex items-center justify-between text-xs text-muted">
+        <span>
+          {step === 0 ? "Aperçu de ta quête" : `Étape ${step} sur ${STEPS - 1}`}
+        </span>
+        <span>≈ 2 min</span>
+      </div>
       <div className="mb-10 flex gap-1.5">
         {Array.from({ length: STEPS }).map((_, i) => (
           <div
@@ -174,8 +180,8 @@ export function Onboarding() {
         {step === 0 && (
           <>
             <Head
-              t="Ton parcours en un coup d'œil"
-              s="Avant de commencer, voici les huit étapes de ta quête. Tu pourras y revenir à tout moment."
+              t="Voici où tu vas"
+              s="30 jours pour transformer tes objectifs dispersés en un scénario clair. On commence par identifier ton archétype — voici les étapes, tu pourras y revenir à tout moment."
             />
             <ParcoursOverview />
           </>
@@ -187,7 +193,7 @@ export function Onboarding() {
           <ArrowLeft size={16} /> Retour
         </Button>
         <Button onClick={next} disabled={!canNext}>
-          {step === STEPS - 1 ? "Générer mon Lab" : "Continuer"}
+          {step === 0 ? "Commencer" : step === STEPS - 1 ? "Lancer ma quête" : "Continuer"}
           <ArrowRight size={16} />
         </Button>
       </div>
