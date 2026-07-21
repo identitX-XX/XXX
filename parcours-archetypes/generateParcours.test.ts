@@ -24,7 +24,7 @@ test("un jour dont l'archétype a un contenu enrichi utilise SES question/défi"
 
 test("un archétype sans contenu enrichi retombe sur le gabarit générique", () => {
   const p = generateParcours(diag);
-  const jour = p.jours.find((j) => j.archetype === "protecteur"); // pas encore enrichi
+  const jour = p.jours.find((j) => j.archetype === "joueur"); // pas encore enrichi
   if (jour) {
     const question = jour.sections.find((s) => s.kind === "question")!;
     assert.match(question.texte, /qu'est-ce qu'elle cherche à protéger/);

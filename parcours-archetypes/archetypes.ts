@@ -50,20 +50,50 @@ export const ARCHETYPES: Archetype[] = [
   {
     key: "rebelle",
     name: "Le·la Rebelle",
-    lens: "Vois ce que tu refuses de suivre, et ce que ton « non » cherche à protéger.",
+    lens: "Observe ce qui, en toi, résiste lorsque quelque chose ne sonne plus juste. Toutes les résistances ne naissent pas d'un refus ; certaines expriment une fidélité silencieuse à ce qui demande encore à vivre. Aujourd'hui, porte moins ton attention sur ce à quoi tu t'opposes que sur ce que cette opposition cherche, peut-être, à préserver.",
     hue: 5,
+    essence:
+      "Le Rebelle ne poursuit pas la rupture pour elle-même. Il apparaît lorsqu'une manière d'être, de penser ou de vivre ne peut plus contenir ce qui cherche à émerger. Son mouvement profond consiste à desserrer les formes devenues trop étroites afin que la vie retrouve sa capacité d'évolution. Il rappelle que toute structure, aussi protectrice soit-elle, finit un jour par demander à être réinterrogée. Son intelligence n'est pas celle de la destruction, mais de la différenciation : reconnaître ce qui mérite d'être conservé, ce qui demande à être quitté et ce qui attend encore d'être inventé. Il ouvre un passage lorsque la fidélité à soi devient plus exigeante que la fidélité aux habitudes.",
+    force:
+      "Lorsque cette dynamique circule librement, elle restaure une liberté intérieure qui ne dépend plus de l'approbation extérieure. Tu développes la capacité de reconnaître les récits qui ont façonné ton identité sans les confondre avec ce que tu es devenu. Les règles cessent d'être des évidences ; elles redeviennent des choix, parfois utiles, parfois dépassés. Cette lucidité ne produit pas une opposition permanente. Elle rend possible une adhésion plus consciente. Tu n'agis plus contre un système pour le simple plaisir de le contredire ; tu discernes les moments où une transformation devient nécessaire parce que le vivant réclame davantage d'espace que les cadres existants ne peuvent désormais lui offrir. Le courage ne consiste plus à rompre, mais à demeurer fidèle à une cohérence intérieure qui continue d'évoluer.",
+    ombre:
+      "Toute énergie de libération peut se transformer en prison lorsqu'elle fait de l'opposition sa principale manière d'exister. Le refus devient alors une identité plus qu'un passage. Tu peux rejeter avant d'avoir rencontré, quitter avant d'avoir compris ou combattre des limites qui ne sont plus réellement présentes. Il arrive aussi que la colère protège une vulnérabilité ancienne à laquelle aucune place n'a encore été donnée. Dans ce cas, l'adversaire extérieur occupe progressivement tout l'espace, tandis que le conflit intérieur demeure intact. Ce qui devait ouvrir un chemin vers davantage de liberté finit par maintenir un lien invisible avec ce dont tu cherches précisément à t'affranchir. La révolte continue, mais le mouvement de transformation s'interrompt.",
+    question:
+      "À quoi demeures-tu encore lié précisément parce que tu continues à t'y opposer… et quelle part de toi deviendrait enfin disponible si cette lutte cessait d'organiser silencieusement ton identité ?",
+    defi:
+      "Aujourd'hui, remarque un automatisme auquel tu obéis sans même le questionner. Pendant deux minutes, suspends-le volontairement, sans chercher à le remplacer. Observe ce qui apparaît lorsque tu cesses simplement de reproduire ce qui semblait aller de soi.",
   },
   {
     key: "protecteur",
     name: "Le·la Protecteur·rice",
-    lens: "Repère qui et quoi tu veux mettre à l'abri, et ce que tu portes sans le dire.",
+    lens: "Repère ce que tu cherches spontanément à préserver lorsque quelque chose te semble précieux, fragile ou vivant. Observe ce qui, en toi, s'avance pour soutenir, contenir ou rassurer. Puis interroge la frontière subtile entre protéger ce qui peut grandir… et retenir ce qui aurait désormais besoin d'espace.",
     hue: 150,
+    essence:
+      "Le Protecteur ne cherche pas à empêcher les blessures ; il veille à ce que la vie puisse continuer à circuler malgré elles. Son mouvement profond consiste à offrir un espace suffisamment stable pour que ce qui est vulnérable puisse se développer sans être constamment menacé. Il comprend que toute croissance exige à la fois une ouverture au monde et un sentiment de sécurité intérieure. Protéger ne signifie donc ni contrôler, ni anticiper chaque risque, mais discerner ce qui mérite d'être soutenu jusqu'à ce qu'il puisse trouver sa propre autonomie. Sa présence rappelle qu'aucune transformation durable ne s'épanouit dans la peur permanente.",
+    force:
+      "Lorsque cette dynamique circule librement, elle fait naître autour de toi un climat où chacun peut progressivement devenir davantage lui-même. Tu n'imposes pas la sécurité ; tu la rends possible. Tu accueilles sans envahir, tu soutiens sans diriger, tu accompagnes sans confisquer le chemin de l'autre. Cette qualité de présence apaise moins parce qu'elle apporte des réponses que parce qu'elle rend de nouveau pensable ce qui semblait menaçant. Tu développes également une capacité essentielle envers toi-même : reconnaître tes propres limites sans les vivre comme un échec. Tu découvres alors que protéger le vivant ne consiste pas à le maintenir sous surveillance, mais à lui offrir des conditions suffisamment fiables pour qu'il déploie librement ses propres ressources. La confiance cesse d'être une promesse ; elle devient un environnement.",
+    ombre:
+      "Toute énergie de protection peut, lorsqu'elle est gouvernée par la peur, se transformer en contrôle. Le souci de préserver devient progressivement le besoin de prévenir, d'anticiper ou de porter ce qui n'appartient plus à ta responsabilité. Tu peux alors confondre l'amour avec la vigilance permanente, ou croire que ta présence est indispensable à l'équilibre des autres. Derrière cette disponibilité sans limite se cache parfois une inquiétude plus ancienne : celle que le lien ne survive pas à la liberté. À vouloir épargner toute difficulté, tu risques involontairement de priver l'autre de l'expérience par laquelle il découvre sa propre solidité. Ce qui devait protéger la croissance peut alors ralentir son élan. L'excès de protection ne naît pas d'un manque d'amour ; il naît souvent de la difficulté à faire confiance au vivant lorsqu'il échappe à notre regard.",
+    question:
+      "Que cherches-tu réellement à préserver lorsque tu protèges quelqu'un… son intégrité, la relation qui vous unit, ou la part de toi qui redoute encore ce qui pourrait advenir si tu desserrais doucement ton étreinte ?",
+    defi:
+      "Aujourd'hui, remarque un moment où ton premier réflexe est d'intervenir, de conseiller ou de prévenir une difficulté. Pendant deux minutes, choisis plutôt d'être pleinement présent sans orienter ce qui se passe. Observe ce qui devient possible lorsque le soutien remplace le contrôle, et que la confiance prend discrètement la place de la maîtrise.",
   },
   {
     key: "amoureux",
     name: "L'Amoureux·se",
-    lens: "Regarde ce qui t'attache, ce que tu chéris, et ce que la proximité fait remonter.",
+    lens: "Observe ce qui attire profondément ton attention, jusqu'à modifier la qualité de ta présence. Remarque les êtres, les lieux, les idées ou les instants auprès desquels tu te sens davantage vivant. Puis interroge ce qui, dans cet élan, relève d'une rencontre authentique… et ce qui cherche peut-être à combler une absence plus ancienne.",
     hue: 345,
+    essence:
+      "L'Amoureux ne cherche pas seulement à être aimé ; il cherche à rencontrer pleinement. Son mouvement profond consiste à reconnaître ce qui mérite une présence entière, sans précipitation ni appropriation. Il sait, parfois intuitivement, que l'existence prend une densité nouvelle lorsque nous cessons de traverser le monde comme des observateurs pour accepter d'être touchés par lui. Aimer devient alors une manière d'habiter la réalité avec une intensité paisible. Il ne s'agit pas de fusionner avec ce qui nous attire, mais de demeurer suffisamment présent pour laisser la rencontre nous transformer sans nous perdre. Toute relation véritable modifie silencieusement celui qui accepte de s'y engager.",
+    force:
+      "Lorsque cette dynamique circule librement, elle affine profondément ta qualité de présence. Tu n'entres plus en relation pour obtenir, convaincre ou te rassurer, mais pour découvrir ce qui devient possible entre toi et ce qui te fait face. Les personnes cessent d'être les supports de tes attentes ; elles retrouvent leur altérité. Tu apprends à écouter sans préparer ta réponse, à regarder sans immédiatement interpréter, à aimer sans réduire l'autre à la fonction qu'il occupe dans ton histoire. Cette disponibilité transforme également le lien que tu entretiens avec toi-même. Tu découvres qu'une relation vivante ne repose ni sur la possession ni sur la dépendance, mais sur une capacité renouvelée à demeurer présent à ce qui est, même lorsque cela échappe à ton contrôle. L'amour cesse alors d'être une émotion ; il devient une qualité d'attention.",
+    ombre:
+      "Toute capacité d'attachement porte en elle le risque de la confusion. Lorsque la relation devient le lieu principal où tu cherches ton sentiment d'exister, l'autre peut progressivement recevoir la mission impossible de réparer ce qui ne lui appartient pas. Tu peux alors confondre proximité et fusion, disponibilité et effacement, engagement et dépendance. Il arrive aussi que tu t'attaches davantage à ce que représente une personne qu'à la personne elle-même. L'amour devient alors le support d'un récit intérieur plus ancien que la rencontre présente. Peu à peu, la peur de perdre remplace la joie de rencontrer. Ce qui devait ouvrir l'existence se met à la contracter. L'attachement ne nourrit plus la relation ; il tente de la préserver contre le mouvement même de la vie.",
+    question:
+      "Lorsque tu dis « j'aime », rencontres-tu pleinement ce qui est devant toi… ou cherches-tu parfois, sans t'en apercevoir, à retrouver une part de toi que tu crois perdue ?",
+    defi:
+      "Aujourd'hui, choisis une personne, un lieu ou un moment de ton quotidien. Pendant deux minutes, accorde-lui une attention totale, sans téléphone, sans anticipation, sans commentaire intérieur. Observe ce qui apparaît lorsque tu cesses de vouloir vivre l'instant autrement qu'il ne se présente.",
   },
   {
     key: "batisseur",
