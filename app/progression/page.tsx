@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Card, PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
+import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { phaseDuJour } from "@/parcours-archetypes/archetypes";
 import {
@@ -22,6 +24,26 @@ export default function ProgressionPage() {
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
+  const objectifs = useParcoursStore((s) => s.objectifs);
+  const definirObjectifs = useParcoursStore((s) => s.definirObjectifs);
+  const [editObj, setEditObj] = useState(false);
+
+  if (editObj) {
+    return (
+      <Objectifs
+        initial={objectifs ?? undefined}
+        eyebrow="Mes objectifs"
+        titre="Ajuste ton cap"
+        intro="Revois tes objectifs quand tu veux — ils guident ton parcours et nourrissent ton rapport."
+        submitLabel="Enregistrer"
+        onSubmit={(o) => {
+          definirObjectifs(o);
+          setEditObj(false);
+        }}
+        onCancel={() => setEditObj(false)}
+      />
+    );
+  }
 
   if (!diagnostic) {
     return (
@@ -108,6 +130,33 @@ export default function ProgressionPage() {
           </Card>
         </div>
       </div>
+
+      {/* Ton cap · tes objectifs (revoir / modifier) */}
+      {objectifs && (
+        <Card className="mt-4 p-6">
+          <div className="mb-3 flex items-center justify-between">
+            <div className="text-xs uppercase tracking-wider text-muted">Ton cap · tes objectifs</div>
+            <button
+              onClick={() => setEditObj(true)}
+              className="text-xs font-medium text-fuchsia hover:underline"
+            >
+              Modifier
+            </button>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {([["perso", "🌱 Perso"], ["pro", "💼 Pro"], ["relationnel", "🤝 Relationnel"]] as const).map(
+              ([k, label]) => (
+                <div key={k}>
+                  <div className="text-xs text-muted">{label}</div>
+                  <div className="mt-1 text-sm text-ink">
+                    {objectifs[k]?.trim() ? objectifs[k] : <span className="italic text-muted">Non défini</span>}
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+        </Card>
+      )}
 
       {/* Frise d'avancement */}
       <div className="mt-8">

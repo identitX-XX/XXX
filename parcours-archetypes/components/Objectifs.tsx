@@ -1,7 +1,7 @@
 "use client";
 // parcours-archetypes/components/Objectifs.tsx
-// Au départ : l'utilisateur pose un objectif par périmètre de vie
-// (perso / pro / relationnel). Ces caps nourrissent le rapport final.
+// Poser / ajuster un objectif par périmètre de vie (perso / pro / relationnel).
+// Utilisé au départ ("Pose ton cap") ET pour modifier en cours de route.
 
 import { useState } from "react";
 import { archetypeByKey } from "../archetypes";
@@ -23,27 +23,52 @@ const CHAMPS: { key: PerimetreKey; emoji: string; label: string; hint: string }[
   { key: "relationnel", emoji: "🤝", label: "Relationnel", hint: "Dans tes liens : couple, famille, amis." },
 ];
 
-export function Objectifs() {
+const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "" };
+
+export function Objectifs({
+  initial,
+  eyebrow = "Ma quête · le cap",
+  titre = "Pose ton cap",
+  intro,
+  submitLabel = "Entrer dans mes 30 jours →",
+  onSubmit,
+  onCancel,
+}: {
+  initial?: ObjectifsT;
+  eyebrow?: string;
+  titre?: string;
+  intro?: React.ReactNode;
+  submitLabel?: string;
+  onSubmit?: (o: ObjectifsT) => void;
+  onCancel?: () => void;
+}) {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const definirObjectifs = useParcoursStore((s) => s.definirObjectifs);
-  const [vals, setVals] = useState<ObjectifsT>({ perso: "", pro: "", relationnel: "" });
+  const [vals, setVals] = useState<ObjectifsT>(initial ?? VIDE);
 
   const set = (k: PerimetreKey, v: string) => setVals((p) => ({ ...p, [k]: v }));
   const auMoinsUn = Object.values(vals).some((v) => v.trim().length > 0);
   const arch = diagnostic ? archetypeByKey[diagnostic.dominant] : null;
+  const submit = () => (onSubmit ?? definirObjectifs)(vals);
+
+  const introDefaut = (
+    <>
+      {arch ? <>Ton archétype <strong style={{ color: INK }}>{arch.name}</strong> t'accompagnera. </> : null}
+      Avant d'entrer dans tes 30 jours, formule un objectif par périmètre. Même
+      flou, il te sert de boussole — on le reprécisera au Jour 30.
+    </>
+  );
 
   return (
     <div style={{ maxWidth: 620, margin: "0 auto", fontFamily: sans, color: INK }}>
       <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
-        Ma quête · le cap
+        {eyebrow}
       </div>
       <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 32, margin: "8px 0 0", color: INK }}>
-        Pose ton cap
+        {titre}
       </h1>
       <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 22px", lineHeight: 1.55 }}>
-        {arch ? <>Ton archétype <strong style={{ color: INK }}>{arch.name}</strong> t'accompagnera. </> : null}
-        Avant d'entrer dans tes 30 jours, formule un objectif par périmètre. Même
-        flou, il te sert de boussole — on le reprécisera au Jour 30.
+        {intro ?? introDefaut}
       </p>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
@@ -73,7 +98,7 @@ export function Objectifs() {
       </div>
 
       <button
-        onClick={() => definirObjectifs(vals)}
+        onClick={submit}
         disabled={!auMoinsUn}
         style={{
           marginTop: 22, width: "100%", padding: "15px 24px", borderRadius: 999,
@@ -82,8 +107,19 @@ export function Objectifs() {
           background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
         }}
       >
-        Entrer dans mes 30 jours →
+        {submitLabel}
       </button>
+      {onCancel && (
+        <button
+          onClick={onCancel}
+          style={{
+            marginTop: 12, width: "100%", padding: "10px", borderRadius: 12,
+            border: "none", background: "transparent", color: MUTED, fontSize: 13, cursor: "pointer",
+          }}
+        >
+          Annuler
+        </button>
+      )}
     </div>
   );
 }
