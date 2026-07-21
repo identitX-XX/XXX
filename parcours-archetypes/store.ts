@@ -75,8 +75,22 @@ export const useParcoursStore = create<StoreParcours>()(
     }),
     {
       name: "parcours-archetypes",
-      version: 1,
+      version: 2,
       storage: createJSONStorage(() => localStorage),
+      // v1 -> v2 : la version précédente amorçait un diagnostic PAR DÉFAUT
+      // automatiquement (explorateur/sage), ce qui faisait sauter l'écran des
+      // 8 questions. On repart à zéro pour que le vrai diagnostic s'affiche.
+      migrate: (persisted, version) => {
+        if (version < 2) {
+          return {
+            parcours: parcoursBase,
+            diagnostic: null,
+            reponses: {},
+            etat: etatDepart(),
+          } as Partial<StoreParcours>;
+        }
+        return persisted as StoreParcours;
+      },
     }
   )
 );
