@@ -24,7 +24,7 @@ export default function AujourdhuiPage() {
       <Amorce
         etape={1}
         titre="Commence par toi"
-        texte="Réponds à une batterie de 12 questions pour identifier ton archétype. C'est le point de départ de tes 30 jours."
+        texte="Douze questions pour révéler ton archétype. C'est le seuil de tes 30 jours."
         cta="Je commence ma quête"
       />
     );
@@ -34,7 +34,7 @@ export default function AujourdhuiPage() {
       <Amorce
         etape={2}
         titre="Pose ton cap"
-        texte="Formule un objectif par périmètre — perso, pro, relationnel. Il te servira de boussole sur les 30 jours."
+        texte="Un objectif par périmètre — perso, pro, relationnel. Trois caps qui guideront chaque journée."
         cta="Poser mon cap"
       />
     );

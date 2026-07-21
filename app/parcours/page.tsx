@@ -7,7 +7,7 @@ export default function ParcoursPage() {
       <PageHead
         eyebrow="Quête IdentitX"
         title="Ton parcours"
-        sub="Les huit étapes de ton exploration, dans l'ordre. Entre où tu veux."
+        sub="Ton exploration, étape par étape. Suis le fil, ou entre par où ça t'appelle."
       />
       <ParcoursOverview />
     </div>

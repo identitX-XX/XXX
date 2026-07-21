@@ -21,7 +21,7 @@ export default function RapportPage() {
         <PageHead
           eyebrow="Rapport"
           title="Tes scénarios de sortie"
-          sub="Ton rapport se construit à partir de ta progression. Vis quelques journées, puis reviens."
+          sub="Ton rapport se tisse à partir de ce que tu vis. Traverse quelques journées, puis reviens le découvrir."
         />
         <Link href="/parcours-archetypes" className="text-sm text-fuchsia hover:underline">
           ← Aller au parcours

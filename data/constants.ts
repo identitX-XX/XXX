@@ -58,52 +58,49 @@ export const JOURNEY: JourneyStep[] = [
     href: "/parcours-archetypes",
     title: "Ton archétype",
     phrase:
-      "Réponds à une batterie de questions pour identifier ton archétype — avant tout le reste.",
+      "Douze questions, et l'archétype qui te met en mouvement se révèle. Tout commence là.",
   },
   {
     href: "/explorer",
     title: "Explorer",
     phrase:
-      "Réponds à des questions ciblées pour révéler tes caractéristiques, valeurs et motifs.",
+      "Des questions justes pour faire remonter tes caractéristiques, tes valeurs, tes motifs.",
   },
   {
     href: "/progression",
     title: "Progression",
-    phrase:
-      "Cartographie ton avancement sur 30 jours, jour après jour.",
+    phrase: "Ta carte des 30 jours : chaque journée vécue, d'un seul coup d'œil.",
   },
   {
     href: "/dna",
     title: "ADN personnel",
-    phrase: "Tes caractéristiques et motifs récurrents réunis en un profil.",
+    phrase: "Tout ce qui ressort, réuni en un seul portrait — ton ADN, net.",
   },
   {
     href: "/cartographie",
     title: "Cartographie",
-    phrase: "Tes thèmes reliés entre eux, en une carte visuelle.",
+    phrase: "Tes thèmes reliés entre eux : la carte de ce qui te compose.",
   },
   {
     href: "/journal",
     title: "Journal",
     phrase:
-      "Note ce que tu vis et relis-toi pour repérer tes évolutions.",
+      "Écris ce que tu traverses. Relis-toi plus tard : le chemin saute aux yeux.",
   },
   {
     href: "/coach",
     title: "Coach IdentitX",
-    phrase:
-      "Un dialogue qui t'aide à mettre des mots sur ce qui te définit.",
+    phrase: "Un dialogue qui pose des mots là où tu n'en avais pas encore.",
   },
   {
     href: "/synthese",
     title: "Synthèse",
-    phrase: "Ton profil en un coup d'œil : l'essentiel qui ressort.",
+    phrase: "L'essentiel de toi, distillé — ton profil en un regard.",
   },
   {
     href: "/reports",
     title: "Rapports",
-    phrase:
-      "Génère un document complet de ton exploration, à garder ou partager.",
+    phrase: "Un document complet de ton exploration, à garder ou à transmettre.",
   },
 ];
 
