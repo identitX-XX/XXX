@@ -100,25 +100,27 @@ export function Diagnostic() {
         ))}
       </div>
 
-      <div style={{ fontSize: 13, color: MUTED, marginBottom: 6 }}>
-        Question {step + 1} / {total}
-      </div>
-      <h2 style={{ fontFamily: serif, fontWeight: 400, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
-        {q.question}
-      </h2>
+      <div key={step} className="animate-fade-up">
+        <div style={{ fontSize: 13, color: MUTED, marginBottom: 6 }}>
+          Question {step + 1} / {total}
+        </div>
+        <h2 style={{ fontFamily: serif, fontWeight: 400, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
+          {q.question}
+        </h2>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-        {q.options.map((o) => (
-          <button
-            key={o.archetype + o.label}
-            onClick={() => choisir(o.archetype)}
-            style={optBtn}
-            onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; e.currentTarget.style.color = INK; }}
-            onMouseLeave={(e) => { e.currentTarget.style.borderColor = LINE; e.currentTarget.style.color = INK; }}
-          >
-            {o.label}
-          </button>
-        ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          {q.options.map((o) => (
+            <button
+              key={o.archetype + o.label}
+              onClick={() => choisir(o.archetype)}
+              style={optBtn}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; e.currentTarget.style.color = INK; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = LINE; e.currentTarget.style.color = INK; }}
+            >
+              {o.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {step > 0 && (

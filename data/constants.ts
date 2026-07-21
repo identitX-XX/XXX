@@ -57,7 +57,7 @@ export const JOURNEY: JourneyStep[] = [
     href: "/explorer",
     title: "Explorer",
     phrase:
-      "Réponds à des questions ciblées pour révéler tes traits, valeurs et motifs.",
+      "Réponds à des questions ciblées pour révéler tes caractéristiques, valeurs et motifs.",
   },
   {
     href: "/timeline",
@@ -68,7 +68,7 @@ export const JOURNEY: JourneyStep[] = [
   {
     href: "/dna",
     title: "ADN personnel",
-    phrase: "Tes traits et motifs récurrents réunis en un profil.",
+    phrase: "Tes caractéristiques et motifs récurrents réunis en un profil.",
   },
   {
     href: "/cartographie",

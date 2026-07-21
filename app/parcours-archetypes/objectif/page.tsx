@@ -50,7 +50,7 @@ export default function ObjectifPage() {
         <h2 className="font-display text-xl font-light text-ink">L'intention</h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
           Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
-          tu es — traits, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
+          tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
           archétypes</strong> les met en mouvement : 30 jours pour observer, à travers 12
           dominants, comment ces facettes s'activent selon tes contextes. Chaque
           soir, la matrice « respire » — ce que tu n'as pas réactivé retombe —
