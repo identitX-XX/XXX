@@ -17,8 +17,30 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "IDENTITX — Lab Identitaire",
-  description: "Explore qui tu es. Construis qui tu deviens.",
+  metadataBase: new URL("https://identitx.app"),
+  title: {
+    default: "IdentitX — ta quête identitaire",
+    template: "%s · IdentitX",
+  },
+  description:
+    "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+  applicationName: "IdentitX",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "IdentitX",
+  },
+  icons: {
+    icon: "/favicon.png",
+    apple: "/apple-icon.png",
+  },
+  openGraph: {
+    title: "IdentitX — ta quête identitaire",
+    description:
+      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+    type: "website",
+    locale: "fr_FR",
+  },
 };
 
 export const viewport: Viewport = {
