@@ -3,16 +3,17 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Flame } from "lucide-react";
 import { Card, PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { phaseDuJour } from "@/parcours-archetypes/archetypes";
+import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
 import {
   coherenceCourante,
   courbeEvolution,
   archetypeDominant,
+  momentum,
   progression,
 } from "@/parcours-archetypes/indicateurs";
 
@@ -71,8 +72,10 @@ export default function ProgressionPage() {
   }
 
   const prog = progression(etat);
+  const mo = momentum(etat);
   const phase = phaseDuJour(Math.min(prog.jourCourant, 30));
   const dom = archetypeDominant(etat);
+  const hue = dom ? archetypeByKey[dom.key].hue : null;
   const courbe = courbeEvolution(etat);
   const trend =
     courbe.length >= 2 ? courbe[courbe.length - 1].coherence - courbe[0].coherence : 0;
@@ -88,19 +91,32 @@ export default function ProgressionPage() {
       />
 
       {/* Anneau + repères */}
-      <div className="grid gap-4 sm:grid-cols-[auto_1fr]">
+      <div className="grid gap-4 animate-fade-up sm:grid-cols-[auto_1fr]">
         <Card className="flex items-center gap-5 p-6">
-          <div
-            style={{
-              width: 108, height: 108, borderRadius: "50%",
-              background: `conic-gradient(var(--fuchsia) ${angle}deg, var(--line) ${angle}deg)`,
-              display: "grid", placeItems: "center", flex: "none",
-            }}
-          >
-            <div className="grid h-[86px] w-[86px] place-items-center rounded-full bg-noir text-center">
-              <div>
-                <div className="font-display text-2xl text-ink">{prog.faits}</div>
-                <div className="text-[10px] uppercase tracking-wider text-muted">/ 30 jours</div>
+          <div className="relative flex-none">
+            <div
+              aria-hidden
+              className="absolute inset-0 rounded-full blur-2xl opacity-40"
+              style={{
+                background:
+                  hue !== null
+                    ? `radial-gradient(circle, hsl(${hue} 90% 60%), transparent 70%)`
+                    : "transparent",
+              }}
+            />
+            <div
+              className="relative"
+              style={{
+                width: 108, height: 108, borderRadius: "50%",
+                background: `conic-gradient(var(--fuchsia) ${angle}deg, var(--line) ${angle}deg)`,
+                display: "grid", placeItems: "center",
+              }}
+            >
+              <div className="grid h-[86px] w-[86px] place-items-center rounded-full bg-surface text-center">
+                <div>
+                  <div className="font-display text-2xl text-ink">{prog.faits}</div>
+                  <div className="text-[10px] uppercase tracking-wider text-muted">/ 30 jours</div>
+                </div>
               </div>
             </div>
           </div>
@@ -131,6 +147,55 @@ export default function ProgressionPage() {
         </div>
       </div>
 
+      {/* Momentum — même langage que le hub Aujourd'hui : série + prochain cap. */}
+      {prog.faits > 0 && (
+        <div
+          className="mt-4 grid gap-4 animate-fade-up sm:grid-cols-2"
+          style={{ animationDelay: "60ms" }}
+        >
+          <Card className="flex items-center gap-4 p-5">
+            <div
+              className="grid h-11 w-11 flex-none place-items-center rounded-full"
+              style={{
+                background: "color-mix(in srgb, var(--orange) 14%, transparent)",
+                color: "var(--orange)",
+              }}
+            >
+              <Flame size={20} />
+            </div>
+            <div>
+              <div className="font-display text-xl text-ink">
+                {mo.serie > 0
+                  ? `${mo.serie} jour${mo.serie > 1 ? "s" : ""} d'affilée`
+                  : "Reprends le fil"}
+              </div>
+              <div className="text-xs text-muted">
+                {mo.serie > 0
+                  ? mo.record > mo.serie
+                    ? `Ton record : ${mo.record} jours`
+                    : "C'est ta meilleure série — tiens-la."
+                  : "Une journée aujourd'hui relance ta série."}
+              </div>
+            </div>
+          </Card>
+
+          {mo.prochainJalon && (
+            <Card className="flex flex-col justify-center gap-2 p-5">
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm text-ink">Prochain cap · {mo.prochainJalon} jours</span>
+                <span className="text-xs text-muted">plus que {mo.resteAvantJalon}</span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-line">
+                <div
+                  className="h-full rounded-full brand-gradient transition-all"
+                  style={{ width: `${Math.round((prog.faits / mo.prochainJalon) * 100)}%` }}
+                />
+              </div>
+            </Card>
+          )}
+        </div>
+      )}
+
       {/* Ton cap · tes objectifs (revoir / modifier) */}
       {objectifs && (
         <Card className="mt-4 p-6">
@@ -159,7 +224,7 @@ export default function ProgressionPage() {
       )}
 
       {/* Frise d'avancement */}
-      <div className="mt-8">
+      <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
         <DayStrip
           jourCourant={prog.jourCourant}
           selected={Math.min(prog.jourCourant, 30)}
