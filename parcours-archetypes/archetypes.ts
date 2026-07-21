@@ -12,8 +12,18 @@ export const ARCHETYPES: Archetype[] = [
   {
     key: "explorateur",
     name: "L'Explorateur·rice",
-    lens: "Observe ce qui s'ouvre quand tu oses l'inconnu — et ce que rester en place te coûte.",
+    lens: "Observe ce qui éveille ta curiosité avant même que tu en comprennes la raison. Certaines directions ne s'imposent pas parce qu'elles sont rassurantes, mais parce qu'elles ouvrent un espace où quelque chose en toi pressent déjà qu'il pourra grandir. Aujourd'hui, remarque moins ce que tu connais que ce que tu n'oses pas encore rencontrer.",
     hue: 28,
+    essence:
+      "L'Exploratrice ne cherche pas l'ailleurs pour fuir l'ici. Son mouvement profond consiste à élargir le territoire de son expérience afin que son identité ne se réduise jamais à ce qu'elle connaît déjà d'elle-même. Elle comprend que chaque rencontre — avec une idée, une personne, un lieu ou une émotion — redessine silencieusement les contours de son monde intérieur. Explorer, c'est accepter que certaines réponses ne puissent apparaître qu'en chemin. C'est consentir à être transformée par ce qui ne figurait dans aucun projet. L'inconnu cesse alors d'être un vide à combler ; il devient un partenaire de croissance.",
+    force:
+      "Lorsque cette dynamique circule librement, tu développes une confiance singulière : non pas celle de savoir ce qui t'attend, mais celle de pouvoir rencontrer ce qui adviendra. Tu accueilles l'incertitude sans lui demander de disparaître. Les différences deviennent des occasions d'élargir ton regard plutôt que des menaces pour tes repères. Chaque expérience nourrit ta compréhension du monde sans enfermer ton identité dans une nouvelle définition. Tu découvres que la curiosité est une forme de courage, parce qu'elle accepte de suspendre les certitudes au profit de la rencontre. Peu à peu, ton existence cesse d'être organisée autour de ce qui est familier. Elle s'ouvre à ce qui appelle ton évolution. Tu comprends alors qu'explorer ne consiste pas seulement à parcourir de nouveaux territoires, mais à laisser chaque territoire traversé agrandir celui que tu portes en toi.",
+    ombre:
+      "Toute ouverture peut devenir une fuite lorsqu'elle refuse l'enracinement. À force de rechercher l'inédit, tu peux finir par croire que ce qui est proche ne peut plus rien t'apprendre. Les commencements se succèdent, mais les expériences n'ont jamais le temps de devenir une véritable transformation. Il arrive aussi que tu poursuives sans relâche la prochaine découverte afin d'éviter de rencontrer ce qui, en toi, attend d'être pleinement habité. L'ailleurs devient alors plus séduisant que le présent. Le mouvement protège de l'immobilité, mais aussi de certaines confrontations intérieures. Ce qui devait élargir ton identité peut finir par la disperser. Tu voyages beaucoup, mais certaines parts de toi demeurent encore à la même place, silencieuses, patientes, attendant enfin d'être rencontrées.",
+    question:
+      "Quel territoire continues-tu d'imaginer comme extérieur à toi… alors que la véritable exploration commence peut-être au moment où tu acceptes de regarder autrement ce qui t'est déjà familier ?",
+    defi:
+      "Aujourd'hui, fais volontairement un choix différent dans une situation ordinaire : emprunte un autre chemin, engage une conversation inhabituelle, découvre une idée que tu aurais spontanément écartée ou observe un lieu comme si tu le voyais pour la première fois. Pendant deux minutes, résiste au besoin de comparer cette expérience à ce que tu connais déjà. Observe ce qui apparaît lorsque la curiosité précède le jugement.",
   },
   {
     key: "sage",
