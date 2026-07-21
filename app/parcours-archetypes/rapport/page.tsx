@@ -5,7 +5,14 @@ import Link from "next/link";
 import { ArrowLeft, Check } from "lucide-react";
 import { Card, PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
+import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { genererScenarios, labelPerimetre, Perimetre } from "@/parcours-archetypes/scenarios";
+
+// Première phrase d'un texte (pour un aperçu compact de l'ombre secondaire).
+function premierePhrase(t: string): string {
+  const i = t.indexOf(". ");
+  return i > 0 ? t.slice(0, i + 1) : t;
+}
 
 // Rapport final : 3 scénarios de sortie activables, un par périmètre de vie,
 // générés depuis les éclairages de la progression. Activer = choisir son plan.
@@ -31,6 +38,8 @@ export default function RapportPage() {
   }
 
   const scenarios = genererScenarios(etat, diagnostic.dominant, diagnostic.secondaire);
+  const dom = archetypeByKey[diagnostic.dominant];
+  const sec = archetypeByKey[diagnostic.secondaire];
 
   return (
     <div>
@@ -47,6 +56,41 @@ export default function RapportPage() {
         <ArrowLeft size={15} />
         Retour à ta progression
       </Link>
+
+      {/* Ton moteur, ton piège : la Force et l'Ombre de ton archétype, face à
+          face — le cœur de « moteur ou piège » du parcours. */}
+      {(dom.force || dom.ombre) && (
+        <Card className="mb-8 p-6 sm:p-7">
+          <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+            Ton archétype · moteur &amp; piège
+          </div>
+          <h2 className="mt-1 font-display text-2xl font-light text-ink">{dom.name}</h2>
+          <div className="mt-5 grid gap-6 md:grid-cols-2">
+            {dom.force && (
+              <div>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ink">
+                  <span style={{ color: "var(--good)" }}>▲</span> Ton moteur
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{dom.force}</p>
+              </div>
+            )}
+            {dom.ombre && (
+              <div>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-ink">
+                  <span style={{ color: "var(--orange)" }}>▼</span> Ton piège
+                </div>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{dom.ombre}</p>
+              </div>
+            )}
+          </div>
+          {sec.ombre && (
+            <div className="mt-6 border-t border-line pt-4 text-sm text-muted">
+              En appui, <b className="text-ink">{sec.name}</b> — à surveiller aussi :{" "}
+              {premierePhrase(sec.ombre)}
+            </div>
+          )}
+        </Card>
+      )}
 
       <div className="grid gap-4 md:grid-cols-3">
         {scenarios.map((s) => {
