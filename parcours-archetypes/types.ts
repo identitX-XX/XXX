@@ -132,6 +132,9 @@ export interface EtatEvolution {
 export interface Diagnostic {
   dominant: ArchetypeKey;
   secondaire: ArchetypeKey;
+  // Comptes bruts des 12 réponses (optionnel) — nourrit la « première lecture »
+  // sourcée dès le jour 1. Absent des diagnostics créés avant cette version.
+  tally?: Partial<Record<ArchetypeKey, number>>;
 }
 
 // Objectif que l'utilisateur pose au départ, sur chacun de ses trois
