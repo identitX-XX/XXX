@@ -1,26 +1,26 @@
 "use client";
 
-// La boucle quotidienne, branchée sur le VRAI store (vivreJour). Route neuve,
-// non reliée — la racine `/` reste intacte. Démarrage minimal (prénom), puis
-// les quatre temps du jour. ?day=N pour parcourir en test (devSetDay).
+// L'expérience La Traversée — le rituel quotidien. Démarrage minimal (prénom),
+// puis les quatre temps du jour, branchés sur le vrai store. Accès discret au
+// Vestiaire. ?day=N pour parcourir en test (devSetDay).
 
 import { useEffect, useState } from "react";
-import { useTraversee } from "../../../traversee/store/useTraversee";
-import { Portrait } from "../../../traversee/components/Portrait";
-import { BoucleJour } from "../../../traversee/components/BoucleJour";
-import { jourN, acteDuJour, ACTES } from "../../../traversee/content/jours";
-import { territoireByKey } from "../../../traversee/content/territoires";
-import { composerSignal, voiceClarity, registre } from "../../../traversee/lib/voice";
+import Link from "next/link";
+import { useTraversee } from "../store/useTraversee";
+import { Portrait } from "./Portrait";
+import { BoucleJour } from "./BoucleJour";
+import { jourN, acteDuJour, ACTES } from "../content/jours";
+import { territoireByKey } from "../content/territoires";
+import { composerSignal, voiceClarity, registre } from "../lib/voice";
 
 const REG_LABEL: Record<string, string> = { brume: "Brume", assure: "Assuré", intime: "Intime" };
 
-export default function PageJour() {
+export function TraverseeApp() {
   const s = useTraversee();
   const [mounted, setMounted] = useState(false);
   const [jourAffiche, setJourAffiche] = useState(1);
   const [prenomSaisi, setPrenomSaisi] = useState("");
 
-  // Après montage : caler le jour affiché sur le store, honorer ?day=N.
   useEffect(() => {
     const p = new URLSearchParams(window.location.search).get("day");
     const n = p ? parseInt(p, 10) : NaN;
@@ -41,24 +41,24 @@ export default function PageJour() {
   const contenu = jourN(jourAffiche);
   const clarity = s.portrait.clarity;
 
-  // Renoncements dans ses mots : les cibles LAISSÉES, pour que la voix intime
-  // les cite.
   const renoncements = Object.values(s.reponses)
     .filter((r) => r.verbe === "laisser" && r.cible)
     .map((r) => r.cible as string);
 
-  const signal = contenu
-    ? composerSignal(contenu, { prenom: s.profil.prenom, renoncements })
-    : "";
+  const signal = contenu ? composerSignal(contenu, { prenom: s.profil.prenom, renoncements }) : "";
   const acte = ACTES.find((a) => a.key === acteDuJour(jourAffiche));
   const terr = contenu ? territoireByKey[contenu.territoire] : null;
   const reg = registre(voiceClarity(jourAffiche));
 
   return (
     <div style={ST.page}>
+      {demarre && (
+        <Link href="/vestiaire" style={ST.lienVestiaire}>
+          Le Vestiaire
+        </Link>
+      )}
       <div style={ST.inner}>
         {!demarre ? (
-          // Temps 0 : le seul renseignement demandé — le prénom.
           <div style={{ maxWidth: 420, margin: "0 auto", textAlign: "center" }}>
             <p style={ST.eyebrow}>La traversée</p>
             <p style={ST.intro}>
@@ -107,13 +107,19 @@ export default function PageJour() {
 
 const ST: Record<string, React.CSSProperties> = {
   page: {
-    position: "fixed", inset: 0, zIndex: 9999, overflowY: "auto",
+    position: "relative",
+    minHeight: "100vh",
     background:
       "radial-gradient(1000px 560px at 50% -6%, #17122a 0%, rgba(23,18,42,0) 60%), #08060f",
     color: "#ece8f4",
     fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif',
   },
-  inner: { maxWidth: 640, margin: "0 auto", padding: "48px 24px 120px", textAlign: "center" },
+  lienVestiaire: {
+    position: "absolute", top: 20, right: 22, fontSize: 12, letterSpacing: "0.12em",
+    textTransform: "uppercase", color: "#635d78", textDecoration: "none", fontWeight: 600,
+    zIndex: 3,
+  },
+  inner: { maxWidth: 640, margin: "0 auto", padding: "64px 24px 120px", textAlign: "center" },
   eyebrow: {
     fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase",
     color: "#e8823f", fontWeight: 600, margin: "0 0 20px",

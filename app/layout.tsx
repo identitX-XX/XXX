@@ -1,7 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
-import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
 
 // Typographie premium : Playfair Display (titres, fort contraste couture) +
@@ -23,11 +22,11 @@ const inter = Hanken_Grotesk({
 export const metadata: Metadata = {
   metadataBase: new URL("https://identitx.app"),
   title: {
-    default: "IdentitX — ta quête identitaire",
+    default: "IdentitX — La Traversée",
     template: "%s · IdentitX",
   },
   description:
-    "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+    "Trente jours. Un seul geste par jour. On ne se recompose pas en s'ajoutant — on choisit ce qu'on emporte.",
   applicationName: "IdentitX",
   appleWebApp: {
     capable: true,
@@ -39,9 +38,9 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "IdentitX — ta quête identitaire",
+    title: "IdentitX — La Traversée",
     description:
-      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+      "Trente jours. Un seul geste par jour. On choisit ce qu'on emporte.",
     type: "website",
     locale: "fr_FR",
   },
@@ -61,9 +60,7 @@ export default function RootLayout({
   return (
     <html lang="fr" className={fraunces.variable + " " + inter.variable}>
       <body>
-        <Gate>
-          <ClientShell>{children}</ClientShell>
-        </Gate>
+        <Gate>{children}</Gate>
       </body>
     </html>
   );
