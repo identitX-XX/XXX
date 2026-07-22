@@ -24,6 +24,7 @@ export function TraverseeApp() {
   const s = useTraversee();
   const [mounted, setMounted] = useState(false);
   const [jourAffiche, setJourAffiche] = useState(1);
+  const [resetArme, setResetArme] = useState(false);
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search).get("day");
@@ -110,6 +111,29 @@ export function TraverseeApp() {
           Le Vestiaire
         </Link>
       )}
+      {/* Aide au test — repartir de zéro. À retirer avant le lancement. */}
+      {demarre &&
+        (resetArme ? (
+          <div style={ST.resetRow}>
+            <button
+              style={ST.resetConfirm}
+              onClick={() => {
+                s.reinitialiser();
+                setJourAffiche(1);
+                setResetArme(false);
+              }}
+            >
+              Tout effacer
+            </button>
+            <button style={ST.resetAnnuler} onClick={() => setResetArme(false)}>
+              Annuler
+            </button>
+          </div>
+        ) : (
+          <button style={ST.resetLien} onClick={() => setResetArme(true)}>
+            Recommencer
+          </button>
+        ))}
       <div className="tx-page" style={ST.inner}>
         {!demarre ? (
           <Onboarding onDemarrer={(prenom, heure) => s.demarrer(prenom, heure)} />
@@ -168,6 +192,23 @@ const ST: Record<string, React.CSSProperties> = {
     position: "absolute", top: 20, right: 22, fontSize: 12, letterSpacing: "0.12em",
     textTransform: "uppercase", color: "#635d78", textDecoration: "none", fontWeight: 600,
     zIndex: 3,
+  },
+  resetLien: {
+    position: "fixed", bottom: 16, left: "50%", transform: "translateX(-50%)",
+    fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "#463f5c",
+    background: "none", border: "none", cursor: "pointer", zIndex: 3, fontWeight: 600,
+  },
+  resetRow: {
+    position: "fixed", bottom: 14, left: "50%", transform: "translateX(-50%)",
+    display: "flex", gap: 10, alignItems: "center", zIndex: 3,
+  },
+  resetConfirm: {
+    fontSize: 12, fontWeight: 600, padding: "7px 16px", borderRadius: 999, cursor: "pointer",
+    color: "#e8823f", background: "rgba(232,130,63,.12)", border: "1px solid rgba(232,130,63,.5)",
+  },
+  resetAnnuler: {
+    fontSize: 12, padding: "7px 12px", borderRadius: 999, cursor: "pointer",
+    color: "#635d78", background: "none", border: "none",
   },
   inner: { maxWidth: 640, margin: "0 auto", padding: "64px 24px 120px", textAlign: "center" },
   meta: { color: "#635d78", fontSize: 13, margin: "0 0 26px" },
