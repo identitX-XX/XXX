@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useTraversee } from "../store/useTraversee";
 import { Portrait } from "./Portrait";
 import { BoucleJour } from "./BoucleJour";
+import { Passage } from "./Passage";
 import { jourN, acteDuJour, ACTES } from "../content/jours";
 import { territoireByKey } from "../content/territoires";
 import { composerSignal, voiceClarity, registre } from "../lib/voice";
@@ -86,18 +87,33 @@ export function TraverseeApp() {
             <p style={ST.meta}>
               {acte?.nom} — Jour {jourAffiche} · {terr?.nom} · registre {REG_LABEL[reg]}
             </p>
-            <div style={{ marginBottom: 34 }}>
-              <Portrait clarity={clarity} size={180} />
-            </div>
-            <BoucleJour
-              key={jourAffiche}
-              contenu={contenu}
-              signal={signal}
-              etoiles={s.etoiles}
-              dejaVecu={!!s.reponses[jourAffiche]}
-              onVivre={(choixId, verbe, cible) => s.vivreJour(jourAffiche, choixId, verbe, cible)}
-              onTermine={() => setJourAffiche(s.journey.currentDay)}
-            />
+            {jourAffiche >= 30 ? (
+              <Passage
+                key="passage"
+                signal={signal}
+                prenom={s.profil.prenom}
+                nomFutur={s.nomFutur}
+                reponses={s.reponses}
+                etoiles={s.etoiles}
+                clarity={clarity}
+                onNommer={(nom) => s.nommer(nom)}
+              />
+            ) : (
+              <>
+                <div style={{ marginBottom: 34 }}>
+                  <Portrait clarity={clarity} size={180} />
+                </div>
+                <BoucleJour
+                  key={jourAffiche}
+                  contenu={contenu}
+                  signal={signal}
+                  etoiles={s.etoiles}
+                  dejaVecu={!!s.reponses[jourAffiche]}
+                  onVivre={(choixId, verbe, cible) => s.vivreJour(jourAffiche, choixId, verbe, cible)}
+                  onTermine={() => setJourAffiche(s.journey.currentDay)}
+                />
+              </>
+            )}
           </>
         ) : null}
       </div>
