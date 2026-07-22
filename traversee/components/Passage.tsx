@@ -5,7 +5,7 @@
 // constellation) et s'emporte, en image ou en texte, sans serveur. Vraie fin.
 
 import { useState } from "react";
-import { ReponseJour, Etoile } from "../types";
+import { ReponseJour, Etoile, DestinationCandidate } from "../types";
 import { Portrait } from "./Portrait";
 import { Constellation } from "./Constellation";
 import { composerArtefact } from "../lib/artefact";
@@ -20,10 +20,11 @@ interface Props {
   reponses: Record<number, ReponseJour>;
   etoiles: Etoile[];
   clarity: number;
+  destination?: DestinationCandidate | null;
   onNommer: (nom: string) => void;
 }
 
-export function Passage({ signal, prenom, nomFutur, reponses, etoiles, clarity, onNommer }: Props) {
+export function Passage({ signal, prenom, nomFutur, reponses, etoiles, clarity, destination, onNommer }: Props) {
   const [etape, setEtape] = useState<Etape>(nomFutur ? "artefact" : "signal");
   const [nom, setNom] = useState("");
 
@@ -33,13 +34,13 @@ export function Passage({ signal, prenom, nomFutur, reponses, etoiles, clarity, 
     setEtape("artefact");
   }
 
-  const artefact = composerArtefact({ prenom, nomFutur: nomFutur ?? nom, reponses });
+  const artefact = composerArtefact({ prenom, nomFutur: nomFutur ?? nom, reponses, destination });
 
   return (
     <div style={S.wrap}>
       <style>{`
-        .tx-step { animation: tx-fade 1s cubic-bezier(.16,1,.3,1) both; }
-        @keyframes tx-fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+        .tx-step { animation: tx-fade 1.3s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes tx-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { .tx-step { animation: none; } }
       `}</style>
 

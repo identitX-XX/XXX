@@ -1,8 +1,9 @@
 "use client";
 
-// L'expérience La Traversée — le rituel quotidien. Démarrage minimal (prénom),
-// puis les quatre temps du jour, branchés sur le vrai store. Accès discret au
-// Vestiaire. ?day=N pour parcourir en test (devSetDay).
+// L'expérience La Traversée — le rituel quotidien, branché sur le vrai store.
+// Orchestre les cinq actes : la boucle des 4 temps chaque jour, plus les
+// battements propres à chaque acte — le Signe (III), l'Atterrissage (IV), et le
+// Passage (V, J30). Accès discret au Vestiaire. ?day=N pour parcourir en test.
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -10,9 +11,12 @@ import { useTraversee } from "../store/useTraversee";
 import { Portrait } from "./Portrait";
 import { BoucleJour } from "./BoucleJour";
 import { Passage } from "./Passage";
+import { Onboarding } from "./Onboarding";
+import { Atterrissage } from "./Atterrissage";
 import { jourN, acteDuJour, ACTES } from "../content/jours";
 import { territoireByKey } from "../content/territoires";
 import { composerSignal, voiceClarity, registre } from "../lib/voice";
+import { signes } from "../lib/derivation";
 
 const REG_LABEL: Record<string, string> = { brume: "Brume", assure: "Assuré", intime: "Intime" };
 
@@ -20,7 +24,6 @@ export function TraverseeApp() {
   const s = useTraversee();
   const [mounted, setMounted] = useState(false);
   const [jourAffiche, setJourAffiche] = useState(1);
-  const [prenomSaisi, setPrenomSaisi] = useState("");
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search).get("day");
@@ -36,56 +39,85 @@ export function TraverseeApp() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Acte IV : dériver les trois destinations en entrant dans l'atterrissage.
+  useEffect(() => {
+    if (!mounted || s.journey.startDate === null) return;
+    if (acteDuJour(jourAffiche) === "atterrissage" && s.destinations.candidates.length === 0) {
+      s.genererDestinations();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, jourAffiche, s.destinations.candidates.length]);
+
+  // Quand un seul chemin reste, il devient la destination.
+  useEffect(() => {
+    if (s.destinations.candidates.length === 0) return;
+    const rest = s.destinations.candidates.filter((c) => !s.destinations.eliminees.includes(c.id));
+    if (rest.length === 1 && !s.destinations.choisie) s.choisirDestination(rest[0].id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [s.destinations.candidates.length, s.destinations.eliminees.length, s.destinations.choisie]);
+
   if (!mounted) return <div style={ST.page} />;
 
   const demarre = s.journey.startDate !== null;
   const contenu = jourN(jourAffiche);
   const clarity = s.portrait.clarity;
+  const acteKey = acteDuJour(jourAffiche);
 
   const renoncements = Object.values(s.reponses)
     .filter((r) => r.verbe === "laisser" && r.cible)
     .map((r) => r.cible as string);
 
   const signal = contenu ? composerSignal(contenu, { prenom: s.profil.prenom, renoncements }) : "";
-  const acte = ACTES.find((a) => a.key === acteDuJour(jourAffiche));
+  const acte = ACTES.find((a) => a.key === acteKey);
   const terr = contenu ? territoireByKey[contenu.territoire] : null;
   const reg = registre(voiceClarity(jourAffiche));
 
+  const destChoisie = s.destinations.candidates.find((c) => c.id === s.destinations.choisie) ?? null;
+
+  // Battement propre à l'acte, montré sous la trace.
+  let traceExtra: React.ReactNode = null;
+  if (acteKey === "signes") {
+    const sg = signes(s.reponses)[0];
+    if (sg) {
+      traceExtra = (
+        <div style={ST.signe}>
+          <p style={ST.signeEyebrow}>Un signe</p>
+          <p style={ST.signeTexte}>{sg.texte}</p>
+          <p style={ST.signePreuve}>{sg.preuve}</p>
+        </div>
+      );
+    }
+  } else if (acteKey === "atterrissage") {
+    traceExtra = (
+      <Atterrissage
+        candidates={s.destinations.candidates}
+        eliminees={s.destinations.eliminees}
+        choisie={s.destinations.choisie}
+        onEliminer={s.eliminerDestination}
+      />
+    );
+  }
+
   return (
     <div style={ST.page}>
+      <style>{`
+        .tx-page { animation: tx-page-in 1.4s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes tx-page-in { from { opacity: 0; } to { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) { .tx-page { animation: none; } }
+      `}</style>
       {demarre && (
         <Link href="/vestiaire" style={ST.lienVestiaire}>
           Le Vestiaire
         </Link>
       )}
-      <div style={ST.inner}>
+      <div className="tx-page" style={ST.inner}>
         {!demarre ? (
-          <div style={{ maxWidth: 420, margin: "0 auto", textAlign: "center" }}>
-            <p style={ST.eyebrow}>La traversée</p>
-            <p style={ST.intro}>
-              Trente jours. Un seul geste par jour. On ne se recompose pas en
-              s'ajoutant — on choisit ce qu'on emporte.
-            </p>
-            <input
-              value={prenomSaisi}
-              onChange={(e) => setPrenomSaisi(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && prenomSaisi.trim() && s.demarrer(prenomSaisi, "")}
-              placeholder="Ton prénom"
-              aria-label="Ton prénom"
-              style={ST.input}
-            />
-            <button
-              style={ST.start}
-              onClick={() => prenomSaisi.trim() && s.demarrer(prenomSaisi, "")}
-              disabled={!prenomSaisi.trim()}
-            >
-              Commencer
-            </button>
-          </div>
+          <Onboarding onDemarrer={(prenom, heure) => s.demarrer(prenom, heure)} />
         ) : contenu ? (
           <>
             <p style={ST.meta}>
               {acte?.nom} — Jour {jourAffiche} · {terr?.nom} · registre {REG_LABEL[reg]}
+              {s.profil.heureRituel ? ` · rendez-vous ${s.profil.heureRituel}` : ""}
             </p>
             {jourAffiche >= 30 ? (
               <Passage
@@ -96,6 +128,7 @@ export function TraverseeApp() {
                 reponses={s.reponses}
                 etoiles={s.etoiles}
                 clarity={clarity}
+                destination={destChoisie}
                 onNommer={(nom) => s.nommer(nom)}
               />
             ) : (
@@ -111,6 +144,7 @@ export function TraverseeApp() {
                   dejaVecu={!!s.reponses[jourAffiche]}
                   onVivre={(choixId, verbe, cible) => s.vivreJour(jourAffiche, choixId, verbe, cible)}
                   onTermine={() => setJourAffiche(s.journey.currentDay)}
+                  traceExtra={traceExtra}
                 />
               </>
             )}
@@ -136,23 +170,19 @@ const ST: Record<string, React.CSSProperties> = {
     zIndex: 3,
   },
   inner: { maxWidth: 640, margin: "0 auto", padding: "64px 24px 120px", textAlign: "center" },
-  eyebrow: {
-    fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase",
-    color: "#e8823f", fontWeight: 600, margin: "0 0 20px",
-  },
-  intro: {
-    fontFamily: '"Iowan Old Style", Palatino, Georgia, serif',
-    fontSize: 19, lineHeight: 1.5, color: "#c9c2dd", margin: "0 0 30px",
-  },
   meta: { color: "#635d78", fontSize: 13, margin: "0 0 26px" },
-  input: {
-    width: "100%", fontFamily: "inherit", fontSize: 17, padding: "14px 16px",
-    borderRadius: 12, border: "1px solid #2f2643", background: "#0c0a15",
-    color: "#f2eef8", marginBottom: 18, textAlign: "center",
+  signe: {
+    marginTop: 26, padding: "18px 20px", borderRadius: 14,
+    border: "1px solid rgba(232,130,63,.28)", background: "rgba(232,130,63,.06)",
+    maxWidth: 460, marginLeft: "auto", marginRight: "auto",
   },
-  start: {
-    fontFamily: "inherit", fontSize: 15, fontWeight: 600, padding: "13px 34px",
-    borderRadius: 999, border: "1px solid rgba(255,78,168,.5)",
-    background: "rgba(255,78,168,.14)", color: "#ff5cae", cursor: "pointer",
+  signeEyebrow: {
+    fontSize: 10.5, letterSpacing: "0.2em", textTransform: "uppercase",
+    color: "#e8823f", fontWeight: 600, margin: "0 0 8px",
   },
+  signeTexte: {
+    fontFamily: '"Iowan Old Style", Palatino, Georgia, serif',
+    fontSize: 17, lineHeight: 1.45, color: "#f2eef8", margin: "0 0 6px",
+  },
+  signePreuve: { fontSize: 12, color: "#8b84a3", margin: 0, fontVariantNumeric: "tabular-nums" },
 };

@@ -11,7 +11,7 @@
 // (choix neutre) : on peut passer sans trancher. Transitions lentes, coupées
 // si prefers-reduced-motion.
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { JourContenu, Etoile, Verbe } from "../types";
 import { Constellation } from "./Constellation";
 
@@ -24,6 +24,9 @@ interface Props {
   dejaVecu: boolean;
   onVivre: (choixId: string, verbe: Verbe | undefined, cible: string) => void;
   onTermine: () => void;
+  // Battement propre à l'acte, affiché sous la trace : un Signe (Acte III),
+  // l'Atterrissage (Acte IV)…
+  traceExtra?: ReactNode;
 }
 
 const EYEBROW: Record<Temps, string> = {
@@ -33,7 +36,7 @@ const EYEBROW: Record<Temps, string> = {
   trace: "La trace",
 };
 
-export function BoucleJour({ contenu, signal, etoiles, dejaVecu, onVivre, onTermine }: Props) {
+export function BoucleJour({ contenu, signal, etoiles, dejaVecu, onVivre, onTermine, traceExtra }: Props) {
   const [temps, setTemps] = useState<Temps>(dejaVecu ? "trace" : "signal");
   const [choixId, setChoixId] = useState<string | null>(null);
   const [verbe, setVerbe] = useState<Verbe | undefined>(undefined);
@@ -64,8 +67,8 @@ export function BoucleJour({ contenu, signal, etoiles, dejaVecu, onVivre, onTerm
   return (
     <div style={S.wrap}>
       <style>{`
-        .tx-step { animation: tx-fade .8s cubic-bezier(.16,1,.3,1) both; }
-        @keyframes tx-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+        .tx-step { animation: tx-fade 1.05s cubic-bezier(.16,1,.3,1) both; }
+        @keyframes tx-fade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { .tx-step { animation: none; } }
         .tx-choix:hover, .tx-choix:focus-visible { border-color: rgba(255,78,168,.5); color: #f2eef8; outline: none; }
         .tx-verb { transition: transform .2s ease, background .2s ease; }
@@ -178,6 +181,7 @@ export function BoucleJour({ contenu, signal, etoiles, dejaVecu, onVivre, onTerm
               "Un point s'est éteint. Ce que tu as posé t'attend au Vestiaire — réversible aujourd'hui."}
             {!verbe && "Rien tranché aujourd'hui. La carte t'a vue passer."}
           </p>
+          {traceExtra}
           <button style={{ ...S.next, marginTop: 22 }} onClick={onTermine}>
             C'est tout pour aujourd'hui
           </button>
