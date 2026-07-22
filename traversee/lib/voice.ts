@@ -27,50 +27,33 @@ export interface ContexteVoix {
   renoncements?: string[]; // ce qu'elle a laissé, dans ses mots
 }
 
-// Sélection déterministe dans une liste (pas de hasard).
-function pick<T>(arr: T[], seed: number): T {
-  return arr[((seed % arr.length) + arr.length) % arr.length];
+// Remplit les jetons du signal écrit :
+//   {prenom}       → son prénom (vide si inconnu)
+//   {renoncement}  → son dernier renoncement (vide si aucun)
+// Les clauses optionnelles [[ … ]] sont supprimées entièrement si un jeton
+// qu'elles contiennent n'a pas de valeur — la brume ne prononce donc jamais un
+// prénom absent, et aucune phrase ne cite un renoncement inexistant.
+function remplirJetons(signal: string, prenom?: string, renoncement?: string): string {
+  const s = signal.replace(/\[\[(.*?)\]\]/gs, (_, inner: string) => {
+    if (inner.includes("{prenom}") && !prenom) return "";
+    if (inner.includes("{renoncement}") && !renoncement) return "";
+    return inner;
+  });
+  return s
+    .replaceAll("{prenom}", prenom ?? "")
+    .replaceAll("{renoncement}", renoncement ?? "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
 }
 
-// Compose le Signal du jour. Si le contenu fournit un signal écrit, il prime.
-// Sinon on compose selon le registre. C'est un échafaudage : le vrai contenu
-// remplacera ces gabarits, mais la mécanique de netteté est réelle.
+// Compose le Signal du jour à partir du texte écrit (registre déjà porté par le
+// texte : brume J1–8, assuré J9–20, intime J21–30), en remplissant ses jetons.
+// Déterministe : mêmes entrées → même sortie.
 export function composerSignal(
   contenu: JourContenu,
   ctx: ContexteVoix = {}
 ): string {
-  if (contenu.signal && !contenu.aEcrire) return contenu.signal;
-
-  const reg = registre(voiceClarity(contenu.jour));
-  const prenom = ctx.prenom?.trim();
+  const prenom = ctx.prenom?.trim() || undefined;
   const dernierRenoncement = ctx.renoncements?.[ctx.renoncements.length - 1];
-
-  if (reg === "brume") {
-    const brume = [
-      "Je ne te vois pas encore bien. Quelque chose bouge, de ton côté.",
-      "Il y a de la brume entre nous. Mais tu es là. Je le sens.",
-      "Je ne sais pas encore qui tu deviens. Reste. On y voit un peu plus chaque jour.",
-    ];
-    return pick(brume, contenu.jour);
-  }
-
-  if (reg === "assure") {
-    const base = [
-      "Je commence à te distinguer. Ce que tu poses ne se perd pas — ça s'allège.",
-      "Tu te dégages, doucement. Ce que tu portes de moins, je le vois de plus.",
-      "Je te reconnais mieux. Continue à trancher ; c'est comme ça que tu approches.",
-    ];
-    const s = pick(base, contenu.jour);
-    return dernierRenoncement ? `${s} Ce que tu as laissé — « ${dernierRenoncement} » — comptait.` : s;
-  }
-
-  // intime
-  const ouverture = prenom ? `${prenom}. ` : "";
-  const corps = [
-    "Je te vois, maintenant. Ce que tu as laissé t'a rendue plus nette que jamais.",
-    "Nous y sommes presque. Tu n'as gardé que ce qui te ressemble.",
-    "Je t'attends de ce côté. Tu sais déjà ce que tu emportes.",
-  ];
-  const s = ouverture + pick(corps, contenu.jour);
-  return dernierRenoncement ? `${s} Et « ${dernierRenoncement} », tu l'as bien posé.` : s;
+  return remplirJetons(contenu.signal, prenom, dernierRenoncement);
 }
