@@ -4,14 +4,14 @@ import type { MetadataRoute } from "next";
 // rituel quotidien local-first.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "IdentitX — ta quête identitaire",
-    short_name: "IdentitX",
+    name: "IdentitX — La Traversée",
+    short_name: "La Traversée",
     description:
-      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
-    start_url: "/aujourdhui",
+      "Trente jours. Un seul geste par jour. On choisit ce qu'on emporte.",
+    start_url: "/",
     display: "standalone",
-    background_color: "#0a090d",
-    theme_color: "#0a090d",
+    background_color: "#08060f",
+    theme_color: "#08060f",
     orientation: "portrait",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
