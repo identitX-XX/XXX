@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "node --import tsx --test parcours-archetypes/*.test.ts"
+    "test": "node --import tsx --test parcours-archetypes/*.test.ts traversee/**/*.test.ts"
   },
   "dependencies": {
     "lucide-react": "0.383.0",
