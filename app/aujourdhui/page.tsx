@@ -2,13 +2,20 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { ArrowRight, Flame } from "lucide-react";
+import {
+  ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock,
+} from "lucide-react";
 import { Card, PageHead, Slider } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
+import { genererRevelations } from "@/parcours-archetypes/revelations";
+import {
+  nouveauteDuJour, ressourceDuJour, TYPE_LABEL, FacetKind, Ressource,
+} from "@/parcours-archetypes/quotidien";
+import { Archetype } from "@/parcours-archetypes/types";
 
 // Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
 // jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
@@ -183,6 +190,9 @@ export default function AujourdhuiPage() {
         </div>
       </Card>
 
+      {/* Le fil du jour : la raison de revenir — nouveauté, révélation, ressource. */}
+      <FilDuJour n={n} arch={arch} />
+
       {/* Momentum : série + prochain cap. Le levier « ne casse pas la chaîne ». */}
       {prog.faits > 0 && (
         <div
@@ -242,6 +252,98 @@ export default function AujourdhuiPage() {
 
       <SecondPlan prog={prog} />
     </div>
+  );
+}
+
+// « Le fil du jour » : trois raisons de revenir aujourd'hui.
+//   · la nouveauté — une facette de l'archétype du jour, qui tourne ;
+//   · la révélation — l'insight le plus fort du moteur sourcé (se débloque) ;
+//   · la ressource — une pratique / lecture / réflexion courte.
+const FACET_ICON: Record<FacetKind, React.ReactNode> = {
+  eclairage: <Sparkles size={13} />,
+  question: <HelpCircle size={13} />,
+  defi: <Target size={13} />,
+};
+const RESSOURCE_ICON: Record<Ressource["type"], React.ReactNode> = {
+  pratique: <Wind size={16} />,
+  lecture: <BookOpen size={16} />,
+  reflexion: <PenLine size={16} />,
+};
+
+function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
+  const etat = useParcoursStore((s) => s.etat);
+  const reponses = useParcoursStore((s) => s.reponses);
+  const climat = useParcoursStore((s) => s.climat);
+  if (!arch) return null;
+
+  const nouv = nouveauteDuJour(n, arch);
+  const ress = ressourceDuJour(n, arch.key);
+  const rev = genererRevelations(etat, reponses, climat)[0] ?? null;
+
+  return (
+    <section className="mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
+      <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-fuchsia">
+        <Sparkles size={13} /> Le fil du jour
+      </div>
+
+      <div className="grid gap-4">
+        {/* Nouveauté */}
+        <Card className="p-5 sm:p-6">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
+            {FACET_ICON[nouv.kind]} {nouv.label}
+          </div>
+          <p className="mt-2 text-sm leading-relaxed text-ink">{nouv.texte}</p>
+        </Card>
+
+        {/* Révélation — sourcée, ou teaser tant qu'il manque de matière */}
+        {rev ? (
+          <div
+            className="rounded-2xl border p-5 sm:p-6"
+            style={{
+              borderColor: "color-mix(in srgb, var(--fuchsia) 34%, transparent)",
+              background:
+                "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 8%, transparent), transparent 60%)",
+            }}
+          >
+            <div className="text-xs uppercase tracking-[0.14em] text-fuchsia">
+              La révélation du jour
+            </div>
+            <h3 className="mt-1.5 font-display text-lg font-light leading-snug text-ink">
+              {rev.titre}
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-muted">{rev.preuve}</p>
+          </div>
+        ) : (
+          <Card className="flex items-center gap-3 p-5 text-sm text-muted">
+            <Lock size={15} className="flex-none opacity-70" />
+            <span>
+              Ta première révélation apparaîtra ici après quelques jours vécus —
+              elle se lit dans tes propres données.
+            </span>
+          </Card>
+        )}
+
+        {/* Ressource */}
+        <Card className="p-5 sm:p-6">
+          <div className="flex items-center gap-3">
+            <div
+              className="grid h-9 w-9 flex-none place-items-center rounded-full"
+              style={{
+                background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)",
+                color: "var(--fuchsia)",
+              }}
+            >
+              {RESSOURCE_ICON[ress.type]}
+            </div>
+            <div className="text-xs uppercase tracking-[0.14em] text-muted">
+              {TYPE_LABEL[ress.type]} · {ress.duree}
+            </div>
+          </div>
+          <h3 className="mt-3 font-display text-lg font-light text-ink">{ress.titre}</h3>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">{ress.corps}</p>
+        </Card>
+      </div>
+    </section>
   );
 }
 
