@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, Repeat } from "lucide-react";
+import { ArrowRight, ArrowDown, Check, Repeat } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -160,7 +160,10 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
                 <span className="text-sm" style={{ color: e.done ? m.ink : m.muted }}>{e.label}</span>
               </div>
               {i < etapes.length - 1 && (
-                <div className="h-px flex-1" style={{ background: e.done ? m.accent : m.line }} />
+                <div className="flex flex-1 items-center gap-1">
+                  <div className="h-px flex-1" style={{ background: e.done ? m.accent : m.line }} />
+                  <ArrowRight size={13} style={{ color: e.done ? m.accent : m.line }} />
+                </div>
               )}
             </div>
           ))}
@@ -181,6 +184,14 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
           </span>
         </div>
       </div>
+
+      {/* La boucle mène au Futur Moi — la connexion, fléchée. */}
+      {accompli && (
+        <div className="mt-4 flex flex-col items-center gap-1" style={{ color: m.accent }}>
+          <ArrowDown size={18} />
+          <span className="text-[11px] uppercase tracking-[0.18em]">La boucle t'a mené ici</span>
+        </div>
+      )}
 
       {/* Le Futur Moi — là où l'on atterrit au bout de la quête. */}
       {accompli && (

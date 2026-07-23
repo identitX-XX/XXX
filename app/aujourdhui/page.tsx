@@ -13,7 +13,7 @@ import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/cl
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
 import { genererRevelations } from "@/parcours-archetypes/revelations";
 import {
-  nouveauteDuJour, ressourceDuJour, TYPE_LABEL, FacetKind, Ressource,
+  ressourceDuJour, TYPE_LABEL, Ressource,
 } from "@/parcours-archetypes/quotidien";
 import { Archetype } from "@/parcours-archetypes/types";
 
@@ -191,7 +191,7 @@ export default function AujourdhuiPage() {
       </Card>
 
       {/* Le fil du jour : la raison de revenir — nouveauté, révélation, ressource. */}
-      <FilDuJour n={n} arch={arch} phaseKey={phase.key} />
+      <FilDuJour n={n} arch={arch} />
 
       {/* Momentum : série + prochain cap. Le levier « ne casse pas la chaîne ». */}
       {prog.faits > 0 && (
@@ -255,22 +255,17 @@ export default function AujourdhuiPage() {
   );
 }
 
-// « Le fil du jour » : trois raisons de revenir aujourd'hui.
-//   · la nouveauté — une facette de l'archétype du jour, qui tourne ;
+// « Le fil du jour » : les raisons de revenir aujourd'hui.
+//   · deux matières à réflexion — la question ET le micro-défi de l'archétype ;
 //   · la révélation — l'insight le plus fort du moteur sourcé (se débloque) ;
 //   · la ressource — une pratique / lecture / réflexion courte.
-const FACET_ICON: Record<FacetKind, React.ReactNode> = {
-  eclairage: <Sparkles size={13} />,
-  question: <HelpCircle size={13} />,
-  defi: <Target size={13} />,
-};
 const RESSOURCE_ICON: Record<Ressource["type"], React.ReactNode> = {
   pratique: <Wind size={16} />,
   lecture: <BookOpen size={16} />,
   reflexion: <PenLine size={16} />,
 };
 
-function FilDuJour({ n, arch, phaseKey }: { n: number; arch: Archetype | null; phaseKey?: string }) {
+function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
   const climat = useParcoursStore((s) => s.climat);
@@ -284,7 +279,6 @@ function FilDuJour({ n, arch, phaseKey }: { n: number; arch: Archetype | null; p
   if (!arch) return null;
 
   const turbulence = climat[n] ? climatIndex(climat[n]) : undefined;
-  const nouv = nouveauteDuJour(n, arch, phaseKey);
   const ress = ressourceDuJour(n, arch.key, turbulence);
   const rev = genererRevelations(etat, reponses, climat)[0] ?? null;
 
@@ -321,12 +315,21 @@ function FilDuJour({ n, arch, phaseKey }: { n: number; arch: Archetype | null; p
           </Card>
         )}
 
-        {/* Nouveauté */}
+        {/* Deux matières à réflexion — la question ET le micro-défi du jour */}
+        <div className="text-xs uppercase tracking-[0.14em] text-muted">
+          Deux matières à travailler aujourd'hui
+        </div>
         <Card className="p-5 sm:p-6">
           <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
-            {FACET_ICON[nouv.kind]} {nouv.label}
+            <HelpCircle size={13} /> La question à porter
           </div>
-          <p className="mt-2 text-sm leading-relaxed text-ink">{nouv.texte}</p>
+          <p className="mt-2 text-sm leading-relaxed text-ink">{arch.question}</p>
+        </Card>
+        <Card className="p-5 sm:p-6">
+          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
+            <Target size={13} /> Le micro-défi
+          </div>
+          <p className="mt-2 text-sm leading-relaxed text-ink">{arch.defi}</p>
         </Card>
 
         {/* Révélation — sourcée, ou teaser tant qu'il manque de matière */}

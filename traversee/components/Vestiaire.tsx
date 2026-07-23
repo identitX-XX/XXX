@@ -19,7 +19,7 @@ export function Vestiaire({
 
   return (
     <div style={S.wrap}>
-      <p style={S.eyebrow}>Le Vestiaire</p>
+      <p style={S.eyebrow}>Le Placard</p>
       <p style={S.intro}>
         Ce que tu as laissé. Rien n'est effacé — c'est rangé. Tant que c'est
         récent, tu peux le reprendre.

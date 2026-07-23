@@ -111,7 +111,7 @@ export function TraverseeApp() {
       </Link>
       {demarre && (
         <Link href="/traversee/vestiaire" style={ST.lienVestiaire}>
-          Le Vestiaire
+          Le Placard
         </Link>
       )}
       {/* Aide au test — repartir de zéro. À retirer avant le lancement. */}

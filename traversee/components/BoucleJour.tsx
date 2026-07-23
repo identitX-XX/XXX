@@ -178,7 +178,7 @@ export function BoucleJour({ contenu, signal, etoiles, dejaVecu, onVivre, onTerm
           <p style={S.trace}>
             {verbe === "emporter" && "Un point s'est avivé. Tu l'emportes."}
             {verbe === "laisser" &&
-              "Un point s'est éteint. Ce que tu as posé t'attend au Vestiaire — réversible aujourd'hui."}
+              "Un point s'est éteint. Ce que tu as posé t'attend dans le Placard — réversible aujourd'hui."}
             {!verbe && "Rien tranché aujourd'hui. La carte t'a vue passer."}
           </p>
           {traceExtra}

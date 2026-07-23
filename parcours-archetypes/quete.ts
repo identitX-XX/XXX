@@ -26,7 +26,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   explorateur: {
     lest: "la dispersion",
     pourquoi:
-      "À force de courir vers la prochaine nouveauté, rien n'a le temps de devenir une vraie transformation. Ton énergie se disperse avant de porter.",
+      "Tu cours toujours vers la nouveauté suivante. Résultat : rien n'a le temps de mûrir, et ton énergie se dilue au lieu de porter.",
     poids: [
       "commencer une chose de plus avant d'avoir fini la précédente",
       "confondre mouvement et progrès",
@@ -48,7 +48,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   sage: {
     lest: "le sur-contrôle par la pensée",
     pourquoi:
-      "Analyser devient une manière d'éviter de vivre. À trop vouloir comprendre avant d'agir, tu restes au bord de ta propre expérience.",
+      "Tu veux tout comprendre avant d'agir. Mais à trop analyser, tu restes au bord de ta vie au lieu d'y entrer.",
     poids: [
       "vouloir tout comprendre avant d'oser",
       "remplacer l'émotion par le raisonnement",
@@ -70,7 +70,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   createur: {
     lest: "le perfectionnisme",
     pourquoi:
-      "La peur du jugement transforme chaque création en verdict sur ta valeur. Tu peaufines dans l'ombre ce que le monde ne verra jamais.",
+      "La peur d'être jugé fait de chaque création un test sur ta valeur. Alors tu peaufines en secret ce que personne ne verra.",
     poids: [
       "attendre que ce soit parfait pour montrer",
       "confondre ta valeur et ton œuvre",
@@ -92,7 +92,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   rebelle: {
     lest: "le réflexe de t'opposer",
     pourquoi:
-      "Te définir CONTRE te rend dépendant de ce que tu combats. Ta liberté devient une réaction, plus un choix.",
+      "Te définir contre quelque chose te rend prisonnier de ce que tu combats. Ta liberté n'est plus un choix, juste une réaction.",
     poids: [
       "dire non par principe, pas par conviction",
       "avoir besoin d'un adversaire pour exister",
@@ -114,7 +114,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   protecteur: {
     lest: "la sur-responsabilité",
     pourquoi:
-      "Tu portes tout le monde, jusqu'à disparaître sous la charge. À force de protéger les autres, tu ne te protèges plus toi.",
+      "Tu portes tout le monde, jusqu'à disparaître sous la charge. À force de protéger les autres, tu t'oublies.",
     poids: [
       "porter des fardeaux qui ne sont pas les tiens",
       "te sentir coupable de te reposer",
@@ -136,7 +136,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   amoureux: {
     lest: "le besoin d'approbation",
     pourquoi:
-      "À vouloir être aimé, tu te dissous dans l'autre. Ton élan vers le lien devient une peur de déplaire.",
+      "À vouloir plaire à tout prix, tu te fonds dans l'autre. Ton élan vers le lien se transforme en peur de déplaire.",
     poids: [
       "te modeler sur ce que l'autre attend",
       "taire ton avis pour garder la paix",
@@ -158,7 +158,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   batisseur: {
     lest: "la rigidité",
     pourquoi:
-      "Tu édifies des certitudes pour te protéger de l'imprévisible. Mais ce qui devait te stabiliser finit par t'enfermer.",
+      "Tu bâtis des certitudes pour te rassurer face à l'imprévu. Mais ce qui devait te stabiliser finit par t'enfermer.",
     poids: [
       "vouloir tout contrôler pour te rassurer",
       "confondre solidité et immobilité",
@@ -180,7 +180,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   guerisseur: {
     lest: "l'oubli de toi",
     pourquoi:
-      "Tu soignes tout le monde, sauf toi. Le soin donné aux autres devient un moyen de ne pas regarder tes propres blessures.",
+      "Tu prends soin de tout le monde, sauf de toi. Soigner les autres devient une façon d'éviter tes propres blessures.",
     poids: [
       "passer toujours en dernier",
       "soigner les autres pour éviter tes plaies",
@@ -202,7 +202,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   joueur: {
     lest: "l'évitement par la légèreté",
     pourquoi:
-      "La blague et le jeu deviennent une façon d'esquiver ce qui compte. Ta légèreté, si précieuse, sert parfois à fuir la profondeur.",
+      "L'humour et le jeu te servent à esquiver ce qui compte. Ta légèreté, si précieuse, devient parfois une fuite.",
     poids: [
       "désamorcer par l'humour ce qui te touche",
       "fuir l'engagement pour rester libre",
@@ -224,7 +224,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   passeur: {
     lest: "l'effacement de toi",
     pourquoi:
-      "Tu transmets, tu relies, tu mets en lumière les autres — au point de t'oublier. Ton rôle devient une manière de ne pas exister pour toi-même.",
+      "Tu relies, tu transmets, tu mets les autres en lumière — jusqu'à t'effacer. Ton rôle finit par t'empêcher d'exister.",
     poids: [
       "briller à travers les autres, jamais pour toi",
       "donner le crédit, garder l'effort",
@@ -246,7 +246,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   reveur: {
     lest: "rester dans le rêve",
     pourquoi:
-      "Le potentiel est infini tant qu'il n'est pas incarné. À force d'idéaliser, tu ne réalises pas — et le réel te semble toujours décevant.",
+      "Un rêve reste parfait tant qu'il n'est pas réalisé. À force d'idéaliser, tu n'incarnes rien, et le réel te déçoit toujours.",
     poids: [
       "préférer l'idée à sa réalisation",
       "attendre le moment parfait pour te lancer",
@@ -268,7 +268,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   metamorphe: {
     lest: "la peur de te fixer",
     pourquoi:
-      "Rester insaisissable te protège de l'engagement — et t'empêche de te déposer quelque part assez longtemps pour y devenir toi.",
+      "Rester insaisissable te met à l'abri de l'engagement. Mais tu ne restes jamais assez longtemps pour devenir vraiment toi.",
     poids: [
       "fuir dès qu'une identité se dessine",
       "confondre liberté et absence d'ancrage",
