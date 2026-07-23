@@ -33,6 +33,7 @@ export const NAV = [
   { href: "/dashboard", label: "Tableau de bord" },
   { href: "/parcours", label: "Quête IdentitX" },
   { href: "/parcours-archetypes", label: "Ton archétype" },
+  { href: "/quete", label: "La Quête" },
   { href: "/explorer", label: "Explorer" },
   { href: "/ressources", label: "Ressources" },
   { href: "/progression", label: "Progression" },

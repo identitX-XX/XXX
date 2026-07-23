@@ -148,6 +148,40 @@ export const RESSOURCES: Ressource[] = [
     corps:
       "Prends un objectif que tu portes. Est-il vraiment de toi, ou hérité d'un regard — parent, milieu, époque ? Garder un cap est plus simple quand on sait qu'on l'a choisi.",
   },
+
+  // — Multipotentialité : ressources adossées à la recherche —
+  {
+    id: "multi-vrai-but",
+    type: "lecture",
+    titre: "Tu n'as pas « un seul vrai but »",
+    duree: "4 min",
+    corps:
+      "La chercheuse et auteure Emilie Wapnick a popularisé le terme « multipotentialité » (TED, 2015 ; « How to Be Everything », 2017) : certaines personnes ne sont pas faites pour une seule vocation, mais pour en explorer plusieurs. Ce n'est ni de l'indécision ni de la dispersion — c'est un mode de fonctionnement, avec ses forces propres : apprentissage rapide, synthèse entre domaines, adaptabilité.",
+  },
+  {
+    id: "multi-scanner",
+    type: "lecture",
+    titre: "Scanner, pas dispersé",
+    duree: "4 min",
+    corps:
+      "La psychothérapeute Barbara Sher appelle « scanners » (« Refuse to Choose! », 2006) les esprits attirés par de nombreux sujets à la fois. Son constat clé : le problème n'est pas d'avoir trop d'intérêts, mais de croire qu'il faudrait n'en garder qu'un. Elle propose d'organiser sa vie AUTOUR de cette pluralité, au lieu de la combattre.",
+  },
+  {
+    id: "multi-range",
+    type: "lecture",
+    titre: "Pourquoi les généralistes gagnent",
+    duree: "5 min",
+    corps:
+      "Dans « Range » (2019), le journaliste scientifique David Epstein réunit les travaux montrant que, dans les environnements complexes et changeants, les profils généralistes — qui échantillonnent large avant de se spécialiser — surpassent souvent les hyper-spécialistes précoces. La diversité des expériences nourrit la créativité et la capacité à relier des domaines éloignés.",
+  },
+  {
+    id: "multi-intelligences",
+    type: "lecture",
+    titre: "Plusieurs intelligences, pas un seul QI",
+    duree: "4 min",
+    corps:
+      "Le psychologue Howard Gardner (Harvard) a proposé en 1983 la théorie des intelligences multiples : linguistique, logico-mathématique, spatiale, corporelle, musicale, interpersonnelle, intrapersonnelle, naturaliste. L'idée n'est pas un test de plus, mais un déplacement : la valeur d'un esprit ne se réduit pas à une seule mesure. Tes talents pluriels ne sont pas un défaut de focalisation.",
+  },
 ];
 
 // La ressource du jour : déterministe, variée selon le jour et l'archétype.
