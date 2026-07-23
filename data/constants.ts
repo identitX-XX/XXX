@@ -29,6 +29,7 @@ export const RADAR_AXES = [
 ];
 export const NAV = [
   { href: "/aujourdhui", label: "Aujourd'hui" },
+  { href: "/traversee", label: "La Traversée" },
   { href: "/dashboard", label: "Tableau de bord" },
   { href: "/parcours", label: "Quête IdentitX" },
   { href: "/parcours-archetypes", label: "Ton archétype" },

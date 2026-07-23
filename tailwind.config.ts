@@ -7,6 +7,7 @@ const config: Config = {
     "./components/**/*.{ts,tsx}",
     "./lib/**/*.{ts,tsx}",
     "./data/**/*.{ts,tsx}",
+    "./traversee/**/*.{ts,tsx}",
   ],
   theme: {
     extend: {

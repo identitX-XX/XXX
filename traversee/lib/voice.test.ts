@@ -34,3 +34,21 @@ test("composerSignal : déterministe", () => {
   const b = composerSignal(jourN(15)!, { prenom: "Marina" });
   assert.equal(a, b);
 });
+
+test("composerSignal : la clause optionnelle tombe sans renoncement (J30)", () => {
+  // Le J30 cite « {renoncement} » dans une clause [[ … ]] ; sans renoncement,
+  // la clause est supprimée entièrement — aucun guillemet vide, aucun jeton nu.
+  const s = composerSignal(jourN(30)!, { prenom: "Marina" });
+  assert.ok(s.includes("Marina"));
+  assert.ok(!s.includes("{"));
+  assert.ok(!s.includes("« »"));
+});
+
+test("tout le contenu des 30 jours porte draft: true et un signal non vide", () => {
+  for (let n = 1; n <= 30; n++) {
+    const j = jourN(n)!;
+    assert.equal(j.draft, true, `J${n} doit être un draft`);
+    assert.ok(j.signal.trim().length > 0, `J${n} doit avoir un signal`);
+    assert.ok(j.prelevement.choix.length >= 2, `J${n} : au moins 2 choix`);
+  }
+});
