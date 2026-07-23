@@ -496,6 +496,9 @@ function ClimatCard({ jour }: { jour: number }) {
 // Le reste des modules, volontairement en second plan (un tiroir, pas un menu).
 function SecondPlan({ prog }: { prog: { faits: number } }) {
   const liens = [
+    { href: "/coach", label: "Coach IA" },
+    { href: "/synthese", label: "Synthèse" },
+    { href: "/reports", label: "Rapport journalier" },
     { href: "/progression", label: "Ma progression" },
     ...(prog.faits >= 5
       ? [{ href: "/parcours-archetypes/rapport", label: "Mon rapport" }]

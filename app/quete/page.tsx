@@ -95,7 +95,7 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
     pacte: `${archKey}:pacte`,
   };
   const etapes = [
-    { label: "Relâcher", done: Boolean(done[ids.delestage]) },
+    { label: "Se débarrasser", done: Boolean(done[ids.delestage]) },
     { label: "Choisir", done: Boolean(done[ids.carrefour]) },
     { label: "S'engager", done: Boolean(done[ids.pacte]) },
   ];
