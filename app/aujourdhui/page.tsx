@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
-  ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock,
+  ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock, History,
 } from "lucide-react";
 import { Card, PageHead, Slider } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
+import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
@@ -191,7 +191,7 @@ export default function AujourdhuiPage() {
       </Card>
 
       {/* Le fil du jour : la raison de revenir — nouveauté, révélation, ressource. */}
-      <FilDuJour n={n} arch={arch} />
+      <FilDuJour n={n} arch={arch} phaseKey={phase.key} />
 
       {/* Momentum : série + prochain cap. Le levier « ne casse pas la chaîne ». */}
       {prog.faits > 0 && (
@@ -270,15 +270,27 @@ const RESSOURCE_ICON: Record<Ressource["type"], React.ReactNode> = {
   reflexion: <PenLine size={16} />,
 };
 
-function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
+function FilDuJour({ n, arch, phaseKey }: { n: number; arch: Archetype | null; phaseKey?: string }) {
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
   const climat = useParcoursStore((s) => s.climat);
+  const marquerFilVu = useParcoursStore((s) => s.marquerFilVu);
+
+  // Voir la home = voir le fil → on éteint le badge « nouveau » du menu.
+  useEffect(() => {
+    marquerFilVu(n);
+  }, [n, marquerFilVu]);
+
   if (!arch) return null;
 
-  const nouv = nouveauteDuJour(n, arch);
-  const ress = ressourceDuJour(n, arch.key);
+  const turbulence = climat[n] ? climatIndex(climat[n]) : undefined;
+  const nouv = nouveauteDuJour(n, arch, phaseKey);
+  const ress = ressourceDuJour(n, arch.key, turbulence);
   const rev = genererRevelations(etat, reponses, climat)[0] ?? null;
+
+  // Retour d'hier : le dernier jour vécu, pour tisser la continuité.
+  const hier = [...etat.historique].sort((a, b) => b.jour - a.jour)[0] ?? null;
+  const hierEmo = hier?.emotions?.[0];
 
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
@@ -287,6 +299,28 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
       </div>
 
       <div className="grid gap-4">
+        {/* Retour d'hier */}
+        {hier && (
+          <Card className="flex items-start gap-3 p-5">
+            <div
+              className="mt-0.5 grid h-8 w-8 flex-none place-items-center rounded-full"
+              style={{ background: "color-mix(in srgb, var(--orange) 12%, transparent)", color: "var(--orange)" }}
+            >
+              <History size={15} />
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.14em] text-muted">Retour d'hier</div>
+              <p className="mt-1 text-sm leading-relaxed text-ink">
+                Jour {hier.jour} : ta clarté était à <b>{Math.round(hier.coherence)}</b>
+                {hierEmo ? (
+                  <>, portée par « {emotionByKey[hierEmo].label.toLowerCase()} »</>
+                ) : null}
+                . Aujourd'hui reprend le fil.
+              </p>
+            </div>
+          </Card>
+        )}
+
         {/* Nouveauté */}
         <Card className="p-5 sm:p-6">
           <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
@@ -323,8 +357,11 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
           </Card>
         )}
 
-        {/* Ressource */}
-        <Card className="p-5 sm:p-6">
+        {/* Ressource — cliquable vers la bibliothèque */}
+        <Link
+          href="/ressources"
+          className="group block rounded-2xl border border-line bg-surface p-5 shadow-soft transition-colors hover:border-fuchsia sm:p-6"
+        >
           <div className="flex items-center gap-3">
             <div
               className="grid h-9 w-9 flex-none place-items-center rounded-full"
@@ -341,7 +378,11 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
           </div>
           <h3 className="mt-3 font-display text-lg font-light text-ink">{ress.titre}</h3>
           <p className="mt-1.5 text-sm leading-relaxed text-muted">{ress.corps}</p>
-        </Card>
+          <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-fuchsia">
+            Toute la bibliothèque
+            <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+          </span>
+        </Link>
       </div>
     </section>
   );

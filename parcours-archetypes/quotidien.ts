@@ -37,17 +37,16 @@ function hash(s: string): number {
 }
 
 // La « lens » de l'archétype est déjà montrée dans la capsule du jour : on ne la
-// reprend pas ici. La nouveauté alterne donc la QUESTION et le DÉFI — deux
-// facettes distinctes, présentes nulle part ailleurs.
-const FACETS: FacetKind[] = ["question", "defi"];
-
-// La nouveauté du jour : une facette de l'archétype du jour. Elle tourne, et
-// comme l'archétype change au fil des 30 jours, elle ne se répète jamais à
-// l'identique.
-export function nouveauteDuJour(n: number, arch: Archetype): Nouveaute {
-  const kind = FACETS[((n - 1) % FACETS.length + FACETS.length) % FACETS.length];
+// reprend pas ici. La nouveauté alterne la QUESTION et le DÉFI — et la PHASE
+// oriente laquelle domine : les phases d'action (exploration, tension) penchent
+// vers le défi ; les phases d'observation (révélation, métamorphose) vers la
+// question. Ça reste alterné pour ne jamais devenir monotone.
+export function nouveauteDuJour(n: number, arch: Archetype, phaseKey?: string): Nouveaute {
+  const lean: FacetKind =
+    phaseKey === "exploration" || phaseKey === "tension" ? "defi" : "question";
+  const other: FacetKind = lean === "defi" ? "question" : "defi";
+  const kind: FacetKind = (n - 1) % 2 === 0 ? lean : other;
   if (kind === "defi") return { kind, label: "Ton micro-défi", texte: arch.defi };
-  if (kind === "eclairage") return { kind, label: "L'éclairage du jour", texte: arch.lens };
   return { kind, label: "La question du jour", texte: arch.question };
 }
 
@@ -152,9 +151,22 @@ export const RESSOURCES: Ressource[] = [
 ];
 
 // La ressource du jour : déterministe, variée selon le jour et l'archétype.
-export function ressourceDuJour(n: number, archKey: string): Ressource {
+// Le climat corporel l'oriente : un jour agité (turbulence élevée) fait remonter
+// une PRATIQUE d'ancrage ; un jour apaisé laisse place à la lecture ou la
+// réflexion. Sans climat renseigné, toute la bibliothèque est ouverte.
+export function ressourceDuJour(
+  n: number,
+  archKey: string,
+  turbulence?: number
+): Ressource {
+  let pool = RESSOURCES;
+  if (turbulence != null) {
+    if (turbulence >= 55) pool = RESSOURCES.filter((r) => r.type === "pratique");
+    else if (turbulence < 38) pool = RESSOURCES.filter((r) => r.type !== "pratique");
+  }
+  if (pool.length === 0) pool = RESSOURCES;
   const seed = n * 7 + hash(archKey);
-  return RESSOURCES[seed % RESSOURCES.length];
+  return pool[seed % pool.length];
 }
 
 export const TYPE_LABEL: Record<Ressource["type"], string> = {

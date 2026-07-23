@@ -33,6 +33,9 @@ interface StoreParcours {
   revelationsFeedback: Record<string, "oui" | "non">;
   // Couche climat & corps (optionnelle), un relevé par jour de parcours.
   climat: Record<number, ClimatJour>;
+  // Dernier jour dont le « fil du jour » a été vu — pilote le badge « nouveau »
+  // dans le menu. 0 = jamais vu.
+  filVu: number;
 
   // Reçoit le résultat de l'écran-miroir amont, régénère le parcours sur mesure
   // (J1 = dominant, J30 = La Métamorphe) et amorce la matrice.
@@ -50,6 +53,9 @@ interface StoreParcours {
   // Enregistre le climat & corps du jour.
   noterClimat: (c: ClimatJour) => void;
 
+  // Marque le fil du jour `n` comme vu (éteint le badge « nouveau »).
+  marquerFilVu: (n: number) => void;
+
   // Réinitialise tout (garde le parcours de base généré).
   reinitialiser: () => void;
 }
@@ -64,6 +70,7 @@ export const useParcoursStore = create<StoreParcours>()(
       etat: etatDepart(),
       revelationsFeedback: {},
       climat: {},
+      filVu: 0,
 
       initialiserParcours: (diag) =>
         set({
@@ -92,6 +99,8 @@ export const useParcoursStore = create<StoreParcours>()(
 
       noterClimat: (c) => set({ climat: { ...get().climat, [c.jour]: c } }),
 
+      marquerFilVu: (n) => set({ filVu: Math.max(get().filVu, n) }),
+
       reinitialiser: () =>
         set({
           diagnostic: null,
@@ -103,6 +112,7 @@ export const useParcoursStore = create<StoreParcours>()(
           etat: etatDepart(),
           revelationsFeedback: {},
           climat: {},
+          filVu: 0,
         }),
     }),
     {

@@ -18,11 +18,28 @@ test("nouveauté : le texte vient bien de l'archétype du jour", () => {
   assert.notEqual(nouveauteDuJour(1, arch).texte, arch.lens);
 });
 
+test("nouveauté : la phase oriente la facette dominante", () => {
+  // Phase d'action → le défi domine le premier jour de parité paire.
+  assert.equal(nouveauteDuJour(1, arch, "exploration").kind, "defi");
+  assert.equal(nouveauteDuJour(1, arch, "revelation").kind, "question");
+  assert.equal(nouveauteDuJour(1, arch, "tension").kind, "defi");
+});
+
 test("ressource : déterministe et toujours dans la bibliothèque", () => {
   const a = ressourceDuJour(5, "sage");
   const b = ressourceDuJour(5, "sage");
   assert.equal(a.id, b.id);
   assert.ok(RESSOURCES.some((r) => r.id === a.id));
+});
+
+test("ressource : un climat agité fait remonter une pratique d'ancrage", () => {
+  for (let n = 1; n <= 8; n++) {
+    assert.equal(ressourceDuJour(n, "sage", 70).type, "pratique", `jour ${n} agité → pratique`);
+  }
+  // Un climat apaisé écarte les pratiques (lecture / réflexion).
+  for (let n = 1; n <= 8; n++) {
+    assert.notEqual(ressourceDuJour(n, "sage", 20).type, "pratique", `jour ${n} apaisé → pas pratique`);
+  }
 });
 
 test("ressource : varie selon le jour et l'archétype", () => {
