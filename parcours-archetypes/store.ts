@@ -60,9 +60,11 @@ interface StoreParcours {
   // Marque le fil du jour `n` comme vu (éteint le badge « nouveau »).
   marquerFilVu: (n: number) => void;
 
-  // La Quête : choisir le monde visuel, marquer un exercice accompli.
+  // La Quête : choisir le monde visuel, marquer un exercice accompli, rejouer la
+  // boucle (efface les trois exercices d'un archétype pour la reparcourir).
   choisirMonde: (key: string) => void;
   marquerExercice: (id: string) => void;
+  rejouerQuete: (archKey: string) => void;
 
   // Réinitialise tout (garde le parcours de base généré).
   reinitialiser: () => void;
@@ -114,6 +116,13 @@ export const useParcoursStore = create<StoreParcours>()(
       choisirMonde: (key) => set({ mondeChoisi: key }),
       marquerExercice: (id) =>
         set({ queteExercices: { ...get().queteExercices, [id]: true } }),
+      rejouerQuete: (archKey) => {
+        const q = { ...get().queteExercices };
+        delete q[`${archKey}:delestage`];
+        delete q[`${archKey}:carrefour`];
+        delete q[`${archKey}:pacte`];
+        set({ queteExercices: q });
+      },
 
       reinitialiser: () =>
         set({

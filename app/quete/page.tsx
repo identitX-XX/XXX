@@ -6,11 +6,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, Repeat } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
-import { queteDe } from "@/parcours-archetypes/quete";
+import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { MONDES, mondeByKey, Monde } from "@/parcours-archetypes/mondes";
 import { ArchetypeKey } from "@/parcours-archetypes/types";
 
@@ -83,16 +83,29 @@ export default function QuetePage() {
 function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde }) {
   const arch = archetypeByKey[archKey];
   const quete = queteDe(archKey);
+  const futur = futurMoiDe(archKey);
   const done = useParcoursStore((s) => s.queteExercices);
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
+  const rejouer = useParcoursStore((s) => s.rejouerQuete);
+  const [tour, setTour] = useState(0);
 
   const ids = {
     delestage: `${archKey}:delestage`,
     carrefour: `${archKey}:carrefour`,
     pacte: `${archKey}:pacte`,
   };
-  const faits = [ids.delestage, ids.carrefour, ids.pacte].filter((i) => done[i]).length;
+  const etapes = [
+    { label: "Relâcher", done: Boolean(done[ids.delestage]) },
+    { label: "Choisir", done: Boolean(done[ids.carrefour]) },
+    { label: "S'engager", done: Boolean(done[ids.pacte]) },
+  ];
+  const faits = etapes.filter((e) => e.done).length;
   const accompli = faits === 3;
+
+  const reparcourir = () => {
+    rejouer(archKey);
+    setTour((t) => t + 1);
+  };
 
   return (
     <div
@@ -129,39 +142,89 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
         <p className="mt-2 text-sm leading-relaxed" style={{ color: m.muted }}>{quete.pourquoi}</p>
       </div>
 
-      {/* Progression */}
-      <div className="mt-6 flex items-center gap-3">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full" style={{ background: m.line }}>
-          <div
-            className="h-full rounded-full transition-all"
-            style={{ width: `${(faits / 3) * 100}%`, background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})` }}
-          />
+      {/* La boucle heuristique — visible du début à la fin, s'allume à mesure. */}
+      <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
+        <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.muted }}>
+          La boucle
         </div>
-        <span className="text-xs" style={{ color: m.muted }}>
-          {faits}/3 · {faits} {faits > 1 ? m.recompensePl : m.recompense}
-        </span>
+        <div className="mt-3 flex items-center gap-2">
+          {etapes.map((e, i) => (
+            <div key={e.label} className="flex flex-1 items-center gap-2">
+              <div className="flex items-center gap-2">
+                <span
+                  className="grid h-6 w-6 flex-none place-items-center rounded-full text-[11px] font-semibold"
+                  style={e.done ? { background: m.accent, color: "#0a0a0a" } : { border: `1px solid ${m.line}`, color: m.muted }}
+                >
+                  {e.done ? <Check size={12} /> : i + 1}
+                </span>
+                <span className="text-sm" style={{ color: e.done ? m.ink : m.muted }}>{e.label}</span>
+              </div>
+              {i < etapes.length - 1 && (
+                <div className="h-px flex-1" style={{ background: e.done ? m.accent : m.line }} />
+              )}
+            </div>
+          ))}
+          <Repeat size={16} style={{ color: accompli ? m.accent : m.muted, marginLeft: 4 }} />
+        </div>
+        <p className="mt-3 text-xs leading-relaxed" style={{ color: m.muted }}>
+          L'énergie heuristique : tu essaies, tu observes, tu ajustes — puis tu recommences, un cran plus haut.
+        </p>
+        <div className="mt-3 flex items-center gap-3">
+          <div className="h-1.5 flex-1 overflow-hidden rounded-full" style={{ background: m.line }}>
+            <div
+              className="h-full rounded-full transition-all"
+              style={{ width: `${(faits / 3) * 100}%`, background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})` }}
+            />
+          </div>
+          <span className="text-xs" style={{ color: m.muted }}>
+            {faits}/3 · {faits} {faits > 1 ? m.recompensePl : m.recompense}
+          </span>
+        </div>
       </div>
 
+      {/* Le Futur Moi — là où l'on atterrit au bout de la quête. */}
       {accompli && (
         <div
-          className="mt-6 rounded-2xl border p-5 text-center"
+          className="mt-6 overflow-hidden rounded-2xl border"
           style={{ borderColor: m.accent, background: m.panel }}
         >
-          <div className="text-2xl">{m.motif}</div>
-          <div className="mt-1 font-display text-xl font-light" style={{ color: m.ink }}>
-            Quête accomplie
+          <div
+            className="px-6 py-5 text-center"
+            style={{ background: `linear-gradient(180deg, color-mix(in srgb, ${m.accent} 16%, transparent), transparent)` }}
+          >
+            <div className="text-xs uppercase tracking-[0.2em]" style={{ color: m.accent }}>
+              Ton futur moi · le lest posé
+            </div>
+            <div className="mt-1.5 font-display text-2xl font-light" style={{ color: m.ink }}>
+              {futur.nom}
+            </div>
           </div>
-          <p className="mt-1 text-sm" style={{ color: m.muted }}>
-            Tu as posé « {quete.lest} ». Reviens quand tu veux la reparcourir — ou change de monde.
-          </p>
+          <div className="flex flex-col gap-4 px-6 py-5">
+            <div>
+              <div className="text-xs uppercase tracking-[0.14em]" style={{ color: m.muted }}>Pourquoi tu y es à ton meilleur</div>
+              <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>{futur.pourquoi}</p>
+            </div>
+            <div>
+              <div className="text-xs uppercase tracking-[0.14em]" style={{ color: m.muted }}>Ta multipotentialité, devenue force</div>
+              <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>{futur.multipotentiel}</p>
+            </div>
+            <button
+              onClick={reparcourir}
+              className="mt-1 inline-flex items-center justify-center gap-2 self-start rounded-full px-5 py-2.5 text-sm font-medium"
+              style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "#0a0a0a" }}
+            >
+              <Repeat size={15} />
+              Reparcourir la boucle, un cran plus haut
+            </button>
+          </div>
         </div>
       )}
 
       {/* Les trois exercices */}
       <div className="mt-6 flex flex-col gap-4">
-        <Delestage m={m} poids={quete.poids} id={ids.delestage} />
-        <Carrefour m={m} carrefour={quete.carrefour} id={ids.carrefour} />
-        <Pacte m={m} geste={quete.geste} id={ids.pacte} />
+        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} />
+        <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
+        <Pacte key={`pac-${tour}`} m={m} geste={quete.geste} id={ids.pacte} />
       </div>
     </div>
   );

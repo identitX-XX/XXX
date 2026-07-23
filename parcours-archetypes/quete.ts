@@ -290,3 +290,101 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
 };
 
 export const queteDe = (k: ArchetypeKey): Quete => QUETES[k];
+
+// Le Futur Moi — là où l'on atterrit au bout de la quête. La meilleure version,
+// multipotentielle, une fois le lest posé, ET le pourquoi. Adossé à la force de
+// l'archétype et à la recherche sur la multipotentialité (voir /ressources).
+export interface FuturMoi {
+  nom: string; // le nom de cette version haute de toi
+  pourquoi: string; // pourquoi tu atteins ton meilleur, le lest posé
+  multipotentiel: string; // comment ta multipotentialité devient une force
+}
+
+export const FUTURS_MOI: Record<ArchetypeKey, FuturMoi> = {
+  explorateur: {
+    nom: "Celle qui traverse et relie",
+    pourquoi:
+      "La dispersion posée, ta curiosité cesse de fuir : elle creuse. Chaque exploration devient une racine, plus une escale.",
+    multipotentiel:
+      "Tes mille intérêts ne te tiraillent plus, ils se relient — tu deviens celle qui parle la langue de plusieurs mondes à la fois.",
+  },
+  sage: {
+    nom: "Le Sage incarné",
+    pourquoi:
+      "Sans le sur-contrôle, ta lucidité descend dans l'action : tu comprends en vivant, plus avant de vivre.",
+    multipotentiel:
+      "Relier les savoirs devient ta signature — tu vois les ponts que les spécialistes ne voient pas.",
+  },
+  createur: {
+    nom: "Le Créateur qui livre",
+    pourquoi:
+      "Le perfectionnisme lâché, tes œuvres sortent et rencontrent le monde. Tu crées pour donner, plus pour être validé.",
+    multipotentiel:
+      "Tes formes multiples cessent de se concurrencer : elles nourrissent une seule voix, reconnaissable entre toutes.",
+  },
+  rebelle: {
+    nom: "Le Rebelle qui bâtit",
+    pourquoi:
+      "Le réflexe d'opposition posé, ta liberté devient un choix, plus une réaction. Tu construis ce que tu veux, au lieu de combattre ce que tu refuses.",
+    multipotentiel:
+      "Ton refus des cases devient une force : tu inventes des voies que personne n'avait tracées.",
+  },
+  protecteur: {
+    nom: "Le Protecteur qui tient sa place",
+    pourquoi:
+      "La sur-responsabilité posée, tu protèges sans porter. Ta force soutient, elle n'écrase plus — toi compris.",
+    multipotentiel:
+      "Tu deviens le pilier qui relie les gens ET les domaines, sans t'y dissoudre.",
+  },
+  amoureux: {
+    nom: "Celui qui aime sans se perdre",
+    pourquoi:
+      "Le besoin d'approbation posé, tu entres en lien entier — présent, pas dilué. On t'aime pour ce que tu es, pas pour ce que tu plies.",
+    multipotentiel:
+      "Ta sensibilité aux autres, alliée à tes multiples facettes, fait de toi un tisseur de liens rare.",
+  },
+  batisseur: {
+    nom: "Le Bâtisseur vivant",
+    pourquoi:
+      "La rigidité posée, tes fondations respirent. Tu construis solide ET souple — ça tient parce que ça s'adapte.",
+    multipotentiel:
+      "Tu deviens celui qui structure le foisonnement : donner forme à mille idées sans les figer.",
+  },
+  guerisseur: {
+    nom: "Le Guérisseur qui se soigne aussi",
+    pourquoi:
+      "L'oubli de toi posé, ta source se remplit. Tu soignes depuis l'abondance, plus depuis le manque.",
+    multipotentiel:
+      "Ta capacité à sentir les êtres, croisée à tes savoirs multiples, fait de toi un soin qui n'existe nulle part ailleurs.",
+  },
+  joueur: {
+    nom: "Le Joueur présent",
+    pourquoi:
+      "L'évitement posé, ta légèreté devient un cadeau, plus une fuite. Tu joues ET tu es là quand ça compte.",
+    multipotentiel:
+      "Ton goût du jeu relie tes domaines par l'expérimentation : tu transformes le sérieux en terrain d'essai.",
+  },
+  passeur: {
+    nom: "Le Passeur qui existe",
+    pourquoi:
+      "L'effacement posé, tu transmets en étant vu. Ta lumière éclaire les autres sans t'éteindre.",
+    multipotentiel:
+      "Tu deviens le pont entre les mondes — et cette fois, on sait que le pont a un nom : le tien.",
+  },
+  reveur: {
+    nom: "Le Rêveur qui incarne",
+    pourquoi:
+      "Le rêve posé dans le réel, ton imaginaire devient matière. Tu ne fuis plus le monde, tu le redessines.",
+    multipotentiel:
+      "Tes visions multiples cessent de rester en l'air : tu fais atterrir l'impossible, un pas à la fois.",
+  },
+  metamorphe: {
+    nom: "La Métamorphe enracinée",
+    pourquoi:
+      "La peur de te fixer posée, tu te déposes assez pour récolter. Tu changes sans fuir — tu deviens, vraiment.",
+    multipotentiel:
+      "Ta capacité à te réinventer devient une force stable : tu es plusieurs, et tu le tiens, sans te disperser.",
+  },
+};
+
+export const futurMoiDe = (k: ArchetypeKey): FuturMoi => FUTURS_MOI[k];
