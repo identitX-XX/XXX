@@ -117,7 +117,19 @@ export const useStore = create<AppState>()(
 
       updateCard: (id, patch) =>
         set({
-          cards: get().cards.map((c) => (c.id === id ? { ...c, ...patch } : c)),
+          cards: get().cards.map((c) =>
+            c.id === id
+              ? {
+                  ...c,
+                  ...patch,
+                  // Éditer le texte d'un territoire le marque comme complété
+                  // par l'utilisatrice (sort de l'état « amorce générique »).
+                  ...(patch.text !== undefined
+                    ? { rempli: patch.text.trim().length > 0 }
+                    : {}),
+                }
+              : c
+          ),
         }),
 
       addTimelineEvent: (e) => set({ timeline: [...get().timeline, e] }),

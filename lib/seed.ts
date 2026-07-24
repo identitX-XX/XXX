@@ -67,10 +67,21 @@ export function seedCards(profile: Profile): IdentityCard[] {
       : "Ce que le travail occupe chez toi : sécurité, sens, statut, terrain de jeu ?",
     mission: profile.ambition
       ? `Direction à 12 mois : ${profile.ambition}. Le fil rouge derrière l'objectif.`
-      : "La contribution qui donnerait un sens rétrospectif à ton parcours.",
+      : "Le matin, pourquoi tu te lèves ? Écris la raison, pas l'agenda.",
     emotions: "La palette émotionnelle du moment, sans filtre. Ce que tu ressens avant de l'expliquer.",
     energie: `Niveau perçu : ${profile.energy}/100. Ce qui la recharge, ce qui la vide.`,
     motivations: "Ce qui te met en mouvement vraiment, une fois retirée la couche de « il faut ».",
+  };
+
+  // Territoires réellement issus des réponses de l'utilisatrice (vs amorces
+  // génériques à compléter). Détermine l'état « complété » de départ.
+  const rempliDeDepart: Record<string, boolean> = {
+    valeurs: v.length > 0,
+    forces: s.length > 0,
+    peur: Boolean(profile.fear),
+    travail: Boolean(profile.situation),
+    mission: Boolean(profile.ambition),
+    energie: true, // l'énergie est toujours renseignée (curseur onboarding)
   };
 
   return CATEGORIES.map((c) => ({
@@ -84,6 +95,7 @@ export function seedCards(profile: Profile): IdentityCard[] {
         : c.key === "forces"
         ? s.slice(0, 3)
         : [],
+    rempli: rempliDeDepart[c.key] ?? false,
   }));
 }
 
