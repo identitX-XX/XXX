@@ -1,14 +1,17 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { ArrowRight, Loader2, RefreshCw, Sparkles } from "lucide-react";
-import { Card, PageHead } from "@/components/ui";
-import { TurbineInput, TurbineOutput } from "@/lib/turbine/types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ArrowRight, Loader2, Plus, RefreshCw, Sparkles, X } from "lucide-react";
+import { PageHead } from "@/components/ui";
+import { useStore } from "@/store/useStore";
+import { useParcoursStore } from "@/parcours-archetypes/store";
+import { TurbineDirection, TurbineInput, TurbineOutput } from "@/lib/turbine/types";
+import { basculeDepuisHistorique } from "@/lib/turbine/fromParcours";
+import { useCarteTurbine } from "@/lib/turbine/carteStore";
 
-// Profil par défaut — sert de démonstration tant que la Turbine n'est pas
-// branchée aux vraies données de l'utilisatrice. La bascule reflète l'état
-// « fondatrice engagée » (le choix assumé de mener IdentitX jusqu'au bout).
-const DEFAULT_INPUT: TurbineInput = {
+// Profil de démonstration — utilisé tant que le parcours n'a pas encore produit
+// de bascule réelle, ou que les directions ne sont pas renseignées.
+const DEMO_INPUT: TurbineInput = {
   archetype: {
     actuel: "Fondatrice engagée",
     precedent: "Conceptrice-exploratrice",
@@ -30,10 +33,41 @@ const DEFAULT_INPUT: TurbineInput = {
   scenariosPrecedents: [],
 };
 
+const ENERGIES: TurbineDirection["energie"][] = ["haute", "moyenne", "basse"];
+const ETATS: TurbineDirection["etat"][] = ["actif", "émergent", "en veille"];
+
 export default function TurbinePage() {
+  const profile = useStore((s) => s.profile);
+  const historique = useParcoursStore((s) => s.etat.historique);
+  const { directions, tensions, ajouterDirection, retirerDirection, setTensions } =
+    useCarteTurbine();
+
   const [output, setOutput] = useState<TurbineOutput | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Construit l'entrée à partir des données RÉELLES quand elles existent :
+  // bascule réelle (moteur parcours) + valeurs/forces (profil) + directions
+  // (carte). Sinon, retombe sur la démonstration.
+  const { input, reel } = useMemo(() => {
+    const bascule = basculeDepuisHistorique(historique);
+    const valeurs = (profile.values ?? []).filter(Boolean);
+    const forces = (profile.strengths ?? []).filter(Boolean);
+    const pret = Boolean(bascule) && directions.length > 0 && valeurs.length > 0;
+    if (!pret || !bascule) return { input: DEMO_INPUT, reel: false };
+    return {
+      input: {
+        archetype: bascule,
+        valeurs,
+        forces,
+        directions,
+        tensions,
+        signalRecent: [`Bascule récente vers ${bascule.actuel}`],
+        scenariosPrecedents: [],
+      } satisfies TurbineInput,
+      reel: true,
+    };
+  }, [historique, profile, directions, tensions]);
 
   const generer = useCallback(async () => {
     setLoading(true);
@@ -42,7 +76,7 @@ export default function TurbinePage() {
       const res = await fetch("/api/turbine", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(DEFAULT_INPUT),
+        body: JSON.stringify(input),
       });
       const data = (await res.json()) as TurbineOutput & { error?: string };
       if (!res.ok || data.error) {
@@ -55,7 +89,7 @@ export default function TurbinePage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [input]);
 
   useEffect(() => {
     generer();
@@ -71,28 +105,46 @@ export default function TurbinePage() {
 
       {/* La bascule en cours */}
       <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
-        <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
-          La bascule
+        <div className="flex items-center justify-between">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
+            La bascule
+          </div>
+          <span
+            className={`rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
+              reel
+                ? "border-fuchsia/40 bg-fuchsia/10 text-fuchsia"
+                : "border-line text-muted"
+            }`}
+          >
+            {reel ? "Données réelles" : "Démonstration"}
+          </span>
         </div>
         <p className="mt-2 text-sm text-ink">
-          <span className="text-muted">{DEFAULT_INPUT.archetype.precedent}</span>
+          <span className="text-muted">{input.archetype.precedent}</span>
           {"  →  "}
-          <span className="font-display text-base">
-            {DEFAULT_INPUT.archetype.actuel}
-          </span>
+          <span className="font-display text-base">{input.archetype.actuel}</span>
         </p>
-        <p className="mt-1 text-sm text-muted">{DEFAULT_INPUT.archetype.bascule}</p>
+        <p className="mt-1 text-sm text-muted">{input.archetype.bascule}</p>
       </div>
 
+      {/* Éditeur des directions (les multiples à faire dialoguer) */}
+      <CarteEditor
+        directions={directions}
+        tensions={tensions}
+        onAdd={ajouterDirection}
+        onRemove={retirerDirection}
+        onTensions={setTensions}
+      />
+
       {loading && (
-        <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-6 text-muted">
+        <div className="mt-6 flex items-center gap-3 rounded-2xl border border-line bg-surface p-6 text-muted">
           <Loader2 size={18} className="animate-spin text-fuchsia" />
           La Turbine génère tes scénarios…
         </div>
       )}
 
-      {error && (
-        <div className="rounded-2xl border border-line bg-surface p-6">
+      {error && !loading && (
+        <div className="mt-6 rounded-2xl border border-line bg-surface p-6">
           <p className="text-sm text-ink">{error}</p>
           <button
             onClick={generer}
@@ -104,11 +156,12 @@ export default function TurbinePage() {
       )}
 
       {!loading && !error && output && (
-        <>
+        <div className="mt-6">
           {output._mock && (
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[11px] text-muted">
               <Sparkles size={12} className="text-fuchsia" />
-              Mode maquette — branche <code className="mx-1">MISTRAL_API_KEY</code> pour la génération réelle
+              Mode maquette — branche <code className="mx-1">MISTRAL_API_KEY</code> pour
+              la génération réelle
             </div>
           )}
 
@@ -141,9 +194,7 @@ export default function TurbinePage() {
                   <h3 className="mt-3 font-display text-xl font-light leading-snug text-ink">
                     {s.titre}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted">
-                    {s.mouvement}
-                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{s.mouvement}</p>
 
                   <div className="mt-4 space-y-2 border-t border-line pt-4 text-sm">
                     <p>
@@ -177,8 +228,132 @@ export default function TurbinePage() {
           >
             <RefreshCw size={15} /> Régénérer
           </button>
-        </>
+        </div>
       )}
     </div>
+  );
+}
+
+function CarteEditor({
+  directions,
+  tensions,
+  onAdd,
+  onRemove,
+  onTensions,
+}: {
+  directions: TurbineDirection[];
+  tensions: string[];
+  onAdd: (d: TurbineDirection) => void;
+  onRemove: (i: number) => void;
+  onTensions: (t: string[]) => void;
+}) {
+  const [nom, setNom] = useState("");
+  const [energie, setEnergie] = useState<TurbineDirection["energie"]>("haute");
+  const [etat, setEtat] = useState<TurbineDirection["etat"]>("actif");
+  const [tension, setTension] = useState("");
+
+  return (
+    <details className="mb-6 rounded-2xl border border-line bg-surface p-5 [&_summary]:cursor-pointer">
+      <summary className="text-sm font-medium text-ink">
+        Mes directions{" "}
+        <span className="text-muted">
+          — les multiples que la Turbine fait dialoguer ({directions.length})
+        </span>
+      </summary>
+
+      <div className="mt-4 space-y-2">
+        {directions.map((d, i) => (
+          <div
+            key={i}
+            className="flex items-center justify-between rounded-lg border border-line px-3 py-2 text-sm"
+          >
+            <span className="text-ink">
+              {d.nom}{" "}
+              <span className="text-muted">
+                · {d.energie} · {d.etat}
+              </span>
+            </span>
+            <button onClick={() => onRemove(i)} aria-label="Retirer" className="text-muted hover:text-fuchsia">
+              <X size={14} />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-3 flex flex-wrap gap-2">
+        <input
+          value={nom}
+          onChange={(e) => setNom(e.target.value)}
+          placeholder="Une direction (projet, casquette…)"
+          className="min-w-[12rem] flex-1 rounded-lg border border-line bg-noir px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-fuchsia"
+        />
+        <select
+          value={energie}
+          onChange={(e) => setEnergie(e.target.value as TurbineDirection["energie"])}
+          className="rounded-lg border border-line bg-noir px-2 py-2 text-sm text-ink focus:border-fuchsia"
+        >
+          {ENERGIES.map((x) => (
+            <option key={x} value={x}>
+              énergie {x}
+            </option>
+          ))}
+        </select>
+        <select
+          value={etat}
+          onChange={(e) => setEtat(e.target.value as TurbineDirection["etat"])}
+          className="rounded-lg border border-line bg-noir px-2 py-2 text-sm text-ink focus:border-fuchsia"
+        >
+          {ETATS.map((x) => (
+            <option key={x} value={x}>
+              {x}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() => {
+            if (nom.trim()) {
+              onAdd({ nom: nom.trim(), energie, etat });
+              setNom("");
+            }
+          }}
+          className="inline-flex items-center gap-1 rounded-lg border border-line px-3 text-muted hover:border-fuchsia hover:text-fuchsia"
+          aria-label="Ajouter"
+        >
+          <Plus size={14} />
+        </button>
+      </div>
+
+      <div className="mt-5">
+        <div className="mb-2 text-xs uppercase tracking-wider text-muted">Tensions</div>
+        <div className="mb-2 flex flex-wrap gap-2">
+          {tensions.map((t, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1 text-xs text-muted"
+            >
+              {t}
+              <button
+                onClick={() => onTensions(tensions.filter((_, j) => j !== i))}
+                aria-label="Retirer"
+              >
+                <X size={12} />
+              </button>
+            </span>
+          ))}
+        </div>
+        <input
+          value={tension}
+          onChange={(e) => setTension(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && tension.trim()) {
+              onTensions([...tensions, tension.trim()]);
+              setTension("");
+            }
+          }}
+          placeholder="Une tension (Entrée pour ajouter)"
+          className="w-full rounded-lg border border-line bg-noir px-3 py-2 text-sm text-ink placeholder:text-muted focus:border-fuchsia"
+        />
+      </div>
+    </details>
   );
 }
