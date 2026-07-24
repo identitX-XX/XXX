@@ -80,12 +80,12 @@ export default function TurbinePage() {
       });
       const data = (await res.json()) as TurbineOutput & { error?: string };
       if (!res.ok || data.error) {
-        setError(data.error ?? "La Turbine n'a pas répondu.");
+        setError(data.error ?? "Aucun scénario n'a pu être généré.");
         return;
       }
       setOutput(data);
     } catch {
-      setError("Impossible de joindre la Turbine.");
+      setError("Génération momentanément injoignable.");
     } finally {
       setLoading(false);
     }
@@ -98,7 +98,7 @@ export default function TurbinePage() {
   return (
     <div>
       <PageHead
-        eyebrow="La Turbine"
+        eyebrow="Scénarios"
         title="Ce que ta bascule rend possible"
         sub="Ton archétype vient de bouger. Voici les scénarios d'orchestration qui émergent — pas un portrait à contempler, des mouvements à faire."
       />
@@ -139,7 +139,7 @@ export default function TurbinePage() {
       {loading && (
         <div className="mt-6 flex items-center gap-3 rounded-2xl border border-line bg-surface p-6 text-muted">
           <Loader2 size={18} className="animate-spin text-fuchsia" />
-          La Turbine génère tes scénarios…
+          Tes scénarios se composent…
         </div>
       )}
 
@@ -257,7 +257,7 @@ function CarteEditor({
       <summary className="text-sm font-medium text-ink">
         Mes directions{" "}
         <span className="text-muted">
-          — les multiples que la Turbine fait dialoguer ({directions.length})
+          — les multiples à faire dialoguer ({directions.length})
         </span>
       </summary>
 

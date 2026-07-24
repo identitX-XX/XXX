@@ -29,6 +29,10 @@ export const RADAR_AXES = [
 ];
 // Navigation groupée — une limpidité par intention. Les libellés sont
 // désambiguïsés : « Le parcours » (les 30 jours) ≠ « La Quête » (le jeu).
+// Navigation resserrée : de 18 à 10 entrées, alignée sur les deux actes.
+// « Comprendre » (Acte I) → « Orchestrer » (Acte II). Les pages retirées du
+// menu (Traversée, ADN, Cartographie, Le parcours, Journal, Tableau de bord)
+// existent toujours et restent atteignables depuis les fléchages internes.
 export const NAV_GROUPS: {
   section: string | null;
   items: { href: string; label: string }[];
@@ -37,39 +41,33 @@ export const NAV_GROUPS: {
     section: "Au quotidien",
     items: [
       { href: "/aujourdhui", label: "Aujourd'hui" },
-      { href: "/turbine", label: "La Turbine" },
-      { href: "/traversee", label: "La Traversée" },
+      { href: "/scenarios", label: "Scénarios" },
     ],
   },
   {
-    section: "Ton identité",
+    section: "Comprendre",
     items: [
       { href: "/parcours-archetypes", label: "Ton archétype" },
-      { href: "/quete", label: "La Quête" },
       { href: "/explorer", label: "Explorer" },
-      { href: "/dna", label: "ADN personnel" },
     ],
   },
   {
-    section: "Le parcours",
+    section: "Orchestrer",
     items: [
-      { href: "/parcours", label: "Le parcours" },
+      { href: "/quete", label: "La Quête" },
       { href: "/progression", label: "Progression" },
-      { href: "/cartographie", label: "Cartographie" },
     ],
   },
   {
-    section: "Ressources & aide",
+    section: "Aide",
     items: [
-      { href: "/ressources", label: "Ressources" },
       { href: "/coach", label: "Coach IA" },
-      { href: "/journal", label: "Journal" },
+      { href: "/ressources", label: "Ressources" },
     ],
   },
   {
-    section: "Tes bilans",
+    section: "Bilans",
     items: [
-      { href: "/dashboard", label: "Tableau de bord" },
       { href: "/synthese", label: "Synthèse" },
       { href: "/reports", label: "Rapport journalier" },
     ],

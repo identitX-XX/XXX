@@ -2,6 +2,7 @@
 
 import { Emblem } from "./Emblem";
 import { ConstellationBg } from "./ConstellationBg";
+import { NeuralNet } from "./NeuralNet";
 
 // Écran d'accueil = première impression, donc surface de conversion n°1.
 // On y vend la transformation (le résultat), pas les fonctionnalités : promesse
@@ -65,18 +66,14 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
         </div>
 
-        <img
-          src="/hero-portrait.png"
-          alt="Portrait au trait"
-          className="hero-portrait"
+        <div
           style={{
-            width: "min(66vw, 265px)",
-            height: "auto",
-            objectFit: "contain",
             marginBottom: 4,
             animation: "idx-breathe 8s ease-in-out infinite",
           }}
-        />
+        >
+          <NeuralNet size={265} />
+        </div>
 
         <h1
           style={{

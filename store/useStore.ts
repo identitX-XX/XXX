@@ -90,7 +90,7 @@ export const useStore = create<AppState>()(
     (set, get) => ({
       onboarded: false,
       theme: "dark",
-      palette: "origine",
+      palette: "or",
       profile: emptyProfile,
       cards: [],
       timeline: [],
