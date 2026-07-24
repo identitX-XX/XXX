@@ -37,6 +37,7 @@ export const NAV_GROUPS: {
     section: "Au quotidien",
     items: [
       { href: "/aujourdhui", label: "Aujourd'hui" },
+      { href: "/turbine", label: "La Turbine" },
       { href: "/traversee", label: "La Traversée" },
     ],
   },
