@@ -33,6 +33,13 @@ interface StoreParcours {
   revelationsFeedback: Record<string, "oui" | "non">;
   // Couche climat & corps (optionnelle), un relevé par jour de parcours.
   climat: Record<number, ClimatJour>;
+  // Dernier jour dont le « fil du jour » a été vu — pilote le badge « nouveau »
+  // dans le menu. 0 = jamais vu.
+  filVu: number;
+  // La Quête : le monde visuel choisi, et les exercices accomplis (clé
+  // `${archetype}:${exercice}` → true).
+  mondeChoisi: string | null;
+  queteExercices: Record<string, boolean>;
 
   // Reçoit le résultat de l'écran-miroir amont, régénère le parcours sur mesure
   // (J1 = dominant, J30 = La Métamorphe) et amorce la matrice.
@@ -50,6 +57,15 @@ interface StoreParcours {
   // Enregistre le climat & corps du jour.
   noterClimat: (c: ClimatJour) => void;
 
+  // Marque le fil du jour `n` comme vu (éteint le badge « nouveau »).
+  marquerFilVu: (n: number) => void;
+
+  // La Quête : choisir le monde visuel, marquer un exercice accompli, rejouer la
+  // boucle (efface les trois exercices d'un archétype pour la reparcourir).
+  choisirMonde: (key: string) => void;
+  marquerExercice: (id: string) => void;
+  rejouerQuete: (archKey: string) => void;
+
   // Réinitialise tout (garde le parcours de base généré).
   reinitialiser: () => void;
 }
@@ -64,6 +80,9 @@ export const useParcoursStore = create<StoreParcours>()(
       etat: etatDepart(),
       revelationsFeedback: {},
       climat: {},
+      filVu: 0,
+      mondeChoisi: null,
+      queteExercices: {},
 
       initialiserParcours: (diag) =>
         set({
@@ -92,6 +111,19 @@ export const useParcoursStore = create<StoreParcours>()(
 
       noterClimat: (c) => set({ climat: { ...get().climat, [c.jour]: c } }),
 
+      marquerFilVu: (n) => set({ filVu: Math.max(get().filVu, n) }),
+
+      choisirMonde: (key) => set({ mondeChoisi: key }),
+      marquerExercice: (id) =>
+        set({ queteExercices: { ...get().queteExercices, [id]: true } }),
+      rejouerQuete: (archKey) => {
+        const q = { ...get().queteExercices };
+        delete q[`${archKey}:delestage`];
+        delete q[`${archKey}:carrefour`];
+        delete q[`${archKey}:pacte`];
+        set({ queteExercices: q });
+      },
+
       reinitialiser: () =>
         set({
           diagnostic: null,
@@ -103,6 +135,9 @@ export const useParcoursStore = create<StoreParcours>()(
           etat: etatDepart(),
           revelationsFeedback: {},
           climat: {},
+          filVu: 0,
+          mondeChoisi: null,
+          queteExercices: {},
         }),
     }),
     {

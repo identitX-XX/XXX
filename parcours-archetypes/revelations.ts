@@ -210,7 +210,63 @@ export function genererRevelations(
     }
   }
 
+  // 8) Rythme hebdomadaire : un jour de la semaine nettement plus clair / flou.
+  if (N >= 8) {
+    const parJour: Record<number, number[]> = {};
+    for (const h of H) {
+      const d = new Date(h.date).getDay();
+      (parJour[d] ??= []).push(h.coherence);
+    }
+    const globale = moyenne(H.map((h) => h.coherence));
+    let best: { j: number; m: number; diff: number; nb: number } | null = null;
+    for (const [j, xs] of Object.entries(parJour)) {
+      if (xs.length < 2) continue;
+      const m = moyenne(xs);
+      const diff = m - globale;
+      if (!best || Math.abs(diff) > Math.abs(best.diff)) best = { j: Number(j), m, diff, nb: xs.length };
+    }
+    if (best && Math.abs(best.diff) >= 8) {
+      const sens = best.diff > 0 ? "plus claires" : "plus floues";
+      revs.push({
+        id: `weekday:${best.j}`,
+        kind: "rythme",
+        titre: `Tes ${NOMS_JOUR[best.j]}s sont en moyenne ${sens} que le reste de ta semaine.`,
+        preuve: `Cohérence moyenne ${Math.round(best.m)} le ${NOMS_JOUR[best.j]} (${best.nb} jours), contre ${Math.round(globale)} en général.`,
+        force: Math.min(1, 0.42 + Math.abs(best.diff) / 100),
+      });
+    }
+  }
+
+  // 9) Sphère en tendance : une sphère dont l'énergie monte (ou se retire)
+  // nettement entre le début et maintenant.
+  if (N >= 6) {
+    const tiers = Math.max(2, Math.floor(N / 3));
+    const debut = H.slice(0, tiers);
+    const fin = H.slice(N - tiers);
+    let best: { s: SphereKey; d: number } | null = null;
+    for (const s of SPHERE_KEYS) {
+      const d =
+        moyenne(fin.map((h) => h.spheres[s] ?? 0)) -
+        moyenne(debut.map((h) => h.spheres[s] ?? 0));
+      if (!best || Math.abs(d) > Math.abs(best.d)) best = { s, d };
+    }
+    if (best && Math.abs(best.d) >= 12) {
+      const monte = best.d > 0;
+      revs.push({
+        id: `sphere-trend:${best.s}`,
+        kind: "tendance",
+        titre: monte
+          ? `Ton énergie dans ${LABEL_SPHERE[best.s]} monte depuis le début.`
+          : `Ton énergie dans ${LABEL_SPHERE[best.s]} s'est retirée récemment.`,
+        preuve: `${monte ? "+" : ""}${Math.round(best.d)} points entre ta première et ta dernière période, sur ${N} jours.`,
+        force: Math.min(1, 0.42 + Math.abs(best.d) / 100),
+      });
+    }
+  }
+
   return revs
     .filter((r) => r.force >= SEUIL)
     .sort((a, b) => b.force - a.force);
 }
+
+const NOMS_JOUR = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];

@@ -20,6 +20,9 @@ export interface IdentityCard {
   text: string;
   level: number; // 0-100 self-rated
   tags: string[];
+  // true = complété par l'utilisatrice (issu de ses réponses ou édité par elle).
+  // false = amorce générique, encore à compléter.
+  rempli?: boolean;
 }
 
 export interface TimelineEvent {

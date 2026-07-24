@@ -71,7 +71,7 @@ if (!onboarded && !started) return <Welcome onStart={() => setStarted(true)} />;
             className="absolute inset-0 bg-black/60 animate-fade-in"
             onClick={() => setMenuOpen(false)}
           />
-          <div className="absolute inset-y-0 left-0 w-72 border-r border-line bg-surface px-5 py-7">
+          <div className="absolute inset-y-0 left-0 flex w-72 flex-col border-r border-line bg-surface px-5 py-7">
             <div className="mb-2 flex items-center justify-between">
               <Brand />
               <button

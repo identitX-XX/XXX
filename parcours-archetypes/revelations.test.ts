@@ -105,3 +105,30 @@ test("archétype qui monte : détecté quand le radar grimpe", () => {
   const revs = genererRevelations(etatFrom(snaps), {});
   assert.ok(revs.some((r) => r.kind === "archetype" && /Rebelle/.test(r.titre)));
 });
+
+test("sphère en tendance : une sphère qui monte est repérée, sourcée", () => {
+  // 9 jours, l'énergie « création » grimpe de 30 à 78.
+  const snaps = Array.from({ length: 9 }, (_, i) => {
+    const s = snap(i + 1);
+    s.spheres = { ...s.spheres, creation: 30 + i * 6 };
+    return s;
+  });
+  const revs = genererRevelations(etatFrom(snaps), {});
+  const t = revs.find((r) => r.id === "sphere-trend:creation");
+  assert.ok(t, "la tendance de sphère doit ressortir");
+  assert.match(t!.titre, /monte/);
+  assert.match(t!.preuve, /points/);
+});
+
+test("rythme hebdomadaire : un jour de la semaine plus flou est détecté", () => {
+  // 14 jours consécutifs ; on abaisse la cohérence sur un jour de semaine précis.
+  const snaps = Array.from({ length: 14 }, (_, i) => {
+    const jour = i + 1;
+    const s = snap(jour);
+    const wd = new Date(s.date).getDay();
+    s.coherence = wd === 1 ? 46 : 70; // les lundis plus flous
+    return s;
+  });
+  const revs = genererRevelations(etatFrom(snaps), {});
+  assert.ok(revs.some((r) => r.kind === "rythme"), "un insight de rythme doit ressortir");
+});

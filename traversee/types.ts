@@ -32,6 +32,20 @@ export type ActeKey =
 // --- La grammaire : deux gestes possibles chaque jour ------------------------
 export type Verbe = "emporter" | "laisser";
 
+// --- Thèmes (matière transversale, pour la voix et la dérivation) ------------
+// Étiquettes internes, jamais montrées telles quelles à l'utilisatrice.
+export type ThemeTag =
+  | "regard-des-autres"
+  | "controle"
+  | "renoncement"
+  | "care"
+  | "evitement"
+  | "attachement"
+  | "liberte"
+  | "corps"
+  | "temps"
+  | "argent";
+
 // --- Le prélèvement : une seule question, tranchante -------------------------
 export interface Choix {
   id: string;
@@ -48,13 +62,15 @@ export interface JourContenu {
   jour: number; // 1..30
   acte: ActeKey;
   territoire: TerritoireKey;
-  // Signal : message du MOI DU FUTUR. Optionnel : s'il est absent, la couche
-  // `voice` le compose selon la netteté du jour. S'il est présent, il prime.
-  signal?: string;
+  theme?: ThemeTag; // matière transversale du jour (interne)
+  // Signal : message du MOI DU FUTUR, écrit dans le registre du jour.
+  // Peut porter des jetons : {prenom} et {renoncement} (remplis par la couche
+  // `voice`), et des clauses optionnelles [[ … ]] supprimées si leur jeton est vide.
+  signal: string;
   prelevement: Prelevement;
   // L'acte du jour, formulé dans les deux sens possibles.
   acteInvitation: { emporter: string; laisser: string };
-  aEcrire?: boolean; // placeholder en attente d'écriture (J1–6, J28–30, J7–27)
+  draft: boolean; // true = premier jet généré, en attente de réécriture humaine
 }
 
 // --- Le corpus de fragments (ex-archétypes, décomposés) ----------------------

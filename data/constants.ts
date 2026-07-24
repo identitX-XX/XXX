@@ -27,22 +27,60 @@ export const RADAR_AXES = [
   "Vision",
   "Intuition",
 ];
-export const NAV = [
-  { href: "/aujourdhui", label: "Aujourd'hui" },
-  { href: "/dashboard", label: "Tableau de bord" },
-  { href: "/parcours", label: "Quête IdentitX" },
-  { href: "/parcours-archetypes", label: "Ton archétype" },
-  { href: "/explorer", label: "Explorer" },
-  { href: "/progression", label: "Progression" },
-  { href: "/dna", label: "ADN personnel" },
-  { href: "/coach", label: "Coach IA" },
-  { href: "/journal", label: "Journal" },
-  { href: "/cartographie", label: "Cartographie" },
-    { href: "/synthese", label: "Synthèse" },
-
-  { href: "/reports", label: "Rapports" },
-  { href: "/settings", label: "Paramètres" },
+// Navigation groupée — une limpidité par intention. Les libellés sont
+// désambiguïsés : « Le parcours » (les 30 jours) ≠ « La Quête » (le jeu).
+export const NAV_GROUPS: {
+  section: string | null;
+  items: { href: string; label: string }[];
+}[] = [
+  {
+    section: "Au quotidien",
+    items: [
+      { href: "/aujourdhui", label: "Aujourd'hui" },
+      { href: "/traversee", label: "La Traversée" },
+    ],
+  },
+  {
+    section: "Ton identité",
+    items: [
+      { href: "/parcours-archetypes", label: "Ton archétype" },
+      { href: "/quete", label: "La Quête" },
+      { href: "/explorer", label: "Explorer" },
+      { href: "/dna", label: "ADN personnel" },
+    ],
+  },
+  {
+    section: "Le parcours",
+    items: [
+      { href: "/parcours", label: "Le parcours" },
+      { href: "/progression", label: "Progression" },
+      { href: "/cartographie", label: "Cartographie" },
+    ],
+  },
+  {
+    section: "Ressources & aide",
+    items: [
+      { href: "/ressources", label: "Ressources" },
+      { href: "/coach", label: "Coach IA" },
+      { href: "/journal", label: "Journal" },
+    ],
+  },
+  {
+    section: "Tes bilans",
+    items: [
+      { href: "/dashboard", label: "Tableau de bord" },
+      { href: "/synthese", label: "Synthèse" },
+      { href: "/reports", label: "Rapport journalier" },
+    ],
+  },
+  {
+    section: null,
+    items: [{ href: "/settings", label: "Paramètres" }],
+  },
 ];
+
+// Liste plate, pour tout code qui aurait besoin de l'ensemble des entrées.
+export const NAV = NAV_GROUPS.flatMap((g) => g.items);
 
 // Source unique du parcours : les 8 blocs, dans l'ordre.
 // Sert à la fois au fléchage <NextStep> et à la vue d'ensemble
