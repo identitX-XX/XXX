@@ -36,6 +36,49 @@
   --slate: #6b6774;
 }
 
+/* ---- Palettes sobres commutables -------------------------------------------
+   Un seul accent posé à plat : --fuchsia = --orange = l'accent, ce qui neutralise
+   TOUS les dégradés brand (linear-gradient(--fuchsia,--orange)) sans toucher au
+   code des composants. Chaque palette redéfinit les neutres + l'accent, en
+   sombre (html.pal-*) et en clair (html.pal-*.light). --violet/--gold/--cyan
+   restent pour la data-viz. */
+
+/* A · Ardoise — gris bleutés froids, accent bleu ardoise */
+html.pal-ardoise {
+  --noir: #14171b; --surface: #1b1f25; --raised: #232830;
+  --ink: #e6e9ed; --muted: #93a0ae; --line: rgba(255, 255, 255, 0.09);
+  --fuchsia: #6f97b8; --orange: #6f97b8; --slate: #93a0ae;
+}
+html.pal-ardoise.light {
+  --noir: #f3f5f7; --surface: #ffffff; --raised: #ffffff;
+  --ink: #1a1e24; --muted: #5c6672; --line: rgba(20, 22, 30, 0.1);
+  --fuchsia: #3e6588; --orange: #3e6588; --slate: #5c6672;
+}
+
+/* B · Or discret — presque-noir bleuté, accent laiton mat */
+html.pal-or {
+  --noir: #101319; --surface: #171b22; --raised: #20252e;
+  --ink: #ece8e1; --muted: #9a968d; --line: rgba(255, 255, 255, 0.09);
+  --fuchsia: #c6a461; --orange: #c6a461; --slate: #9a968d;
+}
+html.pal-or.light {
+  --noir: #f6f4ef; --surface: #ffffff; --raised: #ffffff;
+  --ink: #1b1a17; --muted: #6b665c; --line: rgba(26, 22, 14, 0.1);
+  --fuchsia: #9c7d38; --orange: #9c7d38; --slate: #6b665c;
+}
+
+/* C · Aubergine fumé — presque-noir violacé, accent prune fumé */
+html.pal-aubergine {
+  --noir: #151218; --surface: #1c1822; --raised: #262030;
+  --ink: #ece7ee; --muted: #9d93a4; --line: rgba(255, 255, 255, 0.09);
+  --fuchsia: #b083a9; --orange: #b083a9; --slate: #9d93a4;
+}
+html.pal-aubergine.light {
+  --noir: #f4f1f5; --surface: #ffffff; --raised: #ffffff;
+  --ink: #1a151c; --muted: #675e6c; --line: rgba(26, 21, 28, 0.1);
+  --fuchsia: #7a5277; --orange: #7a5277; --slate: #675e6c;
+}
+
 * {
   border-color: var(--line);
 }

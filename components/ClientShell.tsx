@@ -19,16 +19,20 @@ export function ClientShell({ children }: { children: ReactNode }) {
   const onboarded = useStore((s) => s.onboarded);
   const theme = useStore((s) => s.theme);
   const setTheme = useStore((s) => s.setTheme);
+  const palette = useStore((s) => s.palette);
 
   useEffect(() => setMounted(true), []);
 
-  // Apply theme class to <html>
+  // Apply theme + palette classes to <html>
   useEffect(() => {
     if (!mounted) return;
     const root = document.documentElement;
-    if (theme === "light") root.classList.add("light");
-    else root.classList.remove("light");
-  }, [theme, mounted]);
+    root.classList.toggle("light", theme === "light");
+    ["pal-ardoise", "pal-or", "pal-aubergine"].forEach((c) =>
+      root.classList.remove(c)
+    );
+    if (palette && palette !== "origine") root.classList.add(`pal-${palette}`);
+  }, [theme, palette, mounted]);
 
   if (!mounted) {
     return (

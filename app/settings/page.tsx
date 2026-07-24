@@ -1,10 +1,18 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Download, FileText, Moon, RotateCcw, Sun, Upload } from "lucide-react";
-import { useStore } from "@/store/useStore";
+import { Check, Download, FileText, Moon, RotateCcw, Sun, Upload } from "lucide-react";
+import { PaletteKey, useStore } from "@/store/useStore";
 import { downloadJSON, readJSONFile } from "@/lib/exportImport";
 import { Button, Card, PageHead } from "@/components/ui";
+
+// Aperçu (fond, surface, accent) de chaque palette, pour le sélecteur.
+const PALETTES: { key: PaletteKey; nom: string; note: string; fond: string; surface: string; accent: string }[] = [
+  { key: "origine", nom: "Origine", note: "magenta", fond: "#0a090d", surface: "#121116", accent: "#ff4fa3" },
+  { key: "ardoise", nom: "Ardoise", note: "sobre · froid", fond: "#14171b", surface: "#1b1f25", accent: "#6f97b8" },
+  { key: "or", nom: "Or discret", note: "sobre · intime", fond: "#101319", surface: "#171b22", accent: "#c6a461" },
+  { key: "aubergine", nom: "Aubergine", note: "sobre · adulte", fond: "#151218", surface: "#1c1822", accent: "#b083a9" },
+];
 
 export default function SettingsPage() {
   const state = useStore();
@@ -66,6 +74,38 @@ export default function SettingsPage() {
             {state.theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
             {state.theme === "dark" ? "Clair" : "Sombre"}
           </Button>
+        </Card>
+
+        <Card className="p-5">
+          <p className="text-ink">Palette</p>
+          <p className="mb-4 text-xs text-muted">
+            Un seul accent, à plat. Choisis-en une — tout l'app suit aussitôt.
+          </p>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {PALETTES.map((p) => {
+              const actif = state.palette === p.key;
+              return (
+                <button
+                  key={p.key}
+                  onClick={() => state.setPalette(p.key)}
+                  className={`rounded-xl border p-3 text-left transition-colors ${
+                    actif ? "border-fuchsia" : "border-line hover:border-muted"
+                  }`}
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span
+                      className="h-6 w-6 rounded-md"
+                      style={{ background: p.fond, boxShadow: `inset 0 0 0 1px ${p.surface}` }}
+                    />
+                    <span className="h-6 w-6 rounded-md" style={{ background: p.accent }} />
+                    {actif && <Check size={14} className="ml-auto text-fuchsia" />}
+                  </div>
+                  <p className="mt-2 text-sm text-ink">{p.nom}</p>
+                  <p className="text-[11px] text-muted">{p.note}</p>
+                </button>
+              );
+            })}
+          </div>
         </Card>
 
         <Card className="p-5">

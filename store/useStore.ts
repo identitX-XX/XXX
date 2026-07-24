@@ -12,6 +12,10 @@ import {
   Theme,
   TimelineEvent,
 } from "@/types";
+
+// Palettes visuelles commutables. « origine » = le magenta d'origine ;
+// les trois autres sont sobres (un seul accent à plat, sans dégradé).
+export type PaletteKey = "origine" | "ardoise" | "or" | "aubergine";
 import {
   computeScores,
   seedCards,
@@ -39,6 +43,7 @@ const emptyProfile: Profile = {
 interface AppState {
   onboarded: boolean;
   theme: Theme;
+  palette: PaletteKey;
   profile: Profile;
   cards: IdentityCard[];
   timeline: TimelineEvent[];
@@ -53,6 +58,7 @@ interface AppState {
 
   completeOnboarding: (p: Profile) => void;
   setTheme: (t: Theme) => void;
+  setPalette: (p: PaletteKey) => void;
   updateCard: (id: string, patch: Partial<IdentityCard>) => void;
   addTimelineEvent: (e: TimelineEvent) => void;
   updateTimelineEvent: (id: string, patch: Partial<TimelineEvent>) => void;
@@ -84,6 +90,7 @@ export const useStore = create<AppState>()(
     (set, get) => ({
       onboarded: false,
       theme: "dark",
+      palette: "origine",
       profile: emptyProfile,
       cards: [],
       timeline: [],
@@ -114,6 +121,8 @@ export const useStore = create<AppState>()(
         }),
 
       setTheme: (t) => set({ theme: t }),
+
+      setPalette: (p) => set({ palette: p }),
 
       updateCard: (id, patch) =>
         set({
