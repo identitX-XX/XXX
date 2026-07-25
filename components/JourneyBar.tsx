@@ -24,22 +24,9 @@ export function JourneyBar() {
   // Sur le hub, la position est déjà l'objet même de la page.
   if (pathname === "/aujourdhui") return null;
 
-  // Quête pas encore lancée : le repère devient une invite douce.
-  if (!diagnostic) {
-    return (
-      <Link
-        href="/parcours-archetypes"
-        className="group mb-6 flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-xs text-muted transition-colors hover:border-fuchsia hover:text-fuchsia"
-      >
-        <span className="h-1.5 w-1.5 rounded-full brand-gradient" />
-        <span>Quête non commencée — révèle ton archétype</span>
-        <ArrowRight
-          size={13}
-          className="ml-auto transition-transform group-hover:translate-x-0.5"
-        />
-      </Link>
-    );
-  }
+  // Quête pas encore lancée : NextStep porte déjà l'unique appel « révèle ton
+  // archétype ». On ne le répète pas ici — une seule action par écran.
+  if (!diagnostic) return null;
 
   const prog = progression(etat);
   const mo = momentum(etat);

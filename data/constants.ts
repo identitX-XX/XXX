@@ -84,6 +84,9 @@ export type JourneyStep = {
   phrase: string;
 };
 
+// La colonne, dans l'ordre des deux actes : Comprendre → Orchestrer. Les
+// surfaces contemplatives (ADN, Cartographie, Journal, Synthèse, Rapport) n'y
+// figurent plus — la vue d'ensemble ne parade que la séquence qui compte.
 export const JOURNEY: JourneyStep[] = [
   {
     href: "/parcours-archetypes",
@@ -95,43 +98,24 @@ export const JOURNEY: JourneyStep[] = [
     href: "/explorer",
     title: "Explorer",
     phrase:
-      "Des questions justes pour faire remonter tes caractéristiques, tes valeurs, tes motifs.",
+      "Des questions justes pour faire remonter tes valeurs, tes forces, tes directions.",
+  },
+  {
+    href: "/scenarios",
+    title: "Scénarios",
+    phrase:
+      "Ta carte devient mouvement : des possibles d'orchestration qui émergent de tes bascules.",
+  },
+  {
+    href: "/quete",
+    title: "La Quête",
+    phrase:
+      "Ce dont tu te délestes pour avancer — le geste, joué et rejoué.",
   },
   {
     href: "/progression",
     title: "Progression",
-    phrase: "Ta carte des 30 jours : chaque journée vécue, d'un seul coup d'œil.",
-  },
-  {
-    href: "/dna",
-    title: "ADN personnel",
-    phrase: "Tout ce qui ressort, réuni en un seul portrait — ton ADN, net.",
-  },
-  {
-    href: "/cartographie",
-    title: "Cartographie",
-    phrase: "Tes thèmes reliés entre eux : la carte de ce qui te compose.",
-  },
-  {
-    href: "/journal",
-    title: "Journal",
-    phrase:
-      "Écris ce que tu traverses. Relis-toi plus tard : le chemin saute aux yeux.",
-  },
-  {
-    href: "/coach",
-    title: "Coach IdentitX",
-    phrase: "Un dialogue qui pose des mots là où tu n'en avais pas encore.",
-  },
-  {
-    href: "/synthese",
-    title: "Synthèse",
-    phrase: "L'essentiel de toi, distillé — ton profil en un regard.",
-  },
-  {
-    href: "/reports",
-    title: "Rapports",
-    phrase: "Un document complet de ton exploration, à garder ou à transmettre.",
+    phrase: "La trace de ton mouvement : chaque journée vécue, d'un seul coup d'œil.",
   },
 ];
 
