@@ -8,6 +8,7 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { TurbineDirection, TurbineInput, TurbineOutput } from "@/lib/turbine/types";
 import { basculeDepuisHistorique } from "@/lib/turbine/fromParcours";
 import { useCarteTurbine } from "@/lib/turbine/carteStore";
+import { track } from "@/lib/metrics";
 
 // Profil de démonstration — utilisé tant que le parcours n'a pas encore produit
 // de bascule réelle, ou que les directions ne sont pas renseignées.
@@ -84,6 +85,11 @@ export default function TurbinePage() {
         return;
       }
       setOutput(data);
+      track("scenario_generated", {
+        reel,
+        count: data.scenarios?.length ?? 0,
+        mock: Boolean(data._mock),
+      });
     } catch {
       setError("Génération momentanément injoignable.");
     } finally {

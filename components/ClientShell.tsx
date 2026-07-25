@@ -10,6 +10,8 @@ import { Welcome } from "./Welcome";
 import { Brand, NavList } from "./Sidebar";
 import { NextStep } from "./NextStep";
 import { JourneyBar } from "./JourneyBar";
+import { ConsentGate } from "./ConsentGate";
+import { track } from "@/lib/metrics";
 
 export function ClientShell({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
@@ -22,6 +24,11 @@ export function ClientShell({ children }: { children: ReactNode }) {
   const palette = useStore((s) => s.palette);
 
   useEffect(() => setMounted(true), []);
+
+  // Backend A : ouverture d'app (no-op sans consentement ni backend).
+  useEffect(() => {
+    if (mounted) track("app_open");
+  }, [mounted]);
 
   // Apply theme + palette classes to <html>
   useEffect(() => {
@@ -42,7 +49,13 @@ export function ClientShell({ children }: { children: ReactNode }) {
     );
   }
 
-if (!onboarded && !started) return <Welcome onStart={() => setStarted(true)} />;
+if (!onboarded && !started)
+    return (
+      <>
+        <Welcome onStart={() => setStarted(true)} />
+        <ConsentGate />
+      </>
+    );
   if (!onboarded) return <Onboarding />;
 
   return (
@@ -101,6 +114,7 @@ if (!onboarded && !started) return <Welcome onStart={() => setStarted(true)} />;
           <NextStep />
         </div>
       </main>
+      <ConsentGate />
     </div>
   );
 }
