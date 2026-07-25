@@ -29,10 +29,11 @@ export const RADAR_AXES = [
 ];
 // Navigation groupée — une limpidité par intention. Les libellés sont
 // désambiguïsés : « Le parcours » (les 30 jours) ≠ « La Quête » (le jeu).
-// Navigation resserrée : de 18 à 10 entrées, alignée sur les deux actes.
-// « Comprendre » (Acte I) → « Orchestrer » (Acte II). Les pages retirées du
-// menu (Traversée, ADN, Cartographie, Le parcours, Journal, Tableau de bord)
-// existent toujours et restent atteignables depuis les fléchages internes.
+// Navigation focalisée sur la colonne : de 18 entrées à la seule séquence qui
+// compte — Comprendre (Acte I) → Orchestrer (Acte II), plus le quotidien et
+// l'aide. Les surfaces contemplatives et annexes (Traversée, ADN, Cartographie,
+// Le parcours, Journal, Tableau de bord, Synthèse, Rapport) existent toujours
+// comme pages mais sortent du cœur : elles ne dispersent plus.
 export const NAV_GROUPS: {
   section: string | null;
   items: { href: string; label: string }[];
@@ -63,13 +64,6 @@ export const NAV_GROUPS: {
     items: [
       { href: "/coach", label: "Coach IA" },
       { href: "/ressources", label: "Ressources" },
-    ],
-  },
-  {
-    section: "Bilans",
-    items: [
-      { href: "/synthese", label: "Synthèse" },
-      { href: "/reports", label: "Rapport journalier" },
     ],
   },
   {
