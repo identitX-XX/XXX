@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 // Réseau de neurones animé — l'emblème de l'accueil. Un feed-forward qui
 // « pense » : des couches de nœuds reliées, parcourues de signaux. Dessine
 // dans l'accent de la palette courante (--fuchsia). Respecte prefers-reduced-motion.
-export function NeuralNet({ size = 265 }: { size?: number }) {
+export function NeuralNet({ size = 340 }: { size?: number }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -31,9 +31,10 @@ export function NeuralNet({ size = 265 }: { size?: number }) {
         "#c6a461"
       ).trim();
 
-    // Couches du réseau (nombre de nœuds par colonne).
-    const layers = [3, 5, 5, 3, 1];
-    const padX = 26;
+    // Couches du réseau (nombre de nœuds par colonne). Dense, pour une
+    // présence forte ; se termine sur 3 « possibles ».
+    const layers = [4, 7, 8, 6, 3];
+    const padX = 24;
     const usableW = W - padX * 2;
     const nodes: { x: number; y: number; r: number; phase: number }[][] = [];
 
@@ -42,7 +43,7 @@ export function NeuralNet({ size = 265 }: { size?: number }) {
       const x = padX + (usableW * li) / (layers.length - 1);
       for (let i = 0; i < n; i++) {
         const y = (H * (i + 1)) / (n + 1);
-        col.push({ x, y, r: 3.2, phase: Math.random() * Math.PI * 2 });
+        col.push({ x, y, r: 3.6, phase: Math.random() * Math.PI * 2 });
       }
       nodes.push(col);
     });
@@ -59,7 +60,7 @@ export function NeuralNet({ size = 265 }: { size?: number }) {
 
     // Signaux qui parcourent quelques arêtes.
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const signals = Array.from({ length: reduced ? 0 : 7 }, () => ({
+    const signals = Array.from({ length: reduced ? 0 : 14 }, () => ({
       edge: Math.floor(Math.random() * edges.length),
       t: Math.random(),
       speed: 0.004 + Math.random() * 0.006,
@@ -79,7 +80,7 @@ export function NeuralNet({ size = 265 }: { size?: number }) {
       for (const e of edges) {
         const a = nodeAt(e.a);
         const b = nodeAt(e.b);
-        ctx.strokeStyle = hexA(accent, 0.1);
+        ctx.strokeStyle = hexA(accent, 0.14);
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);

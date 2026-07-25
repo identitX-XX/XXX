@@ -67,6 +67,18 @@ html.pal-or.light {
   --fuchsia: #9c7d38; --orange: #9c7d38; --slate: #6b665c;
 }
 
+/* Parme — presque-noir violacé, accent parme (mauve clair, feutré) */
+html.pal-parme {
+  --noir: #16131c; --surface: #1e1926; --raised: #282132;
+  --ink: #ece7f1; --muted: #a99cb8; --line: rgba(255, 255, 255, 0.09);
+  --fuchsia: #bda4dd; --orange: #bda4dd; --slate: #a99cb8;
+}
+html.pal-parme.light {
+  --noir: #f5f2f8; --surface: #ffffff; --raised: #ffffff;
+  --ink: #1a151f; --muted: #6b6276; --line: rgba(26, 21, 31, 0.1);
+  --fuchsia: #7c5fa8; --orange: #7c5fa8; --slate: #6b6276;
+}
+
 /* C · Aubergine fumé — presque-noir violacé, accent prune fumé */
 html.pal-aubergine {
   --noir: #151218; --surface: #1c1822; --raised: #262030;

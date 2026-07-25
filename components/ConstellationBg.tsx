@@ -59,7 +59,19 @@ export function ConstellationBg({
       }
     };
 
+    const accentRgb = () => {
+      const hex = (
+        getComputedStyle(document.documentElement).getPropertyValue("--fuchsia") ||
+        "#b9a3d4"
+      ).trim();
+      let h = hex.replace("#", "");
+      if (h.length === 3) h = h.split("").map((x) => x + x).join("");
+      const n = parseInt(h, 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    };
+
     const draw = () => {
+      const [ar, ag, ab] = accentRgb();
       ctx.clearRect(0, 0, W, H);
       for (const n of nodes) {
         if (!reduced) {
@@ -76,7 +88,7 @@ export function ConstellationBg({
           const d = Math.hypot(a.x - b.x, a.y - b.y);
           if (d < LINK * dpr) {
             ctx.strokeStyle =
-              "rgba(255,138,76," + (1 - d / (LINK * dpr)) * linkOpacity + ")";
+              `rgba(${ar},${ag},${ab},` + (1 - d / (LINK * dpr)) * linkOpacity + ")";
             ctx.lineWidth = dpr * 0.5;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -87,8 +99,8 @@ export function ConstellationBg({
       }
       for (const n of nodes) {
         ctx.fillStyle = n.gold
-          ? "rgba(255,79,163," + dotFuchsia + ")"
-          : "rgba(255,138,76," + dotOrange + ")";
+          ? `rgba(${ar},${ag},${ab},` + dotFuchsia + ")"
+          : `rgba(${ar},${ag},${ab},` + dotOrange + ")";
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         ctx.fill();

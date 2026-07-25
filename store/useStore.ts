@@ -15,7 +15,7 @@ import {
 
 // Palettes visuelles commutables. « origine » = le magenta d'origine ;
 // les trois autres sont sobres (un seul accent à plat, sans dégradé).
-export type PaletteKey = "origine" | "ardoise" | "or" | "aubergine";
+export type PaletteKey = "origine" | "ardoise" | "or" | "aubergine" | "parme";
 import {
   computeScores,
   seedCards,
@@ -90,7 +90,7 @@ export const useStore = create<AppState>()(
     (set, get) => ({
       onboarded: false,
       theme: "dark",
-      palette: "or",
+      palette: "parme",
       profile: emptyProfile,
       cards: [],
       timeline: [],

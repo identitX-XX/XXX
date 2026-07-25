@@ -1,6 +1,6 @@
 "use client";
 
-import { Emblem } from "./Emblem";
+import { Lock } from "lucide-react";
 import { ConstellationBg } from "./ConstellationBg";
 import { NeuralNet } from "./NeuralNet";
 
@@ -68,22 +68,23 @@ export function Welcome({ onStart }: { onStart: () => void }) {
 
         <div
           style={{
-            marginBottom: 4,
+            marginTop: -8,
+            marginBottom: 10,
             animation: "idx-breathe 8s ease-in-out infinite",
           }}
         >
-          <NeuralNet size={265} />
+          <NeuralNet size={360} />
         </div>
 
         <h1
           style={{
             fontFamily: "var(--font-fraunces),serif",
             fontWeight: 400,
-            fontSize: "clamp(30px,7.2vw,50px)",
-            lineHeight: 1.06,
+            fontSize: "clamp(28px,6.4vw,46px)",
+            lineHeight: 1.08,
             letterSpacing: "-.01em",
-            margin: "6px 0 0",
-            maxWidth: 620,
+            margin: "0",
+            maxWidth: 680,
           }}
         >
           <span
@@ -94,7 +95,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
               color: "transparent",
             }}
           >
-            Aligné sur ta trajectoire.
+            Explore tes constellations identitaires
           </span>
         </h1>
 
@@ -102,15 +103,14 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           style={{
             fontFamily: "var(--font-fraunces),serif",
             fontStyle: "italic",
-            fontSize: 17,
+            fontSize: 18,
             lineHeight: 1.5,
             color: "var(--muted)",
-            maxWidth: 440,
-            margin: "18px 0 0",
+            maxWidth: 460,
+            margin: "16px 0 0",
           }}
         >
-          En 30 jours, transforme tes objectifs dispersés — perso, pro,
-          relationnel — en un cap clair et net.
+          pour voir émerger tes possibles.
         </p>
 
         {/* Trois piliers de valeur : ce que l'utilisateur repart avec. */}
@@ -125,24 +125,32 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           }}
         >
           {[
-            { i: "🧭", t: "Ton archétype", s: "révélé en 12 questions" },
-            { i: "📅", t: "30 jours guidés", s: "une capsule, ≈ 4 min/jour" },
-            { i: "✨", t: "Ton scénario", s: "3 sorties activables" },
+            { t: "Ton archétype", s: "révélé en 12 questions" },
+            { t: "30 jours guidés", s: "une capsule, ≈ 4 min/jour" },
+            { t: "Tes scénarios", s: "3 possibles activables" },
           ].map((p) => (
             <div
               key={p.t}
               style={{
-                padding: "16px 10px",
+                padding: "18px 12px",
                 borderRadius: 16,
                 border: "1px solid var(--line)",
                 background:
                   "radial-gradient(130% 130% at 50% 0%, rgba(255,255,255,.04), rgba(255,255,255,0) 100%)",
               }}
             >
-              <div style={{ fontSize: 22, lineHeight: 1 }}>{p.i}</div>
+              <div
+                aria-hidden="true"
+                style={{
+                  width: 6,
+                  height: 6,
+                  borderRadius: 999,
+                  background: "var(--fuchsia)",
+                  margin: "0 auto 12px",
+                }}
+              />
               <div
                 style={{
-                  marginTop: 8,
                   fontSize: 13,
                   fontWeight: 500,
                   color: "var(--ink)",
@@ -168,18 +176,14 @@ export function Welcome({ onStart }: { onStart: () => void }) {
             gap: 7,
           }}
         >
-          <span aria-hidden="true">🔒</span>
+          <Lock size={12} aria-hidden="true" />
           100 % local — rien ne quitte ton appareil.
-        </div>
-
-        <div style={{ margin: "26px 0 4px" }}>
-          <Emblem size={64} />
         </div>
 
         <button
           onClick={onStart}
           style={{
-            marginTop: 16,
+            marginTop: 30,
             background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
             color: "#fff",
             border: "none",

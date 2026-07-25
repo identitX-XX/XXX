@@ -8,10 +8,11 @@ import { Button, Card, PageHead } from "@/components/ui";
 
 // Aperçu (fond, surface, accent) de chaque palette, pour le sélecteur.
 const PALETTES: { key: PaletteKey; nom: string; note: string; fond: string; surface: string; accent: string }[] = [
-  { key: "origine", nom: "Origine", note: "magenta", fond: "#0a090d", surface: "#121116", accent: "#ff4fa3" },
-  { key: "ardoise", nom: "Ardoise", note: "sobre · froid", fond: "#14171b", surface: "#1b1f25", accent: "#6f97b8" },
+  { key: "parme", nom: "Parme", note: "sobre · feutré", fond: "#16131c", surface: "#1e1926", accent: "#bda4dd" },
   { key: "or", nom: "Or discret", note: "sobre · intime", fond: "#101319", surface: "#171b22", accent: "#c6a461" },
   { key: "aubergine", nom: "Aubergine", note: "sobre · adulte", fond: "#151218", surface: "#1c1822", accent: "#b083a9" },
+  { key: "ardoise", nom: "Ardoise", note: "sobre · froid", fond: "#14171b", surface: "#1b1f25", accent: "#6f97b8" },
+  { key: "origine", nom: "Origine", note: "magenta", fond: "#0a090d", surface: "#121116", accent: "#ff4fa3" },
 ];
 
 export default function SettingsPage() {
