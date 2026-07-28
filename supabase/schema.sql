@@ -32,6 +32,17 @@ create index if not exists events_anon_idx on events (anon_id);
 create index if not exists events_name_idx on events (name);
 create index if not exists events_created_idx on events (created_at);
 
+-- Paroles des testeuses — le feedback libre, dans leurs propres mots. Rattaché
+-- à l'identité anonyme (jamais nominatif par défaut), horodaté.
+create table if not exists feedback (
+  id bigint generated always as identity primary key,
+  anon_id text not null,
+  message text not null,
+  route text,
+  created_at timestamptz not null default now()
+);
+create index if not exists feedback_created_idx on feedback (created_at);
+
 -- Rétention par cohorte hebdo : combien reviennent J1 / J7 / J30.
 -- (Vue de lecture pour ton tableau de bord ; s'appuie sur l'événement app_open.)
 create or replace view retention_days as

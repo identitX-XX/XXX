@@ -24,6 +24,9 @@ export interface Ressource {
   titre: string;
   duree: string;
   corps: string;
+  // Présent sur les ressources adossées à la recherche : la référence (auteur,
+  // ouvrage, année). Sert à distinguer « Les savoirs » du reste.
+  source?: string;
 }
 
 // Hash déterministe (chaîne → entier positif).
@@ -156,7 +159,8 @@ export const RESSOURCES: Ressource[] = [
     titre: "Tu n'as pas « un seul vrai but »",
     duree: "4 min",
     corps:
-      "La chercheuse et auteure Emilie Wapnick a popularisé le terme « multipotentialité » (TED, 2015 ; « How to Be Everything », 2017) : certaines personnes ne sont pas faites pour une seule vocation, mais pour en explorer plusieurs. Ce n'est ni de l'indécision ni de la dispersion — c'est un mode de fonctionnement, avec ses forces propres : apprentissage rapide, synthèse entre domaines, adaptabilité.",
+      "Certaines personnes ne sont pas faites pour une seule vocation, mais pour en explorer plusieurs. Ce n'est ni de l'indécision ni de la dispersion — c'est un mode de fonctionnement, avec ses forces propres : apprentissage rapide, synthèse entre domaines, adaptabilité.",
+    source: "Emilie Wapnick, « How to Be Everything » (2017) · TED (2015)",
   },
   {
     id: "multi-scanner",
@@ -164,7 +168,8 @@ export const RESSOURCES: Ressource[] = [
     titre: "Scanner, pas dispersé",
     duree: "4 min",
     corps:
-      "La psychothérapeute Barbara Sher appelle « scanners » (« Refuse to Choose! », 2006) les esprits attirés par de nombreux sujets à la fois. Son constat clé : le problème n'est pas d'avoir trop d'intérêts, mais de croire qu'il faudrait n'en garder qu'un. Elle propose d'organiser sa vie AUTOUR de cette pluralité, au lieu de la combattre.",
+      "Les esprits attirés par de nombreux sujets à la fois — les « scanners ». Le constat clé : le problème n'est pas d'avoir trop d'intérêts, mais de croire qu'il faudrait n'en garder qu'un. On peut organiser sa vie AUTOUR de cette pluralité, au lieu de la combattre.",
+    source: "Barbara Sher, « Refuse to Choose! » (2006)",
   },
   {
     id: "multi-range",
@@ -172,7 +177,8 @@ export const RESSOURCES: Ressource[] = [
     titre: "Pourquoi les généralistes gagnent",
     duree: "5 min",
     corps:
-      "Dans « Range » (2019), le journaliste scientifique David Epstein réunit les travaux montrant que, dans les environnements complexes et changeants, les profils généralistes — qui échantillonnent large avant de se spécialiser — surpassent souvent les hyper-spécialistes précoces. La diversité des expériences nourrit la créativité et la capacité à relier des domaines éloignés.",
+      "Dans les environnements complexes et changeants, les profils généralistes — qui échantillonnent large avant de se spécialiser — surpassent souvent les hyper-spécialistes précoces. La diversité des expériences nourrit la créativité et la capacité à relier des domaines éloignés.",
+    source: "David Epstein, « Range » (2019)",
   },
   {
     id: "multi-intelligences",
@@ -180,7 +186,57 @@ export const RESSOURCES: Ressource[] = [
     titre: "Plusieurs intelligences, pas un seul QI",
     duree: "4 min",
     corps:
-      "Le psychologue Howard Gardner (Harvard) a proposé en 1983 la théorie des intelligences multiples : linguistique, logico-mathématique, spatiale, corporelle, musicale, interpersonnelle, intrapersonnelle, naturaliste. L'idée n'est pas un test de plus, mais un déplacement : la valeur d'un esprit ne se réduit pas à une seule mesure. Tes talents pluriels ne sont pas un défaut de focalisation.",
+      "La théorie des intelligences multiples (linguistique, logico-mathématique, spatiale, corporelle, musicale, interpersonnelle, intrapersonnelle, naturaliste) opère un déplacement : la valeur d'un esprit ne se réduit pas à une seule mesure. Tes talents pluriels ne sont pas un défaut de focalisation.",
+    source: "Howard Gardner, « Frames of Mind » (1983)",
+  },
+
+  // — Neurosciences & transformation : ce que la recherche dit du changement
+  //   profond. Le champ lexical de l'app (schéma, narratif, plasticité) trouve
+  //   ici ses appuis scientifiques.
+  {
+    id: "neuro-plasticite",
+    type: "lecture",
+    titre: "Ton cerveau n'est pas figé",
+    duree: "5 min",
+    corps:
+      "La neuroplasticité, c'est la capacité du cerveau à se réorganiser tout au long de la vie : les connexions se renforcent avec ce qu'on répète, s'affaiblissent avec ce qu'on délaisse. Autrement dit, un schéma installé n'est pas une fatalité gravée — c'est un chemin très fréquenté, qu'une pratique régulière peut détourner.",
+    source: "Norman Doidge, « The Brain That Changes Itself » (2007)",
+  },
+  {
+    id: "neuro-possibles",
+    type: "lecture",
+    titre: "Les « moi possibles » tirent l'action",
+    duree: "4 min",
+    corps:
+      "En psychologie, les « possible selves » désignent les versions de soi qu'on se projette — celle qu'on espère devenir, celle qu'on craint de devenir. Ces images ne sont pas décoratives : elles orientent concrètement la motivation et les choix. Rendre vivace un moi possible, c'est déjà commencer à s'y diriger.",
+    source: "Hazel Markus & Paula Nurius, « Possible Selves », American Psychologist (1986)",
+  },
+  {
+    id: "neuro-narratif",
+    type: "lecture",
+    titre: "Tu deviens l'histoire que tu te racontes",
+    duree: "5 min",
+    corps:
+      "La recherche sur l'identité narrative montre que nous construisons un « moi » cohérent en reliant notre passé, notre présent et notre futur dans un récit. Ce récit n'est pas figé : réécrire les épisodes-clés — leur sens, leur place — modifie réellement le rapport à soi. Ton narratif est un matériau, pas une sentence.",
+    source: "Dan P. McAdams, travaux sur la narrative identity (1993–)",
+  },
+  {
+    id: "neuro-habitudes",
+    type: "lecture",
+    titre: "Le changement passe par le contexte, pas la volonté",
+    duree: "5 min",
+    corps:
+      "Une large part de nos actions quotidiennes est automatique, déclenchée par le contexte plus que par une décision consciente. Conséquence pratique : la transformation durable se joue moins dans l'effort de volonté que dans l'aménagement de l'environnement et la répétition — jusqu'à ce que le nouveau geste devienne le geste par défaut.",
+    source: "Wendy Wood, « Good Habits, Bad Habits » (2019)",
+  },
+  {
+    id: "neuro-mindset",
+    type: "lecture",
+    titre: "Croire que ça peut bouger change tout",
+    duree: "4 min",
+    corps:
+      "Le regard qu'on porte sur ses propres capacités — figées ou perfectibles — modifie la façon dont on affronte l'effort et l'échec. Voir une aptitude comme développable transforme un revers en information plutôt qu'en verdict. Le plafond n'est pas seulement réel : il est en partie une croyance qu'on peut interroger.",
+    source: "Carol Dweck, « Mindset » (2006)",
   },
 ];
 
@@ -199,7 +255,10 @@ export function ressourceDuJour(
     else if (turbulence < 38) pool = RESSOURCES.filter((r) => r.type !== "pratique");
   }
   if (pool.length === 0) pool = RESSOURCES;
-  const seed = n * 7 + hash(archKey);
+  // Multiplicateur premier (13) volontairement : gardé coprime aux tailles de
+  // pool réalistes (jamais un facteur commun), sinon la rotation par jour se
+  // replierait sur trop peu de ressources et perdrait sa diversité.
+  const seed = n * 13 + hash(archKey);
   return pool[seed % pool.length];
 }
 
