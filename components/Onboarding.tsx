@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import {
-  ArrowLeft, ArrowRight, Compass, HelpCircle, Route, Shuffle, Sparkles, Target,
+  ArrowLeft, ArrowRight, Briefcase, Compass, HeartHandshake, HelpCircle,
+  Route, Shuffle, Sparkles, Sprout, Target,
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Profile } from "@/types";
@@ -13,7 +14,7 @@ import { Constellation } from "./Constellation";
 // chemin (Archétype → Mue → Tes Choix) et le rythme AVANT de demander quoi que
 // ce soit — puis une seule saisie : le prénom. Le reste du profil se complète au
 // fil de la quête (profil progressif), jamais en barrage à l'entrée.
-const STEPS = 4;
+const STEPS = 5;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
@@ -67,8 +68,9 @@ export function Onboarding() {
       <div key={step} className="animate-fade-up">
         {step === 0 && <StepAccueil />}
         {step === 1 && <StepChemin />}
-        {step === 2 && <StepRythme />}
-        {step === 3 && (
+        {step === 2 && <StepTerritoires />}
+        {step === 3 && <StepRythme />}
+        {step === 4 && (
           <StepPrenom
             name={name}
             setName={setName}
@@ -150,7 +152,52 @@ function StepChemin() {
   );
 }
 
-// Étape 2 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
+// Étape « territoires » — ancre la quête sur TOUTE la vie : elle relie les
+// trois périmètres (perso · pro · relationnel), jamais un seul en vase clos.
+function StepTerritoires() {
+  const perimetres = [
+    { icon: <Sprout size={20} />, label: "Perso", sous: "équilibre, corps, sens" },
+    { icon: <Briefcase size={20} />, label: "Pro", sous: "travail, projets" },
+    { icon: <HeartHandshake size={20} />, label: "Relationnel", sous: "couple, famille, amis" },
+  ];
+  return (
+    <div className="text-center">
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Tout ton monde</div>
+      <h2 className="mt-2 font-display text-2xl font-light text-ink">
+        Une quête, tes trois territoires
+      </h2>
+      <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+        IdentitX ne cloisonne pas : ta quête relie ton perso, ton pro et ton
+        relationnel — c'est toute ta vie qui avance ensemble.
+      </p>
+      <div className="mt-7 grid grid-cols-3 gap-3">
+        {perimetres.map((p) => (
+          <div
+            key={p.label}
+            className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface p-4"
+          >
+            <span
+              className="grid h-11 w-11 place-items-center rounded-full text-fuchsia"
+              style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
+            >
+              {p.icon}
+            </span>
+            <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-ink">
+              {p.label}
+            </span>
+            <span className="text-[10px] leading-tight text-muted">{p.sous}</span>
+          </div>
+        ))}
+      </div>
+      <p className="mx-auto mt-6 max-w-sm text-xs leading-relaxed text-muted">
+        Une fois ton archétype révélé, tu poseras un cap sur chacun — ta boussole
+        des 30 jours.
+      </p>
+    </div>
+  );
+}
+
+// Étape 3 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
 function StepRythme() {
   const piliers = [
     { icon: <HelpCircle size={18} />, t: "Une question" },
