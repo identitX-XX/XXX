@@ -9,6 +9,7 @@
 // est un premier jet, à réécrire.
 
 import { Archetype } from "./types";
+import { defiDuJour } from "./defis";
 
 export type FacetKind = "eclairage" | "question" | "defi";
 
@@ -49,7 +50,8 @@ export function nouveauteDuJour(n: number, arch: Archetype, phaseKey?: string): 
     phaseKey === "exploration" || phaseKey === "tension" ? "defi" : "question";
   const other: FacetKind = lean === "defi" ? "question" : "defi";
   const kind: FacetKind = (n - 1) % 2 === 0 ? lean : other;
-  if (kind === "defi") return { kind, label: "Ton micro-défi", texte: arch.defi };
+  if (kind === "defi")
+    return { kind, label: "Ton micro-défi", texte: defiDuJour(n, arch.key, arch.defi) };
   return { kind, label: "La question du jour", texte: arch.question };
 }
 

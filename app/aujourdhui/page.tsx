@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock, History,
+  MessageCircle,
 } from "lucide-react";
 import { Card, PageHead, Slider } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
@@ -389,6 +390,25 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
             Toute la bibliothèque
             <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
           </span>
+        </Link>
+
+        {/* Fléchage vers le Coach : une porte contextuelle au moment où l'on
+            veut en parler — pas seulement un onglet dans la barre. */}
+        <Link
+          href="/coach"
+          className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-5 shadow-soft transition-colors hover:border-fuchsia"
+        >
+          <div
+            className="grid h-9 w-9 flex-none place-items-center rounded-full"
+            style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)", color: "var(--fuchsia)" }}
+          >
+            <MessageCircle size={16} />
+          </div>
+          <div className="flex-1">
+            <div className="text-sm text-ink">Une question sur ta journée ?</div>
+            <div className="text-xs text-muted">Parle-en à IdentitX — il connaît ton parcours.</div>
+          </div>
+          <ArrowRight size={15} className="flex-none text-fuchsia transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
     </section>
