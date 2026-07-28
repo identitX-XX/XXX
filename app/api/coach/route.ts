@@ -1,14 +1,16 @@
 export const maxDuration = 60;
 
-
+// Coach identitX — tourne sur Mistral (hébergé UE, RGPD), le MÊME fournisseur
+// que les Scénarios : une seule clé (MISTRAL_API_KEY) active tout. La
+// personnalité (prompt système) est inchangée ; seul le moteur derrière l'est.
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
 export async function POST(req: Request) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.MISTRAL_API_KEY;
   if (!apiKey) {
     return Response.json(
-      { error: "Clé API absente. Ajoute ANTHROPIC_API_KEY dans les variables d'environnement Vercel." },
+      { error: "Clé API absente. Ajoute MISTRAL_API_KEY dans les variables d'environnement Vercel." },
       { status: 500 }
     );
   }
@@ -46,18 +48,17 @@ DONNÉES DE LA PERSONNE (journal d'expansion, cartographie d'identités, profil 
 ${context || "Aucune donnée disponible pour le moment — invite la personne à remplir son journal et sa cartographie pour des lectures plus précises."}`;
 
   try {
-    const r = await fetch("https://api.anthropic.com/v1/messages", {
+    const r = await fetch("https://api.mistral.ai/v1/chat/completions", {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "x-api-key": apiKey,
-        "anthropic-version": "2023-06-01",
+        authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: "claude-sonnet-4-6",
+        model: "mistral-large-latest",
+        temperature: 0.7,
         max_tokens: 1400,
-        system,
-        messages,
+        messages: [{ role: "system", content: system }, ...messages],
       }),
     });
 
@@ -65,18 +66,12 @@ ${context || "Aucune donnée disponible pour le moment — invite la personne à
 
     if (!r.ok) {
       return Response.json(
-        { error: data?.error?.message ?? "Erreur du service IA." },
+        { error: data?.error?.message ?? data?.message ?? "Erreur du service IA." },
         { status: 502 }
       );
     }
 
-    const text = Array.isArray(data.content)
-      ? data.content
-          .filter((c: { type: string }) => c.type === "text")
-          .map((c: { text: string }) => c.text)
-          .join("\n")
-      : "";
-
+    const text: string = data?.choices?.[0]?.message?.content ?? "";
     return Response.json({ reply: text });
   } catch {
     return Response.json({ error: "IdentitX est momentanément injoignable." }, { status: 502 });
@@ -86,6 +81,6 @@ ${context || "Aucune donnée disponible pour le moment — invite la personne à
 export async function GET() {
   return Response.json({
     ok: true,
-    hasKey: Boolean(process.env.ANTHROPIC_API_KEY),
+    hasKey: Boolean(process.env.MISTRAL_API_KEY),
   });
 }
