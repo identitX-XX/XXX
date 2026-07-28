@@ -6,6 +6,7 @@ import {
   ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock, History,
 } from "lucide-react";
 import { Card, PageHead, Slider } from "@/components/ui";
+import { LeChemin } from "@/components/LeChemin";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
@@ -100,6 +101,9 @@ export default function AujourdhuiPage() {
         title={salut.titre}
         sub="Une seule chose compte : vivre ta journée. Le reste peut attendre."
       />
+
+      {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
+      <LeChemin />
 
       {/* Time-to-aha : avant même d'avoir vécu un jour, une première lecture
           sourcée sur tes réponses. Disparaît dès la première journée close. */}
@@ -554,6 +558,8 @@ function Amorce({
         title="Deux pas avant ton Jour 1"
         sub="Poser ton intention, révéler ton schéma dominant — quelques minutes, une seule fois."
       />
+      {/* Le chemin complet, montré dès l'amorce : « voici la route, tu es ici ». */}
+      <LeChemin />
       <Card className="p-8 text-center animate-fade-up">
         {/* Fil de progression de l'amorce */}
         <div className="mb-6 flex items-center justify-center gap-2">
