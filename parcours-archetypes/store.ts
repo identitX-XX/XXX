@@ -15,6 +15,7 @@ import {
 } from "./types";
 import { clotureJour, initialiser, matriceVide } from "./evolution";
 import { generateParcours, DIAGNOSTIC_DEFAUT } from "./generateParcours";
+import { track } from "@/lib/metrics";
 
 const parcoursBase = parcoursData as unknown as Parcours;
 
@@ -90,7 +91,8 @@ export const useParcoursStore = create<StoreParcours>()(
       queteExercices: {},
       quetePaliers: {},
 
-      initialiserParcours: (diag) =>
+      initialiserParcours: (diag) => {
+        track("archetype_revealed", { dominant: diag.dominant });
         set({
           diagnostic: diag,
           parcours: generateParcours(diag),
@@ -98,9 +100,13 @@ export const useParcoursStore = create<StoreParcours>()(
           etat: initialiser(diag),
           revelationsFeedback: {},
           climat: {},
-        }),
+        });
+      },
 
-      definirObjectifs: (o) => set({ objectifs: o }),
+      definirObjectifs: (o) => {
+        track("objectifs_set");
+        set({ objectifs: o });
+      },
 
       repondreJour: (r) => {
         const { etat, reponses } = get();

@@ -16,7 +16,7 @@ import { progression } from "@/parcours-archetypes/indicateurs";
 
 // On masque le fléchage là où la page porte déjà sa propre action de tête :
 // le hub, la quête active, la progression.
-const SKIP_EXACT = ["/aujourdhui", "/progression"];
+const SKIP_EXACT = ["/aujourdhui", "/progression", "/admin"];
 
 type Step = { titre: string; pourquoi: string; cta: string; href: string };
 

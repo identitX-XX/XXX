@@ -49,18 +49,27 @@ export async function GET(req: Request) {
     count(url, key, "consents", "granted=eq.true"),
   ]);
 
-  let retention: unknown[] = [];
-  try {
-    const r = await fetch(`${url}/rest/v1/retention_days?select=*&order=cohorte.desc&limit=14`, { headers });
-    if (r.ok) retention = await r.json();
-  } catch {
-    /* vue absente → tableau vide */
-  }
+  const view = async (name: string, query = "") => {
+    try {
+      const r = await fetch(`${url}/rest/v1/${name}?select=*${query ? "&" + query : ""}`, { headers });
+      return r.ok ? await r.json() : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const [retention, funnelRows, growth] = await Promise.all([
+    view("retention_days", "order=cohorte.desc&limit=14"),
+    view("funnel"),
+    view("signups_daily", "order=jour.asc&limit=90"),
+  ]);
 
   return Response.json({
     ok: true,
     configured: true,
     kpis: { users, opens, scenarios, feedback, consentsOui },
+    funnel: Array.isArray(funnelRows) ? funnelRows[0] ?? null : null,
+    growth,
     retention,
   });
 }

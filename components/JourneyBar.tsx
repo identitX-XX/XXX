@@ -21,8 +21,8 @@ export function JourneyBar() {
   const etat = useParcoursStore((s) => s.etat);
 
   if (!mounted) return null;
-  // Sur le hub, la position est déjà l'objet même de la page.
-  if (pathname === "/aujourdhui") return null;
+  // Sur le hub (et le tableau de bord éditrice), pas de repère de quête.
+  if (pathname === "/aujourdhui" || pathname === "/admin") return null;
 
   // Quête pas encore lancée : NextStep porte déjà l'unique appel « révèle ton
   // archétype ». On ne le répète pas ici — une seule action par écran.

@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { track } from "@/lib/metrics";
 import {
   ChatMsg,
   CoachMessage,
@@ -107,7 +108,8 @@ export const useStore = create<AppState>()(
       identities: [],
       coachChat: [],
 
-      completeOnboarding: (p) =>
+      completeOnboarding: (p) => {
+        track("onboarding_complete");
         set({
           onboarded: true,
           profile: p,
@@ -124,7 +126,8 @@ export const useStore = create<AppState>()(
               }. Je suis IdentitX. Je m'appuie sur ton profil et ta quête pour t'aider à y voir clair. Par quoi commence-t-on ?`,
             },
           ],
-        }),
+        });
+      },
 
       setTheme: (t) => set({ theme: t }),
 

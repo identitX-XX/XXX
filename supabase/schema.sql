@@ -43,6 +43,22 @@ create table if not exists feedback (
 );
 create index if not exists feedback_created_idx on feedback (created_at);
 
+-- Entonnoir d'activation (une ligne) : combien de personnes distinctes à chaque
+-- étape-clé — de l'inscription au scénario généré. Le cœur du récit de traction.
+create or replace view funnel as
+select
+  (select count(*) from profiles) as inscrites,
+  (select count(distinct anon_id) from events where name = 'app_open') as ouvertures,
+  (select count(distinct anon_id) from events where name = 'onboarding_complete') as onboardees,
+  (select count(distinct anon_id) from events where name = 'archetype_revealed') as archetype,
+  (select count(distinct anon_id) from events where name = 'objectifs_set') as cap_pose,
+  (select count(distinct anon_id) from events where name = 'scenario_generated') as scenarios;
+
+-- Inscriptions cumulées par jour (courbe de croissance).
+create or replace view signups_daily as
+select created_at::date as jour, count(*) as nb
+from profiles group by created_at::date order by jour;
+
 -- Rétention par cohorte hebdo : combien reviennent J1 / J7 / J30.
 -- (Vue de lecture pour ton tableau de bord ; s'appuie sur l'événement app_open.)
 create or replace view retention_days as
