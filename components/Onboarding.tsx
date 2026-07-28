@@ -215,6 +215,17 @@ function StepPrenom({
         <Label>Ton intention, en un mot (optionnel)</Label>
         <TextInput value={intention} onChange={setIntention} placeholder="ex. clarté, oser, alignement…" />
       </div>
+      <p className="text-center text-xs leading-relaxed text-muted">
+        En révélant ton archétype, tu acceptes les{" "}
+        <a href="/cgu" target="_blank" rel="noopener noreferrer" className="text-fuchsia underline">
+          conditions d'utilisation
+        </a>{" "}
+        et la{" "}
+        <a href="/confidentialite" target="_blank" rel="noopener noreferrer" className="text-fuchsia underline">
+          politique de confidentialité
+        </a>
+        .
+      </p>
     </div>
   );
 }

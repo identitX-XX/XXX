@@ -183,6 +183,12 @@ export default function SettingsPage() {
             >
               <Shield size={15} /> Politique de confidentialité
             </Link>
+            <Link
+              href="/cgu"
+              className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-fuchsia hover:text-fuchsia"
+            >
+              <FileText size={15} /> Conditions d'utilisation
+            </Link>
             <Button variant="ghost" onClick={confirmReset}>
               <RotateCcw size={16} /> Réinitialiser
             </Button>
