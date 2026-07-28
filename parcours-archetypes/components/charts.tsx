@@ -28,12 +28,12 @@ import {
   Progression,
 } from "../indicateurs";
 
-const FUCHSIA = "#ff4fa3";
-const ORANGE = "#ff8a4c";
-const LINE = "rgba(255,255,255,0.10)";
-const MUTED = "rgba(240,235,246,0.55)";
-const INK = "#f2eef5";
-const SURFACE = "rgba(255,255,255,0.03)";
+const FUCHSIA = "var(--fuchsia)";
+const ORANGE = "var(--orange)";
+const LINE = "var(--line)";
+const MUTED = "var(--muted)";
+const INK = "var(--ink)";
+const SURFACE = "var(--surface)";
 
 const tooltipStyle = {
   background: "#14121a",

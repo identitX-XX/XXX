@@ -8,11 +8,11 @@ import { archetypeByKey } from "../archetypes";
 import { Objectifs as ObjectifsT, PerimetreKey } from "../types";
 import { useParcoursStore } from "../store";
 
-const FUCHSIA = "#ff4fa3";
-const ORANGE = "#ff8a4c";
-const LINE = "rgba(255,255,255,0.10)";
-const MUTED = "rgba(240,235,246,0.55)";
-const INK = "#f2eef5";
+const FUCHSIA = "var(--fuchsia)";
+const ORANGE = "var(--orange)";
+const LINE = "var(--line)";
+const MUTED = "var(--muted)";
+const INK = "var(--ink)";
 const NOIR = "#0a090d";
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
@@ -75,7 +75,7 @@ export function Objectifs({
         {CHAMPS.map((c) => (
           <div
             key={c.key}
-            style={{ borderRadius: 16, border: `1px solid ${LINE}`, background: "rgba(255,255,255,0.03)", padding: "16px 18px" }}
+            style={{ borderRadius: 16, border: `1px solid ${LINE}`, background: "var(--surface)", padding: "16px 18px" }}
           >
             <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
               <span style={{ fontSize: 16 }}>{c.emoji}</span>

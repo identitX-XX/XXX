@@ -13,13 +13,13 @@ import { EMOTIONS, SPHERES, archetypeByKey, phaseDuJour } from "../archetypes";
 import { EmotionKey, Jour, ReponseJour, SphereKey } from "../types";
 import { useParcoursStore } from "../store";
 
-const FUCHSIA = "#ff4fa3";
-const ORANGE = "#ff8a4c";
-const LINE = "rgba(255,255,255,0.10)";
-const MUTED = "rgba(240,235,246,0.55)";
-const INK = "#f2eef5";
+const FUCHSIA = "var(--fuchsia)";
+const ORANGE = "var(--orange)";
+const LINE = "var(--line)";
+const MUTED = "var(--muted)";
+const INK = "var(--ink)";
 const NOIR = "#0a090d";
-const SURFACE = "rgba(255,255,255,0.03)";
+const SURFACE = "var(--surface)";
 
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
@@ -145,7 +145,7 @@ export function JourView({
             marginBottom: 18,
             borderRadius: 12,
             border: `1px solid ${LINE}`,
-            background: "rgba(255,79,163,0.06)",
+            background: "color-mix(in srgb, var(--fuchsia) 6%, transparent)",
             padding: "10px 14px",
             fontSize: 12.5,
             color: MUTED,

@@ -9,12 +9,12 @@ import { QUESTIONS, calculerDiagnostic } from "../sens";
 import { ArchetypeKey, Diagnostic as Diag } from "../types";
 import { useParcoursStore } from "../store";
 
-const FUCHSIA = "#ff4fa3";
-const ORANGE = "#ff8a4c";
-const LINE = "rgba(255,255,255,0.10)";
-const MUTED = "rgba(240,235,246,0.55)";
-const INK = "#f2eef5";
-const SURFACE = "rgba(255,255,255,0.03)";
+const FUCHSIA = "var(--fuchsia)";
+const ORANGE = "var(--orange)";
+const LINE = "var(--line)";
+const MUTED = "var(--muted)";
+const INK = "var(--ink)";
+const SURFACE = "var(--surface)";
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
 
@@ -51,7 +51,7 @@ export function Diagnostic() {
           un point de départ, qui respirera au fil des 30 jours.
         </p>
 
-        <div style={{ ...card, borderColor: "color-mix(in srgb, #ff4fa3 40%, rgba(255,255,255,.1))" }}>
+        <div style={{ ...card, borderColor: "color-mix(in srgb, var(--fuchsia) 40%, rgba(255,255,255,.1))" }}>
           <div style={{ fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", color: FUCHSIA }}>
             Archétype
           </div>

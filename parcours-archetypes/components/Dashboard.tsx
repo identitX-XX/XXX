@@ -24,11 +24,11 @@ import {
   RadarArchetypes,
 } from "./charts";
 
-const LINE = "rgba(255,255,255,0.10)";
-const MUTED = "rgba(240,235,246,0.55)";
-const INK = "#f2eef5";
-const SURFACE = "rgba(255,255,255,0.03)";
-const FUCHSIA = "#ff4fa3";
+const LINE = "var(--line)";
+const MUTED = "var(--muted)";
+const INK = "var(--ink)";
+const SURFACE = "var(--surface)";
+const FUCHSIA = "var(--fuchsia)";
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
 
@@ -156,7 +156,7 @@ function Revelations() {
         borderRadius: 18,
         border: `1px solid ${LINE}`,
         background:
-          "radial-gradient(130% 130% at 0% 0%, rgba(255,79,163,0.07), rgba(255,255,255,0.02) 60%)",
+          "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 7%, transparent), rgba(255,255,255,0.02) 60%)",
         padding: 22,
       }}
     >
@@ -189,7 +189,7 @@ function Revelations() {
                   width: 8,
                   height: 8,
                   borderRadius: 3,
-                  background: "linear-gradient(180deg, #ff4fa3, #ff8a4c)",
+                  background: "linear-gradient(180deg, var(--fuchsia), var(--orange))",
                 }}
               />
               <div style={{ flex: 1 }}>
@@ -235,6 +235,6 @@ function btnRev(primary: boolean): React.CSSProperties {
     cursor: "pointer",
     color: primary ? "#fff" : MUTED,
     border: primary ? "none" : `1px solid ${LINE}`,
-    background: primary ? "linear-gradient(90deg,#ff4fa3,#ff8a4c)" : "transparent",
+    background: primary ? "linear-gradient(90deg,var(--fuchsia),var(--orange))" : "transparent",
   };
 }
