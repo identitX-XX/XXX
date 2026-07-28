@@ -22,6 +22,9 @@ const nomPage = (p: string) => NOM_PAGE[p] ?? "cette page";
 export function FeedbackButton() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  // Sur le Coach, la zone de saisie occupe déjà le bas : on masque le bouton
+  // flottant pour éviter qu'il recouvre le bouton « envoyer » du chat.
+  const masque = pathname === "/coach";
   const [msg, setMsg] = useState("");
   const [etat, setEtat] = useState<"repos" | "envoi" | "merci">("repos");
 
@@ -50,6 +53,7 @@ export function FeedbackButton() {
   return (
     <>
       {/* Le bouton flottant — au-dessus de la barre d'onglets, discret et doré. */}
+      {!masque && (
       <button
         onClick={() => setOpen(true)}
         aria-label="Laisser un commentaire"
@@ -59,6 +63,7 @@ export function FeedbackButton() {
         <MessageSquarePlus size={18} />
         <span className="hidden sm:inline">Ton avis</span>
       </button>
+      )}
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
