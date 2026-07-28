@@ -78,7 +78,9 @@ variables `NEXT_PUBLIC_EDITEUR` et `NEXT_PUBLIC_CONTACT_EMAIL`.)*
 - **Finalité :** conserver une trace horodatée du consentement (obligation RGPD).
 - **Données :** identifiant anonyme, valeur du consentement, version, horodatage.
 - **Base légale :** obligation légale.
-- **État actuel :** le consentement est **appliqué côté client** (localStorage) ; la table serveur `consents` existe mais n'est pas encore alimentée. **Action recommandée :** journaliser le consentement côté serveur pour une trace opposable. *(Amélioration identifiée, non bloquante pour un test fermé.)*
+- **Destinataires :** Supabase (UE).
+- **Durée de conservation :** durée de la phase de test, puis suppression (effacé aussi via `/api/rgpd`).
+- **État actuel :** ✅ chaque décision (accordé / refusé) est **journalisée côté serveur** (endpoint `/api/consent` → table `consents`, horodatée et versionnée), en plus de l'application côté client.
 
 ### T6 — Hébergement de l'application
 - **Finalité :** servir l'application web.
@@ -111,5 +113,4 @@ variables `NEXT_PUBLIC_EDITEUR` et `NEXT_PUBLIC_CONTACT_EMAIL`.)*
 
 1. Renseigner l'identité du responsable de traitement (ci-dessus + variables Vercel).
 2. Signer les **DPA** : Supabase, Mistral, Vercel.
-3. (Recommandé) Journaliser le consentement côté serveur (T5).
-4. Faire relire par un professionnel avant une ouverture au-delà du test fermé.
+3. Faire relire par un professionnel avant une ouverture au-delà du test fermé.

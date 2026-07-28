@@ -1,11 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { anonId } from "@/lib/metrics";
 
 // Backend A — consentement RGPD. S'affiche tant que le choix n'est pas fait.
 // Sans « Accepter », aucune mesure n'est envoyée (voir lib/metrics). Local-first :
-// la décision est stockée sur l'appareil.
+// la décision est stockée sur l'appareil, ET tracée côté serveur (preuve
+// horodatée, opposable — table consents).
 const CONSENT_KEY = "idx-consent";
+const CONSENT_VERSION = "v1";
 
 export function ConsentGate() {
   const [decided, setDecided] = useState(true);
@@ -25,6 +28,21 @@ export function ConsentGate() {
       localStorage.setItem(CONSENT_KEY, v);
     } catch {
       /* ignore */
+    }
+    // Trace serveur horodatée (fire-and-forget, no-op sans backend).
+    try {
+      fetch("/api/consent", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          anon_id: anonId(),
+          granted: v === "granted",
+          version: CONSENT_VERSION,
+        }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch {
+      /* la trace ne doit jamais bloquer le choix */
     }
     setDecided(true);
   };
