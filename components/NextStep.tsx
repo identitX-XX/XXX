@@ -95,12 +95,11 @@ function computeStep(
     };
 
   const n = Math.min(prog.jourCourant, 30);
-  const reste = 30 - prog.faits;
   if (!reponses[n])
     return {
-      titre: `Ta journée du jour · Jour ${n}`,
-      pourquoi: `≈ 4 min. Plus que ${reste} jour${reste > 1 ? "s" : ""} pour boucler ta quête.`,
-      cta: "Vivre ma journée",
+      titre: "Ta capsule du jour",
+      pourquoi: "≈ 4 min, quand tu veux. Une question, un geste, un appui — à ton rythme.",
+      cta: "Vivre ma capsule",
       href: "/parcours-archetypes",
     };
 

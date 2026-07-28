@@ -120,7 +120,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
         >
           {[
             { t: "Ton archétype", s: "révélé en 12 questions" },
-            { t: "30 jours guidés", s: "une capsule, ≈ 4 min/jour" },
+            { t: "À ton rythme", s: "une capsule quand tu veux" },
             { t: "Tes scénarios", s: "3 possibles activables" },
           ].map((p) => (
             <div
