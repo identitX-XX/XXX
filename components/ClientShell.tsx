@@ -13,6 +13,7 @@ import { JourneyBar } from "./JourneyBar";
 import { BottomNav } from "./BottomNav";
 import { ConsentGate } from "./ConsentGate";
 import { PageAnalytics } from "./PageAnalytics";
+import { FeedbackButton } from "./FeedbackButton";
 import { track } from "@/lib/metrics";
 
 export function ClientShell({ children }: { children: ReactNode }) {
@@ -119,6 +120,7 @@ if (!onboarded && !started)
 
       {/* Barre d'onglets persistante (mobile) — navigation toujours à portée. */}
       <BottomNav onMenu={() => setMenuOpen(true)} />
+      <FeedbackButton />
       <ConsentGate />
       <PageAnalytics />
     </div>
