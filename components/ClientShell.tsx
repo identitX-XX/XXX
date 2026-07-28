@@ -70,7 +70,7 @@ if (!onboarded && !started)
       </aside>
 
       {/* Mobile top bar */}
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-surface px-5 py-4 backdrop-blur lg:hidden">
+      <header className="safe-top sticky top-0 z-30 flex items-center justify-between border-b border-line bg-surface px-5 py-4 backdrop-blur lg:hidden">
         <Brand />
         <button
           aria-label="Ouvrir le menu"
@@ -107,7 +107,7 @@ if (!onboarded && !started)
         </div>
       )}
 
-      <main className="px-5 py-8 lg:ml-64 lg:px-12 lg:py-12">
+      <main className="px-5 py-8 pb-[calc(2.5rem+env(safe-area-inset-bottom))] lg:ml-64 lg:px-12 lg:py-12">
         <div className="mx-auto max-w-5xl">
           <JourneyBar />
           {children}

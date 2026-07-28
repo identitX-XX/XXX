@@ -124,6 +124,22 @@ body {
 body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Polish mobile : pas de flash gris au tap, pas de zoom auto iOS sur les
+     champs, pas de scroll horizontal parasite, pas de rebond qui révèle le fond. */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+
+/* Retraits « safe area » iOS (encoche, barre d'accueil). Utilitaires posés là
+   où du contenu fixe touche les bords de l'écran. */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-top {
+  padding-top: env(safe-area-inset-top);
 }
 
 ::selection {
@@ -165,6 +181,16 @@ body {
 input,
 textarea {
   outline: none;
+}
+
+/* iOS zoome sur un champ dont la police est < 16px. On force 16px sur mobile
+   pour supprimer ce zoom brutal au focus (sans changer le design desktop). */
+@media (max-width: 640px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
 }
 
 /* Accessibilité : anneau de focus net et cohérent au clavier, invisible à la

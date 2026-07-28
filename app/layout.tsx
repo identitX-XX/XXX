@@ -51,6 +51,8 @@ export const viewport: Viewport = {
   themeColor: "#0a090d",
   width: "device-width",
   initialScale: 1,
+  // Permet aux retraits « safe area » (encoche, barre d'accueil iOS) d'agir.
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

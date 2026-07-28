@@ -136,12 +136,12 @@ function QueteMonde({
       style={{ background: m.bg, borderColor: m.line, color: m.ink }}
     >
       {/* En-tête */}
-      <div className="flex items-start justify-between gap-4">
-        <div>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
           <div className="text-xs uppercase tracking-[0.2em]" style={{ color: m.accent }}>
             La Quête · {m.motif} {m.nom}
           </div>
-          <h1 className="mt-2 font-display text-3xl font-light" style={{ color: m.ink }}>
+          <h1 className="mt-2 break-words font-display text-3xl font-light leading-tight" style={{ color: m.ink }}>
             {arch.name}
           </h1>
         </div>
@@ -150,7 +150,7 @@ function QueteMonde({
           className="flex-none rounded-full border px-3 py-1.5 text-xs transition-colors"
           style={{ borderColor: m.line, color: m.muted }}
         >
-          Changer de monde
+          Changer
         </button>
       </div>
 
@@ -197,27 +197,25 @@ function QueteMonde({
             Palier {palier + (accompli ? 1 : 0)}
           </span>
         </div>
-        <div className="mt-3 flex items-center gap-2">
+        <div className="mt-3 flex items-start gap-1">
           {etapes.map((e, i) => (
-            <div key={e.label} className="flex flex-1 items-center gap-2">
-              <div className="flex items-center gap-2">
+            <div key={e.label} className="flex flex-1 items-start">
+              <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center">
                 <span
-                  className="grid h-6 w-6 flex-none place-items-center rounded-full text-[11px] font-semibold"
+                  className="grid h-7 w-7 flex-none place-items-center rounded-full text-[11px] font-semibold"
                   style={e.done ? { background: m.accent, color: "#0a0a0a" } : { border: `1px solid ${m.line}`, color: m.muted }}
                 >
-                  {e.done ? <Check size={12} /> : i + 1}
+                  {e.done ? <Check size={13} /> : i + 1}
                 </span>
-                <span className="text-sm" style={{ color: e.done ? m.ink : m.muted }}>{e.label}</span>
+                <span className="text-[11px] leading-tight" style={{ color: e.done ? m.ink : m.muted }}>
+                  {e.label}
+                </span>
               </div>
               {i < etapes.length - 1 && (
-                <div className="flex flex-1 items-center gap-1">
-                  <div className="h-px flex-1" style={{ background: e.done ? m.accent : m.line }} />
-                  <ArrowRight size={13} style={{ color: e.done ? m.accent : m.line }} />
-                </div>
+                <ArrowRight size={14} className="mt-2 flex-none" style={{ color: e.done ? m.accent : m.line }} />
               )}
             </div>
           ))}
-          <Repeat size={16} style={{ color: accompli ? m.accent : m.muted, marginLeft: 4 }} />
         </div>
         <p className="mt-3 text-xs leading-relaxed" style={{ color: m.muted }}>
           L'énergie heuristique : tu essaies, tu observes, tu ajustes — puis tu recommences, un cran plus haut.

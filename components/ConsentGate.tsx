@@ -30,7 +30,7 @@ export function ConsentGate() {
   };
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 p-4">
+    <div className="safe-bottom fixed inset-x-0 bottom-0 z-50 p-4">
       <div className="mx-auto flex max-w-3xl flex-col gap-3 rounded-2xl border border-line bg-surface p-4 shadow-soft sm:flex-row sm:items-center">
         <p className="flex-1 text-sm text-muted">
           <span className="text-ink">Aide-nous à améliorer IdentitX.</span> Avec
