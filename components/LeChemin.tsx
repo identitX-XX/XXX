@@ -49,7 +49,7 @@ export function LeChemin() {
           etat: "encours",
           valeur: "À révéler",
           detail:
-            "Douze questions à choix forcé pour faire émerger ton schéma dominant — le seuil de ta quête.",
+            "Douze questions pour faire émerger ton schéma dominant — le seuil de ta quête.",
           cta: { href: "/parcours-archetypes", label: "Révéler mon archétype" },
         },
     // 2 — La Mue

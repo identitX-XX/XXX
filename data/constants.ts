@@ -62,7 +62,7 @@ export const NAV_GROUPS: {
   {
     section: "Aide",
     items: [
-      { href: "/coach", label: "Coach IA" },
+      { href: "/coach", label: "Coach identitX" },
       { href: "/ressources", label: "Ressources" },
     ],
   },

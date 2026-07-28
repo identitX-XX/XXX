@@ -40,6 +40,11 @@ interface StoreParcours {
   // `${archetype}:${exercice}` → true).
   mondeChoisi: string | null;
   queteExercices: Record<string, boolean>;
+  // Progression mesurable de la Quête : nombre de boucles complètes accomplies
+  // PAR archétype (`archetype` → paliers). Un palier = les trois exercices
+  // bouclés, puis « reparcourir un cran plus haut ». Suit la mue : chaque
+  // archétype garde sa propre maîtrise.
+  quetePaliers: Record<string, number>;
 
   // Reçoit le résultat de l'écran-miroir amont, régénère le parcours sur mesure
   // (J1 = dominant, J30 = La Métamorphe) et amorce la matrice.
@@ -83,6 +88,7 @@ export const useParcoursStore = create<StoreParcours>()(
       filVu: 0,
       mondeChoisi: null,
       queteExercices: {},
+      quetePaliers: {},
 
       initialiserParcours: (diag) =>
         set({
@@ -121,7 +127,11 @@ export const useParcoursStore = create<StoreParcours>()(
         delete q[`${archKey}:delestage`];
         delete q[`${archKey}:carrefour`];
         delete q[`${archKey}:pacte`];
-        set({ queteExercices: q });
+        // La boucle qu'on vient de terminer compte : +1 palier de maîtrise
+        // pour cet archétype (progression mesurable, persistée).
+        const paliers = { ...get().quetePaliers };
+        paliers[archKey] = (paliers[archKey] ?? 0) + 1;
+        set({ queteExercices: q, quetePaliers: paliers });
       },
 
       reinitialiser: () =>
@@ -138,6 +148,7 @@ export const useParcoursStore = create<StoreParcours>()(
           filVu: 0,
           mondeChoisi: null,
           queteExercices: {},
+          quetePaliers: {},
         }),
     }),
     {

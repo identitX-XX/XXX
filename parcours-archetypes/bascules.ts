@@ -75,3 +75,13 @@ export function derniereBascule(chapitres: Chapitre[]): Bascule | null {
   const cur = chapitres[chapitres.length - 1];
   return { jour: cur.debut, depuis: prev.archetype, vers: cur.archetype };
 }
+
+// L'archétype dominant COURANT : celui du dernier chapitre (après la dernière
+// mue tenue). C'est lui que la Quête doit suivre — pas le dominant figé au
+// diagnostic. Renvoie null tant que l'historique est vide.
+export function archetypeCourant(
+  historique: SnapshotJour[]
+): ArchetypeKey | null {
+  const ch = detecterChapitres(historique);
+  return ch.length ? ch[ch.length - 1].archetype : null;
+}

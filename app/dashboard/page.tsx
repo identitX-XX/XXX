@@ -11,7 +11,7 @@ const QUICK = [
   { href: "/journal", label: "Journal" },
   { href: "/timeline", label: "Ligne de vie" },
   { href: "/reports", label: "Rapports" },
-  { href: "/coach", label: "Coach IA" },
+  { href: "/coach", label: "Coach identitX" },
 ];
 
 export default function DashboardPage() {

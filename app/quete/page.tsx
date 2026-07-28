@@ -11,11 +11,13 @@ import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
+import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import { MONDES, mondeByKey, Monde } from "@/parcours-archetypes/mondes";
 import { ArchetypeKey } from "@/parcours-archetypes/types";
 
 export default function QuetePage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
+  const etat = useParcoursStore((s) => s.etat);
   const mondeChoisi = useParcoursStore((s) => s.mondeChoisi);
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
 
@@ -77,17 +79,38 @@ export default function QuetePage() {
     );
   }
 
-  return <QueteMonde archKey={diagnostic.dominant} monde={monde} />;
+  // La Quête suit la MUE : elle se cale sur l'archétype dominant COURANT (le
+  // dernier chapitre tenu), pas sur celui figé au diagnostic. Quand une mue a
+  // eu lieu, on la nomme — et les exercices se renouvellent d'eux-mêmes.
+  const mue = derniereBascule(detecterChapitres(etat.historique));
+  const archKeyActuel = mue?.vers ?? diagnostic.dominant;
+
+  return <QueteMonde archKey={archKeyActuel} monde={monde} mue={mue} />;
 }
 
-function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde }) {
+function QueteMonde({
+  archKey,
+  monde: m,
+  mue,
+}: {
+  archKey: ArchetypeKey;
+  monde: Monde;
+  mue: Bascule | null;
+}) {
   const arch = archetypeByKey[archKey];
   const quete = queteDe(archKey);
   const futur = futurMoiDe(archKey);
   const done = useParcoursStore((s) => s.queteExercices);
+  const paliers = useParcoursStore((s) => s.quetePaliers);
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
   const rejouer = useParcoursStore((s) => s.rejouerQuete);
   const [tour, setTour] = useState(0);
+
+  // Progression mesurable : paliers de maîtrise de CET archétype, et maîtrise
+  // totale cumulée à travers tous les archétypes traversés (au fil des mues).
+  const palier = paliers[archKey] ?? 0;
+  const maitriseTotale = Object.values(paliers).reduce((s, n) => s + n, 0);
+  const archTraverses = Object.values(paliers).filter((n) => n > 0).length;
 
   const ids = {
     delestage: `${archKey}:delestage`,
@@ -131,6 +154,24 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
         </button>
       </div>
 
+      {/* La mue a fait évoluer la quête — on la nomme, et on rassure : ce qui a
+          été acquis sur l'archétype précédent reste acquis. */}
+      {mue && (
+        <div
+          className="mt-5 rounded-2xl border p-4"
+          style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
+        >
+          <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+            Ta mue a fait évoluer ta quête
+          </div>
+          <p className="mt-1 text-sm leading-relaxed" style={{ color: m.ink }}>
+            De <b>{archetypeByKey[mue.depuis].name}</b> à <b>{archetypeByKey[mue.vers].name}</b>.
+            Nouveau lest, nouveaux exercices — ta maîtrise de{" "}
+            {archetypeByKey[mue.depuis].name} reste acquise.
+          </p>
+        </div>
+      )}
+
       {/* Le lest */}
       <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
         <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.muted }}>
@@ -144,8 +185,17 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
 
       {/* La boucle heuristique — visible du début à la fin, s'allume à mesure. */}
       <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
-        <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.muted }}>
-          La boucle
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.muted }}>
+            La boucle
+          </div>
+          {/* Palier de maîtrise mesurable — combien de boucles complètes tenues. */}
+          <span
+            className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
+            style={{ background: `color-mix(in srgb, ${m.accent} 14%, transparent)`, color: m.accent }}
+          >
+            Palier {palier + (accompli ? 1 : 0)}
+          </span>
         </div>
         <div className="mt-3 flex items-center gap-2">
           {etapes.map((e, i) => (
@@ -183,6 +233,15 @@ function QueteMonde({ archKey, monde: m }: { archKey: ArchetypeKey; monde: Monde
             {faits}/3 · {faits} {faits > 1 ? m.recompensePl : m.recompense}
           </span>
         </div>
+        {/* Maîtrise mesurable, cumulée à travers les mues — elle ne remet jamais
+            le compteur à zéro : chaque archétype traversé ajoute ses paliers. */}
+        {maitriseTotale > 0 && (
+          <p className="mt-3 text-[11px]" style={{ color: m.muted }}>
+            Maîtrise totale · <b style={{ color: m.ink }}>{maitriseTotale}</b> palier
+            {maitriseTotale > 1 ? "s" : ""} sur {archTraverses} archétype
+            {archTraverses > 1 ? "s" : ""} traversé{archTraverses > 1 ? "s" : ""}.
+          </p>
+        )}
       </div>
 
       {/* La boucle mène au Futur Moi — la connexion, fléchée. */}
