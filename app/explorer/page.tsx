@@ -21,25 +21,25 @@ export default function ExplorerPage() {
   return (
     <div>
       <PageHead
-        eyebrow="Explorer"
-        title="Explore ton identité"
-        sub="Quatorze territoires. Deux sont déjà nourris par ton onboarding — les autres t'attendent. Complète-les à ton rythme."
+        eyebrow="Approfondir · optionnel"
+        title="Enrichis ton portrait"
+        sub="Quatorze territoires qui nourrissent ta Quête. À compléter quand tu veux, sans pression — ta progression, elle, se joue sur tes 30 jours."
       />
 
       {/* Barre de progression — l'utilisatrice sait exactement où elle en est. */}
       <div className="mb-8 rounded-2xl border border-line bg-surface p-5 shadow-soft">
         <div className="flex items-baseline justify-between">
           <span className="font-display text-lg text-ink">
-            {faits} <span className="text-muted">/ {total} territoires complétés</span>
+            {faits} <span className="text-muted">/ {total} territoires nourris</span>
           </span>
-          <span className="font-display text-sm text-fuchsia">{pct}%</span>
+          <span className="font-display text-sm text-muted">{pct}%</span>
         </div>
         <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-line">
           <div
             className="h-full rounded-full transition-all duration-500"
             style={{
               width: `${pct}%`,
-              background: "linear-gradient(90deg, var(--fuchsia), var(--orange))",
+              background: "color-mix(in srgb, var(--fuchsia) 40%, var(--line))",
             }}
           />
         </div>
@@ -51,16 +51,16 @@ export default function ExplorerPage() {
           <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-sm text-muted">
               {reste === 1
-                ? "Il te reste un territoire à explorer."
-                : `Il te reste ${reste} territoires à explorer.`}{" "}
-              Chacun fait remonter une part de toi que la Quête pourra travailler.
+                ? "Un territoire encore à nourrir, quand tu veux."
+                : `${reste} territoires à nourrir, quand tu veux.`}{" "}
+              Chacun enrichit ta Quête — mais ta progression, elle, se joue sur tes 30 jours.
             </p>
             {prochain && (
               <button
                 onClick={() => setOpenId(prochain.id)}
                 className="inline-flex shrink-0 items-center gap-2 rounded-full brand-gradient px-4 py-2 text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-glow"
               >
-                Continuer : {prochain.category}
+                Compléter : {prochain.category}
                 <ArrowRight size={15} />
               </button>
             )}
