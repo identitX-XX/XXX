@@ -54,6 +54,27 @@ select
   (select count(distinct anon_id) from events where name = 'objectifs_set') as cap_pose,
   (select count(distinct anon_id) from events where name = 'scenario_generated') as scenarios;
 
+-- Engagement par page / module : visites, visiteuses uniques, temps moyen (s).
+-- Le « où passent-elles du temps » — l'intérêt réel par surface.
+create or replace view page_engagement as
+select
+  v.page,
+  v.visites,
+  v.visiteuses,
+  coalesce(d.temps_moyen_s, 0) as temps_moyen_s
+from
+  (select props->>'path' as page, count(*) as visites,
+          count(distinct anon_id) as visiteuses
+   from events where name = 'page_view' and props ? 'path'
+   group by props->>'path') v
+left join
+  (select props->>'path' as page,
+          round(avg((props->>'seconds')::numeric), 1) as temps_moyen_s
+   from events where name = 'page_time' and props ? 'seconds'
+   group by props->>'path') d
+  on v.page = d.page
+order by v.visites desc;
+
 -- Inscriptions cumulées par jour (courbe de croissance).
 create or replace view signups_daily as
 select created_at::date as jour, count(*) as nb

@@ -16,6 +16,7 @@ interface Funnel {
   archetype: number; cap_pose: number; scenarios: number;
 }
 interface Retention { cohorte: string; taille: number; j1: number; j7: number; j30: number }
+interface Engagement { page: string; visites: number; visiteuses: number; temps_moyen_s: number }
 interface Metrics {
   ok: boolean;
   configured?: boolean;
@@ -23,7 +24,18 @@ interface Metrics {
   funnel?: Funnel | null;
   growth?: { jour: string; nb: number }[];
   retention?: Retention[];
+  engagement?: Engagement[];
 }
+
+// Nom lisible d'un module à partir de sa route.
+const MODULE_LABEL: Record<string, string> = {
+  "/aujourdhui": "Aujourd'hui", "/parcours-archetypes": "Ma quête", "/scenarios": "Scénarios",
+  "/coach": "Coach", "/explorer": "Explorer", "/synthese": "Ton portrait",
+  "/quete": "La Quête", "/progression": "Progression", "/ressources": "Ressources",
+  "/settings": "Réglages", "/confidentialite": "Confidentialité", "/cgu": "CGU",
+};
+const moduleName = (p: string) => MODULE_LABEL[p] ?? p;
+const dureeCourt = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}m ${Math.round(s % 60)}s` : `${Math.round(s)}s`);
 
 const ACCENT = "var(--fuchsia)";
 
@@ -141,6 +153,37 @@ export default function AdminPage() {
               <Growth points={data.growth} />
             ) : (
               <Empty>La courbe démarre dès les premières inscriptions.</Empty>
+            )}
+          </section>
+
+          {/* Engagement par module : où passent-elles du temps (l'intérêt réel). */}
+          <section>
+            <SectionTitle>Engagement par module</SectionTitle>
+            {data?.engagement && data.engagement.length > 0 ? (
+              <div className="overflow-x-auto rounded-2xl border border-line bg-surface">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-line text-left text-xs uppercase tracking-wider text-muted">
+                      <th className="px-4 py-3 font-medium">Module</th>
+                      <th className="px-4 py-3 font-medium">Visites</th>
+                      <th className="px-4 py-3 font-medium">Uniques</th>
+                      <th className="px-4 py-3 font-medium">Temps moyen</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.engagement.map((e) => (
+                      <tr key={e.page} className="border-b border-line/60 last:border-0">
+                        <td className="px-4 py-3 text-ink">{moduleName(e.page)}</td>
+                        <td className="px-4 py-3 text-muted">{e.visites}</td>
+                        <td className="px-4 py-3 text-muted">{e.visiteuses}</td>
+                        <td className="px-4 py-3 text-muted">{e.temps_moyen_s ? dureeCourt(e.temps_moyen_s) : "—"}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <Empty>Visites et temps par module apparaîtront dès les premières navigations.</Empty>
             )}
           </section>
 

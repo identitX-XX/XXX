@@ -30,8 +30,9 @@ Dans **Project Settings → API** :
 | `NEXT_PUBLIC_CAL_LINK` | *optionnelle* : ton lien Cal.com (ex. `https://cal.com/marina/20min`) — active le bouton « Prendre un moment avec Marina » dans les Réglages |
 | `ADMIN_KEY` | *optionnelle* : un secret que tu choisis — déverrouille ton tableau de bord de pilotage sur la page **`/admin`** (funnel, rétention, croissance) |
 
-> Le tableau de bord `/admin` s'appuie sur les vues SQL `funnel`, `signups_daily`
-> et `retention_days` : **relance `supabase/schema.sql`** une fois pour les créer.
+> Le tableau de bord `/admin` s'appuie sur les vues SQL `funnel`, `signups_daily`,
+> `retention_days` et `page_engagement` (visites + temps par module) :
+> **relance `supabase/schema.sql`** une fois pour les créer.
 
 Redéployer. C'est tout — les événements commencent à s'écrire.
 

@@ -58,10 +58,11 @@ export async function GET(req: Request) {
     }
   };
 
-  const [retention, funnelRows, growth] = await Promise.all([
+  const [retention, funnelRows, growth, engagement] = await Promise.all([
     view("retention_days", "order=cohorte.desc&limit=14"),
     view("funnel"),
     view("signups_daily", "order=jour.asc&limit=90"),
+    view("page_engagement", "limit=40"),
   ]);
 
   return Response.json({
@@ -71,5 +72,6 @@ export async function GET(req: Request) {
     funnel: Array.isArray(funnelRows) ? funnelRows[0] ?? null : null,
     growth,
     retention,
+    engagement,
   });
 }

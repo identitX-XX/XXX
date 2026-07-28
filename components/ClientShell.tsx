@@ -12,6 +12,7 @@ import { NextStep } from "./NextStep";
 import { JourneyBar } from "./JourneyBar";
 import { BottomNav } from "./BottomNav";
 import { ConsentGate } from "./ConsentGate";
+import { PageAnalytics } from "./PageAnalytics";
 import { track } from "@/lib/metrics";
 
 export function ClientShell({ children }: { children: ReactNode }) {
@@ -119,6 +120,7 @@ if (!onboarded && !started)
       {/* Barre d'onglets persistante (mobile) — navigation toujours à portée. */}
       <BottomNav onMenu={() => setMenuOpen(true)} />
       <ConsentGate />
+      <PageAnalytics />
     </div>
   );
 }
