@@ -186,11 +186,12 @@ body {
   filter: invert(1);
 }
 
-/* Visage dense (rendu sculptural, plein ton) sur le portail : un masque radial
-   fond ses bords dans le noir — pas de cadre net, il émerge du fond. */
+/* Visage dense (rendu sculptural) sur le portail : PNG détouré par luminance
+   (le noir du fond est transparent). Il émerge du fond sur n'importe quelle
+   couleur. Un léger fondu du bas adoucit la coupe du buste. */
 .visage-dense {
-  -webkit-mask-image: radial-gradient(82% 74% at 50% 40%, #000 48%, transparent 90%);
-  mask-image: radial-gradient(82% 74% at 50% 40%, #000 48%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
 }
 
 .brand-gradient {

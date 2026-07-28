@@ -35,8 +35,8 @@ export default function AujourdhuiPage() {
     return (
       <Amorce
         etape={1}
-        titre="Commence par toi"
-        texte="Douze questions pour révéler ton archétype. C'est le seuil de tes 30 jours."
+        titre="Qui es-tu ?"
+        texte="12 questions pour faire émerger tes identités dominantes. C'est le seuil de ta quête."
         cta="Je commence ma quête"
       />
     );

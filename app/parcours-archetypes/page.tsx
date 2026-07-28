@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Dumbbell, GraduationCap } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
@@ -57,16 +57,37 @@ function ParcoursContent() {
       <PageHead
         eyebrow="Module"
         title="Parcours des 12 archétypes"
-        sub="30 jours, 12 archétypes, 5 sphères. Ton archétype n'est pas une étiquette : il se lit autrement selon les contextes, et respire au fil des jours."
+        sub="Ton archétype n'est pas figé : il évolue au fil de ta quête."
       />
 
       <Link
         href="/parcours-archetypes/objectif"
-        className="group mb-8 inline-flex items-center gap-1.5 text-sm text-fuchsia hover:underline"
+        className="group mb-6 inline-flex items-center gap-1.5 text-sm text-fuchsia hover:underline"
       >
         Objectif &amp; place dans ton parcours
         <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5" />
       </Link>
+
+      {/* Adossé au module : les exercices (Quête) et les savoirs scientifiques
+          (neurosciences, psychologie de l'identité) qui étayent la démarche. */}
+      <div className="mb-8 grid gap-3 sm:grid-cols-2">
+        <Link
+          href="/quete"
+          className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-fuchsia"
+        >
+          <Dumbbell size={18} className="flex-none text-fuchsia" />
+          <span className="flex-1 text-sm text-ink">Les exercices de ta Quête — se délester, choisir, s'engager</span>
+          <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+        </Link>
+        <Link
+          href="/ressources"
+          className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-fuchsia"
+        >
+          <GraduationCap size={18} className="flex-none text-fuchsia" />
+          <span className="flex-1 text-sm text-ink">Les savoirs — neurosciences & psychologie de l'identité</span>
+          <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+        </Link>
+      </div>
 
       {!diagnostic ? (
         <Diagnostic />
