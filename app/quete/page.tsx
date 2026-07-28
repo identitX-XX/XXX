@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowDown, Check, Repeat } from "lucide-react";
+import { ArrowRight, ArrowDown, Check, Repeat, MessageCircle, BookOpen } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -293,6 +293,29 @@ function QueteMonde({
         <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
         <Pacte key={`pac-${tour}`} m={m} geste={quete.geste} id={ids.pacte} />
+      </div>
+
+      {/* Fléchage Coach & Ressources — présent jusque dans le monde immersif :
+          on n'est jamais seul·e ni en cul-de-sac, même au cœur de la Quête. */}
+      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+        <Link
+          href="/coach"
+          className="group flex items-center gap-3 rounded-2xl border p-4 transition-colors"
+          style={{ borderColor: m.line, background: m.panel, color: m.ink }}
+        >
+          <MessageCircle size={18} style={{ color: m.accent, flex: "none" }} />
+          <span className="flex-1 text-sm">Bloquée sur un exercice ? Parle-en à IdentitX</span>
+          <ArrowRight size={15} style={{ color: m.accent }} className="flex-none transition-transform group-hover:translate-x-0.5" />
+        </Link>
+        <Link
+          href="/ressources"
+          className="group flex items-center gap-3 rounded-2xl border p-4 transition-colors"
+          style={{ borderColor: m.line, background: m.panel, color: m.ink }}
+        >
+          <BookOpen size={18} style={{ color: m.accent, flex: "none" }} />
+          <span className="flex-1 text-sm">Un appui pour tenir ton pacte ? Les ressources</span>
+          <ArrowRight size={15} style={{ color: m.accent }} className="flex-none transition-transform group-hover:translate-x-0.5" />
+        </Link>
       </div>
     </div>
   );

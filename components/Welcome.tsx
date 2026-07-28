@@ -2,6 +2,7 @@
 
 import { Lock } from "lucide-react";
 import { ConstellationBg } from "./ConstellationBg";
+import { Planete } from "./Planete";
 
 // Écran d'accueil = première impression, donc surface de conversion n°1.
 // On y vend la transformation (le résultat), pas les fonctionnalités : promesse
@@ -65,14 +66,8 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
         </div>
 
-        <div style={{ marginTop: -4, marginBottom: 12 }}>
-          <img
-            src="/visage-accueil.png"
-            alt=""
-            aria-hidden="true"
-            className="visage-hero"
-            style={{ width: 260, maxWidth: "72vw", height: "auto", opacity: 0.96 }}
-          />
+        <div style={{ marginTop: 8, marginBottom: 20 }}>
+          <Planete size={220} />
         </div>
 
         <h1
