@@ -50,6 +50,7 @@ export const NAV_GROUPS: {
     items: [
       { href: "/parcours-archetypes", label: "Ton archétype" },
       { href: "/explorer", label: "Explorer" },
+      { href: "/synthese", label: "Ton portrait" },
     ],
   },
   {

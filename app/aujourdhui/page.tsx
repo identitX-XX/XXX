@@ -519,16 +519,15 @@ function ClimatCard({ jour }: { jour: number }) {
 
 // Le reste des modules, volontairement en second plan (un tiroir, pas un menu).
 function SecondPlan({ prog }: { prog: { faits: number } }) {
+  // Modules hérités fusionnés dans « Ton portrait » (/synthese) : une seule
+  // entrée au lieu de cinq. Le reste (progression, rapport) reste accessible.
   const liens = [
-    { href: "/coach", label: "Coach identitX" },
-    { href: "/synthese", label: "Synthèse" },
-    { href: "/reports", label: "Rapport journalier" },
+    { href: "/synthese", label: "Ton portrait" },
     { href: "/progression", label: "Ma progression" },
     ...(prog.faits >= 5
       ? [{ href: "/parcours-archetypes/rapport", label: "Mon rapport" }]
       : []),
-    { href: "/parcours", label: "Ma quête (les modules)" },
-    { href: "/dashboard", label: "Tableau de bord" },
+    { href: "/ressources", label: "Ressources" },
   ];
   return (
     <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
