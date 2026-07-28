@@ -161,11 +161,11 @@ body {
   border-radius: 999px;
 }
 
-/* Portrait au trait de l'accueil : PNG détouré (traits blanc + fuchsia sur
-   transparent). Il flotte sans démarcation sur le fond. En thème clair, les
-   traits clairs disparaîtraient : on les assombrit sans casser la teinte. */
-.light .hero-portrait {
-  filter: brightness(0.4) saturate(1.3);
+/* Visage au trait de l'accueil : PNG détouré (traits blancs sur fond
+   transparent). Il flotte sans démarcation sur n'importe quel fond. En clair,
+   on inverse pour obtenir des traits sombres, lisibles sur fond clair. */
+.light .visage-hero {
+  filter: invert(1);
 }
 
 .brand-gradient {
