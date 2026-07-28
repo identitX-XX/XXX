@@ -4,7 +4,6 @@ import { ReactNode, useEffect, useState } from "react";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Onboarding } from "./Onboarding";
-import { Welcome } from "./Welcome";
 
 
 import { Brand, NavList } from "./Sidebar";
@@ -19,7 +18,6 @@ import { track } from "@/lib/metrics";
 export function ClientShell({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); 
-  const [started, setStarted] = useState(false);
 
   const onboarded = useStore((s) => s.onboarded);
   const theme = useStore((s) => s.theme);
@@ -52,14 +50,15 @@ export function ClientShell({ children }: { children: ReactNode }) {
     );
   }
 
-if (!onboarded && !started)
+  // Direct du portail à l'onboarding : plus d'écran d'accueil intermédiaire
+  // (il faisait doublon avec la 1re étape de l'onboarding).
+  if (!onboarded)
     return (
       <>
-        <Welcome onStart={() => setStarted(true)} />
+        <Onboarding />
         <ConsentGate />
       </>
     );
-  if (!onboarded) return <Onboarding />;
 
   return (
     <div className="min-h-screen bg-noir">

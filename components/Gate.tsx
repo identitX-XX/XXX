@@ -167,7 +167,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
           lineHeight: 1.5,
         }}
       >
-        Accès sur invitation. Laisse ton email pour ouvrir ton espace.
+        Laisse-moi ton email pour ouvrir ton espace.
       </p>
 
       {welcome ? (

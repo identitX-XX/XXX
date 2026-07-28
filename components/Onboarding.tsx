@@ -97,13 +97,13 @@ export function Onboarding() {
 function StepAccueil() {
   return (
     <div className="text-center">
-      <div className="mb-2 flex justify-center">
-        <Constellation size={210} />
+      <div className="mb-4 flex justify-center">
+        <Constellation size={190} />
       </div>
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Bienvenue</div>
-      <h2 className="mt-2 font-display text-2xl font-light leading-snug text-ink">
+      <h2 className="font-display text-5xl font-light leading-none text-ink">Bienvenue</h2>
+      <p className="mx-auto mt-4 max-w-sm font-display text-lg font-light leading-snug text-ink">
         Développe des convictions à la hauteur de tes ambitions.
-      </h2>
+      </p>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
         IdentitX t'aide à abattre les schémas répétitifs qui bloquent ton
         alignement — en partant de ton archétype.
