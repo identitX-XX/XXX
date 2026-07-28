@@ -134,26 +134,28 @@ export function Gate({ children }: { children: React.ReactNode }) {
         }}
       />
 
-      {/* Le visage dense accueille dès le seuil, fondu dans le noir. */}
+      {/* Bandeau de marque en tête : le nom s'enregistre d'abord. */}
+      <div
+        style={{
+          fontFamily: "var(--font-fraunces),serif",
+          fontWeight: 500,
+          fontSize: 19,
+          letterSpacing: ".18em",
+          textTransform: "uppercase",
+          marginBottom: 8,
+        }}
+      >
+        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
+      </div>
+
+      {/* Le visage dense, héros juste sous le nom, fondu dans le noir. */}
       <img
         src="/visage-dense.png"
         alt=""
         aria-hidden="true"
         className="visage-dense"
-        style={{ width: 230, maxWidth: "68vw", height: "auto", marginBottom: 4 }}
+        style={{ width: 230, maxWidth: "68vw", height: "auto" }}
       />
-
-      <div
-        style={{
-          fontFamily: "var(--font-fraunces),serif",
-          fontWeight: 500,
-          fontSize: 17,
-          letterSpacing: ".16em",
-          textTransform: "uppercase",
-        }}
-      >
-        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
-      </div>
 
       <div style={{ height: 24 }} />
 
