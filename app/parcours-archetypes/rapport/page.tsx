@@ -22,7 +22,14 @@ export default function RapportPage() {
   const objectifs = useParcoursStore((s) => s.objectifs);
   const [actif, setActif] = useState<Perimetre | null>(null);
 
-  if (!diagnostic || etat.historique.length === 0) {
+  // Garde-fou : on exige un diagnostic COHÉRENT (clés d'archétype connues) et de
+  // la matière vécue. Protège contre tout état incohérent (import, migration).
+  if (
+    !diagnostic ||
+    etat.historique.length === 0 ||
+    !archetypeByKey[diagnostic.dominant] ||
+    !archetypeByKey[diagnostic.secondaire]
+  ) {
     return (
       <div>
         <PageHead
