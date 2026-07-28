@@ -156,15 +156,15 @@ export function JournalFusion() {
     width: "100%",
     maxWidth: 460,
     borderRadius: 18,
-    border: "1px solid rgba(255,138,76,.14)",
+    border: "1px solid color-mix(in srgb, var(--orange) 14%, transparent)",
     background: "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.5), rgba(10,9,13,0) 100%)",
     padding: "18px 16px",
   };
 
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    background: "rgba(255,138,76,.06)",
-    border: "1px solid rgba(255,138,76,.2)",
+    background: "color-mix(in srgb, var(--orange) 6%, transparent)",
+    border: "1px solid color-mix(in srgb, var(--orange) 20%, transparent)",
     borderRadius: 12,
     color: "var(--ink)",
     fontSize: 14,

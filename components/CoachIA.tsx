@@ -89,7 +89,7 @@ function Emblem({ size = 54 }: { size?: number }) {
             height: 6,
             borderRadius: "50%",
             background: "var(--fuchsia)",
-            boxShadow: "0 0 10px rgba(255,79,163,.8)",
+            boxShadow: "0 0 10px color-mix(in srgb, var(--fuchsia) 80%, transparent)",
           }}
         />
       </div>
@@ -188,7 +188,7 @@ export function CoachIA() {
           inset: 0,
           pointerEvents: "none",
           background:
-            "radial-gradient(55% 38% at 85% 0%, rgba(255,79,163,.09), transparent 70%), radial-gradient(45% 32% at 10% 100%, rgba(255,138,76,.07), transparent 70%)",
+            "radial-gradient(55% 38% at 85% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 70%), radial-gradient(45% 32% at 10% 100%, color-mix(in srgb, var(--orange) 7%, transparent), transparent 70%)",
         }}
       />
 
@@ -258,8 +258,8 @@ export function CoachIA() {
                 setInput(c.prompt);
               }}
               style={{
-                background: "rgba(255,79,163,.08)",
-                border: "1px solid rgba(255,79,163,.28)",
+                background: "color-mix(in srgb, var(--fuchsia) 8%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--fuchsia) 28%, transparent)",
                 borderRadius: 999,
                 color: "var(--ink)",
                 fontSize: 11.5,
@@ -298,12 +298,12 @@ export function CoachIA() {
               borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
               background:
                 m.role === "user"
-                  ? "linear-gradient(120deg, rgba(255,79,163,.22), rgba(255,138,76,.18))"
+                  ? "linear-gradient(120deg, color-mix(in srgb, var(--fuchsia) 22%, transparent), color-mix(in srgb, var(--orange) 18%, transparent))"
                   : "rgba(38,22,41,.55)",
               border:
                 m.role === "user"
-                  ? "1px solid rgba(255,79,163,.3)"
-                  : "1px solid rgba(255,138,76,.14)",
+                  ? "1px solid color-mix(in srgb, var(--fuchsia) 30%, transparent)"
+                  : "1px solid color-mix(in srgb, var(--orange) 14%, transparent)",
               fontSize: 14.5,
               lineHeight: 1.55,
               whiteSpace: "pre-wrap",
@@ -368,7 +368,7 @@ export function CoachIA() {
             style={{
               flex: 1,
               background: "rgba(38,22,41,.7)",
-              border: "1px solid rgba(255,138,76,.25)",
+              border: "1px solid color-mix(in srgb, var(--orange) 25%, transparent)",
               borderRadius: 14,
               color: "var(--ink)",
               fontSize: 15,
@@ -386,7 +386,7 @@ export function CoachIA() {
             style={{
               background:
                 loading || !input.trim()
-                  ? "rgba(255,79,163,.25)"
+                  ? "color-mix(in srgb, var(--fuchsia) 25%, transparent)"
                   : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
               color: "var(--noir)",
               border: "none",

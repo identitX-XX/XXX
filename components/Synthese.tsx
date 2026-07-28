@@ -491,7 +491,7 @@ export function Synthese() {
           pointerEvents: "none",
           zIndex: 0,
           background:
-            "radial-gradient(60% 42% at 85% 0%, rgba(255,79,163,.10), transparent 70%), radial-gradient(50% 36% at 10% 100%, rgba(255,138,76,.08), transparent 70%)",
+            "radial-gradient(60% 42% at 85% 0%, color-mix(in srgb, var(--fuchsia) 10%, transparent), transparent 70%), radial-gradient(50% 36% at 10% 100%, color-mix(in srgb, var(--orange) 8%, transparent), transparent 70%)",
         }}
       />
 
@@ -574,7 +574,7 @@ export function Synthese() {
             marginTop: 30,
             padding: "14px 26px",
             borderRadius: 999,
-            border: "1px solid rgba(255,138,76,.18)",
+            border: "1px solid color-mix(in srgb, var(--orange) 18%, transparent)",
             background: "rgba(38,22,41,.35)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
@@ -625,7 +625,7 @@ export function Synthese() {
                 borderRadius: 22,
                 padding: "24px 22px 22px",
                 background: "linear-gradient(160deg, rgba(38,22,41,.62), rgba(10,9,13,.35))",
-                border: "1px solid rgba(255,79,163,.16)",
+                border: "1px solid color-mix(in srgb, var(--fuchsia) 16%, transparent)",
                 boxShadow: "0 24px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(244,238,234,.05)",
                 backdropFilter: "blur(14px)",
                 WebkitBackdropFilter: "blur(14px)",

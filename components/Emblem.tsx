@@ -34,7 +34,7 @@ export function Emblem({
             height: 8,
             borderRadius: "50%",
             background: "var(--fuchsia)",
-            boxShadow: "0 0 12px rgba(255,79,163,.8)",
+            boxShadow: "0 0 12px color-mix(in srgb, var(--fuchsia) 80%, transparent)",
           }}
         />
       </div>
@@ -55,7 +55,7 @@ export function Emblem({
               height: 6,
               borderRadius: "50%",
               background: "var(--orange)",
-              boxShadow: "0 0 10px rgba(255,138,76,.8)",
+              boxShadow: "0 0 10px color-mix(in srgb, var(--orange) 80%, transparent)",
             }}
           />
         </div>

@@ -137,8 +137,8 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           maxLength={24}
           style={{
             flex: 1,
-            background: "rgba(255,138,76,.06)",
-            border: "1px solid rgba(255,138,76,.25)",
+            background: "color-mix(in srgb, var(--orange) 6%, transparent)",
+            border: "1px solid color-mix(in srgb, var(--orange) 25%, transparent)",
             borderRadius: 12,
             color: "var(--ink)",
             fontSize: 14,
@@ -151,7 +151,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           onClick={add}
           disabled={!draft.trim() || identities.length >= 8}
           style={{
-            background: draft.trim() && identities.length < 8 ? "var(--fuchsia)" : "rgba(255,79,163,.25)",
+            background: draft.trim() && identities.length < 8 ? "var(--fuchsia)" : "color-mix(in srgb, var(--fuchsia) 25%, transparent)",
             color: "var(--noir)",
             border: "none",
             borderRadius: 12,
@@ -177,7 +177,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           role="img"
           aria-label="Quadrant énergie donnée / énergie reçue"
         >
-          <rect x={PAD} y={PAD} width={plot} height={plot} fill="rgba(255,138,76,.03)" rx={14} />
+          <rect x={PAD} y={PAD} width={plot} height={plot} fill="color-mix(in srgb, var(--orange) 3%, transparent)" rx={14} />
           <line x1={PAD} y1={S / 2} x2={S - PAD} y2={S / 2} stroke="rgba(244,238,234,.14)" strokeDasharray="3 5" />
           <line x1={S / 2} y1={PAD} x2={S / 2} y2={S - PAD} stroke="rgba(244,238,234,.14)" strokeDasharray="3 5" />
 
@@ -227,7 +227,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
               key={it.id}
               style={{
                 background: "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.5), rgba(10,9,13,0) 100%)",
-                border: "1px solid rgba(255,138,76,.14)",
+                border: "1px solid color-mix(in srgb, var(--orange) 14%, transparent)",
                 borderRadius: 18,
                 padding: "16px 16px 14px",
               }}
@@ -313,7 +313,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             marginTop: 26,
             padding: "20px 18px",
             borderRadius: 18,
-            border: "1px solid rgba(255,79,163,.22)",
+            border: "1px solid color-mix(in srgb, var(--fuchsia) 22%, transparent)",
             background: "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.6), rgba(10,9,13,0) 100%)",
             textAlign: "center",
           }}
