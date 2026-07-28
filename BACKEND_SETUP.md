@@ -28,6 +28,7 @@ Dans **Project Settings → API** :
 | `SUPABASE_ANON_KEY` | la clé `anon` (publique) — *optionnelle : active l'envoi du lien magique à l'entrée par email* |
 | `MISTRAL_API_KEY` | ta clé Mistral (pour la génération réelle des scénarios) |
 | `NEXT_PUBLIC_CAL_LINK` | *optionnelle* : ton lien Cal.com (ex. `https://cal.com/marina/20min`) — active le bouton « Prendre un moment avec Marina » dans les Réglages |
+| `ADMIN_KEY` | *optionnelle* : un secret que tu choisis — déverrouille ton tableau de bord métriques sur la page **`/admin`** (non listée dans la navigation) |
 
 Redéployer. C'est tout — les événements commencent à s'écrire.
 
