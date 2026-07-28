@@ -39,12 +39,12 @@ export function Feedback() {
     <Card className="p-5">
       <div className="flex items-center gap-2">
         <Heart size={16} className="text-fuchsia" />
-        <p className="text-ink">Ton mot à Marina</p>
+        <p className="text-ink">Ton avis, en général</p>
       </div>
       <p className="mb-4 mt-1 text-xs text-muted">
-        Dis-moi comment rendre IdentitX plus juste pour toi — avec tes propres
-        mots, sans rien de technique. Ce que tu aimes, ce qui coince, ce qui te
-        manque.
+        Comment rendre IdentitX plus juste pour toi — avec tes propres mots, sans
+        rien de technique. (Pour un écran précis, utilise « Ton avis » en bas de
+        chaque page.)
       </p>
 
       {etat === "merci" ? (
