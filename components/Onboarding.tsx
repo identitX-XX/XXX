@@ -180,8 +180,8 @@ export function Onboarding() {
         {step === 0 && (
           <>
             <Head
-              t="Voici où tu vas"
-              s="30 jours pour transformer tes objectifs dispersés en un scénario clair. On commence par identifier ton archétype — voici les étapes, tu pourras y revenir à tout moment."
+              t="Voici ta quête"
+              s="Développer des convictions à la hauteur de tes ambitions, et abattre les schémas répétitifs qui empêchent ton alignement. On commence par ton schéma dominant — ton archétype."
             />
             <ParcoursOverview />
           </>

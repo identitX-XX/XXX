@@ -550,9 +550,9 @@ function Amorce({
   return (
     <div>
       <PageHead
-        eyebrow="Bienvenue"
-        title="Deux étapes avant ton Jour 1"
-        sub="Arme ta quête — ça prend quelques minutes, une seule fois."
+        eyebrow="Bienvenue dans ta quête"
+        title="Deux pas avant ton Jour 1"
+        sub="Poser ton intention, révéler ton schéma dominant — quelques minutes, une seule fois."
       />
       <Card className="p-8 text-center animate-fade-up">
         {/* Fil de progression de l'amorce */}

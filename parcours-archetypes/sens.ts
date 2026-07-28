@@ -24,7 +24,7 @@ export interface QuestionDiag {
 export const QUESTIONS: QuestionDiag[] = [
   {
     id: "q1",
-    question: "Le matin, ce qui te lève ?",
+    question: "Pourquoi te lèves-tu le matin ?",
     options: [
       { label: "Découvrir, bouger, voir ce qui s'ouvre", archetype: "explorateur" },
       { label: "Y voir clair, comprendre", archetype: "sage" },

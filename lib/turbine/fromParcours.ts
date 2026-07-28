@@ -24,6 +24,6 @@ export function basculeDepuisHistorique(
   return {
     actuel: vers,
     precedent: depuis,
-    bascule: `Au jour ${b.jour}, ${vers} est passé devant ${depuis} — et il a tenu.`,
+    bascule: `Un mouvement dans ton narratif — et il a tenu (jour ${b.jour}).`,
   };
 }

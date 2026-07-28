@@ -17,7 +17,7 @@ const DEMO_INPUT: TurbineInput = {
     actuel: "Fondatrice engagée",
     precedent: "Conceptrice-exploratrice",
     bascule:
-      "Le choix assumé de mener IdentitX jusqu'au bout — passage d'explorer à s'engager.",
+      "Le choix assumé de mener IdentitX jusqu'au bout — un mouvement dans ton narratif, d'explorer à t'engager.",
   },
   valeurs: ["Liberté", "Justesse", "Loyauté"],
   forces: ["Intelligence émotionnelle", "Créativité", "Humour"],
@@ -104,16 +104,16 @@ export default function TurbinePage() {
   return (
     <div>
       <PageHead
-        eyebrow="Scénarios"
-        title="Ce que ta bascule rend possible"
-        sub="Ton archétype vient de bouger. Voici les scénarios d'orchestration qui émergent — pas un portrait à contempler, des mouvements à faire."
+        eyebrow="Tes possibles"
+        title="Ce que ta mue rend possible"
+        sub="Ton archétype a bougé. Voici des expériences à tenter — ce qui construit ta réalité, pas un portrait à contempler."
       />
 
-      {/* La bascule en cours */}
+      {/* La mue en cours */}
       <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
         <div className="flex items-center justify-between">
           <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
-            La bascule
+            La mue
           </div>
           <span
             className={`rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
@@ -126,8 +126,9 @@ export default function TurbinePage() {
           </span>
         </div>
         <p className="mt-2 text-sm text-ink">
+          <span className="text-muted">De </span>
           <span className="text-muted">{input.archetype.precedent}</span>
-          {"  →  "}
+          <span className="text-muted"> à </span>
           <span className="font-display text-base">{input.archetype.actuel}</span>
         </p>
         <p className="mt-1 text-sm text-muted">{input.archetype.bascule}</p>
