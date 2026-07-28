@@ -2,7 +2,7 @@
 
 import { Lock } from "lucide-react";
 import { ConstellationBg } from "./ConstellationBg";
-import { NeuralNet } from "./NeuralNet";
+import { Constellation } from "./Constellation";
 
 // Écran d'accueil = première impression, donc surface de conversion n°1.
 // On y vend la transformation (le résultat), pas les fonctionnalités : promesse
@@ -66,14 +66,8 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
         </div>
 
-        <div
-          style={{
-            marginTop: -8,
-            marginBottom: 10,
-            animation: "idx-breathe 8s ease-in-out infinite",
-          }}
-        >
-          <NeuralNet size={360} />
+        <div style={{ marginTop: -4, marginBottom: 12 }}>
+          <Constellation size={300} />
         </div>
 
         <h1

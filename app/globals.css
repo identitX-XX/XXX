@@ -43,6 +43,24 @@
    sombre (html.pal-*) et en clair (html.pal-*.light). --violet/--gold/--cyan
    restent pour la data-viz. */
 
+/* Nuit & Or — nuit profonde, accent or chaud (héritage, céleste). Défaut. */
+html.pal-nuit {
+  --noir: #11121b; --surface: #191b28; --raised: #22243a;
+  --ink: #efe8dc; --muted: #9c94a4; --line: rgba(255, 255, 255, 0.08);
+  --fuchsia: #d7b56f; --orange: #d7b56f; --slate: #9c94a4;
+}
+html.pal-nuit.light {
+  --noir: #f6f3ec; --surface: #ffffff; --raised: #ffffff;
+  --ink: #1a160f; --muted: #6b6455; --line: rgba(26, 20, 10, 0.1);
+  --fuchsia: #a8834a; --orange: #a8834a; --slate: #6b6455;
+}
+
+/* Scintillement doux des étoiles de la constellation. */
+@keyframes idx-twinkle {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 /* A · Ardoise — gris bleutés froids, accent bleu ardoise */
 html.pal-ardoise {
   --noir: #14171b; --surface: #1b1f25; --raised: #232830;

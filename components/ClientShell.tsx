@@ -35,8 +35,8 @@ export function ClientShell({ children }: { children: ReactNode }) {
     if (!mounted) return;
     const root = document.documentElement;
     root.classList.toggle("light", theme === "light");
-    ["pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach((c) =>
-      root.classList.remove(c)
+    ["pal-nuit", "pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach(
+      (c) => root.classList.remove(c)
     );
     if (palette && palette !== "origine") root.classList.add(`pal-${palette}`);
   }, [theme, palette, mounted]);
