@@ -10,6 +10,7 @@ import { Welcome } from "./Welcome";
 import { Brand, NavList } from "./Sidebar";
 import { NextStep } from "./NextStep";
 import { JourneyBar } from "./JourneyBar";
+import { BottomNav } from "./BottomNav";
 import { ConsentGate } from "./ConsentGate";
 import { track } from "@/lib/metrics";
 
@@ -107,13 +108,16 @@ if (!onboarded && !started)
         </div>
       )}
 
-      <main className="px-5 py-8 pb-[calc(2.5rem+env(safe-area-inset-bottom))] lg:ml-64 lg:px-12 lg:py-12">
+      <main className="px-5 py-8 pb-28 lg:ml-64 lg:px-12 lg:py-12 lg:pb-12">
         <div className="mx-auto max-w-5xl">
           <JourneyBar />
           {children}
           <NextStep />
         </div>
       </main>
+
+      {/* Barre d'onglets persistante (mobile) — navigation toujours à portée. */}
+      <BottomNav onMenu={() => setMenuOpen(true)} />
       <ConsentGate />
     </div>
   );
