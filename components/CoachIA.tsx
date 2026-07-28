@@ -114,6 +114,8 @@ function Emblem({ size = 54 }: { size?: number }) {
 export function CoachIA() {
   const messages = useStore((s) => s.coachChat);
   const setCoachChat = useStore((s) => s.setCoachChat);
+  const coachSeed = useStore((s) => s.coachSeed);
+  const setCoachSeed = useStore((s) => s.setCoachSeed);
   const profile = useStore((s) => s.profile);
   const journalFusion = useStore((s) => s.journalFusion);
   const identities = useStore((s) => s.identities);
@@ -131,8 +133,8 @@ export function CoachIA() {
     [profile, journalFusion, identities]
   );
 
-  const send = async () => {
-    const text = input.trim();
+  const send = async (seedText?: string) => {
+    const text = (seedText ?? input).trim();
     if (!text || loading) return;
     setError(null);
     const next: ChatMsg[] = [...messages, { role: "user", content: text }];
@@ -161,6 +163,19 @@ export function CoachIA() {
   };
 
   const reset = () => setCoachChat([]);
+
+  // « Le Coach embraie tout seul » : si une surface (ex. la clôture d'une
+  // journée) a déposé une amorce, on l'envoie automatiquement au montage — le
+  // Coach ouvre en parlant déjà de ce que l'utilisatrice vient de vivre.
+  const seedFired = useRef(false);
+  useEffect(() => {
+    if (!coachSeed || seedFired.current || loading) return;
+    seedFired.current = true;
+    const seed = coachSeed;
+    setCoachSeed(null);
+    void send(seed);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [coachSeed, loading]);
 
   return (
     <div
@@ -384,7 +399,7 @@ export function CoachIA() {
             }}
           />
           <button
-            onClick={send}
+            onClick={() => send()}
             disabled={loading || !input.trim()}
             aria-label="Envoyer"
             style={{

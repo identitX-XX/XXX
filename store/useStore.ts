@@ -62,6 +62,10 @@ interface AppState {
   journalFusion: FusionEntry[];
   identities: Identity[];
   coachChat: ChatMsg[];
+  // Amorce en attente pour le Coach : quand une autre surface (ex. la clôture
+  // d'une journée) veut que le Coach « embraie tout seul » sur un contexte
+  // précis. Consommée et remise à null au montage de /coach.
+  coachSeed: string | null;
 
   completeOnboarding: (p: Profile) => void;
   setTheme: (t: Theme) => void;
@@ -77,6 +81,7 @@ interface AppState {
   setJournalFusion: (entries: FusionEntry[]) => void;
   setIdentities: (identities: Identity[]) => void;
   setCoachChat: (messages: ChatMsg[]) => void;
+  setCoachSeed: (seed: string | null) => void;
   importAll: (data: Partial<AppState>) => void;
   reset: () => void;
 }
@@ -107,6 +112,7 @@ export const useStore = create<AppState>()(
       journalFusion: [],
       identities: [],
       coachChat: [],
+      coachSeed: null,
 
       completeOnboarding: (p) => {
         track("onboarding_complete");
@@ -171,6 +177,7 @@ export const useStore = create<AppState>()(
       setJournalFusion: (entries) => set({ journalFusion: entries }),
       setIdentities: (identities) => set({ identities }),
       setCoachChat: (messages) => set({ coachChat: messages }),
+      setCoachSeed: (seed) => set({ coachSeed: seed }),
 
       importAll: (data) => set({ ...data }),
 
@@ -186,6 +193,7 @@ export const useStore = create<AppState>()(
           journalFusion: [],
           identities: [],
           coachChat: [],
+          coachSeed: null,
         }),
     }),
     {

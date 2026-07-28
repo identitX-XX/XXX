@@ -8,10 +8,19 @@
 // en LECTURE SEULE et réaffiche les choix enregistrés. L'historique n'est
 // jamais perdu ni écrasé (repondreJour est idempotent).
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { EMOTIONS, SPHERES, archetypeByKey, phaseDuJour } from "../archetypes";
-import { EmotionKey, Jour, ReponseJour, SphereKey } from "../types";
+import { EmotionKey, EtatEvolution, Jour, ReponseJour, SphereKey } from "../types";
 import { useParcoursStore } from "../store";
+import {
+  archetypeDominant,
+  coherenceCourante,
+  equilibreSpheres,
+  heatmapEmotions,
+  radarCourant,
+} from "../indicateurs";
+import { useStore } from "@/store/useStore";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -51,7 +60,13 @@ export function JourView({
     reponse ? reponse.intensiteDefi : 40
   );
   const [note, setNote] = useState(reponse ? reponse.note : "");
-  const [closed, setClosed] = useState<ReponseJour | null>(null);
+  // À la clôture on garde l'état AVANT et APRÈS pour montrer ce que la journée
+  // a fait bouger (réaction visible, pas un simple ✓).
+  const [closed, setClosed] = useState<{
+    r: ReponseJour;
+    avant: EtatEvolution;
+    apres: EtatEvolution;
+  } | null>(null);
 
   const sectionsByKind = useMemo(
     () => Object.fromEntries(jour.sections.map((s) => [s.kind, s])),
@@ -77,51 +92,23 @@ export function JourView({
       note,
       date: new Date().toISOString(),
     };
+    const avant = useParcoursStore.getState().etat;
     repondreJour(r); // historise la journée (reponses + snapshot d'évolution)
-    setClosed(r); // → écran de feedback avant d'avancer
+    const apres = useParcoursStore.getState().etat;
+    setClosed({ r, avant, apres }); // → écran de réaction avant d'avancer
   };
 
-  // Feedback de clôture : la journée vient d'être enregistrée.
+  // Réaction de clôture : la journée vient d'être enregistrée — on MONTRE ce
+  // qu'elle a fait bouger dans la matrice, animé, plutôt qu'un simple accusé.
   if (closed) {
-    const emoLabels = EMOTIONS.filter((e) => closed.emotions.includes(e.key)).map((e) => e.label);
     return (
-      <div style={{ maxWidth: 560, margin: "0 auto", fontFamily: sans, color: INK, textAlign: "center", paddingTop: 24 }}>
-        <div
-          style={{
-            width: 56, height: 56, borderRadius: "50%", margin: "0 auto 18px",
-            display: "grid", placeItems: "center", color: "#fff", fontSize: 26,
-            background: `linear-gradient(135deg, ${FUCHSIA}, ${ORANGE})`,
-          }}
-        >
-          ✓
-        </div>
-        <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
-          Jour {jour.n} · clos
-        </div>
-        <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 30, margin: "8px 0 10px", color: INK }}>
-          Journée enregistrée
-        </h1>
-        <p style={{ color: MUTED, fontSize: 15, lineHeight: 1.6, margin: "0 auto", maxWidth: 420 }}>
-          Ce que tu as vécu avec <strong style={{ color: INK }}>{a.name}</strong> est conservé.
-          Tu pourras y revenir à tout moment depuis ta <strong style={{ color: INK }}>Progression</strong>.
-          Ce soir, la matrice respire ; demain rebat les cartes.
-        </p>
-        {emoLabels.length > 0 && (
-          <div style={{ marginTop: 14, fontSize: 13, color: MUTED }}>
-            Émotions du jour : <span style={{ color: INK }}>{emoLabels.join(" · ")}</span>
-          </div>
-        )}
-        <button
-          onClick={() => onClose?.(closed)}
-          style={{
-            marginTop: 26, padding: "14px 28px", borderRadius: 999, border: "none",
-            color: "#fff", fontSize: 14, fontWeight: 600, cursor: "pointer",
-            background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
-          }}
-        >
-          {jour.n < 30 ? "Continuer vers demain →" : "Voir mon bilan →"}
-        </button>
-      </div>
+      <ReactionClotature
+        r={closed.r}
+        avant={closed.avant}
+        apres={closed.apres}
+        archName={a.name}
+        onNext={() => onClose?.(closed.r)}
+      />
     );
   }
 
@@ -318,6 +305,291 @@ function Bloc({ titre, children }: { titre: string; children: React.ReactNode })
         {titre}
       </div>
       <div style={{ fontSize: 14, lineHeight: 1.6, color: INK }}>{children}</div>
+    </div>
+  );
+}
+
+// Décélération douce pour les animations de comptage / remplissage.
+const easeOut = (p: number) => 1 - Math.pow(1 - p, 3);
+
+// Compteur animé de `from` vers `to` (rAF, respecte prefers-reduced-motion).
+function useCountUp(from: number, to: number, ms = 950): number {
+  const [v, setV] = useState(from);
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches
+    ) {
+      setV(to);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / ms);
+      setV(Math.round(from + (to - from) * easeOut(p)));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [from, to, ms]);
+  return v;
+}
+
+// Une jauge : libellé, valeur animée, barre qui se remplit + éventuel delta.
+function Jauge({
+  label,
+  from,
+  to,
+  delta,
+  accent = FUCHSIA,
+  delay = 0,
+}: {
+  label: string;
+  from: number;
+  to: number;
+  delta?: number;
+  accent?: string;
+  delay?: number;
+}) {
+  const val = useCountUp(from, to);
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const id = setTimeout(() => setW(to), 60 + delay);
+    return () => clearTimeout(id);
+  }, [to, delay]);
+  return (
+    <div style={{ textAlign: "left" }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 6 }}>
+        <span style={{ fontSize: 12.5, color: MUTED }}>{label}</span>
+        <span style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+          <span style={{ fontFamily: serif, fontSize: 18, color: INK }}>{val}</span>
+          {typeof delta === "number" && delta !== 0 && (
+            <span
+              style={{
+                fontSize: 11.5,
+                fontWeight: 600,
+                color: delta > 0 ? accent : MUTED,
+              }}
+            >
+              {delta > 0 ? "+" : ""}
+              {delta}
+            </span>
+          )}
+        </span>
+      </div>
+      <div style={{ height: 7, borderRadius: 999, background: LINE, overflow: "hidden" }}>
+        <div
+          style={{
+            height: "100%",
+            width: `${w}%`,
+            borderRadius: 999,
+            background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+            transition: "width 1s cubic-bezier(.22,1,.36,1)",
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
+// L'écran de réaction : ce que la journée vient de faire bouger, montré et
+// animé, plus une porte vers le Coach qui embraie tout seul sur ce vécu.
+function ReactionClotature({
+  r,
+  avant,
+  apres,
+  archName,
+  onNext,
+}: {
+  r: ReponseJour;
+  avant: EtatEvolution;
+  apres: EtatEvolution;
+  archName: string;
+  onNext: () => void;
+}) {
+  const router = useRouter();
+  const setCoachSeed = useStore((s) => s.setCoachSeed);
+
+  // Ce qui a bougé, dérivé de l'état avant → après.
+  const domA = archetypeDominant(avant);
+  const domB = archetypeDominant(apres);
+  const radarA = radarCourant(avant);
+  const domFrom = domB ? radarA.find((p) => p.key === domB.key)?.valeur ?? 0 : 0;
+  const deltaDom = domB ? domB.valeur - domFrom : 0;
+  const bascule = Boolean(domA && domB && domA.key !== domB.key);
+
+  const cohA = coherenceCourante(avant);
+  const cohB = coherenceCourante(apres);
+  const deltaCoh = cohB - cohA;
+
+  const focus = equilibreSpheres(apres).find((s) => s.key === r.sphereFocus);
+  const emoLabels = EMOTIONS.filter((e) => r.emotions.includes(e.key)).map((e) => e.label);
+  const heatA = heatmapEmotions(avant);
+  const nouvelleEmo = EMOTIONS.find(
+    (e) => r.emotions.includes(e.key) && (heatA.find((h) => h.key === e.key)?.compte ?? 0) === 0
+  );
+
+  // Le message s'adapte à CE qui s'est passé (variété / surprise).
+  const entete = (() => {
+    if (bascule && domA && domB)
+      return {
+        eyebrow: "Bascule",
+        titre: `Tu passes de ${domA.name} à ${domB.name}`,
+        sous: "Ta matrice a changé de centre de gravité — une mue s'amorce.",
+      };
+    if (!domA && domB)
+      return {
+        eyebrow: "Premier relevé",
+        titre: `${domB.name} émerge`,
+        sous: "Voici ton point de départ. Dès demain, chaque journée le fera bouger.",
+      };
+    if (deltaCoh >= 6)
+      return {
+        eyebrow: "Élan",
+        titre: "Ta cohérence bondit",
+        sous: "Tes choix du jour tirent dans le même sens — ça se voit.",
+      };
+    if (nouvelleEmo)
+      return {
+        eyebrow: "Nouvelle nuance",
+        titre: `« ${nouvelleEmo.label} » entre dans ta carte`,
+        sous: "Une émotion inédite : ta lecture de toi s'affine.",
+      };
+    const pool = [
+      { eyebrow: "Enregistré", titre: "Ta journée a bougé la matrice", sous: "Petit à petit, ton portrait se précise." },
+      { eyebrow: "Un cran de plus", titre: `${domB?.name ?? "Ton archétype"} se renforce`, sous: "La régularité sculpte, pas l'intensité." },
+      { eyebrow: "Ça infuse", titre: "Ton relevé s'inscrit", sous: "Rien ne se perd — tout nourrit ta lecture." },
+    ];
+    return pool[r.jour % pool.length];
+  })();
+
+  const goCoach = () => {
+    const emo = emoLabels.length ? `, traversée par ${emoLabels.join(", ").toLowerCase()}` : "";
+    const noteStr = r.note.trim() ? ` J'ai noté : « ${r.note.trim()} ».` : "";
+    setCoachSeed(
+      `Je viens de clore mon Jour ${r.jour}. Aujourd'hui j'étais sur ${archName}${emo}.${noteStr} Aide-moi à en tirer une lecture concrète pour demain.`
+    );
+    router.push("/coach");
+  };
+
+  return (
+    <div style={{ maxWidth: 520, margin: "0 auto", fontFamily: sans, color: INK, textAlign: "center", paddingTop: 20 }}>
+      <div
+        style={{
+          width: 54, height: 54, borderRadius: "50%", margin: "0 auto 16px",
+          display: "grid", placeItems: "center", color: "#fff", fontSize: 24,
+          background: `linear-gradient(135deg, ${FUCHSIA}, ${ORANGE})`,
+        }}
+      >
+        {bascule ? "⇄" : "✓"}
+      </div>
+      <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
+        Jour {r.jour} · {entete.eyebrow}
+      </div>
+      <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
+        {entete.titre}
+      </h1>
+      <p style={{ color: MUTED, fontSize: 14.5, lineHeight: 1.6, margin: "0 auto 22px", maxWidth: 400 }}>
+        {entete.sous}
+      </p>
+
+      {/* Ce que la journée a fait bouger — jauges animées */}
+      <div
+        style={{
+          textAlign: "left",
+          borderRadius: 18,
+          border: `1px solid ${LINE}`,
+          background: SURFACE,
+          padding: "18px 18px 20px",
+          display: "flex",
+          flexDirection: "column",
+          gap: 16,
+        }}
+      >
+        <div style={{ fontSize: 10.5, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
+          Ce que ta journée a fait bouger
+        </div>
+        {domB && (
+          <Jauge
+            label={`${domB.name} · ton archétype dominant`}
+            from={domFrom}
+            to={domB.valeur}
+            delta={deltaDom}
+            delay={0}
+          />
+        )}
+        <Jauge label="Cohérence de ta trajectoire" from={cohA} to={cohB} delta={deltaCoh} delay={120} />
+        {focus && (
+          <Jauge
+            label={`${focus.label} · la sphère que tu as poussée`}
+            from={0}
+            to={focus.part}
+            delay={240}
+          />
+        )}
+        {emoLabels.length > 0 && (
+          <div>
+            <div style={{ fontSize: 12.5, color: MUTED, marginBottom: 7 }}>Émotions inscrites</div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+              {emoLabels.map((l) => (
+                <span
+                  key={l}
+                  style={{
+                    fontSize: 12,
+                    padding: "5px 11px",
+                    borderRadius: 999,
+                    color: "#fff",
+                    background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+                  }}
+                >
+                  {l}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Le Coach embraie tout seul sur cette journée */}
+      <button
+        onClick={goCoach}
+        style={{
+          marginTop: 16,
+          width: "100%",
+          padding: "14px 20px",
+          borderRadius: 16,
+          border: `1px solid color-mix(in srgb, ${FUCHSIA} 34%, transparent)`,
+          background: "color-mix(in srgb, var(--fuchsia) 8%, transparent)",
+          color: INK,
+          fontSize: 14,
+          fontWeight: 500,
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 8,
+        }}
+      >
+        En parler à IdentitX — il rebondit sur ta journée →
+      </button>
+
+      <button
+        onClick={onNext}
+        style={{
+          marginTop: 12,
+          padding: "14px 28px",
+          borderRadius: 999,
+          border: "none",
+          color: "#fff",
+          fontSize: 14,
+          fontWeight: 600,
+          cursor: "pointer",
+          background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+        }}
+      >
+        {r.jour < 30 ? "Continuer vers demain →" : "Voir mon bilan →"}
+      </button>
     </div>
   );
 }
