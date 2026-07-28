@@ -36,7 +36,7 @@ export function Welcome({ onStart }: { onStart: () => void }) {
           inset: 0,
           pointerEvents: "none",
           background:
-            "radial-gradient(55% 40% at 88% 8%, rgba(255,138,76,.10), transparent 70%), radial-gradient(45% 32% at 8% 92%, rgba(255,79,163,.07), transparent 70%)",
+            "radial-gradient(55% 40% at 88% 8%, color-mix(in srgb, var(--orange) 10%, transparent), transparent 70%), radial-gradient(45% 32% at 8% 92%, color-mix(in srgb, var(--fuchsia) 7%, transparent), transparent 70%)",
         }}
       />
 
