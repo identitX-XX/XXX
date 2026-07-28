@@ -162,8 +162,26 @@ body {
 }
 
 /* Visage au trait de l'accueil : PNG détouré (traits blancs sur fond
-   transparent). Il flotte sans démarcation sur n'importe quel fond. En clair,
-   on inverse pour obtenir des traits sombres, lisibles sur fond clair. */
+   transparent). Il flotte sans démarcation sur n'importe quel fond, et se
+   FOND dans le fond par un dégradé de masque (haut + bas dissous dans le
+   Nuit & Or, plutôt qu'une coupe nette au cou). En clair, on inverse les
+   traits pour qu'ils restent lisibles. */
+.visage-hero {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 14%,
+    #000 66%,
+    transparent 96%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 14%,
+    #000 66%,
+    transparent 96%
+  );
+}
 .light .visage-hero {
   filter: invert(1);
 }
