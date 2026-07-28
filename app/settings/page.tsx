@@ -1,11 +1,14 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check, Download, FileText, Moon, RotateCcw, Sun, Upload } from "lucide-react";
+import Link from "next/link";
+import { Check, Download, FileText, Moon, RotateCcw, Shield, Sun, Trash2, Upload } from "lucide-react";
 import { PaletteKey, useStore } from "@/store/useStore";
 import { downloadJSON, readJSONFile } from "@/lib/exportImport";
+import { anonId } from "@/lib/metrics";
 import { Button, Card, PageHead } from "@/components/ui";
 import { Feedback } from "@/components/Feedback";
+import { RendezVous } from "@/components/RendezVous";
 
 // Aperçu (fond, surface, accent) de chaque palette, pour le sélecteur.
 const PALETTES: { key: PaletteKey; nom: string; note: string; fond: string; surface: string; accent: string }[] = [
@@ -60,12 +63,40 @@ export default function SettingsPage() {
     }
   };
 
+  // Droit à l'effacement (RGPD) : efface le serveur (rattaché à l'identifiant
+  // anonyme) PUIS le local. On tente le serveur d'abord, puis on nettoie tout.
+  const confirmEffacer = async () => {
+    if (
+      !window.confirm(
+        "Supprimer efface tes données locales ET tout ce qui est rattaché à ton identifiant côté serveur. Cette action est définitive. Continuer ?"
+      )
+    )
+      return;
+    try {
+      await fetch("/api/rgpd", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ anon_id: anonId(), action: "delete" }),
+      });
+    } catch {
+      /* on efface le local quoi qu'il arrive */
+    }
+    try {
+      localStorage.removeItem("idx-anon");
+      localStorage.removeItem("idx-consent");
+    } catch {}
+    state.reset();
+    flash("Tes données ont été supprimées.");
+  };
+
   return (
     <div>
       <PageHead eyebrow="Paramètres" title="Réglages" sub="L'essentiel, rien de plus." />
 
       <div className="space-y-4">
         <Feedback />
+
+        <RendezVous />
 
         <Card className="flex items-center justify-between p-5">
           <div>
@@ -136,14 +167,29 @@ export default function SettingsPage() {
           </div>
         </Card>
 
-        <Card className="flex items-center justify-between p-5">
-          <div>
-            <p className="text-ink">Réinitialiser</p>
-            <p className="text-xs text-muted">Repartir d'un profil vierge.</p>
+        <Card className="p-5">
+          <div className="flex items-center gap-2">
+            <Shield size={16} className="text-fuchsia" />
+            <p className="text-ink">Confidentialité &amp; données (RGPD)</p>
           </div>
-          <Button variant="ghost" onClick={confirmReset} className="text-orange">
-            <RotateCcw size={16} /> Réinitialiser
-          </Button>
+          <p className="mb-4 mt-1 text-xs text-muted">
+            Local-first, hébergement UE. Tu peux repartir de zéro, ou effacer
+            définitivement tes données — ici comme sur le serveur.
+          </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/confidentialite"
+              className="inline-flex items-center gap-2 rounded-full border border-line px-4 py-2 text-sm text-muted transition-colors hover:border-fuchsia hover:text-fuchsia"
+            >
+              <Shield size={15} /> Politique de confidentialité
+            </Link>
+            <Button variant="ghost" onClick={confirmReset}>
+              <RotateCcw size={16} /> Réinitialiser
+            </Button>
+            <Button variant="ghost" onClick={confirmEffacer} className="text-orange">
+              <Trash2 size={16} /> Supprimer mes données
+            </Button>
+          </div>
         </Card>
 
         {msg && (

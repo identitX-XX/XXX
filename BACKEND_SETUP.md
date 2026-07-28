@@ -25,9 +25,16 @@ Dans **Project Settings → API** :
 |---|---|
 | `SUPABASE_URL` | l'URL du projet |
 | `SUPABASE_SERVICE_ROLE_KEY` | la clé service_role |
+| `SUPABASE_ANON_KEY` | la clé `anon` (publique) — *optionnelle : active l'envoi du lien magique à l'entrée par email* |
 | `MISTRAL_API_KEY` | ta clé Mistral (pour la génération réelle des scénarios) |
+| `NEXT_PUBLIC_CAL_LINK` | *optionnelle* : ton lien Cal.com (ex. `https://cal.com/marina/20min`) — active le bouton « Prendre un moment avec Marina » dans les Réglages |
 
 Redéployer. C'est tout — les événements commencent à s'écrire.
+
+> Pour l'entrée par **email + lien magique** : dans Supabase → **Authentication →
+> Providers → Email**, activer « Email » et les *Magic Links*. Sans
+> `SUPABASE_ANON_KEY`, l'entrée par email fonctionne quand même (l'email est
+> enregistré et l'accès accordé), simplement sans envoi de lien.
 
 ## 4. Lire les métriques
 
@@ -49,10 +56,14 @@ select name, count(*) from events group by name order by 2 desc;
 - **Consentement RGPD** (`ConsentGate`) : aucune mesure sans accord explicite.
 - **Événements** : `app_open` (rétention), `scenario_generated` (activation).
 - **Endpoint** `/api/events` : écrit dans Supabase, no-op gracieux sans clés.
+- **Feedback libre** (`/api/feedback`, table `feedback`) : « Ton mot à Marina ».
+- **Entrée par email + lien magique** (`/api/access`, table `profiles`) : relie
+  `anon_id` → email, envoie un lien magique si `SUPABASE_ANON_KEY` est posée.
+- **Export / suppression RGPD** : Export JSON + `/api/rgpd` (efface events,
+  feedback, consents, profiles pour l'`anon_id`) + page `/confidentialite`.
 
-## Ce qui vient ensuite (une fois le projet provisionné)
+## Ce qui vient ensuite
 
-- **Compte par lien magique** (Supabase Auth) : relier `anon_id` → email.
-- **Export / suppression** des données (droits RGPD) en un clic.
 - **Tableau de bord de cohorte** intégré à l'app (au lieu du SQL Editor).
 - **Génération Mistral réelle** activée par `MISTRAL_API_KEY`.
+- **Point d'étape Cal.com** : poser `NEXT_PUBLIC_CAL_LINK` pour activer le bouton.
