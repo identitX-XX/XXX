@@ -101,12 +101,8 @@ function StepAccueil() {
         <Constellation size={190} />
       </div>
       <h2 className="font-display text-5xl font-light leading-none text-ink">Bienvenue</h2>
-      <p className="mx-auto mt-4 max-w-sm font-display text-lg font-light leading-snug text-ink">
-        Développe des convictions à la hauteur de tes ambitions.
-      </p>
-      <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-        IdentitX t'aide à abattre les schémas répétitifs qui bloquent ton
-        alignement — en partant de ton archétype.
+      <p className="mx-auto mt-5 max-w-sm font-display text-xl font-light leading-snug text-ink">
+        Explorons ta constellation identitaire.
       </p>
     </div>
   );

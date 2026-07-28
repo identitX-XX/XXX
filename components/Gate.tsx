@@ -155,20 +155,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
         Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
       </div>
 
-      <p
-        style={{
-          fontFamily: "var(--font-fraunces),serif",
-          fontStyle: "italic",
-          fontSize: 15,
-          color: "var(--muted)",
-          margin: "14px 0 22px",
-          textAlign: "center",
-          maxWidth: 320,
-          lineHeight: 1.5,
-        }}
-      >
-        Laisse-moi ton email pour ouvrir ton espace.
-      </p>
+      <div style={{ height: 24 }} />
 
       {welcome ? (
         <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
@@ -228,11 +215,6 @@ export function Gate({ children }: { children: React.ReactNode }) {
         <div style={{ marginTop: 14, fontSize: 13, color: "var(--danger)" }}>{error}</div>
       )}
 
-      {!welcome && (
-        <p style={{ marginTop: 14, fontSize: 12, color: "var(--muted)", textAlign: "center", maxWidth: 300, lineHeight: 1.5 }}>
-          Ton email sert à t'ouvrir l'espace et à te recontacter. Rien d'autre.
-        </p>
-      )}
     </div>
   );
 }
