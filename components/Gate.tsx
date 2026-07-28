@@ -167,44 +167,8 @@ export function Gate({ children }: { children: React.ReactNode }) {
           lineHeight: 1.5,
         }}
       >
-        Accès sur invitation. Entre ton code — ou laisse ton email.
+        Accès sur invitation. Laisse ton email pour ouvrir ton espace.
       </p>
-
-      {/* Bascule Code / Email */}
-      <div
-        style={{
-          display: "flex",
-          gap: 4,
-          marginBottom: 16,
-          padding: 4,
-          borderRadius: 999,
-          border: "1px solid var(--line)",
-          background: "color-mix(in srgb, var(--ink) 4%, transparent)",
-        }}
-      >
-        {(["code", "email"] as Mode[]).map((m) => (
-          <button
-            key={m}
-            onClick={() => {
-              setMode(m);
-              setError("");
-            }}
-            style={{
-              border: "none",
-              cursor: "pointer",
-              borderRadius: 999,
-              padding: "7px 18px",
-              fontSize: 13,
-              fontFamily: "var(--font-inter),sans-serif",
-              background: mode === m ? "linear-gradient(90deg,var(--fuchsia),var(--orange))" : "transparent",
-              color: mode === m ? "var(--noir)" : "var(--muted)",
-              fontWeight: mode === m ? 600 : 400,
-            }}
-          >
-            {m === "code" ? "Code" : "Email"}
-          </button>
-        ))}
-      </div>
 
       {welcome ? (
         <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
@@ -213,15 +177,15 @@ export function Gate({ children }: { children: React.ReactNode }) {
       ) : (
         <div style={{ display: "flex", gap: 8, width: "100%", maxWidth: 340 }}>
           <input
-            type={mode === "code" ? "password" : "email"}
-            value={mode === "code" ? code : email}
+            type="email"
+            value={email}
             onChange={(e) => {
-              mode === "code" ? setCode(e.target.value) : setEmail(e.target.value);
+              setEmail(e.target.value);
               setError("");
             }}
-            onKeyDown={(e) => e.key === "Enter" && submit()}
-            placeholder={mode === "code" ? "Code d'accès" : "ton@email.com"}
-            autoComplete={mode === "code" ? "off" : "email"}
+            onKeyDown={(e) => e.key === "Enter" && submitEmail()}
+            placeholder="ton@email.com"
+            autoComplete="email"
             style={{
               flex: 1,
               background: "color-mix(in srgb, var(--orange) 6%, transparent)",
@@ -234,17 +198,16 @@ export function Gate({ children }: { children: React.ReactNode }) {
               padding: "15px 16px",
               outline: "none",
               fontFamily: "var(--font-inter),sans-serif",
-              textAlign: mode === "code" ? "center" : "left",
-              letterSpacing: mode === "code" ? ".2em" : "normal",
+              textAlign: "left",
             }}
           />
           <button
-            onClick={submit}
-            disabled={loading || (mode === "code" ? !code.trim() : !email.trim())}
+            onClick={submitEmail}
+            disabled={loading || !email.trim()}
             aria-label="Entrer"
             style={{
               background:
-                loading || (mode === "code" ? !code.trim() : !email.trim())
+                loading || !email.trim()
                   ? "color-mix(in srgb, var(--fuchsia) 25%, transparent)"
                   : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
               color: "var(--noir)",
@@ -265,7 +228,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
         <div style={{ marginTop: 14, fontSize: 13, color: "var(--danger)" }}>{error}</div>
       )}
 
-      {mode === "email" && !welcome && (
+      {!welcome && (
         <p style={{ marginTop: 14, fontSize: 12, color: "var(--muted)", textAlign: "center", maxWidth: 300, lineHeight: 1.5 }}>
           Ton email sert à t'ouvrir l'espace et à te recontacter. Rien d'autre.
         </p>

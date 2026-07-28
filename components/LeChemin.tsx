@@ -83,7 +83,7 @@ export function LeChemin() {
     // 3 — Tes Choix
     bascule
       ? {
-          label: "Tes Choix",
+          label: "Tes possibles",
           icon: <Route size={20} />,
           etat: "encours",
           valeur: "À explorer",
@@ -92,12 +92,12 @@ export function LeChemin() {
           cta: { href: "/scenarios", label: "Découvrir mes possibles" },
         }
       : {
-          label: "Tes Choix",
+          label: "Tes possibles",
           icon: <Route size={20} />,
           etat: "avenir",
           valeur: "Verrouillé",
           detail:
-            "Tes choix se débloquent avec ta première mue : c'est elle qui rend de nouvelles expériences possibles.",
+            "Tes possibles se débloquent avec ta première mue : c'est elle qui rend de nouvelles expériences envisageables.",
         },
   ];
 

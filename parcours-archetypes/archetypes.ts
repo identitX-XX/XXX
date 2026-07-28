@@ -215,6 +215,7 @@ export const EMOTIONS: Emotion[] = [
   { key: "joie", label: "Joie", valence: 1 },
   { key: "elan", label: "Élan", valence: 0.6 },
   { key: "apaisement", label: "Apaisement", valence: 0.4 },
+  { key: "doute", label: "Doute", valence: -0.3 },
   { key: "peur", label: "Peur", valence: -0.6 },
   { key: "colere", label: "Colère", valence: -0.5 },
   { key: "tristesse", label: "Tristesse", valence: -0.8 },

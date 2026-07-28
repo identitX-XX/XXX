@@ -68,6 +68,25 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
   const a = archetypeByKey[aKey];
   const s = sphereByKey[sKey];
   const p = phaseDuJour(n);
+  // Une amorce d'intention qui TOURNE chaque jour (avant l'intention de phase),
+  // pour ne pas retomber sur la même phrase. Auto-rythmé, sans « Jour N ».
+  const intentionDuJour = (j: number): string => {
+    const A = [
+      "Aujourd'hui, observe sans juger.",
+      "Aujourd'hui, laisse venir ce qui insiste.",
+      "Aujourd'hui, choisis la présence à l'automatisme.",
+      "Aujourd'hui, accueille ce qui bouge en toi.",
+      "Aujourd'hui, ose un pas de côté.",
+      "Aujourd'hui, écoute ce que ton corps te dit.",
+      "Aujourd'hui, nomme ce que tu ressens vraiment.",
+      "Aujourd'hui, préfère l'exact au facile.",
+      "Aujourd'hui, tiens ton cap sans te crisper.",
+      "Aujourd'hui, laisse une intuition te guider.",
+      "Aujourd'hui, remarque ce que tu évites.",
+      "Aujourd'hui, avance d'un cran, sans te presser.",
+    ];
+    return A[(j - 1 + A.length) % A.length];
+  };
   const mk = (kind: Section["kind"], titre: string, texte: string): Section => ({
     id: `j${n}-${kind}`,
     kind,
@@ -79,7 +98,7 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     mk(
       "intention",
       "Intention du jour",
-      `Jour ${n} · phase « ${p.label} ». ${p.intention}`
+      `${intentionDuJour(n)} ${p.intention}`
     ),
     mk("capsule", "Ta capsule identitaire du jour", `${a.name} — ${a.lens}`),
     mk(

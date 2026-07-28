@@ -25,6 +25,7 @@ export type EmotionKey =
   | "joie"
   | "elan"
   | "apaisement"
+  | "doute"
   | "peur"
   | "colere"
   | "tristesse";

@@ -233,7 +233,7 @@ export default function TurbinePage() {
             onClick={generer}
             className="mt-8 inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
           >
-            <RefreshCw size={15} /> Régénérer
+            <RefreshCw size={15} /> Faire surgir d'autres possibles
           </button>
         </div>
       )}

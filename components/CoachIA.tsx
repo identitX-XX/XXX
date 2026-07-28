@@ -241,6 +241,8 @@ export function CoachIA() {
           gap: 12,
           marginTop: 26,
           flex: 1,
+          // Dégage la place pour la zone de saisie fixe + la barre d'onglets.
+          paddingBottom: "calc(7rem + env(safe-area-inset-bottom))",
         }}
       >
         {/* Puces scénarios par domaine */}
@@ -346,15 +348,17 @@ export function CoachIA() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Zone de saisie */}
+      {/* Zone de saisie — remontée AU-DESSUS de la barre d'onglets (sinon elle
+          passe dessous et devient introuvable) et posée au-dessus d'elle (z). */}
       <div
         style={{
           position: "fixed",
-          bottom: 0,
+          bottom: "calc(4.25rem + env(safe-area-inset-bottom))",
           left: 0,
           right: 0,
-          padding: "12px 16px calc(14px + env(safe-area-inset-bottom))",
-          background: "linear-gradient(180deg, rgba(10,9,13,0), rgba(10,9,13,.92) 30%)",
+          zIndex: 35,
+          padding: "10px 16px 12px",
+          background: "linear-gradient(180deg, rgba(10,9,13,0), rgba(10,9,13,.95) 40%)",
           display: "flex",
           justifyContent: "center",
         }}

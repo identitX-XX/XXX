@@ -20,7 +20,7 @@ const sans = "var(--font-inter), system-ui, sans-serif";
 const CHAMPS: { key: PerimetreKey; emoji: string; label: string; hint: string }[] = [
   { key: "perso", emoji: "🌱", label: "Perso", hint: "Pour toi : ton équilibre, ton corps, ton sens, ta création." },
   { key: "pro", emoji: "💼", label: "Pro", hint: "Côté travail et projets : ce que tu veux faire avancer." },
-  { key: "relationnel", emoji: "🤝", label: "Relationnel", hint: "Dans tes liens : couple, famille, amis." },
+  { key: "relationnel", emoji: "🤝", label: "Relationnel", hint: "Dans tes liens : amour, famille, amis." },
 ];
 
 const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "" };

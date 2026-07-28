@@ -117,7 +117,7 @@ function StepChemin() {
   const stations = [
     { icon: <Compass size={20} />, label: "Archétype", sous: "ton schéma dominant" },
     { icon: <Shuffle size={20} />, label: "La Mue", sous: "quand tu bascules" },
-    { icon: <Route size={20} />, label: "Tes Choix", sous: "des voies à tenter" },
+    { icon: <Route size={20} />, label: "Tes possibles", sous: "des voies à tenter" },
   ];
   return (
     <div className="text-center">
@@ -145,8 +145,8 @@ function StepChemin() {
         ))}
       </div>
       <p className="mx-auto mt-7 max-w-sm text-sm leading-relaxed text-muted">
-        Ton archétype se révèle, bouge, puis ouvre des possibles concrets. On avance
-        une étape à la fois — rien n'apparaît avant son heure.
+        On avance pas à pas pour voir surgir des scénarios potentiels : ton archétype
+        se révèle, bouge, puis ouvre des possibles concrets — rien n'apparaît avant son heure.
       </p>
     </div>
   );
@@ -158,7 +158,7 @@ function StepTerritoires() {
   const perimetres = [
     { icon: <Sprout size={20} />, label: "Perso", sous: "équilibre, corps, sens" },
     { icon: <Briefcase size={20} />, label: "Pro", sous: "travail, projets" },
-    { icon: <HeartHandshake size={20} />, label: "Relationnel", sous: "couple, famille, amis" },
+    { icon: <HeartHandshake size={20} />, label: "Relationnel", sous: "amour, famille, amis" },
   ];
   return (
     <div className="text-center">
