@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowRight, Check, Plus, Sparkles, X } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, ChevronRight, Plus, Sparkles, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Card, PageHead, Slider, Tag, TextArea } from "@/components/ui";
 
@@ -77,40 +77,66 @@ export default function ExplorerPage() {
         {cards.map((c) => {
           const open = openId === c.id;
           const aCompleter = !c.rempli;
+          const Header = (
+            <span className="flex flex-1 flex-wrap items-center gap-2">
+              <span className="font-display text-lg text-ink">{c.category}</span>
+              {aCompleter ? (
+                <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-fuchsia">
+                  À compléter
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
+                  <Check size={10} /> Complété
+                </span>
+              )}
+            </span>
+          );
           return (
             <Card
               key={c.id}
               className={`p-5 transition-colors ${
                 aCompleter && !open ? "border-dashed border-fuchsia/40" : ""
-              }`}
+              } ${!open ? "cursor-pointer hover:border-fuchsia" : ""}`}
             >
-              <button
-                onClick={() => setOpenId(open ? null : c.id)}
-                className="flex w-full items-start justify-between gap-3 text-left"
-              >
-                <span className="flex flex-wrap items-center gap-2">
-                  <span className="font-display text-lg text-ink">{c.category}</span>
-                  {aCompleter ? (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-fuchsia">
-                      À compléter
+              {!open ? (
+                // Carte repliée : TOUTE la carte est cliquable (affordance chevron).
+                <button
+                  onClick={() => setOpenId(c.id)}
+                  className="flex w-full flex-col gap-2 text-left"
+                >
+                  <span className="flex w-full items-start justify-between gap-3">
+                    {Header}
+                    <span className="flex flex-none items-center gap-2">
+                      <span className="font-display text-sm text-fuchsia">{c.level}</span>
+                      <ChevronRight size={16} className="text-muted" />
                     </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
-                      <Check size={10} /> Complété
+                  </span>
+                  <span
+                    className={`line-clamp-2 text-sm leading-relaxed ${
+                      aCompleter ? "italic text-muted/70" : "text-muted"
+                    }`}
+                  >
+                    {c.text || "Touche pour compléter ce territoire."}
+                  </span>
+                  {c.tags.length > 0 && (
+                    <span className="mt-1 flex flex-wrap gap-2">
+                      {c.tags.map((t, i) => (
+                        <Tag key={i}>{t}</Tag>
+                      ))}
                     </span>
                   )}
-                </span>
-                <span className="font-display text-sm text-fuchsia">{c.level}</span>
-              </button>
-
-              {!open && (
-                <p
-                  className={`mt-2 line-clamp-2 text-sm leading-relaxed ${
-                    aCompleter ? "italic text-muted/70" : "text-muted"
-                  }`}
+                </button>
+              ) : (
+                <button
+                  onClick={() => setOpenId(null)}
+                  className="flex w-full items-start justify-between gap-3 text-left"
                 >
-                  {c.text || "À compléter."}
-                </p>
+                  {Header}
+                  <span className="flex flex-none items-center gap-2">
+                    <span className="font-display text-sm text-fuchsia">{c.level}</span>
+                    <ChevronDown size={16} className="text-fuchsia" />
+                  </span>
+                </button>
               )}
 
               {open && (
@@ -185,14 +211,6 @@ export default function ExplorerPage() {
                   >
                     <Check size={15} /> Terminé
                   </button>
-                </div>
-              )}
-
-              {!open && c.tags.length > 0 && (
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {c.tags.map((t, i) => (
-                    <Tag key={i}>{t}</Tag>
-                  ))}
                 </div>
               )}
             </Card>
