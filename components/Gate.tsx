@@ -134,13 +134,13 @@ export function Gate({ children }: { children: React.ReactNode }) {
         }}
       />
 
-      {/* Le visage au trait accueille dès le seuil (détouré, en fondu). */}
+      {/* Le visage dense accueille dès le seuil, fondu dans le noir. */}
       <img
-        src="/visage-accueil.png"
+        src="/visage-dense.png"
         alt=""
         aria-hidden="true"
-        className="visage-hero"
-        style={{ width: 170, maxWidth: "60vw", height: "auto", marginBottom: 6 }}
+        className="visage-dense"
+        style={{ width: 230, maxWidth: "68vw", height: "auto", marginBottom: 4 }}
       />
 
       <div
