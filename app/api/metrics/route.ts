@@ -29,7 +29,12 @@ async function count(
 export async function GET(req: Request) {
   const admin = process.env.ADMIN_KEY;
   const given = new URL(req.url).searchParams.get("key") || "";
-  if (!admin || given !== admin) {
+  // Comparaison tolérante : on ignore les espaces autour et la casse, pour
+  // neutraliser les pièges de saisie mobile (majuscule auto, espace collé) qui
+  // font échouer une clé pourtant « bonne ». Suffisant pour un tableau de bord
+  // privé de bêta.
+  const norm = (s: string) => s.trim().toLowerCase();
+  if (!admin || norm(given) !== norm(admin)) {
     return Response.json({ ok: false, error: "unauthorized" }, { status: 401 });
   }
 
