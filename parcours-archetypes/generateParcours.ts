@@ -120,7 +120,7 @@ function sections(n: number, aKey: ArchetypeKey, sKey: SphereKey): Section[] {
     ),
     mk(
       "curseurs",
-      "Tes vibrations",
+      "Circulation",
       `Règle, sphère par sphère, l'intensité de cette capsule identitaire aujourd'hui. Elle peut être forte au travail et absente ailleurs — c'est normal.`
     ),
     mk(

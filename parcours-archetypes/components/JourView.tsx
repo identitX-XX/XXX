@@ -171,7 +171,7 @@ export function JourView({
         </div>
 
         {/* Curseurs par sphère */}
-        <Bloc titre={sectionsByKind["curseurs"]?.titre ?? "Tes vibrations"}>
+        <Bloc titre={sectionsByKind["curseurs"]?.titre ?? "Circulation"}>
           <div style={{ fontSize: 13, color: MUTED, marginBottom: 14 }}>
             {sectionsByKind["curseurs"]?.texte}
           </div>

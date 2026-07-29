@@ -6,42 +6,29 @@
 // composent un même portrait.
 
 import { useState } from "react";
-import { computeScores, useStore } from "@/store/useStore";
+import { useStore } from "@/store/useStore";
 import { PageHead, Card } from "@/components/ui";
-import { ArcGauge } from "@/components/ArcGauge";
 import { RadarDNA } from "@/components/RadarDNA";
 import { CognitiveMap } from "@/components/CognitiveMap";
 import { JournalFusion } from "@/components/JournalFusion";
-import { Synthese } from "@/components/Synthese";
 
-type Onglet = "synthese" | "jauges" | "radar" | "carte" | "journal";
+type Onglet = "radar" | "carte" | "journal";
 const ONGLETS: { key: Onglet; label: string }[] = [
-  { key: "synthese", label: "Synthèse" },
-  { key: "jauges", label: "Jauges" },
   { key: "radar", label: "Radar" },
   { key: "carte", label: "Cartographie" },
   { key: "journal", label: "Journal" },
 ];
 
 export default function PortraitPage() {
-  const [tab, setTab] = useState<Onglet>("synthese");
-  const profile = useStore((s) => s.profile);
+  const [tab, setTab] = useState<Onglet>("radar");
   const radar = useStore((s) => s.radar);
-  const scores = computeScores(profile);
-
-  const gauges = [
-    { label: "Connaissance de soi", value: scores.selfKnowledge },
-    { label: "Clarté identitaire", value: scores.clarity },
-    { label: "Énergie actuelle", value: scores.energy },
-    { label: "Alignement personnel", value: scores.alignment },
-  ];
 
   return (
     <div>
       <PageHead
         eyebrow="Ton portrait"
         title="Toutes tes facettes, convoquées"
-        sub="Un seul lieu où tes fragments se répondent — synthèse, jauges, radar, cartographie, journal. La matière première de ton récit, rassemblée."
+        sub="Un seul lieu où tes fragments se répondent — radar, cartographie, journal. La matière première de ton récit, rassemblée."
       />
 
       {/* Barre d'onglets — un seul module, plusieurs facettes. */}
@@ -65,20 +52,6 @@ export default function PortraitPage() {
       </div>
 
       <div key={tab} className="animate-fade-up">
-        {tab === "synthese" && <Synthese />}
-
-        {tab === "jauges" && (
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {gauges.map((g, i) => (
-              <Card key={g.label} className="p-6">
-                <div style={{ animationDelay: `${i * 60}ms` }}>
-                  <ArcGauge value={g.value} label={g.label} />
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
-
         {tab === "radar" && (
           <Card className="p-6">
             <RadarDNA data={radar} />
