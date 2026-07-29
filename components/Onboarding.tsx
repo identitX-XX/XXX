@@ -317,9 +317,12 @@ function StepMouvement() {
               </g>
             );
           })}
-          {/* Cœur — sobre */}
-          <text x="140" y="135" textAnchor="middle" fontSize="24" fill="var(--ink)" fontFamily="var(--font-fraunces),serif" fontWeight="300">30</text>
-          <text x="140" y="155" textAnchor="middle" fontSize="8.5" letterSpacing="0.26em" fill="var(--muted)">JOURS</text>
+          {/* Cœur — un pouls discret (la matrice qui respire), sans mot */}
+          <circle cx="140" cy="140" r="17" fill="none" stroke="var(--fuchsia)" strokeWidth="1" opacity="0.14" />
+          <g style={{ transformOrigin: "140px 140px", animation: "idx-breathe 4.5s ease-in-out infinite" }}>
+            <circle cx="140" cy="140" r="10" fill="none" stroke="var(--fuchsia)" strokeWidth="1" opacity="0.32" />
+          </g>
+          <circle cx="140" cy="140" r="3.5" fill="var(--fuchsia)" />
         </svg>
       </div>
 
