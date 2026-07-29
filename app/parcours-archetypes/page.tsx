@@ -60,16 +60,15 @@ function ParcoursContent() {
         sub="Ton archétype n'est pas figé : il évolue au fil de ta quête."
       />
 
-      <Link
-        href="/parcours-archetypes/objectif"
-        className="group mb-6 inline-flex items-center gap-1.5 text-sm text-fuchsia hover:underline"
-      >
-        Objectif &amp; place dans ton parcours
-        <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5" />
-      </Link>
+      {!diagnostic ? (
+        <Diagnostic />
+      ) : !objectifs ? (
+        <Objectifs />
+      ) : (
+      <>
 
-      {/* Adossé au module : les exercices (Quête) et les savoirs scientifiques
-          (neurosciences, psychologie de l'identité) qui étayent la démarche. */}
+      {/* Adossé au module, une fois le parcours lancé : les exercices (Quête) et
+          les savoirs. Ils n'encombrent plus l'entrée du diagnostic. */}
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
         <Link
           href="/quete"
@@ -89,12 +88,6 @@ function ParcoursContent() {
         </Link>
       </div>
 
-      {!diagnostic ? (
-        <Diagnostic />
-      ) : !objectifs ? (
-        <Objectifs />
-      ) : (
-      <>
 
       {/* Frise des 30 jours : relecture de l'historique, sans rien perdre */}
       <DayStrip

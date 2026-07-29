@@ -3,7 +3,6 @@
 // L'écran-miroir : 8 questions → ton dominant (+ secondaire) → lance le parcours.
 
 import { useState } from "react";
-import Link from "next/link";
 import { archetypeByKey } from "../archetypes";
 import { QUESTIONS, calculerDiagnostic } from "../sens";
 import { ArchetypeKey, Diagnostic as Diag } from "../types";
@@ -86,16 +85,10 @@ export function Diagnostic() {
         Ma quête · ~3 min
       </div>
       <h1 style={h1}>Je commence ma quête</h1>
-      <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 0", lineHeight: 1.5 }}>
+      <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 18px", lineHeight: 1.5 }}>
         Douze questions. Parmi <strong style={{ color: INK }}>12 archétypes</strong>, celui
         qui te met le plus en mouvement se dessine — et ouvre tes 30 jours.
       </p>
-      <Link
-        href="/parcours-archetypes/objectif"
-        style={{ display: "inline-block", marginTop: 10, color: FUCHSIA, fontSize: 13, textDecoration: "none" }}
-      >
-        Voir les 12 archétypes et l'objectif →
-      </Link>
 
       {/* Progress */}
       <div style={{ display: "flex", gap: 5, margin: "14px 0 26px" }}>

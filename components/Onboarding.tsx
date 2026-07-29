@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Profile } from "@/types";
+import { PHASES } from "@/parcours-archetypes/archetypes";
 import { Button, Label, TextInput } from "./ui";
 import { Constellation } from "./Constellation";
 
@@ -14,7 +15,7 @@ import { Constellation } from "./Constellation";
 // chemin (Archétype → Mue → Tes Choix) et le rythme AVANT de demander quoi que
 // ce soit — puis une seule saisie : le prénom. Le reste du profil se complète au
 // fil de la quête (profil progressif), jamais en barrage à l'entrée.
-const STEPS = 5;
+const STEPS = 6;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
@@ -85,6 +86,7 @@ export function Onboarding() {
         {step === 2 && <StepChemin />}
         {step === 3 && <StepTerritoires />}
         {step === 4 && <StepRythme />}
+        {step === 5 && <StepMouvement />}
       </div>
 
       <div className="mt-10 flex items-center justify-between">
@@ -217,6 +219,50 @@ function StepRythme() {
               {p.icon}
             </span>
             <span className="text-[11px] leading-tight text-ink">{p.t}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Étape « le mouvement » — le cœur d'identitX, désormais PORTÉ par l'onboarding
+// (et non plus caché derrière un lien) : le principe (l'identité ne se fige pas,
+// la matrice respire) + l'arc des 30 jours en quatre phases. C'est la dernière
+// marche avant de révéler l'archétype.
+function StepMouvement() {
+  return (
+    <div className="text-center">
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
+      <h2 className="mt-2 font-display text-2xl font-light text-ink">
+        Trente jours pour te voir bouger
+      </h2>
+      <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
+        Ton archétype n'est pas une étiquette. Trente jours durant, tu observes
+        comment il s'active selon tes contextes — et chaque soir, la matrice
+        respire : ce que tu n'as pas rejoué retombe, pour que rien ne se fige.
+      </p>
+      <div className="mt-7 flex flex-col gap-2.5 text-left">
+        {PHASES.map((ph, i) => (
+          <div
+            key={ph.key}
+            className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-3.5"
+          >
+            <span
+              className="mt-0.5 grid h-7 w-7 flex-none place-items-center rounded-full text-[11px] font-semibold text-fuchsia"
+              style={{ boxShadow: "inset 0 0 0 1.5px var(--fuchsia)" }}
+            >
+              {i + 1}
+            </span>
+            <div className="min-w-0">
+              <div className="flex items-baseline gap-2">
+                <span className="text-sm font-medium text-ink">{ph.label}</span>
+                <span className="text-[10px] uppercase tracking-[0.12em] text-muted">
+                  J{ph.jours[0]}–{ph.jours[1]}
+                </span>
+              </div>
+              <p className="mt-0.5 text-xs leading-snug text-muted">{ph.intention}</p>
+            </div>
           </div>
         ))}
       </div>
