@@ -11,6 +11,7 @@ import { NextStep } from "./NextStep";
 import { JourneyBar } from "./JourneyBar";
 import { BottomNav } from "./BottomNav";
 import { ConsentGate } from "./ConsentGate";
+import { ScrollTop } from "./ScrollTop";
 import { PageAnalytics } from "./PageAnalytics";
 import { FeedbackButton } from "./FeedbackButton";
 import { track } from "@/lib/metrics";
@@ -121,6 +122,7 @@ export function ClientShell({ children }: { children: ReactNode }) {
       <BottomNav onMenu={() => setMenuOpen(true)} />
       <FeedbackButton />
       <ConsentGate />
+      <ScrollTop />
       <PageAnalytics />
     </div>
   );

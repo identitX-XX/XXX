@@ -227,11 +227,10 @@ textarea {
   border-radius: 4px;
 }
 
-/* Défilement doux entre ancres (désactivé si l'utilisateur préfère moins de
-   mouvement — voir le garde-fou plus bas). */
-html {
-  scroll-behavior: smooth;
-}
+/* Pas de `scroll-behavior: smooth` global : il transforme le scroll-to-top du
+   routeur (App Router) en animation interruptible qui s'arrête à mi-course —
+   d'où l'atterrissage « en milieu de page » au changement d'écran. Les rares
+   défilements doux volontaires passent leur `behavior` explicitement. */
 
 /* Constellation emblem / background animations (centralized — were inlined
    per-screen via <style> tags in Gate, Welcome, CoachIA, JournalFusion, Synthese). */

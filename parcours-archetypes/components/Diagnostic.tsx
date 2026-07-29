@@ -2,7 +2,7 @@
 // parcours-archetypes/components/Diagnostic.tsx
 // L'écran-miroir : 8 questions → ton dominant (+ secondaire) → lance le parcours.
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { archetypeByKey } from "../archetypes";
 import { QUESTIONS, calculerDiagnostic } from "../sens";
 import { ArchetypeKey, Diagnostic as Diag } from "../types";
@@ -25,6 +25,12 @@ export function Diagnostic() {
 
   const total = QUESTIONS.length;
   const q = QUESTIONS[step];
+
+  // Chaque nouvelle question (ou l'écran-résultat) repart du haut : on ne laisse
+  // jamais l'utilisatrice « accrochée » en bas après avoir tapé une réponse.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [step, result]);
 
   const choisir = (arch: ArchetypeKey) => {
     const next = { ...answers, [q.id]: arch };
