@@ -53,7 +53,7 @@ export default function ExplorerPage() {
               {reste === 1
                 ? "Un territoire encore à nourrir, quand tu veux."
                 : `${reste} territoires à nourrir, quand tu veux.`}{" "}
-              Chacun enrichit ta Quête — mais ta progression, elle, se joue sur tes 30 jours.
+              Chacun nourrit ta quête, à ton rythme — sans chronomètre.
             </p>
             {prochain && (
               <button

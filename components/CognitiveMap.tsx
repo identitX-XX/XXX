@@ -99,7 +99,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           margin: "6px 0 0",
         }}
       >
-        Cartographie des{" "}
+        Cartographie de{" "}
         <span
           style={{
             background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
@@ -108,7 +108,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             color: "transparent",
           }}
         >
-          identités actives
+          ce que tu portes
         </span>
       </h1>
 
@@ -166,7 +166,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
         </button>
       </div>
       <div style={{ fontSize: 11, color: "rgba(244,238,234,.4)", marginTop: 8 }}>
-        {identities.length}/8 identités
+        {identities.length}/8 rôles
       </div>
 
       {/* Quadrant */}
