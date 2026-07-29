@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft, ArrowRight, Briefcase, Compass, HeartHandshake, HelpCircle,
   Route, Shuffle, Sparkles, Sprout, Target,
@@ -26,6 +26,12 @@ export function Onboarding() {
 
   // Le prénom est requis pour quitter l'étape « intention » (désormais l'étape 1).
   const canNext = step === 1 ? name.trim().length > 0 : true;
+
+  // À chaque « Continuer », on repart du haut de l'écran — sinon, sur une étape
+  // plus longue (ex. « Le mouvement »), on atterrit au milieu, comme un reliquat.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [step]);
 
   const finish = () => {
     const mot = intention.trim();

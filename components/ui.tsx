@@ -34,9 +34,11 @@ export function PageHead({
           {eyebrow}
         </div>
       )}
-      <h1 className="font-display text-3xl font-light leading-tight text-ink md:text-4xl">
-        {title}
-      </h1>
+      {title && (
+        <h1 className="font-display text-3xl font-light leading-tight text-ink md:text-4xl">
+          {title}
+        </h1>
+      )}
       {sub && <p className="mt-2 max-w-xl text-sm text-muted">{sub}</p>}
     </div>
   );

@@ -577,7 +577,7 @@ function Amorce({
     <div>
       <PageHead
         eyebrow="Bienvenue dans ta quête"
-        title="Deux pas avant ton Jour 1"
+        title=""
         sub="Poser ton intention, révéler ton schéma dominant — quelques minutes, une seule fois."
       />
       {/* Le chemin complet, montré dès l'amorce : « voici la route, tu es ici ».

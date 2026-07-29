@@ -4,7 +4,7 @@
 // trois exercices gamifiés (délestage · carrefour · pacte), dans le monde
 // visuel de ton choix (Nature · Urbain · Futuriste · Rétro · Manga).
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowDown, Check, Repeat, MessageCircle, BookOpen } from "lucide-react";
 import { PageHead } from "@/components/ui";
@@ -20,6 +20,12 @@ export default function QuetePage() {
   const etat = useParcoursStore((s) => s.etat);
   const mondeChoisi = useParcoursStore((s) => s.mondeChoisi);
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
+
+  // Toujours entrer par le haut (« Choisis ton monde »), et remonter quand on
+  // bascule vers/entre les vues — sinon on atterrit au milieu de page.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [mondeChoisi]);
 
   if (!diagnostic) {
     return (
