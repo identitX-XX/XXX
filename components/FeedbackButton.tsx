@@ -5,7 +5,7 @@
 // La page en cours est capturée automatiquement (utile pour situer le retour).
 // Écrit dans Supabase `feedback` via /api/feedback ; no-op gracieux sans backend.
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { MessageSquarePlus, Send, X } from "lucide-react";
 import { anonId } from "@/lib/metrics";
@@ -27,6 +27,31 @@ export function FeedbackButton() {
   const masque = pathname === "/coach";
   const [msg, setMsg] = useState("");
   const [etat, setEtat] = useState<"repos" | "envoi" | "merci">("repos");
+
+  // Anti-recouvrement : le bouton doré ne doit jamais masquer le texte qu'on
+  // lit. On l'escamote pendant qu'on défile vers le bas (lecture en cours) et on
+  // le fait revenir dès qu'on remonte ou qu'on s'arrête (intention d'agir).
+  const [caché, setCaché] = useState(false);
+  const lastY = useRef(0);
+  const idle = useRef<ReturnType<typeof setTimeout>>();
+  useEffect(() => {
+    lastY.current = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y > lastY.current + 6 && y > 140) setCaché(true); // on descend : on s'efface
+      else if (y < lastY.current - 6) setCaché(false); // on remonte : on réapparaît
+      lastY.current = y;
+      clearTimeout(idle.current);
+      idle.current = setTimeout(() => setCaché(false), 700); // arrêt = on revient
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      clearTimeout(idle.current);
+    };
+  }, []);
+  // Quand le panneau est ouvert, le bouton reste hors-champ de toute façon.
+  const escamote = caché && !open;
 
   const envoyer = async () => {
     const texte = msg.trim();
@@ -57,7 +82,9 @@ export function FeedbackButton() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Laisser un commentaire"
-        className="fixed right-4 z-40 flex items-center gap-2 rounded-full brand-gradient px-4 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.03] lg:bottom-6 lg:right-6"
+        className={`fixed right-4 z-40 flex items-center gap-2 rounded-full brand-gradient px-4 py-3 text-sm font-medium text-white shadow-glow transition-all duration-300 hover:scale-[1.03] lg:bottom-6 lg:right-6 ${
+          escamote ? "pointer-events-none translate-y-24 opacity-0" : ""
+        }`}
         style={{ bottom: "calc(4.75rem + env(safe-area-inset-bottom))" }}
       >
         <MessageSquarePlus size={18} />

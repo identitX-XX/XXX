@@ -47,6 +47,15 @@ function ParcoursContent() {
     }
   }, [jourParam, jourCourant]);
 
+  // Les grandes bascules du module (diagnostic → objectifs → parcours) ne sont
+  // PAS des changements de route : le ScrollTop global ne s'y déclenche pas. On
+  // remet donc en haut à chaque bascule, sinon on hérite du scroll de l'écran
+  // précédent (ex. arriver sur « Perso » avec le titre coupé sous le header).
+  const phase = !diagnostic ? "diag" : !objectifs ? "obj" : "parcours";
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [phase]);
+
   const jourN = selectedDay ?? Math.min(jourCourant, 30);
   const jour = parcours.jours.find((j) => j.n === jourN) ?? null;
   const reponseDuJour = reponses[jourN];
