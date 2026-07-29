@@ -251,23 +251,31 @@ function StepMouvement() {
         comment il s'active selon tes contextes — et chaque soir, la matrice
         respire : ce que tu n'as pas rejoué retombe, pour que rien ne se fige.
       </p>
-      {/* La boucle, explicite ET tactile : touche une phase pour la découvrir. */}
-      <div className="mx-auto mt-6" style={{ maxWidth: 300 }}>
-        <svg viewBox="0 0 280 280" width="100%" style={{ display: "block" }}>
-          <defs>
-            <marker id="idxArrow" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto">
-              <path d="M0,0 L6,3.5 L0,7 Z" fill="var(--fuchsia)" />
-            </marker>
-          </defs>
-          <circle cx="140" cy="140" r="110" fill="none" stroke="var(--line)" strokeWidth="1.5" />
-          <g fill="none" stroke="var(--fuchsia)" strokeWidth="2" strokeLinecap="round" markerEnd="url(#idxArrow)" opacity="0.85">
-            <path d="M168.5,33.75 A110,110 0 0,1 246.25,111.53" />
-            <path d="M246.25,168.47 A110,110 0 0,1 168.47,246.25" />
-            <path d="M111.53,246.25 A110,110 0 0,1 33.75,168.47" />
-            <path d="M33.75,111.53 A110,110 0 0,1 111.53,33.75" />
+      {/* La boucle en orbite : un balayage lumineux tourne (le sens du cycle),
+          les phases sont des points-étoiles, actives au toucher. */}
+      <div className="mx-auto mt-6" style={{ maxWidth: 288 }}>
+        <svg viewBox="0 0 280 280" width="100%" style={{ display: "block", overflow: "visible" }}>
+          {/* L'orbite, fine */}
+          <circle cx="140" cy="140" r="104" fill="none" stroke="var(--line)" strokeWidth="1" />
+          {/* Le balayage — segment lumineux qui tourne, sens du cycle */}
+          <g style={{ transformOrigin: "140px 140px", animation: "idx-spin 16s linear infinite" }}>
+            <circle
+              cx="140"
+              cy="140"
+              r="104"
+              fill="none"
+              stroke="var(--fuchsia)"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeDasharray="60 594"
+              opacity="0.85"
+            />
           </g>
           {nodes.map((nd, i) => {
             const on = i === active;
+            // Le numéro, posé à l'extérieur de l'orbite (radial).
+            const nx = 140 + (nd.x - 140) * 1.2;
+            const ny = 140 + (nd.y - 140) * 1.2;
             return (
               <g
                 key={i}
@@ -276,45 +284,36 @@ function StepMouvement() {
                 aria-label={PHASES[i].label}
                 style={{ cursor: "pointer" }}
               >
-                {/* zone tactile généreuse (invisible) */}
-                <circle cx={nd.x} cy={nd.y} r="26" fill="transparent" />
+                <circle cx={nd.x} cy={nd.y} r="24" fill="transparent" />
                 {on && (
-                  <circle
-                    cx={nd.x}
-                    cy={nd.y}
-                    r="24"
-                    fill="none"
-                    stroke="var(--fuchsia)"
-                    strokeWidth="1.5"
-                    opacity="0.5"
-                  />
+                  <circle cx={nd.x} cy={nd.y} r="13" fill="var(--fuchsia)" opacity="0.16" />
                 )}
                 <circle
                   cx={nd.x}
                   cy={nd.y}
-                  r={on ? 20 : 16}
+                  r={on ? 6.5 : 4}
                   fill="var(--fuchsia)"
-                  opacity={on ? 1 : 0.7}
-                  style={{ transition: "r .2s, opacity .2s" }}
+                  opacity={on ? 1 : 0.5}
+                  style={{ transition: "r .25s, opacity .25s" }}
                 />
                 <text
-                  x={nd.x}
-                  y={nd.y}
+                  x={nx}
+                  y={ny}
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fontSize={on ? 16 : 14}
-                  fontWeight="600"
-                  fill="var(--noir)"
+                  fontSize="12"
+                  fill={on ? "var(--ink)" : "var(--muted)"}
                   fontFamily="var(--font-fraunces),serif"
+                  style={{ transition: "fill .25s" }}
                 >
                   {i + 1}
                 </text>
               </g>
             );
           })}
-          <circle cx="140" cy="140" r="30" fill="none" stroke="var(--line)" strokeWidth="1" />
-          <text x="140" y="135" textAnchor="middle" fontSize="18" fill="var(--ink)" fontFamily="var(--font-fraunces),serif">30</text>
-          <text x="140" y="153" textAnchor="middle" fontSize="9" letterSpacing="0.16em" fill="var(--muted)">JOURS</text>
+          {/* Cœur — sobre */}
+          <text x="140" y="134" textAnchor="middle" fontSize="26" fill="var(--ink)" fontFamily="var(--font-fraunces),serif" fontWeight="300">30</text>
+          <text x="140" y="156" textAnchor="middle" fontSize="9" letterSpacing="0.24em" fill="var(--muted)">JOURS</text>
         </svg>
       </div>
 
@@ -338,8 +337,8 @@ function StepMouvement() {
         <p className="mt-1 text-xs leading-snug text-muted">{ph.intention}</p>
       </div>
 
-      <p className="mx-auto mt-3 max-w-xs text-xs italic leading-snug text-muted">
-        Une boucle : elle se referme, puis recommence — un cran plus haut.
+      <p className="mx-auto mt-3 max-w-xs font-display text-sm italic leading-snug text-muted">
+        La boucle ne te ramène jamais au même point.
       </p>
     </div>
   );
