@@ -143,13 +143,32 @@ export function JourView({
         </div>
       )}
 
-      {/* Sections narratives */}
+      {/* Écran resserré : on garde la colonne « agir → réagir ». La question du
+          jour devient le héros ; le cadre (intention) tient en une ligne ; les
+          narratifs qui retardaient la récompense (observation, écho, clôture)
+          sont retirés — la clôture, désormais, c'est l'écran de réaction. */}
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-        {(["intention", "observation", "defi", "question"] as const).map((k) => (
-          <Bloc key={k} titre={sectionsByKind[k]?.titre ?? ""}>
-            {sectionsByKind[k]?.texte}
-          </Bloc>
-        ))}
+        {/* La question à porter — le cœur réflexif de la journée, mis en avant */}
+        <div
+          style={{
+            borderRadius: 16,
+            border: `1px solid color-mix(in srgb, ${FUCHSIA} 30%, transparent)`,
+            background: `radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, ${FUCHSIA} 7%, transparent), transparent 60%)`,
+            padding: "18px 18px",
+          }}
+        >
+          {sectionsByKind["intention"]?.texte && (
+            <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 13, lineHeight: 1.5, color: MUTED, marginBottom: 10 }}>
+              {sectionsByKind["intention"]?.texte}
+            </div>
+          )}
+          <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FUCHSIA, marginBottom: 8 }}>
+            {sectionsByKind["question"]?.titre ?? "La question à porter"}
+          </div>
+          <div style={{ fontFamily: serif, fontWeight: 300, fontSize: 18, lineHeight: 1.45, color: INK }}>
+            {sectionsByKind["question"]?.texte}
+          </div>
+        </div>
 
         {/* Curseurs par sphère */}
         <Bloc titre={sectionsByKind["curseurs"]?.titre ?? "Où ça vibre"}>
@@ -220,8 +239,14 @@ export function JourView({
           </div>
         </Bloc>
 
-        {/* Micro-défi : intensité */}
-        <Bloc titre="Intensité du micro-défi">
+        {/* Micro-défi : le texte du défi ET son intensité, réunis en un bloc */}
+        <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
+          {sectionsByKind["defi"]?.texte && (
+            <div style={{ fontSize: 14, lineHeight: 1.6, color: INK, marginBottom: 14 }}>
+              {sectionsByKind["defi"]?.texte}
+            </div>
+          )}
+          <div style={{ fontSize: 12, color: MUTED, marginBottom: 6 }}>Son intensité aujourd'hui</div>
           <input
             type="range"
             min={0}
@@ -257,13 +282,6 @@ export function JourView({
           />
         </Bloc>
 
-        {/* Écho + clôture (narratif) */}
-        <Bloc titre={sectionsByKind["echo"]?.titre ?? "Écho"}>
-          {sectionsByKind["echo"]?.texte}
-        </Bloc>
-        <Bloc titre={sectionsByKind["cloture"]?.titre ?? "Clôture"}>
-          {sectionsByKind["cloture"]?.texte}
-        </Bloc>
       </div>
 
       {/* Action */}
