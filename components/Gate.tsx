@@ -134,15 +134,17 @@ export function Gate({ children }: { children: React.ReactNode }) {
         }}
       />
 
-      {/* Bandeau de marque en tête : le nom s'enregistre d'abord. */}
+      {/* Bandeau de marque en tête : le nom s'impose d'abord, en héros. */}
       <div
         style={{
           fontFamily: "var(--font-fraunces),serif",
           fontWeight: 500,
-          fontSize: 19,
-          letterSpacing: ".18em",
+          fontSize: "clamp(34px, 11vw, 52px)",
+          lineHeight: 1,
+          letterSpacing: ".14em",
           textTransform: "uppercase",
-          marginBottom: 8,
+          marginBottom: 18,
+          textIndent: ".14em",
         }}
       >
         Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
