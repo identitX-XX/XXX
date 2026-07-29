@@ -57,7 +57,7 @@ function ParcoursContent() {
       <PageHead
         eyebrow="Module"
         title="Parcours des 12 archétypes"
-        sub="Ton archétype n'est pas figé : il oscille au diapason d'un mouvement permanent — il soutient la mécanique d'expansion ou celle des schémas connus."
+        sub="Ton archétype n'est pas figé, il oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
       />
 
       {!diagnostic ? (

@@ -254,9 +254,8 @@ function StepMouvement() {
         30 jours de redéploiement identitaire
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-        Ton archétype n'est pas une étiquette. Trente jours durant, tu observes
-        comment il s'active selon tes contextes — et chaque soir, la matrice
-        respire : ce que tu n'as pas rejoué retombe, pour que rien ne se fige.
+        Ton archétype n'est pas figé, il oscille dans un mouvement permanent —
+        qui soutient ta mécanique d'expansion ou celle de tes schémas connus.
       </p>
       {/* La boucle en orbite céleste : nébuleuse en fond, phases-étoiles nommées,
           un balayage lumineux qui tourne (le sens du cycle). Tactile. */}
