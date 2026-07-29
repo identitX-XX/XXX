@@ -580,8 +580,9 @@ function Amorce({
         title="Deux pas avant ton Jour 1"
         sub="Poser ton intention, révéler ton schéma dominant — quelques minutes, une seule fois."
       />
-      {/* Le chemin complet, montré dès l'amorce : « voici la route, tu es ici ». */}
-      <LeChemin />
+      {/* Le chemin complet, montré dès l'amorce : « voici la route, tu es ici ».
+          Carte seule ici — la carte d'étape ci-dessous porte déjà le message + l'action. */}
+      <LeChemin mapOnly />
       <Card className="p-8 text-center animate-fade-up">
         {/* Fil de progression de l'amorce */}
         <div className="mb-6 flex items-center justify-center gap-2">

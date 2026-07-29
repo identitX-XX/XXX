@@ -8,7 +8,6 @@ import { downloadJSON, readJSONFile } from "@/lib/exportImport";
 import { anonId } from "@/lib/metrics";
 import { Button, Card, PageHead } from "@/components/ui";
 import { Feedback } from "@/components/Feedback";
-import { RendezVous } from "@/components/RendezVous";
 
 // Aperçu (fond, surface, accent) de chaque palette, pour le sélecteur.
 const PALETTES: { key: PaletteKey; nom: string; note: string; fond: string; surface: string; accent: string }[] = [
@@ -95,8 +94,6 @@ export default function SettingsPage() {
 
       <div className="space-y-4">
         <Feedback />
-
-        <RendezVous />
 
         <Card className="flex items-center justify-between p-5">
           <div>

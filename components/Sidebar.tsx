@@ -66,7 +66,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
 
 export function Brand() {
   return (
-    <Link href="/dashboard" className="mb-8 flex items-center gap-2">
+    <Link href="/aujourdhui" className="mb-8 flex items-center gap-2">
       <div className="brand-gradient flex h-8 w-8 items-center justify-center rounded-lg">
         <Sparkles size={16} className="text-white" />
       </div>

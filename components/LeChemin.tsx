@@ -25,7 +25,7 @@ interface Station {
   cta?: { href: string; label: string };
 }
 
-export function LeChemin() {
+export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const etat = useParcoursStore((s) => s.etat);
   const bascule = basculeDepuisHistorique(etat.historique);
@@ -162,25 +162,29 @@ export function LeChemin() {
           ))}
         </div>
 
-        {/* Le détail de la station choisie — la partie écrite, à la demande. */}
-        <div
-          key={selected}
-          className="mt-5 border-t border-line pt-4 animate-fade-in"
-        >
-          <p className="text-sm leading-relaxed text-ink">{s.detail}</p>
-          {s.cta && (
-            <Link
-              href={s.cta.href}
-              className="group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-fuchsia"
-            >
-              {s.cta.label}
-              <ArrowRight
-                size={14}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </Link>
-          )}
-        </div>
+        {/* Le détail de la station choisie — la partie écrite, à la demande.
+            En « mapOnly » (ex. l'amorce, où une carte porte déjà le message et
+            l'action), on ne montre que la carte des stations, sans doublon. */}
+        {!mapOnly && (
+          <div
+            key={selected}
+            className="mt-5 border-t border-line pt-4 animate-fade-in"
+          >
+            <p className="text-sm leading-relaxed text-ink">{s.detail}</p>
+            {s.cta && (
+              <Link
+                href={s.cta.href}
+                className="group mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-fuchsia"
+              >
+                {s.cta.label}
+                <ArrowRight
+                  size={14}
+                  className="transition-transform group-hover:translate-x-0.5"
+                />
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
