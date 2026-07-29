@@ -1,23 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Hanken_Grotesk } from "next/font/google";
+import { Fraunces, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
 
-// Typographie premium : Playfair Display (titres, fort contraste couture) +
-// Hanken Grotesk (corps, chaleureux et lisible). On conserve les noms de
-// variables historiques (--font-fraunces / --font-inter) pour ne rien changer
-// dans globals.css / Tailwind / les composants à styles inline.
-const fraunces = Playfair_Display({
+// Typographie premium : Fraunces (titres — serif à contraste DOUX, chaleureux,
+// distinctif ; tient sur fond sombre sans vibrer, contrairement à une Didone) +
+// Hanken Grotesk (corps, lisible). Noms de variables historiques conservés
+// (--font-fraunces / --font-inter) pour ne rien casser ailleurs.
+const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
+  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
 });
 
 const inter = Hanken_Grotesk({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
+  weight: ["400", "500", "600"],
 });
 
 export const metadata: Metadata = {
