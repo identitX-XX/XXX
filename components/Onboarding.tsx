@@ -231,6 +231,15 @@ function StepRythme() {
 // la matrice respire) + l'arc des 30 jours en quatre phases. C'est la dernière
 // marche avant de révéler l'archétype.
 function StepMouvement() {
+  // Boucle INTERACTIVE : on touche une phase, elle s'illumine et livre son détail.
+  const [active, setActive] = useState(0);
+  const nodes = [
+    { x: 140, y: 30 },
+    { x: 250, y: 140 },
+    { x: 140, y: 250 },
+    { x: 30, y: 140 },
+  ];
+  const ph = PHASES[active];
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
@@ -242,9 +251,9 @@ function StepMouvement() {
         comment il s'active selon tes contextes — et chaque soir, la matrice
         respire : ce que tu n'as pas rejoué retombe, pour que rien ne se fige.
       </p>
-      {/* La boucle, rendue explicite : un cercle qui se referme puis recommence. */}
+      {/* La boucle, explicite ET tactile : touche une phase pour la découvrir. */}
       <div className="mx-auto mt-6" style={{ maxWidth: 300 }}>
-        <svg viewBox="0 0 280 280" width="100%" aria-hidden="true" style={{ display: "block" }}>
+        <svg viewBox="0 0 280 280" width="100%" style={{ display: "block" }}>
           <defs>
             <marker id="idxArrow" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto">
               <path d="M0,0 L6,3.5 L0,7 Z" fill="var(--fuchsia)" />
@@ -257,58 +266,81 @@ function StepMouvement() {
             <path d="M111.53,246.25 A110,110 0 0,1 33.75,168.47" />
             <path d="M33.75,111.53 A110,110 0 0,1 111.53,33.75" />
           </g>
-          {[
-            { x: 140, y: 30, n: 1 },
-            { x: 250, y: 140, n: 2 },
-            { x: 140, y: 250, n: 3 },
-            { x: 30, y: 140, n: 4 },
-          ].map((nd) => (
-            <g key={nd.n}>
-              <circle cx={nd.x} cy={nd.y} r="17" fill="var(--fuchsia)" />
-              <text
-                x={nd.x}
-                y={nd.y}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize="15"
-                fontWeight="600"
-                fill="var(--noir)"
-                fontFamily="var(--font-fraunces),serif"
+          {nodes.map((nd, i) => {
+            const on = i === active;
+            return (
+              <g
+                key={i}
+                onClick={() => setActive(i)}
+                role="button"
+                aria-label={PHASES[i].label}
+                style={{ cursor: "pointer" }}
               >
-                {nd.n}
-              </text>
-            </g>
-          ))}
+                {/* zone tactile généreuse (invisible) */}
+                <circle cx={nd.x} cy={nd.y} r="26" fill="transparent" />
+                {on && (
+                  <circle
+                    cx={nd.x}
+                    cy={nd.y}
+                    r="24"
+                    fill="none"
+                    stroke="var(--fuchsia)"
+                    strokeWidth="1.5"
+                    opacity="0.5"
+                  />
+                )}
+                <circle
+                  cx={nd.x}
+                  cy={nd.y}
+                  r={on ? 20 : 16}
+                  fill="var(--fuchsia)"
+                  opacity={on ? 1 : 0.7}
+                  style={{ transition: "r .2s, opacity .2s" }}
+                />
+                <text
+                  x={nd.x}
+                  y={nd.y}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  fontSize={on ? 16 : 14}
+                  fontWeight="600"
+                  fill="var(--noir)"
+                  fontFamily="var(--font-fraunces),serif"
+                >
+                  {i + 1}
+                </text>
+              </g>
+            );
+          })}
           <circle cx="140" cy="140" r="30" fill="none" stroke="var(--line)" strokeWidth="1" />
           <text x="140" y="135" textAnchor="middle" fontSize="18" fill="var(--ink)" fontFamily="var(--font-fraunces),serif">30</text>
           <text x="140" y="153" textAnchor="middle" fontSize="9" letterSpacing="0.16em" fill="var(--muted)">JOURS</text>
         </svg>
       </div>
+
+      <p className="mx-auto mt-2 text-[11px] uppercase tracking-[0.14em] text-muted">
+        Touche une phase
+      </p>
+
+      {/* Détail de la phase active — change au toucher */}
+      <div
+        key={active}
+        className="animate-fade-up mx-auto mt-3 max-w-sm rounded-2xl border border-line bg-surface p-4 text-left"
+      >
+        <div className="flex items-baseline gap-2">
+          <span className="text-sm font-medium text-ink">
+            {active + 1}. {ph.label}
+          </span>
+          <span className="text-[10px] uppercase tracking-[0.12em] text-muted">
+            J{ph.jours[0]}–{ph.jours[1]}
+          </span>
+        </div>
+        <p className="mt-1 text-xs leading-snug text-muted">{ph.intention}</p>
+      </div>
+
       <p className="mx-auto mt-3 max-w-xs text-xs italic leading-snug text-muted">
         Une boucle : elle se referme, puis recommence — un cran plus haut.
       </p>
-
-      <div className="mt-6 flex flex-col gap-2.5 text-left">
-        {PHASES.map((ph, i) => (
-          <div key={ph.key} className="flex items-start gap-3">
-            <span
-              className="mt-0.5 grid h-6 w-6 flex-none place-items-center rounded-full text-[11px] font-semibold"
-              style={{ background: "var(--fuchsia)", color: "var(--noir)" }}
-            >
-              {i + 1}
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-baseline gap-2">
-                <span className="text-sm font-medium text-ink">{ph.label}</span>
-                <span className="text-[10px] uppercase tracking-[0.12em] text-muted">
-                  J{ph.jours[0]}–{ph.jours[1]}
-                </span>
-              </div>
-              <p className="mt-0.5 text-xs leading-snug text-muted">{ph.intention}</p>
-            </div>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }
