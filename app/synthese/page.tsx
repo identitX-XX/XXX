@@ -40,8 +40,8 @@ export default function PortraitPage() {
     <div>
       <PageHead
         eyebrow="Ton portrait"
-        title="Tout ce que tu sais de toi, réuni"
-        sub="Une seule surface, plusieurs facettes : ta synthèse, tes jauges, ton radar, ta cartographie et ton journal."
+        title="Toutes tes facettes, convoquées"
+        sub="Un seul lieu où tes fragments se répondent — synthèse, jauges, radar, cartographie, journal. La matière première de ton récit, rassemblée."
       />
 
       {/* Barre d'onglets — un seul module, plusieurs facettes. */}
