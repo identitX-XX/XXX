@@ -7,9 +7,12 @@ create table if not exists profiles (
   id uuid primary key default gen_random_uuid(),
   email text unique,
   anon_id text unique,
+  prenom text,
   cohort text,
   created_at timestamptz not null default now()
 );
+-- Ajout du prénom sur une base déjà créée (idempotent).
+alter table profiles add column if not exists prenom text;
 
 -- Trace RGPD du consentement (preuve horodatée, versionnée).
 create table if not exists consents (

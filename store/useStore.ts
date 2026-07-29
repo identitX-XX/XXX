@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { track } from "@/lib/metrics";
+import { track, anonId } from "@/lib/metrics";
 import {
   ChatMsg,
   CoachMessage,
@@ -116,6 +116,16 @@ export const useStore = create<AppState>()(
 
       completeOnboarding: (p) => {
         track("onboarding_complete");
+        // Rattache le prénom à l'identité (email déjà capté à l'entrée) pour que
+        // chaque testeuse soit joignable — email + prénom. Fire-and-forget.
+        const prenom = p.name?.trim();
+        if (prenom && typeof fetch !== "undefined") {
+          fetch("/api/profil", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ anon_id: anonId(), prenom }),
+          }).catch(() => {});
+        }
         set({
           onboarded: true,
           profile: p,
