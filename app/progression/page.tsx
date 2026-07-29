@@ -52,8 +52,8 @@ export default function ProgressionPage() {
       <div>
         <PageHead
           eyebrow="Avancement"
-          title="Ta progression"
-          sub="Ta carte des 30 jours s'ouvrira ici, dès que ta quête sera lancée."
+          title="Le fil de ta traversée"
+          sub="Ta carte s'ouvrira ici dès que ta quête sera lancée."
         />
         <Card className="p-6">
           <p className="text-sm text-muted">
@@ -88,7 +88,7 @@ export default function ProgressionPage() {
       <PageHead
         eyebrow="Avancement"
         title="Ta progression"
-        sub="Où tu en es sur tes 30 jours — le chemin en cours, pas tes événements passés."
+        sub="Où tu en es, ce que tu as tenu — le chemin vivant, pas un archivage."
       />
 
       {/* Anneau + repères */}

@@ -466,7 +466,7 @@ function ReactionClotature({
       return {
         eyebrow: "Élan",
         titre: "Ta cohérence bondit",
-        sous: "Tes choix du jour tirent dans le même sens — ça se voit.",
+        sous: "Tes choix du jour tirent dans le même sens — et ça se lit.",
       };
     if (nouvelleEmo)
       return {
@@ -475,9 +475,9 @@ function ReactionClotature({
         sous: "Une émotion inédite : ta lecture de toi s'affine.",
       };
     const pool = [
-      { eyebrow: "Enregistré", titre: "Ta journée a bougé la matrice", sous: "Petit à petit, ton portrait se précise." },
-      { eyebrow: "Un cran de plus", titre: `${domB?.name ?? "Ton archétype"} se renforce`, sous: "La régularité sculpte, pas l'intensité." },
-      { eyebrow: "Ça infuse", titre: "Ton relevé s'inscrit", sous: "Rien ne se perd — tout nourrit ta lecture." },
+      { eyebrow: "Inscrit", titre: "Ta journée entre dans la matrice", sous: "Un trait de plus à ton portrait." },
+      { eyebrow: "Ça tient", titre: `${domB?.name ?? "Ton archétype"} se renforce`, sous: "C'est la régularité qui sculpte, jamais l'intensité." },
+      { eyebrow: "Ça infuse", titre: "Ce jour rejoint les autres", sous: "Rien ne se perd — tout fait matière." },
     ];
     return pool[r.jour % pool.length];
   })();

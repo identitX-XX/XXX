@@ -22,8 +22,8 @@ export default function ExplorerPage() {
     <div>
       <PageHead
         eyebrow="Approfondir · optionnel"
-        title="Enrichis ton portrait"
-        sub="Quatorze territoires qui nourrissent ta Quête. À compléter quand tu veux, sans pression — ta progression, elle, se joue sur tes 30 jours."
+        title="Les territoires de ton récit"
+        sub="Quatorze territoires qui nourrissent ta quête — perso, pro, relationnel. À explorer à ton rythme : rien ne se joue au chronomètre."
       />
 
       {/* Barre de progression — l'utilisatrice sait exactement où elle en est. */}

@@ -25,7 +25,7 @@ export function mockOutput(input: TurbineInput): TurbineOutput {
   }
 
   scenarios.push({
-    titre: `Teste ${d0} en petit, pour de vrai`,
+    titre: `Donne à ${d0} une première forme réelle`,
     multiples_en_dialogue: [d0],
     mouvement: `Avant d'en faire un projet de vie, réduis ${d0} à une expérience de sept jours : assez petite pour être faite, assez réelle pour t'apprendre quelque chose sur toi.`,
     pourquoi_maintenant: `${arch} avance par l'expérience, pas par la certitude préalable. Une preuve concrète vaut mieux qu'un mois d'hésitation.`,

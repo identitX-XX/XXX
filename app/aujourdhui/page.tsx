@@ -68,8 +68,8 @@ export default function AujourdhuiPage() {
       <div>
         <PageHead
           eyebrow="Aujourd'hui"
-          title="Ta quête est accomplie"
-          sub="30 jours. Il est temps de recueillir ce qui ressort."
+          title="Ta traversée est accomplie"
+          sub="Le temps de recueillir ce qui a surgi."
         />
         <Card className="overflow-hidden p-0 animate-fade-up">
           <div className="relative brand-gradient px-8 py-10 text-center text-white">

@@ -34,7 +34,7 @@ export default function RapportPage() {
       <div>
         <PageHead
           eyebrow="Rapport"
-          title="Tes scénarios de sortie"
+          title="Tes voies de sortie"
           sub="Ton rapport se tisse à partir de ce que tu vis. Traverse quelques journées, puis reviens le découvrir."
         />
         <Link href="/parcours-archetypes" className="text-sm text-fuchsia hover:underline">
@@ -52,8 +52,8 @@ export default function RapportPage() {
     <div>
       <PageHead
         eyebrow="Rapport"
-        title="Tes 3 scénarios de sortie"
-        sub="Tes objectifs dispersés, ramenés à un scénario clair et aligné : trois voies concrètes, une par périmètre, éclairées par tes 30 jours. Active celle qui te parle — elle devient ton plan."
+        title="Tes trois voies de sortie"
+        sub="Tes objectifs dispersés, ramenés à un cap clair : trois voies concrètes, une par territoire, éclairées par tout ce que tu as traversé. Active celle qui te parle — elle devient ton plan."
       />
 
       <Link
