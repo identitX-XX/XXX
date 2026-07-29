@@ -20,6 +20,7 @@ export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
   const [step, setStep] = useState(0);
   const [name, setName] = useState("");
+  const [age, setAge] = useState("");
   const [intention, setIntention] = useState("");
 
   const canNext = step === STEPS - 1 ? name.trim().length > 0 : true;
@@ -28,7 +29,7 @@ export function Onboarding() {
     const mot = intention.trim();
     const profile: Profile = {
       name: name.trim(),
-      age: "",
+      age: age.trim(),
       situation: "",
       goal: mot,
       energy: 60,
@@ -74,6 +75,8 @@ export function Onboarding() {
           <StepPrenom
             name={name}
             setName={setName}
+            age={age}
+            setAge={setAge}
             intention={intention}
             setIntention={setIntention}
           />
@@ -100,9 +103,7 @@ function StepAccueil() {
       <div className="mb-4 flex justify-center">
         <Constellation size={190} />
       </div>
-      <h2 className="font-display text-[2.6rem] font-light leading-[1.05] text-ink">
-        Bienvenue dans<br />l'exploration
-      </h2>
+      <h2 className="font-display text-5xl font-light leading-none text-ink">Bienvenue</h2>
       <p className="mx-auto mt-5 max-w-sm font-display text-xl font-light leading-snug text-ink">
         Explorons ta constellation identitaire.
       </p>
@@ -119,7 +120,7 @@ function StepChemin() {
   ];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ton chemin</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ta trajectoire</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">Trois temps, un mouvement</h2>
       <div className="mt-7 flex items-start justify-between">
         {stations.map((s, i) => (
@@ -142,10 +143,6 @@ function StepChemin() {
           </div>
         ))}
       </div>
-      <p className="mx-auto mt-7 max-w-sm text-sm leading-relaxed text-muted">
-        On avance pas à pas pour voir surgir des scénarios potentiels : ton archétype
-        se révèle, bouge, puis ouvre des possibles concrets — rien n'apparaît avant son heure.
-      </p>
     </div>
   );
 }
@@ -162,12 +159,8 @@ function StepTerritoires() {
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ton narratif</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
-        Une quête, tes trois territoires
+        Chaque jour pose un cap
       </h2>
-      <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-        IdentitX ne cloisonne pas : ta quête relie ton perso, ton pro et ton
-        relationnel — c'est toute ta vie qui avance ensemble.
-      </p>
       <div className="mt-7 grid grid-cols-3 gap-3">
         {perimetres.map((p) => (
           <div
@@ -187,10 +180,6 @@ function StepTerritoires() {
           </div>
         ))}
       </div>
-      <p className="mx-auto mt-6 max-w-sm text-xs leading-relaxed text-muted">
-        Une fois ton archétype révélé, tu poseras un cap sur chacun — ta boussole
-        des 30 jours.
-      </p>
     </div>
   );
 }
@@ -209,7 +198,7 @@ function StepRythme() {
         Chaque jour, une capsule
       </h2>
       <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-        ≈ 4 minutes, le soir idéalement. Trois appuis pour faire bouger ton schéma.
+        ≈ 4 minutes. Trois appuis pour faire bouger ton schéma.
       </p>
       <div className="mt-7 grid grid-cols-3 gap-3">
         {piliers.map((p) => (
@@ -227,19 +216,18 @@ function StepRythme() {
           </div>
         ))}
       </div>
-      <p className="mx-auto mt-6 max-w-sm text-xs leading-relaxed text-muted">
-        Tiens la série : c'est la régularité, pas l'intensité, qui construit.
-      </p>
     </div>
   );
 }
 
 // Étape 3 — la seule saisie : le prénom (requis) + une intention (optionnelle).
 function StepPrenom({
-  name, setName, intention, setIntention,
+  name, setName, age, setAge, intention, setIntention,
 }: {
   name: string;
   setName: (v: string) => void;
+  age: string;
+  setAge: (v: string) => void;
   intention: string;
   setIntention: (v: string) => void;
 }) {
@@ -247,17 +235,17 @@ function StepPrenom({
     <div className="space-y-6">
       <div className="text-center">
         <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Faisons connaissance</div>
-        <h2 className="mt-2 font-display text-2xl font-light text-ink">Comment t'appelles-tu ?</h2>
-        <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-          Juste ton prénom pour commencer. Le reste se dessinera au fil de ta quête.
-        </p>
       </div>
       <div>
-        <Label>Prénom ou pseudo</Label>
+        <Label>Ton prénom</Label>
         <TextInput value={name} onChange={setName} placeholder="Ton prénom" />
       </div>
       <div>
-        <Label>Ton intention, en un mot (optionnel)</Label>
+        <Label>Âge approximatif</Label>
+        <TextInput value={age} onChange={setAge} placeholder="ex. la trentaine, 42…" />
+      </div>
+      <div>
+        <Label>Ton intention du moment</Label>
         <TextInput value={intention} onChange={setIntention} placeholder="ex. clarté, oser, alignement…" />
       </div>
       <p className="text-center text-xs leading-relaxed text-muted">
