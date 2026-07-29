@@ -1,47 +1,43 @@
-import { TurbineOutput } from "./types";
+import { TurbineInput, TurbineOutput } from "./types";
 
 // Mode maquette : ce que la Turbine renvoie tant qu'aucune clé Mistral n'est
-// branchée. Ce sont les scénarios réels générés pour le profil par défaut,
-// pour que l'écran vive avant le premier appel modèle.
-export const MOCK_OUTPUT: TurbineOutput = {
-  scenarios: [
-    {
-      titre: "Sors la speakeuse de la veille — c'est elle qui fabrique ta légitimité",
-      multiples_en_dialogue: ["Speakeuse", "Conceptrice"],
-      mouvement:
-        "Tu ne trouveras pas ta légitimité dans l'abstrait, tu la prendras en portant une thèse. Parler d'IdentitX n'est pas te vendre : c'est transmettre une idée — et au passage ta distribution et ta preuve de fondatrice.",
-      pourquoi_maintenant:
-        "Tant que tu explorais, parler était prématuré. Depuis que tu as assumé IdentitX jusqu'au bout, la speakeuse a enfin un objet unique à porter.",
-      premier_pas:
-        "Dis ta thèse à voix haute, enregistre 60 secondes. Pas pour publier — pour entendre si tu la portes.",
-      risque_ou_lest:
-        "L'idée que la légitimité s'obtient avant de parler. Elle vient en parlant.",
-    },
-    {
-      titre: "Laisse le venture builder entrer dans la pièce que la conceptrice garde fermée",
-      multiples_en_dialogue: ["Venture builder", "Conceptrice"],
-      mouvement:
-        "Ton rapport à l'argent vient d'un faux conflit : tu crois que faire payer trahit la justesse. Une table, deux casquettes — pas deux vies. Le venture builder pose le modèle pendant que la conceptrice fait le produit.",
-      pourquoi_maintenant:
-        "« Mener jusqu'au bout » inclut l'argent, sinon c'est un mensonge poli. Le bout d'un produit, c'est qu'il se paie.",
-      premier_pas:
-        "Écris le prix. Une ligne — « IdentitX coûtera X €/mois » — juste pour voir ce que ça déclenche en toi.",
-      risque_ou_lest:
-        "« Faire payer trahit la justesse. » Un prix juste est une forme de justesse.",
-    },
-    {
-      titre: "Ta dispersion n'est pas un défaut à corriger — c'est ta qualification",
-      multiples_en_dialogue: ["Venture builder", "Conceptrice", "Speakeuse"],
-      mouvement:
-        "Tu construis l'outil qui fait dialoguer les multiples parce que tu es multiple. Ta dispersion est ta R&D. IdentitX, c'est l'orchestration de tes propres multiples, rendue produit.",
-      pourquoi_maintenant:
-        "En assumant IdentitX jusqu'au bout, tu viens — sans le nommer — de faire dialoguer tes trois directions au lieu d'en choisir une. Tu es déjà dans ta propre thèse.",
-      premier_pas:
-        "Écris tes trois casquettes, et en face de chacune, ce qu'elle apporte à IdentitX. Aucune n'est de trop.",
-      risque_ou_lest:
-        "L'idée qu'il faut « régler » ta dispersion avant d'être légitime. Elle est ta légitimité.",
-    },
-  ],
-  note_de_bascule:
-    "Ces scénarios émergent maintenant parce que tu viens de passer d'explorer à t'engager — et l'engagement, chez une multipotentielle, ne s'ampute pas, il s'orchestre.",
-};
+// branchée (ou en repli si l'appel échoue). Les scénarios sont DÉRIVÉS des
+// directions réelles de l'utilisatrice — jamais un profil codé en dur — pour
+// que l'écran vive sans jamais afficher le vécu de quelqu'un d'autre.
+export function mockOutput(input: TurbineInput): TurbineOutput {
+  const dirs = input.directions.map((d) => d.nom).filter(Boolean);
+  const arch = input.archetype.actuel || "On";
+  const d0 = dirs[0] ?? "ta direction";
+  const d1 = dirs[1];
+  const tension = input.tensions.filter(Boolean)[0];
+
+  const scenarios: TurbineOutput["scenarios"] = [];
+
+  if (d1) {
+    scenarios.push({
+      titre: `Fais dialoguer ${d0} et ${d1} au lieu de choisir`,
+      multiples_en_dialogue: [d0, d1],
+      mouvement: `Tu n'as pas à trancher entre ${d0} et ${d1}. Mets-les à la même table : ce que l'une sait, l'autre peut l'emprunter — la question n'est pas « laquelle », mais « qu'est-ce qu'elles fabriquent ensemble ? ».`,
+      pourquoi_maintenant: `Tu explores ${dirs.join(", ")} en même temps : c'est le moment de tester leur combinaison plutôt que d'en amputer une.`,
+      premier_pas: `Cette semaine, une seule action qui emprunte à ${d0} ET à ${d1} — même minuscule.`,
+      risque_ou_lest: `L'idée qu'il faut choisir une seule voie pour être prise au sérieux.`,
+    });
+  }
+
+  scenarios.push({
+    titre: `Teste ${d0} en petit, pour de vrai`,
+    multiples_en_dialogue: [d0],
+    mouvement: `Avant d'en faire un projet de vie, réduis ${d0} à une expérience de sept jours : assez petite pour être faite, assez réelle pour t'apprendre quelque chose sur toi.`,
+    pourquoi_maintenant: `${arch} avance par l'expérience, pas par la certitude préalable. Une preuve concrète vaut mieux qu'un mois d'hésitation.`,
+    premier_pas: `Définis la plus petite version de ${d0} que tu peux tenter avant dimanche, et écris-la en une phrase.`,
+    risque_ou_lest: tension
+      ? `Ce qui te freine : « ${tension} ». Le nommer, c'est commencer à le désamorcer.`
+      : `L'attente d'être « prête » avant de commencer.`,
+  });
+
+  return {
+    scenarios,
+    note_de_bascule:
+      "Ces pistes partent de tes directions — à toi de repérer celle qui te met en mouvement.",
+  };
+}

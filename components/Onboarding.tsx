@@ -100,7 +100,9 @@ function StepAccueil() {
       <div className="mb-4 flex justify-center">
         <Constellation size={190} />
       </div>
-      <h2 className="font-display text-5xl font-light leading-none text-ink">Bienvenue</h2>
+      <h2 className="font-display text-[2.6rem] font-light leading-[1.05] text-ink">
+        Bienvenue dans<br />l'exploration
+      </h2>
       <p className="mx-auto mt-5 max-w-sm font-display text-xl font-light leading-snug text-ink">
         Explorons ta constellation identitaire.
       </p>
@@ -158,7 +160,7 @@ function StepTerritoires() {
   ];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Tout ton monde</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ton narratif</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
         Une quête, tes trois territoires
       </h2>

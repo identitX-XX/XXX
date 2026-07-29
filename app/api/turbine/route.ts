@@ -1,5 +1,5 @@
 import { SYSTEM_PROMPT, buildUserMessage } from "@/lib/turbine/prompt";
-import { MOCK_OUTPUT } from "@/lib/turbine/mock";
+import { mockOutput } from "@/lib/turbine/mock";
 import { TurbineInput, TurbineOutput } from "@/lib/turbine/types";
 
 export const maxDuration = 60;
@@ -14,9 +14,10 @@ export async function POST(req: Request) {
 
   const apiKey = process.env.MISTRAL_API_KEY;
 
-  // Mode maquette : sans clé, l'écran vit avec des scénarios d'exemple.
+  // Mode maquette : sans clé, l'écran vit avec des scénarios dérivés des
+  // directions réelles envoyées (jamais un profil codé en dur).
   if (!apiKey) {
-    return Response.json({ ...MOCK_OUTPUT, _mock: true });
+    return Response.json({ ...mockOutput(input), _mock: true });
   }
 
   try {

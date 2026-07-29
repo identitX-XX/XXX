@@ -1,14 +1,13 @@
 "use client";
 // parcours-archetypes/components/Dashboard.tsx
 // Le tableau de bord : lit l'état d'évolution via le store, calcule les
-// indicateurs, et dispose les 6 visualisations. Style IdentitX, inline.
+// indicateurs, et dispose les visualisations. Style IdentitX, inline.
 
 import { useParcoursStore } from "../store";
 import { genererRevelations } from "../revelations";
 import {
   coherenceCourante,
   courbeEvolution,
-  equilibreSpheres,
   heatmapEmotions,
   archetypeDominant,
   progression,
@@ -18,7 +17,6 @@ import {
 import {
   BarreProgression,
   CourbeEvolution,
-  EquilibreSpheres,
   HeatmapEmotions,
   JaugeCoherence,
   RadarArchetypes,
@@ -116,10 +114,6 @@ export function Dashboard() {
 
           <Carte>
             <CourbeEvolution data={courbeEvolution(etat)} />
-          </Carte>
-
-          <Carte>
-            <EquilibreSpheres data={equilibreSpheres(etat)} />
           </Carte>
 
           <Carte>

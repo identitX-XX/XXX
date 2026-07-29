@@ -5,34 +5,11 @@ import { ArrowRight, Loader2, Plus, RefreshCw, Sparkles, X } from "lucide-react"
 import { PageHead } from "@/components/ui";
 import { useStore } from "@/store/useStore";
 import { useParcoursStore } from "@/parcours-archetypes/store";
+import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { TurbineDirection, TurbineInput, TurbineOutput } from "@/lib/turbine/types";
 import { basculeDepuisHistorique } from "@/lib/turbine/fromParcours";
 import { useCarteTurbine } from "@/lib/turbine/carteStore";
 import { track } from "@/lib/metrics";
-
-// Profil de démonstration — utilisé tant que le parcours n'a pas encore produit
-// de bascule réelle, ou que les directions ne sont pas renseignées.
-const DEMO_INPUT: TurbineInput = {
-  archetype: {
-    actuel: "Fondatrice engagée",
-    precedent: "Conceptrice-exploratrice",
-    bascule:
-      "Le choix assumé de mener IdentitX jusqu'au bout — un mouvement dans ton narratif, d'explorer à t'engager.",
-  },
-  valeurs: ["Liberté", "Justesse", "Loyauté"],
-  forces: ["Intelligence émotionnelle", "Créativité", "Humour"],
-  directions: [
-    { nom: "Venture builder", energie: "haute", etat: "émergent" },
-    { nom: "Conceptrice", energie: "haute", etat: "actif" },
-    { nom: "Speakeuse", energie: "moyenne", etat: "en veille" },
-  ],
-  tensions: ["dispersion", "manque de légitimité", "rapport à l'argent"],
-  signalRecent: [
-    "A assumé de mener IdentitX jusqu'au bout",
-    "A nommé un prix : 12€/mois",
-  ],
-  scenariosPrecedents: [],
-};
 
 const ENERGIES: TurbineDirection["energie"][] = ["haute", "moyenne", "basse"];
 const ETATS: TurbineDirection["etat"][] = ["actif", "émergent", "en veille"];
@@ -40,6 +17,7 @@ const ETATS: TurbineDirection["etat"][] = ["actif", "émergent", "en veille"];
 export default function TurbinePage() {
   const profile = useStore((s) => s.profile);
   const historique = useParcoursStore((s) => s.etat.historique);
+  const diagnostic = useParcoursStore((s) => s.diagnostic);
   const { directions, tensions, ajouterDirection, retirerDirection, setTensions } =
     useCarteTurbine();
 
@@ -47,30 +25,45 @@ export default function TurbinePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Construit l'entrée à partir des données RÉELLES quand elles existent :
-  // bascule réelle (moteur parcours) + valeurs/forces (profil) + directions
-  // (carte). Sinon, retombe sur la démonstration.
-  const { input, reel } = useMemo(() => {
+  // Construit l'entrée à partir des données de L'UTILISATRICE. Les scénarios se
+  // génèrent dès qu'elle a posé au moins UNE direction (un métier, un projet,
+  // une envie) — sans exiger une mue formelle ni des valeurs de profil. Le
+  // contexte d'archétype vient de la mue réelle si elle existe, sinon du
+  // dominant courant, sinon d'un cadre d'exploration neutre. Tant qu'aucune
+  // direction n'est posée, on ne fabrique RIEN : on invite à en poser une.
+  const { input, reel } = useMemo<{ input: TurbineInput | null; reel: boolean }>(() => {
+    if (directions.length === 0) return { input: null, reel: false };
     const bascule = basculeDepuisHistorique(historique);
     const valeurs = (profile.values ?? []).filter(Boolean);
     const forces = (profile.strengths ?? []).filter(Boolean);
-    const pret = Boolean(bascule) && directions.length > 0 && valeurs.length > 0;
-    if (!pret || !bascule) return { input: DEMO_INPUT, reel: false };
+    const intention = profile.goal?.trim() || "Une exploration en cours entre plusieurs directions.";
+    const archetype =
+      bascule ??
+      (diagnostic
+        ? {
+            actuel: archetypeByKey[diagnostic.dominant].name,
+            precedent: diagnostic.secondaire ? archetypeByKey[diagnostic.secondaire].name : "",
+            bascule: intention,
+          }
+        : { actuel: "Exploratrice", precedent: "", bascule: intention });
     return {
       input: {
-        archetype: bascule,
+        archetype,
         valeurs,
         forces,
         directions,
         tensions,
-        signalRecent: [`Bascule récente vers ${bascule.actuel}`],
+        signalRecent: bascule
+          ? [`Bascule récente vers ${bascule.actuel}`]
+          : [`Directions en dialogue : ${directions.map((d) => d.nom).join(", ")}`],
         scenariosPrecedents: [],
       } satisfies TurbineInput,
-      reel: true,
+      reel: Boolean(bascule),
     };
-  }, [historique, profile, directions, tensions]);
+  }, [historique, profile, directions, tensions, diagnostic]);
 
   const generer = useCallback(async () => {
+    if (!input) return;
     setLoading(true);
     setError(null);
     try {
@@ -105,34 +98,40 @@ export default function TurbinePage() {
     <div>
       <PageHead
         eyebrow="Tes possibles"
-        title="Ce que ta mue rend possible"
-        sub="Ton archétype a bougé. Voici des expériences à tenter — ce qui construit ta réalité, pas un portrait à contempler."
+        title="Ce que tes directions rendent possible"
+        sub="Des expériences à tenter, nées de ce que tu explores — ce qui construit ta réalité, pas un portrait à contempler."
       />
 
-      {/* La mue en cours */}
-      <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
-        <div className="flex items-center justify-between">
-          <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
-            La mue
+      {/* La mue en cours — seulement quand une entrée réelle existe */}
+      {input && (
+        <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
+          <div className="flex items-center justify-between">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
+              {reel ? "La mue" : "Ton point de départ"}
+            </div>
+            <span
+              className={`rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
+                reel
+                  ? "border-fuchsia/40 bg-fuchsia/10 text-fuchsia"
+                  : "border-line text-muted"
+              }`}
+            >
+              {reel ? "Mue confirmée" : "En cours"}
+            </span>
           </div>
-          <span
-            className={`rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
-              reel
-                ? "border-fuchsia/40 bg-fuchsia/10 text-fuchsia"
-                : "border-line text-muted"
-            }`}
-          >
-            {reel ? "Données réelles" : "Démonstration"}
-          </span>
+          <p className="mt-2 text-sm text-ink">
+            {input.archetype.precedent && (
+              <>
+                <span className="text-muted">De </span>
+                <span className="text-muted">{input.archetype.precedent}</span>
+                <span className="text-muted"> à </span>
+              </>
+            )}
+            <span className="font-display text-base">{input.archetype.actuel}</span>
+          </p>
+          <p className="mt-1 text-sm text-muted">{input.archetype.bascule}</p>
         </div>
-        <p className="mt-2 text-sm text-ink">
-          <span className="text-muted">De </span>
-          <span className="text-muted">{input.archetype.precedent}</span>
-          <span className="text-muted"> à </span>
-          <span className="font-display text-base">{input.archetype.actuel}</span>
-        </p>
-        <p className="mt-1 text-sm text-muted">{input.archetype.bascule}</p>
-      </div>
+      )}
 
       {/* Éditeur des directions (les multiples à faire dialoguer) */}
       <CarteEditor
@@ -141,7 +140,21 @@ export default function TurbinePage() {
         onAdd={ajouterDirection}
         onRemove={retirerDirection}
         onTensions={setTensions}
+        openByDefault={directions.length === 0}
       />
+
+      {/* Aucune direction posée : on invite, on ne fabrique pas de faux scénario */}
+      {!input && (
+        <div className="mt-6 rounded-2xl border border-dashed border-line p-8 text-center">
+          <p className="font-display text-lg text-ink">Pose tes directions</p>
+          <p className="mx-auto mt-1 max-w-md text-sm text-muted">
+            Ajoute au moins une direction ci-dessus — un métier, un projet, une
+            envie (ex.&nbsp;«&nbsp;Pâtisserie&nbsp;», «&nbsp;Soin&nbsp;»). Tes
+            scénarios surgiront de <span className="text-ink">ce que tu explores</span>,
+            jamais d'un exemple tout fait.
+          </p>
+        </div>
+      )}
 
       {loading && (
         <div className="mt-6 flex items-center gap-3 rounded-2xl border border-line bg-surface p-6 text-muted">
@@ -247,20 +260,29 @@ function CarteEditor({
   onAdd,
   onRemove,
   onTensions,
+  openByDefault = false,
 }: {
   directions: TurbineDirection[];
   tensions: string[];
   onAdd: (d: TurbineDirection) => void;
   onRemove: (i: number) => void;
   onTensions: (t: string[]) => void;
+  openByDefault?: boolean;
 }) {
   const [nom, setNom] = useState("");
   const [energie, setEnergie] = useState<TurbineDirection["energie"]>("haute");
   const [etat, setEtat] = useState<TurbineDirection["etat"]>("actif");
   const [tension, setTension] = useState("");
+  // Ouvert par défaut si demandé, mais on n'IMPOSE pas l'état ensuite : ajouter
+  // une direction ne doit pas refermer l'éditeur au nez de l'utilisatrice.
+  const [open, setOpen] = useState(openByDefault);
 
   return (
-    <details className="mb-6 rounded-2xl border border-line bg-surface p-5 [&_summary]:cursor-pointer">
+    <details
+      open={open}
+      onToggle={(e) => setOpen((e.currentTarget as HTMLDetailsElement).open)}
+      className="mb-6 rounded-2xl border border-line bg-surface p-5 [&_summary]:cursor-pointer"
+    >
       <summary className="text-sm font-medium text-ink">
         Mes directions{" "}
         <span className="text-muted">
