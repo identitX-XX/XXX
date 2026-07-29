@@ -81,17 +81,12 @@ export function Diagnostic() {
 
   return (
     <div style={wrap}>
-      <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
+      <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
         Ma quête · ~3 min
       </div>
-      <h1 style={h1}>Je commence ma quête</h1>
-      <p style={{ color: MUTED, fontSize: 15, margin: "8px 0 18px", lineHeight: 1.5 }}>
-        Douze questions. Parmi <strong style={{ color: INK }}>12 archétypes</strong>, celui
-        qui te met le plus en mouvement se dessine — et ouvre tes 30 jours.
-      </p>
 
-      {/* Progress */}
-      <div style={{ display: "flex", gap: 5, margin: "14px 0 26px" }}>
+      {/* Ça respire, puis on démarre directement sur les questions. */}
+      <div style={{ display: "flex", gap: 5, margin: "34px 0 28px" }}>
         {QUESTIONS.map((_, i) => (
           <div
             key={i}

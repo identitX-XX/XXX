@@ -54,18 +54,20 @@ function ParcoursContent() {
 
   return (
     <div>
-      <PageHead
-        eyebrow="Module"
-        title="Parcours des 12 archétypes"
-        sub="Ton archétype n'est pas figé, il oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
-      />
-
       {!diagnostic ? (
         <Diagnostic />
       ) : !objectifs ? (
         <Objectifs />
       ) : (
       <>
+
+      {/* En-tête du module — seulement une fois le parcours lancé, pour ne pas
+          écraser l'écran des questions (il respire : juste « Ma quête »). */}
+      <PageHead
+        eyebrow="Module"
+        title="Parcours des 12 archétypes"
+        sub="Ton archétype n'est pas figé, il oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
+      />
 
       {/* Adossé au module, une fois le parcours lancé : les exercices (Quête) et
           les savoirs. Ils n'encombrent plus l'entrée du diagnostic. */}
