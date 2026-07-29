@@ -245,7 +245,7 @@ function StepMouvement() {
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
-        Trente jours pour te déplier
+        30 jours de redéploiement identitaire
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
         Ton archétype n'est pas une étiquette. Trente jours durant, tu observes
