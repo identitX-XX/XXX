@@ -242,15 +242,58 @@ function StepMouvement() {
         comment il s'active selon tes contextes — et chaque soir, la matrice
         respire : ce que tu n'as pas rejoué retombe, pour que rien ne se fige.
       </p>
-      <div className="mt-7 flex flex-col gap-2.5 text-left">
+      {/* La boucle, rendue explicite : un cercle qui se referme puis recommence. */}
+      <div className="mx-auto mt-6" style={{ maxWidth: 300 }}>
+        <svg viewBox="0 0 280 280" width="100%" aria-hidden="true" style={{ display: "block" }}>
+          <defs>
+            <marker id="idxArrow" markerWidth="7" markerHeight="7" refX="4" refY="3.5" orient="auto">
+              <path d="M0,0 L6,3.5 L0,7 Z" fill="var(--fuchsia)" />
+            </marker>
+          </defs>
+          <circle cx="140" cy="140" r="110" fill="none" stroke="var(--line)" strokeWidth="1.5" />
+          <g fill="none" stroke="var(--fuchsia)" strokeWidth="2" strokeLinecap="round" markerEnd="url(#idxArrow)" opacity="0.85">
+            <path d="M168.5,33.75 A110,110 0 0,1 246.25,111.53" />
+            <path d="M246.25,168.47 A110,110 0 0,1 168.47,246.25" />
+            <path d="M111.53,246.25 A110,110 0 0,1 33.75,168.47" />
+            <path d="M33.75,111.53 A110,110 0 0,1 111.53,33.75" />
+          </g>
+          {[
+            { x: 140, y: 30, n: 1 },
+            { x: 250, y: 140, n: 2 },
+            { x: 140, y: 250, n: 3 },
+            { x: 30, y: 140, n: 4 },
+          ].map((nd) => (
+            <g key={nd.n}>
+              <circle cx={nd.x} cy={nd.y} r="17" fill="var(--fuchsia)" />
+              <text
+                x={nd.x}
+                y={nd.y}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize="15"
+                fontWeight="600"
+                fill="var(--noir)"
+                fontFamily="var(--font-fraunces),serif"
+              >
+                {nd.n}
+              </text>
+            </g>
+          ))}
+          <circle cx="140" cy="140" r="30" fill="none" stroke="var(--line)" strokeWidth="1" />
+          <text x="140" y="135" textAnchor="middle" fontSize="18" fill="var(--ink)" fontFamily="var(--font-fraunces),serif">30</text>
+          <text x="140" y="153" textAnchor="middle" fontSize="9" letterSpacing="0.16em" fill="var(--muted)">JOURS</text>
+        </svg>
+      </div>
+      <p className="mx-auto mt-3 max-w-xs text-xs italic leading-snug text-muted">
+        Une boucle : elle se referme, puis recommence — un cran plus haut.
+      </p>
+
+      <div className="mt-6 flex flex-col gap-2.5 text-left">
         {PHASES.map((ph, i) => (
-          <div
-            key={ph.key}
-            className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-3.5"
-          >
+          <div key={ph.key} className="flex items-start gap-3">
             <span
-              className="mt-0.5 grid h-7 w-7 flex-none place-items-center rounded-full text-[11px] font-semibold text-fuchsia"
-              style={{ boxShadow: "inset 0 0 0 1.5px var(--fuchsia)" }}
+              className="mt-0.5 grid h-6 w-6 flex-none place-items-center rounded-full text-[11px] font-semibold"
+              style={{ background: "var(--fuchsia)", color: "var(--noir)" }}
             >
               {i + 1}
             </span>
