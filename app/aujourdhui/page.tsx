@@ -386,6 +386,9 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
           </div>
           <h3 className="mt-3 font-display text-lg font-light text-ink">{ress.titre}</h3>
           <p className="mt-1.5 text-sm leading-relaxed text-muted">{ress.corps}</p>
+          {ress.source && (
+            <p className="mt-2 text-xs italic text-muted">{ress.source}</p>
+          )}
           <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-fuchsia">
             Toute la bibliothèque
             <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
