@@ -23,7 +23,8 @@ export function Onboarding() {
   const [age, setAge] = useState("");
   const [intention, setIntention] = useState("");
 
-  const canNext = step === STEPS - 1 ? name.trim().length > 0 : true;
+  // Le prénom est requis pour quitter l'étape « intention » (désormais l'étape 1).
+  const canNext = step === 1 ? name.trim().length > 0 : true;
 
   const finish = () => {
     const mot = intention.trim();
@@ -66,12 +67,12 @@ export function Onboarding() {
         ))}
       </div>
 
+      {/* Ordre pédagogique : Bienvenue → ton intention → ta trajectoire (jusqu'à
+          la mue) → les deux blocs qui décrivent les 30 jours. Le diagnostic des
+          archétypes ne vient qu'APRÈS (à la fin de l'onboarding). */}
       <div key={step} className="animate-fade-up">
         {step === 0 && <StepAccueil />}
-        {step === 1 && <StepChemin />}
-        {step === 2 && <StepTerritoires />}
-        {step === 3 && <StepRythme />}
-        {step === 4 && (
+        {step === 1 && (
           <StepPrenom
             name={name}
             setName={setName}
@@ -81,6 +82,9 @@ export function Onboarding() {
             setIntention={setIntention}
           />
         )}
+        {step === 2 && <StepChemin />}
+        {step === 3 && <StepTerritoires />}
+        {step === 4 && <StepRythme />}
       </div>
 
       <div className="mt-10 flex items-center justify-between">
@@ -249,7 +253,7 @@ function StepPrenom({
         <TextInput value={intention} onChange={setIntention} placeholder="ex. clarté, oser, alignement…" />
       </div>
       <p className="text-center text-xs leading-relaxed text-muted">
-        En révélant ton archétype, tu acceptes les{" "}
+        En continuant, tu acceptes les{" "}
         <a href="/cgu" target="_blank" rel="noopener noreferrer" className="text-fuchsia underline">
           conditions d'utilisation
         </a>{" "}
