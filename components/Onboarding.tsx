@@ -15,7 +15,7 @@ import { Constellation } from "./Constellation";
 // chemin (Archétype → Mue → Tes Choix) et le rythme AVANT de demander quoi que
 // ce soit — puis une seule saisie : le prénom. Le reste du profil se complète au
 // fil de la quête (profil progressif), jamais en barrage à l'entrée.
-const STEPS = 6;
+const STEPS = 3;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
@@ -74,9 +74,9 @@ export function Onboarding() {
         ))}
       </div>
 
-      {/* Ordre pédagogique : Bienvenue → ton intention → ta trajectoire (jusqu'à
-          la mue) → les deux blocs qui décrivent les 30 jours. Le diagnostic des
-          archétypes ne vient qu'APRÈS (à la fin de l'onboarding). */}
+      {/* Onboarding condensé en 3 temps : Bienvenue → ton intention → un seul
+          écran « Comment ça marche » (trajectoire, périmètres, rythme, mouvement).
+          Le diagnostic (les 12 signatures) ne vient qu'APRÈS. */}
       <div className="flex flex-1 flex-col justify-center">
       <div key={step} className="animate-fade-up">
         {step === 0 && <StepAccueil />}
@@ -90,10 +90,7 @@ export function Onboarding() {
             setIntention={setIntention}
           />
         )}
-        {step === 2 && <StepChemin />}
-        {step === 3 && <StepTerritoires />}
-        {step === 4 && <StepRythme />}
-        {step === 5 && <StepMouvement />}
+        {step === 2 && <StepCommentCaMarche />}
       </div>
       </div>
 
@@ -126,6 +123,20 @@ function StepAccueil() {
 }
 
 // Étape 1 — enseigne le chemin : trois stations reliées, graphique d'abord.
+// « Comment ça marche » — un seul écran scrollable qui fusionne les explications
+// (trajectoire, périmètres, rythme, mouvement). Elles ne demandaient rien : on
+// les regroupe pour raccourcir le funnel (6 → 3 étapes).
+function StepCommentCaMarche() {
+  return (
+    <div className="space-y-12">
+      <StepChemin />
+      <StepTerritoires />
+      <StepRythme />
+      <StepMouvement />
+    </div>
+  );
+}
+
 function StepChemin() {
   const stations = [
     { icon: <Compass size={20} />, label: "Signature", sous: "ton schéma dominant" },
