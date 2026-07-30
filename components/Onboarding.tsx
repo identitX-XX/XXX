@@ -57,7 +57,7 @@ export function Onboarding() {
   const back = () => setStep(Math.max(0, step - 1));
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-lg flex-col justify-center px-6 pt-12 pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
+    <div className="mx-auto flex min-h-[100dvh] max-w-lg flex-col px-6 pt-12 pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
       {/* Repères de friction : où j'en suis, combien de temps. */}
       <div className="mb-2 flex items-center justify-between text-xs text-muted">
         <span>Étape {step + 1} sur {STEPS}</span>
@@ -77,6 +77,7 @@ export function Onboarding() {
       {/* Ordre pédagogique : Bienvenue → ton intention → ta trajectoire (jusqu'à
           la mue) → les deux blocs qui décrivent les 30 jours. Le diagnostic des
           archétypes ne vient qu'APRÈS (à la fin de l'onboarding). */}
+      <div className="flex flex-1 flex-col justify-center">
       <div key={step} className="animate-fade-up">
         {step === 0 && <StepAccueil />}
         {step === 1 && (
@@ -93,6 +94,7 @@ export function Onboarding() {
         {step === 3 && <StepTerritoires />}
         {step === 4 && <StepRythme />}
         {step === 5 && <StepMouvement />}
+      </div>
       </div>
 
       <div className="mt-10 flex items-center justify-between">
