@@ -171,7 +171,7 @@ export function Onboarding() {
 function StepAccueil() {
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Bienvenue</div>
+      <div className="text-base font-bold uppercase tracking-[0.2em] text-fuchsia">Bienvenue</div>
       <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
         Déconstruis ta légende. Vois émerger tes possibles.
       </p>
