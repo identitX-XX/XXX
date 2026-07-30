@@ -11,7 +11,7 @@ import { Feedback } from "@/components/Feedback";
 
 // Aperçu (fond, surface, accent) de chaque palette, pour le sélecteur.
 const PALETTES: { key: PaletteKey; nom: string; note: string; fond: string; surface: string; accent: string }[] = [
-  { key: "nuit", nom: "Nuit & Or", note: "nuit · or chaud", fond: "#11121b", surface: "#191b28", accent: "#d7b56f" },
+  { key: "nuit", nom: "Nuit & Or", note: "nuit · or chaud", fond: "#11121b", surface: "#191b28", accent: "#d4af6a" },
   { key: "parme", nom: "Parme", note: "sobre · feutré", fond: "#16131c", surface: "#1e1926", accent: "#bda4dd" },
   { key: "or", nom: "Or discret", note: "sobre · intime", fond: "#101319", surface: "#171b22", accent: "#c6a461" },
   { key: "aubergine", nom: "Aubergine", note: "sobre · adulte", fond: "#151218", surface: "#1c1822", accent: "#b083a9" },
