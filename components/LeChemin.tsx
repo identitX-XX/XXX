@@ -36,7 +36,7 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
     // 1 — Archétype
     diagnostic && arch
       ? {
-          label: "Signature",
+          label: "Ta signature",
           icon: <Compass size={20} />,
           etat: "fait",
           valeur: arch.name,
@@ -44,7 +44,7 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
           cta: { href: "/parcours-signatures", label: "Revoir ta signature" },
         }
       : {
-          label: "Signature",
+          label: "Ta signature",
           icon: <Compass size={20} />,
           etat: "encours",
           valeur: "À révéler",
@@ -52,28 +52,28 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
             "12 questions pour faire émerger tes identités dominantes — le seuil de ta quête.",
           cta: { href: "/parcours-signatures", label: "Révéler ma signature" },
         },
-    // 2 — La Mue
+    // 2 — Ton vortex
     bascule
       ? {
-          label: "La Mue",
+          label: "Ton vortex",
           icon: <Shuffle size={20} />,
           etat: "fait",
-          valeur: "Révélée",
+          valeur: "Révélé",
           detail: `De ${bascule.precedent} à ${bascule.actuel}. ${bascule.bascule}`,
           cta: { href: "/scenarios", label: "Voir ce que ça ouvre" },
         }
       : diagnostic
       ? {
-          label: "La Mue",
+          label: "Ton vortex",
           icon: <Shuffle size={20} />,
           etat: "encours",
           valeur: "En observation",
           detail:
-            "Ta mue se déclenche quand ta signature dominante bascule — et qu'elle tient. Continue ta quête : elle se révèle d'elle-même.",
+            "Ton vortex se déclenche quand ta signature dominante bascule — et qu'elle tient. Continue ta quête : il se révèle de lui-même.",
           cta: { href: "/parcours-signatures", label: "Continuer ma quête" },
         }
       : {
-          label: "La Mue",
+          label: "Ton vortex",
           icon: <Shuffle size={20} />,
           etat: "avenir",
           valeur: "Après la signature",
@@ -88,16 +88,17 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
           etat: "encours",
           valeur: "À explorer",
           detail:
-            "Des expériences à tenter, générées pour ta mue. Ce qui construit ta réalité — pas un portrait à contempler.",
+            "Des expériences à tenter, générées pour ton vortex. Ce qui construit ta réalité — pas un portrait à contempler.",
           cta: { href: "/scenarios", label: "Découvrir mes possibles" },
         }
       : {
           label: "Tes possibles",
           icon: <Route size={20} />,
           etat: "avenir",
-          valeur: "Verrouillé",
+          valeur: "Scénarios",
           detail:
-            "Tes possibles se débloquent avec ta première mue : c'est elle qui rend de nouvelles expériences envisageables.",
+            "Tes scénarios possibles se déploient avec ton premier vortex : c'est lui qui rend de nouvelles expériences envisageables. Tu peux déjà les entrouvrir.",
+          cta: { href: "/scenarios", label: "Voir les scénarios" },
         },
   ];
 

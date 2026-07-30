@@ -188,7 +188,7 @@ function QueteMonde({
           style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
         >
           <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.accent }}>
-            Ta mue a fait évoluer ta quête
+            Ton vortex a fait évoluer ta quête
           </div>
           <p className="mt-1 text-sm leading-relaxed" style={{ color: m.ink }}>
             De <b>{archetypeByKey[mue.depuis].name}</b> à <b>{archetypeByKey[mue.vers].name}</b>.

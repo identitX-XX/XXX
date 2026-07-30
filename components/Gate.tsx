@@ -139,7 +139,6 @@ export function Gate({ children }: { children: React.ReactNode }) {
         style={{
           fontFamily: "var(--font-fraunces),serif",
           fontWeight: 500,
-          fontVariationSettings: '"opsz" 144, "SOFT" 50, "WONK" 1',
           fontSize: "clamp(34px, 11vw, 52px)",
           lineHeight: 1,
           letterSpacing: ".14em",

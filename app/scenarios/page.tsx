@@ -107,7 +107,7 @@ export default function TurbinePage() {
         <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
           <div className="flex items-center justify-between">
             <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
-              {reel ? "La mue" : "Ton point de départ"}
+              {reel ? "Ton vortex" : "Ton point de départ"}
             </div>
             <span
               className={`rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
@@ -116,7 +116,7 @@ export default function TurbinePage() {
                   : "border-line text-muted"
               }`}
             >
-              {reel ? "Mue confirmée" : "En cours"}
+              {reel ? "Vortex confirmé" : "En cours"}
             </span>
           </div>
           <p className="mt-2 text-sm text-ink">

@@ -67,7 +67,7 @@ export default function RapportPage() {
       titre: "Ce qui a évolué",
       hint: "Les changements apparus au fil de tes observations.",
       corps: mue
-        ? `Une mue s'est amorcée : de ${archetypeByKey[mue.depuis].name} à ${archetypeByKey[mue.vers].name}.`
+        ? `Un vortex s'est amorcé : de ${archetypeByKey[mue.depuis].name} à ${archetypeByKey[mue.vers].name}.`
         : `${dom.name} s'est affirmée au fil des journées, sans bascule majeure.`,
     },
     {

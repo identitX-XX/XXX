@@ -116,8 +116,8 @@ function StepAccueil() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Bienvenue</div>
-      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-3xl font-light leading-[1.1] text-ink">
-        Déconstruis ta légende. Vois <span className="fr-accent">émerger</span> tes possibles.
+      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
+        Déconstruis ta légende. Vois émerger tes possibles.
       </p>
       <p className="mx-auto mb-6 max-w-sm text-sm leading-relaxed text-muted">
         En six étapes, explore les dimensions qui composent ton identité et
@@ -133,13 +133,13 @@ function StepAccueil() {
 // Étape « signature » — enseigne le chemin : trois stations reliées, graphique.
 function StepChemin() {
   const stations = [
-    { icon: <Glyph name="signature" size={24} />, label: "Signature", sous: "ton schéma dominant" },
-    { icon: <Glyph name="mue" size={24} />, label: "La Mue", sous: "quand tu bascules" },
+    { icon: <Glyph name="signature" size={24} />, label: "Ta signature", sous: "ton schéma dominant" },
+    { icon: <Glyph name="mue" size={24} />, label: "Ton vortex", sous: "quand tu bascules" },
     { icon: <Glyph name="possibles" size={24} />, label: "Tes possibles", sous: "des voies à tenter" },
   ];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Signature</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ta signature</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">Découvre les dynamiques qui s'expriment le plus naturellement chez toi.</h2>
       <div className="mt-7 flex items-start justify-between">
         {stations.map((s, i) => (
@@ -206,13 +206,13 @@ function StepTerritoires() {
 // Étape 3 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
 function StepRythme() {
   const piliers = [
-    { icon: <Glyph name="question" size={20} />, t: "Une question", sous: "Pour mettre en lumière ce que tu ne regardes pas encore." },
-    { icon: <Glyph name="defi" size={20} />, t: "Un micro-défi", sous: "Pour expérimenter une autre manière d'agir." },
+    { icon: <Glyph name="question" size={20} />, t: "Une question", sous: "Pour regarder dans la bonne direction." },
+    { icon: <Glyph name="defi" size={20} />, t: "Un micro-défi", sous: "Pour expérimenter de nouvelles actions." },
     { icon: <Glyph name="ressource" size={20} />, t: "Une ressource", sous: "Pour nourrir ta réflexion et ouvrir de nouvelles perspectives." },
   ];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le rythme</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le tempo</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
         Chaque jour, une capsule
       </h2>
