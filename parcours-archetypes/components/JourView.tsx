@@ -381,13 +381,14 @@ function Jauge({
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", marginBottom: 6 }}>
         <span style={{ fontSize: 12.5, color: MUTED }}>{label}</span>
         <span style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-          <span style={{ fontFamily: serif, fontSize: 18, color: INK }}>{val}</span>
+          <span style={{ fontFamily: serif, fontSize: 18, color: INK, fontVariantNumeric: "tabular-nums lining-nums" }}>{val}</span>
           {typeof delta === "number" && delta !== 0 && (
             <span
               style={{
                 fontSize: 11.5,
                 fontWeight: 600,
                 color: delta > 0 ? accent : MUTED,
+                fontVariantNumeric: "tabular-nums lining-nums",
               }}
             >
               {delta > 0 ? "+" : ""}

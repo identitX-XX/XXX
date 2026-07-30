@@ -154,7 +154,7 @@ export default function AujourdhuiPage() {
             >
               <div className="grid h-[108px] w-[108px] place-items-center rounded-full bg-surface text-center">
                 <div>
-                  <div className="font-display text-4xl leading-none text-ink">
+                  <div className="tnum font-display text-4xl leading-none text-ink">
                     {prog.faits}
                   </div>
                   <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted">
