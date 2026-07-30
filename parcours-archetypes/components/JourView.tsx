@@ -148,6 +148,7 @@ export function JourView({
           narratifs qui retardaient la récompense (observation, écho, clôture)
           sont retirés — la clôture, désormais, c'est l'écran de réaction. */}
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <Separateur label="Ton geste du jour" sous="À porter et vivre dans ta journée." />
         {/* La question à porter — le cœur réflexif de la journée, mis en avant */}
         <div
           style={{
@@ -169,6 +170,16 @@ export function JourView({
             {sectionsByKind["question"]?.texte}
           </div>
         </div>
+
+        {/* Le geste concret à poser dans la journée (texte seul ; son intensité
+            se note le soir, dans le bilan). */}
+        {sectionsByKind["defi"]?.texte && (
+          <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
+            {sectionsByKind["defi"]?.texte}
+          </Bloc>
+        )}
+
+        <Separateur label="Ton bilan du soir" sous="Une fois la journée vécue." />
 
         {/* Curseurs par sphère */}
         <Bloc titre={sectionsByKind["curseurs"]?.titre ?? "Circulation"}>
@@ -239,14 +250,10 @@ export function JourView({
           </div>
         </Bloc>
 
-        {/* Micro-défi : le texte du défi ET son intensité, réunis en un bloc */}
-        <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
-          {sectionsByKind["defi"]?.texte && (
-            <div style={{ fontSize: 14, lineHeight: 1.6, color: INK, marginBottom: 14 }}>
-              {sectionsByKind["defi"]?.texte}
-            </div>
-          )}
-          <div style={{ fontSize: 12, color: MUTED, marginBottom: 6 }}>Son intensité aujourd'hui</div>
+        {/* L'intensité du défi — notée le soir (le texte du défi est en tête,
+            dans « ton geste du jour »). */}
+        <Bloc titre="L'intensité de ton défi">
+          <div style={{ fontSize: 12, color: MUTED, marginBottom: 6 }}>Comment tu l'as vécu aujourd'hui</div>
           <input
             type="range"
             min={0}
@@ -305,6 +312,22 @@ export function JourView({
           {readOnly ? "Journée close ✓" : "Clore la journée"}
         </button>
       </div>
+    </div>
+  );
+}
+
+// Séparateur de section — sépare visuellement « le geste du jour » (à vivre) du
+// « bilan du soir » (à noter une fois la journée passée).
+function Separateur({ label, sous }: { label: string; sous?: string }) {
+  return (
+    <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 12 }}>
+      <div style={{ flexShrink: 0 }}>
+        <div style={{ fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: FUCHSIA }}>
+          {label}
+        </div>
+        {sous && <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{sous}</div>}
+      </div>
+      <div style={{ flex: 1, height: 1, background: LINE }} />
     </div>
   );
 }
@@ -442,6 +465,11 @@ function ReactionClotature({
   const cohB = coherenceCourante(apres);
   const deltaCoh = cohB - cohA;
 
+  // Avant J3, aucun référentiel fiable : on masque les deltas (un « +44 » contre
+  // zéro ou un « −8 » à J1 décrédibilise le scoring) et le titre ne peut pas
+  // annoncer de hausse. On n'affiche que les valeurs absolues.
+  const deltasVisibles = r.jour >= 3;
+
   const focus = equilibreSpheres(apres).find((s) => s.key === r.sphereFocus);
   const emoLabels = EMOTIONS.filter((e) => r.emotions.includes(e.key)).map((e) => e.label);
   const heatA = heatmapEmotions(avant);
@@ -463,7 +491,7 @@ function ReactionClotature({
         titre: `${domB.name} émerge`,
         sous: "Voici ton point de départ. Dès demain, chaque journée le fera bouger.",
       };
-    if (deltaCoh >= 6)
+    if (deltasVisibles && deltaCoh >= 6)
       return {
         eyebrow: "Élan",
         titre: "Ta cohérence bondit",
@@ -475,9 +503,14 @@ function ReactionClotature({
         titre: `« ${nouvelleEmo.label} » entre dans ta carte`,
         sous: "Une émotion inédite : ta lecture de toi s'affine.",
       };
+    // Le titre ne prétend une « hausse » que si le delta principal est réellement
+    // positif ET visible (≥ J3) ; sinon on reste sur une formulation neutre.
+    const monte = deltasVisibles && (deltaDom > 0 || deltaCoh > 0);
     const pool = [
       { eyebrow: "Inscrit", titre: "Ta journée entre dans la matrice", sous: "Un trait de plus à ton portrait." },
-      { eyebrow: "Ça tient", titre: `${domB?.name ?? "Ta signature"} se renforce`, sous: "C'est la régularité qui sculpte, jamais l'intensité." },
+      monte
+        ? { eyebrow: "Ça tient", titre: `${domB?.name ?? "Ta signature"} se renforce`, sous: "C'est la régularité qui sculpte, jamais l'intensité." }
+        : { eyebrow: "Ça se précise", titre: `${domB?.name ?? "Ta signature"} se précise`, sous: "C'est la régularité qui sculpte, jamais l'intensité." },
       { eyebrow: "Ça infuse", titre: "Ce jour rejoint les autres", sous: "Rien ne se perd — tout fait matière." },
     ];
     return pool[r.jour % pool.length];
@@ -534,11 +567,11 @@ function ReactionClotature({
             label={`${domB.name} · ta signature dominante`}
             from={domFrom}
             to={domB.valeur}
-            delta={deltaDom}
+            delta={deltasVisibles ? deltaDom : undefined}
             delay={0}
           />
         )}
-        <Jauge label="Cohérence de ta trajectoire" from={cohA} to={cohB} delta={deltaCoh} delay={120} />
+        <Jauge label="Cohérence de ta trajectoire" from={cohA} to={cohB} delta={deltasVisibles ? deltaCoh : undefined} delay={120} />
         {focus && (
           <Jauge
             label={`${focus.label} · la sphère que tu as poussée`}
