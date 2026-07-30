@@ -46,7 +46,7 @@
 /* Nuit & Or — nuit profonde, accent or chaud (héritage, céleste). Défaut. */
 html.pal-nuit {
   --noir: #11121b; --surface: #191b28; --raised: #22243a;
-  --ink: #efe8dc; --muted: #9c94a4; --line: rgba(255, 255, 255, 0.08);
+  --ink: #efe8dc; --muted: #b3abbd; --line: rgba(255, 255, 255, 0.08);
   --fuchsia: #d4af6a; --orange: #d4af6a; --slate: #9c94a4;
 }
 html.pal-nuit.light {
@@ -196,6 +196,15 @@ body {
 ::selection {
   background: var(--fuchsia);
   color: #fff;
+}
+
+/* Placeholders lisibles : couleur explicite (le défaut navigateur descend trop
+   bas sur fond sombre). On vise ≥ 3:1 en réutilisant le token --muted à pleine
+   opacité. */
+input::placeholder,
+textarea::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
 }
 
 /* Thin, quiet scrollbars */
