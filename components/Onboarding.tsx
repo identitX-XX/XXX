@@ -1,16 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  ArrowLeft, ArrowRight, Briefcase, Compass, HeartHandshake, HelpCircle,
-  Route, Shuffle, Sparkles, Sprout, Target,
-} from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { track } from "@/lib/metrics";
 import { Profile } from "@/types";
 import { PHASES } from "@/parcours-archetypes/archetypes";
 import { Button, Label, TextInput } from "./ui";
 import { Constellation } from "./Constellation";
+import { Glyph } from "./Glyph";
 
 // Onboarding « classe mondiale » : court, graphique, pédagogique. Six étapes qui
 // racontent le parcours — Bienvenue · Faisons connaissance · Exploration ·
@@ -135,9 +133,9 @@ function StepAccueil() {
 // Étape « signature » — enseigne le chemin : trois stations reliées, graphique.
 function StepChemin() {
   const stations = [
-    { icon: <Compass size={20} />, label: "Signature", sous: "ton schéma dominant" },
-    { icon: <Shuffle size={20} />, label: "La Mue", sous: "quand tu bascules" },
-    { icon: <Route size={20} />, label: "Tes possibles", sous: "des voies à tenter" },
+    { icon: <Glyph name="signature" size={24} />, label: "Signature", sous: "ton schéma dominant" },
+    { icon: <Glyph name="mue" size={24} />, label: "La Mue", sous: "quand tu bascules" },
+    { icon: <Glyph name="possibles" size={24} />, label: "Tes possibles", sous: "des voies à tenter" },
   ];
   return (
     <div className="text-center">
@@ -172,9 +170,9 @@ function StepChemin() {
 // trois périmètres (perso · pro · relationnel), jamais un seul en vase clos.
 function StepTerritoires() {
   const perimetres = [
-    { icon: <Sprout size={20} />, label: "Perso", sous: "équilibre, corps, sens" },
-    { icon: <Briefcase size={20} />, label: "Pro", sous: "travail, projets" },
-    { icon: <HeartHandshake size={20} />, label: "Relationnel", sous: "amour, famille, amis" },
+    { icon: <Glyph name="perso" size={22} />, label: "Perso", sous: "équilibre, corps, sens" },
+    { icon: <Glyph name="pro" size={22} />, label: "Pro", sous: "travail, projets" },
+    { icon: <Glyph name="relationnel" size={22} />, label: "Relationnel", sous: "amour, famille, amis" },
   ];
   return (
     <div className="text-center">
@@ -208,9 +206,9 @@ function StepTerritoires() {
 // Étape 3 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
 function StepRythme() {
   const piliers = [
-    { icon: <HelpCircle size={18} />, t: "Une question", sous: "Pour mettre en lumière ce que tu ne regardes pas encore." },
-    { icon: <Target size={18} />, t: "Un micro-défi", sous: "Pour expérimenter une autre manière d'agir." },
-    { icon: <Sparkles size={18} />, t: "Une ressource", sous: "Pour nourrir ta réflexion et ouvrir de nouvelles perspectives." },
+    { icon: <Glyph name="question" size={20} />, t: "Une question", sous: "Pour mettre en lumière ce que tu ne regardes pas encore." },
+    { icon: <Glyph name="defi" size={20} />, t: "Un micro-défi", sous: "Pour expérimenter une autre manière d'agir." },
+    { icon: <Glyph name="ressource" size={20} />, t: "Une ressource", sous: "Pour nourrir ta réflexion et ouvrir de nouvelles perspectives." },
   ];
   return (
     <div className="text-center">

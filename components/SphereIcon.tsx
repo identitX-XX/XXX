@@ -1,11 +1,11 @@
 // Icône ligne partagée pour les trois sphères de vie (perso / pro / relationnel).
-// Source unique — on ne réintroduit plus d'emoji nulle part dans l'UI.
-import { Sprout, Briefcase, HeartHandshake, LucideProps } from "lucide-react";
+// Source unique — les glyphes maison d'IdentitX (voir Glyph.tsx), jamais d'emoji.
+import { Glyph, GlyphName } from "./Glyph";
 
-const MAP: Record<"perso" | "pro" | "relationnel", (p: LucideProps) => JSX.Element> = {
-  perso: (p) => <Sprout {...p} />,
-  pro: (p) => <Briefcase {...p} />,
-  relationnel: (p) => <HeartHandshake {...p} />,
+const MAP: Record<"perso" | "pro" | "relationnel", GlyphName> = {
+  perso: "perso",
+  pro: "pro",
+  relationnel: "relationnel",
 };
 
 export function SphereIcon({
@@ -19,6 +19,10 @@ export function SphereIcon({
   color?: string;
   className?: string;
 }) {
-  const Icon = MAP[sphere];
-  return <Icon size={size} color={color} className={className} />;
+  // Les glyphes héritent la couleur via `currentColor` : on la pose sur un span.
+  return (
+    <span style={{ color, display: "inline-flex", lineHeight: 0 }} className={className}>
+      <Glyph name={MAP[sphere]} size={size} />
+    </span>
+  );
 }
