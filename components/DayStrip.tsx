@@ -44,9 +44,9 @@ export function DayStrip({
                 done
                   ? "brand-gradient text-white"
                   : current
-                  ? "border border-fuchsia text-fuchsia"
+                  ? "border border-fuchsia bg-fuchsia/10 text-fuchsia ring-1 ring-fuchsia/40"
                   : locked
-                  ? "border border-line text-muted opacity-40"
+                  ? "border border-line text-muted opacity-70"
                   : "border border-line text-muted hover:border-fuchsia hover:text-fuchsia",
               ].join(" ")}
             >
