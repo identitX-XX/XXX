@@ -100,7 +100,7 @@ function computeStep(
   if (!reponses[n])
     return {
       titre: "Ta capsule du jour",
-      pourquoi: "≈ 4 min, quand tu veux. Une question, un geste, un appui — à ton rythme.",
+      pourquoi: "≈ 5 min, quand tu veux. Une question, un geste, un appui — à ton rythme.",
       cta: "Vivre ma capsule",
       href: "/parcours-signatures",
     };

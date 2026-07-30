@@ -187,7 +187,7 @@ export default function AujourdhuiPage() {
               />
             </Link>
             <div className="mt-2 text-xs text-muted">
-              ≈ 4 min · le soir, idéalement
+              Le geste en journée · le bilan ≈ 5 min le soir
             </div>
           </div>
         </div>

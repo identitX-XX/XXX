@@ -223,7 +223,7 @@ function StepRythme() {
         Chaque jour, une capsule
       </h2>
       <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-        ≈ 4 minutes. Trois appuis pour faire bouger ton schéma.
+        Un geste en journée, un court bilan le soir (≈ 5 min).
       </p>
       <div className="mt-7 grid grid-cols-3 gap-3">
         {piliers.map((p) => (
