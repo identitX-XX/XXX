@@ -34,7 +34,6 @@ export default function AujourdhuiPage() {
   if (!diagnostic) {
     return (
       <Amorce
-        etape={1}
         titre="Qui es-tu ?"
         texte="12 questions pour faire émerger tes identités dominantes. C'est le seuil de ta quête."
         cta="Je commence ma quête"
@@ -44,7 +43,6 @@ export default function AujourdhuiPage() {
   if (!objectifs) {
     return (
       <Amorce
-        etape={2}
         titre="Pose ton cap"
         texte="Un objectif par périmètre — perso, pro, relationnel. Trois caps qui guideront chaque journée."
         cta="Poser mon cap"
@@ -563,12 +561,10 @@ function salutation(): { eyebrow: string; titre: string } {
 }
 
 function Amorce({
-  etape,
   titre,
   texte,
   cta,
 }: {
-  etape: 1 | 2;
   titre: string;
   texte: string;
   cta: string;
@@ -584,20 +580,8 @@ function Amorce({
           Carte seule ici — la carte d'étape ci-dessous porte déjà le message + l'action. */}
       <LeChemin mapOnly />
       <Card className="p-8 text-center animate-fade-up">
-        {/* Fil de progression de l'amorce */}
-        <div className="mb-6 flex items-center justify-center gap-2">
-          {[1, 2].map((s) => (
-            <span
-              key={s}
-              className={`h-1.5 rounded-full transition-all ${
-                s === etape ? "w-8 brand-gradient" : "w-4 bg-line"
-              }`}
-            />
-          ))}
-        </div>
-        <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
-          Étape {etape} sur 2
-        </div>
+        {/* Indicateur de progression unique : « Ton chemin » (LeChemin) au-dessus
+            porte déjà le repère — on ne double pas avec « Étape X sur 2 ». */}
         <h2 className="mt-2 font-display text-2xl font-light text-ink">
           {titre}
         </h2>
