@@ -75,12 +75,6 @@ export function Diagnostic() {
         <button style={cta} onClick={() => initialiserParcours(result)}>
           Commencer mon parcours 30 jours →
         </button>
-        <button
-          style={ghost}
-          onClick={() => { setResult(null); setStep(0); setAnswers({}); }}
-        >
-          Refaire ma quête
-        </button>
       </div>
     );
   }
@@ -114,17 +108,27 @@ export function Diagnostic() {
         </h2>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-          {q.options.map((o) => (
-            <button
-              key={o.archetype + o.label}
-              onClick={() => choisir(o.archetype)}
-              style={optBtn}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; e.currentTarget.style.color = INK; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = LINE; e.currentTarget.style.color = INK; }}
-            >
-              {o.label}
-            </button>
-          ))}
+          {q.options.map((o) => {
+            // Au retour sur une question, la réponse déjà donnée est pré-sélectionnée.
+            const sel = answers[q.id] === o.archetype;
+            return (
+              <button
+                key={o.archetype + o.label}
+                onClick={() => choisir(o.archetype)}
+                style={{
+                  ...optBtn,
+                  borderColor: sel ? FUCHSIA : LINE,
+                  background: sel
+                    ? "color-mix(in srgb, var(--fuchsia) 10%, var(--surface))"
+                    : SURFACE,
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = sel ? FUCHSIA : LINE; }}
+              >
+                {o.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 

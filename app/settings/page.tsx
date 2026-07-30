@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { Check, Download, FileText, Moon, RotateCcw, Shield, Sun, Trash2, Upload } from "lucide-react";
 import { PaletteKey, useStore } from "@/store/useStore";
+import { useParcoursStore } from "@/parcours-archetypes/store";
 import { downloadJSON, readJSONFile } from "@/lib/exportImport";
 import { anonId } from "@/lib/metrics";
 import { Button, Card, PageHead } from "@/components/ui";
@@ -54,6 +55,18 @@ export default function SettingsPage() {
   const flash = (t: string) => {
     setMsg(t);
     setTimeout(() => setMsg(""), 2500);
+  };
+
+  const refaireQuete = useParcoursStore((s) => s.reinitialiser);
+  const confirmRefaire = () => {
+    if (
+      window.confirm(
+        "Refaire ta quête efface ta signature et toute ta progression des 30 jours. Continuer ?"
+      )
+    ) {
+      refaireQuete();
+      flash("Ta quête est réinitialisée — repars des 12 questions.");
+    }
   };
 
   const confirmReset = () => {
@@ -162,6 +175,18 @@ export default function SettingsPage() {
               onChange={(e) => onImport(e.target.files?.[0])}
             />
           </div>
+        </Card>
+
+        <Card className="flex items-center justify-between gap-3 p-5">
+          <div>
+            <p className="text-ink">Ma quête</p>
+            <p className="text-xs text-muted">
+              Repasser les 12 questions et redéfinir ta signature.
+            </p>
+          </div>
+          <Button variant="outline" onClick={confirmRefaire}>
+            <RotateCcw size={16} /> Refaire ma quête
+          </Button>
         </Card>
 
         <Card className="p-5">
