@@ -22,7 +22,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
       {NAV_GROUPS.map((group, gi) => (
         <div key={gi} className="flex flex-col gap-0.5">
           {group.section && (
-            <div className="mb-1 px-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted/60">
+            <div className="mb-1 px-4 text-[12px] font-semibold uppercase tracking-[0.2em] text-muted/60">
               {group.section}
             </div>
           )}
@@ -48,7 +48,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
                   <span className="flex-1">{item.label}</span>
                   {badge && (
                     <span
-                      className="rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-[0.12em] text-white"
+                      className="rounded-full px-2 py-0.5 text-[12px] font-medium uppercase tracking-[0.12em] text-white"
                       style={{ background: "linear-gradient(90deg,var(--fuchsia),var(--orange))" }}
                     >
                       Nouveau

@@ -37,7 +37,7 @@ export function BottomNav({ onMenu }: { onMenu: () => void }) {
             style={{ color: active ? "var(--fuchsia)" : "var(--muted)" }}
           >
             <Icon size={20} strokeWidth={active ? 2.4 : 1.8} />
-            <span className="text-[10px] font-medium tracking-tight">{t.label}</span>
+            <span className="text-[12px] font-medium tracking-tight">{t.label}</span>
           </Link>
         );
       })}
@@ -47,7 +47,7 @@ export function BottomNav({ onMenu }: { onMenu: () => void }) {
         className="flex flex-1 flex-col items-center gap-1 py-2.5 text-muted transition-colors"
       >
         <Menu size={20} strokeWidth={1.8} />
-        <span className="text-[10px] font-medium tracking-tight">Menu</span>
+        <span className="text-[12px] font-medium tracking-tight">Menu</span>
       </button>
     </nav>
   );

@@ -50,7 +50,7 @@ export function Diagnostic() {
     const sec = archetypeByKey[result.secondaire];
     return (
       <div style={wrap}>
-        <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
+        <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
           Ton miroir
         </div>
         <h1 style={h1}>Ta signature du moment</h1>
@@ -60,7 +60,7 @@ export function Diagnostic() {
         </p>
 
         <div style={{ ...card, borderColor: "color-mix(in srgb, var(--fuchsia) 40%, rgba(255,255,255,.1))" }}>
-          <div style={{ fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", color: FUCHSIA }}>
+          <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: FUCHSIA }}>
             Signature
           </div>
           <div style={{ fontFamily: serif, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
@@ -69,7 +69,7 @@ export function Diagnostic() {
         </div>
 
         <div style={{ ...card, marginTop: 12 }}>
-          <div style={{ fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
+          <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
             Signature secondaire
           </div>
           <div style={{ fontFamily: serif, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
@@ -160,7 +160,7 @@ function AObserver({ question }: { question: string }) {
         borderTop: `1px solid ${LINE}`,
       }}
     >
-      <div style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: ORANGE, marginBottom: 5 }}>
+      <div style={{ fontSize: 12, letterSpacing: ".16em", textTransform: "uppercase", color: ORANGE, marginBottom: 5 }}>
         À observer
       </div>
       <p style={{ margin: 0, color: INK, fontSize: 14, lineHeight: 1.5, fontFamily: serif }}>

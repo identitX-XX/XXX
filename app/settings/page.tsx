@@ -176,7 +176,7 @@ export default function SettingsPage() {
                     {actif && <Check size={14} className="ml-auto text-fuchsia" />}
                   </div>
                   <p className="mt-2 text-sm text-ink">{p.nom}</p>
-                  <p className="text-[11px] text-muted">{p.note}</p>
+                  <p className="text-[12px] text-muted">{p.note}</p>
                 </button>
               );
             })}

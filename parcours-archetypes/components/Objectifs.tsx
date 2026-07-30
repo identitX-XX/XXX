@@ -97,7 +97,7 @@ export function Objectifs({
 
   return (
     <div style={{ maxWidth: 620, margin: "0 auto", fontFamily: sans, color: INK }}>
-      <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
+      <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
         {eyebrow}
       </div>
       <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 32, margin: "8px 0 0", color: INK }}>

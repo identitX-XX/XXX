@@ -153,10 +153,10 @@ function StepChemin() {
               >
                 {s.icon}
               </span>
-              <span className="text-[11px] font-medium uppercase tracking-[0.1em] text-ink">
+              <span className="text-[12px] font-medium uppercase tracking-[0.1em] text-ink">
                 {s.label}
               </span>
-              <span className="max-w-[11ch] text-[10px] leading-tight text-muted">{s.sous}</span>
+              <span className="max-w-[11ch] text-[12px] leading-tight text-muted">{s.sous}</span>
             </div>
             {i < stations.length - 1 && (
               <ArrowRight size={16} className="mt-5 flex-none text-fuchsia" />
@@ -194,10 +194,10 @@ function StepTerritoires() {
             >
               {p.icon}
             </span>
-            <span className="text-[11px] font-medium uppercase tracking-[0.08em] text-ink">
+            <span className="text-[12px] font-medium uppercase tracking-[0.08em] text-ink">
               {p.label}
             </span>
-            <span className="text-[10px] leading-tight text-muted">{p.sous}</span>
+            <span className="text-[12px] leading-tight text-muted">{p.sous}</span>
           </div>
         ))}
       </div>
@@ -233,8 +233,8 @@ function StepRythme() {
             >
               {p.icon}
             </span>
-            <span className="text-[11px] font-medium leading-tight text-ink">{p.t}</span>
-            <span className="text-[10px] leading-tight text-muted">{p.sous}</span>
+            <span className="text-[12px] font-medium leading-tight text-ink">{p.t}</span>
+            <span className="text-[12px] leading-tight text-muted">{p.sous}</span>
           </div>
         ))}
       </div>
@@ -348,7 +348,7 @@ function StepMouvement() {
         </svg>
       </div>
 
-      <p className="mx-auto mt-2 text-[11px] uppercase tracking-[0.14em] text-muted">
+      <p className="mx-auto mt-2 text-[12px] uppercase tracking-[0.14em] text-muted">
         Touche une phase
       </p>
 
@@ -359,7 +359,7 @@ function StepMouvement() {
       >
         <div className="flex items-baseline gap-2">
           <span className="text-sm font-medium text-ink">{ph.label}</span>
-          <span className="text-[10px] uppercase tracking-[0.12em] text-muted">
+          <span className="text-[12px] uppercase tracking-[0.12em] text-muted">
             J{ph.jours[0]}–{ph.jours[1]}
           </span>
         </div>

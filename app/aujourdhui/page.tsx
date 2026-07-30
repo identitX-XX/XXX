@@ -183,7 +183,7 @@ export default function AujourdhuiPage() {
                   <div className="tnum font-display text-4xl leading-none text-ink">
                     {prog.faits}
                   </div>
-                  <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-muted">
+                  <div className="mt-1 text-[12px] uppercase tracking-[0.18em] text-muted">
                     / 30 jours
                   </div>
                 </div>

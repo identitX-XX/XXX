@@ -130,14 +130,14 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
               >
                 <Pastille st={st} actif={selected === i} />
                 <span
-                  className={`text-[11px] font-medium uppercase tracking-[0.1em] transition-colors ${
+                  className={`text-[12px] font-medium uppercase tracking-[0.1em] transition-colors ${
                     selected === i ? "text-ink" : "text-muted"
                   }`}
                 >
                   {st.label}
                 </span>
                 <span
-                  className={`max-w-[10ch] text-[10px] leading-tight ${
+                  className={`max-w-[10ch] text-[12px] leading-tight ${
                     st.etat === "avenir" ? "text-muted/60" : "text-muted"
                   }`}
                 >

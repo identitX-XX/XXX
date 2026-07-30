@@ -118,7 +118,7 @@ export function JourView({
     <div style={{ maxWidth: 640, margin: "0 auto", fontFamily: sans, color: INK }}>
       {/* En-tête */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
+        <div style={{ fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
           La capsule du jour
         </div>
         <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>
@@ -174,7 +174,7 @@ export function JourView({
               {sectionsByKind["intention"]?.texte}
             </div>
           )}
-          <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: FUCHSIA, marginBottom: 8 }}>
+          <div style={{ fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: FUCHSIA, marginBottom: 8 }}>
             {sectionsByKind["question"]?.titre ?? "La question à porter"}
           </div>
           <div style={{ fontFamily: serif, fontWeight: 300, fontSize: 18, lineHeight: 1.45, color: INK }}>
@@ -332,7 +332,7 @@ function Separateur({ label, sous }: { label: string; sous?: string }) {
   return (
     <div style={{ marginTop: 6, display: "flex", alignItems: "center", gap: 12 }}>
       <div style={{ flexShrink: 0 }}>
-        <div style={{ fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: FUCHSIA }}>
+        <div style={{ fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: FUCHSIA }}>
           {label}
         </div>
         {sous && <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{sous}</div>}
@@ -352,7 +352,7 @@ function Bloc({ titre, children }: { titre: string; children: React.ReactNode })
         padding: "16px 18px",
       }}
     >
-      <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: 8 }}>
+      <div style={{ fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: 8 }}>
         {titre}
       </div>
       <div style={{ fontSize: 14, lineHeight: 1.6, color: INK }}>{children}</div>
@@ -418,7 +418,7 @@ function Jauge({
           {typeof delta === "number" && delta !== 0 && (
             <span
               style={{
-                fontSize: 11.5,
+                fontSize: 12,
                 fontWeight: 600,
                 color: delta > 0 ? accent : MUTED,
                 fontVariantNumeric: "tabular-nums lining-nums",
@@ -546,7 +546,7 @@ function ReactionClotature({
       >
         {bascule ? "⇄" : "✓"}
       </div>
-      <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
+      <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
         Jour {r.jour} · {entete.eyebrow}
       </div>
       <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
@@ -569,7 +569,7 @@ function ReactionClotature({
           gap: 16,
         }}
       >
-        <div style={{ fontSize: 10.5, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
+        <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
           Ce que ta journée a fait bouger
         </div>
         {domB && (

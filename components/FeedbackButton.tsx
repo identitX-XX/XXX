@@ -99,7 +99,7 @@ export function FeedbackButton() {
             <div className="mb-1 flex items-start justify-between">
               <div>
                 <p className="text-ink">Ton avis sur cette page</p>
-                <p className="text-[11px] uppercase tracking-[0.12em] text-fuchsia">{nomPage(pathname)}</p>
+                <p className="text-[12px] uppercase tracking-[0.12em] text-fuchsia">{nomPage(pathname)}</p>
               </div>
               <button onClick={() => setOpen(false)} aria-label="Fermer" className="rounded-lg p-1 text-muted hover:text-ink">
                 <X size={18} />

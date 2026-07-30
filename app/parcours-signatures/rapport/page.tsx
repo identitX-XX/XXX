@@ -138,7 +138,7 @@ export default function RapportPage() {
               </div>
               {objectifs?.[s.perimetre]?.trim() && (
                 <div className="mt-2 rounded-lg border border-line bg-noir p-2.5 text-xs text-muted">
-                  <span className="uppercase tracking-wider text-[10px]">Ton objectif</span>
+                  <span className="uppercase tracking-wider text-[12px]">Ton objectif</span>
                   <div className="mt-0.5 text-ink">{objectifs[s.perimetre]}</div>
                 </div>
               )}
