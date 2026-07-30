@@ -116,8 +116,8 @@ function StepAccueil() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Bienvenue</div>
-      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
-        Déconstruis ta légende. Vois émerger tes possibles.
+      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-3xl font-light leading-[1.1] text-ink">
+        Déconstruis ta légende. Vois <span className="fr-accent">émerger</span> tes possibles.
       </p>
       <p className="mx-auto mb-6 max-w-sm text-sm leading-relaxed text-muted">
         En six étapes, explore les dimensions qui composent ton identité et

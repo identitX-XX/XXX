@@ -53,7 +53,7 @@ export function Diagnostic() {
         <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
           Ton miroir
         </div>
-        <h1 style={h1}>Ta signature du moment</h1>
+        <h1 className="fr-title" style={h1}>Ta signature du moment</h1>
         <p style={{ color: MUTED, fontSize: 15, margin: "0 0 22px" }}>
           Ce qui te met le plus en mouvement, d'après tes réponses. Pas un verdict :
           un point de départ, qui respirera au fil des 30 jours.
@@ -63,7 +63,7 @@ export function Diagnostic() {
           <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: FUCHSIA }}>
             Signature
           </div>
-          <div style={{ fontFamily: serif, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
+          <div className="fr-title" style={{ fontFamily: serif, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14.5, lineHeight: 1.55 }}>{dom.lens}</p>
           <AObserver question={dom.question} />
         </div>
@@ -113,7 +113,7 @@ export function Diagnostic() {
         <div style={{ fontSize: 13, color: MUTED, marginBottom: 6 }}>
           Question {step + 1} / {total}
         </div>
-        <h2 style={{ fontFamily: serif, fontWeight: 400, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
+        <h2 className="fr-title" style={{ fontFamily: serif, fontWeight: 400, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
           {q.question}
         </h2>
 

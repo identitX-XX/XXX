@@ -133,6 +133,34 @@ body {
   overscroll-behavior-y: none;
 }
 
+/* ── Fraunces variable : réactivation des axes de caractère ──────────────────
+   La police est désormais chargée en variable (voir layout.tsx). On pilote ici
+   ses axes : opsz (contraste plein/délié), SOFT (douceur des terminaisons),
+   WONK (singularité). Hanken Grotesk (corps) n'a pas ces axes : ces réglages
+   sont simplement ignorés pour le texte courant, aucun risque. */
+body {
+  /* Base : contraste optique modéré + personnalité douce partout où le serif
+     sert (petits chapeaux, taglines italiques…). */
+  font-variation-settings: "opsz" 64, "SOFT" 42, "WONK" 1;
+}
+
+/* Titres : contraste optique poussé + caractère, léger resserrement. Couvre
+   PageHead et tous les titres en classe .font-display de l'app. */
+.font-display,
+.fr-title {
+  font-variation-settings: "opsz" 140, "SOFT" 55, "WONK" 1;
+  letter-spacing: -0.01em;
+}
+
+/* Mot-accent éditorial : italique doré, contraste maximal — à poser sur un mot
+   clé d'un grand titre (ex. « émerger »). */
+.fr-accent {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 70, "WONK" 1;
+  color: color-mix(in srgb, var(--fuchsia) 76%, #ffffff 24%);
+}
+
 /* Retraits « safe area » iOS (encoche, barre d'accueil). Utilitaires posés là
    où du contenu fixe touche les bords de l'écran. */
 .safe-bottom {

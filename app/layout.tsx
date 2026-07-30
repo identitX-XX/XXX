@@ -8,12 +8,15 @@ import { Gate } from "@/components/Gate";
 // distinctif ; tient sur fond sombre sans vibrer, contrairement à une Didone) +
 // Hanken Grotesk (corps, lisible). Noms de variables historiques conservés
 // (--font-fraunces / --font-inter) pour ne rien casser ailleurs.
+// Fraunces chargée en VARIABLE (et non plus en graisses figées) : on récupère
+// ses axes de caractère — opsz (contraste optique), SOFT (douceur des
+// terminaisons), WONK (singularité) — pilotés ensuite en CSS (voir globals.css).
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
   style: ["normal", "italic"],
-  weight: ["400", "500", "600"],
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
 const inter = Hanken_Grotesk({

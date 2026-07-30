@@ -124,7 +124,7 @@ export function JourView({
         <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>
           Jour {jour.n} / 30 · {phase.label}
         </div>
-        <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 34, margin: "8px 0 4px", color: INK }}>
+        <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 300, fontSize: 34, margin: "8px 0 4px", color: INK }}>
           {a.name}
         </h1>
         <p style={{ fontSize: 14, lineHeight: 1.55, color: MUTED, margin: 0 }}>{a.lens}</p>
