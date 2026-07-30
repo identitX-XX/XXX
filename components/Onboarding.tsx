@@ -100,7 +100,7 @@ export function Onboarding() {
           <ArrowLeft size={16} /> Retour
         </Button>
         <Button onClick={next} disabled={!canNext}>
-          {step === STEPS - 1 ? "Révéler mon archétype" : "Continuer"}
+          {step === STEPS - 1 ? "Révéler ma signature" : "Continuer"}
           <ArrowRight size={16} />
         </Button>
       </div>
@@ -126,7 +126,7 @@ function StepAccueil() {
 // Étape 1 — enseigne le chemin : trois stations reliées, graphique d'abord.
 function StepChemin() {
   const stations = [
-    { icon: <Compass size={20} />, label: "Archétype", sous: "ton schéma dominant" },
+    { icon: <Compass size={20} />, label: "Signature", sous: "ton schéma dominant" },
     { icon: <Shuffle size={20} />, label: "La Mue", sous: "quand tu bascules" },
     { icon: <Route size={20} />, label: "Tes possibles", sous: "des voies à tenter" },
   ];
@@ -254,7 +254,7 @@ function StepMouvement() {
         30 jours de redéploiement identitaire
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-        Ton archétype n'est pas figé, il oscille dans un mouvement permanent —
+        Ta signature n'est pas figée, elle oscille dans un mouvement permanent —
         qui soutient ta mécanique d'expansion ou celle de tes schémas connus.
       </p>
       {/* La boucle en orbite céleste : nébuleuse en fond, phases-étoiles nommées,

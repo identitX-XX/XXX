@@ -7,7 +7,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "IdentitX — ta quête identitaire",
     short_name: "IdentitX",
     description:
-      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 signatures, en local.",
     start_url: "/aujourdhui",
     display: "standalone",
     background_color: "#0a090d",

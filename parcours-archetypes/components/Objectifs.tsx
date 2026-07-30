@@ -53,7 +53,7 @@ export function Objectifs({
 
   const introDefaut = (
     <>
-      {arch ? <>Ton archétype <strong style={{ color: INK }}>{arch.name}</strong> t'accompagnera. </> : null}
+      {arch ? <>Ta signature <strong style={{ color: INK }}>{arch.name}</strong> t'accompagnera. </> : null}
       Avant d'entrer dans tes 30 jours, formule un objectif par périmètre. Même
       flou, il te sert de boussole — on le reprécisera au Jour 30.
     </>

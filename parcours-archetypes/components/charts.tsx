@@ -73,7 +73,7 @@ export function RadarArchetypes({ data }: { data: PointRadar[] }) {
   }));
   return (
     <div>
-      <Titre>Radar des 12 archétypes</Titre>
+      <Titre>Radar des 12 signatures</Titre>
       <ResponsiveContainer width="100%" height={320}>
         <RadarChart
           data={court}
@@ -193,9 +193,9 @@ export function JaugeCoherence({ valeur }: { valeur: number }) {
           </div>
         </div>
         <p style={{ fontSize: 12, lineHeight: 1.5, color: MUTED, margin: 0 }}>
-          Non pas « à quel point tu es X », mais la clarté de l'archétype qui
+          Non pas « à quel point tu es X », mais la clarté de la signature qui
           ressort et sa stabilité dans le temps. Jamais l'uniformité entre
-          contextes : un archétype peut se lire autrement selon la sphère.
+          contextes : une signature peut se lire autrement selon la sphère.
         </p>
       </div>
     </div>

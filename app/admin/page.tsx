@@ -117,7 +117,7 @@ export default function AdminPage() {
           {/* Hero KPI */}
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             <Hero label="Testeuses" value={k.users} sub="emails reliés" />
-            <Hero label="Activation" value={`${activation}%`} sub="archétype révélé / ouverture" accent />
+            <Hero label="Activation" value={`${activation}%`} sub="signature révélée / ouverture" accent />
             <Hero label="Rétention J7" value={`${j7}%`} sub={`sur ${taille} en cohorte`} />
             <Hero label="Scénarios" value={k.scenarios} sub="générés (valeur produite)" />
           </div>
@@ -222,7 +222,7 @@ function Funnel({ f }: { f: Funnel }) {
   const stages = [
     { label: "Ouvertures", n: f.ouvertures },
     { label: "Onboardées", n: f.onboardees },
-    { label: "Archétype révélé", n: f.archetype },
+    { label: "Signature révélée", n: f.archetype },
     { label: "Cap posé", n: f.cap_pose },
     { label: "Scénario généré", n: f.scenarios },
   ];

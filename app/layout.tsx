@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s · IdentitX",
   },
   description:
-    "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+    "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 signatures, en local.",
   applicationName: "IdentitX",
   appleWebApp: {
     capable: true,
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "IdentitX — ta quête identitaire",
     description:
-      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 archétypes, en local.",
+      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 12 signatures, en local.",
     type: "website",
     locale: "fr_FR",
   },

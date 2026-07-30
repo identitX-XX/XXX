@@ -150,7 +150,7 @@ export function genererRevelations(
       revs.push({
         id: `arch-monte:${best.k}`,
         kind: "archetype",
-        titre: `L'archétype « ${archetypeByKey[best.k].name} » prend de la place ces derniers jours.`,
+        titre: `La signature « ${archetypeByKey[best.k].name} » prend de la place ces derniers jours.`,
         preuve: `+${Math.round(best.d)} points sur ton radar entre le début et maintenant.`,
         force: Math.min(1, 0.4 + best.d / 100),
       });

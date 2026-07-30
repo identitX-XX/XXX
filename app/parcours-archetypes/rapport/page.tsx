@@ -69,7 +69,7 @@ export default function RapportPage() {
       {(dom.force || dom.ombre) && (
         <Card className="mb-8 p-6 sm:p-7">
           <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
-            Ton archétype · moteur &amp; piège
+            Ta signature · moteur &amp; piège
           </div>
           <h2 className="mt-1 font-display text-2xl font-light text-ink">{dom.name}</h2>
           <div className="mt-5 grid gap-6 md:grid-cols-2">

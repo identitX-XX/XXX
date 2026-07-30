@@ -12,7 +12,7 @@ const PONTS = [
     amont: "Explorer · ADN personnel",
     role: "alimentent ta quête",
     detail:
-      "Ce que la Quête révèle de toi ouvre le parcours : ton archétype ouvre le J1, ton secondaire la charnière (J15).",
+      "Ce que la Quête révèle de toi ouvre le parcours : ta signature ouvre le J1, ta secondaire la charnière (J15).",
   },
   {
     amont: "Journal · Coach IdentitX",
@@ -44,8 +44,8 @@ export default function ObjectifPage() {
     <div>
       <PageHead
         eyebrow="Objectif"
-        title="Pourquoi les 12 archétypes"
-        sub="Ton archétype n'est jamais une étiquette (« tu es… ») : c'est ce qui te met le plus en mouvement, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
+        title="Pourquoi les 12 signatures"
+        sub="Ta signature n'est jamais une étiquette (« tu es… ») : c'est ce qui te met le plus en mouvement, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
       />
 
       <Link
@@ -62,8 +62,8 @@ export default function ObjectifPage() {
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
           Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
           tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
-          archétypes</strong> les met en mouvement : 30 jours pour observer, à travers 12
-          archétypes, comment ces facettes s'activent selon tes contextes. Chaque
+          signatures</strong> les met en mouvement : 30 jours pour observer, à travers 12
+          signatures, comment ces facettes s'activent selon tes contextes. Chaque
           soir, la matrice « respire » — ce que tu n'as pas réactivé retombe —
           pour qu'aucune identité ne se fige.
         </p>
@@ -95,7 +95,7 @@ export default function ObjectifPage() {
           <span className="text-xs uppercase tracking-wider">met en mouvement</span>
         </div>
         <div className="brand-gradient inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white">
-          Parcours des 12 archétypes · 30 jours
+          Parcours des 12 signatures · 30 jours
         </div>
       </Card>
 
@@ -136,7 +136,7 @@ export default function ObjectifPage() {
 
       {/* Les 12 archétypes + les 5 sphères */}
       <h2 className="mb-3 font-display text-xl font-light text-ink">
-        Les 12 archétypes
+        Les 12 signatures
       </h2>
       <p className="mb-4 text-sm text-muted">
         Lues à travers 5 sphères — {SPHERES.map((s) => s.label).join(" · ")}.

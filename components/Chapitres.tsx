@@ -27,7 +27,7 @@ export function Chapitres() {
         </div>
       </div>
       <p className="mt-1 text-sm text-muted">
-        Ton parcours se raconte par bascules d'archétype — la preuve que tu
+        Ton parcours se raconte par bascules de signature — la preuve que tu
         avances, même quand ça ne se sent pas.
       </p>
 

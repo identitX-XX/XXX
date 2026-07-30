@@ -36,21 +36,21 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
     // 1 — Archétype
     diagnostic && arch
       ? {
-          label: "Archétype",
+          label: "Signature",
           icon: <Compass size={20} />,
           etat: "fait",
           valeur: arch.name,
           detail: `Ton schéma dominant : ${arch.name}. ${arch.lens}`,
-          cta: { href: "/parcours-archetypes", label: "Revoir ton archétype" },
+          cta: { href: "/parcours-archetypes", label: "Revoir ta signature" },
         }
       : {
-          label: "Archétype",
+          label: "Signature",
           icon: <Compass size={20} />,
           etat: "encours",
           valeur: "À révéler",
           detail:
             "12 questions pour faire émerger tes identités dominantes — le seuil de ta quête.",
-          cta: { href: "/parcours-archetypes", label: "Révéler mon archétype" },
+          cta: { href: "/parcours-archetypes", label: "Révéler ma signature" },
         },
     // 2 — La Mue
     bascule
@@ -69,16 +69,16 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
           etat: "encours",
           valeur: "En observation",
           detail:
-            "Ta mue se déclenche quand ton archétype dominant bascule — et qu'il tient. Continue ta quête : elle se révèle d'elle-même.",
+            "Ta mue se déclenche quand ta signature dominante bascule — et qu'elle tient. Continue ta quête : elle se révèle d'elle-même.",
           cta: { href: "/parcours-archetypes", label: "Continuer ma quête" },
         }
       : {
           label: "La Mue",
           icon: <Shuffle size={20} />,
           etat: "avenir",
-          valeur: "Après l'archétype",
+          valeur: "Après la signature",
           detail:
-            "Le mouvement dans ton narratif. Il apparaît une fois ton archétype révélé, quand celui-ci commence à bouger.",
+            "Le mouvement dans ton narratif. Il apparaît une fois ta signature révélée, quand celle-ci commence à bouger.",
         },
     // 3 — Tes Choix
     bascule

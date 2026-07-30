@@ -22,7 +22,7 @@ export default function ConfidentialitePage() {
 
       <div className="flex flex-col gap-6">
         <Bloc titre="Ce qui reste sur ton appareil">
-          Ton profil, tes réponses, ton journal, ta cartographie, ton archétype et
+          Ton profil, tes réponses, ton journal, ta cartographie, ta signature et
           ta progression sont stockés localement dans ton navigateur. Ils ne
           partent nulle part tant que tu ne les exportes pas toi-même — à une
           exception près, ci-dessous, quand tu utilises les fonctions d'IA.

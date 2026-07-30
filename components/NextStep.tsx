@@ -74,7 +74,7 @@ function computeStep(
 ): Step {
   if (!diagnostic)
     return {
-      titre: "Révèle ton archétype",
+      titre: "Révèle ta signature",
       pourquoi: "Tout part de là : douze questions, et ton point de départ.",
       cta: "Commencer",
       href: "/parcours-archetypes",

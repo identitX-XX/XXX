@@ -57,7 +57,7 @@ export default function ProgressionPage() {
         />
         <Card className="p-6">
           <p className="text-sm text-muted">
-            Commence par révéler ton archétype — puis reviens voir le chemin
+            Commence par révéler ta signature — puis reviens voir le chemin
             se dessiner, jour après jour.
           </p>
           <Link
@@ -129,7 +129,7 @@ export default function ProgressionPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-5">
-            <div className="text-xs uppercase tracking-wider text-muted">Ton archétype</div>
+            <div className="text-xs uppercase tracking-wider text-muted">Ta signature</div>
             <div className="mt-1 font-display text-lg font-light text-ink">
               {dom ? dom.name : "—"}
             </div>

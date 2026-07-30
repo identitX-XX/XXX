@@ -74,7 +74,7 @@ export function genererScenarios(
       perimetre: "relationnel",
       mouvement: "Oser",
       titre: "Fais un pas plus engageant",
-      texte: `Côté relationnel, ose une conversation ou un geste que tu remets depuis un moment. Tes archétypes actifs (${top
+      texte: `Côté relationnel, ose une conversation ou un geste que tu remets depuis un moment. Tes signatures actives (${top
         .map((t) => t.name)
         .join(", ")}) te donnent de quoi t'appuyer.`,
       appui: top[0]?.name ?? dom.name,

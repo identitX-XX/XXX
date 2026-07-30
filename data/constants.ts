@@ -48,7 +48,7 @@ export const NAV_GROUPS: {
   {
     section: "Comprendre",
     items: [
-      { href: "/parcours-archetypes", label: "Ton archétype" },
+      { href: "/parcours-archetypes", label: "Ta signature" },
       { href: "/explorer", label: "Explorer" },
       { href: "/synthese", label: "Ton portrait" },
     ],
@@ -91,9 +91,9 @@ export type JourneyStep = {
 export const JOURNEY: JourneyStep[] = [
   {
     href: "/parcours-archetypes",
-    title: "Ton archétype",
+    title: "Ta signature",
     phrase:
-      "Douze questions, et l'archétype qui te met en mouvement se révèle. Tout commence là.",
+      "Douze questions, et la signature qui te met en mouvement se révèle. Tout commence là.",
   },
   {
     href: "/explorer",

@@ -45,7 +45,7 @@ export default function ExplorerPage() {
         </div>
         {total === 0 ? (
           <p className="mt-4 text-sm text-muted">
-            Tes territoires apparaîtront ici une fois ton archétype révélé.
+            Tes territoires apparaîtront ici une fois ta signature révélée.
           </p>
         ) : reste > 0 ? (
           <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

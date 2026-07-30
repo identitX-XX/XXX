@@ -24,7 +24,7 @@ export default function CGUPage() {
       <div className="flex flex-col gap-6">
         <Bloc titre="1. Objet">
           Les présentes conditions encadrent l'accès et l'usage d'IdentitX, un
-          espace d'exploration identitaire (parcours, archétypes, journal,
+          espace d'exploration identitaire (parcours, signatures, journal,
           scénarios). En utilisant l'app, tu acceptes ces conditions. Si tu n'es
           pas d'accord, n'utilise pas le service.
         </Bloc>

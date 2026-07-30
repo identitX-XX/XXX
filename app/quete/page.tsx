@@ -32,14 +32,14 @@ export default function QuetePage() {
       <div>
         <PageHead
           eyebrow="La Quête"
-          title="Révèle d'abord ton archétype"
-          sub="La Quête est taillée pour ton archétype dominant. Réponds aux douze questions, et elle s'ouvrira."
+          title="Révèle d'abord ta signature"
+          sub="La Quête est taillée pour ta signature dominante. Réponds aux douze questions, et elle s'ouvrira."
         />
         <Link
           href="/parcours-archetypes"
           className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow"
         >
-          Révéler mon archétype
+          Révéler ma signature
           <ArrowRight size={16} />
         </Link>
       </div>
@@ -242,8 +242,8 @@ function QueteMonde({
         {maitriseTotale > 0 && (
           <p className="mt-3 text-[11px]" style={{ color: m.muted }}>
             Maîtrise totale · <b style={{ color: m.ink }}>{maitriseTotale}</b> palier
-            {maitriseTotale > 1 ? "s" : ""} sur {archTraverses} archétype
-            {archTraverses > 1 ? "s" : ""} traversé{archTraverses > 1 ? "s" : ""}.
+            {maitriseTotale > 1 ? "s" : ""} sur {archTraverses} signature
+            {archTraverses > 1 ? "s" : ""} traversée{archTraverses > 1 ? "s" : ""}.
           </p>
         )}
       </div>

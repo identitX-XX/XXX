@@ -476,7 +476,7 @@ function ReactionClotature({
       };
     const pool = [
       { eyebrow: "Inscrit", titre: "Ta journée entre dans la matrice", sous: "Un trait de plus à ton portrait." },
-      { eyebrow: "Ça tient", titre: `${domB?.name ?? "Ton archétype"} se renforce`, sous: "C'est la régularité qui sculpte, jamais l'intensité." },
+      { eyebrow: "Ça tient", titre: `${domB?.name ?? "Ta signature"} se renforce`, sous: "C'est la régularité qui sculpte, jamais l'intensité." },
       { eyebrow: "Ça infuse", titre: "Ce jour rejoint les autres", sous: "Rien ne se perd — tout fait matière." },
     ];
     return pool[r.jour % pool.length];
@@ -530,7 +530,7 @@ function ReactionClotature({
         </div>
         {domB && (
           <Jauge
-            label={`${domB.name} · ton archétype dominant`}
+            label={`${domB.name} · ta signature dominante`}
             from={domFrom}
             to={domB.valeur}
             delta={deltaDom}

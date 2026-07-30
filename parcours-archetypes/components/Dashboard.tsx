@@ -60,14 +60,14 @@ export function Dashboard() {
       {/* Bandeau */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
-          Tableau de bord · Parcours des 12 archétypes
+          Tableau de bord · Parcours des 12 signatures
         </div>
         <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 32, margin: "8px 0 0", color: INK }}>
           {vide ? "Ton radar va s'éveiller" : dom ? `En ce moment · ${dom.name}` : "Ton radar vivant"}
         </h1>
         {!vide && (
           <p style={{ fontSize: 13, color: MUTED, margin: "6px 0 0" }}>
-            L'archétype qui ressort aujourd'hui, jamais une étiquette : demain,
+            La signature qui ressort aujourd'hui, jamais une étiquette : demain,
             la respiration rebat les cartes.
           </p>
         )}
@@ -98,7 +98,7 @@ export function Dashboard() {
             <JaugeCoherence valeur={coherenceCourante(etat)} />
             <div style={{ marginTop: 18 }}>
               <div style={{ fontSize: 11, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>
-                Top 3 archétypes actifs
+                Top 3 signatures actives
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {top.map((t, i) => (
