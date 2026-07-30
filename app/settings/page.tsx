@@ -25,28 +25,57 @@ export default function SettingsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [msg, setMsg] = useState("");
 
+  // Champs de données du parcours (les 30 jours de matière) — hors fonctions.
+  const PARCOURS_FIELDS = [
+    "parcours", "diagnostic", "objectifs", "reponses", "etat",
+    "revelationsFeedback", "climat", "filVu", "mondeChoisi",
+    "queteExercices", "quetePaliers",
+  ] as const;
+
   const exportAll = () => {
-    downloadJSON("identitx-profil.json", {
-      profile: state.profile,
-      cards: state.cards,
-      timeline: state.timeline,
-      journal: state.journal,
-      radar: state.radar,
-      coach: state.coach,
-      journalFusion: state.journalFusion,
-      identities: state.identities,
-      coachChat: state.coachChat,
-      onboarded: state.onboarded,
+    // Sauvegarde COMPLÈTE : profil principal ET parcours (diagnostic, réponses,
+    // état, climat…) — sinon on perdrait les jours vécus, le cœur de la traversée.
+    const p = useParcoursStore.getState() as unknown as Record<string, unknown>;
+    downloadJSON("identitx-traversee.json", {
+      schemaVersion: 2,
+      exportedAt: new Date().toISOString(),
+      identitx: {
+        profile: state.profile,
+        cards: state.cards,
+        timeline: state.timeline,
+        journal: state.journal,
+        radar: state.radar,
+        coach: state.coach,
+        journalFusion: state.journalFusion,
+        identities: state.identities,
+        coachChat: state.coachChat,
+        onboarded: state.onboarded,
+      },
+      parcours: Object.fromEntries(PARCOURS_FIELDS.map((k) => [k, p[k]])),
     });
-    flash("Export généré.");
+    flash("Traversée sauvegardée.");
   };
 
   const onImport = async (file?: File) => {
     if (!file) return;
     try {
       const data = await readJSONFile(file);
-      state.importAll(data);
-      flash("Profil importé.");
+      // Nouveau format (identitx + parcours) ; sinon on retombe sur l'ancien
+      // format à plat (profil principal seul) pour ne rien casser.
+      if (data && (data.identitx || data.parcours)) {
+        if (data.identitx) state.importAll(data.identitx);
+        if (data.parcours) {
+          const p = data.parcours as Record<string, unknown>;
+          useParcoursStore.setState(
+            Object.fromEntries(
+              PARCOURS_FIELDS.filter((k) => k in p).map((k) => [k, p[k]])
+            )
+          );
+        }
+      } else {
+        state.importAll(data);
+      }
+      flash("Traversée restaurée.");
     } catch {
       flash("Fichier illisible. Vérifie le format JSON.");
     }
@@ -156,16 +185,19 @@ export default function SettingsPage() {
 
         <Card className="p-5">
           <p className="text-ink">Données</p>
-          <p className="mb-4 text-xs text-muted">Local-first : tout reste sur ton appareil.</p>
+          <p className="mb-4 text-xs text-muted">
+            Local-first : tout reste sur ton appareil. Sauvegarde ta traversée
+            complète (profil + tes 30 jours) et restaure-la sur un autre appareil.
+          </p>
           <div className="flex flex-wrap gap-3">
             <Button variant="outline" onClick={exportAll}>
-              <Download size={16} /> Export JSON
+              <Download size={16} /> Sauvegarder ma traversée
             </Button>
             <Button variant="outline" onClick={() => window.print()}>
               <FileText size={16} /> Export PDF
             </Button>
             <Button variant="outline" onClick={() => fileRef.current?.click()}>
-              <Upload size={16} /> Importer
+              <Upload size={16} /> Restaurer
             </Button>
             <input
               ref={fileRef}
