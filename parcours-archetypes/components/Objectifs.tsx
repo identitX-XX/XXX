@@ -56,10 +56,10 @@ const SUGGESTIONS: Record<PerimetreKey, string[]> = {
 
 export function Objectifs({
   initial,
-  eyebrow = "Ma quête · le cap",
-  titre = "Pose ton cap",
+  eyebrow = "Ma direction",
+  titre = "Ce que je veux faire émerger",
   intro,
-  submitLabel = "Entrer dans mes 30 jours →",
+  submitLabel = "Choisir ma direction →",
   onSubmit,
   onCancel,
 }: {
@@ -90,8 +90,8 @@ export function Objectifs({
   const introDefaut = (
     <>
       {arch ? <>Ta signature <strong style={{ color: INK }}>{arch.name}</strong> t'accompagnera. </> : null}
-      Avant d'entrer dans tes 30 jours, formule un objectif par périmètre. Même
-      flou, il te sert de boussole — on le reprécisera au Jour 30.
+      Choisis une direction à observer par périmètre — perso, pro, relationnel.
+      Rien de définitif : elles pourront évoluer.
     </>
   );
 
@@ -151,10 +151,17 @@ export function Objectifs({
         ))}
       </div>
 
+      {!onCancel && (
+        <p style={{ fontSize: 12.5, color: MUTED, fontStyle: "italic", lineHeight: 1.5, margin: "16px 2px 0" }}>
+          Il ne s'agit pas de choisir définitivement. Tu pourras ajuster ces
+          directions.
+        </p>
+      )}
+
       <button
         onClick={submit}
         style={{
-          marginTop: 22, width: "100%", padding: "15px 24px", borderRadius: 999,
+          marginTop: 16, width: "100%", padding: "15px 24px", borderRadius: 999,
           border: "none", color: "#fff", fontSize: 15, fontWeight: 600,
           cursor: "pointer", opacity: 1,
           background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,

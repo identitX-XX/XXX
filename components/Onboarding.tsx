@@ -12,11 +12,12 @@ import { PHASES } from "@/parcours-archetypes/archetypes";
 import { Button, Label, TextInput } from "./ui";
 import { Constellation } from "./Constellation";
 
-// Onboarding « classe mondiale » : court, graphique, pédagogique. On enseigne le
-// chemin (Archétype → Mue → Tes Choix) et le rythme AVANT de demander quoi que
-// ce soit — puis une seule saisie : le prénom. Le reste du profil se complète au
-// fil de la quête (profil progressif), jamais en barrage à l'entrée.
-const STEPS = 3;
+// Onboarding « classe mondiale » : court, graphique, pédagogique. Six étapes qui
+// racontent le parcours — Bienvenue · Faisons connaissance · Exploration ·
+// Signature · Le rythme · Le mouvement — avant de révéler le diagnostic. Une
+// seule saisie : le prénom. Le reste du profil se complète au fil de la quête
+// (profil progressif), jamais en barrage à l'entrée.
+const STEPS = 6;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
@@ -63,7 +64,7 @@ export function Onboarding() {
       {/* Repères de friction : où j'en suis, combien de temps. */}
       <div className="mb-2 flex items-center justify-between text-xs text-muted">
         <span>Étape {step + 1} sur {STEPS}</span>
-        <span>≈ 1 min</span>
+        <span>≈ 2 min</span>
       </div>
       <div className="mb-10 flex gap-1.5">
         {Array.from({ length: STEPS }).map((_, i) => (
@@ -76,9 +77,9 @@ export function Onboarding() {
         ))}
       </div>
 
-      {/* Onboarding condensé en 3 temps : Bienvenue → ton intention → un seul
-          écran « Comment ça marche » (trajectoire, périmètres, rythme, mouvement).
-          Le diagnostic (les 20 signatures) ne vient qu'APRÈS. */}
+      {/* Onboarding en six temps : Bienvenue → Faisons connaissance → Exploration
+          → Signature → Le rythme → Le mouvement. Le diagnostic (les 20 signatures)
+          ne vient qu'APRÈS. */}
       <div className="flex flex-1 flex-col justify-center">
       <div key={step} className="animate-fade-up">
         {step === 0 && <StepAccueil />}
@@ -92,7 +93,10 @@ export function Onboarding() {
             setIntention={setIntention}
           />
         )}
-        {step === 2 && <StepCommentCaMarche />}
+        {step === 2 && <StepTerritoires />}
+        {step === 3 && <StepChemin />}
+        {step === 4 && <StepRythme />}
+        {step === 5 && <StepMouvement />}
       </div>
       </div>
 
@@ -128,21 +132,7 @@ function StepAccueil() {
   );
 }
 
-// Étape 1 — enseigne le chemin : trois stations reliées, graphique d'abord.
-// « Comment ça marche » — un seul écran scrollable qui fusionne les explications
-// (trajectoire, périmètres, rythme, mouvement). Elles ne demandaient rien : on
-// les regroupe pour raccourcir le funnel (6 → 3 étapes).
-function StepCommentCaMarche() {
-  return (
-    <div className="space-y-12">
-      <StepTerritoires />
-      <StepChemin />
-      <StepRythme />
-      <StepMouvement />
-    </div>
-  );
-}
-
+// Étape « signature » — enseigne le chemin : trois stations reliées, graphique.
 function StepChemin() {
   const stations = [
     { icon: <Compass size={20} />, label: "Signature", sous: "ton schéma dominant" },

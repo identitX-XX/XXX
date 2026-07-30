@@ -61,8 +61,8 @@ export default function ObjectifPage() {
         <h2 className="font-display text-xl font-light text-ink">L'intention</h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
           Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
-          tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 12
-          signatures</strong> les met en mouvement : 30 jours pour observer, à travers 12
+          tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 20
+          signatures</strong> les met en mouvement : 30 jours pour observer, à travers 20
           signatures, comment ces facettes s'activent selon tes contextes. Chaque
           soir, la matrice « respire » — ce que tu n'as pas réactivé retombe —
           pour qu'aucune identité ne se fige.
@@ -134,7 +134,7 @@ export default function ObjectifPage() {
         ))}
       </div>
 
-      {/* Les 12 archétypes + les 5 sphères */}
+      {/* Les 20 signatures + les 5 sphères */}
       <h2 className="mb-3 font-display text-xl font-light text-ink">
         Les 20 signatures
       </h2>

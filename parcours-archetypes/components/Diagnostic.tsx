@@ -53,7 +53,7 @@ export function Diagnostic() {
         <div style={{ fontSize: 11, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
           Ton miroir
         </div>
-        <h1 style={h1}>Ta signature</h1>
+        <h1 style={h1}>Ta signature du moment</h1>
         <p style={{ color: MUTED, fontSize: 15, margin: "0 0 22px" }}>
           Ce qui te met le plus en mouvement, d'après tes réponses. Pas un verdict :
           un point de départ, qui respirera au fil des 30 jours.
@@ -65,18 +65,25 @@ export function Diagnostic() {
           </div>
           <div style={{ fontFamily: serif, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14.5, lineHeight: 1.55 }}>{dom.lens}</p>
+          <AObserver question={dom.question} />
         </div>
 
         <div style={{ ...card, marginTop: 12 }}>
           <div style={{ fontSize: 11, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
-            Secondaire
+            Signature secondaire
           </div>
           <div style={{ fontFamily: serif, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14, lineHeight: 1.5 }}>{sec.lens}</p>
+          <AObserver question={sec.question} />
         </div>
 
+        <p style={{ color: MUTED, fontSize: 13.5, lineHeight: 1.55, margin: "18px 2px 0", fontStyle: "italic" }}>
+          Ces signatures ne te définissent pas. Elles rendent visibles des
+          dynamiques qui s'expriment aujourd'hui.
+        </p>
+
         <button style={cta} onClick={() => initialiserParcours(result)}>
-          Commencer mon parcours 30 jours →
+          Explorer mes signatures →
         </button>
       </div>
     );
@@ -138,6 +145,27 @@ export function Diagnostic() {
       {step > 0 && (
         <button style={ghost} onClick={() => setStep(step - 1)}>← Question précédente</button>
       )}
+    </div>
+  );
+}
+
+// Zone d'exploration : une question de coaching à garder en tête, jamais un
+// diagnostic figé. On la pose, on ne la referme pas.
+function AObserver({ question }: { question: string }) {
+  return (
+    <div
+      style={{
+        marginTop: 14,
+        paddingTop: 14,
+        borderTop: `1px solid ${LINE}`,
+      }}
+    >
+      <div style={{ fontSize: 10.5, letterSpacing: ".16em", textTransform: "uppercase", color: ORANGE, marginBottom: 5 }}>
+        À observer
+      </div>
+      <p style={{ margin: 0, color: INK, fontSize: 14, lineHeight: 1.5, fontFamily: serif }}>
+        {question}
+      </p>
     </div>
   );
 }

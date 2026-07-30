@@ -11,6 +11,9 @@ import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
+import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
+import type { Diagnostic as Diag, Objectifs as ObjectifsT, EtatEvolution } from "@/parcours-archetypes/types";
 
 // Route du module. Tant que le dominant n'est pas déterminé, on présente le
 // diagnostic (écran-miroir). Une fois fait, il ouvre le parcours 30 jours.
@@ -29,6 +32,7 @@ function ParcoursContent() {
   const reponses = useParcoursStore((s) => s.reponses);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const objectifs = useParcoursStore((s) => s.objectifs);
+  const etat = useParcoursStore((s) => s.etat);
 
   // Jour demandé via l'URL (?jour=N), p. ex. depuis la Progression.
   const searchParams = useSearchParams();
@@ -99,6 +103,12 @@ function ParcoursContent() {
         </div>
       )}
 
+      {/* « Ma quête » : la vue qui relie ce qui l'anime, ce qu'elle construit,
+          ce qu'elle explore et ce qui évolue — les quatre fils du parcours. */}
+      {diagnostic && (
+        <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
+      )}
+
       {/* Adossé au module, une fois le parcours lancé : les exercices (Quête) et
           les savoirs. Ils n'encombrent plus l'entrée du diagnostic. */}
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
@@ -151,5 +161,72 @@ function ParcoursContent() {
       </>
       )}
     </div>
+  );
+}
+
+// « Ma quête » — les quatre fils reliés : ce qui l'anime (sa signature), ce
+// qu'elle construit (ses directions), ce qu'elle explore (sa secondaire) et ce
+// qui évolue (ses mues). Chaque section pointe vers une donnée réelle du
+// parcours, jamais un texte creux.
+function MaQueteApercu({
+  diagnostic,
+  objectifs,
+  etat,
+}: {
+  diagnostic: Diag;
+  objectifs: ObjectifsT | null;
+  etat: EtatEvolution;
+}) {
+  const dom = archetypeByKey[diagnostic.dominant];
+  const sec = archetypeByKey[diagnostic.secondaire];
+  const caps = objectifs
+    ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((v) => v && v.trim())
+    : [];
+  const mue = derniereBascule(detecterChapitres(etat.historique));
+
+  const sections = [
+    {
+      titre: "Ce qui m'anime",
+      hint: "Ce qui me donne naturellement de l'énergie.",
+      valeur: dom.name,
+    },
+    {
+      titre: "Ce que je construis",
+      hint: "Ce que je souhaite faire exister.",
+      valeur: caps.length ? caps.join(" · ") : "À préciser dans ta direction",
+    },
+    {
+      titre: "Ce que j'explore",
+      hint: "Les dimensions que je veux mieux comprendre.",
+      valeur: sec.name,
+    },
+    {
+      titre: "Ce qui évolue",
+      hint: "Les changements que je commence à percevoir.",
+      valeur: mue
+        ? `De ${archetypeByKey[mue.depuis].name} à ${archetypeByKey[mue.vers].name}`
+        : "Tes premières observations se dessinent",
+    },
+  ];
+
+  return (
+    <section className="mb-8 rounded-2xl border border-line bg-surface p-6 animate-fade-up">
+      <div className="text-xs uppercase tracking-[0.25em] text-fuchsia">Ma quête</div>
+      <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+        Ta quête relie ce que tu observes, ce que tu veux faire émerger et les
+        directions que tu choisis d'explorer.
+      </p>
+      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        {sections.map((s) => (
+          <div key={s.titre} className="rounded-xl border border-line p-4">
+            <div className="text-sm font-medium text-ink">{s.titre}</div>
+            <div className="mt-0.5 text-xs text-muted">{s.hint}</div>
+            <div className="mt-2 font-display text-base font-light leading-snug text-ink">
+              {s.valeur}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

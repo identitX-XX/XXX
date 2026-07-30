@@ -57,9 +57,9 @@ export function JourView({
   const [emotions, setEmotions] = useState<EmotionKey[]>(
     reponse ? reponse.emotions : []
   );
-  const [intensiteDefi, setIntensiteDefi] = useState(
-    reponse ? reponse.intensiteDefi : 40
-  );
+  // L'intensité du défi n'a plus de curseur dédié (bilan resserré à 2 curseurs) :
+  // on conserve la valeur enregistrée en relecture, sinon une valeur neutre.
+  const [intensiteDefi] = useState(reponse ? reponse.intensiteDefi : 40);
   const [note, setNote] = useState(reponse ? reponse.note : "");
   // À la clôture on garde l'état AVANT et APRÈS pour montrer ce que la journée
   // a fait bouger (réaction visible, pas un simple ✓).
@@ -119,12 +119,21 @@ export function JourView({
       {/* En-tête */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
+          La capsule du jour
+        </div>
+        <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>
           Jour {jour.n} / 30 · {phase.label}
         </div>
         <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 34, margin: "8px 0 4px", color: INK }}>
           {a.name}
         </h1>
         <p style={{ fontSize: 14, lineHeight: 1.55, color: MUTED, margin: 0 }}>{a.lens}</p>
+        {!readOnly && (
+          <p style={{ fontSize: 13.5, lineHeight: 1.55, color: MUTED, margin: "10px 0 0" }}>
+            Choisis une situation que tu rencontres régulièrement. Pendant
+            quelques minutes, observe ce qui s'y joue.
+          </p>
+        )}
       </div>
 
       {/* Bandeau relecture */}
@@ -181,43 +190,57 @@ export function JourView({
           </Bloc>
         )}
 
-        <Separateur label="Ton bilan du soir" sous="Une fois la journée vécue." />
+        <Separateur label="Ton bilan du soir" sous="Une fois la journée terminée, observe ce qui s'est exprimé." />
 
-        {/* Curseurs par sphère */}
-        <Bloc titre={sectionsByKind["curseurs"]?.titre ?? "Circulation"}>
-          <div style={{ fontSize: 13, color: MUTED, marginBottom: 14 }}>
-            {sectionsByKind["curseurs"]?.texte}
+        {/* Deux curseurs, pas cinq : on garde l'essentiel du bilan du soir —
+            l'intensité de la dimension du jour et son effet sur les relations.
+            Les deux alimentent la matrice (sphère focus + sphère « relations ») ;
+            les autres sphères conservent leur valeur de départ. */}
+        <Bloc titre="Ton bilan du soir">
+          <div style={{ fontSize: 13.5, color: INK, marginBottom: 16, lineHeight: 1.5, fontFamily: serif }}>
+            Dans cette situation, quelle dimension de toi était la plus présente ?
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-            {SPHERES.map((s) => (
-              <div key={s.key}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }}>
-                  <span style={{ color: s.key === jour.sphereFocus ? INK : MUTED }}>
-                    {s.label}
-                    {s.key === jour.sphereFocus && (
-                      <span style={{ color: FUCHSIA, marginLeft: 6 }}>· focus</span>
-                    )}
-                  </span>
-                  <span style={{ fontFamily: serif, color: INK }}>{curseurs[s.key]}</span>
-                </div>
-                <input
-                  type="range"
-                  min={0}
-                  max={100}
-                  value={curseurs[s.key]}
-                  disabled={readOnly}
-                  onChange={(e) =>
-                    setCurseurs((prev) => ({ ...prev, [s.key]: Number(e.target.value) }))
-                  }
-                  style={{
-                    width: "100%",
-                    accentColor: FUCHSIA,
-                    cursor: readOnly ? "default" : "pointer",
-                    opacity: readOnly ? 0.7 : 1,
-                  }}
-                />
+          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, marginBottom: 4 }}>
+                <span style={{ color: INK }}>Intensité</span>
+                <span style={{ fontFamily: serif, color: INK }}>{curseurs[jour.sphereFocus]}</span>
               </div>
-            ))}
+              <div style={{ fontSize: 12, color: MUTED, marginBottom: 8 }}>
+                À quel point cette dimension s'est-elle exprimée ?
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={curseurs[jour.sphereFocus]}
+                disabled={readOnly}
+                onChange={(e) =>
+                  setCurseurs((prev) => ({ ...prev, [jour.sphereFocus]: Number(e.target.value) }))
+                }
+                style={{ width: "100%", accentColor: FUCHSIA, cursor: readOnly ? "default" : "pointer", opacity: readOnly ? 0.7 : 1 }}
+              />
+            </div>
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, marginBottom: 4 }}>
+                <span style={{ color: INK }}>Relations</span>
+                <span style={{ fontFamily: serif, color: INK }}>{curseurs["relations"]}</span>
+              </div>
+              <div style={{ fontSize: 12, color: MUTED, marginBottom: 8 }}>
+                Comment cette expérience a-t-elle influencé ta relation aux autres ?
+              </div>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={curseurs["relations"]}
+                disabled={readOnly}
+                onChange={(e) =>
+                  setCurseurs((prev) => ({ ...prev, relations: Number(e.target.value) }))
+                }
+                style={{ width: "100%", accentColor: ORANGE, cursor: readOnly ? "default" : "pointer", opacity: readOnly ? 0.7 : 1 }}
+              />
+            </div>
           </div>
         </Bloc>
 
@@ -250,21 +273,6 @@ export function JourView({
               );
             })}
           </div>
-        </Bloc>
-
-        {/* L'intensité du défi — notée le soir (le texte du défi est en tête,
-            dans « ton geste du jour »). */}
-        <Bloc titre="L'intensité de ton défi">
-          <div style={{ fontSize: 12, color: MUTED, marginBottom: 6 }}>Comment tu l'as vécu aujourd'hui</div>
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={intensiteDefi}
-            disabled={readOnly}
-            onChange={(e) => setIntensiteDefi(Number(e.target.value))}
-            style={{ width: "100%", accentColor: ORANGE, cursor: readOnly ? "default" : "pointer", opacity: readOnly ? 0.7 : 1 }}
-          />
         </Bloc>
 
         {/* Note */}
@@ -311,7 +319,7 @@ export function JourView({
             background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
           }}
         >
-          {readOnly ? "Journée close ✓" : "Clore la journée"}
+          {readOnly ? "Observation enregistrée ✓" : "Enregistrer mon observation →"}
         </button>
       </div>
     </div>
@@ -644,21 +652,6 @@ function ReactionClotature({
       >
         {r.jour < 30 ? "Continuer vers demain →" : "Voir mon bilan →"}
       </button>
-
-      {/* Clôture — referme l'arc « légende » ouvert à l'accueil. */}
-      <p
-        style={{
-          fontFamily: serif,
-          fontStyle: "italic",
-          fontSize: 14,
-          lineHeight: 1.5,
-          color: MUTED,
-          margin: "22px auto 0",
-          maxWidth: 340,
-        }}
-      >
-        Ta légende n'est pas terminée. Elle vient de s'ouvrir.
-      </p>
     </div>
   );
 }

@@ -55,9 +55,9 @@ export default function AujourdhuiPage() {
   if (!objectifs) {
     return (
       <Amorce
-        titre="Pose ton cap"
-        texte="Un objectif par périmètre — perso, pro, relationnel. Trois caps qui guideront chaque journée."
-        cta="Poser mon cap"
+        titre="Ce que je veux faire émerger"
+        texte="Choisis une direction à observer par périmètre — perso, pro, relationnel. Elles guideront chaque journée et pourront évoluer."
+        cta="Choisir ma direction"
       />
     );
   }
