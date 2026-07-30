@@ -61,7 +61,7 @@ function Titre({ children }: { children: React.ReactNode }) {
 }
 
 // 1. Radar des 12 archétypes — la pièce signature.
-export function RadarArchetypes({ data }: { data: PointRadar[] }) {
+export function RadarArchetypes({ data, apercu = false }: { data: PointRadar[]; apercu?: boolean }) {
   // Libellé court : on retire l'article de tête (L', Le, La, Le·la) puis on
   // garde le premier mot distinctif. (Pas de flag /i sur une classe de
   // lettres, sinon on mangerait la 1re lettre du nom.)
@@ -74,6 +74,12 @@ export function RadarArchetypes({ data }: { data: PointRadar[] }) {
   return (
     <div>
       <Titre>Radar des 12 signatures</Titre>
+      {apercu && (
+        <p style={{ fontSize: 12.5, lineHeight: 1.55, color: MUTED, margin: "6px 0 0" }}>
+          À ce stade, il reflète surtout ton diagnostic — il s'affinera avec tes
+          premières journées.
+        </p>
+      )}
       <ResponsiveContainer width="100%" height={320}>
         <RadarChart
           data={court}
@@ -101,6 +107,18 @@ export function RadarArchetypes({ data }: { data: PointRadar[] }) {
 
 // 2. Courbe d'évolution : cohérence + respiration par jour.
 export function CourbeEvolution({ data }: { data: PointEvolution[] }) {
+  // Une courbe à 1–2 points ne raconte rien : on attend d'avoir de la matière.
+  if (data.length < 3) {
+    return (
+      <div>
+        <Titre>Évolution — cohérence & respiration</Titre>
+        <p style={{ fontSize: 13, lineHeight: 1.6, color: MUTED, margin: "6px 0 0" }}>
+          Ta courbe se dessine dès trois journées vécues — le temps que le
+          mouvement ait quelque chose à montrer.
+        </p>
+      </div>
+    );
+  }
   return (
     <div>
       <Titre>Évolution — cohérence & respiration</Titre>

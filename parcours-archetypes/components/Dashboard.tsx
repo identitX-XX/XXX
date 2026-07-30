@@ -91,7 +91,7 @@ export function Dashboard() {
           }}
         >
           <Carte>
-            <RadarArchetypes data={radar} />
+            <RadarArchetypes data={radar} apercu={courbeEvolution(etat).length < 3} />
           </Carte>
 
           <Carte>
