@@ -28,11 +28,29 @@ const CHAMPS: { key: PerimetreKey; label: string; hint: string }[] = [
 const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "" };
 
 // Suggestions cliquables par sphère (chips) qui pré-remplissent le champ.
-// LIBELLÉS À ÉCRIRE PAR MARINA — ce sont des placeholders (contenu, hors périmètre).
 const SUGGESTIONS: Record<PerimetreKey, string[]> = {
-  perso: ["TODO_SUGGESTION_1", "TODO_SUGGESTION_2", "TODO_SUGGESTION_3", "TODO_SUGGESTION_4"],
-  pro: ["TODO_SUGGESTION_5", "TODO_SUGGESTION_6", "TODO_SUGGESTION_7", "TODO_SUGGESTION_8"],
-  relationnel: ["TODO_SUGGESTION_9", "TODO_SUGGESTION_10", "TODO_SUGGESTION_11", "TODO_SUGGESTION_12"],
+  perso: [
+    "Nourrir ma curiosité",
+    "Protéger mon énergie",
+    "Bouger",
+    "Écrire, lire, dessiner",
+    "Méditer",
+    "Réorganiser quelque chose",
+  ],
+  pro: [
+    "Changer de poste",
+    "Poser mes limites",
+    "Entreprendre",
+    "Reconversion",
+    "Changer de dimension",
+    "Mobilité",
+  ],
+  relationnel: [
+    "Actualiser mes relations",
+    "Identifier mes schémas",
+    "Faire des rencontres",
+    "Me débarrasser des liens toxiques",
+  ],
 };
 
 export function Objectifs({
