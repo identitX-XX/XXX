@@ -644,6 +644,21 @@ function ReactionClotature({
       >
         {r.jour < 30 ? "Continuer vers demain →" : "Voir mon bilan →"}
       </button>
+
+      {/* Clôture — referme l'arc « légende » ouvert à l'accueil. */}
+      <p
+        style={{
+          fontFamily: serif,
+          fontStyle: "italic",
+          fontSize: 14,
+          lineHeight: 1.5,
+          color: MUTED,
+          margin: "22px auto 0",
+          maxWidth: 340,
+        }}
+      >
+        Ta légende n'est pas terminée. Elle vient de s'ouvrir.
+      </p>
     </div>
   );
 }

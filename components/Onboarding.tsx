@@ -113,13 +113,13 @@ export function Onboarding() {
 function StepAccueil() {
   return (
     <div className="text-center">
-      <div className="mb-4 flex justify-center">
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Bienvenue</div>
+      <p className="mx-auto mb-6 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
+        Déconstruis ta légende. Vois émerger tes possibles.
+      </p>
+      <div className="flex justify-center">
         <Constellation size={190} />
       </div>
-      <h2 className="font-display text-5xl font-light leading-none text-ink">Bienvenue</h2>
-      <p className="mx-auto mt-5 max-w-sm font-display text-xl font-light leading-snug text-ink">
-        Explorons ta constellation identitaire.
-      </p>
     </div>
   );
 }
@@ -131,8 +131,8 @@ function StepAccueil() {
 function StepCommentCaMarche() {
   return (
     <div className="space-y-12">
-      <StepChemin />
       <StepTerritoires />
+      <StepChemin />
       <StepRythme />
       <StepMouvement />
     </div>
@@ -147,8 +147,8 @@ function StepChemin() {
   ];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ta trajectoire</div>
-      <h2 className="mt-2 font-display text-2xl font-light text-ink">Trois temps, un mouvement</h2>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Signature</div>
+      <h2 className="mt-2 font-display text-2xl font-light text-ink">Découvre les dynamiques qui s'expriment le plus naturellement chez toi.</h2>
       <div className="mt-7 flex items-start justify-between">
         {stations.map((s, i) => (
           <div key={s.label} className="flex flex-1 items-start">
@@ -184,9 +184,9 @@ function StepTerritoires() {
   ];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ton narratif</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Exploration</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
-        Chaque jour pose un cap
+        Observe les dimensions qui prennent place dans ta vie aujourd'hui.
       </h2>
       <div className="mt-7 grid grid-cols-3 gap-3">
         {perimetres.map((p) => (
@@ -264,9 +264,9 @@ function StepMouvement() {
   const ph = PHASES[active];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">30 jours</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
-        30 jours de redéploiement identitaire
+        Tu ne cherches pas à devenir quelqu'un d'autre. Tu apprends à observer ce qui demande à évoluer.
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
         Ta signature n'est pas figée, elle oscille dans un mouvement permanent —

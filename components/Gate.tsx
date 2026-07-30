@@ -159,6 +159,21 @@ export function Gate({ children }: { children: React.ReactNode }) {
         style={{ width: 230, maxWidth: "68vw", height: "auto" }}
       />
 
+      <p
+        style={{
+          fontFamily: "var(--font-fraunces), Georgia, serif",
+          fontStyle: "italic",
+          fontSize: 15,
+          lineHeight: 1.5,
+          color: "var(--muted)",
+          textAlign: "center",
+          maxWidth: 300,
+          margin: "16px 0 0",
+        }}
+      >
+        Il est possible de tolérer l'incertitude lorsqu'on a une direction.
+      </p>
+
       <div style={{ height: 24 }} />
 
       {welcome ? (
