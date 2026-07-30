@@ -7,6 +7,7 @@ import { archetypeByKey } from "../archetypes";
 import { QUESTIONS, calculerDiagnostic } from "../sens";
 import { ArchetypeKey, Diagnostic as Diag } from "../types";
 import { useParcoursStore } from "../store";
+import { track } from "@/lib/metrics";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -38,7 +39,9 @@ export function Diagnostic() {
     if (step < total - 1) {
       setStep(step + 1);
     } else {
-      setResult(calculerDiagnostic(next));
+      const diag = calculerDiagnostic(next);
+      track("quiz_completed", { dominant: diag.dominant });
+      setResult(diag);
     }
   };
 

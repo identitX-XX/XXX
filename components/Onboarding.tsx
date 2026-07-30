@@ -6,6 +6,7 @@ import {
   Route, Shuffle, Sparkles, Sprout, Target,
 } from "lucide-react";
 import { useStore } from "@/store/useStore";
+import { track } from "@/lib/metrics";
 import { Profile } from "@/types";
 import { PHASES } from "@/parcours-archetypes/archetypes";
 import { Button, Label, TextInput } from "./ui";
@@ -51,6 +52,7 @@ export function Onboarding() {
       keyword: mot && !mot.includes(" ") ? mot : "",
     };
     complete(profile);
+    track("onboarding_completed");
   };
 
   const next = () => (step < STEPS - 1 ? setStep(step + 1) : finish());

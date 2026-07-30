@@ -8,6 +8,7 @@ import { archetypeByKey } from "../archetypes";
 import { Objectifs as ObjectifsT, PerimetreKey } from "../types";
 import { useParcoursStore } from "../store";
 import { SphereIcon } from "@/components/SphereIcon";
+import { track } from "@/lib/metrics";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -57,7 +58,15 @@ export function Objectifs({
 
   const set = (k: PerimetreKey, v: string) => setVals((p) => ({ ...p, [k]: v }));
   const arch = diagnostic ? archetypeByKey[diagnostic.dominant] : null;
-  const submit = () => (onSubmit ?? definirObjectifs)(vals);
+  const submit = () => {
+    // Fuite majeure du funnel : on mesure le passage ET combien d'objectifs sont
+    // réellement remplis (0 étant permis désormais).
+    if (!onCancel) {
+      const rempli = Object.values(vals).filter((v) => v.trim().length > 0).length;
+      track("goals_screen_passed", { rempli });
+    }
+    (onSubmit ?? definirObjectifs)(vals);
+  };
 
   const introDefaut = (
     <>

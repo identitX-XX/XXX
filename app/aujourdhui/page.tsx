@@ -11,6 +11,7 @@ import { LeChemin } from "@/components/LeChemin";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
+import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
 import { genererRevelations } from "@/parcours-archetypes/revelations";
@@ -28,6 +29,16 @@ export default function AujourdhuiPage() {
   const parcours = useParcoursStore((s) => s.parcours);
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
+
+  // Rétention J7 (métrique clé) : une seule fois, quand on atteint le Jour 7.
+  useEffect(() => {
+    try {
+      if (progression(etat).jourCourant >= 7 && !localStorage.getItem("idx-m7")) {
+        track("day_7_reached");
+        localStorage.setItem("idx-m7", "1");
+      }
+    } catch {}
+  }, [etat]);
 
   // Amorce : tant que le parcours n'est pas armé, on flèche l'étape suivante
   // avec un fil de progression clair (2 étapes avant le Jour 1).

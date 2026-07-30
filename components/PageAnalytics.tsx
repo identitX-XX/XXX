@@ -35,11 +35,17 @@ export function PageAnalytics() {
       start.current = Date.now();
     };
     const onVis = () => document.visibilityState === "hidden" && flush();
+    // Fin de session : dernier écran vu avant abandon (drop_point). L'analytics
+    // retient le dernier émis par session/visiteuse.
+    const onLeave = () => {
+      flush();
+      track("drop_point", { path: path.current });
+    };
     document.addEventListener("visibilitychange", onVis);
-    window.addEventListener("pagehide", flush);
+    window.addEventListener("pagehide", onLeave);
     return () => {
       document.removeEventListener("visibilitychange", onVis);
-      window.removeEventListener("pagehide", flush);
+      window.removeEventListener("pagehide", onLeave);
     };
   }, []);
 

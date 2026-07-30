@@ -21,6 +21,7 @@ import {
   radarCourant,
 } from "../indicateurs";
 import { useStore } from "@/store/useStore";
+import { track } from "@/lib/metrics";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -95,6 +96,7 @@ export function JourView({
     const avant = useParcoursStore.getState().etat;
     repondreJour(r); // historise la journée (reponses + snapshot d'évolution)
     const apres = useParcoursStore.getState().etat;
+    track("day_completed", { day_number: jour.n }); // rétention (métrique clé)
     setClosed({ r, avant, apres }); // → écran de réaction avant d'avancer
   };
 
