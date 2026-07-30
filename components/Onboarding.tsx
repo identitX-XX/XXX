@@ -176,8 +176,8 @@ function StepAccueil() {
         Déconstruis ta légende. Vois émerger tes possibles.
       </p>
       <p className="mx-auto mb-6 max-w-sm text-sm leading-relaxed text-muted">
-        En six étapes, explore les dimensions qui composent ton identité et
-        découvre les directions qu'elles peuvent ouvrir.
+        En six étapes, explore tes multiples qui te feront passer d'une identité
+        subie à une identité choisie.
       </p>
       <div className="flex justify-center">
         <Constellation size={190} />
