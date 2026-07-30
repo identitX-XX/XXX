@@ -70,6 +70,19 @@ export async function GET(req: Request) {
     view("page_engagement", "limit=40"),
   ]);
 
+  // Liste nominative des inscrites (e-mail + prénom + date) — réservée à
+  // l'éditrice, sous ADMIN_KEY. C'est le « qui », complément des compteurs.
+  let inscriptions: unknown[] = [];
+  try {
+    const r = await fetch(
+      `${url}/rest/v1/profiles?select=email,prenom,created_at&order=created_at.desc&limit=500`,
+      { headers }
+    );
+    inscriptions = r.ok ? await r.json() : [];
+  } catch {
+    inscriptions = [];
+  }
+
   return Response.json({
     ok: true,
     configured: true,
@@ -78,5 +91,6 @@ export async function GET(req: Request) {
     growth,
     retention,
     engagement,
+    inscriptions,
   });
 }

@@ -17,6 +17,7 @@ interface Funnel {
 }
 interface Retention { cohorte: string; taille: number; j1: number; j7: number; j30: number }
 interface Engagement { page: string; visites: number; visiteuses: number; temps_moyen_s: number }
+interface Inscrite { email: string | null; prenom: string | null; created_at: string }
 interface Metrics {
   ok: boolean;
   configured?: boolean;
@@ -25,6 +26,7 @@ interface Metrics {
   growth?: { jour: string; nb: number }[];
   retention?: Retention[];
   engagement?: Engagement[];
+  inscriptions?: Inscrite[];
 }
 
 // Nom lisible d'un module à partir de sa route.
@@ -36,6 +38,13 @@ const MODULE_LABEL: Record<string, string> = {
 };
 const moduleName = (p: string) => MODULE_LABEL[p] ?? p;
 const dureeCourt = (s: number) => (s >= 60 ? `${Math.floor(s / 60)}m ${Math.round(s % 60)}s` : `${Math.round(s)}s`);
+const fmtDate = (s: string) => {
+  try {
+    return new Date(s).toLocaleDateString("fr-FR", { day: "2-digit", month: "short", year: "numeric" });
+  } catch {
+    return s;
+  }
+};
 
 const ACCENT = "var(--fuchsia)";
 
@@ -121,6 +130,35 @@ export default function AdminPage() {
             <Hero label="Rétention J7" value={`${j7}%`} sub={`sur ${taille} en cohorte`} />
             <Hero label="Scénarios" value={k.scenarios} sub="générés (valeur produite)" />
           </div>
+
+          {/* Inscriptions — le « qui » : les e-mails réels, réservé à l'éditrice. */}
+          <section>
+            <SectionTitle>Inscriptions · {data?.inscriptions?.length ?? 0}</SectionTitle>
+            {data?.inscriptions && data.inscriptions.length > 0 ? (
+              <div className="overflow-x-auto rounded-2xl border border-line bg-surface">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-line text-left text-xs uppercase tracking-wider text-muted">
+                      <th className="px-4 py-3 font-medium">E-mail</th>
+                      <th className="px-4 py-3 font-medium">Prénom</th>
+                      <th className="px-4 py-3 font-medium">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data.inscriptions.map((p, i) => (
+                      <tr key={p.email ?? i} className="border-b border-line/60 last:border-0">
+                        <td className="px-4 py-3 text-ink">{p.email ?? "—"}</td>
+                        <td className="px-4 py-3 text-muted">{p.prenom || "—"}</td>
+                        <td className="px-4 py-3 text-muted">{fmtDate(p.created_at)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <Empty>Aucune inscription pour l'instant.</Empty>
+            )}
+          </section>
 
           {/* Entonnoir d'activation */}
           <section>
