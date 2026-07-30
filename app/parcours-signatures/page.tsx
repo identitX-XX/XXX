@@ -78,14 +78,14 @@ function ParcoursContent() {
       {jourCourant <= 1 ? (
         <PageHead
           eyebrow="Module"
-          title="Parcours des 12 signatures"
+          title="Parcours des 20 signatures"
           sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
         />
       ) : (
         <div className="mb-8 animate-fade-up">
           <div className="mb-2 text-xs uppercase tracking-[0.25em] text-fuchsia">Module</div>
           <h1 className="font-display text-xl font-light leading-tight text-ink">
-            Parcours des 12 signatures
+            Parcours des 20 signatures
           </h1>
           <details className="group mt-1">
             <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs text-fuchsia [&::-webkit-details-marker]:hidden">

@@ -60,7 +60,7 @@ export function Dashboard() {
       {/* Bandeau */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
-          Tableau de bord · Parcours des 12 signatures
+          Tableau de bord · Parcours des 20 signatures
         </div>
         <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 32, margin: "8px 0 0", color: INK }}>
           {vide ? "Ton radar va s'éveiller" : dom ? `En ce moment · ${dom.name}` : "Ton radar vivant"}

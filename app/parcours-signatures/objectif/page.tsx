@@ -44,7 +44,7 @@ export default function ObjectifPage() {
     <div>
       <PageHead
         eyebrow="Objectif"
-        title="Pourquoi les 12 signatures"
+        title="Pourquoi les 20 signatures"
         sub="Ta signature n'est jamais une étiquette (« tu es… ») : c'est ce qui te met le plus en mouvement, qui se lit autrement selon les contextes de vie et qui respire dans le temps."
       />
 
@@ -95,7 +95,7 @@ export default function ObjectifPage() {
           <span className="text-xs uppercase tracking-wider">met en mouvement</span>
         </div>
         <div className="brand-gradient inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white">
-          Parcours des 12 signatures · 30 jours
+          Parcours des 20 signatures · 30 jours
         </div>
       </Card>
 
@@ -136,7 +136,7 @@ export default function ObjectifPage() {
 
       {/* Les 12 archétypes + les 5 sphères */}
       <h2 className="mb-3 font-display text-xl font-light text-ink">
-        Les 12 signatures
+        Les 20 signatures
       </h2>
       <p className="mb-4 text-sm text-muted">
         Lues à travers 5 sphères — {SPHERES.map((s) => s.label).join(" · ")}.

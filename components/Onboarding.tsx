@@ -78,7 +78,7 @@ export function Onboarding() {
 
       {/* Onboarding condensé en 3 temps : Bienvenue → ton intention → un seul
           écran « Comment ça marche » (trajectoire, périmètres, rythme, mouvement).
-          Le diagnostic (les 12 signatures) ne vient qu'APRÈS. */}
+          Le diagnostic (les 20 signatures) ne vient qu'APRÈS. */}
       <div className="flex flex-1 flex-col justify-center">
       <div key={step} className="animate-fade-up">
         {step === 0 && <StepAccueil />}

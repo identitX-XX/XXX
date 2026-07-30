@@ -73,7 +73,7 @@ export function RadarArchetypes({ data, apercu = false }: { data: PointRadar[]; 
   }));
   return (
     <div>
-      <Titre>Radar des 12 signatures</Titre>
+      <Titre>Radar des 20 signatures</Titre>
       {apercu && (
         <p style={{ fontSize: 12.5, lineHeight: 1.55, color: MUTED, margin: "6px 0 0" }}>
           À ce stade, il reflète surtout ton diagnostic — il s'affinera avec tes
