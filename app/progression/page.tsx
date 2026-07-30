@@ -8,6 +8,7 @@ import { Card, PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { Chapitres } from "@/components/Chapitres";
+import { SphereIcon } from "@/components/SphereIcon";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour } from "@/parcours-archetypes/archetypes";
 import {
@@ -210,10 +211,12 @@ export default function ProgressionPage() {
             </button>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
-            {([["perso", "🌱 Perso"], ["pro", "💼 Pro"], ["relationnel", "🤝 Relationnel"]] as const).map(
+            {([["perso", "Perso"], ["pro", "Pro"], ["relationnel", "Relationnel"]] as const).map(
               ([k, label]) => (
                 <div key={k}>
-                  <div className="text-xs text-muted">{label}</div>
+                  <div className="flex items-center gap-1.5 text-xs text-muted">
+                    <SphereIcon sphere={k} size={14} /> {label}
+                  </div>
                   <div className="mt-1 text-sm text-ink">
                     {objectifs[k]?.trim() ? objectifs[k] : <span className="italic text-muted">Non défini</span>}
                   </div>

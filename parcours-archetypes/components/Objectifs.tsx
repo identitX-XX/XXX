@@ -7,6 +7,7 @@ import { useState } from "react";
 import { archetypeByKey } from "../archetypes";
 import { Objectifs as ObjectifsT, PerimetreKey } from "../types";
 import { useParcoursStore } from "../store";
+import { SphereIcon } from "@/components/SphereIcon";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -17,10 +18,10 @@ const NOIR = "#0a090d";
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
 
-const CHAMPS: { key: PerimetreKey; emoji: string; label: string; hint: string }[] = [
-  { key: "perso", emoji: "🌱", label: "Perso", hint: "Pour toi : ton équilibre, ton corps, ton sens, ta création." },
-  { key: "pro", emoji: "💼", label: "Pro", hint: "Côté travail et projets : ce que tu veux faire avancer." },
-  { key: "relationnel", emoji: "🤝", label: "Relationnel", hint: "Dans tes liens : amour, famille, amis." },
+const CHAMPS: { key: PerimetreKey; label: string; hint: string }[] = [
+  { key: "perso", label: "Perso", hint: "Pour toi : ton équilibre, ton corps, ton sens, ta création." },
+  { key: "pro", label: "Pro", hint: "Côté travail et projets : ce que tu veux faire avancer." },
+  { key: "relationnel", label: "Relationnel", hint: "Dans tes liens : amour, famille, amis." },
 ];
 
 const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "" };
@@ -77,8 +78,8 @@ export function Objectifs({
             key={c.key}
             style={{ borderRadius: 16, border: `1px solid ${LINE}`, background: "var(--surface)", padding: "16px 18px" }}
           >
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 4 }}>
-              <span style={{ fontSize: 16 }}>{c.emoji}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+              <SphereIcon sphere={c.key} size={18} />
               <span style={{ fontFamily: serif, fontSize: 18, color: INK }}>{c.label}</span>
             </div>
             <div style={{ fontSize: 12.5, color: MUTED, marginBottom: 10 }}>{c.hint}</div>

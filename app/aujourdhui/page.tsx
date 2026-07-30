@@ -73,7 +73,7 @@ export default function AujourdhuiPage() {
         />
         <Card className="overflow-hidden p-0 animate-fade-up">
           <div className="relative brand-gradient px-8 py-10 text-center text-white">
-            <div className="text-4xl">🎉</div>
+            <Sparkles size={40} className="mx-auto text-white" />
             <h2 className="mt-2 font-display text-3xl font-light">
               Les 30 jours sont accomplis
             </h2>
@@ -120,7 +120,7 @@ export default function AujourdhuiPage() {
             background: "color-mix(in srgb, var(--fuchsia) 7%, transparent)",
           }}
         >
-          <span className="text-lg">✨</span>
+          <Sparkles size={18} className="flex-none text-fuchsia" />
           <span className="text-ink">
             Cap des <b>{mo.jalonAtteint} jours</b> franchi. Tu tiens ta quête —
             continue sur cette lancée.
