@@ -62,7 +62,7 @@ export function Dashboard() {
         <div style={{ fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
           Tableau de bord · Parcours des 20 signatures
         </div>
-        <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 300, fontSize: 32, margin: "8px 0 0", color: INK }}>
+        <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 32, margin: "8px 0 0", color: INK }}>
           {vide ? "Ton radar va s'éveiller" : dom ? `En ce moment · ${dom.name}` : "Ton radar vivant"}
         </h1>
         {!vide && (
@@ -155,7 +155,7 @@ function Revelations() {
       }}
     >
       <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 4 }}>
-        <span className="fr-title" style={{ fontFamily: serif, fontWeight: 400, fontSize: 22, color: INK }}>
+        <span className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 22, color: INK }}>
           Ce qui ressort
         </span>
         <span style={{ fontSize: 12, color: MUTED }}>

@@ -35,7 +35,7 @@ export function PageHead({
         </div>
       )}
       {title && (
-        <h1 className="font-display text-3xl font-light leading-tight text-ink md:text-4xl">
+        <h1 className="font-display text-3xl font-semibold leading-tight text-ink md:text-4xl">
           {title}
         </h1>
       )}

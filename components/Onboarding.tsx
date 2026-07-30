@@ -172,7 +172,7 @@ function StepAccueil() {
   return (
     <div className="text-center">
       <div className="text-base font-bold uppercase tracking-[0.2em] text-fuchsia">Bienvenue</div>
-      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
+      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-semibold leading-snug text-ink">
         Déconstruis ta légende. Vois émerger tes possibles.
       </p>
       <p className="mx-auto mb-6 max-w-sm text-sm leading-relaxed text-muted">
@@ -196,7 +196,7 @@ function StepChemin() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ta signature</div>
-      <h2 className="mt-2 font-display text-2xl font-light text-ink">Découvre les dynamiques qui s'expriment le plus naturellement chez toi.</h2>
+      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">Découvre les dynamiques qui s'expriment le plus naturellement chez toi.</h2>
       <div className="mt-7 flex items-start justify-between">
         {stations.map((s, i) => (
           <div key={s.label} className="flex flex-1 items-start">
@@ -233,7 +233,7 @@ function StepTerritoires() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Exploration</div>
-      <h2 className="mt-2 font-display text-2xl font-light text-ink">
+      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">
         Observe tes dimensions les plus présentes
       </h2>
       <div className="mt-7 grid grid-cols-3 gap-3">
@@ -269,7 +269,7 @@ function StepRythme() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le tempo</div>
-      <h2 className="mt-2 font-display text-2xl font-light text-ink">
+      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">
         Chaque jour, une capsule
       </h2>
       <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
@@ -317,7 +317,7 @@ function StepMouvement() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
-      <h2 className="mt-2 font-display text-2xl font-light text-ink">
+      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">
         30 jours de redéploiement identitaire
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">

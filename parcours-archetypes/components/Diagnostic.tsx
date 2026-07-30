@@ -63,7 +63,7 @@ export function Diagnostic() {
           <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: FUCHSIA }}>
             Signature
           </div>
-          <div className="fr-title" style={{ fontFamily: serif, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
+          <div className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14.5, lineHeight: 1.55 }}>{dom.lens}</p>
           <AObserver question={dom.question} />
         </div>
@@ -72,7 +72,7 @@ export function Diagnostic() {
           <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
             Signature secondaire
           </div>
-          <div className="fr-title" style={{ fontFamily: serif, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
+          <div className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14, lineHeight: 1.5 }}>{sec.lens}</p>
           <AObserver question={sec.question} />
         </div>
@@ -113,7 +113,7 @@ export function Diagnostic() {
         <div style={{ fontSize: 13, color: MUTED, marginBottom: 6 }}>
           Question {step + 1} / {total}
         </div>
-        <h2 className="fr-title" style={{ fontFamily: serif, fontWeight: 400, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
+        <h2 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
           {q.question}
         </h2>
 
@@ -171,7 +171,7 @@ function AObserver({ question }: { question: string }) {
 }
 
 const wrap: React.CSSProperties = { maxWidth: 560, margin: "0 auto", fontFamily: sans, color: INK };
-const h1: React.CSSProperties = { fontFamily: serif, fontWeight: 300, fontSize: 32, margin: "8px 0 0", color: INK };
+const h1: React.CSSProperties = { fontFamily: serif, fontWeight: 600, fontSize: 32, margin: "8px 0 0", color: INK };
 const card: React.CSSProperties = { background: SURFACE, border: `1px solid ${LINE}`, borderRadius: 16, padding: "18px 20px" };
 const optBtn: React.CSSProperties = {
   textAlign: "left", padding: "15px 18px", borderRadius: 14,

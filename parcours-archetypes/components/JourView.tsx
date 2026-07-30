@@ -124,7 +124,7 @@ export function JourView({
         <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>
           Jour {jour.n} / 30 · {phase.label}
         </div>
-        <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 300, fontSize: 34, margin: "8px 0 4px", color: INK }}>
+        <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 34, margin: "8px 0 4px", color: INK }}>
           {a.name}
         </h1>
         <p style={{ fontSize: 14, lineHeight: 1.55, color: MUTED, margin: 0 }}>{a.lens}</p>
@@ -549,7 +549,7 @@ function ReactionClotature({
       <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
         Jour {r.jour} · {entete.eyebrow}
       </div>
-      <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 300, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
+      <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
         {entete.titre}
       </h1>
       <p style={{ color: MUTED, fontSize: 14.5, lineHeight: 1.6, margin: "0 auto 22px", maxWidth: 400 }}>
