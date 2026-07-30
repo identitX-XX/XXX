@@ -52,7 +52,7 @@ create or replace view funnel as
 select
   (select count(*) from profiles) as inscrites,
   (select count(distinct anon_id) from events where name = 'app_open') as ouvertures,
-  (select count(distinct anon_id) from events where name = 'onboarding_complete') as onboardees,
+  (select count(distinct anon_id) from events where name = 'onboarding_completed') as onboardees,
   (select count(distinct anon_id) from events where name = 'archetype_revealed') as archetype,
   (select count(distinct anon_id) from events where name = 'objectifs_set') as cap_pose,
   (select count(distinct anon_id) from events where name = 'scenario_generated') as scenarios;
