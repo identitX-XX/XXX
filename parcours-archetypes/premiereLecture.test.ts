@@ -7,9 +7,9 @@ const OBJ: Objectifs = { perso: "Prendre soin de mon énergie", pro: "", relatio
 
 test("cite des comptes réels quand le tally est présent", () => {
   const diag: Diagnostic = {
-    dominant: "createur",
+    dominant: "creatrice",
     secondaire: "sage",
-    tally: { createur: 5, sage: 3, explorateur: 2, rebelle: 2 },
+    tally: { creatrice: 5, sage: 3, visionnaire: 2, rebelle: 2 },
   };
   const pl = premiereLecture(diag, OBJ);
   assert.match(pl.points[0], /5 fois/);
@@ -18,30 +18,30 @@ test("cite des comptes réels quand le tally est présent", () => {
 
 test("profil net quand peu d'archétypes distincts", () => {
   const diag: Diagnostic = {
-    dominant: "createur",
+    dominant: "creatrice",
     secondaire: "sage",
-    tally: { createur: 6, sage: 4, explorateur: 2 }, // 3 distincts
+    tally: { creatrice: 6, sage: 4, visionnaire: 2 }, // 3 distincts
   };
   assert.match(premiereLecture(diag, null).corps, /net/);
 });
 
 test("profil réparti quand beaucoup d'archétypes distincts", () => {
   const tally: Diagnostic["tally"] = {};
-  ["createur", "sage", "explorateur", "rebelle", "amoureux", "joueur", "reveur", "passeur"].forEach(
+  ["creatrice", "sage", "visionnaire", "rebelle", "amante", "libre", "artiste", "passeuse"].forEach(
     (a) => ((tally as Record<string, number>)[a] = 1)
   );
-  const diag: Diagnostic = { dominant: "createur", secondaire: "sage", tally };
+  const diag: Diagnostic = { dominant: "creatrice", secondaire: "sage", tally };
   assert.match(premiereLecture(diag, null).corps, /facettes/);
 });
 
 test("cite le cap de l'utilisatrice (ses mots)", () => {
-  const diag: Diagnostic = { dominant: "createur", secondaire: "sage", tally: { createur: 5, sage: 3 } };
+  const diag: Diagnostic = { dominant: "creatrice", secondaire: "sage", tally: { creatrice: 5, sage: 3 } };
   const pl = premiereLecture(diag, OBJ);
   assert.ok(pl.points.some((p) => p.includes("Prendre soin de mon énergie")));
 });
 
 test("robuste sans tally (ancien diagnostic) et sans cap", () => {
-  const diag: Diagnostic = { dominant: "createur", secondaire: "sage" };
+  const diag: Diagnostic = { dominant: "creatrice", secondaire: "sage" };
   const pl = premiereLecture(diag, null);
   assert.ok(pl.titre.length > 0);
   assert.ok(pl.points.length >= 1); // au moins le couplage

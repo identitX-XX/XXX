@@ -28,7 +28,7 @@ const JOURS = 30;
 export function rotationArchetypes(diag: Diagnostic): ArchetypeKey[] {
   // On veut ~2 passages par capsule identitaire. Base = deux fois la liste des 12 (24),
   // complétée pour atteindre 30, puis on impose les ancres.
-  const autres = ARCHETYPE_KEYS.filter((a) => a !== "metamorphe");
+  const autres = ARCHETYPE_KEYS.filter((a) => a !== "presence");
   const pool: ArchetypeKey[] = [];
   // deux tours des 11 (hors métamorphe) = 22, + quelques rappels = 29, + J30.
   pool.push(...autres, ...autres);
@@ -40,10 +40,11 @@ export function rotationArchetypes(diag: Diagnostic): ArchetypeKey[] {
   // Mélange déterministe léger pour éviter les répétitions collées.
   const seq = etaler(pool).slice(0, JOURS - 1);
 
-  // Ancres : J1 = dominant, J15 = secondaire, J30 = métamorphe.
+  // Ancres : J1 = dominante, J15 = secondaire, J30 = La Présence (l'ancrage
+  // habité — la traversée se referme sur l'intégration, plus sur une étiquette).
   seq[0] = diag.dominant;
   seq[14] = diag.secondaire;
-  const jours = [...seq, "metamorphe" as ArchetypeKey];
+  const jours = [...seq, "presence" as ArchetypeKey];
   return jours;
 }
 
@@ -169,6 +170,6 @@ export function generateParcours(diag: Diagnostic): Parcours {
 
 // Diagnostic par défaut pour la génération de base (build.ts).
 export const DIAGNOSTIC_DEFAUT: Diagnostic = {
-  dominant: "explorateur",
+  dominant: "presence",
   secondaire: "sage",
 };

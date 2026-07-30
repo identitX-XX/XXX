@@ -4,25 +4,25 @@ import { generateParcours } from "./generateParcours";
 import { archetypeByKey } from "./archetypes";
 import { Diagnostic } from "./types";
 
-const diag: Diagnostic = { dominant: "createur", secondaire: "sage" };
+const diag: Diagnostic = { dominant: "creatrice", secondaire: "sage" };
 
-test("30 journées générées, J1 = dominant, J30 = métamorphe", () => {
+test("30 journées générées, J1 = dominant, J30 = La Présence", () => {
   const p = generateParcours(diag);
   assert.equal(p.jours.length, 30);
-  assert.equal(p.jours[0].archetype, "createur");
-  assert.equal(p.jours[29].archetype, "metamorphe");
+  assert.equal(p.jours[0].archetype, "creatrice");
+  assert.equal(p.jours[29].archetype, "presence");
 });
 
 test("un jour dont l'archétype a un contenu enrichi utilise SES question/défi", () => {
   const p = generateParcours(diag);
-  const jour = p.jours.find((j) => j.archetype === "createur")!;
+  const jour = p.jours.find((j) => j.archetype === "creatrice")!;
   const question = jour.sections.find((s) => s.kind === "question")!;
   const defi = jour.sections.find((s) => s.kind === "defi")!;
-  assert.equal(question.texte, archetypeByKey.createur.question);
-  assert.equal(defi.texte, archetypeByKey.createur.defi);
+  assert.equal(question.texte, archetypeByKey.creatrice.question);
+  assert.equal(defi.texte, archetypeByKey.creatrice.defi);
 });
 
-test("couverture 12/12 : chaque journée porte la question et le défi rédigés de son archétype", () => {
+test("couverture 20 signatures : chaque journée porte la question et le défi rédigés de son archétype", () => {
   const p = generateParcours(diag);
   for (const j of p.jours) {
     const a = archetypeByKey[j.archetype];
@@ -35,7 +35,7 @@ test("couverture 12/12 : chaque journée porte la question et le défi rédigés
 
 test("la capsule du jour porte le lens de l'archétype", () => {
   const p = generateParcours(diag);
-  const jour = p.jours.find((j) => j.archetype === "createur")!;
+  const jour = p.jours.find((j) => j.archetype === "creatrice")!;
   const capsule = jour.sections.find((s) => s.kind === "capsule")!;
-  assert.ok(capsule.texte.includes(archetypeByKey.createur.lens));
+  assert.ok(capsule.texte.includes(archetypeByKey.creatrice.lens));
 });

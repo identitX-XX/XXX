@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { nouveauteDuJour, ressourceDuJour, RESSOURCES } from "./quotidien";
 import { ARCHETYPES, archetypeByKey } from "./archetypes";
 
-const arch = archetypeByKey["explorateur"] ?? ARCHETYPES[0];
+const arch = archetypeByKey["visionnaire"] ?? ARCHETYPES[0];
 
 test("nouveauté : la facette alterne question ↔ défi (jamais la lens de la capsule)", () => {
   assert.equal(nouveauteDuJour(1, arch).kind, "question");
@@ -44,6 +44,6 @@ test("ressource : un climat agité fait remonter une pratique d'ancrage", () => 
 
 test("ressource : varie selon le jour et l'archétype", () => {
   const ids = new Set<string>();
-  for (let n = 1; n <= 12; n++) ids.add(ressourceDuJour(n, "createur").id);
+  for (let n = 1; n <= 12; n++) ids.add(ressourceDuJour(n, "creatrice").id);
   assert.ok(ids.size >= 4, "assez de diversité sur douze jours");
 });

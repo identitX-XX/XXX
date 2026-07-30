@@ -5,19 +5,11 @@
 
 // --- Référentiels -----------------------------------------------------------
 
-export type ArchetypeKey =
-  | "explorateur"
-  | "sage"
-  | "createur"
-  | "rebelle"
-  | "protecteur"
-  | "amoureux"
-  | "batisseur"
-  | "guerisseur"
-  | "joueur"
-  | "passeur"
-  | "reveur"
-  | "metamorphe";
+// Migration : les 12 archétypes sont remplacés par les 20 Signatures. On garde
+// le nom historique `ArchetypeKey` (utilisé partout dans le moteur) mais il
+// pointe désormais sur SignatureKey — source unique dans signatures.ts.
+import type { SignatureKey } from "./signatures";
+export type ArchetypeKey = SignatureKey;
 
 export type SphereKey = "travail" | "relations" | "creation" | "corps" | "sens";
 

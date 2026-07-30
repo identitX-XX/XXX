@@ -4,21 +4,21 @@
     {
       "n": 1,
       "phase": "revelation",
-      "archetype": "explorateur",
+      "archetype": "presence",
       "sphereFocus": "travail",
-      "titre": "Jour 1 — L'Explorateur·rice",
+      "titre": "Jour 1 — La Présence",
       "sections": [
         {
           "id": "j1-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 1 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, observe sans juger. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j1-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "L'Explorateur·rice — Observe ce qui s'ouvre quand tu oses l'inconnu — et ce que rester en place te coûte."
+          "texte": "La Présence — Observe ce qui reste quand tu n'as rien à prouver ni à faire."
         },
         {
           "id": "j1-observation",
@@ -30,13 +30,13 @@
           "id": "j1-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « L'Explorateur·rice » dans « Travail ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, reste deux minutes sans rien faire ni prouver. Observe ce qui demeure quand l'agitation retombe."
         },
         {
           "id": "j1-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que se passe-t-il si tu n'as rien à prouver, ni rien à faire ?"
         },
         {
           "id": "j1-curseurs",
@@ -73,21 +73,21 @@
     {
       "n": 2,
       "phase": "revelation",
-      "archetype": "sage",
+      "archetype": "visionnaire",
       "sphereFocus": "relations",
-      "titre": "Jour 2 — Le·la Sage",
+      "titre": "Jour 2 — La Visionnaire",
       "sections": [
         {
           "id": "j2-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 2 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, laisse venir ce qui insiste. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j2-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Sage — Regarde comment tu cherches à comprendre avant d'agir, et où le savoir te met à l'abri."
+          "texte": "La Visionnaire — Observe ce que ton regard tourné vers l'avenir t'empêche de voir du présent."
         },
         {
           "id": "j2-observation",
@@ -99,13 +99,13 @@
           "id": "j2-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Sage » dans « Relations ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis une chose du présent que tu négliges. Pendant deux minutes, occupe-t'en pleinement, sans penser à la suite."
         },
         {
           "id": "j2-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que refuses-tu de voir du présent parce que tu regardes trop loin ?"
         },
         {
           "id": "j2-curseurs",
@@ -142,21 +142,21 @@
     {
       "n": 3,
       "phase": "revelation",
-      "archetype": "createur",
+      "archetype": "rebelle",
       "sphereFocus": "creation",
-      "titre": "Jour 3 — Le·la Créateur·rice",
+      "titre": "Jour 3 — La Rebelle",
       "sections": [
         {
           "id": "j3-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 3 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, choisis la présence à l'automatisme. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j3-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Créateur·rice — Remarque ce que tu as besoin de faire exister, qui n'était pas là avant toi."
+          "texte": "La Rebelle — Observe ce que tu construirais si tu n'avais rien contre quoi lutter."
         },
         {
           "id": "j3-observation",
@@ -168,13 +168,13 @@
           "id": "j3-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Créateur·rice » dans « Création ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère une chose que tu fais par opposition. Pendant deux minutes, demande-toi ce que tu ferais pour toi — pas contre quelqu'un."
         },
         {
           "id": "j3-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que construirais-tu s'il n'y avait plus rien contre quoi lutter ?"
         },
         {
           "id": "j3-curseurs",
@@ -211,21 +211,21 @@
     {
       "n": 4,
       "phase": "revelation",
-      "archetype": "rebelle",
+      "archetype": "mere",
       "sphereFocus": "corps",
-      "titre": "Jour 4 — Le·la Rebelle",
+      "titre": "Jour 4 — La Mère",
       "sections": [
         {
           "id": "j4-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 4 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, accueille ce qui bouge en toi. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j4-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Rebelle — Vois ce que tu refuses de suivre, et ce que ton « non » cherche à protéger."
+          "texte": "La Mère — Observe de qui tu prends soin pour ne pas t'occuper de toi."
         },
         {
           "id": "j4-observation",
@@ -237,13 +237,13 @@
           "id": "j4-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Rebelle » dans « Corps & énergie ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, laisse un besoin de ton entourage sans y répondre aussitôt. Observe ce qui se passe quand tu ne portes pas tout."
         },
         {
           "id": "j4-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "De qui prends-tu soin pour éviter de t'occuper de toi ?"
         },
         {
           "id": "j4-curseurs",
@@ -280,21 +280,21 @@
     {
       "n": 5,
       "phase": "revelation",
-      "archetype": "protecteur",
+      "archetype": "multiple",
       "sphereFocus": "sens",
-      "titre": "Jour 5 — Le·la Protecteur·rice",
+      "titre": "Jour 5 — La Multiple",
       "sections": [
         {
           "id": "j5-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 5 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, ose un pas de côté. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j5-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Protecteur·rice — Repère qui et quoi tu veux mettre à l'abri, et ce que tu portes sans le dire."
+          "texte": "La Multiple — Observe le fil qui relie, en secret, toutes tes facettes."
         },
         {
           "id": "j5-observation",
@@ -306,13 +306,13 @@
           "id": "j5-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Protecteur·rice » dans « Sens & intériorité ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Nomme trois de tes facettes. Pendant deux minutes, cherche le fil unique qui les relie toutes."
         },
         {
           "id": "j5-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quel est le fil qui relie, en secret, toutes tes facettes ?"
         },
         {
           "id": "j5-curseurs",
@@ -349,21 +349,21 @@
     {
       "n": 6,
       "phase": "revelation",
-      "archetype": "amoureux",
+      "archetype": "batisseuse",
       "sphereFocus": "travail",
-      "titre": "Jour 6 — L'Amoureux·se",
+      "titre": "Jour 6 — La Bâtisseuse",
       "sections": [
         {
           "id": "j6-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 6 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, écoute ce que ton corps te dit. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j6-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "L'Amoureux·se — Regarde ce qui t'attache, ce que tu chéris, et ce que la proximité fait remonter."
+          "texte": "La Bâtisseuse — Observe ce que tu entretiens encore qui ne mérite plus ton énergie."
         },
         {
           "id": "j6-observation",
@@ -375,13 +375,13 @@
           "id": "j6-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « L'Amoureux·se » dans « Travail ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère une chose que tu maintiens par habitude. Pendant deux minutes, demande-toi si elle mérite encore ce que tu lui donnes."
         },
         {
           "id": "j6-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Qu'entretiens-tu encore qui ne mérite plus ton énergie ?"
         },
         {
           "id": "j6-curseurs",
@@ -418,21 +418,21 @@
     {
       "n": 7,
       "phase": "revelation",
-      "archetype": "batisseur",
+      "archetype": "gardienne",
       "sphereFocus": "relations",
-      "titre": "Jour 7 — Le·la Bâtisseur·se",
+      "titre": "Jour 7 — La Gardienne",
       "sections": [
         {
           "id": "j7-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 7 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, nomme ce que tu ressens vraiment. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j7-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Bâtisseur·se — Observe où tu prends en charge la durée, l'ordre et le cap — pour toi et pour les autres."
+          "texte": "La Gardienne — Observe ce que tu protèges qui demande, en vérité, à évoluer."
         },
         {
           "id": "j7-observation",
@@ -444,13 +444,13 @@
           "id": "j7-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Bâtisseur·se » dans « Relations ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis une règle que tu défends. Pendant deux minutes, imagine ce qu'elle deviendrait si tu en gardais l'esprit mais changeais la forme."
         },
         {
           "id": "j7-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que protèges-tu qui demande, en vérité, à évoluer ?"
         },
         {
           "id": "j7-curseurs",
@@ -487,21 +487,21 @@
     {
       "n": 8,
       "phase": "revelation",
-      "archetype": "guerisseur",
+      "archetype": "activiste",
       "sphereFocus": "creation",
-      "titre": "Jour 8 — Le·la Guérisseur·se",
+      "titre": "Jour 8 — L'Activiste",
       "sections": [
         {
           "id": "j8-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 8 · phase « Révélation ». Laisser paraître les signatures qui te viennent le plus naturellement."
+          "texte": "Aujourd'hui, préfère l'exact au facile. Laisser paraître les signatures qui te viennent le plus naturellement."
         },
         {
           "id": "j8-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Guérisseur·se — Remarque où tu transformes la douleur — la tienne, celle d'autrui — en apaisement."
+          "texte": "L'Activiste — Observe qui tu es quand tu ne te bats pour rien."
         },
         {
           "id": "j8-observation",
@@ -513,13 +513,13 @@
           "id": "j8-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Guérisseur·se » dans « Création ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, pose le combat un moment. Pendant deux minutes, observe qui tu es quand aucune cause ne réclame ta force."
         },
         {
           "id": "j8-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Qui es-tu quand tu ne te bats pour rien ?"
         },
         {
           "id": "j8-curseurs",
@@ -556,21 +556,21 @@
     {
       "n": 9,
       "phase": "exploration",
-      "archetype": "joueur",
+      "archetype": "mediatrice",
       "sphereFocus": "corps",
-      "titre": "Jour 9 — Le·la Joueur·se",
+      "titre": "Jour 9 — La Médiatrice",
       "sections": [
         {
           "id": "j9-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 9 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, tiens ton cap sans te crisper. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j9-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Joueur·se — Observe où le jeu, la légèreté et l'humour te rendent à toi-même."
+          "texte": "La Médiatrice — Observe le conflit que tu évites et qui, réglé, libérerait tout le monde."
         },
         {
           "id": "j9-observation",
@@ -582,13 +582,13 @@
           "id": "j9-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Joueur·se » dans « Corps & énergie ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère un désaccord que tu lisses. Pendant deux minutes, formule pour toi seule ce que tu penses vraiment."
         },
         {
           "id": "j9-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quel conflit évites-tu qui, réglé, libérerait tout le monde — toi comprise ?"
         },
         {
           "id": "j9-curseurs",
@@ -625,21 +625,21 @@
     {
       "n": 10,
       "phase": "exploration",
-      "archetype": "passeur",
+      "archetype": "passeuse",
       "sphereFocus": "sens",
-      "titre": "Jour 10 — Le·la Passeur·se",
+      "titre": "Jour 10 — La Passeuse",
       "sections": [
         {
           "id": "j10-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 10 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, laisse une intuition te guider. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j10-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Passeur·se — Vois ce que tu te sens appelé·e à transmettre, et à qui tu ouvres un passage."
+          "texte": "La Passeuse — Observe la traversée que tu remets, occupée à faire passer les autres."
         },
         {
           "id": "j10-observation",
@@ -651,13 +651,13 @@
           "id": "j10-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Passeur·se » dans « Sens & intériorité ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, occupe-toi d'une de tes propres traversées. Pendant deux minutes, observe ce qui remonte quand tu t'accompagnes toi."
         },
         {
           "id": "j10-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quelle traversée remets-tu à plus tard, occupée à faire passer les autres ?"
         },
         {
           "id": "j10-curseurs",
@@ -694,21 +694,21 @@
     {
       "n": 11,
       "phase": "exploration",
-      "archetype": "reveur",
+      "archetype": "artiste",
       "sphereFocus": "travail",
-      "titre": "Jour 11 — Le·la Rêveur·se",
+      "titre": "Jour 11 — L'Artiste",
       "sections": [
         {
           "id": "j11-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 11 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, remarque ce que tu évites. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j11-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Rêveur·se — Regarde où vit ton émerveillement, et ce que ton imaginaire refuse d'abandonner."
+          "texte": "L'Artiste — Observe ce que tu créerais si personne ne devait jamais le voir."
         },
         {
           "id": "j11-observation",
@@ -720,13 +720,13 @@
           "id": "j11-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Rêveur·se » dans « Travail ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Crée quelque chose en deux minutes que personne ne verra. Observe ce qui change quand le regard des autres disparaît."
         },
         {
           "id": "j11-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que créerais-tu si personne ne devait jamais le voir ?"
         },
         {
           "id": "j11-curseurs",
@@ -763,21 +763,21 @@
     {
       "n": 12,
       "phase": "exploration",
-      "archetype": "explorateur",
+      "archetype": "sage",
       "sphereFocus": "relations",
-      "titre": "Jour 12 — L'Explorateur·rice",
+      "titre": "Jour 12 — La Sage",
       "sections": [
         {
           "id": "j12-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 12 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, avance d'un cran, sans te presser. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j12-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "L'Explorateur·rice — Observe ce qui s'ouvre quand tu oses l'inconnu — et ce que rester en place te coûte."
+          "texte": "La Sage — Observe où ta lucidité te sert d'excuse pour ne pas t'engager."
         },
         {
           "id": "j12-observation",
@@ -789,13 +789,13 @@
           "id": "j12-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « L'Explorateur·rice » dans « Relations ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis une situation que tu comprends parfaitement. Pendant deux minutes, engage-toi dedans au lieu de l'observer."
         },
         {
           "id": "j12-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Où ta lucidité te sert-elle d'excuse pour ne pas t'engager ?"
         },
         {
           "id": "j12-curseurs",
@@ -832,21 +832,21 @@
     {
       "n": 13,
       "phase": "exploration",
-      "archetype": "sage",
+      "archetype": "altruiste",
       "sphereFocus": "creation",
-      "titre": "Jour 13 — Le·la Sage",
+      "titre": "Jour 13 — L'Altruiste",
       "sections": [
         {
           "id": "j13-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 13 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, observe sans juger. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j13-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Sage — Regarde comment tu cherches à comprendre avant d'agir, et où le savoir te met à l'abri."
+          "texte": "L'Altruiste — Observe ce que tu t'autoriserais, pour une fois, à recevoir."
         },
         {
           "id": "j13-observation",
@@ -858,13 +858,13 @@
           "id": "j13-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Sage » dans « Création ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, demande quelque chose pour toi. Observe la gêne — et ce qu'il y a dessous."
         },
         {
           "id": "j13-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que t'autoriserais-tu, pour une fois, à recevoir ?"
         },
         {
           "id": "j13-curseurs",
@@ -901,21 +901,21 @@
     {
       "n": 14,
       "phase": "exploration",
-      "archetype": "createur",
+      "archetype": "amante",
       "sphereFocus": "corps",
-      "titre": "Jour 14 — Le·la Créateur·rice",
+      "titre": "Jour 14 — L'Amante",
       "sections": [
         {
           "id": "j14-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 14 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, laisse venir ce qui insiste. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j14-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Créateur·rice — Remarque ce que tu as besoin de faire exister, qui n'était pas là avant toi."
+          "texte": "L'Amante — Observe, dans ce que tu attends de l'autre, ce qui t'appartient déjà."
         },
         {
           "id": "j14-observation",
@@ -927,13 +927,13 @@
           "id": "j14-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Créateur·rice » dans « Corps & énergie ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère une attente que tu poses sur l'autre. Pendant deux minutes, demande-toi ce que tu peux t'offrir toi-même."
         },
         {
           "id": "j14-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Dans ce que tu attends de l'autre, qu'est-ce qui t'appartient déjà ?"
         },
         {
           "id": "j14-curseurs",
@@ -972,19 +972,19 @@
       "phase": "exploration",
       "archetype": "sage",
       "sphereFocus": "sens",
-      "titre": "Jour 15 — Le·la Sage",
+      "titre": "Jour 15 — La Sage",
       "sections": [
         {
           "id": "j15-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 15 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, choisis la présence à l'automatisme. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j15-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Sage — Regarde comment tu cherches à comprendre avant d'agir, et où le savoir te met à l'abri."
+          "texte": "La Sage — Observe où ta lucidité te sert d'excuse pour ne pas t'engager."
         },
         {
           "id": "j15-observation",
@@ -996,13 +996,13 @@
           "id": "j15-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Sage » dans « Sens & intériorité ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis une situation que tu comprends parfaitement. Pendant deux minutes, engage-toi dedans au lieu de l'observer."
         },
         {
           "id": "j15-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Où ta lucidité te sert-elle d'excuse pour ne pas t'engager ?"
         },
         {
           "id": "j15-curseurs",
@@ -1039,21 +1039,21 @@
     {
       "n": 16,
       "phase": "exploration",
-      "archetype": "protecteur",
+      "archetype": "protectrice",
       "sphereFocus": "travail",
-      "titre": "Jour 16 — Le·la Protecteur·rice",
+      "titre": "Jour 16 — La Protectrice",
       "sections": [
         {
           "id": "j16-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 16 · phase « Exploration ». Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
+          "texte": "Aujourd'hui, accueille ce qui bouge en toi. Essayer des signatures moins familières, dans d'autres sphères que d'habitude."
         },
         {
           "id": "j16-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Protecteur·rice — Repère qui et quoi tu veux mettre à l'abri, et ce que tu portes sans le dire."
+          "texte": "La Protectrice — Observe qui tu protèges encore d'un danger qui n'existe plus."
         },
         {
           "id": "j16-observation",
@@ -1065,13 +1065,13 @@
           "id": "j16-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Protecteur·rice » dans « Travail ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère quelqu'un que tu protèges. Pendant deux minutes, demande-toi si cette protection le rend plus fort — ou plus petit."
         },
         {
           "id": "j16-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Qui protèges-tu encore d'un danger qui n'existe plus ?"
         },
         {
           "id": "j16-curseurs",
@@ -1108,21 +1108,21 @@
     {
       "n": 17,
       "phase": "tension",
-      "archetype": "amoureux",
+      "archetype": "souveraine",
       "sphereFocus": "relations",
-      "titre": "Jour 17 — L'Amoureux·se",
+      "titre": "Jour 17 — La Souveraine",
       "sections": [
         {
           "id": "j17-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 17 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, ose un pas de côté. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j17-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "L'Amoureux·se — Regarde ce qui t'attache, ce que tu chéris, et ce que la proximité fait remonter."
+          "texte": "La Souveraine — Observe où ta couronne t'empêche de demander de l'aide."
         },
         {
           "id": "j17-observation",
@@ -1134,13 +1134,13 @@
           "id": "j17-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « L'Amoureux·se » dans « Relations ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, demande de l'aide sur une chose. Observe ce que ça coûte — et ce que ça ouvre."
         },
         {
           "id": "j17-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Où ta couronne t'empêche-t-elle de demander de l'aide ?"
         },
         {
           "id": "j17-curseurs",
@@ -1177,21 +1177,21 @@
     {
       "n": 18,
       "phase": "tension",
-      "archetype": "batisseur",
+      "archetype": "creatrice",
       "sphereFocus": "creation",
-      "titre": "Jour 18 — Le·la Bâtisseur·se",
+      "titre": "Jour 18 — La Créatrice",
       "sections": [
         {
           "id": "j18-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 18 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, écoute ce que ton corps te dit. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j18-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Bâtisseur·se — Observe où tu prends en charge la durée, l'ordre et le cap — pour toi et pour les autres."
+          "texte": "La Créatrice — Observe quel projet mérite, cette fois, que tu ailles jusqu'au bout."
         },
         {
           "id": "j18-observation",
@@ -1203,13 +1203,13 @@
           "id": "j18-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Bâtisseur·se » dans « Création ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Reprends un projet laissé en chemin. Pendant deux minutes, fais le plus petit pas concret vers sa fin."
         },
         {
           "id": "j18-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quel projet mérite, cette fois, que tu ailles jusqu'au bout ?"
         },
         {
           "id": "j18-curseurs",
@@ -1246,21 +1246,21 @@
     {
       "n": 19,
       "phase": "tension",
-      "archetype": "guerisseur",
+      "archetype": "libre",
       "sphereFocus": "corps",
-      "titre": "Jour 19 — Le·la Guérisseur·se",
+      "titre": "Jour 19 — La Libre",
       "sections": [
         {
           "id": "j19-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 19 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, nomme ce que tu ressens vraiment. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j19-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Guérisseur·se — Remarque où tu transformes la douleur — la tienne, celle d'autrui — en apaisement."
+          "texte": "La Libre — Observe le lien dont tu as peur qu'il te retire ta liberté."
         },
         {
           "id": "j19-observation",
@@ -1272,13 +1272,13 @@
           "id": "j19-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Guérisseur·se » dans « Corps & énergie ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis un lien qui compte. Pendant deux minutes, imagine t'y engager davantage — et vois si ta liberté rétrécit vraiment."
         },
         {
           "id": "j19-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "De quel lien as-tu peur qu'il te retire ta liberté — et est-ce vrai ?"
         },
         {
           "id": "j19-curseurs",
@@ -1315,21 +1315,21 @@
     {
       "n": 20,
       "phase": "tension",
-      "archetype": "joueur",
+      "archetype": "stratege",
       "sphereFocus": "sens",
-      "titre": "Jour 20 — Le·la Joueur·se",
+      "titre": "Jour 20 — La Stratège",
       "sections": [
         {
           "id": "j20-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 20 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, préfère l'exact au facile. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j20-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Joueur·se — Observe où le jeu, la légèreté et l'humour te rendent à toi-même."
+          "texte": "La Stratège — Observe où tu calcules le coup d'après au lieu de vivre celui-ci."
         },
         {
           "id": "j20-observation",
@@ -1341,13 +1341,13 @@
           "id": "j20-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Joueur·se » dans « Sens & intériorité ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, laisse une situation se dérouler sans plan. Pendant deux minutes, observe ce qui arrive quand tu ne prépares pas le coup d'après."
         },
         {
           "id": "j20-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Où ta maîtrise t'empêche-t-elle de te laisser surprendre ?"
         },
         {
           "id": "j20-curseurs",
@@ -1384,21 +1384,21 @@
     {
       "n": 21,
       "phase": "tension",
-      "archetype": "passeur",
+      "archetype": "visionnaire",
       "sphereFocus": "travail",
-      "titre": "Jour 21 — Le·la Passeur·se",
+      "titre": "Jour 21 — La Visionnaire",
       "sections": [
         {
           "id": "j21-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 21 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, tiens ton cap sans te crisper. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j21-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Passeur·se — Vois ce que tu te sens appelé·e à transmettre, et à qui tu ouvres un passage."
+          "texte": "La Visionnaire — Observe ce que ton regard tourné vers l'avenir t'empêche de voir du présent."
         },
         {
           "id": "j21-observation",
@@ -1410,13 +1410,13 @@
           "id": "j21-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Passeur·se » dans « Travail ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis une chose du présent que tu négliges. Pendant deux minutes, occupe-t'en pleinement, sans penser à la suite."
         },
         {
           "id": "j21-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que refuses-tu de voir du présent parce que tu regardes trop loin ?"
         },
         {
           "id": "j21-curseurs",
@@ -1453,21 +1453,21 @@
     {
       "n": 22,
       "phase": "tension",
-      "archetype": "reveur",
+      "archetype": "rebelle",
       "sphereFocus": "relations",
-      "titre": "Jour 22 — Le·la Rêveur·se",
+      "titre": "Jour 22 — La Rebelle",
       "sections": [
         {
           "id": "j22-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 22 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, laisse une intuition te guider. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j22-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Rêveur·se — Regarde où vit ton émerveillement, et ce que ton imaginaire refuse d'abandonner."
+          "texte": "La Rebelle — Observe ce que tu construirais si tu n'avais rien contre quoi lutter."
         },
         {
           "id": "j22-observation",
@@ -1479,13 +1479,13 @@
           "id": "j22-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Rêveur·se » dans « Relations ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère une chose que tu fais par opposition. Pendant deux minutes, demande-toi ce que tu ferais pour toi — pas contre quelqu'un."
         },
         {
           "id": "j22-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que construirais-tu s'il n'y avait plus rien contre quoi lutter ?"
         },
         {
           "id": "j22-curseurs",
@@ -1522,21 +1522,21 @@
     {
       "n": 23,
       "phase": "tension",
-      "archetype": "explorateur",
+      "archetype": "mere",
       "sphereFocus": "creation",
-      "titre": "Jour 23 — L'Explorateur·rice",
+      "titre": "Jour 23 — La Mère",
       "sections": [
         {
           "id": "j23-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 23 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, remarque ce que tu évites. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j23-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "L'Explorateur·rice — Observe ce qui s'ouvre quand tu oses l'inconnu — et ce que rester en place te coûte."
+          "texte": "La Mère — Observe de qui tu prends soin pour ne pas t'occuper de toi."
         },
         {
           "id": "j23-observation",
@@ -1548,13 +1548,13 @@
           "id": "j23-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « L'Explorateur·rice » dans « Création ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, laisse un besoin de ton entourage sans y répondre aussitôt. Observe ce qui se passe quand tu ne portes pas tout."
         },
         {
           "id": "j23-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "De qui prends-tu soin pour éviter de t'occuper de toi ?"
         },
         {
           "id": "j23-curseurs",
@@ -1591,21 +1591,21 @@
     {
       "n": 24,
       "phase": "tension",
-      "archetype": "sage",
+      "archetype": "multiple",
       "sphereFocus": "corps",
-      "titre": "Jour 24 — Le·la Sage",
+      "titre": "Jour 24 — La Multiple",
       "sections": [
         {
           "id": "j24-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 24 · phase « Tension ». Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
+          "texte": "Aujourd'hui, avance d'un cran, sans te presser. Rencontrer les frictions : quand deux signatures, ou une signature et un contexte, se contredisent."
         },
         {
           "id": "j24-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Sage — Regarde comment tu cherches à comprendre avant d'agir, et où le savoir te met à l'abri."
+          "texte": "La Multiple — Observe le fil qui relie, en secret, toutes tes facettes."
         },
         {
           "id": "j24-observation",
@@ -1617,13 +1617,13 @@
           "id": "j24-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Sage » dans « Corps & énergie ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Nomme trois de tes facettes. Pendant deux minutes, cherche le fil unique qui les relie toutes."
         },
         {
           "id": "j24-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quel est le fil qui relie, en secret, toutes tes facettes ?"
         },
         {
           "id": "j24-curseurs",
@@ -1660,21 +1660,21 @@
     {
       "n": 25,
       "phase": "metamorphose",
-      "archetype": "createur",
+      "archetype": "batisseuse",
       "sphereFocus": "sens",
-      "titre": "Jour 25 — Le·la Créateur·rice",
+      "titre": "Jour 25 — La Bâtisseuse",
       "sections": [
         {
           "id": "j25-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 25 · phase « Métamorphose ». Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
+          "texte": "Aujourd'hui, observe sans juger. Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
         },
         {
           "id": "j25-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Créateur·rice — Remarque ce que tu as besoin de faire exister, qui n'était pas là avant toi."
+          "texte": "La Bâtisseuse — Observe ce que tu entretiens encore qui ne mérite plus ton énergie."
         },
         {
           "id": "j25-observation",
@@ -1686,13 +1686,13 @@
           "id": "j25-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Créateur·rice » dans « Sens & intériorité ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère une chose que tu maintiens par habitude. Pendant deux minutes, demande-toi si elle mérite encore ce que tu lui donnes."
         },
         {
           "id": "j25-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Qu'entretiens-tu encore qui ne mérite plus ton énergie ?"
         },
         {
           "id": "j25-curseurs",
@@ -1729,21 +1729,21 @@
     {
       "n": 26,
       "phase": "metamorphose",
-      "archetype": "rebelle",
+      "archetype": "gardienne",
       "sphereFocus": "travail",
-      "titre": "Jour 26 — Le·la Rebelle",
+      "titre": "Jour 26 — La Gardienne",
       "sections": [
         {
           "id": "j26-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 26 · phase « Métamorphose ». Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
+          "texte": "Aujourd'hui, laisse venir ce qui insiste. Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
         },
         {
           "id": "j26-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Rebelle — Vois ce que tu refuses de suivre, et ce que ton « non » cherche à protéger."
+          "texte": "La Gardienne — Observe ce que tu protèges qui demande, en vérité, à évoluer."
         },
         {
           "id": "j26-observation",
@@ -1755,13 +1755,13 @@
           "id": "j26-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Rebelle » dans « Travail ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Choisis une règle que tu défends. Pendant deux minutes, imagine ce qu'elle deviendrait si tu en gardais l'esprit mais changeais la forme."
         },
         {
           "id": "j26-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que protèges-tu qui demande, en vérité, à évoluer ?"
         },
         {
           "id": "j26-curseurs",
@@ -1798,21 +1798,21 @@
     {
       "n": 27,
       "phase": "metamorphose",
-      "archetype": "protecteur",
+      "archetype": "activiste",
       "sphereFocus": "relations",
-      "titre": "Jour 27 — Le·la Protecteur·rice",
+      "titre": "Jour 27 — L'Activiste",
       "sections": [
         {
           "id": "j27-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 27 · phase « Métamorphose ». Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
+          "texte": "Aujourd'hui, choisis la présence à l'automatisme. Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
         },
         {
           "id": "j27-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Protecteur·rice — Repère qui et quoi tu veux mettre à l'abri, et ce que tu portes sans le dire."
+          "texte": "L'Activiste — Observe qui tu es quand tu ne te bats pour rien."
         },
         {
           "id": "j27-observation",
@@ -1824,13 +1824,13 @@
           "id": "j27-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Protecteur·rice » dans « Relations ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, pose le combat un moment. Pendant deux minutes, observe qui tu es quand aucune cause ne réclame ta force."
         },
         {
           "id": "j27-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Qui es-tu quand tu ne te bats pour rien ?"
         },
         {
           "id": "j27-curseurs",
@@ -1867,21 +1867,21 @@
     {
       "n": 28,
       "phase": "metamorphose",
-      "archetype": "amoureux",
+      "archetype": "mediatrice",
       "sphereFocus": "creation",
-      "titre": "Jour 28 — L'Amoureux·se",
+      "titre": "Jour 28 — La Médiatrice",
       "sections": [
         {
           "id": "j28-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 28 · phase « Métamorphose ». Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
+          "texte": "Aujourd'hui, accueille ce qui bouge en toi. Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
         },
         {
           "id": "j28-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "L'Amoureux·se — Regarde ce qui t'attache, ce que tu chéris, et ce que la proximité fait remonter."
+          "texte": "La Médiatrice — Observe le conflit que tu évites et qui, réglé, libérerait tout le monde."
         },
         {
           "id": "j28-observation",
@@ -1893,13 +1893,13 @@
           "id": "j28-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « L'Amoureux·se » dans « Création ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Repère un désaccord que tu lisses. Pendant deux minutes, formule pour toi seule ce que tu penses vraiment."
         },
         {
           "id": "j28-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quel conflit évites-tu qui, réglé, libérerait tout le monde — toi comprise ?"
         },
         {
           "id": "j28-curseurs",
@@ -1936,21 +1936,21 @@
     {
       "n": 29,
       "phase": "metamorphose",
-      "archetype": "batisseur",
+      "archetype": "passeuse",
       "sphereFocus": "corps",
-      "titre": "Jour 29 — Le·la Bâtisseur·se",
+      "titre": "Jour 29 — La Passeuse",
       "sections": [
         {
           "id": "j29-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 29 · phase « Métamorphose ». Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
+          "texte": "Aujourd'hui, ose un pas de côté. Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
         },
         {
           "id": "j29-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "Le·la Bâtisseur·se — Observe où tu prends en charge la durée, l'ordre et le cap — pour toi et pour les autres."
+          "texte": "La Passeuse — Observe la traversée que tu remets, occupée à faire passer les autres."
         },
         {
           "id": "j29-observation",
@@ -1962,13 +1962,13 @@
           "id": "j29-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « Le·la Bâtisseur·se » dans « Corps & énergie ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, occupe-toi d'une de tes propres traversées. Pendant deux minutes, observe ce qui remonte quand tu t'accompagnes toi."
         },
         {
           "id": "j29-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Quelle traversée remets-tu à plus tard, occupée à faire passer les autres ?"
         },
         {
           "id": "j29-curseurs",
@@ -2005,21 +2005,21 @@
     {
       "n": 30,
       "phase": "metamorphose",
-      "archetype": "metamorphe",
+      "archetype": "presence",
       "sphereFocus": "sens",
-      "titre": "Jour 30 — La Métamorphe",
+      "titre": "Jour 30 — La Présence",
       "sections": [
         {
           "id": "j30-intention",
           "kind": "intention",
           "titre": "Intention du jour",
-          "texte": "Jour 30 · phase « Métamorphose ». Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
+          "texte": "Aujourd'hui, écoute ce que ton corps te dit. Intégrer ce qui a bougé — sans se refermer sur une identité fixe."
         },
         {
           "id": "j30-capsule",
           "kind": "capsule",
           "titre": "Ta capsule identitaire du jour",
-          "texte": "La Métamorphe — Observe ce qui, en toi, ne cesse de se transformer — et se refuse à toute étiquette."
+          "texte": "La Présence — Observe ce qui reste quand tu n'as rien à prouver ni à faire."
         },
         {
           "id": "j30-observation",
@@ -2031,13 +2031,13 @@
           "id": "j30-defi",
           "kind": "defi",
           "titre": "Micro-défi",
-          "texte": "Un geste concret, tout petit, inspiré par « La Métamorphe » dans « Sens & intériorité ». Rien d'héroïque : quelque chose de faisable avant ce soir."
+          "texte": "Aujourd'hui, reste deux minutes sans rien faire ni prouver. Observe ce qui demeure quand l'agitation retombe."
         },
         {
           "id": "j30-question",
           "kind": "question",
           "titre": "Question ouverte",
-          "texte": "Quand cette capsule identitaire s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?"
+          "texte": "Que se passe-t-il si tu n'as rien à prouver, ni rien à faire ?"
         },
         {
           "id": "j30-curseurs",

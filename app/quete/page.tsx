@@ -136,6 +136,26 @@ function QueteMonde({
     setTour((t) => t + 1);
   };
 
+  // Toutes les signatures n'ont pas encore leur Quête dédiée (contenu hérité,
+  // remappé sur 12/20). Dégradation propre : on invite plutôt que de casser.
+  if (!quete || !futur) {
+    return (
+      <div>
+        <PageHead
+          eyebrow="La Quête"
+          title={`La Quête de ${arch.name} arrive bientôt`}
+          sub="Les exercices dédiés à cette signature sont en cours d'écriture. En attendant, ta capsule du jour continue de te faire avancer."
+        />
+        <Link
+          href="/parcours-signatures"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow"
+        >
+          Retour à ma quête <ArrowRight size={16} />
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div
       className="rounded-3xl border p-6 sm:p-9"
@@ -391,7 +411,7 @@ function Delestage({ m, poids, id }: { m: Monde; poids: string[]; id: string }) 
 }
 
 // Exercice 2 — choisir la réponse qui fait grandir.
-function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: ReturnType<typeof queteDe>["carrefour"]; id: string }) {
+function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: NonNullable<ReturnType<typeof queteDe>>["carrefour"]; id: string }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
   const [choisi, setChoisi] = useState<number | null>(null);

@@ -22,8 +22,10 @@ export interface Quete {
   geste: string; // exercice 3 : le pacte
 }
 
-export const QUETES: Record<ArchetypeKey, Quete> = {
-  explorateur: {
+// Partial : contenu Quête hérité, remappé sur les signatures proches (12/20).
+// Les signatures sans Quête dédiée dégradent proprement (voir /quete).
+export const QUETES: Partial<Record<ArchetypeKey, Quete>> = {
+  visionnaire: {
     lest: "la dispersion",
     pourquoi:
       "Tu cours toujours vers la nouveauté suivante. Résultat : rien n'a le temps de mûrir, et ton énergie se dilue au lieu de porter.",
@@ -67,7 +69,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, prends une décision sans être sûr — et observe ce qui arrive.",
   },
-  createur: {
+  creatrice: {
     lest: "le perfectionnisme",
     pourquoi:
       "La peur d'être jugé fait de chaque création un test sur ta valeur. Alors tu peaufines en secret ce que personne ne verra.",
@@ -111,7 +113,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, dis oui à une bonne idée qui ne vient pas de toi.",
   },
-  protecteur: {
+  protectrice: {
     lest: "la sur-responsabilité",
     pourquoi:
       "Tu portes tout le monde, jusqu'à disparaître sous la charge. À force de protéger les autres, tu t'oublies.",
@@ -133,7 +135,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, laisse quelqu'un se débrouiller — et occupe-toi de toi.",
   },
-  amoureux: {
+  amante: {
     lest: "le besoin d'approbation",
     pourquoi:
       "À vouloir plaire à tout prix, tu te fonds dans l'autre. Ton élan vers le lien se transforme en peur de déplaire.",
@@ -155,7 +157,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, exprime une préférence qui te distingue du groupe.",
   },
-  batisseur: {
+  batisseuse: {
     lest: "la rigidité",
     pourquoi:
       "Tu bâtis des certitudes pour te rassurer face à l'imprévu. Mais ce qui devait te stabiliser finit par t'enfermer.",
@@ -177,7 +179,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, change une seule habitude que tu défendais comme une règle.",
   },
-  guerisseur: {
+  altruiste: {
     lest: "l'oubli de toi",
     pourquoi:
       "Tu prends soin de tout le monde, sauf de toi. Soigner les autres devient une façon d'éviter tes propres blessures.",
@@ -199,7 +201,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, offre-toi le soin que tu donnerais à quelqu'un d'autre.",
   },
-  joueur: {
+  libre: {
     lest: "l'évitement par la légèreté",
     pourquoi:
       "L'humour et le jeu te servent à esquiver ce qui compte. Ta légèreté, si précieuse, devient parfois une fuite.",
@@ -221,7 +223,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, tiens une conversation sérieuse jusqu'au bout, sans blague.",
   },
-  passeur: {
+  passeuse: {
     lest: "l'effacement de toi",
     pourquoi:
       "Tu relies, tu transmets, tu mets les autres en lumière — jusqu'à t'effacer. Ton rôle finit par t'empêcher d'exister.",
@@ -243,7 +245,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, revendique une chose que tu as faite, sans la minimiser.",
   },
-  reveur: {
+  artiste: {
     lest: "rester dans le rêve",
     pourquoi:
       "Un rêve reste parfait tant qu'il n'est pas réalisé. À force d'idéaliser, tu n'incarnes rien, et le réel te déçoit toujours.",
@@ -265,7 +267,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
     },
     geste: "Aujourd'hui, fais le plus petit pas réel vers un rêve.",
   },
-  metamorphe: {
+  presence: {
     lest: "la peur de te fixer",
     pourquoi:
       "Rester insaisissable te met à l'abri de l'engagement. Mais tu ne restes jamais assez longtemps pour devenir vraiment toi.",
@@ -289,7 +291,7 @@ export const QUETES: Record<ArchetypeKey, Quete> = {
   },
 };
 
-export const queteDe = (k: ArchetypeKey): Quete => QUETES[k];
+export const queteDe = (k: ArchetypeKey): Quete | undefined => QUETES[k];
 
 // Le Futur Moi — là où l'on atterrit au bout de la quête. La meilleure version,
 // multipotentielle, une fois le lest posé, ET le pourquoi. Adossé à la force de
@@ -300,8 +302,8 @@ export interface FuturMoi {
   multipotentiel: string; // comment ta multipotentialité devient une force
 }
 
-export const FUTURS_MOI: Record<ArchetypeKey, FuturMoi> = {
-  explorateur: {
+export const FUTURS_MOI: Partial<Record<ArchetypeKey, FuturMoi>> = {
+  visionnaire: {
     nom: "Celle qui traverse et relie",
     pourquoi:
       "La dispersion posée, ta curiosité cesse de fuir : elle creuse. Chaque exploration devient une racine, plus une escale.",
@@ -315,7 +317,7 @@ export const FUTURS_MOI: Record<ArchetypeKey, FuturMoi> = {
     multipotentiel:
       "Relier les savoirs devient ta signature — tu vois les ponts que les spécialistes ne voient pas.",
   },
-  createur: {
+  creatrice: {
     nom: "Le Créateur qui livre",
     pourquoi:
       "Le perfectionnisme lâché, tes œuvres sortent et rencontrent le monde. Tu crées pour donner, plus pour être validé.",
@@ -329,56 +331,56 @@ export const FUTURS_MOI: Record<ArchetypeKey, FuturMoi> = {
     multipotentiel:
       "Ton refus des cases devient une force : tu inventes des voies que personne n'avait tracées.",
   },
-  protecteur: {
+  protectrice: {
     nom: "Le Protecteur qui tient sa place",
     pourquoi:
       "La sur-responsabilité posée, tu protèges sans porter. Ta force soutient, elle n'écrase plus — toi compris.",
     multipotentiel:
       "Tu deviens le pilier qui relie les gens ET les domaines, sans t'y dissoudre.",
   },
-  amoureux: {
+  amante: {
     nom: "Celui qui aime sans se perdre",
     pourquoi:
       "Le besoin d'approbation posé, tu entres en lien entier — présent, pas dilué. On t'aime pour ce que tu es, pas pour ce que tu plies.",
     multipotentiel:
       "Ta sensibilité aux autres, alliée à tes multiples facettes, fait de toi un tisseur de liens rare.",
   },
-  batisseur: {
+  batisseuse: {
     nom: "Le Bâtisseur vivant",
     pourquoi:
       "La rigidité posée, tes fondations respirent. Tu construis solide ET souple — ça tient parce que ça s'adapte.",
     multipotentiel:
       "Tu deviens celui qui structure le foisonnement : donner forme à mille idées sans les figer.",
   },
-  guerisseur: {
+  altruiste: {
     nom: "Le Guérisseur qui se soigne aussi",
     pourquoi:
       "L'oubli de toi posé, ta source se remplit. Tu soignes depuis l'abondance, plus depuis le manque.",
     multipotentiel:
       "Ta capacité à sentir les êtres, croisée à tes savoirs multiples, fait de toi un soin qui n'existe nulle part ailleurs.",
   },
-  joueur: {
+  libre: {
     nom: "Le Joueur présent",
     pourquoi:
       "L'évitement posé, ta légèreté devient un cadeau, plus une fuite. Tu joues ET tu es là quand ça compte.",
     multipotentiel:
       "Ton goût du jeu relie tes domaines par l'expérimentation : tu transformes le sérieux en terrain d'essai.",
   },
-  passeur: {
+  passeuse: {
     nom: "Le Passeur qui existe",
     pourquoi:
       "L'effacement posé, tu transmets en étant vu. Ta lumière éclaire les autres sans t'éteindre.",
     multipotentiel:
       "Tu deviens le pont entre les mondes — et cette fois, on sait que le pont a un nom : le tien.",
   },
-  reveur: {
+  artiste: {
     nom: "Le Rêveur qui incarne",
     pourquoi:
       "Le rêve posé dans le réel, ton imaginaire devient matière. Tu ne fuis plus le monde, tu le redessines.",
     multipotentiel:
       "Tes visions multiples cessent de rester en l'air : tu fais atterrir l'impossible, un pas à la fois.",
   },
-  metamorphe: {
+  presence: {
     nom: "La Métamorphe enracinée",
     pourquoi:
       "La peur de te fixer posée, tu te déposes assez pour récolter. Tu changes sans fuir — tu deviens, vraiment.",
@@ -387,4 +389,4 @@ export const FUTURS_MOI: Record<ArchetypeKey, FuturMoi> = {
   },
 };
 
-export const futurMoiDe = (k: ArchetypeKey): FuturMoi => FUTURS_MOI[k];
+export const futurMoiDe = (k: ArchetypeKey): FuturMoi | undefined => FUTURS_MOI[k];

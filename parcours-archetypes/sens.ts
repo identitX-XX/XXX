@@ -1,13 +1,15 @@
 // parcours-archetypes/sens.ts
-// Le mini-diagnostic « écran-miroir » : 8 questions à choix forcé qui
-// calculent le DOMINANT (et son secondaire), lequel ouvre le parcours
-// (J1 = dominant, J15 = secondaire). La Métamorphe est exclue des résultats :
-// c'est le dominant de clôture, universel, réservé au J30.
+// L'écran-miroir : 12 questions à choix forcé qui calculent la SIGNATURE
+// dominante (et sa secondaire), laquelle ouvre le parcours (J1 = dominante,
+// J15 = secondaire, J30 = La Présence).
 //
-// Scoring : chaque réponse marque un archétype (+1). Comme certains archétypes
-// apparaissent plus souvent dans les options, le score est NORMALISÉ par le
-// nombre d'apparitions — sinon l'Explorateur, très présent, sortirait trop
-// souvent. 1er = dominant, 2e = secondaire.
+// Scoring : chaque réponse marque une signature (+1), NORMALISÉ par le nombre
+// d'apparitions de la signature dans les options (pour ne pas favoriser celles
+// qui reviennent souvent). 1re = dominante, 2e = secondaire.
+//
+// Règle spéciale — La Multiple (méta) : quand les réponses sont très dispersées
+// (8 signatures distinctes ou plus sur 12 réponses), la dominante devient
+// La Multiple : la pluralité se révèle par le motif, pas par une case.
 
 import { ArchetypeKey, Diagnostic } from "./types";
 
@@ -26,138 +28,137 @@ export const QUESTIONS: QuestionDiag[] = [
     id: "q1",
     question: "Pourquoi te lèves-tu le matin ?",
     options: [
-      { label: "Découvrir, bouger, voir ce qui s'ouvre", archetype: "explorateur" },
+      { label: "Faire exister quelque chose de neuf", archetype: "creatrice" },
       { label: "Y voir clair, comprendre", archetype: "sage" },
-      { label: "Faire exister quelque chose de neuf", archetype: "createur" },
-      { label: "M'occuper de ceux qui comptent", archetype: "protecteur" },
-      { label: "Avancer sur ce que je construis", archetype: "batisseur" },
+      { label: "M'occuper de ceux qui comptent", archetype: "mere" },
+      { label: "Avancer sur ce que je construis", archetype: "batisseuse" },
+      { label: "Défendre ce qui est juste", archetype: "activiste" },
     ],
   },
   {
     id: "q2",
-    question: "Un problème inédit — ton premier réflexe ?",
+    question: "Face à un problème inédit, ton premier réflexe ?",
     options: [
-      { label: "Explorer plusieurs pistes", archetype: "explorateur" },
-      { label: "Comprendre la cause", archetype: "sage" },
-      { label: "Inventer une solution à moi", archetype: "createur" },
+      { label: "Poser un plan, anticiper", archetype: "stratege" },
+      { label: "Sentir ce qui se joue en dessous", archetype: "sorciere" },
       { label: "Remettre en cause la règle", archetype: "rebelle" },
-      { label: "Structurer un plan", archetype: "batisseur" },
+      { label: "Trouver le terrain d'entente", archetype: "mediatrice" },
+      { label: "Imaginer ce qui pourrait naître", archetype: "visionnaire" },
     ],
   },
   {
     id: "q3",
     question: "Ce qu'on vient chercher chez toi ?",
     options: [
-      { label: "Un abri, du réconfort", archetype: "guerisseur" },
+      { label: "Un refuge, du réconfort", archetype: "mere" },
       { label: "Un avis lucide", archetype: "sage" },
-      { label: "De la tendresse, du lien", archetype: "amoureux" },
-      { label: "De la légèreté, du rire", archetype: "joueur" },
-      { label: "Un conseil qui fait grandir", archetype: "passeur" },
+      { label: "De l'intensité, de la tendresse", archetype: "amante" },
+      { label: "Quelqu'un qui décide", archetype: "souveraine" },
+      { label: "Un déclic, un passage", archetype: "passeuse" },
     ],
   },
   {
     id: "q4",
-    question: "Au travail, ce qui te donne de l'énergie ?",
+    question: "Ce qui te met vraiment en mouvement ?",
     options: [
-      { label: "Un terrain neuf, un défi inédit", archetype: "explorateur" },
-      { label: "Concevoir, créer", archetype: "createur" },
-      { label: "Faire durer, livrer", archetype: "batisseur" },
-      { label: "Faire grandir les gens", archetype: "passeur" },
-      { label: "Bousculer ce qui cloche", archetype: "rebelle" },
+      { label: "Un horizon à atteindre", archetype: "visionnaire" },
+      { label: "Une cause à défendre", archetype: "activiste" },
+      { label: "Une œuvre à faire naître", archetype: "creatrice" },
+      { label: "Une liberté à préserver", archetype: "libre" },
+      { label: "Un lien à approfondir", archetype: "amante" },
     ],
   },
   {
     id: "q5",
     question: "Ce qui te manque le plus quand tu ne l'as pas ?",
     options: [
-      { label: "La liberté de mouvement", archetype: "explorateur" },
+      { label: "La liberté de mouvement", archetype: "libre" },
       { label: "Le sens, la compréhension", archetype: "sage" },
-      { label: "L'intimité, le lien profond", archetype: "amoureux" },
-      { label: "Prendre soin des miens", archetype: "protecteur" },
-      { label: "L'émerveillement, le rêve", archetype: "reveur" },
+      { label: "L'intensité du lien", archetype: "amante" },
+      { label: "Prendre soin des miens", archetype: "mere" },
+      { label: "Le calme, l'ancrage", archetype: "presence" },
     ],
   },
   {
     id: "q6",
     question: "Ta façon de te ressourcer ?",
     options: [
-      { label: "Partir, changer d'air", archetype: "explorateur" },
-      { label: "Réfléchir seul·e", archetype: "sage" },
-      { label: "Créer, écrire, bricoler", archetype: "createur" },
-      { label: "Jouer, rire, l'instant présent", archetype: "joueur" },
-      { label: "Apaiser, réparer (toi/les autres)", archetype: "guerisseur" },
+      { label: "Le silence, être simplement là", archetype: "presence" },
+      { label: "Réfléchir, prendre du recul", archetype: "sage" },
+      { label: "Créer, donner forme", archetype: "artiste" },
+      { label: "Partir, changer d'air", archetype: "libre" },
+      { label: "Retrouver les miens", archetype: "mere" },
     ],
   },
   {
     id: "q7",
     question: "Ce que tu ne supportes pas ?",
     options: [
-      { label: "L'injustice, l'hypocrisie", archetype: "rebelle" },
-      { label: "La confusion, la bêtise", archetype: "sage" },
-      { label: "Qu'on lâche les plus fragiles", archetype: "protecteur" },
-      { label: "La routine qui étouffe", archetype: "explorateur" },
-      { label: "Le cynisme, la lourdeur", archetype: "reveur" },
+      { label: "L'injustice", archetype: "activiste" },
+      { label: "Les faux-semblants", archetype: "rebelle" },
+      { label: "L'inachevé, le gâchis", archetype: "batisseuse" },
+      { label: "Qu'on touche à ceux que j'aime", archetype: "protectrice" },
+      { label: "La superficialité", archetype: "sage" },
     ],
   },
   {
     id: "q8",
-    question: "Dans 5 ans, ta plus grande fierté ?",
+    question: "Dans un groupe, ta place naturelle ?",
     options: [
-      { label: "Avoir osé, vécu large", archetype: "explorateur" },
-      { label: "M'être compris·e en profondeur", archetype: "sage" },
-      { label: "Avoir créé une œuvre à moi", archetype: "createur" },
-      { label: "Avoir bâti quelque chose qui dure", archetype: "batisseur" },
-      { label: "Avoir transmis à d'autres", archetype: "passeur" },
-      { label: "Avoir aimé et été aimé·e pleinement", archetype: "amoureux" },
+      { label: "Celle qui décide et assume", archetype: "souveraine" },
+      { label: "Celle qui relie et apaise", archetype: "mediatrice" },
+      { label: "Celle qui protège les plus fragiles", archetype: "protectrice" },
+      { label: "Celle qui transmet, fait grandir", archetype: "passeuse" },
+      { label: "Celle qui garde le cap et les valeurs", archetype: "gardienne" },
     ],
   },
   {
     id: "q9",
-    question: "Dans un projet, ce qui te fait vibrer ?",
+    question: "Ce que tu crains le plus, au fond ?",
     options: [
-      { label: "Partir vers l'inconnu", archetype: "explorateur" },
-      { label: "Comprendre en profondeur", archetype: "sage" },
-      { label: "Donner forme à une idée neuve", archetype: "createur" },
-      { label: "Qu'il tienne dans la durée", archetype: "batisseur" },
-      { label: "Qu'il aide vraiment quelqu'un", archetype: "guerisseur" },
+      { label: "Être enfermée", archetype: "libre" },
+      { label: "Ne rien créer, être ordinaire", archetype: "creatrice" },
+      { label: "Perdre le lien", archetype: "amante" },
+      { label: "Perdre le contrôle", archetype: "stratege" },
+      { label: "Ne pas être à la hauteur", archetype: "souveraine" },
     ],
   },
   {
     id: "q10",
-    question: "Ta plus grande peur ?",
+    question: "Ce qui te définit le mieux ?",
     options: [
-      { label: "M'enfermer, m'ennuyer", archetype: "explorateur" },
-      { label: "Me tromper faute d'avoir compris", archetype: "sage" },
-      { label: "Perdre ceux que j'aime", archetype: "amoureux" },
-      { label: "Ne pas être libre d'être moi", archetype: "rebelle" },
-      { label: "Ne rien laisser derrière moi", archetype: "passeur" },
+      { label: "Je sens ce que les autres ne voient pas", archetype: "sorciere" },
+      { label: "Je vois loin", archetype: "visionnaire" },
+      { label: "Je tiens dans la durée", archetype: "batisseuse" },
+      { label: "Je donne beaucoup", archetype: "altruiste" },
+      { label: "Je garde ce qui compte", archetype: "gardienne" },
     ],
   },
   {
     id: "q11",
-    question: "Un dimanche idéal ?",
+    question: "Ta manière d'être là pour l'autre ?",
     options: [
-      { label: "Explorer un endroit nouveau", archetype: "explorateur" },
-      { label: "Me plonger dans un projet créatif", archetype: "createur" },
-      { label: "Rire, jouer, sans programme", archetype: "joueur" },
-      { label: "Rêvasser, imaginer, flâner", archetype: "reveur" },
-      { label: "Un moment cocon avec les miens", archetype: "protecteur" },
+      { label: "Me rendre utile, donner", archetype: "altruiste" },
+      { label: "Protéger, sécuriser", archetype: "protectrice" },
+      { label: "Ressentir pleinement, être présente au lien", archetype: "amante" },
+      { label: "Faire grandir", archetype: "passeuse" },
+      { label: "Être présente, sans rien forcer", archetype: "presence" },
     ],
   },
   {
     id: "q12",
-    question: "Ce qui te rend le plus fier·e de toi ?",
+    question: "Ce que tu veux laisser derrière toi ?",
     options: [
-      { label: "Avoir tenu bon dans l'épreuve", archetype: "batisseur" },
-      { label: "Avoir aidé quelqu'un à aller mieux", archetype: "guerisseur" },
-      { label: "Avoir transmis quelque chose", archetype: "passeur" },
-      { label: "Avoir osé être différent·e", archetype: "rebelle" },
-      { label: "Avoir aimé sans retenue", archetype: "amoureux" },
+      { label: "Quelque chose de solide", archetype: "batisseuse" },
+      { label: "Des gens grandis", archetype: "passeuse" },
+      { label: "Une œuvre", archetype: "artiste" },
+      { label: "Un monde un peu plus juste", archetype: "activiste" },
+      { label: "Des valeurs préservées", archetype: "gardienne" },
     ],
   },
 ];
 
-// Combien de fois chaque archétype apparaît dans les options (pour normaliser).
+// Combien de fois chaque signature apparaît dans les options (pour normaliser).
 function apparitions(): Record<string, number> {
   const c: Record<string, number> = {};
   for (const q of QUESTIONS)
@@ -165,7 +166,11 @@ function apparitions(): Record<string, number> {
   return c;
 }
 
-// reponses : { [questionId]: archetypeKey choisi }
+// Au-delà de ce nombre de signatures DISTINCTES choisies, on considère le profil
+// comme pluriel → dominante = La Multiple (méta-signature).
+const SEUIL_MULTIPLE = 8;
+
+// reponses : { [questionId]: signatureKey choisie }
 export function calculerDiagnostic(
   reponses: Record<string, ArchetypeKey>
 ): Diagnostic {
@@ -174,12 +179,19 @@ export function calculerDiagnostic(
   for (const a of Object.values(reponses)) brut[a] = (brut[a] ?? 0) + 1;
 
   const scores = Object.keys(app)
-    .filter((a) => a !== "metamorphe")
     .map((a) => ({ a: a as ArchetypeKey, score: (brut[a] ?? 0) / app[a] }))
     .sort((x, y) => y.score - x.score);
 
-  const dominant = scores[0]?.a ?? "explorateur";
-  const secondaire =
-    scores.find((s) => s.a !== dominant)?.a ?? "sage";
+  const fort = scores[0]?.a ?? "presence";
+  const distinctes = new Set(Object.values(reponses)).size;
+
+  // Profil très dispersé → La Multiple orchestre ; sa secondaire est la
+  // signature la plus marquée malgré tout.
+  if (distinctes >= SEUIL_MULTIPLE) {
+    return { dominant: "multiple", secondaire: fort, tally: brut as Diagnostic["tally"] };
+  }
+
+  const dominant = fort;
+  const secondaire = scores.find((s) => s.a !== dominant)?.a ?? "sage";
   return { dominant, secondaire, tally: brut as Diagnostic["tally"] };
 }

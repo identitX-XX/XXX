@@ -85,10 +85,10 @@ test("archetypeDominant : null quand la matrice est vierge et l'historique vide"
 });
 
 test("archetypeDominant : renvoie le dominant amorcé", () => {
-  const base = initialiser({ dominant: "createur", secondaire: "sage" });
+  const base = initialiser({ dominant: "creatrice", secondaire: "sage" });
   // historique factice pour sortir du cas « vierge »
   const etat: EtatEvolution = { ...base, historique: [{ jour: 1, date: isoDaysAgo(0), radar: {} as SnapshotJour["radar"], spheres: {} as SnapshotJour["spheres"], coherence: 60, respiration: 20, emotions: [] }] };
   const dom = archetypeDominant(etat);
   assert.ok(dom);
-  assert.equal(dom!.key, "createur");
+  assert.equal(dom!.key, "creatrice");
 });

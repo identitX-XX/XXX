@@ -17,7 +17,7 @@ function snap(
   jour: number,
   o: { coherence?: number; dom?: string; domVal?: number; emotions?: EmotionKey[] } = {}
 ): SnapshotJour {
-  const { coherence = 60, dom = "createur", domVal = 20, emotions = ["joie"] } = o;
+  const { coherence = 60, dom = "creatrice", domVal = 20, emotions = ["joie"] } = o;
   const radar = Object.fromEntries(
     ARCHETYPE_KEYS.map((a) => [a, a === dom ? domVal : 20])
   ) as SnapshotJour["radar"];
@@ -32,7 +32,7 @@ function rep(
   return {
     jour,
     date: iso(jour),
-    archetype: "createur",
+    archetype: "creatrice",
     sphereFocus: "creation",
     curseurs: { travail: 50, relations: 50, creation, corps, sens: 50 },
     emotions,

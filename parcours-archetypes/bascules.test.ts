@@ -19,46 +19,46 @@ test("aucun historique → aucun chapitre", () => {
 });
 
 test("un seul dominant → un seul chapitre couvrant tout", () => {
-  const ch = detecterChapitres(seq(["createur", "createur", "createur", "createur"]));
+  const ch = detecterChapitres(seq(["creatrice", "creatrice", "creatrice", "creatrice"]));
   assert.equal(ch.length, 1);
   assert.equal(ch[0].debut, 1);
   assert.equal(ch[0].fin, 4);
-  assert.equal(ch[0].archetype, "createur");
+  assert.equal(ch[0].archetype, "creatrice");
   assert.equal(ch[0].jours, 4);
 });
 
 test("bascule nette qui tient → deux chapitres", () => {
   const ch = detecterChapitres(
-    seq(["createur", "createur", "createur", "createur", "rebelle", "rebelle", "rebelle", "rebelle"])
+    seq(["creatrice", "creatrice", "creatrice", "creatrice", "rebelle", "rebelle", "rebelle", "rebelle"])
   );
   assert.equal(ch.length, 2);
-  assert.deepEqual([ch[0].archetype, ch[0].debut, ch[0].fin], ["createur", 1, 4]);
+  assert.deepEqual([ch[0].archetype, ch[0].debut, ch[0].fin], ["creatrice", 1, 4]);
   assert.deepEqual([ch[1].archetype, ch[1].debut, ch[1].fin], ["rebelle", 5, 8]);
 });
 
 test("flicker d'un jour absorbé (ne casse pas le chapitre)", () => {
   const ch = detecterChapitres(
-    seq(["createur", "createur", "createur", "rebelle", "createur", "createur"])
+    seq(["creatrice", "creatrice", "creatrice", "rebelle", "creatrice", "creatrice"])
   );
   assert.equal(ch.length, 1);
-  assert.equal(ch[0].archetype, "createur");
+  assert.equal(ch[0].archetype, "creatrice");
 });
 
 test("bascule dans les tout derniers jours : ignorée si elle ne tient pas minHold", () => {
-  const ch = detecterChapitres(seq(["createur", "createur", "createur", "rebelle"]));
+  const ch = detecterChapitres(seq(["creatrice", "creatrice", "creatrice", "rebelle"]));
   assert.equal(ch.length, 1); // rebelle seul en fin → pas de nouveau chapitre
 });
 
 test("coherenceMoy calculée par chapitre", () => {
-  const h = [snap(1, "createur", 40), snap(2, "createur", 60), snap(3, "createur", 80)];
+  const h = [snap(1, "creatrice", 40), snap(2, "creatrice", 60), snap(3, "creatrice", 80)];
   const ch = detecterChapitres(h);
   assert.equal(ch[0].coherenceMoy, 60); // (40+60+80)/3
 });
 
 test("derniereBascule : null sur un seul chapitre, sinon la frontière", () => {
-  assert.equal(derniereBascule(detecterChapitres(seq(["createur", "createur"]))), null);
+  assert.equal(derniereBascule(detecterChapitres(seq(["creatrice", "creatrice"]))), null);
   const b = derniereBascule(
-    detecterChapitres(seq(["createur", "createur", "rebelle", "rebelle"]))
+    detecterChapitres(seq(["creatrice", "creatrice", "rebelle", "rebelle"]))
   );
-  assert.deepEqual(b, { jour: 3, depuis: "createur", vers: "rebelle" });
+  assert.deepEqual(b, { jour: 3, depuis: "creatrice", vers: "rebelle" });
 });
