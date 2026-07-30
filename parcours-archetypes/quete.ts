@@ -289,6 +289,182 @@ export const QUETES: Partial<Record<ArchetypeKey, Quete>> = {
     },
     geste: "Aujourd'hui, engage-toi sur une chose pour les trente prochains jours.",
   },
+  stratege: {
+    lest: "le sur-contrôle",
+    pourquoi:
+      "Tu calcules tout pour ne rien laisser au hasard. Mais à trop vouloir maîtriser, tu te coupes de ce que seuls l'imprévu — et le ressenti — pouvaient t'apprendre.",
+    poids: [
+      "tout planifier avant d'oser bouger",
+      "tenir les autres à distance pour garder la main",
+      "confondre gagner et relier",
+      "refuser de montrer une faille",
+      "remplacer le ressenti par le calcul",
+    ],
+    carrefour: {
+      situation:
+        "Une décision importante se joue. Les données ne tranchent pas — il reste une part d'intuition, et une conversation franche à avoir.",
+      choix: [
+        { texte: "J'attends d'avoir toutes les données", bon: false, retour: "La certitude ne viendra pas, et le moment stratégique passe. Le contrôle t'immobilise." },
+        { texte: "Je décide avec ce que j'ai, et je parle vrai", bon: true, retour: "La meilleure stratégie intègre l'humain et l'incertain. Tu avances." },
+        { texte: "Je garde mon plan et je l'impose", bon: false, retour: "Tu gagnes le point, tu perds l'adhésion. Le calcul seul coûte cher." },
+      ],
+    },
+    geste: "Aujourd'hui, tranche à l'intuition sur un sujet, et dis à quelqu'un ce que tu ressens vraiment.",
+  },
+  mere: {
+    lest: "l'oubli de toi",
+    pourquoi:
+      "Tu captes les besoins de tous avant les tiens. À force d'abriter, tu t'effaces — et tu attends en silence une reconnaissance qui ne vient pas.",
+    poids: [
+      "faire passer tes besoins après ceux de tous",
+      "étouffer l'autre sous le « pour ton bien »",
+      "attendre en silence qu'on te reconnaisse",
+      "te sentir coupable de recevoir",
+      "confondre aimer et te sacrifier",
+    ],
+    carrefour: {
+      situation:
+        "Ton entourage compte sur toi, comme toujours. Tu es fatiguée, et une envie à toi — un moment rien que pour toi — passe au second plan.",
+      choix: [
+        { texte: "Je m'oublie encore, ils ont besoin de moi", bon: false, retour: "Le don sans retour t'épuise, et prive l'autre de grandir seul." },
+        { texte: "Je pose mon besoin, sans culpabilité", bon: true, retour: "Prendre soin de toi n'abandonne personne : ça remplit la source." },
+        { texte: "Je m'efface et je le vis mal", bon: false, retour: "Le sacrifice silencieux nourrit la rancœur. Nomme, plutôt que d'attendre." },
+      ],
+    },
+    geste: "Aujourd'hui, demande — ou offre-toi — ce que tu donnes si facilement aux autres.",
+  },
+  multiple: {
+    lest: "la peur de choisir",
+    pourquoi:
+      "Tu contiens plusieurs mondes, mais la peur de trancher te les fait tous garder ouverts. Résultat : tu te vis comme « trop » ou « jamais assez », dispersée au lieu d'être plurielle.",
+    poids: [
+      "tout garder ouvert pour ne rien perdre",
+      "te croire imposteur dans chacun de tes mondes",
+      "confondre choisir et te mutiler",
+      "changer de registre pour fuir l'engagement",
+      "te juger « trop » ou « pas assez »",
+    ],
+    carrefour: {
+      situation:
+        "Plusieurs voies te tentent, toutes légitimes. Il faudrait en engager une vraiment — mais choisir, c'est renoncer aux autres, pour un temps.",
+      choix: [
+        { texte: "Je les garde toutes ouvertes", bon: false, retour: "Tout reste possible… et rien ne prend corps. La dispersion gagne." },
+        { texte: "J'en engage une, sans renier les autres", bon: true, retour: "Choisir n'est pas t'amputer : c'est donner un sol à ta pluralité." },
+        { texte: "J'attends de savoir laquelle est LA bonne", bon: false, retour: "La bonne se révèle en la vivant, pas avant. Tu diffères encore." },
+      ],
+    },
+    geste: "Aujourd'hui, engage-toi pleinement sur une seule de tes voies, le temps d'une journée.",
+  },
+  gardienne: {
+    lest: "la peur du changement",
+    pourquoi:
+      "Tu veilles sur ce qui compte, mais tu confonds parfois protéger l'essentiel et figer la forme. Ce que tu gardes finit par t'empêcher d'accueillir ce qui vient.",
+    poids: [
+      "défendre la forme en croyant sauver le fond",
+      "juger le neuf au nom du « bien »",
+      "confondre fidélité et immobilité",
+      "voir toute évolution comme une perte",
+      "garder par peur, plus par amour",
+    ],
+    carrefour: {
+      situation:
+        "Un proche, ou une équipe, veut faire évoluer une manière de faire à laquelle tu tiens. Le fond resterait, mais la forme, elle, changerait.",
+      choix: [
+        { texte: "Je défends la tradition telle quelle", bon: false, retour: "Tu sauves la forme et tu perds le vivant. Le fond, lui, aurait survécu au changement." },
+        { texte: "Je garde l'essentiel et je laisse la forme bouger", bon: true, retour: "Transmettre, c'est faire passer le feu, pas garder les cendres. Tu veilles vraiment." },
+        { texte: "Je cède tout pour avoir la paix", bon: false, retour: "L'excès inverse : tu lâches ce qui comptait. Discerne le fond de la forme." },
+      ],
+    },
+    geste: "Aujourd'hui, laisse évoluer une habitude à laquelle tu tiens — en n'en gardant que le sens.",
+  },
+  activiste: {
+    lest: "la fusion avec la cause",
+    pourquoi:
+      "Tu transformes l'indignation en action, jusqu'à ne plus faire qu'un avec le combat. À t'y fondre entièrement, tu t'épuises, et tu perds la personne derrière la cause : toi.",
+    poids: [
+      "mesurer ta valeur à ton combat",
+      "culpabiliser dès que tu te reposes",
+      "confondre ton identité et la cause",
+      "te radicaliser pour ne pas « trahir »",
+      "brûler ton énergie sans jamais la recharger",
+    ],
+    carrefour: {
+      situation:
+        "La cause réclame encore, toujours. Tu es à bout. Une pause t'aiderait, mais l'urgence te souffle que t'arrêter serait abandonner.",
+      choix: [
+        { texte: "Je continue, m'arrêter c'est trahir", bon: false, retour: "Le militant épuisé ne sert plus la cause : il s'y consume. Rien ne tient." },
+        { texte: "Je me recharge pour tenir dans la durée", bon: true, retour: "On sert mieux le juste sur cent jours que sur un feu de paille. Tu tiens." },
+        { texte: "Je claque la porte, écœurée", bon: false, retour: "L'épuisement pousse à tout quitter. La juste distance, pas la rupture." },
+      ],
+    },
+    geste: "Aujourd'hui, fais une chose pour toi seule, sans aucun rapport avec une cause.",
+  },
+  mediatrice: {
+    lest: "l'évitement du conflit",
+    pourquoi:
+      "Tu cherches l'accord juste, mais tu fuis parfois le conflit qui, lui, était nécessaire. À vouloir contenter tout le monde, ta voix se dilue jusqu'à la tiédeur.",
+    poids: [
+      "lisser un désaccord qui devait avoir lieu",
+      "te diluer dans l'avis de chacun",
+      "confondre paix et absence de tension",
+      "taire ta position pour rester « neutre »",
+      "apaiser pour être aimée, plus pour être juste",
+    ],
+    carrefour: {
+      situation:
+        "Deux camps s'opposent, et tu vois clair : l'un a tort sur le fond. Le nommer romprait l'harmonie de façade.",
+      choix: [
+        { texte: "Je renvoie tout le monde dos à dos", bon: false, retour: "La fausse neutralité protège l'injuste. L'harmonie de façade ne tient pas." },
+        { texte: "Je nomme ce que je vois, avec tact", bon: true, retour: "La vraie médiation dit le vrai, elle ne l'endort pas. Tu relies pour de bon." },
+        { texte: "Je change de sujet pour apaiser", bon: false, retour: "Le conflit évité revient plus tard, plus dur. Traverse-le." },
+      ],
+    },
+    geste: "Aujourd'hui, exprime clairement ta position dans un désaccord, au lieu de chercher le milieu.",
+  },
+  sorciere: {
+    lest: "te tenir à part",
+    pourquoi:
+      "Tu sens ce qui se joue sous la surface, mais tu te vis en marge. À force de cacher ton pouvoir, tu ne l'assumes jamais au grand jour, et il tourne en rond.",
+    poids: [
+      "te croire trop différente pour être comprise",
+      "cacher ce que tu perçois",
+      "jouer d'un pouvoir que tu n'assumes pas",
+      "te marginaliser avant qu'on t'écarte",
+      "confondre singularité et isolement",
+    ],
+    carrefour: {
+      situation:
+        "Tu perçois nettement quelque chose que personne ne dit — une tension, un non-dit. Le partager, c'est te dévoiler, et risquer de passer pour « trop ».",
+      choix: [
+        { texte: "Je garde ça pour moi, on ne comprendrait pas", bon: false, retour: "Ton intuition reste stérile dans l'ombre. À part, tu ne transformes rien." },
+        { texte: "Je le nomme, simplement, au grand jour", bon: true, retour: "Assumé, ton regard devient un don pour le groupe, plus un secret. Tu transmutes." },
+        { texte: "Je le distille en sous-entendus", bon: false, retour: "Le pouvoir joué en coulisse se retourne. Assume-le en pleine lumière." },
+      ],
+    },
+    geste: "Aujourd'hui, partage ouvertement une intuition que tu aurais d'ordinaire gardée pour toi.",
+  },
+  souveraine: {
+    lest: "la solitude du sommet",
+    pourquoi:
+      "Tu assumes l'autorité sans t'en excuser, mais tu portes tout seule, sans déléguer ni te montrer faillible. L'orgueil te tient droite — et t'isole au sommet.",
+    poids: [
+      "tout porter pour ne dépendre de personne",
+      "confondre autorité et invulnérabilité",
+      "refuser de déléguer par peur du relâchement",
+      "taire tes doutes pour tenir ton rang",
+      "confondre régner et être seule",
+    ],
+    carrefour: {
+      situation:
+        "Une charge te dépasse. Déléguer une partie, ou avouer que tu doutes, allègerait tout — mais entamerait l'image de celle qui maîtrise.",
+      choix: [
+        { texte: "Je porte tout, seule, comme d'habitude", bon: false, retour: "Le sommet devient une prison. Tu tiens le rang et tu t'épuises." },
+        { texte: "Je délègue, et je dis mon doute", bon: true, retour: "L'autorité vraie sait s'appuyer. Ta vulnérabilité assumée renforce ton cap." },
+        { texte: "J'impose plus fort pour masquer", bon: false, retour: "L'orgueil redouble la solitude. Régner n'est pas être seule." },
+      ],
+    },
+    geste: "Aujourd'hui, délègue une chose qui compte, ou avoue un doute à quelqu'un.",
+  },
 };
 
 export const queteDe = (k: ArchetypeKey): Quete | undefined => QUETES[k];
@@ -386,6 +562,62 @@ export const FUTURS_MOI: Partial<Record<ArchetypeKey, FuturMoi>> = {
       "La peur de te fixer posée, tu te déposes assez pour récolter. Tu changes sans fuir — tu deviens, vraiment.",
     multipotentiel:
       "Ta capacité à te réinventer devient une force stable : tu es plusieurs, et tu le tiens, sans te disperser.",
+  },
+  stratege: {
+    nom: "La Stratège qui relie",
+    pourquoi:
+      "Le sur-contrôle posé, ta vision d'ensemble s'ouvre à l'humain. Tu portes l'effort là où il compte, sans écraser ce qui vit.",
+    multipotentiel:
+      "Tes longueurs d'avance cessent de t'isoler : tu deviens celle qui oriente plusieurs mondes vers un même cap.",
+  },
+  mere: {
+    nom: "Celle qui abrite sans s'oublier",
+    pourquoi:
+      "L'oubli de toi posé, ton soin devient un choix, plus une dette. Tu fais grandir les autres en restant debout, toi aussi.",
+    multipotentiel:
+      "Ta capacité à sentir les besoins, alliée à tes facettes multiples, fait de toi un refuge où chacun trouve sa place — toi comprise.",
+  },
+  multiple: {
+    nom: "La Multiple assumée",
+    pourquoi:
+      "La peur de choisir posée, ta pluralité cesse de te tirailler : elle se tient. Tu es plusieurs, et tu l'habites sans t'excuser.",
+    multipotentiel:
+      "Tes mondes cessent de se concurrencer : tu deviens la passeuse entre des langues que personne d'autre ne parle ensemble.",
+  },
+  gardienne: {
+    nom: "La Gardienne qui transmet le feu",
+    pourquoi:
+      "La peur du changement posée, tu protèges l'essentiel sans figer la forme. Ce que tu gardes se transmet, au lieu de se scléroser.",
+    multipotentiel:
+      "Ta loyauté au sens, croisée à tes mondes multiples, fait de toi celle qui relie les époques et les gens autour de ce qui ne doit pas se perdre.",
+  },
+  activiste: {
+    nom: "L'Activiste qui dure",
+    pourquoi:
+      "La fusion posée, ton engagement devient un choix tenu, plus une combustion. Tu portes le juste sans t'y dissoudre.",
+    multipotentiel:
+      "Ton feu, croisé à tes talents multiples, fait de toi celle qui organise et relie des mondes autour d'un même élan — sans s'y brûler.",
+  },
+  mediatrice: {
+    nom: "La Médiatrice qui dit vrai",
+    pourquoi:
+      "L'évitement posé, ton écoute s'arme de franchise. Tu relies les êtres sur du solide, plus sur un accord de façade.",
+    multipotentiel:
+      "Ton flair des tensions, croisé à ta capacité à parler plusieurs langages, fait de toi celle qui traduit et réconcilie des mondes qui s'ignoraient.",
+  },
+  sorciere: {
+    nom: "La Sorcière au grand jour",
+    pourquoi:
+      "Le retrait posé, ton intuition s'assume et transforme. Ton lien à l'invisible éclaire les autres au lieu de t'isoler.",
+    multipotentiel:
+      "Ta lecture du profond, croisée à tes savoirs multiples, fait de toi celle qui transmute la matière brute de plusieurs mondes en or partagé.",
+  },
+  souveraine: {
+    nom: "La Souveraine qui s'entoure",
+    pourquoi:
+      "La solitude posée, ton autorité s'appuie sur les autres au lieu de tout porter. Tu tiens le cap sans t'y consumer.",
+    multipotentiel:
+      "Ton leadership, croisé à ta compréhension de plusieurs mondes, fait de toi celle qui fédère des talents divers sous une même vision, sans les écraser.",
   },
 };
 
