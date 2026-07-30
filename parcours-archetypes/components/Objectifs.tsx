@@ -32,6 +32,7 @@ const SUGGESTIONS: Record<PerimetreKey, string[]> = {
   perso: [
     "Nourrir ma curiosité",
     "Protéger mon énergie",
+    "Connaissance de soi",
     "Bouger",
     "Écrire, lire, dessiner",
     "Méditer",
