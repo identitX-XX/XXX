@@ -49,7 +49,7 @@ export default function ObjectifPage() {
       />
 
       <Link
-        href="/parcours-archetypes"
+        href="/parcours-signatures"
         className="group mb-8 inline-flex items-center gap-1.5 text-sm text-fuchsia hover:underline"
       >
         <ArrowLeft size={15} className="transition-transform group-hover:-translate-x-0.5" />
@@ -171,7 +171,7 @@ export default function ObjectifPage() {
       </div>
 
       <Link
-        href="/parcours-archetypes"
+        href="/parcours-signatures"
         className="group inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white hover:opacity-90"
       >
         Commencer le parcours

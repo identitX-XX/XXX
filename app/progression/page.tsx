@@ -62,7 +62,7 @@ export default function ProgressionPage() {
             se dessiner, jour après jour.
           </p>
           <Link
-            href="/parcours-archetypes"
+            href="/parcours-signatures"
             className="mt-4 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white"
           >
             Je commence ma quête
@@ -235,7 +235,7 @@ export default function ProgressionPage() {
           jourCourant={prog.jourCourant}
           selected={Math.min(prog.jourCourant, 30)}
           reponses={reponses}
-          onSelect={(n) => router.push(`/parcours-archetypes?jour=${n}`)}
+          onSelect={(n) => router.push(`/parcours-signatures?jour=${n}`)}
           legende="Ton avancement · clique un jour pour le revoir"
         />
       </div>
@@ -243,14 +243,14 @@ export default function ProgressionPage() {
       {/* Actions */}
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
-          href="/parcours-archetypes"
+          href="/parcours-signatures"
           className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white"
         >
           {termine ? "Revoir mon parcours" : "Reprendre le parcours"}
           <ArrowRight size={15} />
         </Link>
         <Link
-          href="/parcours-archetypes/rapport"
+          href="/parcours-signatures/rapport"
           className={`inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm ${
             prog.faits >= 5
               ? "border-fuchsia text-fuchsia hover:bg-raised"

@@ -36,7 +36,7 @@ export default function QuetePage() {
           sub="La Quête est taillée pour ta signature dominante. Réponds aux douze questions, et elle s'ouvrira."
         />
         <Link
-          href="/parcours-archetypes"
+          href="/parcours-signatures"
           className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow"
         >
           Révéler ma signature

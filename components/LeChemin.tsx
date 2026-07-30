@@ -41,7 +41,7 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
           etat: "fait",
           valeur: arch.name,
           detail: `Ton schéma dominant : ${arch.name}. ${arch.lens}`,
-          cta: { href: "/parcours-archetypes", label: "Revoir ta signature" },
+          cta: { href: "/parcours-signatures", label: "Revoir ta signature" },
         }
       : {
           label: "Signature",
@@ -50,7 +50,7 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
           valeur: "À révéler",
           detail:
             "12 questions pour faire émerger tes identités dominantes — le seuil de ta quête.",
-          cta: { href: "/parcours-archetypes", label: "Révéler ma signature" },
+          cta: { href: "/parcours-signatures", label: "Révéler ma signature" },
         },
     // 2 — La Mue
     bascule
@@ -70,7 +70,7 @@ export function LeChemin({ mapOnly = false }: { mapOnly?: boolean }) {
           valeur: "En observation",
           detail:
             "Ta mue se déclenche quand ta signature dominante bascule — et qu'elle tient. Continue ta quête : elle se révèle d'elle-même.",
-          cta: { href: "/parcours-archetypes", label: "Continuer ma quête" },
+          cta: { href: "/parcours-signatures", label: "Continuer ma quête" },
         }
       : {
           label: "La Mue",

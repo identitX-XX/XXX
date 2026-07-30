@@ -9,7 +9,7 @@ import { Home, Compass, Sparkles, MessageCircle, Menu } from "lucide-react";
 
 const TABS = [
   { href: "/aujourdhui", label: "Aujourd'hui", icon: Home },
-  { href: "/parcours-archetypes", label: "Ma quête", icon: Compass },
+  { href: "/parcours-signatures", label: "Ma quête", icon: Compass },
   { href: "/scenarios", label: "Scénarios", icon: Sparkles },
   { href: "/coach", label: "Coach", icon: MessageCircle },
 ];

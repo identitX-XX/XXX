@@ -37,7 +37,7 @@ export default function RapportPage() {
           title="Tes voies de sortie"
           sub="Ton rapport se tisse à partir de ce que tu vis. Traverse quelques journées, puis reviens le découvrir."
         />
-        <Link href="/parcours-archetypes" className="text-sm text-fuchsia hover:underline">
+        <Link href="/parcours-signatures" className="text-sm text-fuchsia hover:underline">
           ← Aller au parcours
         </Link>
       </div>

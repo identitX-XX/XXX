@@ -29,7 +29,7 @@ interface Metrics {
 
 // Nom lisible d'un module à partir de sa route.
 const MODULE_LABEL: Record<string, string> = {
-  "/aujourdhui": "Aujourd'hui", "/parcours-archetypes": "Ma quête", "/scenarios": "Scénarios",
+  "/aujourdhui": "Aujourd'hui", "/parcours-signatures": "Ma quête", "/scenarios": "Scénarios",
   "/coach": "Coach", "/explorer": "Explorer", "/synthese": "Ton portrait",
   "/quete": "La Quête", "/progression": "Progression", "/ressources": "Ressources",
   "/settings": "Réglages", "/confidentialite": "Confidentialité", "/cgu": "CGU",

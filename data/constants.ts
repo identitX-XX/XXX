@@ -48,7 +48,7 @@ export const NAV_GROUPS: {
   {
     section: "Comprendre",
     items: [
-      { href: "/parcours-archetypes", label: "Ta signature" },
+      { href: "/parcours-signatures", label: "Ta signature" },
       { href: "/explorer", label: "Explorer" },
       { href: "/synthese", label: "Ton portrait" },
     ],
@@ -90,7 +90,7 @@ export type JourneyStep = {
 // figurent plus — la vue d'ensemble ne parade que la séquence qui compte.
 export const JOURNEY: JourneyStep[] = [
   {
-    href: "/parcours-archetypes",
+    href: "/parcours-signatures",
     title: "Ta signature",
     phrase:
       "Douze questions, et la signature qui te met en mouvement se révèle. Tout commence là.",

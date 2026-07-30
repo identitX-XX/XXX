@@ -34,7 +34,7 @@ export function NextStep() {
 
   // Évite tout écart d'hydratation : le store se réhydrate côté client.
   if (!mounted) return null;
-  if (SKIP_EXACT.includes(pathname) || pathname.startsWith("/parcours-archetypes"))
+  if (SKIP_EXACT.includes(pathname) || pathname.startsWith("/parcours-signatures"))
     return null;
 
   const step = computeStep(diagnostic, objectifs, etat, reponses);
@@ -77,14 +77,14 @@ function computeStep(
       titre: "Révèle ta signature",
       pourquoi: "Tout part de là : douze questions, et ton point de départ.",
       cta: "Commencer",
-      href: "/parcours-archetypes",
+      href: "/parcours-signatures",
     };
   if (!objectifs)
     return {
       titre: "Pose ton cap",
       pourquoi: "Un objectif par périmètre — ta boussole des 30 jours.",
       cta: "Poser mon cap",
-      href: "/parcours-archetypes",
+      href: "/parcours-signatures",
     };
 
   const prog = progression(etat);
@@ -93,7 +93,7 @@ function computeStep(
       titre: "Ton bilan t'attend",
       pourquoi: "Tes 30 jours sont accomplis — recueille ce qui ressort.",
       cta: "Voir mon bilan",
-      href: "/parcours-archetypes/rapport",
+      href: "/parcours-signatures/rapport",
     };
 
   const n = Math.min(prog.jourCourant, 30);
@@ -102,7 +102,7 @@ function computeStep(
       titre: "Ta capsule du jour",
       pourquoi: "≈ 4 min, quand tu veux. Une question, un geste, un appui — à ton rythme.",
       cta: "Vivre ma capsule",
-      href: "/parcours-archetypes",
+      href: "/parcours-signatures",
     };
 
   return {

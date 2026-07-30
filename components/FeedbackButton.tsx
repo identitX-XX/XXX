@@ -13,7 +13,7 @@ import { Button, TextArea } from "./ui";
 
 // Nom lisible de l'écran courant, pour situer l'avis.
 const NOM_PAGE: Record<string, string> = {
-  "/aujourdhui": "Aujourd'hui", "/parcours-archetypes": "Ma quête", "/scenarios": "Scénarios",
+  "/aujourdhui": "Aujourd'hui", "/parcours-signatures": "Ma quête", "/scenarios": "Scénarios",
   "/coach": "Coach", "/explorer": "Explorer", "/synthese": "Ton portrait", "/quete": "La Quête",
   "/progression": "Progression", "/ressources": "Ressources", "/settings": "Réglages",
 };

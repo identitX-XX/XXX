@@ -80,7 +80,7 @@ export default function AujourdhuiPage() {
               périmètres perso, pro et relationnel.
             </p>
             <Link
-              href="/parcours-archetypes/rapport"
+              href="/parcours-signatures/rapport"
               className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-noir transition-transform hover:scale-[1.02]"
             >
               Voir mon bilan
@@ -177,7 +177,7 @@ export default function AujourdhuiPage() {
               {arch?.lens}
             </p>
             <Link
-              href="/parcours-archetypes"
+              href="/parcours-signatures"
               className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
             >
               {dejaFait ? "Revoir ma journée" : "Vivre ma journée"}
@@ -526,7 +526,7 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
     { href: "/synthese", label: "Ton portrait" },
     { href: "/progression", label: "Ma progression" },
     ...(prog.faits >= 5
-      ? [{ href: "/parcours-archetypes/rapport", label: "Mon rapport" }]
+      ? [{ href: "/parcours-signatures/rapport", label: "Mon rapport" }]
       : []),
     { href: "/ressources", label: "Ressources" },
   ];
@@ -587,7 +587,7 @@ function Amorce({
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted">{texte}</p>
         <Link
-          href="/parcours-archetypes"
+          href="/parcours-signatures"
           className="group mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
         >
           {cta}
