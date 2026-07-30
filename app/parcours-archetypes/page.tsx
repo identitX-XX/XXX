@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowUpRight, Dumbbell, GraduationCap } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
@@ -72,11 +72,32 @@ function ParcoursContent() {
 
       {/* En-tête du module — seulement une fois le parcours lancé, pour ne pas
           écraser l'écran des questions (il respire : juste « Ma quête »). */}
-      <PageHead
-        eyebrow="Module"
-        title="Parcours des 12 signatures"
-        sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
-      />
+      {/* J1 : en-tête complet (contexte utile). J2+ : version compacte, le
+          paragraphe se replie derrière « En savoir plus » pour rendre l'écran
+          au quotidien (il occupait ~40 % de la hauteur, répété chaque jour). */}
+      {jourCourant <= 1 ? (
+        <PageHead
+          eyebrow="Module"
+          title="Parcours des 12 signatures"
+          sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
+        />
+      ) : (
+        <div className="mb-8 animate-fade-up">
+          <div className="mb-2 text-xs uppercase tracking-[0.25em] text-fuchsia">Module</div>
+          <h1 className="font-display text-xl font-light leading-tight text-ink">
+            Parcours des 12 signatures
+          </h1>
+          <details className="group mt-1">
+            <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs text-fuchsia [&::-webkit-details-marker]:hidden">
+              En savoir plus
+              <ChevronDown size={13} className="transition-transform group-open:rotate-180" />
+            </summary>
+            <p className="mt-2 max-w-xl text-sm text-muted">
+              Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus.
+            </p>
+          </details>
+        </div>
+      )}
 
       {/* Adossé au module, une fois le parcours lancé : les exercices (Quête) et
           les savoirs. Ils n'encombrent plus l'entrée du diagnostic. */}
