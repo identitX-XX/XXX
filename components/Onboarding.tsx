@@ -146,8 +146,8 @@ function StepChemin() {
           <div key={s.label} className="flex flex-1 items-start">
             <div className="flex flex-1 flex-col items-center gap-2 text-center">
               <span
-                className="grid h-14 w-14 place-items-center rounded-full text-fuchsia"
-                style={{ boxShadow: "inset 0 0 0 2px var(--fuchsia)" }}
+                className="grid h-14 w-14 place-items-center rounded-2xl text-fuchsia"
+                style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
               >
                 {s.icon}
               </span>
@@ -187,7 +187,7 @@ function StepTerritoires() {
             className="flex flex-col items-center gap-2 p-2"
           >
             <span
-              className="grid h-11 w-11 place-items-center rounded-full text-fuchsia"
+              className="grid h-11 w-11 place-items-center rounded-2xl text-fuchsia"
               style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
             >
               {p.icon}
@@ -226,7 +226,7 @@ function StepRythme() {
             className="flex flex-col items-center gap-2 p-2"
           >
             <span
-              className="grid h-10 w-10 place-items-center rounded-full text-fuchsia"
+              className="grid h-10 w-10 place-items-center rounded-xl text-fuchsia"
               style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
             >
               {p.icon}
