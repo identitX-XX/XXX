@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowRight, ChevronDown } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { track } from "@/lib/metrics";
 import { Profile } from "@/types";
@@ -19,21 +19,43 @@ const STEPS = 6;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
-  const [step, setStep] = useState(0);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [intention, setIntention] = useState("");
+  // La section actuellement à l'écran (défilement vertical), pour le fil de
+  // progression — la mesure reste discrète, le rituel garde son repère.
+  const [active, setActive] = useState(0);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
-  // Le prénom est requis pour quitter l'étape « intention » (désormais l'étape 1).
-  const canNext = step === 1 ? name.trim().length > 0 : true;
+  // Le prénom (étape 1) reste requis : la dernière action est verrouillée tant
+  // qu'il n'est pas saisi — le gate, préservé malgré le défilement libre.
+  const canFinish = name.trim().length > 0;
 
-  // À chaque « Continuer », on repart du haut de l'écran — sinon, sur une étape
-  // plus longue (ex. « Le mouvement »), on atterrit au milieu, comme un reliquat.
+  // On suit la section la plus visible : elle pilote le fil de progression.
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [step]);
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const i = Number((e.target as HTMLElement).dataset.idx);
+            if (!Number.isNaN(i)) setActive(i);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+    sectionRefs.current.forEach((el) => el && io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const scrollTo = (i: number) =>
+    sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   const finish = () => {
+    if (!canFinish) {
+      scrollTo(1); // il manque le prénom : on y ramène plutôt que de bloquer sec
+      return;
+    }
     const mot = intention.trim();
     const profile: Profile = {
       name: name.trim(),
@@ -54,59 +76,93 @@ export function Onboarding() {
     track("onboarding_completed");
   };
 
-  const next = () => (step < STEPS - 1 ? setStep(step + 1) : finish());
-  const back = () => setStep(Math.max(0, step - 1));
+  // Six temps, empilés et « scroll-snap » : Bienvenue → Faisons connaissance →
+  // Exploration → Signature → Le tempo → Le mouvement. On glisse de l'un à
+  // l'autre ; le diagnostic (les 20 signatures) ne vient qu'APRÈS.
+  const steps = [
+    <StepAccueil key="accueil" />,
+    <StepPrenom
+      key="prenom"
+      name={name}
+      setName={setName}
+      age={age}
+      setAge={setAge}
+      intention={intention}
+      setIntention={setIntention}
+    />,
+    <StepTerritoires key="territoires" />,
+    <StepChemin key="chemin" />,
+    <StepRythme key="rythme" />,
+    <StepMouvement key="mouvement" />,
+  ];
 
   return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-lg flex-col px-6 pt-12 pb-[calc(2.5rem+env(safe-area-inset-bottom))]">
-      {/* Repères de friction : où j'en suis, combien de temps. */}
-      <div className="mb-2 flex items-center justify-between text-xs text-muted">
-        <span>Étape {step + 1} sur {STEPS}</span>
-        <span>≈ 2 min</span>
+    <div className="h-[100dvh] snap-y snap-mandatory overflow-y-auto scroll-smooth">
+      {/* Fil de progression, fixé en tête — le point d'ancrage du rituel. */}
+      <div className="pointer-events-none fixed inset-x-0 top-0 z-20 bg-gradient-to-b from-noir via-noir/90 to-transparent px-6 pb-4 pt-[calc(0.75rem+env(safe-area-inset-top))]">
+        <div className="mx-auto flex max-w-lg items-center justify-between text-xs text-muted">
+          <span>Étape {active + 1} sur {STEPS}</span>
+          <span>≈ 2 min</span>
+        </div>
+        <div className="mx-auto mt-2 flex max-w-lg gap-1.5">
+          {steps.map((_, i) => (
+            <div
+              key={i}
+              className={`h-1 flex-1 rounded-full transition-all duration-500 ${
+                i <= active ? "brand-gradient" : "bg-line"
+              }`}
+            />
+          ))}
+        </div>
       </div>
-      <div className="mb-10 flex gap-1.5">
-        {Array.from({ length: STEPS }).map((_, i) => (
-          <div
+
+      {steps.map((content, i) => {
+        const last = i === STEPS - 1;
+        return (
+          <section
             key={i}
-            className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-              i <= step ? "brand-gradient" : "bg-line"
-            }`}
-          />
-        ))}
-      </div>
+            data-idx={i}
+            ref={(el) => {
+              sectionRefs.current[i] = el;
+            }}
+            className="relative flex min-h-[100dvh] snap-start flex-col justify-center px-6 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-[calc(5rem+env(safe-area-inset-top))]"
+          >
+            <div className="mx-auto w-full max-w-lg animate-fade-up">{content}</div>
 
-      {/* Onboarding en six temps : Bienvenue → Faisons connaissance → Exploration
-          → Signature → Le rythme → Le mouvement. Le diagnostic (les 20 signatures)
-          ne vient qu'APRÈS. */}
-      <div className="flex flex-1 flex-col justify-center">
-      <div key={step} className="animate-fade-up">
-        {step === 0 && <StepAccueil />}
-        {step === 1 && (
-          <StepPrenom
-            name={name}
-            setName={setName}
-            age={age}
-            setAge={setAge}
-            intention={intention}
-            setIntention={setIntention}
-          />
-        )}
-        {step === 2 && <StepTerritoires />}
-        {step === 3 && <StepChemin />}
-        {step === 4 && <StepRythme />}
-        {step === 5 && <StepMouvement />}
-      </div>
-      </div>
-
-      <div className="mt-10 flex items-center justify-between">
-        <Button variant="ghost" onClick={back} className={step === 0 ? "invisible" : ""}>
-          <ArrowLeft size={16} /> Retour
-        </Button>
-        <Button onClick={next} disabled={!canNext}>
-          {step === STEPS - 1 ? "Commencer mon parcours" : "Continuer"}
-          <ArrowRight size={16} />
-        </Button>
-      </div>
+            {/* Ancre : chevron pour glisser à la suite, ou action finale. */}
+            <div className="absolute inset-x-0 bottom-[calc(1.75rem+env(safe-area-inset-bottom))] flex flex-col items-center gap-2 px-6">
+              {last ? (
+                <>
+                  <Button
+                    onClick={finish}
+                    disabled={!canFinish}
+                    className="w-full max-w-lg justify-center"
+                  >
+                    Commencer mon parcours <ArrowRight size={16} />
+                  </Button>
+                  {!canFinish && (
+                    <button
+                      onClick={() => scrollTo(1)}
+                      className="text-xs text-muted underline underline-offset-2"
+                    >
+                      Il manque juste ton prénom — appuie pour l'ajouter
+                    </button>
+                  )}
+                </>
+              ) : (
+                <button
+                  onClick={() => scrollTo(i + 1)}
+                  className="flex flex-col items-center gap-1 text-[11px] uppercase tracking-[0.18em] text-fuchsia transition-opacity"
+                  aria-label="Continuer"
+                >
+                  Continuer
+                  <ChevronDown size={20} className="animate-bounce" />
+                </button>
+              )}
+            </div>
+          </section>
+        );
+      })}
     </div>
   );
 }
