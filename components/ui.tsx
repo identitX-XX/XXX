@@ -118,10 +118,8 @@ export function Slider({
         max={100}
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="h-1 w-full cursor-pointer appearance-none rounded-full bg-line accent-[color:var(--fuchsia)]"
-        style={{
-          background: `linear-gradient(90deg, var(--fuchsia), var(--orange) ${value}%, var(--line) ${value}%)`,
-        }}
+        className="idx-range"
+        style={{ ["--fill" as string]: `${value}%` } as React.CSSProperties}
       />
     </div>
   );
