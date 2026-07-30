@@ -491,9 +491,9 @@ function ReactionClotature({
   const entete = (() => {
     if (bascule && domA && domB)
       return {
-        eyebrow: "Bascule",
+        eyebrow: "Ta mue",
         titre: `Tu passes de ${domA.name} à ${domB.name}`,
-        sous: "Ta matrice a changé de centre de gravité — un vortex s'amorce.",
+        sous: "Ta matrice a changé de centre de gravité — ta mue s'accomplit.",
       };
     if (!domA && domB)
       return {
