@@ -174,20 +174,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
         Il est possible de tolérer l'incertitude lorsqu'on a une direction.
       </p>
 
-      <p
-        style={{
-          fontSize: 14,
-          lineHeight: 1.5,
-          color: "var(--ink)",
-          textAlign: "center",
-          maxWidth: 300,
-          margin: "22px 0 0",
-        }}
-      >
-        Entre ton e-mail pour commencer ta quête.
-      </p>
-
-      <div style={{ height: 16 }} />
+      <div style={{ height: 24 }} />
 
       {welcome ? (
         <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
