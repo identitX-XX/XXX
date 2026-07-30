@@ -549,7 +549,7 @@ function ReactionClotature({
       <div style={{ fontSize: 12, letterSpacing: ".22em", textTransform: "uppercase", color: FUCHSIA }}>
         Jour {r.jour} · {entete.eyebrow}
       </div>
-      <h1 style={{ fontFamily: serif, fontWeight: 300, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
+      <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 300, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
         {entete.titre}
       </h1>
       <p style={{ color: MUTED, fontSize: 14.5, lineHeight: 1.6, margin: "0 auto 22px", maxWidth: 400 }}>

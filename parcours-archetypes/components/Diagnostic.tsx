@@ -72,7 +72,7 @@ export function Diagnostic() {
           <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: MUTED }}>
             Signature secondaire
           </div>
-          <div style={{ fontFamily: serif, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
+          <div className="fr-title" style={{ fontFamily: serif, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
           <p style={{ margin: 0, color: MUTED, fontSize: 14, lineHeight: 1.5 }}>{sec.lens}</p>
           <AObserver question={sec.question} />
         </div>

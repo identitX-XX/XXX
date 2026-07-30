@@ -155,7 +155,7 @@ function Revelations() {
       }}
     >
       <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 4 }}>
-        <span style={{ fontFamily: serif, fontWeight: 400, fontSize: 22, color: INK }}>
+        <span className="fr-title" style={{ fontFamily: serif, fontWeight: 400, fontSize: 22, color: INK }}>
           Ce qui ressort
         </span>
         <span style={{ fontSize: 12, color: MUTED }}>
