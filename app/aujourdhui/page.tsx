@@ -115,6 +115,23 @@ export default function AujourdhuiPage() {
       {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
       <LeChemin />
 
+      {/* Retour bienveillant après une absence : pas de rattrapage, pas de
+          pénalité — le parcours suit les jours vécus, jamais le calendrier. */}
+      {mo.absence >= 2 && prog.faits > 0 && !dejaFait && (
+        <div
+          className="mb-4 rounded-2xl border px-5 py-3.5 text-sm animate-fade-up"
+          style={{
+            borderColor: "color-mix(in srgb, var(--fuchsia) 34%, transparent)",
+            background: "color-mix(in srgb, var(--fuchsia) 6%, transparent)",
+          }}
+        >
+          <span className="text-ink">
+            Tu reprends là où tu t'es arrêtée — le <b>Jour {n}</b> t'attend, à ton
+            rythme. Rien ne se rattrape, rien ne se perd.
+          </span>
+        </div>
+      )}
+
       {/* Time-to-aha : avant même d'avoir vécu un jour, une première lecture
           sourcée sur tes réponses. Disparaît dès la première journée close. */}
       {prog.faits === 0 && <PremiereLecture />}

@@ -54,10 +54,16 @@ test("momentum : série cassée si dernier relevé plus vieux qu'hier", () => {
   assert.equal(mo.serie, 0);
 });
 
-test("momentum : record supérieur à la série courante", () => {
-  const mo = momentum(etatDates([4, 3, 2, 0])); // run de 3 (j-4..j-2), puis aujourd'hui isolé
+test("momentum : record supérieur à la série courante (2+ jours manqués cassent)", () => {
+  const mo = momentum(etatDates([6, 5, 4, 0])); // run de 3 (j-6..j-4), puis 3 jours d'écart
   assert.equal(mo.record, 3);
   assert.equal(mo.serie, 1);
+});
+
+test("momentum : un seul jour manqué ne casse PAS la série", () => {
+  const mo = momentum(etatDates([2, 0])); // hier manqué, mais avant-hier + aujourd'hui
+  assert.equal(mo.serie, 2);
+  assert.equal(mo.record, 2);
 });
 
 test("momentum : jalon atteint pile à 7", () => {

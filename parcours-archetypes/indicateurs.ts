@@ -162,6 +162,7 @@ export interface Momentum {
   jalonAtteint: number | null; // un cap (7/14/21/30) est-il pile franchi
   prochainJalon: number | null; // prochain cap à viser
   resteAvantJalon: number; // journées restantes avant ce cap
+  absence: number; // jours calendaires depuis la dernière journée close (0 si aujourd'hui)
 }
 
 const JALONS = [7, 14, 21, 30];
@@ -178,12 +179,13 @@ export function momentum(etat: EtatEvolution): Momentum {
     new Set(etat.historique.map((h) => jourCal(h.date)))
   ).sort((a, b) => a - b);
 
-  // Record : plus longue suite de jours calendaires consécutifs.
+  // Record : plus longue suite de jours actifs — un seul jour manqué (écart de
+  // 2) ne casse pas la chaîne ; deux jours d'affilée, si.
   let record = 0;
   let run = 0;
   let prev: number | null = null;
   for (const j of jours) {
-    run = prev !== null && j === prev + 1 ? run + 1 : 1;
+    run = prev !== null && j - prev <= 2 ? run + 1 : 1;
     if (run > record) record = run;
     prev = j;
   }
@@ -197,13 +199,15 @@ export function momentum(etat: EtatEvolution): Momentum {
     if (last === today || last === today - 1) {
       serie = 1;
       for (let i = jours.length - 2; i >= 0; i--) {
-        if (jours[i] === jours[i + 1] - 1) serie++;
+        // Tolérance : un jour manqué (écart de 2) n'interrompt pas la série.
+        if (jours[i] >= jours[i + 1] - 2) serie++;
         else break;
       }
     }
   }
 
   const prochainJalon = JALONS.find((j) => j > faits) ?? null;
+  const absence = jours.length ? Math.max(0, today - jours[jours.length - 1]) : 0;
 
   return {
     serie,
@@ -212,5 +216,6 @@ export function momentum(etat: EtatEvolution): Momentum {
     jalonAtteint: JALONS.includes(faits) ? faits : null,
     prochainJalon,
     resteAvantJalon: prochainJalon ? prochainJalon - faits : 0,
+    absence,
   };
 }
