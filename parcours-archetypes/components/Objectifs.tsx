@@ -26,6 +26,14 @@ const CHAMPS: { key: PerimetreKey; label: string; hint: string }[] = [
 
 const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "" };
 
+// Suggestions cliquables par sphère (chips) qui pré-remplissent le champ.
+// LIBELLÉS À ÉCRIRE PAR MARINA — ce sont des placeholders (contenu, hors périmètre).
+const SUGGESTIONS: Record<PerimetreKey, string[]> = {
+  perso: ["TODO_SUGGESTION_1", "TODO_SUGGESTION_2", "TODO_SUGGESTION_3", "TODO_SUGGESTION_4"],
+  pro: ["TODO_SUGGESTION_5", "TODO_SUGGESTION_6", "TODO_SUGGESTION_7", "TODO_SUGGESTION_8"],
+  relationnel: ["TODO_SUGGESTION_9", "TODO_SUGGESTION_10", "TODO_SUGGESTION_11", "TODO_SUGGESTION_12"],
+};
+
 export function Objectifs({
   initial,
   eyebrow = "Ma quête · le cap",
@@ -48,7 +56,6 @@ export function Objectifs({
   const [vals, setVals] = useState<ObjectifsT>(initial ?? VIDE);
 
   const set = (k: PerimetreKey, v: string) => setVals((p) => ({ ...p, [k]: v }));
-  const auMoinsUn = Object.values(vals).some((v) => v.trim().length > 0);
   const arch = diagnostic ? archetypeByKey[diagnostic.dominant] : null;
   const submit = () => (onSubmit ?? definirObjectifs)(vals);
 
@@ -87,29 +94,59 @@ export function Objectifs({
               value={vals[c.key]}
               onChange={(e) => set(c.key, e.target.value)}
               rows={2}
-              placeholder="Mon objectif…"
+              placeholder="Mon objectif… (optionnel)"
               style={{
                 width: "100%", resize: "none", borderRadius: 12,
                 border: `1px solid ${LINE}`, background: NOIR, color: INK,
                 fontFamily: sans, fontSize: 14.5, padding: "11px 13px", lineHeight: 1.5,
               }}
             />
+            {/* Suggestions cliquables — un tap pré-remplit le champ. */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
+              {SUGGESTIONS[c.key].map((s) => (
+                <button
+                  key={s}
+                  type="button"
+                  onClick={() => set(c.key, s)}
+                  style={{
+                    borderRadius: 999, border: `1px solid ${LINE}`, background: "transparent",
+                    color: MUTED, fontFamily: sans, fontSize: 12.5, padding: "5px 11px", cursor: "pointer",
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; e.currentTarget.style.color = INK; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = LINE; e.currentTarget.style.color = MUTED; }}
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
         ))}
       </div>
 
       <button
         onClick={submit}
-        disabled={!auMoinsUn}
         style={{
           marginTop: 22, width: "100%", padding: "15px 24px", borderRadius: 999,
           border: "none", color: "#fff", fontSize: 15, fontWeight: 600,
-          cursor: auMoinsUn ? "pointer" : "default", opacity: auMoinsUn ? 1 : 0.4,
+          cursor: "pointer", opacity: 1,
           background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
         }}
       >
         {submitLabel}
       </button>
+      {/* Passage non bloquant : on peut entrer dans le parcours sans objectif et
+          les poser plus tard (depuis « Ma quête » / Réglages). */}
+      {!onCancel && (
+        <button
+          onClick={submit}
+          style={{
+            marginTop: 12, width: "100%", padding: "10px", borderRadius: 12,
+            border: "none", background: "transparent", color: MUTED, fontSize: 13, cursor: "pointer",
+          }}
+        >
+          Je définirai ça plus tard
+        </button>
+      )}
       {onCancel && (
         <button
           onClick={onCancel}
