@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { track } from "@/lib/metrics";
@@ -19,6 +20,7 @@ const STEPS = 6;
 
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
+  const router = useRouter();
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [intention, setIntention] = useState("");
@@ -74,6 +76,9 @@ export function Onboarding() {
     };
     complete(profile);
     track("onboarding_completed");
+    // Droit aux questions : plus d'écran intermédiaire « Qui es-tu » qui
+    // apparaissait entre l'onboarding et le diagnostic (double départ).
+    router.push("/parcours-signatures");
   };
 
   // Six temps, empilés et « scroll-snap » : Bienvenue → Faisons connaissance →
