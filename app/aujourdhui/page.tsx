@@ -46,7 +46,7 @@ export default function AujourdhuiPage() {
     return (
       <Amorce
         titre="Qui es-tu aujourd'hui ?"
-        texte="12 questions pour révéler les dimensions qui prennent le plus de place dans ta vie aujourd'hui."
+        texte="Ta signature"
         note="Il n'y a pas de bonne réponse. Réponds selon ce qui est vrai pour toi maintenant."
         cta="Commencer l'exploration"
       />

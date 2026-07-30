@@ -180,7 +180,7 @@ function StepTerritoires() {
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Exploration</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
-        Observe les dimensions qui prennent place dans ta vie aujourd'hui.
+        Observe tes dimensions les plus présentes
       </h2>
       <div className="mt-7 grid grid-cols-3 gap-3">
         {perimetres.map((p) => (
@@ -239,7 +239,7 @@ function StepRythme() {
         ))}
       </div>
       <p className="mx-auto mt-6 max-w-sm font-display text-sm italic leading-snug text-muted">
-        Une capsule par jour. Une trace après l'autre.
+        Pas à pas.
       </p>
     </div>
   );
