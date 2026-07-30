@@ -174,7 +174,20 @@ export function Gate({ children }: { children: React.ReactNode }) {
         Il est possible de tolérer l'incertitude lorsqu'on a une direction.
       </p>
 
-      <div style={{ height: 24 }} />
+      <p
+        style={{
+          fontSize: 14,
+          lineHeight: 1.5,
+          color: "var(--ink)",
+          textAlign: "center",
+          maxWidth: 300,
+          margin: "22px 0 0",
+        }}
+      >
+        Entre ton e-mail pour commencer ta quête.
+      </p>
+
+      <div style={{ height: 16 }} />
 
       {welcome ? (
         <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
@@ -210,7 +223,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
           <button
             onClick={submitEmail}
             disabled={loading || !email.trim()}
-            aria-label="Entrer"
+            aria-label="Commencer"
             style={{
               background:
                 loading || !email.trim()
@@ -219,13 +232,14 @@ export function Gate({ children }: { children: React.ReactNode }) {
               color: "var(--noir)",
               border: "none",
               borderRadius: 14,
-              padding: "0 20px",
-              fontSize: 18,
+              padding: "0 18px",
+              fontSize: 15,
               fontWeight: 500,
               cursor: "pointer",
+              whiteSpace: "nowrap",
             }}
           >
-            →
+            Commencer →
           </button>
         </div>
       )}

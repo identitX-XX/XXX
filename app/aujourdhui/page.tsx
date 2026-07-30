@@ -45,9 +45,10 @@ export default function AujourdhuiPage() {
   if (!diagnostic) {
     return (
       <Amorce
-        titre="Qui es-tu ?"
-        texte="12 questions pour faire émerger tes identités dominantes. C'est le seuil de ta quête."
-        cta="Je commence ma quête"
+        titre="Qui es-tu aujourd'hui ?"
+        texte="12 questions pour révéler les dimensions qui prennent le plus de place dans ta vie aujourd'hui."
+        note="Il n'y a pas de bonne réponse. Réponds selon ce qui est vrai pour toi maintenant."
+        cta="Commencer l'exploration"
       />
     );
   }
@@ -592,10 +593,12 @@ function Amorce({
   titre,
   texte,
   cta,
+  note,
 }: {
   titre: string;
   texte: string;
   cta: string;
+  note?: string;
 }) {
   return (
     <div>
@@ -614,6 +617,11 @@ function Amorce({
           {titre}
         </h2>
         <p className="mx-auto mt-2 max-w-md text-sm text-muted">{texte}</p>
+        {note && (
+          <p className="mx-auto mt-3 max-w-md text-xs italic leading-relaxed text-muted">
+            {note}
+          </p>
+        )}
         <Link
           href="/parcours-signatures"
           className="group mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"

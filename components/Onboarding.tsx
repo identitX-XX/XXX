@@ -101,7 +101,7 @@ export function Onboarding() {
           <ArrowLeft size={16} /> Retour
         </Button>
         <Button onClick={next} disabled={!canNext}>
-          {step === STEPS - 1 ? "Révéler ma signature" : "Continuer"}
+          {step === STEPS - 1 ? "Commencer mon parcours" : "Continuer"}
           <ArrowRight size={16} />
         </Button>
       </div>
@@ -114,8 +114,12 @@ function StepAccueil() {
   return (
     <div className="text-center">
       <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Bienvenue</div>
-      <p className="mx-auto mb-6 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
+      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-light leading-snug text-ink">
         Déconstruis ta légende. Vois émerger tes possibles.
+      </p>
+      <p className="mx-auto mb-6 max-w-sm text-sm leading-relaxed text-muted">
+        En six étapes, explore les dimensions qui composent ton identité et
+        découvre les directions qu'elles peuvent ouvrir.
       </p>
       <div className="flex justify-center">
         <Constellation size={190} />
@@ -214,9 +218,9 @@ function StepTerritoires() {
 // Étape 3 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
 function StepRythme() {
   const piliers = [
-    { icon: <HelpCircle size={18} />, t: "Une question" },
-    { icon: <Target size={18} />, t: "Un micro-défi" },
-    { icon: <Sparkles size={18} />, t: "Une ressource" },
+    { icon: <HelpCircle size={18} />, t: "Une question", sous: "Pour mettre en lumière ce que tu ne regardes pas encore." },
+    { icon: <Target size={18} />, t: "Un micro-défi", sous: "Pour expérimenter une autre manière d'agir." },
+    { icon: <Sparkles size={18} />, t: "Une ressource", sous: "Pour nourrir ta réflexion et ouvrir de nouvelles perspectives." },
   ];
   return (
     <div className="text-center">
@@ -225,7 +229,7 @@ function StepRythme() {
         Chaque jour, une capsule
       </h2>
       <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-        Un geste en journée, un court bilan le soir (≈ 5 min).
+        Quelques minutes pour observer ce qui s'active en toi.
       </p>
       <div className="mt-7 grid grid-cols-3 gap-3">
         {piliers.map((p) => (
@@ -239,10 +243,14 @@ function StepRythme() {
             >
               {p.icon}
             </span>
-            <span className="text-[11px] leading-tight text-ink">{p.t}</span>
+            <span className="text-[11px] font-medium leading-tight text-ink">{p.t}</span>
+            <span className="text-[10px] leading-tight text-muted">{p.sous}</span>
           </div>
         ))}
       </div>
+      <p className="mx-auto mt-6 max-w-sm font-display text-sm italic leading-snug text-muted">
+        Une capsule par jour. Une trace après l'autre.
+      </p>
     </div>
   );
 }
@@ -264,13 +272,17 @@ function StepMouvement() {
   const ph = PHASES[active];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">30 jours</div>
+      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
       <h2 className="mt-2 font-display text-2xl font-light text-ink">
-        Tu ne cherches pas à devenir quelqu'un d'autre. Tu apprends à observer ce qui demande à évoluer.
+        30 jours de redéploiement identitaire
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-        Ta signature n'est pas figée, elle oscille dans un mouvement permanent —
-        qui soutient ta mécanique d'expansion ou celle de tes schémas connus.
+        Ton identité n'est pas figée. Pendant 30 jours, observe comment tes
+        différentes dimensions s'expriment selon les situations.
+      </p>
+      <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
+        Tu ne cherches pas à devenir quelqu'un d'autre. Tu apprends à voir ce
+        qui, en toi, demande à évoluer.
       </p>
       {/* La boucle en orbite céleste : nébuleuse en fond, phases-étoiles nommées,
           un balayage lumineux qui tourne (le sens du cycle). Tactile. */}
@@ -365,7 +377,7 @@ function StepMouvement() {
       </div>
 
       <p className="mx-auto mt-3 max-w-xs font-display text-sm italic leading-snug text-muted">
-        La boucle ne te ramène jamais au même point.
+        Ta signature n'est pas fixe. Elle évolue au fil de tes observations.
       </p>
     </div>
   );
@@ -386,19 +398,28 @@ function StepPrenom({
     <div className="space-y-6">
       <div className="text-center">
         <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Faisons connaissance</div>
+        <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
+          Avant d'explorer ta constellation, donne-nous quelques repères.
+        </p>
       </div>
       <div>
         <Label>Ton prénom</Label>
+        <p className="mb-1.5 text-xs text-muted">Comment souhaites-tu être appelé·e ?</p>
         <TextInput value={name} onChange={setName} placeholder="Ton prénom" />
       </div>
       <div>
-        <Label>Âge approximatif</Label>
+        <Label>Ton âge approximatif</Label>
+        <p className="mb-1.5 text-xs text-muted">Chaque période de vie ouvre des questions différentes.</p>
         <TextInput value={age} onChange={setAge} placeholder="ex. la trentaine, 42…" />
       </div>
       <div>
         <Label>Ton intention du moment</Label>
+        <p className="mb-1.5 text-xs text-muted">Qu'aimerais-tu mieux comprendre, clarifier ou faire évoluer ?</p>
         <TextInput value={intention} onChange={setIntention} placeholder="ex. clarté, oser, alignement…" />
       </div>
+      <p className="text-center text-xs italic leading-relaxed text-muted">
+        Tu peux modifier ces informations à tout moment.
+      </p>
       <p className="text-center text-xs leading-relaxed text-muted">
         En continuant, tu acceptes les{" "}
         <a href="/cgu" target="_blank" rel="noopener noreferrer" className="text-fuchsia underline">
