@@ -47,7 +47,6 @@ export default function AujourdhuiPage() {
       <Amorce
         titre="Qui es-tu aujourd'hui ?"
         texte="Ta signature"
-        note="Il n'y a pas de bonne réponse. Réponds selon ce qui est vrai pour toi maintenant."
         cta="Commencer l'exploration"
       />
     );
