@@ -179,7 +179,7 @@ function StepTerritoires() {
         {perimetres.map((p) => (
           <div
             key={p.label}
-            className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface p-4"
+            className="flex flex-col items-center gap-2 p-2"
           >
             <span
               className="grid h-11 w-11 place-items-center rounded-full text-fuchsia"
@@ -218,7 +218,7 @@ function StepRythme() {
         {piliers.map((p) => (
           <div
             key={p.t}
-            className="flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface p-4"
+            className="flex flex-col items-center gap-2 p-2"
           >
             <span
               className="grid h-10 w-10 place-items-center rounded-full text-fuchsia"
