@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
-  MessageCircle, Sunrise, Moon, Compass,
+  MessageCircle, Sunrise, Moon, Compass, Check, Route,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
@@ -305,6 +305,10 @@ export default function AujourdhuiPage() {
         </div>
       </Card>
 
+      {/* L'itinéraire du jour : le fil conducteur qui fait passer, dans l'ordre,
+          par toutes les pages de la quête — plus aucun écran orphelin. */}
+      <ItineraireDuJour diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} dejaFait={dejaFait} />
+
       {/* Le fil du jour : la raison de revenir — nouveauté, révélation, ressource. */}
       <FilDuJour n={n} arch={arch} />
 
@@ -371,6 +375,64 @@ export default function AujourdhuiPage() {
 
       <SecondPlan prog={prog} />
     </div>
+  );
+}
+
+// « Ton itinéraire du jour » : la journée de quête déroulée en étapes ordonnées,
+// chacune reliée à SA page. Le fil conducteur qui fluidifie l'enchaînement et
+// fait traverser toutes les pages — du matin (le geste) au soir (le bilan), puis
+// la relecture (progression) et l'ouverture (possibles). Chaque ligne est un lien.
+function ItineraireDuJour({
+  diagnostic,
+  objectifs,
+  dejaFait,
+}: {
+  diagnostic: boolean;
+  objectifs: boolean;
+  dejaFait: boolean;
+}) {
+  const etapes: { label: string; hint: string; href: string; done: boolean }[] = [
+    { label: "Ta signature", hint: "Ton point de départ, ton portrait.", href: "/synthese", done: diagnostic },
+    { label: "Tes directions", hint: "Ce que tu veux faire émerger.", href: "/progression", done: objectifs },
+    { label: "Le geste du jour", hint: "Une action à porter dans ta journée.", href: "/parcours-signatures", done: dejaFait },
+    { label: "La question", hint: "À déposer dans ton journal.", href: "/journal", done: false },
+    { label: "Une ressource", hint: "Un appui court, à faire pas qu'à lire.", href: "/ressources", done: false },
+    { label: "Le bilan du soir", hint: "≈ 5 min pour observer ta journée.", href: "/parcours-signatures", done: dejaFait },
+    { label: "Ta progression", hint: "Relis le chemin parcouru.", href: "/progression", done: false },
+    { label: "Tes possibles", hint: "Ce que tes directions rendent possible.", href: "/scenarios", done: false },
+  ];
+
+  return (
+    <section className="mt-4 animate-fade-up" style={{ animationDelay: "70ms" }}>
+      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <Route size={13} /> Ton itinéraire du jour
+      </div>
+      <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
+        {etapes.map((e, i) => (
+          <Link
+            key={e.label}
+            href={e.href}
+            className="group flex items-center gap-3.5 border-b border-line px-4 py-3.5 transition-colors last:border-b-0 hover:bg-noir/20"
+          >
+            <span
+              className={`grid h-7 w-7 flex-none place-items-center rounded-full text-[12px] font-bold ${
+                e.done ? "text-white" : "border border-line text-muted"
+              }`}
+              style={e.done ? { background: "linear-gradient(120deg,var(--fuchsia),var(--orange))" } : undefined}
+            >
+              {e.done ? <Check size={14} /> : i + 1}
+            </span>
+            <span className="flex-1">
+              <span className="block text-sm font-semibold uppercase tracking-[0.06em] text-ink">
+                {e.label}
+              </span>
+              <span className="block text-xs text-muted">{e.hint}</span>
+            </span>
+            <ArrowRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -441,6 +503,13 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
             <HelpCircle size={13} /> La question du jour
           </div>
           <p className="mt-2 text-sm leading-relaxed text-ink">{arch.question}</p>
+          <Link
+            href="/journal"
+            className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
+          >
+            L'écrire dans mon journal
+            <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+          </Link>
         </Card>
 
         {/* Révélation — sourcée, ou teaser tant qu'il manque de matière */}
@@ -460,6 +529,13 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
               {rev.titre}
             </h3>
             <p className="mt-2 text-xs leading-relaxed text-muted">{rev.preuve}</p>
+            <Link
+              href="/synthese"
+              className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
+            >
+              Voir ce que ça révèle
+              <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+            </Link>
           </div>
         ) : (
           <Card className="flex items-center gap-3 p-5 text-sm text-muted">

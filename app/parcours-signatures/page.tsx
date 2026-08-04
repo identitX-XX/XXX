@@ -215,10 +215,12 @@ function MaQueteApercu({
     },
     {
       titre: "Ce que je construis",
-      hint: "Ce que je souhaite faire exister.",
+      hint: caps.length
+        ? "Tes directions — et ce qu'elles rendent possible."
+        : "Ce que je souhaite faire exister.",
       valeur: caps.length ? caps.join(" · ") : "À préciser",
-      href: "/progression",
-      cta: caps.length ? "Ajuster tes directions" : "Poser tes directions",
+      href: caps.length ? "/scenarios" : "/progression",
+      cta: caps.length ? "Voir ce que ça ouvre" : "Poser tes directions",
     },
     {
       titre: "Ce que j'explore",
