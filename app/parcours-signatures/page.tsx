@@ -210,16 +210,22 @@ function MaQueteApercu({
       titre: "Ce qui m'anime",
       hint: "Ce qui me donne naturellement de l'énergie.",
       valeur: dom.name,
+      href: "/synthese",
+      cta: "Voir ton portrait",
     },
     {
       titre: "Ce que je construis",
       hint: "Ce que je souhaite faire exister.",
-      valeur: caps.length ? caps.join(" · ") : "À préciser dans ta direction",
+      valeur: caps.length ? caps.join(" · ") : "À préciser",
+      href: "/progression",
+      cta: caps.length ? "Ajuster tes directions" : "Poser tes directions",
     },
     {
       titre: "Ce que j'explore",
       hint: "Les dimensions que je veux mieux comprendre.",
       valeur: sec.name,
+      href: "/explorer",
+      cta: "Explorer",
     },
     {
       titre: "Ce qui évolue",
@@ -227,25 +233,37 @@ function MaQueteApercu({
       valeur: mue
         ? `De ${archetypeByKey[mue.depuis].name} à ${archetypeByKey[mue.vers].name}`
         : "Tes premières observations se dessinent",
+      href: "/progression",
+      cta: "Suivre l'évolution",
     },
   ];
 
   return (
     <section className="mb-8 rounded-2xl border border-line bg-surface p-6 animate-fade-up">
-      <div className="text-xs uppercase tracking-[0.25em] text-fuchsia">Ma quête</div>
+      <div className="text-xs font-semibold uppercase tracking-[0.25em] text-fuchsia">Ma quête</div>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
         Ta quête relie ce que tu observes, ce que tu veux faire émerger et les
-        directions que tu choisis d'explorer.
+        directions que tu choisis d'explorer. Chaque fil est cliquable.
       </p>
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (
-          <div key={s.titre} className="rounded-xl border border-line p-4">
-            <div className="text-sm font-medium text-ink">{s.titre}</div>
+          <Link
+            key={s.titre}
+            href={s.href}
+            className="group flex flex-col rounded-xl border border-line p-4 transition-colors hover:border-fuchsia"
+          >
+            <div className="flex items-start justify-between gap-2">
+              <div className="text-sm font-semibold uppercase tracking-[0.08em] text-ink">{s.titre}</div>
+              <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+            </div>
             <div className="mt-0.5 text-xs text-muted">{s.hint}</div>
-            <div className="mt-2 font-display text-base font-light leading-snug text-ink">
+            <div className="mt-2 font-display text-base font-semibold leading-snug text-ink">
               {s.valeur}
             </div>
-          </div>
+            <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
+              {s.cta} →
+            </span>
+          </Link>
         ))}
       </div>
     </section>
