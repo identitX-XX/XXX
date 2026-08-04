@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Onboarding } from "./Onboarding";
@@ -17,8 +18,9 @@ import { FeedbackButton } from "./FeedbackButton";
 import { track } from "@/lib/metrics";
 
 export function ClientShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false); 
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const onboarded = useStore((s) => s.onboarded);
   const theme = useStore((s) => s.theme);
@@ -42,6 +44,9 @@ export function ClientShell({ children }: { children: ReactNode }) {
     );
     if (palette && palette !== "origine") root.classList.add(`pal-${palette}`);
   }, [theme, palette, mounted]);
+
+  // Le retour du lien magique se rend seul (pas d'onboarding, pas de chrome).
+  if (pathname === "/auth/callback") return <>{children}</>;
 
   if (!mounted) {
     return (

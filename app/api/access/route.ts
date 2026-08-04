@@ -20,14 +20,15 @@ export async function POST(req: Request) {
 
   const url = process.env.SUPABASE_URL;
   const service = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const anon = process.env.SUPABASE_ANON_KEY;
 
-  // Pas de backend → accès accordé (bêta), rien de stocké, pas de lien magique.
+  // Pas de backend → accès accordé (bêta), rien de stocké.
   if (!url || !service) {
-    return Response.json({ ok: true, stored: false, magic: false });
+    return Response.json({ ok: true, stored: false });
   }
 
-  // 1) On relie l'email à l'identité anonyme (upsert idempotent sur anon_id).
+  // On relie l'email à l'identité anonyme (upsert idempotent sur anon_id).
+  // L'envoi du lien magique se fait désormais côté navigateur (PKCE), pour que
+  // le retour /auth/callback puisse ouvrir une vraie session — pas ici.
   try {
     await fetch(`${url}/rest/v1/profiles?on_conflict=anon_id`, {
       method: "POST",
@@ -43,20 +44,5 @@ export async function POST(req: Request) {
     /* la capture d'email ne doit jamais bloquer l'accès */
   }
 
-  // 2) Lien magique de confirmation — seulement si l'auth Supabase est branchée.
-  let magic = false;
-  if (anon) {
-    try {
-      const r = await fetch(`${url}/auth/v1/otp`, {
-        method: "POST",
-        headers: { "content-type": "application/json", apikey: anon },
-        body: JSON.stringify({ email, create_user: true }),
-      });
-      magic = r.ok;
-    } catch {
-      magic = false;
-    }
-  }
-
-  return Response.json({ ok: true, stored: true, magic });
+  return Response.json({ ok: true, stored: true });
 }

@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { anonId } from "@/lib/metrics";
+import { getSupabase } from "@/lib/supabaseBrowser";
 
 // Clé versionnée : la bumper invalide tous les accès mémorisés → chacun doit
 // ressaisir le code. À incrémenter à chaque rotation du GATE_CODE (Vercel).
@@ -10,6 +12,7 @@ const GATE_KEY = "identitx-gate-2";
 type Mode = "code" | "email";
 
 export function Gate({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [unlocked, setUnlocked] = useState(false);
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState<Mode>("code");
@@ -78,22 +81,31 @@ export function Gate({ children }: { children: React.ReactNode }) {
     setLoading(true);
     setError("");
     try {
-      const r = await fetch("/api/access", {
+      // 1) Relier l'e-mail à l'identité (liste des inscrites, côté admin).
+      await fetch("/api/access", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ anon_id: anonId(), email: value }),
-      });
-      const data = await r.json().catch(() => ({ ok: false }));
-      if (r.ok && data.ok) {
-        setWelcome(
-          data.magic
-            ? "Lien magique envoyé — on t'a aussi ouvert l'espace."
-            : "Bienvenue — ton espace s'ouvre."
-        );
-        setTimeout(enter, 1200);
-      } else {
-        setError("Cet email n'a pas pu être enregistré. Réessaie.");
+      }).catch(() => {});
+
+      // 2) Envoyer le lien magique (connexion FACULTATIVE : on entre quand même).
+      //    Cliquer le lien → session → reprise de la progression (à venir).
+      let magic = false;
+      const supabase = getSupabase();
+      if (supabase) {
+        const { error: otpErr } = await supabase.auth.signInWithOtp({
+          email: value,
+          options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+        });
+        magic = !otpErr;
       }
+
+      setWelcome(
+        magic
+          ? "Lien de connexion envoyé par e-mail — ton espace s'ouvre."
+          : "Bienvenue — ton espace s'ouvre."
+      );
+      setTimeout(enter, 1200);
     } catch {
       setError("Un souci réseau. Réessaie.");
     } finally {
@@ -101,6 +113,9 @@ export function Gate({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Le retour du lien magique doit s'exécuter SANS portail (l'utilisatrice peut
+  // cliquer le lien depuis un e-mail, hors session déverrouillée).
+  if (pathname === "/auth/callback") return <>{children}</>;
   if (!checked) return null;
   if (unlocked) return <>{children}</>;
 
