@@ -50,7 +50,13 @@ export default function RapportPage() {
   const sec = archetypeByKey[diagnostic.secondaire];
 
   // Ce qui a évolué : la dernière mue traversée, si le parcours en a détecté une.
-  const mue = derniereBascule(detecterChapitres(etat.historique));
+  // Blindé : un historique d'ancienne version ne doit pas casser le rapport.
+  let mue: ReturnType<typeof derniereBascule> = null;
+  try {
+    mue = derniereBascule(detecterChapitres(etat.historique));
+  } catch {
+    mue = null;
+  }
   const caps = objectifs
     ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((v) => v && v.trim())
     : [];

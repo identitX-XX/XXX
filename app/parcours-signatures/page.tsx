@@ -195,7 +195,15 @@ function MaQueteApercu({
   const caps = objectifs
     ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((v) => v && v.trim())
     : [];
-  const mue = derniereBascule(detecterChapitres(etat.historique));
+  // Détection de mue : blindée (un historique d'ancienne version peut avoir une
+  // autre forme et faire planter la segmentation → on tombe alors sur « pas de
+  // mue » au lieu de casser toute la page).
+  let mue: ReturnType<typeof derniereBascule> = null;
+  try {
+    mue = derniereBascule(detecterChapitres(etat.historique));
+  } catch {
+    mue = null;
+  }
 
   const sections = [
     {

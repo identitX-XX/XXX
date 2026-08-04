@@ -94,13 +94,24 @@ export const archetypeByKey = new Proxy(_archetypeByKey, {
   },
 }) as Record<(typeof ARCHETYPES)[number]["key"], Archetype>;
 
-export const sphereByKey = Object.fromEntries(
-  SPHERES.map((s) => [s.key, s])
-) as Record<(typeof SPHERES)[number]["key"], Sphere>;
+// Mêmes garde-fous increvables que archetypeByKey : une clé de sphère ou
+// d'émotion inconnue (état d'une ancienne version) renvoie un repli, jamais
+// undefined — sinon `.label` fait planter le rendu (tableau de bord, charts).
+const _sphereByKey = Object.fromEntries(SPHERES.map((s) => [s.key, s])) as Record<string, Sphere>;
+export const sphereByKey = new Proxy(_sphereByKey, {
+  get(t, prop) {
+    if (typeof prop === "string" && !(prop in t)) return SPHERES[0];
+    return (t as Record<string | symbol, unknown>)[prop];
+  },
+}) as Record<(typeof SPHERES)[number]["key"], Sphere>;
 
-export const emotionByKey = Object.fromEntries(
-  EMOTIONS.map((e) => [e.key, e])
-) as Record<(typeof EMOTIONS)[number]["key"], Emotion>;
+const _emotionByKey = Object.fromEntries(EMOTIONS.map((e) => [e.key, e])) as Record<string, Emotion>;
+export const emotionByKey = new Proxy(_emotionByKey, {
+  get(t, prop) {
+    if (typeof prop === "string" && !(prop in t)) return EMOTIONS[0];
+    return (t as Record<string | symbol, unknown>)[prop];
+  },
+}) as Record<(typeof EMOTIONS)[number]["key"], Emotion>;
 
 export function phaseDuJour(n: number): Phase {
   return PHASES.find((p) => n >= p.jours[0] && n <= p.jours[1]) ?? PHASES[0];
