@@ -15,12 +15,82 @@ import {
 } from "./types";
 import { clotureJour, initialiser, matriceVide } from "./evolution";
 import { generateParcours, DIAGNOSTIC_DEFAUT } from "./generateParcours";
+import { ARCHETYPE_KEYS } from "./archetypes";
 import { track } from "@/lib/metrics";
 
 const parcoursBase = parcoursData as unknown as Parcours;
 
 function etatDepart(): EtatEvolution {
   return { matrice: matriceVide(), historique: [], jourCourant: 1 };
+}
+
+// Assainissement de l'état persisté À L'HYDRATATION. Racine des « client-side
+// exception » : un localStorage d'ANCIENNE version (clés de signature disparues,
+// snapshots d'historique d'une autre forme…) faisait planter le rendu. Ici, on
+// garantit un état TOUJOURS valide — on répare ou on écarte, jamais on ne casse.
+const KEYS = new Set(ARCHETYPE_KEYS as unknown as string[]);
+const estObjet = (v: unknown): v is Record<string, unknown> =>
+  Boolean(v) && typeof v === "object";
+// Un snapshot d'historique exploitable : la segmentation (detecterChapitres) et
+// les indicateurs lisent `radar` et `jour` — s'ils manquent, on écarte l'entrée.
+const snapshotValide = (h: unknown): boolean =>
+  estObjet(h) && estObjet((h as Record<string, unknown>).radar) &&
+  typeof (h as Record<string, unknown>).jour === "number";
+
+function assainir(
+  persisted: unknown,
+  current: StoreParcours
+): StoreParcours {
+  const p = estObjet(persisted) ? persisted : {};
+
+  // diagnostic : dominant/secondaire doivent être des clés connues, sinon on
+  // repart proprement au diagnostic (mieux qu'un écran mort).
+  const d = p.diagnostic as Diagnostic | null | undefined;
+  const diagOk =
+    d && KEYS.has(d.dominant as string) && KEYS.has(d.secondaire as string);
+  const diagnostic = diagOk ? (d as Diagnostic) : null;
+
+  // parcours : doit avoir un tableau `jours` non vide, sinon on régénère.
+  const pp = p.parcours as Parcours | undefined;
+  const parcours =
+    pp && Array.isArray(pp.jours) && pp.jours.length ? pp : current.parcours;
+
+  // etat : structure garantie + historique filtré aux snapshots valides.
+  const es = estObjet(p.etat) ? (p.etat as Record<string, unknown>) : {};
+  const etat: EtatEvolution = {
+    matrice: estObjet(es.matrice)
+      ? (es.matrice as unknown as EtatEvolution["matrice"])
+      : matriceVide(),
+    historique: Array.isArray(es.historique)
+      ? (es.historique.filter(snapshotValide) as unknown as EtatEvolution["historique"])
+      : [],
+    jourCourant:
+      typeof es.jourCourant === "number" && es.jourCourant >= 1 ? es.jourCourant : 1,
+  };
+
+  const obj = <T,>(v: unknown, def: T): T => (estObjet(v) ? (v as unknown as T) : def);
+
+  const base: StoreParcours = {
+    ...current, // garde les actions (non persistées)
+    diagnostic,
+    parcours,
+    etat,
+    objectifs: estObjet(p.objectifs) ? (p.objectifs as unknown as Objectifs) : null,
+    reponses: obj(p.reponses, {} as StoreParcours["reponses"]),
+    revelationsFeedback: obj(p.revelationsFeedback, {} as StoreParcours["revelationsFeedback"]),
+    climat: obj(p.climat, {} as StoreParcours["climat"]),
+    queteExercices: obj(p.queteExercices, {} as StoreParcours["queteExercices"]),
+    quetePaliers: obj(p.quetePaliers, {} as StoreParcours["quetePaliers"]),
+    filVu: typeof p.filVu === "number" ? p.filVu : 0,
+    mondeChoisi: typeof p.mondeChoisi === "string" ? (p.mondeChoisi as string) : null,
+  };
+
+  // Diagnostic invalidé → on nettoie ce qui en dépend (parcours + progression),
+  // pour ne pas rester avec un historique orphelin.
+  if (!diagnostic) {
+    return { ...base, parcours: current.parcours, etat: etatDepart(), reponses: {}, objectifs: null };
+  }
+  return base;
 }
 
 interface StoreParcours {
@@ -175,6 +245,9 @@ export const useParcoursStore = create<StoreParcours>()(
         }
         return persisted as StoreParcours;
       },
+      // Filet racine : à CHAQUE hydratation, on assainit l'état persisté →
+      // toujours valide, jamais de crash sur un vieux localStorage.
+      merge: (persisted, current) => assainir(persisted, current as StoreParcours),
     }
   )
 );
