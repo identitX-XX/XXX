@@ -214,7 +214,7 @@ function QueteMonde({
       {/* En-tête */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <div className="text-xs uppercase tracking-[0.2em]" style={{ color: m.accent }}>
+          <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: m.accent }}>
             La Quête · {m.nom}
           </div>
           <h1 className="mt-2 break-words font-display text-3xl font-semibold leading-tight" style={{ color: m.ink }}>
@@ -237,7 +237,7 @@ function QueteMonde({
           className="mt-5 rounded-2xl border p-4"
           style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
         >
-          <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+          <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
             Ton vortex a fait évoluer ta quête
           </div>
           <p className="mt-1 text-sm leading-relaxed" style={{ color: m.ink }}>
@@ -251,7 +251,7 @@ function QueteMonde({
       {/* Clarté jour après jour : pourquoi ça ne change pas tous les jours. */}
       {!mue && (
         <div className="mt-5 rounded-2xl border p-4" style={{ borderColor: m.line, background: m.panel }}>
-          <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+          <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
             Jour {jour} / 30
           </div>
           <p className="mt-1 text-sm leading-relaxed" style={{ color: m.muted }}>
@@ -265,7 +265,7 @@ function QueteMonde({
 
       {/* Le lest */}
       <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
-        <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.muted }}>
+        <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.muted }}>
           Ce dont tu dois te débarrasser
         </div>
         <div className="mt-1.5 font-display text-2xl font-light" style={{ color: m.accent }}>
@@ -277,7 +277,7 @@ function QueteMonde({
       {/* La boucle heuristique — visible du début à la fin, s'allume à mesure. */}
       <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
         <div className="flex items-center justify-between gap-3">
-          <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.muted }}>
+          <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.muted }}>
             La boucle
           </div>
           {/* Palier de maîtrise mesurable — combien de boucles complètes tenues. */}
@@ -351,7 +351,7 @@ function QueteMonde({
             className="px-6 py-5 text-center"
             style={{ background: `linear-gradient(180deg, color-mix(in srgb, ${m.accent} 16%, transparent), transparent)` }}
           >
-            <div className="text-xs uppercase tracking-[0.2em]" style={{ color: m.accent }}>
+            <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: m.accent }}>
               Ton futur moi · le lest posé
             </div>
             <div className="mt-1.5 font-display text-2xl font-light" style={{ color: m.ink }}>
@@ -360,11 +360,11 @@ function QueteMonde({
           </div>
           <div className="flex flex-col gap-4 px-6 py-5">
             <div>
-              <div className="text-xs uppercase tracking-[0.14em]" style={{ color: m.muted }}>Pourquoi tu y es à ton meilleur</div>
+              <div className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: m.muted }}>Pourquoi tu y es à ton meilleur</div>
               <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>{futur.pourquoi}</p>
             </div>
             <div>
-              <div className="text-xs uppercase tracking-[0.14em]" style={{ color: m.muted }}>Ta multipotentialité, devenue force</div>
+              <div className="text-xs font-bold uppercase tracking-[0.14em]" style={{ color: m.muted }}>Ta multipotentialité, devenue force</div>
               <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>{futur.multipotentiel}</p>
             </div>
             <button

@@ -50,7 +50,7 @@ function Titre({ children }: { children: React.ReactNode }) {
       style={{
         fontSize: 11,
         letterSpacing: "0.18em",
-        textTransform: "uppercase",
+        fontWeight: 700, textTransform: "uppercase",
         color: MUTED,
         marginBottom: 12,
       }}

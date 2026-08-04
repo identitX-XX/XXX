@@ -106,7 +106,7 @@ export default function TurbinePage() {
       {input && (
         <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
           <div className="flex items-center justify-between">
-            <div className="text-[10px] uppercase tracking-[0.2em] text-fuchsia">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
               {reel ? "Ton vortex" : "Ton point de départ"}
             </div>
             <span
@@ -353,7 +353,7 @@ function CarteEditor({
       </div>
 
       <div className="mt-5">
-        <div className="mb-2 text-xs uppercase tracking-wider text-muted">Tensions</div>
+        <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-muted">Tensions</div>
         <div className="mb-2 flex flex-wrap gap-2">
           {tensions.map((t, i) => (
             <span

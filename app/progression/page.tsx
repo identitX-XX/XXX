@@ -123,20 +123,20 @@ export default function ProgressionPage() {
             </div>
           </div>
           <div>
-            <div className="text-xs uppercase tracking-wider text-fuchsia">Phase · {phase.label}</div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia">Phase · {phase.label}</div>
             <p className="mt-1 max-w-xs text-sm text-muted">{phase.intention}</p>
           </div>
         </Card>
 
         <div className="grid grid-cols-2 gap-4">
           <Card className="p-5">
-            <div className="text-xs uppercase tracking-wider text-muted">Ta signature</div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted">Ta signature</div>
             <div className="mt-1 font-display text-lg font-light text-ink">
               {dom ? dom.name : "—"}
             </div>
           </Card>
           <Card className="p-5">
-            <div className="text-xs uppercase tracking-wider text-muted">Cohérence</div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted">Cohérence</div>
             <div className="mt-1 flex items-baseline gap-2">
               <span className="font-display text-lg font-light text-ink">
                 {coherenceCourante(etat)}
@@ -202,7 +202,7 @@ export default function ProgressionPage() {
       {objectifs && (
         <Card className="mt-4 p-6">
           <div className="mb-3 flex items-center justify-between">
-            <div className="text-xs uppercase tracking-wider text-muted">Ton cap · tes objectifs</div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted">Ton cap · tes objectifs</div>
             <button
               onClick={() => setEditObj(true)}
               className="text-xs font-medium text-fuchsia hover:underline"

@@ -59,7 +59,7 @@ export function Dashboard() {
     <div style={{ fontFamily: sans, color: INK }}>
       {/* Bandeau */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: FUCHSIA }}>
+        <div style={{ fontSize: 12, letterSpacing: "0.22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
           Tableau de bord · Parcours des 20 signatures
         </div>
         <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 32, margin: "8px 0 0", color: INK }}>
@@ -97,7 +97,7 @@ export function Dashboard() {
           <Carte>
             <JaugeCoherence valeur={coherenceCourante(etat)} />
             <div style={{ marginTop: 18 }}>
-              <div style={{ fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>
+              <div style={{ fontSize: 12, letterSpacing: "0.16em", fontWeight: 700, textTransform: "uppercase", color: MUTED, marginBottom: 10 }}>
                 Top 3 signatures actives
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
