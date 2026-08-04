@@ -308,10 +308,11 @@ export function JourView({
           disabled={readOnly}
           style={{
             borderRadius: 999,
-            padding: "13px 26px",
-            fontSize: 13,
-            fontWeight: 500,
-            letterSpacing: "0.04em",
+            padding: "16px 28px",
+            minHeight: 52,
+            fontSize: 15,
+            fontWeight: 600,
+            letterSpacing: "0.02em",
             cursor: readOnly ? "default" : "pointer",
             border: "none",
             color: "#fff",
