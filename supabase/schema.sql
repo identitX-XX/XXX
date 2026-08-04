@@ -103,3 +103,31 @@ from firsts f
 left join opens o on o.anon_id = f.anon_id
 group by f.d0
 order by f.d0;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Sauvegarde de progression liée au compte (lien magique) : « se connecter =
+-- reprendre ». Une ligne par utilisateur authentifié. Le navigateur (client
+-- Supabase authentifié) lit/écrit DIRECTEMENT sa propre ligne — la RLS garantit
+-- qu'on ne touche jamais celle d'un autre. Les blobs `parcours` / `identitx`
+-- sont les états persistés côté client (mêmes formes que le localStorage).
+create table if not exists app_state (
+  user_id    uuid primary key references auth.users (id) on delete cascade,
+  parcours   jsonb,
+  identitx   jsonb,
+  updated_at timestamptz not null default now()
+);
+
+alter table app_state enable row level security;
+
+-- Chacun ne voit et ne modifie QUE sa propre ligne (auth.uid()).
+drop policy if exists "app_state lecture par proprietaire" on app_state;
+create policy "app_state lecture par proprietaire"
+  on app_state for select using (auth.uid() = user_id);
+
+drop policy if exists "app_state insertion par proprietaire" on app_state;
+create policy "app_state insertion par proprietaire"
+  on app_state for insert with check (auth.uid() = user_id);
+
+drop policy if exists "app_state mise a jour par proprietaire" on app_state;
+create policy "app_state mise a jour par proprietaire"
+  on app_state for update using (auth.uid() = user_id) with check (auth.uid() = user_id);

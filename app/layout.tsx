@@ -3,6 +3,7 @@ import { Fraunces, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
+import { StateSync } from "@/components/StateSync";
 
 // Typographie premium : Fraunces (titres — serif à contraste DOUX, chaleureux,
 // distinctif ; tient sur fond sombre sans vibrer, contrairement à une Didone) +
@@ -69,6 +70,10 @@ export default function RootLayout({
   return (
     <html lang="fr" className={fraunces.variable + " " + inter.variable + " pal-nuit"}>
       <body>
+        {/* Synchro compte ↔ progression (connexion = reprise). Hors Gate/Shell
+            pour agir partout, y compris au retour du lien magique. No-op sans
+            backend Supabase configuré. */}
+        <StateSync />
         <Gate>
           <ClientShell>{children}</ClientShell>
         </Gate>

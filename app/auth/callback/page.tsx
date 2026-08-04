@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSupabase } from "@/lib/supabaseBrowser";
+import { pullAndMerge } from "@/lib/stateSync";
 
 const GATE_KEY = "identitx-gate-2";
 
@@ -31,11 +32,21 @@ export default function AuthCallback() {
       router.replace("/aujourdhui");
     };
 
+    // Session ouverte → on REPREND la progression sauvegardée AVANT d'entrer,
+    // pour que l'accueil s'affiche déjà au bon jour (jamais « repartie à zéro »).
+    const reprendre = async () => {
+      setMsg("On retrouve ta progression…");
+      try {
+        await pullAndMerge();
+      } catch {}
+      finish();
+    };
+
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) finish();
+      if (data.session) reprendre();
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (session) finish();
+      if (session) reprendre();
     });
 
     // Filet : même si la session tarde, on rentre (mode facultatif, non bloquant).
