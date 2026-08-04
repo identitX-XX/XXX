@@ -12,8 +12,19 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
-import { MONDES, mondeByKey, Monde } from "@/parcours-archetypes/mondes";
+import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
+import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
 import { ArchetypeKey } from "@/parcours-archetypes/types";
+
+// Fond sombre (solide) de chaque scène — l'identité passe par le trait accent,
+// pas par le fond ; un aplat sombre tient la ligne claire.
+const FOND: Record<MondeKey, string> = {
+  nature: "#0e1a11",
+  urbain: "#0b0b12",
+  futuriste: "#08131b",
+  retro: "#160a1a",
+  manga: "#0c0c12",
+};
 
 export default function QuetePage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
@@ -57,21 +68,42 @@ export default function QuetePage() {
           sub="La même quête, cinq univers. Choisis celui où tu as envie de la vivre — tu pourras en changer."
         />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {MONDES.map((m) => (
+          {MONDES.map((m, i) => (
             <button
               key={m.key}
               onClick={() => choisirMonde(m.key)}
               className="group overflow-hidden rounded-2xl border text-left transition-transform hover:scale-[1.01]"
-              style={{ borderColor: m.line, background: m.bg }}
+              style={{ borderColor: m.line, background: m.panel }}
             >
-              <div className="p-6">
-                <div className="text-3xl">{m.motif}</div>
-                <h3 className="mt-3 font-display text-xl font-light" style={{ color: m.ink }}>
+              {/* La « case » : scène au trait + index de coin + filet interne. */}
+              <div className="relative">
+                <MondeScene
+                  mk={m.key}
+                  accent={m.accent}
+                  accent2={m.accent2}
+                  ink={m.ink}
+                  fond={FOND[m.key]}
+                  height={150}
+                />
+                <span
+                  className="absolute left-3 top-2 font-display text-sm font-semibold"
+                  style={{ color: m.accent, letterSpacing: "0.08em" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-2 rounded-xl"
+                  style={{ border: `1px solid color-mix(in srgb, ${m.accent} 24%, transparent)` }}
+                />
+              </div>
+              <div className="border-t p-5" style={{ borderColor: m.line }}>
+                <h3 className="font-display text-2xl font-semibold" style={{ color: m.ink }}>
                   {m.nom}
                 </h3>
                 <p className="mt-1 text-sm" style={{ color: m.muted }}>{m.tagline}</p>
                 <span
-                  className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium"
+                  className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em]"
                   style={{ color: m.accent }}
                 >
                   Entrer dans ce monde
@@ -88,20 +120,28 @@ export default function QuetePage() {
   // La Quête suit la MUE : elle se cale sur l'archétype dominant COURANT (le
   // dernier chapitre tenu), pas sur celui figé au diagnostic. Quand une mue a
   // eu lieu, on la nomme — et les exercices se renouvellent d'eux-mêmes.
-  const mue = derniereBascule(detecterChapitres(etat.historique));
+  let mue: Bascule | null = null;
+  try {
+    mue = derniereBascule(detecterChapitres(etat.historique));
+  } catch {
+    mue = null;
+  }
   const archKeyActuel = mue?.vers ?? diagnostic.dominant;
+  const jour = Math.min(Math.max(etat.jourCourant, 1), 30);
 
-  return <QueteMonde archKey={archKeyActuel} monde={monde} mue={mue} />;
+  return <QueteMonde archKey={archKeyActuel} monde={monde} mue={mue} jour={jour} />;
 }
 
 function QueteMonde({
   archKey,
   monde: m,
   mue,
+  jour,
 }: {
   archKey: ArchetypeKey;
   monde: Monde;
   mue: Bascule | null;
+  jour: number;
 }) {
   const arch = archetypeByKey[archKey];
   const quete = queteDe(archKey);
@@ -161,13 +201,23 @@ function QueteMonde({
       className="rounded-3xl border p-6 sm:p-9"
       style={{ background: m.bg, borderColor: m.line, color: m.ink }}
     >
+      {/* Scène du monde en tête — la case de BD, continuité visuelle. */}
+      <div className="relative mb-6 overflow-hidden rounded-2xl" style={{ border: `1px solid ${m.line}` }}>
+        <MondeScene mk={m.key} accent={m.accent} accent2={m.accent2} ink={m.ink} fond={FOND[m.key]} height={128} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-2 rounded-xl"
+          style={{ border: `1px solid color-mix(in srgb, ${m.accent} 22%, transparent)` }}
+        />
+      </div>
+
       {/* En-tête */}
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="text-xs uppercase tracking-[0.2em]" style={{ color: m.accent }}>
-            La Quête · {m.motif} {m.nom}
+            La Quête · {m.nom}
           </div>
-          <h1 className="mt-2 break-words font-display text-3xl font-light leading-tight" style={{ color: m.ink }}>
+          <h1 className="mt-2 break-words font-display text-3xl font-semibold leading-tight" style={{ color: m.ink }}>
             {arch.name}
           </h1>
         </div>
@@ -194,6 +244,21 @@ function QueteMonde({
             De <b>{archetypeByKey[mue.depuis].name}</b> à <b>{archetypeByKey[mue.vers].name}</b>.
             Nouveau lest, nouveaux exercices — ta maîtrise de{" "}
             {archetypeByKey[mue.depuis].name} reste acquise.
+          </p>
+        </div>
+      )}
+
+      {/* Clarté jour après jour : pourquoi ça ne change pas tous les jours. */}
+      {!mue && (
+        <div className="mt-5 rounded-2xl border p-4" style={{ borderColor: m.line, background: m.panel }}>
+          <div className="text-xs uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+            Jour {jour} / 30
+          </div>
+          <p className="mt-1 text-sm leading-relaxed" style={{ color: m.muted }}>
+            Ta quête suit ta signature du moment (<b style={{ color: m.ink }}>{arch.name}</b>).
+            Tant qu'elle ne bascule pas, les exercices restent les mêmes : chaque
+            jour, tu les <b style={{ color: m.ink }}>approfondis</b> — tu ne repars pas
+            de zéro. Le jour où tu <b style={{ color: m.ink }}>mues</b>, ils se renouvellent.
           </p>
         </div>
       )}
