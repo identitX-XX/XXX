@@ -412,10 +412,82 @@ function QueteMonde({
   );
 }
 
-function Cadre({ m, num, titre, done, children }: { m: Monde; num: number; titre: string; done: boolean; children: React.ReactNode }) {
+// Emblèmes au trait des trois exercices (même langage ligne claire que les
+// scènes de monde) : délestage (montgolfière qui largue son lest), carrefour
+// (chemin qui bifurque), pacte (sceau + ruban).
+type ExKind = "delestage" | "carrefour" | "pacte";
+function ExerciceEmbleme({ kind, color, size = 38 }: { kind: ExKind; color: string; size?: number }) {
   return (
-    <div className="rounded-2xl border p-5 sm:p-6" style={{ borderColor: done ? m.accent : m.line, background: m.panel }}>
-      <div className="flex items-center gap-3">
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 40 40"
+      fill="none"
+      stroke={color}
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      style={{ display: "block" }}
+    >
+      {kind === "delestage" && (
+        <>
+          <circle cx="20" cy="12" r="8" />
+          <path d="M14 18 L26 18 L24 26 L16 26 Z" />
+          <path d="M16 18 L16 13 M24 18 L24 13" />
+          <circle cx="11" cy="34" r="2" fill={color} stroke="none" />
+          <circle cx="29" cy="31" r="1.6" fill={color} stroke="none" />
+        </>
+      )}
+      {kind === "carrefour" && (
+        <>
+          <path d="M20 36 V22 M20 22 C20 16 12 15 8 9 M20 22 C20 16 28 15 32 9" />
+          <circle cx="8" cy="8" r="2" fill={color} stroke="none" />
+          <circle cx="32" cy="8" r="2" fill={color} stroke="none" />
+        </>
+      )}
+      {kind === "pacte" && (
+        <>
+          <circle cx="20" cy="17" r="9" />
+          <path
+            d="M20 11 l1.4 3.6 3.9 .3 -3 2.6 .9 3.8 -3.2 -2 -3.2 2 .9 -3.8 -3 -2.6 3.9 -.3 Z"
+            fill={color}
+            stroke="none"
+          />
+          <path d="M15 25 L13 36 L17 32 L20 36 L23 32 L27 36 L25 25" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+function Cadre({
+  m,
+  num,
+  titre,
+  done,
+  kind,
+  children,
+}: {
+  m: Monde;
+  num: number;
+  titre: string;
+  done: boolean;
+  kind?: ExKind;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      className="relative overflow-hidden rounded-2xl border p-5 sm:p-6"
+      style={{ borderColor: done ? m.accent : m.line, background: m.panel }}
+    >
+      {/* filet interne : la « case » de BD */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-1.5 rounded-xl"
+        style={{ border: `1px solid color-mix(in srgb, ${m.accent} 16%, transparent)` }}
+      />
+      <div className="relative flex items-center gap-3">
         <div
           className="grid h-7 w-7 flex-none place-items-center rounded-full text-xs font-semibold"
           style={done
@@ -424,11 +496,12 @@ function Cadre({ m, num, titre, done, children }: { m: Monde; num: number; titre
         >
           {done ? <Check size={14} /> : num}
         </div>
-        <div className="text-sm font-medium uppercase tracking-[0.14em]" style={{ color: done ? m.accent : m.ink }}>
+        <div className="flex-1 text-sm font-semibold uppercase tracking-[0.14em]" style={{ color: done ? m.accent : m.ink }}>
           {titre}
         </div>
+        {kind && <ExerciceEmbleme kind={kind} color={done ? m.accent : m.muted} />}
       </div>
-      <div className="mt-4">{children}</div>
+      <div className="relative mt-4">{children}</div>
     </div>
   );
 }
@@ -447,7 +520,7 @@ function Delestage({ m, poids, id }: { m: Monde; poids: string[]; id: string }) 
   };
 
   return (
-    <Cadre m={m} num={1} titre="Le délestage" done={Boolean(done)}>
+    <Cadre m={m} num={1} titre="Le délestage" done={Boolean(done)} kind="delestage">
       {!done && (
         <p className="mb-3 text-sm" style={{ color: m.muted }}>
           Touche chaque poids pour le relâcher. Ils t'appartiennent — mais tu n'es pas obligé de les porter.
@@ -488,7 +561,7 @@ function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: NonNullable<Retu
   const c = choisi != null ? carrefour.choix[choisi] : null;
 
   return (
-    <Cadre m={m} num={2} titre="Le carrefour" done={Boolean(done)}>
+    <Cadre m={m} num={2} titre="Le carrefour" done={Boolean(done)} kind="carrefour">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{carrefour.situation}</p>
       <div className="mt-4 flex flex-col gap-2.5">
         {carrefour.choix.map((ch, i) => {
@@ -525,7 +598,7 @@ function Pacte({ m, geste, id }: { m: Monde; geste: string; id: string }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
   return (
-    <Cadre m={m} num={3} titre="Le pacte" done={Boolean(done)}>
+    <Cadre m={m} num={3} titre="Le pacte" done={Boolean(done)} kind="pacte">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{geste}</p>
       {done ? (
         <p className="mt-3 text-sm" style={{ color: m.accent }}>Engagement pris. À toi de le tenir.</p>
