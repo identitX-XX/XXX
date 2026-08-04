@@ -41,6 +41,10 @@ export default function Error({
     window.location.reload();
   };
 
+  const detail = `${error?.name || "Error"}: ${error?.message || ""}${
+    error?.digest ? ` (digest ${error.digest})` : ""
+  }`;
+
   return (
     <div
       style={{
@@ -73,22 +77,52 @@ export default function Error({
           L'app vient sûrement d'être mise à jour. Recharge pour repartir — ta
           progression est conservée.
         </p>
-        <button
-          onClick={recharger}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
+          <button
+            onClick={recharger}
+            style={{
+              minHeight: 52,
+              width: "100%",
+              maxWidth: 280,
+              padding: "14px 28px",
+              borderRadius: 999,
+              border: "none",
+              color: "#fff",
+              fontSize: 16,
+              fontWeight: 600,
+              cursor: "pointer",
+              background: "linear-gradient(90deg, var(--fuchsia), var(--orange))",
+            }}
+          >
+            Recharger
+          </button>
+          <a
+            href="/aujourdhui"
+            style={{
+              fontSize: 14,
+              color: "var(--muted)",
+              textDecoration: "underline",
+              textUnderlineOffset: 3,
+            }}
+          >
+            Aller à l'accueil
+          </a>
+        </div>
+
+        {/* Détail technique (temporaire) — pour diagnostiquer le bug précis. */}
+        <p
           style={{
-            minHeight: 52,
-            padding: "14px 28px",
-            borderRadius: 999,
-            border: "none",
-            color: "#fff",
-            fontSize: 16,
-            fontWeight: 600,
-            cursor: "pointer",
-            background: "linear-gradient(90deg, var(--fuchsia), var(--orange))",
+            marginTop: 22,
+            fontSize: 11,
+            lineHeight: 1.5,
+            color: "var(--muted)",
+            wordBreak: "break-word",
+            fontFamily: "ui-monospace, monospace",
+            opacity: 0.8,
           }}
         >
-          Recharger
-        </button>
+          {detail}
+        </p>
       </div>
     </div>
   );
