@@ -140,6 +140,26 @@ body {
   font-optical-sizing: auto;
 }
 
+/* Typographie plus généreuse et ergonomique, appliquée GLOBALEMENT : on remonte
+   d'un cran les deux tailles les plus courantes (le corps et les libellés) et on
+   fait respirer l'interligne. Le plancher lisible monte, l'app se lit sans
+   effort sur mobile. Placé APRÈS @tailwind utilities pour primer, par ordre de
+   source, sur .text-sm / .text-xs sans toucher chaque écran un par un. Les
+   tailles explicites (text-[11px], text-[13px]…) posées à dessein restent
+   intactes. */
+body {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.text-sm {
+  font-size: 0.9375rem; /* 14 → 15px */
+  line-height: 1.6;
+}
+.text-xs {
+  font-size: 0.8125rem; /* 12 → 13px */
+  line-height: 1.5;
+}
+
 /* Feedback tactile : léger enfoncement au tap sur tout élément cliquable —
    couvre aussi les boutons en styles inline (charts, quête, diagnostic…).
    Neutralisé par le bloc prefers-reduced-motion plus bas. */

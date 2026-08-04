@@ -30,16 +30,16 @@ export function PageHead({
   return (
     <div className="mb-8 animate-fade-up">
       {eyebrow && (
-        <div className="mb-2 text-xs uppercase tracking-[0.25em] text-fuchsia">
+        <div className="mb-2 text-[12px] font-bold uppercase tracking-[0.22em] text-fuchsia">
           {eyebrow}
         </div>
       )}
       {title && (
-        <h1 className="font-display text-3xl font-semibold leading-tight text-ink md:text-4xl">
+        <h1 className="font-display text-[2rem] font-semibold leading-tight text-ink md:text-[2.6rem]">
           {title}
         </h1>
       )}
-      {sub && <p className="mt-2 max-w-xl text-sm text-muted">{sub}</p>}
+      {sub && <p className="mt-2.5 max-w-xl text-[15px] leading-relaxed text-muted">{sub}</p>}
     </div>
   );
 }
@@ -60,7 +60,7 @@ export function Button({
   disabled?: boolean;
 }) {
   const base =
-    "inline-flex min-h-[3rem] items-center justify-center gap-2 rounded-full px-7 py-3.5 text-[15px] font-semibold transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
+    "inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-full px-7 py-3.5 text-base font-semibold transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
   const styles =
     variant === "solid"
       ? "brand-gradient text-white hover:opacity-90 hover:shadow-glow"
@@ -139,7 +139,7 @@ export function TextInput({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-xl border border-line bg-noir px-4 py-3 text-sm text-ink placeholder:text-muted focus:border-fuchsia"
+      className="w-full rounded-xl border border-line bg-noir px-4 py-3 text-base text-ink placeholder:text-muted focus:border-fuchsia"
     />
   );
 }
@@ -161,7 +161,7 @@ export function TextArea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full resize-none rounded-xl border border-line bg-noir px-4 py-3 text-sm leading-relaxed text-ink placeholder:text-muted focus:border-fuchsia"
+      className="w-full resize-none rounded-xl border border-line bg-noir px-4 py-3 text-base leading-relaxed text-ink placeholder:text-muted focus:border-fuchsia"
     />
   );
 }
@@ -175,8 +175,8 @@ export function EmptyState({
 }) {
   return (
     <div className="rounded-2xl border border-dashed border-line py-16 text-center">
-      <p className="font-display text-lg text-ink">{title}</p>
-      <p className="mt-1 text-sm text-muted">{hint}</p>
+      <p className="font-display text-xl text-ink">{title}</p>
+      <p className="mt-1.5 text-[15px] leading-relaxed text-muted">{hint}</p>
     </div>
   );
 }
