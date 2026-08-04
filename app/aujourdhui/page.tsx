@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock, History,
   MessageCircle,
 } from "lucide-react";
-import { Card, PageHead, Slider } from "@/components/ui";
+import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
@@ -29,6 +30,8 @@ export default function AujourdhuiPage() {
   const parcours = useParcoursStore((s) => s.parcours);
   const etat = useParcoursStore((s) => s.etat);
   const reponses = useParcoursStore((s) => s.reponses);
+  const reinitialiser = useParcoursStore((s) => s.reinitialiser);
+  const router = useRouter();
 
   // Rétention J7 (métrique clé) : une seule fois, quand on atteint le Jour 7.
   useEffect(() => {
@@ -39,6 +42,29 @@ export default function AujourdhuiPage() {
       }
     } catch {}
   }, [etat]);
+
+  // Retour de session : si une quête est déjà en cours (au moins un jour vécu),
+  // on propose UNE FOIS par session de la reprendre ou de la recommencer — le
+  // choix quand on revient / se reconnecte, jamais imposé.
+  const [montrerReprise, setMontrerReprise] = useState(false);
+  const [confirmReset, setConfirmReset] = useState(false);
+  useEffect(() => {
+    try {
+      if (diagnostic && progression(etat).faits >= 1 && !sessionStorage.getItem("idx-reprise")) {
+        setMontrerReprise(true);
+        sessionStorage.setItem("idx-reprise", "1");
+      }
+    } catch {}
+  }, [diagnostic, etat]);
+
+  const recommencer = () => {
+    reinitialiser();
+    setMontrerReprise(false);
+    try {
+      sessionStorage.setItem("idx-reprise", "1");
+    } catch {}
+    router.push("/parcours-signatures");
+  };
 
   // Amorce : tant que le parcours n'est pas armé, on flèche l'étape suivante
   // avec un fil de progression clair (2 étapes avant le Jour 1).
@@ -111,6 +137,39 @@ export default function AujourdhuiPage() {
         title={salut.titre}
         sub="Une seule chose compte : vivre ta journée. Le reste peut attendre."
       />
+
+      {/* Retour de session : reprendre là où on en était, ou tout recommencer. */}
+      {montrerReprise && (
+        <Card className="mb-4 p-5 animate-fade-up sm:p-6">
+          <div className="text-xs uppercase tracking-[0.18em] text-fuchsia">Bon retour</div>
+          <h2 className="mt-1 font-display text-xl font-semibold text-ink">
+            Reprendre ta quête ?
+          </h2>
+          <p className="mt-1 text-sm text-muted">
+            Tu en étais au <b className="text-ink">Jour {n}</b>. Continue là où tu
+            t'es arrêtée — ou recommence de zéro.
+          </p>
+          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+            <Button onClick={() => setMontrerReprise(false)}>
+              Reprendre · Jour {n}
+            </Button>
+            {!confirmReset ? (
+              <Button variant="outline" onClick={() => setConfirmReset(true)}>
+                Recommencer
+              </Button>
+            ) : (
+              <Button variant="outline" onClick={recommencer}>
+                Confirmer — tout effacer
+              </Button>
+            )}
+          </div>
+          {confirmReset && (
+            <p className="mt-2 text-xs text-muted">
+              Cela efface ta progression actuelle et relance le diagnostic.
+            </p>
+          )}
+        </Card>
+      )}
 
       {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
       <LeChemin />

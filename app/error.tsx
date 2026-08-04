@@ -41,9 +41,6 @@ export default function Error({
     window.location.reload();
   };
 
-  const detail = `${error?.name || "Error"}: ${error?.message || ""}${
-    error?.digest ? ` (digest ${error.digest})` : ""
-  }`;
 
   return (
     <div
@@ -108,21 +105,6 @@ export default function Error({
             Aller à l'accueil
           </a>
         </div>
-
-        {/* Détail technique (temporaire) — pour diagnostiquer le bug précis. */}
-        <p
-          style={{
-            marginTop: 22,
-            fontSize: 11,
-            lineHeight: 1.5,
-            color: "var(--muted)",
-            wordBreak: "break-word",
-            fontFamily: "ui-monospace, monospace",
-            opacity: 0.8,
-          }}
-        >
-          {detail}
-        </p>
       </div>
     </div>
   );
