@@ -20,6 +20,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [welcome, setWelcome] = useState("");
+  const [linkSent, setLinkSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -100,12 +101,16 @@ export function Gate({ children }: { children: React.ReactNode }) {
         magic = !otpErr;
       }
 
-      setWelcome(
-        magic
-          ? "Lien de connexion envoyé par e-mail — ton espace s'ouvre."
-          : "Bienvenue — ton espace s'ouvre."
-      );
-      setTimeout(enter, 1200);
+      if (magic) {
+        // Lien parti : on NE force PAS l'entrée. On affiche une consigne claire
+        // (« va confirmer dans ta boîte mail ») que la personne peut lire, puis
+        // entrer à son rythme via le bouton — la connexion reste facultative.
+        setLinkSent(true);
+        setWelcome("link");
+      } else {
+        setWelcome("Bienvenue — ton espace s'ouvre.");
+        setTimeout(enter, 1200);
+      }
     } catch {
       setError("Un souci réseau. Réessaie.");
     } finally {
@@ -192,9 +197,48 @@ export function Gate({ children }: { children: React.ReactNode }) {
       <div style={{ height: 24 }} />
 
       {welcome ? (
-        <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
-          {welcome}
-        </div>
+        linkSent ? (
+          <div style={{ textAlign: "center", maxWidth: 340 }}>
+            <div style={{ fontSize: 30, marginBottom: 10 }}>📩</div>
+            <div style={{ fontSize: 16, color: "var(--ink)", lineHeight: 1.55, fontWeight: 500 }}>
+              Un lien de connexion vient de partir vers
+              <br />
+              <span style={{ color: "var(--fuchsia)", wordBreak: "break-all" }}>
+                {email.trim()}
+              </span>
+            </div>
+            <div style={{ marginTop: 12, fontSize: 14, color: "var(--muted)", lineHeight: 1.6 }}>
+              Ouvre ta boîte mail et <b style={{ color: "var(--ink)" }}>clique sur le lien</b> pour
+              activer la reprise de ta progression sur tous tes appareils.
+              <br />
+              <span style={{ opacity: 0.8 }}>Pense à vérifier tes spams.</span>
+            </div>
+            <button
+              onClick={enter}
+              style={{
+                marginTop: 20,
+                minHeight: 50,
+                padding: "0 26px",
+                borderRadius: 14,
+                border: "none",
+                background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
+                color: "var(--noir)",
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: "pointer",
+              }}
+            >
+              Continuer sans attendre →
+            </button>
+            <div style={{ marginTop: 10, fontSize: 12.5, color: "var(--muted)", opacity: 0.75 }}>
+              La connexion est facultative — tu peux entrer et cliquer le lien plus tard.
+            </div>
+          </div>
+        ) : (
+          <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
+            {welcome}
+          </div>
+        )
       ) : (
         <div style={{ display: "flex", gap: 8, width: "100%", maxWidth: 340 }}>
           <input
