@@ -4,8 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
-  ArrowRight, Flame, Sparkles, HelpCircle, Target, BookOpen, Wind, PenLine, Lock, History,
-  MessageCircle,
+  ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
+  MessageCircle, Sunrise, Moon, Compass,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
@@ -252,30 +252,55 @@ export default function AujourdhuiPage() {
 
           {/* La capsule du jour + CTA */}
           <div className="flex-1 text-center sm:text-left">
-            <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-[0.16em] text-fuchsia sm:justify-start">
+            <div className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
               <span>
-                Jour {n} · phase {phase.label}
+                La capsule · Jour {n} · {phase.label}
               </span>
             </div>
-            <h2 className="mt-1.5 font-display text-2xl font-light text-ink sm:text-[1.7rem]">
+            <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[1.7rem]">
               {arch ? arch.name : "Ta capsule du jour"}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {arch?.lens}
             </p>
+
+            {/* Les deux moments de la capsule, nommés — pour qu'ils cessent
+                d'être invisibles derrière un simple « Vivre ma journée ». */}
+            {arch && (
+              <div className="mt-4 grid gap-2 text-left">
+                <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
+                  <Sunrise size={16} className="mt-0.5 flex-none text-fuchsia" />
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-fuchsia">
+                      Le geste · en journée
+                    </div>
+                    <p className="mt-0.5 text-sm leading-snug text-ink">{arch.defi}</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
+                  <Moon size={16} className="mt-0.5 flex-none text-fuchsia" />
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-fuchsia">
+                      Le bilan · le soir ≈ 5 min
+                    </div>
+                    <p className="mt-0.5 text-sm leading-snug text-ink">
+                      Note ce que tu as observé — deux curseurs, quelques mots.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <Link
               href="/parcours-signatures"
               className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
             >
-              {dejaFait ? "Revoir ma journée" : "Vivre ma journée"}
+              {dejaFait ? "Revoir ma journée" : "Vivre ma capsule du jour"}
               <ArrowRight
                 size={16}
                 className="transition-transform group-hover:translate-x-0.5"
               />
             </Link>
-            <div className="mt-2 text-xs text-muted">
-              Le geste en journée · le bilan ≈ 5 min le soir
-            </div>
           </div>
         </div>
       </Card>
@@ -338,6 +363,10 @@ export default function AujourdhuiPage() {
         </div>
       )}
 
+      {/* « Ce que tes directions rendent possible » : les scénarios, jusque-là
+          enterrés derrière une station du chemin — surfacés en bloc conscient. */}
+      <PossiblesCard />
+
       <ClimatCard jour={n} />
 
       <SecondPlan prog={prog} />
@@ -378,7 +407,7 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
 
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.16em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         <Sparkles size={13} /> Le fil du jour
       </div>
 
@@ -405,21 +434,13 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
           </Card>
         )}
 
-        {/* Deux matières à réflexion — la question ET le micro-défi du jour */}
-        <div className="text-xs uppercase tracking-[0.14em] text-muted">
-          Deux matières à travailler aujourd'hui
-        </div>
+        {/* La question à porter — le micro-défi vit désormais dans la capsule
+            (« le geste »), on ne le répète donc plus ici. */}
         <Card className="p-5 sm:p-6">
           <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
-            <HelpCircle size={13} /> La question à porter
+            <HelpCircle size={13} /> La question du jour
           </div>
           <p className="mt-2 text-sm leading-relaxed text-ink">{arch.question}</p>
-        </Card>
-        <Card className="p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
-            <Target size={13} /> Le micro-défi
-          </div>
-          <p className="mt-2 text-sm leading-relaxed text-ink">{arch.defi}</p>
         </Card>
 
         {/* Révélation — sourcée, ou teaser tant qu'il manque de matière */}
@@ -519,7 +540,7 @@ function PremiereLecture() {
           "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
       }}
     >
-      <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+      <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         Ta première lecture · à vérifier sur 30 jours
       </div>
       <h2 className="mt-1 font-display text-xl font-light text-ink">{pl.titre}</h2>
@@ -536,6 +557,40 @@ function PremiereLecture() {
         ))}
       </div>
     </div>
+  );
+}
+
+// « Ce que tes directions rendent possible » — le pont vers les scénarios. Il
+// vivait caché derrière la 3ᵉ station du chemin ; ici c'est un bloc à part
+// entière, toujours visible une fois la quête lancée : on voit qu'un ailleurs
+// se construit à partir de ce qu'on explore.
+function PossiblesCard() {
+  return (
+    <section className="mt-4 animate-fade-up" style={{ animationDelay: "90ms" }}>
+      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <Compass size={13} /> Tes possibles
+      </div>
+      <Link
+        href="/scenarios"
+        className="group block overflow-hidden rounded-2xl border border-line p-6 shadow-soft transition-colors hover:border-fuchsia"
+        style={{
+          background:
+            "radial-gradient(130% 130% at 100% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 55%)",
+        }}
+      >
+        <h3 className="font-display text-xl font-semibold leading-snug text-ink">
+          Ce que tes directions rendent possible
+        </h3>
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+          Des expériences concrètes à tenter, nées de ce que tu explores — pas un
+          portrait à contempler, mais ce qui construit ta réalité.
+        </p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-fuchsia">
+          Faire surgir mes possibles
+          <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </Link>
+    </section>
   );
 }
 
@@ -563,7 +618,7 @@ function ClimatCard({ jour }: { jour: number }) {
       <div className="mt-4 animate-fade-up">
         <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
               Climat du jour · {climatLabel(idx)}
             </div>
             <p className="mt-1 max-w-md text-sm text-muted">{climatPhrase(idx)}</p>
@@ -582,7 +637,7 @@ function ClimatCard({ jour }: { jour: number }) {
   return (
     <div className="mt-4 animate-fade-up">
       <Card className="p-5 sm:p-6">
-        <div className="text-xs uppercase tracking-[0.16em] text-fuchsia">
+        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
           Climat &amp; corps · optionnel
         </div>
         <p className="mt-1 text-sm text-muted">
@@ -619,7 +674,7 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
   ];
   return (
     <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
-      <div className="mb-3 text-xs uppercase tracking-[0.16em] text-muted">
+      <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-muted">
         Explorer
       </div>
       <div className="flex flex-wrap gap-3">
