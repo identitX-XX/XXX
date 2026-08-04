@@ -62,7 +62,7 @@ export default function Error({
         />
         <h1
           style={{
-            fontFamily: "var(--font-fraunces), serif",
+            fontFamily: "var(--font-fraunces), system-ui, sans-serif",
             fontWeight: 600,
             fontSize: 24,
             margin: "0 0 8px",

@@ -1,30 +1,27 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Hanken_Grotesk } from "next/font/google";
+import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
 import { StateSync } from "@/components/StateSync";
 
-// Typographie premium : Fraunces (titres — serif à contraste DOUX, chaleureux,
-// distinctif ; tient sur fond sombre sans vibrer, contrairement à une Didone) +
-// Hanken Grotesk (corps, lisible). Noms de variables historiques conservés
-// (--font-fraunces / --font-inter) pour ne rien casser ailleurs.
-// Fraunces chargée en VARIABLE (et non plus en graisses figées) : on récupère
-// ses axes de caractère — opsz (contraste optique), SOFT (douceur des
-// terminaisons), WONK (singularité) — pilotés ensuite en CSS (voir globals.css).
-const fraunces = Fraunces({
+// Typographie « moderne épurée » — tout en sans-serif, contemporaine et
+// ergonomique : Bricolage Grotesque pour les titres (grotesque de caractère,
+// affirmé, très lisible en gros) + Plus Jakarta Sans pour le corps (rond, clair,
+// confortable à lire). Les noms de variables historiques sont conservés
+// (--font-fraunces = titres, --font-inter = corps) pour ne rien casser ailleurs.
+const titre = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-fraunces",
   display: "swap",
-  style: ["normal", "italic"],
-  axes: ["opsz", "SOFT", "WONK"],
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const inter = Hanken_Grotesk({
+const corps = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={fraunces.variable + " " + inter.variable + " pal-nuit"}>
+    <html lang="fr" className={titre.variable + " " + corps.variable + " pal-nuit"}>
       <body>
         {/* Synchro compte ↔ progression (connexion = reprise). Hors Gate/Shell
             pour agir partout, y compris au retour du lien magique. No-op sans

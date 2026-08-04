@@ -200,7 +200,7 @@ export function JaugeCoherence({ valeur }: { valeur: number }) {
               display: "grid",
               placeItems: "center",
               textAlign: "center",
-              fontFamily: "var(--font-fraunces), serif",
+              fontFamily: "var(--font-fraunces), system-ui, sans-serif",
               fontSize: 13,
               lineHeight: 1.2,
               color: INK,
@@ -259,7 +259,7 @@ export function BarreProgression({ progression }: { progression: Progression }) 
     <div>
       <Titre>Progression</Titre>
       <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8 }}>
-        <span style={{ fontFamily: "var(--font-fraunces), serif", fontSize: 28, color: INK }}>
+        <span style={{ fontFamily: "var(--font-fraunces), system-ui, sans-serif", fontSize: 28, color: INK }}>
           {progression.faits}
         </span>
         <span style={{ fontSize: 12, color: MUTED }}>/ {progression.total} jours</span>

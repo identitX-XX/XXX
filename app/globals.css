@@ -133,9 +133,8 @@ body {
   overscroll-behavior-y: none;
 }
 
-/* Fraunces variable : on laisse l'optical-sizing AUTOMATIQUE — un contraste doux
-   adapté à la taille du texte, sans forcer d'axe (ni WONK, ni SOFT). Rendu
-   premium et calme, jamais agressif. */
+/* Optical-sizing automatique : Bricolage Grotesque expose l'axe opsz, on le
+   laisse s'adapter à la taille du texte pour un rendu net à toutes les échelles. */
 body {
   font-optical-sizing: auto;
 }
