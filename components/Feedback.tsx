@@ -11,14 +11,15 @@ import { Button, Card, TextArea } from "./ui";
 
 export function Feedback() {
   const [message, setMessage] = useState("");
-  const [etat, setEtat] = useState<"repos" | "envoi" | "merci">("repos");
+  const [etat, setEtat] = useState<"repos" | "envoi" | "merci" | "erreur">("repos");
 
   const envoyer = async () => {
     const texte = message.trim();
     if (!texte || etat === "envoi") return;
     setEtat("envoi");
+    let stored = false;
     try {
-      await fetch("/api/feedback", {
+      const r = await fetch("/api/feedback", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -27,12 +28,19 @@ export function Feedback() {
           route: typeof window !== "undefined" ? window.location.pathname : null,
         }),
       });
+      const d = await r.json().catch(() => ({ stored: false }));
+      stored = Boolean(r.ok && d.stored);
     } catch {
-      /* silencieux : on remercie quand même, le geste compte */
+      stored = false;
     }
-    setMessage("");
-    setEtat("merci");
-    setTimeout(() => setEtat("repos"), 4000);
+    // On ne remercie que si c'est réellement enregistré (fini l'échec silencieux).
+    if (stored) {
+      setMessage("");
+      setEtat("merci");
+      setTimeout(() => setEtat("repos"), 4000);
+    } else {
+      setEtat("erreur");
+    }
   };
 
   return (
@@ -54,6 +62,11 @@ export function Feedback() {
         </div>
       ) : (
         <>
+          {etat === "erreur" && (
+            <p className="mb-2 rounded-lg border border-danger/40 bg-danger/10 px-3 py-2 text-xs text-danger">
+              Oups — ton avis n'a pas pu être enregistré. Réessaie dans un instant.
+            </p>
+          )}
           <TextArea
             value={message}
             onChange={setMessage}

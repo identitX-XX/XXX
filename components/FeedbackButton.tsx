@@ -26,7 +26,7 @@ export function FeedbackButton() {
   // flottant pour éviter qu'il recouvre le bouton « envoyer » du chat.
   const masque = pathname === "/coach";
   const [msg, setMsg] = useState("");
-  const [etat, setEtat] = useState<"repos" | "envoi" | "merci">("repos");
+  const [etat, setEtat] = useState<"repos" | "envoi" | "merci" | "erreur">("repos");
 
   // Anti-recouvrement : le bouton doré ne doit jamais masquer le texte qu'on
   // lit. On l'escamote pendant qu'on défile vers le bas (lecture en cours) et on
@@ -57,8 +57,9 @@ export function FeedbackButton() {
     const texte = msg.trim();
     if (!texte || etat === "envoi") return;
     setEtat("envoi");
+    let stored = false;
     try {
-      await fetch("/api/feedback", {
+      const r = await fetch("/api/feedback", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({
@@ -67,12 +68,20 @@ export function FeedbackButton() {
           route: typeof window !== "undefined" ? window.location.pathname : null,
         }),
       });
+      const d = await r.json().catch(() => ({ stored: false }));
+      stored = Boolean(r.ok && d.stored);
     } catch {
-      /* on remercie quand même : le geste compte */
+      stored = false;
     }
-    setMsg("");
-    setEtat("merci");
-    setTimeout(() => { setOpen(false); setEtat("repos"); }, 2200);
+    // On ne remercie QUE si c'est réellement enregistré — sinon on le dit et on
+    // garde le texte pour réessayer (fini l'échec silencieux).
+    if (stored) {
+      setMsg("");
+      setEtat("merci");
+      setTimeout(() => { setOpen(false); setEtat("repos"); }, 2200);
+    } else {
+      setEtat("erreur");
+    }
   };
 
   return (
@@ -117,6 +126,11 @@ export function FeedbackButton() {
                   Qu'est-ce qui marche, qu'est-ce qui coince sur cet écran ? Avec tes
                   mots, sans rien de technique.
                 </p>
+                {etat === "erreur" && (
+                  <p className="mb-2 rounded-lg border border-danger/40 bg-danger/10 px-3 py-2 text-xs text-danger">
+                    Oups — ton avis n'a pas pu être enregistré. Réessaie dans un instant.
+                  </p>
+                )}
                 <TextArea value={msg} onChange={setMsg} placeholder="Écris librement…" rows={4} />
                 <div className="mt-3 flex justify-end">
                   <Button onClick={envoyer} disabled={!msg.trim() || etat === "envoi"}>
