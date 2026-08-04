@@ -83,6 +83,18 @@ export async function GET(req: Request) {
     inscriptions = [];
   }
 
+  // Verbatims — les mots des testeuses (feedback libre), texte + page + date.
+  let verbatims: unknown[] = [];
+  try {
+    const r = await fetch(
+      `${url}/rest/v1/feedback?select=message,route,created_at&order=created_at.desc&limit=300`,
+      { headers }
+    );
+    verbatims = r.ok ? await r.json() : [];
+  } catch {
+    verbatims = [];
+  }
+
   return Response.json({
     ok: true,
     configured: true,
@@ -92,5 +104,6 @@ export async function GET(req: Request) {
     retention,
     engagement,
     inscriptions,
+    verbatims,
   });
 }

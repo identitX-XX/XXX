@@ -18,6 +18,7 @@ interface Funnel {
 interface Retention { cohorte: string; taille: number; j1: number; j7: number; j30: number }
 interface Engagement { page: string; visites: number; visiteuses: number; temps_moyen_s: number }
 interface Inscrite { email: string | null; prenom: string | null; created_at: string }
+interface Verbatim { message: string; route: string | null; created_at: string }
 interface Metrics {
   ok: boolean;
   configured?: boolean;
@@ -27,6 +28,7 @@ interface Metrics {
   retention?: Retention[];
   engagement?: Engagement[];
   inscriptions?: Inscrite[];
+  verbatims?: Verbatim[];
 }
 
 // Nom lisible d'un module à partir de sa route.
@@ -157,6 +159,26 @@ export default function AdminPage() {
               </div>
             ) : (
               <Empty>Aucune inscription pour l'instant.</Empty>
+            )}
+          </section>
+
+          {/* Verbatims — les mots des testeuses (feedback libre). */}
+          <section>
+            <SectionTitle>Commentaires · {data?.verbatims?.length ?? 0}</SectionTitle>
+            {data?.verbatims && data.verbatims.length > 0 ? (
+              <div className="flex flex-col gap-3">
+                {data.verbatims.map((v, i) => (
+                  <div key={i} className="rounded-2xl border border-line bg-surface p-4">
+                    <p className="text-sm leading-relaxed text-ink">« {v.message} »</p>
+                    <div className="mt-2 text-xs text-muted">
+                      {fmtDate(v.created_at)}
+                      {v.route ? ` · ${moduleName(v.route)}` : ""}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Empty>Aucun commentaire pour l'instant.</Empty>
             )}
           </section>
 
