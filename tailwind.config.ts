@@ -27,7 +27,7 @@ const config: Config = {
         slate: "var(--slate)",
       },
       fontFamily: {
-        display: ["var(--font-fraunces)", "system-ui", "sans-serif"],
+        display: ["var(--font-fraunces)", "Georgia", "serif"],
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       borderRadius: {
