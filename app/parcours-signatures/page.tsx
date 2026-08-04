@@ -20,9 +20,22 @@ import type { Diagnostic as Diag, Objectifs as ObjectifsT, EtatEvolution } from 
 // Enveloppé dans <Suspense> car on lit le paramètre ?jour= (useSearchParams).
 export default function ParcoursArchetypesPage() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<ParcoursSkeleton />}>
       <ParcoursContent />
     </Suspense>
+  );
+}
+
+// Squelette d'attente — remplace l'écran blanc le temps que la page s'arme.
+function ParcoursSkeleton() {
+  return (
+    <div className="animate-fade-in">
+      <div className="idx-skeleton mb-3 h-3 w-28" />
+      <div className="idx-skeleton mb-6 h-8 w-3/4" />
+      <div className="idx-skeleton mb-3 h-24 w-full" />
+      <div className="idx-skeleton mb-3 h-40 w-full" />
+      <div className="idx-skeleton h-40 w-full" />
+    </div>
   );
 }
 

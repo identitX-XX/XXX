@@ -140,6 +140,34 @@ body {
   font-optical-sizing: auto;
 }
 
+/* Feedback tactile : léger enfoncement au tap sur tout élément cliquable —
+   couvre aussi les boutons en styles inline (charts, quête, diagnostic…).
+   Neutralisé par le bloc prefers-reduced-motion plus bas. */
+button:not(:disabled),
+[role="button"] {
+  transition: transform 0.12s ease;
+}
+button:not(:disabled):active,
+[role="button"]:active {
+  transform: scale(0.975);
+}
+
+/* Squelettes de chargement — pulsation douce, aux tokens d'encre. */
+@keyframes idx-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+.idx-skeleton {
+  background: var(--line);
+  border-radius: 10px;
+  animation: idx-pulse 1.4s ease-in-out infinite;
+}
+
 /* Retraits « safe area » iOS (encoche, barre d'accueil). Utilitaires posés là
    où du contenu fixe touche les bords de l'écran. */
 .safe-bottom {

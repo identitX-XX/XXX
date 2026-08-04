@@ -74,9 +74,25 @@ export const ARCHETYPE_KEYS = ARCHETYPES.map((a) => a.key);
 export const SPHERE_KEYS = SPHERES.map((s) => s.key);
 export const EMOTION_KEYS = EMOTIONS.map((e) => e.key);
 
-export const archetypeByKey = Object.fromEntries(
+// Index par clé, INCREVABLE : une clé inconnue (ancien parcours d'avant la
+// migration, état importé, donnée corrompue) renvoie un repli neutre au lieu de
+// `undefined` — sinon un simple `archetypeByKey[clé].name` fait planter toute
+// l'app (client-side exception). On préfère un affichage dégradé à un écran mort.
+const _archetypeByKey = Object.fromEntries(
   ARCHETYPES.map((a) => [a.key, a])
-) as Record<(typeof ARCHETYPES)[number]["key"], Archetype>;
+) as Record<string, Archetype>;
+
+const REPLI_ARCHETYPE: Archetype =
+  _archetypeByKey["presence"] ?? ARCHETYPES[0];
+
+export const archetypeByKey = new Proxy(_archetypeByKey, {
+  get(target, prop) {
+    if (typeof prop === "string" && !(prop in target)) {
+      return REPLI_ARCHETYPE;
+    }
+    return (target as Record<string | symbol, unknown>)[prop];
+  },
+}) as Record<(typeof ARCHETYPES)[number]["key"], Archetype>;
 
 export const sphereByKey = Object.fromEntries(
   SPHERES.map((s) => [s.key, s])
