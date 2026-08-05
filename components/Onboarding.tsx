@@ -180,20 +180,49 @@ export function Onboarding() {
   );
 }
 
-// Étape 0 — la promesse, portée par le motif, presque sans texte.
+// Étape 0 — le MANIFESTE : l'objet d'IdentitX, plein écran, sur fond
+// constellation (la signature graphique de la marque). C'est la première chose
+// qu'on voit après la connexion — avant tout le reste.
+const MANIFESTE = [
+  "Identifier tes schémas",
+  "Déconstruire tes réflexes",
+  "Explorer tes possibles",
+  "Réécrire tes nouvelles légendes qui résonnent",
+];
+
 function StepAccueil() {
   return (
-    <div className="text-center">
-      <div className="text-base font-bold uppercase tracking-[0.2em] text-fuchsia">Bienvenue</div>
-      <p className="mx-auto mb-4 mt-3 max-w-sm font-display text-2xl font-semibold leading-snug text-ink">
-        Déconstruis ta légende. Vois émerger tes possibles.
-      </p>
-      <p className="mx-auto mb-6 max-w-sm text-sm leading-relaxed text-muted">
-        En six étapes, explore tes multiples, pour transformer ton identité
-        subie en une identité choisie.
-      </p>
-      <div className="flex justify-center">
-        <Constellation size={190} />
+    <div className="relative flex min-h-[62vh] flex-col justify-center text-center">
+      {/* Constellation en fond — grande, douce, elle occupe la page. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-40"
+      >
+        <Constellation size={360} />
+      </div>
+
+      <div className="relative">
+        <div className="text-[12px] font-bold uppercase tracking-[0.24em] text-fuchsia">
+          Bienvenue dans IdentitX
+        </div>
+        <h1 className="mx-auto mt-5 max-w-md font-display text-[1.9rem] font-bold leading-[1.15] text-ink">
+          Ton identité est une signature invisible &amp; multifactorielle.
+        </h1>
+
+        <p className="mt-8 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          Entre dans la quête pour
+        </p>
+        <ul className="mx-auto mt-4 flex max-w-xs flex-col gap-3 text-left">
+          {MANIFESTE.map((m) => (
+            <li key={m} className="flex items-start gap-3">
+              <span
+                className="mt-2 h-1.5 w-1.5 flex-none rotate-45"
+                style={{ background: "linear-gradient(120deg,var(--fuchsia),var(--orange))" }}
+              />
+              <span className="text-[15px] leading-snug text-ink">{m}</span>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
