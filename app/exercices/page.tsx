@@ -6,7 +6,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Loader2, Sparkles, RefreshCw, User, Briefcase, Home, Heart } from "lucide-react";
+import { ArrowRight, Loader2, Sparkles, RefreshCw, User, Briefcase, Users } from "lucide-react";
 import { PageHead, TextArea } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -24,8 +24,7 @@ import { pratiquesDuJour, promptRendu } from "@/parcours-gap/exercicesLib";
 const ICONE: Record<Perimetre, React.ElementType> = {
   perso: User,
   pro: Briefcase,
-  familial: Home,
-  amoureux: Heart,
+  relationnel: Users,
 };
 
 const CHAMPS: { key: keyof GapTriplet; label: string; hint: string }[] = [
@@ -100,8 +99,7 @@ export default function ExercicesPage() {
           directions: {
             perso: directionDe(objectifs, "perso"),
             pro: directionDe(objectifs, "pro"),
-            familial: directionDe(objectifs, "familial"),
-            amoureux: directionDe(objectifs, "amoureux"),
+            relationnel: directionDe(objectifs, "relationnel"),
           },
           gaps: jourGap,
           pratiques: prats
@@ -127,7 +125,7 @@ export default function ExercicesPage() {
       <PageHead
         eyebrow={`Exercice du jour · Jour ${jour}`}
         title="L'écart entre ce que tu crois, penses et fais"
-        sub={`Sur chaque périmètre — perso, pro, familial, amoureux — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
+        sub={`Sur chaque périmètre — perso, pro, relationnel — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
       />
 
       <div className="grid gap-5">

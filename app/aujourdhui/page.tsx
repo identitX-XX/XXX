@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
   MessageCircle, Sunrise, Moon, Compass, Check, Route, Dumbbell,
-  User, Briefcase, Home, Heart,
+  User, Briefcase, Users,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
@@ -385,14 +385,13 @@ export default function AujourdhuiPage() {
   );
 }
 
-// « Ton exercice du jour » — un par périmètre (perso · pro · familial ·
-// amoureux), teinté par la signature du moment. Comme la signature varie au fil
+// « Ton exercice du jour » — un par périmètre (perso · pro · relationnel)
+// teinté par la signature du moment. Comme la signature varie au fil
 // de la quête, les consignes évoluent avec elle, selon ton avancement.
 const ICONE_PERIMETRE: Record<Perimetre, React.ElementType> = {
   perso: User,
   pro: Briefcase,
-  familial: Home,
-  amoureux: Heart,
+  relationnel: Users,
 };
 
 function TroisExercices({
@@ -409,7 +408,7 @@ function TroisExercices({
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Un par périmètre — perso, pro, familial, amoureux — adapté à ta signature du
+        Un par périmètre — perso, pro, relationnel — adapté à ta signature du
         moment (<b className="text-ink">{arch.name}</b>). Il change selon ton avancement.
       </p>
       <div className="grid gap-3">

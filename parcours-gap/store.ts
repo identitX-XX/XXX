@@ -1,7 +1,7 @@
 "use client";
 
 // Exercices « GAP » — l'écart entre ce que tu CROIS, ce que tu PENSES et ce que
-// tu FAIS, sur chaque périmètre (perso · pro · familial · amoureux). C'est de la
+// tu FAIS, sur chaque périmètre (perso · pro · relationnel). C'est de la
 // matière que l'IA analyse chaque jour pour un éclairage relié à la signature.
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -29,8 +29,7 @@ const tripletVide = (): GapTriplet => ({ crois: "", pense: "", fais: "" });
 export const gapJourVide = (): GapJour => ({
   perso: tripletVide(),
   pro: tripletVide(),
-  familial: tripletVide(),
-  amoureux: tripletVide(),
+  relationnel: tripletVide(),
 });
 
 interface GapState {
