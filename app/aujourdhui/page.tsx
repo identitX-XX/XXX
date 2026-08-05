@@ -5,12 +5,14 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
-  MessageCircle, Sunrise, Moon, Compass, Check, Route,
+  MessageCircle, Sunrise, Moon, Compass, Check, Route, Dumbbell,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
+import { Glyph } from "@/components/Glyph";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
+import { exercicesDuJour } from "@/parcours-archetypes/exercices";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
@@ -19,7 +21,7 @@ import { genererRevelations } from "@/parcours-archetypes/revelations";
 import {
   ressourceDuJour, TYPE_LABEL, Ressource,
 } from "@/parcours-archetypes/quotidien";
-import { Archetype } from "@/parcours-archetypes/types";
+import { Archetype, Objectifs } from "@/parcours-archetypes/types";
 
 // Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
 // jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
@@ -305,6 +307,10 @@ export default function AujourdhuiPage() {
         </div>
       </Card>
 
+      {/* Les 3 exercices du jour — un par périmètre, pilotés par la signature du
+          moment (qui varie) : la quête « évolue », les exercices avec elle. */}
+      {arch && <TroisExercices arch={arch} objectifs={objectifs} />}
+
       {/* L'itinéraire du jour : le fil conducteur qui fait passer, dans l'ordre,
           par toutes les pages de la quête — plus aucun écran orphelin. */}
       <ItineraireDuJour diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} dejaFait={dejaFait} />
@@ -375,6 +381,62 @@ export default function AujourdhuiPage() {
 
       <SecondPlan prog={prog} />
     </div>
+  );
+}
+
+// « Tes 3 exercices du jour » — un par périmètre (perso · pro · relationnel),
+// teintés par la signature du moment. Comme la signature varie au fil de la
+// quête, les trois consignes évoluent avec elle.
+function TroisExercices({
+  arch,
+  objectifs,
+}: {
+  arch: Archetype;
+  objectifs: Objectifs | null;
+}) {
+  const ex = exercicesDuJour(arch, objectifs);
+  return (
+    <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
+      <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <Dumbbell size={13} /> Tes 3 exercices du jour
+      </div>
+      <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
+        Un par périmètre, adaptés à ta signature du moment —{" "}
+        <b className="text-ink">{arch.name}</b>. Ils évoluent avec elle, jour après jour.
+      </p>
+      <div className="grid gap-3">
+        {ex.map((e) => (
+          <div key={e.perimetre} className="rounded-2xl border border-line bg-surface p-4 shadow-soft">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span
+                  className="grid h-8 w-8 flex-none place-items-center rounded-xl text-fuchsia"
+                  style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
+                >
+                  <Glyph name={e.perimetre} size={16} />
+                </span>
+                <span className="text-sm font-semibold uppercase tracking-[0.08em] text-ink">
+                  {e.label}
+                </span>
+              </div>
+              {e.direction && (
+                <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-muted">
+                  {e.direction}
+                </span>
+              )}
+            </div>
+            <p className="mt-2.5 text-sm leading-relaxed text-ink">{e.consigne}</p>
+          </div>
+        ))}
+      </div>
+      <Link
+        href="/parcours-signatures"
+        className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
+      >
+        Vivre ma capsule du jour
+        <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+      </Link>
+    </section>
   );
 }
 
