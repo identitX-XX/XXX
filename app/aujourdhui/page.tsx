@@ -430,10 +430,10 @@ function TroisExercices({
         ))}
       </div>
       <Link
-        href="/parcours-signatures"
+        href="/exercices"
         className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
       >
-        Vivre ma capsule du jour
+        Faire mes exercices du jour (crois · penses · fais)
         <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
       </Link>
     </section>
