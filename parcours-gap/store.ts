@@ -1,12 +1,14 @@
 "use client";
 
 // Exercices « GAP » — l'écart entre ce que tu CROIS, ce que tu PENSES et ce que
-// tu FAIS, sur chaque périmètre (perso · pro · relationnel). C'est de la matière
-// que l'IA analyse chaque jour pour un éclairage relié à la signature du moment.
+// tu FAIS, sur chaque périmètre (perso · pro · familial · amoureux). C'est de la
+// matière que l'IA analyse chaque jour pour un éclairage relié à la signature.
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import type { Perimetre } from "./perimetres";
+import { PERIMETRE_KEYS } from "./perimetres";
 
-export type Perimetre = "perso" | "pro" | "relationnel";
+export type { Perimetre } from "./perimetres";
 
 export interface GapTriplet {
   crois: string;
@@ -27,7 +29,8 @@ const tripletVide = (): GapTriplet => ({ crois: "", pense: "", fais: "" });
 export const gapJourVide = (): GapJour => ({
   perso: tripletVide(),
   pro: tripletVide(),
-  relationnel: tripletVide(),
+  familial: tripletVide(),
+  amoureux: tripletVide(),
 });
 
 interface GapState {
@@ -71,7 +74,7 @@ export const useGap = create<GapState>()(
 // Y a-t-il assez de matière pour demander un éclairage ? (au moins un champ)
 export function aDeLaMatiere(g: GapJour | undefined): boolean {
   if (!g) return false;
-  return (["perso", "pro", "relationnel"] as Perimetre[]).some((p) =>
+  return PERIMETRE_KEYS.some((p) =>
     [g[p].crois, g[p].pense, g[p].fais].some((v) => v.trim().length > 0)
   );
 }

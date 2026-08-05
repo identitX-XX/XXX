@@ -6,9 +6,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Loader2, Sparkles, RefreshCw } from "lucide-react";
+import { ArrowRight, Loader2, Sparkles, RefreshCw, User, Briefcase, Home, Heart } from "lucide-react";
 import { PageHead, TextArea } from "@/components/ui";
-import { Glyph } from "@/components/Glyph";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
@@ -16,17 +15,18 @@ import {
   useGap,
   gapJourVide,
   aDeLaMatiere,
-  Perimetre,
   Eclairage,
   GapTriplet,
 } from "@/parcours-gap/store";
+import { PERIMETRES, directionDe, Perimetre } from "@/parcours-gap/perimetres";
 import { pratiquesDuJour, promptRendu } from "@/parcours-gap/exercicesLib";
 
-const PERIMETRES: { key: Perimetre; label: string }[] = [
-  { key: "perso", label: "Perso" },
-  { key: "pro", label: "Pro" },
-  { key: "relationnel", label: "Relationnel" },
-];
+const ICONE: Record<Perimetre, React.ElementType> = {
+  perso: User,
+  pro: Briefcase,
+  familial: Home,
+  amoureux: Heart,
+};
 
 const CHAMPS: { key: keyof GapTriplet; label: string; hint: string }[] = [
   { key: "crois", label: "Ce que je crois", hint: "Ta conviction profonde, même inavouée." },
@@ -98,9 +98,10 @@ export default function ExercicesPage() {
           jour,
           signature: sig,
           directions: {
-            perso: objectifs?.perso ?? "",
-            pro: objectifs?.pro ?? "",
-            relationnel: objectifs?.relationnel ?? "",
+            perso: directionDe(objectifs, "perso"),
+            pro: directionDe(objectifs, "pro"),
+            familial: directionDe(objectifs, "familial"),
+            amoureux: directionDe(objectifs, "amoureux"),
           },
           gaps: jourGap,
           pratiques: prats
@@ -124,14 +125,15 @@ export default function ExercicesPage() {
   return (
     <div>
       <PageHead
-        eyebrow={`Exercices · Jour ${jour}`}
+        eyebrow={`Exercice du jour · Jour ${jour}`}
         title="L'écart entre ce que tu crois, penses et fais"
-        sub={`Sur chaque périmètre, observe l'écart. Ta signature du moment — ${sig} — en éclaire le sens.`}
+        sub={`Sur chaque périmètre — perso, pro, familial, amoureux — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
       />
 
       <div className="grid gap-5">
         {PERIMETRES.map(({ key, label }) => {
-          const dir = objectifs?.[key]?.trim();
+          const dir = directionDe(objectifs, key);
+          const Icone = ICONE[key];
           return (
             <section key={key} className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
               <div className="mb-4 flex items-center justify-between gap-2">
@@ -140,7 +142,7 @@ export default function ExercicesPage() {
                     className="grid h-9 w-9 flex-none place-items-center rounded-xl text-fuchsia"
                     style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
                   >
-                    <Glyph name={key} size={18} />
+                    <Icone size={18} />
                   </span>
                   <span className="text-sm font-bold uppercase tracking-[0.1em] text-ink">{label}</span>
                 </div>

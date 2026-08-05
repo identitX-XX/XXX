@@ -6,10 +6,11 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
   MessageCircle, Sunrise, Moon, Compass, Check, Route, Dumbbell,
+  User, Briefcase, Home, Heart,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
-import { Glyph } from "@/components/Glyph";
+import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
@@ -384,9 +385,16 @@ export default function AujourdhuiPage() {
   );
 }
 
-// « Tes 3 exercices du jour » — un par périmètre (perso · pro · relationnel),
-// teintés par la signature du moment. Comme la signature varie au fil de la
-// quête, les trois consignes évoluent avec elle.
+// « Ton exercice du jour » — un par périmètre (perso · pro · familial ·
+// amoureux), teinté par la signature du moment. Comme la signature varie au fil
+// de la quête, les consignes évoluent avec elle, selon ton avancement.
+const ICONE_PERIMETRE: Record<Perimetre, React.ElementType> = {
+  perso: User,
+  pro: Briefcase,
+  familial: Home,
+  amoureux: Heart,
+};
+
 function TroisExercices({
   arch,
   objectifs,
@@ -398,14 +406,16 @@ function TroisExercices({
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
       <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-        <Dumbbell size={13} /> Tes 3 exercices du jour
+        <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Un par périmètre, adaptés à ta signature du moment —{" "}
-        <b className="text-ink">{arch.name}</b>. Ils évoluent avec elle, jour après jour.
+        Un par périmètre — perso, pro, familial, amoureux — adapté à ta signature du
+        moment (<b className="text-ink">{arch.name}</b>). Il change selon ton avancement.
       </p>
       <div className="grid gap-3">
-        {ex.map((e) => (
+        {ex.map((e) => {
+          const Icone = ICONE_PERIMETRE[e.perimetre];
+          return (
           <div key={e.perimetre} className="rounded-2xl border border-line bg-surface p-4 shadow-soft">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -413,7 +423,7 @@ function TroisExercices({
                   className="grid h-8 w-8 flex-none place-items-center rounded-xl text-fuchsia"
                   style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
                 >
-                  <Glyph name={e.perimetre} size={16} />
+                  <Icone size={16} />
                 </span>
                 <span className="text-sm font-semibold uppercase tracking-[0.08em] text-ink">
                   {e.label}
@@ -427,13 +437,14 @@ function TroisExercices({
             </div>
             <p className="mt-2.5 text-sm leading-relaxed text-ink">{e.consigne}</p>
           </div>
-        ))}
+          );
+        })}
       </div>
       <Link
         href="/exercices"
         className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
       >
-        Faire mes exercices du jour (crois · penses · fais)
+        Faire mon exercice du jour (crois · penses · fais)
         <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
       </Link>
     </section>
