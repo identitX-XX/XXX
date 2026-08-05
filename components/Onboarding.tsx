@@ -44,7 +44,9 @@ export function Onboarding() {
           }
         });
       },
-      { threshold: 0.6 }
+      // Seuil bas + marge centrée : sur une étape plus haute que l'écran (ex. le
+      // formulaire), on détecte quand même correctement l'étape active.
+      { threshold: 0.4, rootMargin: "-20% 0px -20% 0px" }
     );
     sectionRefs.current.forEach((el) => el && io.observe(el));
     return () => io.disconnect();
@@ -102,7 +104,7 @@ export function Onboarding() {
   ];
 
   return (
-    <div className="h-[100dvh] snap-y snap-mandatory overflow-y-auto scroll-smooth">
+    <div className="min-h-[100dvh]">
       {/* Fil de progression, fixé en tête — le point d'ancrage du rituel. */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-20 bg-gradient-to-b from-noir via-noir/90 to-transparent px-6 pb-4 pt-[calc(0.75rem+env(safe-area-inset-top))]">
         <div className="mx-auto flex max-w-lg items-center justify-between text-xs text-muted">
@@ -130,18 +132,23 @@ export function Onboarding() {
             ref={(el) => {
               sectionRefs.current[i] = el;
             }}
-            className="relative flex min-h-[100dvh] snap-start flex-col justify-center px-6 pb-[calc(6rem+env(safe-area-inset-bottom))] pt-[calc(5rem+env(safe-area-inset-top))]"
+            className="flex min-h-[100dvh] flex-col px-6 pb-[calc(2.5rem+env(safe-area-inset-bottom))] pt-[calc(5rem+env(safe-area-inset-top))]"
           >
-            <div className="mx-auto w-full max-w-lg animate-fade-up">{content}</div>
+            {/* Le contenu, centré quand il est court, qui pousse le bouton plus
+                bas quand il est long. */}
+            <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center animate-fade-up">
+              {content}
+            </div>
 
-            {/* Ancre : chevron pour glisser à la suite, ou action finale. */}
-            <div className="absolute inset-x-0 bottom-[calc(1.75rem+env(safe-area-inset-bottom))] flex flex-col items-center gap-2 px-6">
+            {/* L'action, TOUJOURS dans le flux (jamais en absolu) : elle reste
+                accessible même quand le contenu dépasse l'écran. */}
+            <div className="mx-auto mt-8 flex w-full max-w-lg flex-col items-center gap-2">
               {last ? (
                 <>
                   <Button
                     onClick={finish}
                     disabled={!canFinish}
-                    className="w-full max-w-lg justify-center"
+                    className="w-full justify-center"
                   >
                     Commencer mon parcours <ArrowRight size={16} />
                   </Button>
@@ -157,7 +164,7 @@ export function Onboarding() {
               ) : (
                 <button
                   onClick={() => scrollTo(i + 1)}
-                  className="flex flex-col items-center gap-1 text-[11px] uppercase tracking-[0.18em] text-fuchsia transition-opacity"
+                  className="flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia"
                   aria-label="Continuer"
                 >
                   Continuer
