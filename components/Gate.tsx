@@ -121,7 +121,15 @@ export function Gate({ children }: { children: React.ReactNode }) {
         options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
       });
       if (otpErr) {
-        setError("Impossible d'envoyer le lien. Vérifie ton adresse et réessaie.");
+        const m = (otpErr.message || "").toLowerCase();
+        const status = (otpErr as { status?: number }).status;
+        if (status === 429 || m.includes("rate") || m.includes("limit") || m.includes("too many")) {
+          setError(
+            "Trop d'envois en peu de temps (limite d'emails). Attends quelques minutes — jusqu'à ~1 h si ça persiste — puis réessaie."
+          );
+        } else {
+          setError(`Envoi impossible : ${otpErr.message}`);
+        }
         return;
       }
       setLinkSent(true);
