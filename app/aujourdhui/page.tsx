@@ -805,6 +805,9 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
   const liens = [
     { href: "/synthese", label: "Ton portrait" },
     { href: "/progression", label: "Ma progression" },
+    ...(prog.faits >= 1
+      ? [{ href: "/rapport-analytique", label: "Rapport analytique" }]
+      : []),
     ...(prog.faits >= 5
       ? [{ href: "/parcours-signatures/rapport", label: "Mon rapport" }]
       : []),
