@@ -190,7 +190,7 @@ const MANIFESTE = [
   "Réécrire tes nouvelles légendes qui résonnent",
 ];
 
-function StepAccueil() {
+export function StepAccueil() {
   return (
     <div className="relative flex min-h-[62vh] flex-col justify-center text-center">
       {/* Constellation en fond — grande, douce, elle occupe la page. */}
@@ -229,7 +229,7 @@ function StepAccueil() {
 }
 
 // Étape « signature » — enseigne le chemin : trois stations reliées, graphique.
-function StepChemin() {
+export function StepChemin() {
   const stations = [
     { icon: <Glyph name="signature" size={24} />, label: "Ta signature", sous: "ton schéma dominant" },
     { icon: <Glyph name="mue" size={24} />, label: "Ton vortex", sous: "quand tu bascules" },
@@ -266,7 +266,7 @@ function StepChemin() {
 
 // Étape « territoires » — ancre la quête sur TOUTE la vie : elle relie les
 // trois périmètres (perso · pro · relationnel), jamais un seul en vase clos.
-function StepTerritoires() {
+export function StepTerritoires() {
   const perimetres = [
     { icon: <Glyph name="perso" size={22} />, label: "Perso", sous: "équilibre, corps, sens" },
     { icon: <Glyph name="pro" size={22} />, label: "Pro", sous: "travail, projets" },
@@ -302,7 +302,7 @@ function StepTerritoires() {
 }
 
 // Étape 3 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
-function StepRythme() {
+export function StepRythme() {
   const piliers = [
     { icon: <Glyph name="question" size={20} />, t: "Une question", sous: "Pour regarder dans la bonne direction." },
     { icon: <Glyph name="defi" size={20} />, t: "Un micro-défi", sous: "Pour expérimenter de nouvelles actions." },
@@ -345,7 +345,7 @@ function StepRythme() {
 // (et non plus caché derrière un lien) : le principe (l'identité ne se fige pas,
 // la matrice respire) + l'arc des 30 jours en quatre phases. C'est la dernière
 // marche avant de révéler l'archétype.
-function StepMouvement() {
+export function StepMouvement() {
   // Boucle INTERACTIVE : on touche une phase, elle s'illumine et livre son détail.
   const [active, setActive] = useState(0);
   // Positions sur l'orbite (r≈104) + ancrage du nom de phase, posé à l'extérieur.

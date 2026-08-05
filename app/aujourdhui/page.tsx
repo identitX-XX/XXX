@@ -803,6 +803,7 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
   // Modules hérités fusionnés dans « Ton portrait » (/synthese) : une seule
   // entrée au lieu de cinq. Le reste (progression, rapport) reste accessible.
   const liens = [
+    { href: "/presentation", label: "La présentation d'IdentitX" },
     { href: "/synthese", label: "Ton portrait" },
     { href: "/progression", label: "Ma progression" },
     ...(prog.faits >= 1
