@@ -20,6 +20,7 @@ import {
   Eclairage,
   GapTriplet,
 } from "@/parcours-gap/store";
+import { pratiquesDuJour, promptRendu } from "@/parcours-gap/exercicesLib";
 
 const PERIMETRES: { key: Perimetre; label: string }[] = [
   { key: "perso", label: "Perso" },
@@ -42,8 +43,10 @@ export default function ExercicesPage() {
   const etat = useParcoursStore((s) => s.etat);
 
   const gaps = useGap((s) => s.gaps);
+  const pratiques = useGap((s) => s.pratiques);
   const eclairages = useGap((s) => s.eclairages);
   const setChamp = useGap((s) => s.setChamp);
+  const setPratique = useGap((s) => s.setPratique);
   const setEclairage = useGap((s) => s.setEclairage);
 
   const [loading, setLoading] = useState(false);
@@ -76,7 +79,13 @@ export default function ExercicesPage() {
   }
 
   const jourGap = gaps[jour] ?? gapJourVide();
+  const jourPratiques = pratiques[jour] ?? {};
+  const prats = pratiquesDuJour(jour);
   const eclairage = eclairages[jour];
+
+  // De la matière s'il y a un champ d'écart OU un exercice rempli.
+  const matiere =
+    aDeLaMatiere(jourGap) || prats.some((t) => (jourPratiques[t.id] ?? "").trim());
 
   const demanderEclairage = async () => {
     setLoading(true);
@@ -94,6 +103,9 @@ export default function ExercicesPage() {
             relationnel: objectifs?.relationnel ?? "",
           },
           gaps: jourGap,
+          pratiques: prats
+            .map((t) => ({ nom: t.nom, reponse: (jourPratiques[t.id] ?? "").trim() }))
+            .filter((p) => p.reponse),
         }),
       });
       const data = (await res.json()) as Eclairage & { error?: string };
@@ -159,12 +171,41 @@ export default function ExercicesPage() {
         })}
       </div>
 
+      {/* Les autres exercices du jour — au-delà de l'écart, en rotation. */}
+      <div className="mt-8">
+        <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          <Sparkles size={13} /> Les autres exercices du jour
+        </div>
+        <p className="mb-4 max-w-xl text-xs leading-relaxed text-muted">
+          Deux pratiques qui changent chaque jour, en plus de l'écart — pour explorer
+          ton identité sous d'autres angles.
+        </p>
+        <div className="grid gap-4">
+          {prats.map((t) => (
+            <section key={t.id} className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
+              <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-fuchsia">
+                {t.nom}
+              </div>
+              <p className="mt-1.5 mb-3 text-sm leading-relaxed text-ink">
+                {promptRendu(t, sig)}
+              </p>
+              <TextArea
+                value={jourPratiques[t.id] ?? ""}
+                onChange={(v) => setPratique(jour, t.id, v)}
+                placeholder="Quelques mots suffisent…"
+                rows={2}
+              />
+            </section>
+          ))}
+        </div>
+      </div>
+
       {/* Éclairage IA */}
       <div className="mt-8">
         {!eclairage && (
           <button
             onClick={demanderEclairage}
-            disabled={loading || !aDeLaMatiere(jourGap)}
+            disabled={loading || !matiere}
             className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
           >
             {loading ? (
@@ -178,7 +219,7 @@ export default function ExercicesPage() {
             )}
           </button>
         )}
-        {!eclairage && !aDeLaMatiere(jourGap) && (
+        {!eclairage && !matiere && (
           <p className="mt-2 text-center text-xs text-muted">
             Renseigne au moins un champ pour recevoir ton éclairage.
           </p>

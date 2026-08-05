@@ -16,6 +16,7 @@ interface EclairageInput {
   signature: string;
   directions: Record<Perimetre, string>;
   gaps: Record<Perimetre, Triplet>;
+  pratiques?: { nom: string; reponse: string }[];
 }
 
 const LABEL: Record<Perimetre, string> = {
@@ -40,7 +41,12 @@ function buildUserMessage(input: EclairageInput): string {
 - Ce que je fais : ${g.fais?.trim() || "—"}`;
     })
     .join("\n\n");
-  return `Signature du moment : ${input.signature}\nJour de quête : ${input.jour}\n\n${blocs}`;
+  const prat =
+    input.pratiques && input.pratiques.length
+      ? "\n\n# Autres exercices du jour\n" +
+        input.pratiques.map((p) => `- ${p.nom} : ${p.reponse}`).join("\n")
+      : "";
+  return `Signature du moment : ${input.signature}\nJour de quête : ${input.jour}\n\n${blocs}${prat}`;
 }
 
 // Repli maquette : un éclairage dérivé des réponses réelles (le périmètre le
@@ -52,11 +58,14 @@ function mockEclairage(input: EclairageInput) {
   });
   const focus = per[0] ?? "perso";
   const g = input.gaps[focus] ?? { crois: "", pense: "", fais: "" };
+  const pratRemplie = (input.pratiques ?? []).find((p) => p.reponse?.trim());
   const ecart =
     g.pense?.trim() && g.fais?.trim()
       ? `tu penses « ${g.pense.trim()} », mais dans les faits « ${g.fais.trim()} »`
       : g.crois?.trim()
       ? `ce que tu crois — « ${g.crois.trim()} » — ne se traduit pas encore en actes`
+      : pratRemplie
+      ? `ce que tu as posé (« ${pratRemplie.reponse.trim()} ») ouvre déjà une piste`
       : "l'écart entre ton intention et ton geste reste à explorer";
   return {
     eclairage: `Sur ton ${LABEL[focus].toLowerCase()}, ${ecart}. Vu depuis « ${input.signature} », ta signature du moment, cet écart n'est pas une faute : c'est le lieu exact où ton identité cherche à se réaligner.`,

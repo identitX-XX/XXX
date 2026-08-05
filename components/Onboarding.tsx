@@ -287,9 +287,9 @@ export function StepExercices() {
   return (
     <StageP
       eyebrow="Tes exercices"
-      titre="L'écart croire · penser · faire"
+      titre="Des exercices qui te font bouger"
       graphic={<EcartVisu />}
-      texte="Chaque jour, un exercice par territoire explore l'écart entre ce que tu crois, ce que tu penses et ce que tu fais."
+      texte="L'écart entre ce que tu crois, penses et fais — sur chaque territoire. Et d'autres pratiques qui tournent chaque jour : délestage, expérimentation, recadrage, projection, ancrage… Chacune nourrit ton éclairage."
     />
   );
 }

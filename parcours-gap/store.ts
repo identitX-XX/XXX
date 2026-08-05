@@ -32,8 +32,11 @@ export const gapJourVide = (): GapJour => ({
 
 interface GapState {
   gaps: Record<number, GapJour>;
+  // Autres exercices (délestage, expérimentation…) : par jour, par id d'exercice.
+  pratiques: Record<number, Record<string, string>>;
   eclairages: Record<number, Eclairage>;
   setChamp: (jour: number, p: Perimetre, champ: keyof GapTriplet, val: string) => void;
+  setPratique: (jour: number, id: string, val: string) => void;
   setEclairage: (jour: number, e: Eclairage) => void;
   reset: () => void;
 }
@@ -42,6 +45,7 @@ export const useGap = create<GapState>()(
   persist(
     (set, get) => ({
       gaps: {},
+      pratiques: {},
       eclairages: {},
       setChamp: (jour, p, champ, val) => {
         const jourGap = get().gaps[jour] ?? gapJourVide();
@@ -52,9 +56,13 @@ export const useGap = create<GapState>()(
           },
         });
       },
+      setPratique: (jour, id, val) => {
+        const jourPr = get().pratiques[jour] ?? {};
+        set({ pratiques: { ...get().pratiques, [jour]: { ...jourPr, [id]: val } } });
+      },
       setEclairage: (jour, e) =>
         set({ eclairages: { ...get().eclairages, [jour]: e } }),
-      reset: () => set({ gaps: {}, eclairages: {} }),
+      reset: () => set({ gaps: {}, pratiques: {}, eclairages: {} }),
     }),
     { name: "parcours-gap", version: 1 }
   )
