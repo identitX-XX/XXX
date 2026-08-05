@@ -6,18 +6,15 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { track } from "@/lib/metrics";
 import { Profile } from "@/types";
-import { PHASES } from "@/parcours-archetypes/archetypes";
 import { Button, Label, TextInput } from "./ui";
 import { Constellation } from "./Constellation";
-import { Glyph } from "./Glyph";
+import { ADN, Planetes, Neurones, EcartVisu, Possibles, Orbite } from "./ParcoursGraphics";
 
 // Onboarding « classe mondiale » : court, graphique, pédagogique. Six étapes qui
 // racontent le parcours — Bienvenue · Faisons connaissance · Exploration ·
 // Signature · Le rythme · Le mouvement — avant de révéler le diagnostic. Une
 // seule saisie : le prénom. Le reste du profil se complète au fil de la quête
 // (profil progressif), jamais en barrage à l'entrée.
-const STEPS = 6;
-
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
   const router = useRouter();
@@ -57,7 +54,7 @@ export function Onboarding() {
 
   const finish = () => {
     if (!canFinish) {
-      scrollTo(1); // il manque le prénom : on y ramène plutôt que de bloquer sec
+      scrollTo(steps.length - 1); // il manque le prénom : on y ramène plutôt que de bloquer sec
       return;
     }
     const mot = intention.trim();
@@ -86,8 +83,18 @@ export function Onboarding() {
   // Six temps, empilés et « scroll-snap » : Bienvenue → Faisons connaissance →
   // Exploration → Signature → Le tempo → Le mouvement. On glisse de l'un à
   // l'autre ; le diagnostic (les 20 signatures) ne vient qu'APRÈS.
+  // Le déroulé : manifeste → présentation premium de chaque composant réel
+  // (signature, territoires, exercices, coach, scénarios, quête) → « tout est
+  // dans le menu » → la seule saisie (prénom) → puis le questionnaire.
   const steps = [
     <StepAccueil key="accueil" />,
+    <StepSignature key="signature" />,
+    <StepTerritoires key="territoires" />,
+    <StepExercices key="exercices" />,
+    <StepCoach key="coach" />,
+    <StepScenarios key="scenarios" />,
+    <StepQuete key="quete" />,
+    <StepMenu key="menu" />,
     <StepPrenom
       key="prenom"
       name={name}
@@ -97,11 +104,8 @@ export function Onboarding() {
       intention={intention}
       setIntention={setIntention}
     />,
-    <StepTerritoires key="territoires" />,
-    <StepChemin key="chemin" />,
-    <StepRythme key="rythme" />,
-    <StepMouvement key="mouvement" />,
   ];
+  const STEPS = steps.length;
 
   return (
     <div className="min-h-[100dvh]">
@@ -164,11 +168,11 @@ export function Onboarding() {
             disabled={!canFinish}
             className="w-full justify-center"
           >
-            Commencer mon parcours <ArrowRight size={16} />
+            Révéler ma signature <ArrowRight size={16} />
           </Button>
           {!canFinish && (
             <button
-              onClick={() => scrollTo(1)}
+              onClick={() => scrollTo(steps.length - 1)}
               className="text-xs text-muted underline underline-offset-2"
             >
               Il manque juste ton prénom — appuie pour l'ajouter
@@ -229,242 +233,136 @@ export function StepAccueil() {
 }
 
 // Étape « signature » — enseigne le chemin : trois stations reliées, graphique.
-export function StepChemin() {
-  const stations = [
-    { icon: <Glyph name="signature" size={24} />, label: "Ta signature", sous: "ton schéma dominant" },
-    { icon: <Glyph name="mue" size={24} />, label: "Ton vortex", sous: "quand tu bascules" },
-    { icon: <Glyph name="possibles" size={24} />, label: "Tes possibles", sous: "des voies à tenter" },
-  ];
+// Gabarit d'une étape de présentation premium : surtitre, figure symbolique,
+// titre, texte. Une même respiration pour toutes les marches.
+function StageP({
+  eyebrow,
+  titre,
+  texte,
+  graphic,
+}: {
+  eyebrow: string;
+  titre: string;
+  texte: string;
+  graphic: React.ReactNode;
+}) {
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Ta signature</div>
-      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">Découvre les dynamiques qui s'expriment le plus naturellement chez toi.</h2>
-      <div className="mt-7 flex items-start justify-between">
-        {stations.map((s, i) => (
-          <div key={s.label} className="flex flex-1 items-start">
-            <div className="flex flex-1 flex-col items-center gap-2 text-center">
-              <span
-                className="grid h-14 w-14 place-items-center rounded-2xl text-fuchsia"
-                style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
-              >
-                {s.icon}
-              </span>
-              <span className="text-[12px] font-medium uppercase tracking-[0.1em] text-ink">
-                {s.label}
-              </span>
-              <span className="max-w-[11ch] text-[12px] leading-tight text-muted">{s.sous}</span>
-            </div>
-            {i < stations.length - 1 && (
-              <ArrowRight size={16} className="mt-5 flex-none text-fuchsia" />
-            )}
-          </div>
-        ))}
-      </div>
+      <div className="text-[12px] font-bold uppercase tracking-[0.22em] text-fuchsia">{eyebrow}</div>
+      <h2 className="mx-auto mt-3 max-w-md font-display text-2xl font-bold leading-tight text-ink">
+        {titre}
+      </h2>
+      <div className="mx-auto mt-7 max-w-sm">{graphic}</div>
+      <p className="mx-auto mt-6 max-w-sm text-[15px] leading-relaxed text-muted">{texte}</p>
     </div>
   );
 }
 
-// Étape « territoires » — ancre la quête sur TOUTE la vie : elle relie les
-// trois périmètres (perso · pro · relationnel), jamais un seul en vase clos.
+// La signature — ADN.
+export function StepSignature() {
+  return (
+    <StageP
+      eyebrow="Ta signature"
+      titre="Une signature identitaire unique"
+      graphic={<ADN />}
+      texte="12 questions révèlent ta signature principale et ta secondaire — ton point de départ. C'est la toute première étape, avant tout le reste."
+    />
+  );
+}
+
+// Les territoires — planètes + valeurs / forces / compétences.
 export function StepTerritoires() {
-  const perimetres = [
-    { icon: <Glyph name="perso" size={22} />, label: "Perso", sous: "équilibre, corps, sens" },
-    { icon: <Glyph name="pro" size={22} />, label: "Pro", sous: "travail, projets" },
-    { icon: <Glyph name="relationnel" size={22} />, label: "Relationnel", sous: "amour, famille, amis" },
-  ];
   return (
-    <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Exploration</div>
-      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">
-        Observe tes dimensions les plus présentes
-      </h2>
-      <div className="mt-7 grid grid-cols-3 gap-3">
-        {perimetres.map((p) => (
-          <div
-            key={p.label}
-            className="flex flex-col items-center gap-2 p-2"
-          >
-            <span
-              className="grid h-11 w-11 place-items-center rounded-2xl text-fuchsia"
-              style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
-            >
-              {p.icon}
-            </span>
-            <span className="text-[12px] font-medium uppercase tracking-[0.08em] text-ink">
-              {p.label}
-            </span>
-            <span className="text-[12px] leading-tight text-muted">{p.sous}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    <StageP
+      eyebrow="Tes territoires"
+      titre="Trois territoires de vie"
+      graphic={<Planetes />}
+      texte="Perso, pro, relationnel. Sur chacun se révèlent tes valeurs, tes forces, tes compétences — rassemblées dans « Ton portrait »."
+    />
   );
 }
 
-// Étape 3 — le rythme quotidien, pour installer l'habitude (≈ 4 min/jour).
-export function StepRythme() {
-  const piliers = [
-    { icon: <Glyph name="question" size={20} />, t: "Une question", sous: "Pour regarder dans la bonne direction." },
-    { icon: <Glyph name="defi" size={20} />, t: "Un micro-défi", sous: "Pour expérimenter de nouvelles actions." },
-    { icon: <Glyph name="ressource" size={20} />, t: "Une ressource", sous: "Pour nourrir ta réflexion et ouvrir de nouvelles perspectives." },
-  ];
+// Les exercices — l'écart croire / penser / faire.
+export function StepExercices() {
   return (
-    <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le tempo</div>
-      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">
-        Chaque jour, une capsule
-      </h2>
-      <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-        Quelques minutes pour observer ce qui s'active en toi.
-      </p>
-      <div className="mt-7 grid grid-cols-3 gap-3">
-        {piliers.map((p) => (
-          <div
-            key={p.t}
-            className="flex flex-col items-center gap-2 p-2"
-          >
-            <span
-              className="grid h-10 w-10 place-items-center rounded-xl text-fuchsia"
-              style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
-            >
-              {p.icon}
-            </span>
-            <span className="text-[12px] font-medium leading-tight text-ink">{p.t}</span>
-            <span className="text-[12px] leading-tight text-muted">{p.sous}</span>
-          </div>
-        ))}
-      </div>
-      <p className="mx-auto mt-6 max-w-sm font-display text-sm italic leading-snug text-muted">
-        Pas à pas.
-      </p>
-    </div>
+    <StageP
+      eyebrow="Tes exercices"
+      titre="L'écart croire · penser · faire"
+      graphic={<EcartVisu />}
+      texte="Chaque jour, un exercice par territoire explore l'écart entre ce que tu crois, ce que tu penses et ce que tu fais."
+    />
   );
 }
 
-// Étape « le mouvement » — le cœur d'identitX, désormais PORTÉ par l'onboarding
-// (et non plus caché derrière un lien) : le principe (l'identité ne se fige pas,
-// la matrice respire) + l'arc des 30 jours en quatre phases. C'est la dernière
-// marche avant de révéler l'archétype.
-export function StepMouvement() {
-  // Boucle INTERACTIVE : on touche une phase, elle s'illumine et livre son détail.
-  const [active, setActive] = useState(0);
-  // Positions sur l'orbite (r≈104) + ancrage du nom de phase, posé à l'extérieur.
-  const nodes = [
-    { x: 140, y: 36, lx: 140, ly: 13, anchor: "middle" as const },
-    { x: 244, y: 140, lx: 261, ly: 141, anchor: "start" as const },
-    { x: 140, y: 244, lx: 140, ly: 269, anchor: "middle" as const },
-    { x: 36, y: 140, lx: 19, ly: 141, anchor: "end" as const },
+// Le coach — réseau de neurones.
+export function StepCoach() {
+  return (
+    <StageP
+      eyebrow="Ton coach"
+      titre="Un coach qui connaît ta signature"
+      graphic={<Neurones />}
+      texte="Une intelligence qui analyse tes réponses, t'éclaire, relie l'écart à ta signature du moment et projette la suite."
+    />
+  );
+}
+
+// Les scénarios — arborescence de possibles.
+export function StepScenarios() {
+  return (
+    <StageP
+      eyebrow="Tes scénarios"
+      titre="Ce que tes directions rendent possible"
+      graphic={<Possibles />}
+      texte="Tes directions génèrent des scénarios concrets à tenter — des futurs activables, pas un portrait à contempler."
+    />
+  );
+}
+
+// La quête — orbite des 30 jours.
+export function StepQuete() {
+  return (
+    <StageP
+      eyebrow="La quête"
+      titre="30 jours de redéploiement"
+      graphic={<Orbite />}
+      texte="Ta signature se déplace, tes possibles s'actualisent, tes légendes se réécrivent. Tout se joue ici — après avoir révélé ta signature."
+    />
+  );
+}
+
+// Récapitulatif — tout se retrouve dans le menu, et on reprend là où on en était.
+export function StepMenu() {
+  const items = [
+    "Ta signature",
+    "Ton portrait — valeurs, forces, compétences",
+    "Tes exercices",
+    "La cartographie",
+    "Tes scénarios",
+    "Le coach",
+    "Ton rapport analytique",
+    "Tes ressources",
   ];
-  const ph = PHASES[active];
   return (
     <div className="text-center">
-      <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Le mouvement</div>
-      <h2 className="mt-2 font-display text-2xl font-semibold text-ink">
-        30 jours de redéploiement identitaire
+      <div className="text-[12px] font-bold uppercase tracking-[0.22em] text-fuchsia">Tout est à portée</div>
+      <h2 className="mx-auto mt-3 max-w-md font-display text-2xl font-bold leading-tight text-ink">
+        Tu retrouves tout ça dans le menu
       </h2>
-      <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-        Ton identité n'est pas figée. Pendant 30 jours, observe comment tes
-        différentes dimensions s'expriment selon les situations.
+      <p className="mx-auto mt-4 max-w-sm text-[15px] leading-relaxed text-muted">
+        À tout moment, via le menu (☰), tu accèdes à chaque partie de ta quête —
+        et tu reprends toujours là où tu t'étais arrêtée.
       </p>
-      <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
-        Tu ne cherches pas à devenir quelqu'un d'autre. Tu apprends à voir ce
-        qui, en toi, demande à évoluer.
-      </p>
-      {/* La boucle en orbite céleste : nébuleuse en fond, phases-étoiles nommées,
-          un balayage lumineux qui tourne (le sens du cycle). Tactile. */}
-      <div className="relative mx-auto mt-7" style={{ maxWidth: 288 }}>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 47%, color-mix(in srgb, var(--fuchsia) 13%, transparent), transparent 60%)",
-          }}
-        />
-        <svg viewBox="0 0 280 280" width="100%" style={{ display: "block", overflow: "visible", position: "relative" }}>
-          {/* L'orbite, fine */}
-          <circle cx="140" cy="140" r="104" fill="none" stroke="var(--line)" strokeWidth="1" />
-          {/* Le balayage — arc lumineux qui tourne, sens du cycle */}
-          <g style={{ transformOrigin: "140px 140px", animation: "idx-spin 18s linear infinite" }}>
-            <circle
-              cx="140"
-              cy="140"
-              r="104"
-              fill="none"
-              stroke="var(--fuchsia)"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeDasharray="52 602"
-              opacity="0.9"
+      <ul className="mx-auto mt-6 grid max-w-sm grid-cols-1 gap-2 text-left sm:grid-cols-2">
+        {items.map((m) => (
+          <li key={m} className="flex items-start gap-2.5 rounded-xl border border-line bg-surface px-3 py-2.5">
+            <span
+              className="mt-1.5 h-1.5 w-1.5 flex-none rotate-45"
+              style={{ background: "linear-gradient(120deg,var(--fuchsia),var(--orange))" }}
             />
-          </g>
-          {nodes.map((nd, i) => {
-            const on = i === active;
-            return (
-              <g
-                key={i}
-                onClick={() => setActive(i)}
-                role="button"
-                aria-label={PHASES[i].label}
-                style={{ cursor: "pointer" }}
-              >
-                {/* zone tactile généreuse */}
-                <circle cx={nd.x} cy={nd.y} r="22" fill="transparent" />
-                {on && <circle cx={nd.x} cy={nd.y} r="10" fill="var(--fuchsia)" opacity="0.2" />}
-                <circle
-                  cx={nd.x}
-                  cy={nd.y}
-                  r={on ? 5.5 : 3.5}
-                  fill="var(--fuchsia)"
-                  opacity={on ? 1 : 0.55}
-                  style={{ transition: "r .25s, opacity .25s" }}
-                />
-                <text
-                  x={nd.lx}
-                  y={nd.ly}
-                  textAnchor={nd.anchor}
-                  dominantBaseline="central"
-                  fontSize="11.5"
-                  fontStyle="italic"
-                  fill={on ? "var(--ink)" : "var(--muted)"}
-                  fontFamily="var(--font-fraunces),serif"
-                  style={{ transition: "fill .25s" }}
-                >
-                  {PHASES[i].label}
-                </text>
-              </g>
-            );
-          })}
-          {/* Cœur — un pouls discret (la matrice qui respire), sans mot */}
-          <circle cx="140" cy="140" r="17" fill="none" stroke="var(--fuchsia)" strokeWidth="1" opacity="0.14" />
-          <g style={{ transformOrigin: "140px 140px", animation: "idx-breathe 4.5s ease-in-out infinite" }}>
-            <circle cx="140" cy="140" r="10" fill="none" stroke="var(--fuchsia)" strokeWidth="1" opacity="0.32" />
-          </g>
-          <circle cx="140" cy="140" r="3.5" fill="var(--fuchsia)" />
-        </svg>
-      </div>
-
-      <p className="mx-auto mt-2 text-[12px] uppercase tracking-[0.14em] text-muted">
-        Touche une phase
-      </p>
-
-      {/* Détail de la phase active — change au toucher */}
-      <div
-        key={active}
-        className="animate-fade-up mx-auto mt-3 max-w-sm rounded-2xl border border-line bg-surface p-4 text-left"
-      >
-        <div className="flex items-baseline gap-2">
-          <span className="text-sm font-medium text-ink">{ph.label}</span>
-          <span className="text-[12px] uppercase tracking-[0.12em] text-muted">
-            J{ph.jours[0]}–{ph.jours[1]}
-          </span>
-        </div>
-        <p className="mt-1 text-xs leading-snug text-muted">{ph.intention}</p>
-      </div>
-
-      <p className="mx-auto mt-3 max-w-xs font-display text-sm italic leading-snug text-muted">
-        Ta signature n'est pas fixe. Elle évolue au fil de tes observations.
-      </p>
+            <span className="text-[13.5px] leading-snug text-ink">{m}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

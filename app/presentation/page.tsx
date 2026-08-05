@@ -8,19 +8,25 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
   StepAccueil,
+  StepSignature,
   StepTerritoires,
-  StepChemin,
-  StepRythme,
-  StepMouvement,
+  StepExercices,
+  StepCoach,
+  StepScenarios,
+  StepQuete,
+  StepMenu,
 } from "@/components/Onboarding";
 
 export default function PresentationPage() {
   const ecrans = [
     <StepAccueil key="accueil" />,
+    <StepSignature key="signature" />,
     <StepTerritoires key="territoires" />,
-    <StepChemin key="chemin" />,
-    <StepRythme key="rythme" />,
-    <StepMouvement key="mouvement" />,
+    <StepExercices key="exercices" />,
+    <StepCoach key="coach" />,
+    <StepScenarios key="scenarios" />,
+    <StepQuete key="quete" />,
+    <StepMenu key="menu" />,
   ];
 
   return (

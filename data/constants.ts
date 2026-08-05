@@ -42,6 +42,7 @@ export const NAV_GROUPS: {
     section: "Au quotidien",
     items: [
       { href: "/aujourdhui", label: "Aujourd'hui" },
+      { href: "/exercices", label: "Mes exercices" },
       { href: "/scenarios", label: "Scénarios" },
     ],
   },
@@ -49,8 +50,9 @@ export const NAV_GROUPS: {
     section: "Comprendre",
     items: [
       { href: "/parcours-signatures", label: "Ta signature" },
+      { href: "/synthese", label: "Ton portrait — valeurs, forces, compétences" },
       { href: "/explorer", label: "Explorer" },
-      { href: "/synthese", label: "Ton portrait" },
+      { href: "/cartographie", label: "Cartographie" },
     ],
   },
   {
@@ -58,6 +60,7 @@ export const NAV_GROUPS: {
     items: [
       { href: "/quete", label: "La Quête" },
       { href: "/progression", label: "Progression" },
+      { href: "/rapport-analytique", label: "Rapport analytique" },
     ],
   },
   {
@@ -65,6 +68,7 @@ export const NAV_GROUPS: {
     items: [
       { href: "/coach", label: "Coach identitX" },
       { href: "/ressources", label: "Ressources" },
+      { href: "/presentation", label: "Revoir la présentation" },
     ],
   },
   {
