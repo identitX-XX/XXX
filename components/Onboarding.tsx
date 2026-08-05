@@ -123,58 +123,59 @@ export function Onboarding() {
         </div>
       </div>
 
-      {steps.map((content, i) => {
-        const last = i === STEPS - 1;
-        return (
-          <section
-            key={i}
-            data-idx={i}
-            ref={(el) => {
-              sectionRefs.current[i] = el;
-            }}
-            className="flex min-h-[100dvh] flex-col px-6 pb-[calc(2.5rem+env(safe-area-inset-bottom))] pt-[calc(5rem+env(safe-area-inset-top))]"
-          >
-            {/* Le contenu, centré quand il est court, qui pousse le bouton plus
-                bas quand il est long. */}
-            <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center animate-fade-up">
-              {content}
-            </div>
+      {/* Un seul long déroulé vertical : les étapes s'enchaînent au défilement,
+          chacune un bloc plein écran qui « respire », sans tap « Continuer » à
+          chaque marche. Seule la dernière action (Commencer) conclut le rituel. */}
+      {steps.map((content, i) => (
+        <section
+          key={i}
+          data-idx={i}
+          ref={(el) => {
+            sectionRefs.current[i] = el;
+          }}
+          className={`flex min-h-[100dvh] flex-col justify-center px-6 pb-14 ${
+            i === 0
+              ? "pt-[calc(6rem+env(safe-area-inset-top))]"
+              : "pt-[calc(5rem+env(safe-area-inset-top))]"
+          }`}
+        >
+          <div className="mx-auto w-full max-w-lg animate-fade-up">{content}</div>
 
-            {/* L'action, TOUJOURS dans le flux (jamais en absolu) : elle reste
-                accessible même quand le contenu dépasse l'écran. */}
-            <div className="mx-auto mt-8 flex w-full max-w-lg flex-col items-center gap-2">
-              {last ? (
-                <>
-                  <Button
-                    onClick={finish}
-                    disabled={!canFinish}
-                    className="w-full justify-center"
-                  >
-                    Commencer mon parcours <ArrowRight size={16} />
-                  </Button>
-                  {!canFinish && (
-                    <button
-                      onClick={() => scrollTo(1)}
-                      className="text-xs text-muted underline underline-offset-2"
-                    >
-                      Il manque juste ton prénom — appuie pour l'ajouter
-                    </button>
-                  )}
-                </>
-              ) : (
-                <button
-                  onClick={() => scrollTo(i + 1)}
-                  className="flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia"
-                  aria-label="Continuer"
-                >
-                  Continuer
-                  <ChevronDown size={20} className="animate-bounce" />
-                </button>
-              )}
-            </div>
-          </section>
-        );
-      })}
+          {/* Indice de défilement, seulement sur la première marche. */}
+          {i === 0 && (
+            <button
+              onClick={() => scrollTo(1)}
+              className="mx-auto mt-10 flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia"
+              aria-label="Fais défiler"
+            >
+              Fais défiler
+              <ChevronDown size={20} className="animate-bounce" />
+            </button>
+          )}
+        </section>
+      ))}
+
+      {/* L'action finale — dans le flux, en fin de déroulé : impossible à rater,
+          impossible à recouvrir. Le prénom reste requis (gate doux). */}
+      <section className="flex flex-col px-6 pb-[calc(4rem+env(safe-area-inset-bottom))] pt-2">
+        <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-2">
+          <Button
+            onClick={finish}
+            disabled={!canFinish}
+            className="w-full justify-center"
+          >
+            Commencer mon parcours <ArrowRight size={16} />
+          </Button>
+          {!canFinish && (
+            <button
+              onClick={() => scrollTo(1)}
+              className="text-xs text-muted underline underline-offset-2"
+            >
+              Il manque juste ton prénom — appuie pour l'ajouter
+            </button>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
