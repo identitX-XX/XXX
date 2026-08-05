@@ -8,6 +8,7 @@ import { QUESTIONS, calculerDiagnostic } from "../sens";
 import { ArchetypeKey, Diagnostic as Diag } from "../types";
 import { useParcoursStore } from "../store";
 import { track } from "@/lib/metrics";
+import { ADN } from "@/components/ParcoursGraphics";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -20,6 +21,7 @@ const sans = "var(--font-inter), system-ui, sans-serif";
 
 export function Diagnostic() {
   const initialiserParcours = useParcoursStore((s) => s.initialiserParcours);
+  const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Record<string, ArchetypeKey>>({});
   const [result, setResult] = useState<Diag | null>(null);
@@ -89,10 +91,37 @@ export function Diagnostic() {
     );
   }
 
+  // Écran d'amorce premium — on arrive ici juste après la présentation. On pose
+  // le sens (« détermine ta signature ») avec l'ADN, avant les questions : plus
+  // d'entrée brutale sur un quiz nu.
+  if (!started) {
+    return (
+      <div style={wrap}>
+        <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA, textAlign: "center" }}>
+          Ta signature · ~3 min
+        </div>
+        <div style={{ maxWidth: 340, margin: "26px auto 0" }}>
+          <ADN />
+        </div>
+        <h1 className="fr-title" style={{ ...h1, fontSize: 30, textAlign: "center", margin: "20px 0 0" }}>
+          Détermine ta signature
+        </h1>
+        <p style={{ color: MUTED, fontSize: 15.5, lineHeight: 1.6, textAlign: "center", maxWidth: 420, margin: "12px auto 0" }}>
+          12 questions révèlent ta <b style={{ color: INK }}>signature principale</b> et ta{" "}
+          <b style={{ color: INK }}>secondaire</b>. Pas un test — un miroir de ce qui te met
+          en mouvement, aujourd'hui.
+        </p>
+        <button style={cta} onClick={() => setStarted(true)}>
+          Commencer les questions →
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div style={wrap}>
       <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-        Ma quête · ~3 min
+        Ta signature
       </div>
 
       {/* Ça respire, puis on démarre directement sur les questions. */}
