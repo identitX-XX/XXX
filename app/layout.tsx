@@ -1,27 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Playfair_Display, Manrope } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
 import { StateSync } from "@/components/StateSync";
 
-// Typographie « éditoriale élégante » — Playfair Display pour les titres (serif
-// chic, féminin, à contraste marqué, qui monte en gras pour des titres grands et
-// affirmés) + Manrope pour le corps (sans-serif humaniste, très lisible et
-// ergonomique). Les noms de variables historiques sont conservés
-// (--font-fraunces = titres, --font-inter = corps) pour ne rien casser ailleurs.
-const titre = Playfair_Display({
+// Typographie « douce ronde » — Poppins partout : une sans-serif géométrique aux
+// formes rondes, chaleureuse et accueillante, pour les titres (en gras) comme
+// pour le corps. Une seule famille, deux graisses de rôle. On l'expose sur les
+// deux variables historiques (--font-fraunces = titres, --font-inter = corps)
+// via une inline-style sur <html>, sans double téléchargement.
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-fraunces",
   display: "swap",
   weight: ["400", "500", "600", "700", "800"],
-});
-
-const corps = Manrope({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -65,7 +57,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={titre.variable + " " + corps.variable + " pal-nuit"}>
+    <html
+      lang="fr"
+      className={poppins.className + " pal-nuit"}
+      style={
+        {
+          "--font-fraunces": poppins.style.fontFamily,
+          "--font-inter": poppins.style.fontFamily,
+        } as React.CSSProperties
+      }
+    >
       <body>
         {/* Synchro compte ↔ progression (connexion = reprise). Hors Gate/Shell
             pour agir partout, y compris au retour du lien magique. No-op sans
