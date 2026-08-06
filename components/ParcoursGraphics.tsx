@@ -181,6 +181,10 @@ export function EcartVisu({ h = 164 }: { h?: number }) {
       {rows.map((r, i) => {
         const y = 30 + i * 46;
         const actif = i === 2;
+        // Les barres « respirent » (largeur qui oscille légèrement) : l'écart
+        // vit, il n'est jamais figé. Amplitude modérée pour rester dans le cadre.
+        const lo = r.w - 6;
+        const hi = r.w + 6;
         return (
           <g key={i}>
             <text x="24" y={y - 9} fill={i === 2 ? INK : MUT} fontSize="12" fontWeight={i === 2 ? 700 : 500} fontFamily="inherit">
@@ -194,12 +198,23 @@ export function EcartVisu({ h = 164 }: { h?: number }) {
               rx="8.5"
               fill={actif ? `url(#${id}-or)` : "color-mix(in srgb, var(--fuchsia) 34%, transparent)"}
               filter={actif ? `url(#${id}-glow)` : undefined}
-            />
+            >
+              <animate
+                attributeName="width"
+                values={`${lo};${hi};${lo}`}
+                dur={`${4.2 + i * 0.9}s`}
+                begin={`${-i * 1.3}s`}
+                repeatCount="indefinite"
+              />
+            </rect>
           </g>
         );
       })}
       <path d="M214 30 q11 0 11 11 v24 q0 11 11 11 q-11 0 -11 11 v24 q0 11 -11 11" fill="none" stroke={`url(#${id}-or)`} strokeWidth="2" />
-      <text x="242" y="84" fill={A} fontSize="13" fontWeight="800" fontFamily="inherit">l'écart</text>
+      <text x="242" y="84" fill={A} fontSize="13" fontWeight="800" fontFamily="inherit">
+        l'écart
+        <animate attributeName="opacity" values="0.65;1;0.65" dur="3.6s" repeatCount="indefinite" />
+      </text>
     </svg>
   );
 }
