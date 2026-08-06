@@ -289,7 +289,7 @@ export function StepTerritoires() {
   return (
     <StageP
       eyebrow="Tes territoires"
-      titre="Trois territoires de vie"
+      titre="Trois territoires"
       graphic={<Planetes />}
       texte="Perso, pro, relationnel. Sur chacun se révèlent tes valeurs, tes forces, tes compétences — rassemblées dans « Ton portrait »."
     />
@@ -301,7 +301,7 @@ export function StepExercices() {
   return (
     <StageP
       eyebrow="Tes exercices"
-      titre="Des exercices qui te font bouger"
+      titre="Des exercices qui te mettent en mouvement"
       graphic={<EcartVisu />}
       texte="L'écart entre ce que tu crois, penses et fais — sur chaque territoire. Et d'autres pratiques qui tournent chaque jour : délestage, expérimentation, recadrage, projection, ancrage… Chacune nourrit ton éclairage."
     />
