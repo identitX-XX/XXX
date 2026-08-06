@@ -6,7 +6,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { track } from "@/lib/metrics";
 import { Profile } from "@/types";
-import { Button, Label, TextInput } from "./ui";
+import { Button, TextInput } from "./ui";
 import { Constellation } from "./Constellation";
 import { ADN, Planetes, Neurones, EcartVisu, Possibles, Orbite } from "./ParcoursGraphics";
 
@@ -392,33 +392,42 @@ function StepPrenom({
   intention: string;
   setIntention: (v: string) => void;
 }) {
+  // Un libellé de champ à fort contraste (lisible sur le bloc de verre) + une
+  // aide un cran plus claire que le gris « muted », pour que le formulaire se
+  // remplisse sans effort.
+  const Champ = ({
+    titre, aide, children,
+  }: { titre: string; aide: string; children: React.ReactNode }) => (
+    <div>
+      <p className="mb-1 text-[15px] font-semibold text-ink">{titre}</p>
+      <p className="mb-2 text-[13px] leading-relaxed text-ink/70">{aide}</p>
+      {children}
+    </div>
+  );
+
   return (
     <div className="space-y-6">
       <div className="text-center">
-        <div className="text-xs uppercase tracking-[0.22em] text-fuchsia">Faisons connaissance</div>
-        <p className="mx-auto mt-3 max-w-sm text-sm leading-relaxed text-muted">
+        <div className="text-[12px] font-bold uppercase tracking-[0.22em] text-fuchsia">
+          Faisons connaissance
+        </div>
+        <p className="mx-auto mt-3 max-w-sm text-[15px] font-medium leading-relaxed text-ink/85">
           Avant d'explorer ta constellation, donne-nous quelques repères.
         </p>
       </div>
-      <div>
-        <Label>Ton prénom</Label>
-        <p className="mb-1.5 text-xs text-muted">Comment souhaites-tu être appelé·e ?</p>
+      <Champ titre="Ton prénom" aide="Comment souhaites-tu être appelé·e ?">
         <TextInput value={name} onChange={setName} placeholder="Ton prénom" />
-      </div>
-      <div>
-        <Label>Ton âge approximatif</Label>
-        <p className="mb-1.5 text-xs text-muted">Chaque période de vie ouvre des questions différentes.</p>
+      </Champ>
+      <Champ titre="Ton âge approximatif" aide="Chaque période de vie ouvre des questions différentes.">
         <TextInput value={age} onChange={setAge} placeholder="ex. la trentaine, 42…" />
-      </div>
-      <div>
-        <Label>Ton intention du moment</Label>
-        <p className="mb-1.5 text-xs text-muted">Qu'aimerais-tu mieux comprendre, clarifier ou faire évoluer ?</p>
+      </Champ>
+      <Champ titre="Ton intention du moment" aide="Qu'aimerais-tu mieux comprendre, clarifier ou faire évoluer ?">
         <TextInput value={intention} onChange={setIntention} placeholder="ex. clarté, oser, alignement…" />
-      </div>
-      <p className="text-center text-xs italic leading-relaxed text-muted">
+      </Champ>
+      <p className="text-center text-[13px] italic leading-relaxed text-ink/60">
         Tu peux modifier ces informations à tout moment.
       </p>
-      <p className="text-center text-xs leading-relaxed text-muted">
+      <p className="text-center text-[13px] leading-relaxed text-ink/60">
         En continuant, tu acceptes les{" "}
         <a href="/cgu" target="_blank" rel="noopener noreferrer" className="text-fuchsia underline">
           conditions d'utilisation
