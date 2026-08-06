@@ -114,10 +114,13 @@ export function Neurones({ h = 168 }: { h?: number }) {
 
 // ── Écart : croire / penser / faire — les exercices ──────────────────────────
 export function EcartVisu({ h = 150 }: { h?: number }) {
+  // Barres décalées (diagonale) : l'écart qui se creuse de « je crois » à « je
+  // fais ». On garde tout DANS le cadre 320 pour que le label « l'écart » ne soit
+  // jamais coupé à droite sur mobile.
   const rows = [
-    { label: "Je crois", x: 30, w: 200 },
-    { label: "Je pense", x: 66, w: 176 },
-    { label: "Je fais", x: 110, w: 150 },
+    { label: "Je crois", x: 24, w: 150 },
+    { label: "Je pense", x: 50, w: 140 },
+    { label: "Je fais", x: 82, w: 124 },
   ];
   return (
     <svg viewBox="0 0 320 150" width="100%" height={h} aria-hidden="true" style={{ display: "block" }}>
@@ -125,15 +128,15 @@ export function EcartVisu({ h = 150 }: { h?: number }) {
         const y = 28 + i * 42;
         return (
           <g key={i}>
-            <text x="20" y={y - 8} fill={MUT} fontSize="11" fontFamily="inherit">
+            <text x="24" y={y - 8} fill={MUT} fontSize="11" fontFamily="inherit">
               {r.label}
             </text>
             <rect x={r.x} y={y} width={r.w} height="14" rx="7" fill={i === 2 ? A : "color-mix(in srgb, var(--fuchsia) 40%, transparent)"} />
           </g>
         );
       })}
-      <path d="M278 28 q10 0 10 10 v22 q0 10 10 10 q-10 0 -10 10 v22 q0 10 -10 10" fill="none" stroke={A} strokeWidth="1.4" />
-      <text x="300" y="77" fill={A} fontSize="12" fontWeight="700" fontFamily="inherit">l'écart</text>
+      <path d="M214 28 q10 0 10 10 v22 q0 10 10 10 q-10 0 -10 10 v22 q0 10 -10 10" fill="none" stroke={A} strokeWidth="1.4" />
+      <text x="240" y="77" fill={A} fontSize="12" fontWeight="700" fontFamily="inherit">l'écart</text>
     </svg>
   );
 }

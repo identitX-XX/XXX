@@ -4,8 +4,7 @@
 // propre <html>/<body>. Même logique : auto-reload sur chunk périmé, sinon
 // bouton de reprise.
 import { useEffect } from "react";
-
-const RELOAD_KEY = "idx-chunk-reload";
+import { tenterReprise, oublierReprises } from "@/lib/chunkRecover";
 
 export default function GlobalError({
   error,
@@ -15,17 +14,7 @@ export default function GlobalError({
   reset: () => void;
 }) {
   useEffect(() => {
-    const msg = `${error?.name || ""} ${error?.message || ""}`;
-    if (/chunk|dynamically imported|importing a module|Failed to fetch|Load failed/i.test(msg)) {
-      try {
-        if (!sessionStorage.getItem(RELOAD_KEY)) {
-          sessionStorage.setItem(RELOAD_KEY, "1");
-          window.location.reload();
-        }
-      } catch {
-        window.location.reload();
-      }
-    }
+    tenterReprise(error);
   }, [error]);
 
   return (
@@ -50,9 +39,7 @@ export default function GlobalError({
           </p>
           <button
             onClick={() => {
-              try {
-                sessionStorage.removeItem(RELOAD_KEY);
-              } catch {}
+              oublierReprises();
               reset();
               window.location.reload();
             }}

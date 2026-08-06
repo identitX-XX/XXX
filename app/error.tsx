@@ -3,10 +3,10 @@
 // Filet de sécurité (App Router) : au lieu de l'écran « Application error » brut,
 // on affiche une reprise douce. Cas fréquent après un déploiement : l'onglet
 // garde d'anciens « chunks » JS qui n'existent plus → erreur de chargement de
-// module. On l'auto-répare en rechargeant une fois (garde-fou anti-boucle).
+// module. On l'auto-répare en rechargeant (plusieurs tentatives espacées, sans
+// jamais tomber dans une boucle infinie — voir lib/chunkRecover).
 import { useEffect } from "react";
-
-const RELOAD_KEY = "idx-chunk-reload";
+import { tenterReprise, oublierReprises } from "@/lib/chunkRecover";
 
 export default function Error({
   error,
@@ -16,27 +16,11 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    const msg = `${error?.name || ""} ${error?.message || ""}`;
-    const chunk =
-      /chunk|dynamically imported|importing a module|Failed to fetch|Load failed/i.test(
-        msg
-      );
-    if (chunk) {
-      try {
-        if (!sessionStorage.getItem(RELOAD_KEY)) {
-          sessionStorage.setItem(RELOAD_KEY, "1");
-          window.location.reload();
-        }
-      } catch {
-        window.location.reload();
-      }
-    }
+    tenterReprise(error);
   }, [error]);
 
   const recharger = () => {
-    try {
-      sessionStorage.removeItem(RELOAD_KEY);
-    } catch {}
+    oublierReprises();
     reset();
     window.location.reload();
   };

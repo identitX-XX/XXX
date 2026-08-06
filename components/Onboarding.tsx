@@ -108,7 +108,17 @@ export function Onboarding() {
   const STEPS = steps.length;
 
   return (
-    <div className="min-h-[100dvh]">
+    <div className="relative min-h-[100dvh]">
+      {/* Champ bleuté très discret, sous le ton doré : il fait « ressortir » les
+          blocs de verre, comme s'ils glissaient sur une profondeur. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(120% 75% at 50% 12%, rgba(84,112,205,0.12), transparent 58%)",
+        }}
+      />
       {/* Fil de progression, fixé en tête — le point d'ancrage du rituel. */}
       <div className="pointer-events-none fixed inset-x-0 top-0 z-20 bg-gradient-to-b from-noir via-noir/90 to-transparent px-6 pb-4 pt-[calc(0.75rem+env(safe-area-inset-top))]">
         <div className="mx-auto flex max-w-lg items-center justify-between text-xs text-muted">
@@ -143,17 +153,21 @@ export function Onboarding() {
               : "pt-[calc(5rem+env(safe-area-inset-top))]"
           }`}
         >
-          <div className="mx-auto w-full max-w-lg animate-fade-up">{content}</div>
+          <div className="mx-auto w-full max-w-lg animate-fade-up rounded-[1.75rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(90,118,208,0.08),rgba(90,118,208,0.02))] px-5 py-9 shadow-[0_24px_70px_-34px_rgba(72,102,200,0.55)] backdrop-blur-[7px]">
+            {content}
+          </div>
 
-          {/* Indice de défilement, seulement sur la première marche. */}
-          {i === 0 && (
+          {/* Flèche « continuer » entre chaque bloc : elle invite à glisser vers
+              le suivant (défilement fluide). Le libellé n'apparaît que sur la
+              première marche ; ensuite, la seule flèche suffit. */}
+          {i < STEPS - 1 && (
             <button
-              onClick={() => scrollTo(1)}
-              className="mx-auto mt-10 flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia"
-              aria-label="Fais défiler"
+              onClick={() => scrollTo(i + 1)}
+              className="group mx-auto mt-9 flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia/85 transition-colors hover:text-fuchsia"
+              aria-label="Continuer"
             >
-              Fais défiler
-              <ChevronDown size={20} className="animate-bounce" />
+              {i === 0 && <span>Fais défiler</span>}
+              <ChevronDown size={i === 0 ? 20 : 24} className="animate-bounce" />
             </button>
           )}
         </section>
@@ -301,7 +315,7 @@ export function StepCoach() {
       eyebrow="Ton coach"
       titre="Un coach qui connaît ta signature"
       graphic={<Neurones />}
-      texte="Une intelligence qui analyse tes réponses, t'éclaire, relie l'écart à ta signature du moment et projette la suite."
+      texte="On analyse tes réponses, on t'éclaire, on relie l'écart à ta signature du moment et on projette la suite."
     />
   );
 }
