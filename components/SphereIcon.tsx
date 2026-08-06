@@ -1,5 +1,5 @@
 // Icône ligne partagée pour les trois sphères de vie (perso / pro / relationnel).
-// Source unique — les glyphes maison d'IdentitX (voir Glyph.tsx), jamais d'emoji.
+// Source unique — les glyphes maison d'Constellation (voir Glyph.tsx), jamais d'emoji.
 import { Glyph, GlyphName } from "./Glyph";
 
 const MAP: Record<"perso" | "pro" | "relationnel", GlyphName> = {

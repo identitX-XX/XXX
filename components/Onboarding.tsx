@@ -198,7 +198,7 @@ export function Onboarding() {
   );
 }
 
-// Étape 0 — le MANIFESTE : l'objet d'IdentitX, plein écran, sur fond
+// Étape 0 — le MANIFESTE : l'objet d'Constellation, plein écran, sur fond
 // constellation (la signature graphique de la marque). C'est la première chose
 // qu'on voit après la connexion — avant tout le reste.
 const MANIFESTE = [
@@ -221,7 +221,7 @@ export function StepAccueil() {
 
       <div className="relative">
         <div className="text-[12px] font-bold uppercase tracking-[0.24em] text-fuchsia">
-          Bienvenue dans IdentitX
+          Bienvenue dans ma constellation d'explorations
         </div>
         <h1 className="mx-auto mt-5 max-w-md font-display text-[1.9rem] font-bold leading-[1.15] text-ink">
           Ton identité est une signature invisible &amp; multifactorielle.

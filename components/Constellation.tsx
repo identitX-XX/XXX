@@ -1,6 +1,6 @@
 "use client";
 
-// Le motif signature d'IdentitX : l'identité tracée comme une constellation en
+// Le motif signature d'Constellation : l'identité tracée comme une constellation en
 // forme de visage/silhouette. Trait d'or (accent de palette), étoiles ivoire,
 // scintillement doux. Remplace l'ancien réseau de neurones — chaud, humain,
 // céleste, non « IA ». Inspiré de l'univers de la fondatrice.

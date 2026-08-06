@@ -71,7 +71,7 @@ export function Brand() {
         <Sparkles size={16} className="text-white" />
       </div>
       <span className="font-display text-lg tracking-tight text-ink">
-        IDENTITX
+        CONSTELLATION
       </span>
     </Link>
   );

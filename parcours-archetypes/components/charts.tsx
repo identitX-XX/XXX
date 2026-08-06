@@ -1,7 +1,7 @@
 "use client";
 // parcours-archetypes/components/charts.tsx
 // Visualisations. Recharts pour radar/courbes/barres, heatmap en CSS pur.
-// Style aligné IdentitX (noir/fuchsia/orange, Fraunces/Inter). Autonome : ces
+// Style aligné Constellation (noir/fuchsia/orange, Fraunces/Inter). Autonome : ces
 // composants n'exigent pas la config Tailwind du projet (styles inline).
 
 import {

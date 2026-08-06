@@ -395,7 +395,7 @@ function QueteMonde({
           style={{ borderColor: m.line, background: m.panel, color: m.ink }}
         >
           <MessageCircle size={18} style={{ color: m.accent, flex: "none" }} />
-          <span className="flex-1 text-sm">Bloquée sur un exercice ? Parle-en à IdentitX</span>
+          <span className="flex-1 text-sm">Bloquée sur un exercice ? Parle-en à Constellation</span>
           <ArrowRight size={15} style={{ color: m.accent }} className="flex-none transition-transform group-hover:translate-x-0.5" />
         </Link>
         <Link

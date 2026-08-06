@@ -169,7 +169,7 @@ export function exporterImage(artefact: Artefact, etoiles: Etoile[]) {
 }
 
 export function texteArtefact(artefact: Artefact): string {
-  return [artefact.nom, "", ...artefact.lettre, "", "—", ...artefact.pacte, "", "IdentitX — La Traversée"].join("\n");
+  return [artefact.nom, "", ...artefact.lettre, "", "—", ...artefact.pacte, "", "Constellation — La Traversée"].join("\n");
 }
 
 export function exporterTexte(artefact: Artefact) {

@@ -17,7 +17,7 @@ export default function ConfidentialitePage() {
       <PageHead
         eyebrow="Confidentialité"
         title="Ce qu'on sait de toi, et pourquoi"
-        sub="IdentitX est local-first : l'essentiel de ta quête vit sur ton appareil. Voici, sans jargon, ce qui existe côté serveur, qui le traite — et tes droits."
+        sub="Constellation est local-first : l'essentiel de ta quête vit sur ton appareil. Voici, sans jargon, ce qui existe côté serveur, qui le traite — et tes droits."
       />
 
       <div className="flex flex-col gap-6">

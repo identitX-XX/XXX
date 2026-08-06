@@ -18,26 +18,26 @@ export default function CGUPage() {
       <PageHead
         eyebrow="Conditions d'utilisation"
         title="Les règles du jeu"
-        sub="Ce qu'IdentitX te propose, ce qu'on attend de toi, et ce que l'app n'est pas. En clair, sans jargon."
+        sub="Ce qu'Constellation te propose, ce qu'on attend de toi, et ce que l'app n'est pas. En clair, sans jargon."
       />
 
       <div className="flex flex-col gap-6">
         <Bloc titre="1. Objet">
-          Les présentes conditions encadrent l'accès et l'usage d'IdentitX, un
+          Les présentes conditions encadrent l'accès et l'usage d'Constellation, un
           espace d'exploration identitaire (parcours, signatures, journal,
           scénarios). En utilisant l'app, tu acceptes ces conditions. Si tu n'es
           pas d'accord, n'utilise pas le service.
         </Bloc>
 
         <Bloc titre="2. Accès — phase de test">
-          IdentitX est proposé <b>sur invitation</b>, dans une phase de test. L'accès
+          Constellation est proposé <b>sur invitation</b>, dans une phase de test. L'accès
           se fait par un code ou ton email. Le service peut évoluer, être
           interrompu ou modifié à tout moment pendant cette phase, sans que cela
           ouvre droit à une quelconque compensation.
         </Bloc>
 
-        <Bloc titre="3. Ce qu'IdentitX est — et n'est pas">
-          IdentitX est un outil de <b>développement personnel et de réflexion</b>.
+        <Bloc titre="3. Ce qu'Constellation est — et n'est pas">
+          Constellation est un outil de <b>développement personnel et de réflexion</b>.
           Ce n'est <b>ni un dispositif médical, ni un avis psychologique,
           psychiatrique ou thérapeutique</b>. Les contenus — y compris ceux générés
           par l'IA (Coach, Scénarios) — sont des <b>hypothèses et des pistes</b>, pas
@@ -50,12 +50,12 @@ export default function CGUPage() {
           Tu es responsable de la confidentialité de ton accès et de l'usage que tu
           fais de l'app. Tu t'engages à un usage loyal : ne pas tenter de
           contourner la sécurité, de perturber le service, d'y injecter de contenus
-          illicites, ni d'utiliser IdentitX pour nuire à autrui.
+          illicites, ni d'utiliser Constellation pour nuire à autrui.
         </Bloc>
 
         <Bloc titre="5. Tes contenus">
           Ce que tu écris (profil, journal, réponses) <b>t'appartient</b>. Tu
-          restes propriétaire de tes contenus. Tu accordes seulement à IdentitX le
+          restes propriétaire de tes contenus. Tu accordes seulement à Constellation le
           droit technique de les traiter pour te rendre le service (les afficher,
           les stocker localement, et — si tu utilises l'IA — les transmettre au
           sous-traitant qui génère la réponse). Le détail figure dans la{" "}
@@ -73,7 +73,7 @@ export default function CGUPage() {
         </Bloc>
 
         <Bloc titre="7. Responsabilité">
-          IdentitX est fourni « en l'état », sans garantie de disponibilité ni
+          Constellation est fourni « en l'état », sans garantie de disponibilité ni
           d'absence d'erreur, particulièrement en phase de test. Dans les limites
           permises par la loi, l'éditeur ne saurait être tenu responsable des
           décisions que tu prends à partir des contenus proposés, ni des
@@ -92,7 +92,7 @@ export default function CGUPage() {
         </Bloc>
 
         <Bloc titre="9. Résiliation">
-          Tu peux cesser d'utiliser IdentitX à tout moment et supprimer tes données
+          Tu peux cesser d'utiliser Constellation à tout moment et supprimer tes données
           (Réglages → Supprimer mes données). L'éditeur peut suspendre un accès en
           cas de manquement à ces conditions.
         </Bloc>

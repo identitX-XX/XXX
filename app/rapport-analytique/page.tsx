@@ -370,7 +370,7 @@ function construireHTML(r: Rapport): string {
 
   const clim = r.climMoy != null ? `<section><h2>Climat & corps</h2><p>Terrain moyen : <b>${esc(climatLabel(r.climMoy))}</b>.</p></section>` : "";
 
-  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>IdentitX — Rapport analytique</title><style>
+  return `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Constellation — Rapport analytique</title><style>
     :root{--or:#a8834a}
     *{box-sizing:border-box}
     body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:#16141a;background:#fff;margin:0;padding:32px 20px;line-height:1.55;max-width:720px;margin:0 auto}
@@ -390,7 +390,7 @@ function construireHTML(r: Rapport): string {
     p{font-size:14px}
     footer{color:#9a948a;font-size:12px;font-style:italic;margin-top:20px}
   </style></head><body>
-  <header><div class="eyebrow">Rapport analytique · IdentitX</div><h1>Ce que ta progression révèle</h1><div class="meta">${esc(r.prenom)} · ${date} · ${r.prog.faits} jour(s) sur 30</div></header>
+  <header><div class="eyebrow">Rapport analytique · Constellation</div><h1>Ce que ta progression révèle</h1><div class="meta">${esc(r.prenom)} · ${date} · ${r.prog.faits} jour(s) sur 30</div></header>
   ${sig}${carto}${sph}${coh}${emo}${dir}${clim}
   <footer>Rapport généré localement à partir de tes observations. Tes données restent sur ton appareil.</footer>
   </body></html>`;

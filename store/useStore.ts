@@ -139,7 +139,7 @@ export const useStore = create<AppState>()(
               role: "coach",
               content: `Bonjour ${
                 p.name || "à toi"
-              }. Je suis IdentitX. Je m'appuie sur ton profil et ta quête pour t'aider à y voir clair. Par quoi commence-t-on ?`,
+              }. Je suis Constellation. Je m'appuie sur ton profil et ta quête pour t'aider à y voir clair. Par quoi commence-t-on ?`,
             },
           ],
         });

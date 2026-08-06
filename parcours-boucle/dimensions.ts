@@ -1,4 +1,4 @@
-// La « boucle quotidienne » d'IdentitX — micro-exploration façon Duolingo, sans
+// La « boucle quotidienne » d'Constellation — micro-exploration façon Duolingo, sans
 // l'infantilisation. Chaque jour = une facette légère (cartes à choisir) qui
 // produit une micro-révélation ET éclaire une connexion sur la carte identitaire.
 // Ce fichier tient les dimensions, les facettes du jour, et la logique de

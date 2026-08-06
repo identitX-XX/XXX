@@ -1,5 +1,5 @@
 // B-01 — État de chargement minimal (fallback Suspense de l'App Router).
-// Fond 0a090d, seulement le mot « IdentitX » en fondu. Composant serveur, pur
+// Fond 0a090d, seulement le mot « Constellation » en fondu. Composant serveur, pur
 // CSS (aucune interactivité).
 
 export default function Loading() {
@@ -29,7 +29,7 @@ export default function Loading() {
           animation: "idx-loading-fade 1.6s ease-in-out infinite",
         }}
       >
-        IdentitX
+        Constellation
       </span>
     </div>
   );

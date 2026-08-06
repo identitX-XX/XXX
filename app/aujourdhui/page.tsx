@@ -663,7 +663,7 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
           </div>
           <div className="flex-1">
             <div className="text-sm text-ink">Une question sur ta journée ?</div>
-            <div className="text-xs text-muted">Parle-en à IdentitX — il connaît ton parcours.</div>
+            <div className="text-xs text-muted">Parle-en à Constellation — il connaît ton parcours.</div>
           </div>
           <ArrowRight size={15} className="flex-none text-fuchsia transition-transform group-hover:translate-x-0.5" />
         </Link>
@@ -813,7 +813,7 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
   // Modules hérités fusionnés dans « Ton portrait » (/synthese) : une seule
   // entrée au lieu de cinq. Le reste (progression, rapport) reste accessible.
   const liens = [
-    { href: "/presentation", label: "La présentation d'IdentitX" },
+    { href: "/presentation", label: "La présentation d'Constellation" },
     { href: "/synthese", label: "Ton portrait" },
     { href: "/progression", label: "Ma progression" },
     ...(prog.faits >= 1

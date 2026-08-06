@@ -1,7 +1,7 @@
 "use client";
 // parcours-archetypes/components/Dashboard.tsx
 // Le tableau de bord : lit l'état d'évolution via le store, calcule les
-// indicateurs, et dispose les visualisations. Style IdentitX, inline.
+// indicateurs, et dispose les visualisations. Style Constellation, inline.
 
 import { useParcoursStore } from "../store";
 import { genererRevelations } from "../revelations";

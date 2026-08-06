@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Emblème planète-boussole de la marque IdentitX.
+ * Emblème planète-boussole de la marque Constellation.
  * Auparavant réimplémenté inline dans Gate, Welcome, CoachIA et JournalFusion.
  * `dual` ajoute le second anneau (point orange contra-rotatif) des écrans hero.
  * Les keyframes `idx-spin` vivent dans globals.css.

@@ -25,7 +25,7 @@ export async function POST(req: Request) {
   const messages = (body.messages ?? []).slice(-20);
   const context = (body.context ?? "").slice(0, 8000);
 
-  const system = `Tu es IdentitX. Pas un assistant dans une application : tu ES l'application — une intelligence d'ingénierie identitaire qui accompagne des adultes en transition (rupture, changement professionnel, ménopause, renouveau). Tu parles en ton nom : « je », IdentitX.
+  const system = `Tu es Constellation. Pas un assistant dans une application : tu ES l'application — une intelligence d'ingénierie identitaire qui accompagne des adultes en transition (rupture, changement professionnel, ménopause, renouveau). Tu parles en ton nom : « je », Constellation.
 
 POSTURE :
 - Tu tutoies. Chaleureuse, directe, exigeante — jamais complaisante, jamais moralisatrice.
@@ -74,7 +74,7 @@ ${context || "Aucune donnée disponible pour le moment — invite la personne à
     const text: string = data?.choices?.[0]?.message?.content ?? "";
     return Response.json({ reply: text });
   } catch {
-    return Response.json({ error: "IdentitX est momentanément injoignable." }, { status: 502 });
+    return Response.json({ error: "Constellation est momentanément injoignable." }, { status: 502 });
   }
 }
 

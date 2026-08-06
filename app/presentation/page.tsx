@@ -1,6 +1,6 @@
 "use client";
 
-// « La présentation d'IdentitX » — rejouable à tout moment (le manifeste + la
+// « La présentation d'Constellation » — rejouable à tout moment (le manifeste + la
 // présentation du parcours), sans refaire l'onboarding. Utile pour revoir
 // l'objet de l'app, ou le montrer. Réutilise les écrans de l'onboarding.
 

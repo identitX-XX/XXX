@@ -634,7 +634,7 @@ function ReactionClotature({
           gap: 8,
         }}
       >
-        En parler à IdentitX — il rebondit sur ta journée →
+        En parler à Constellation — il rebondit sur ta journée →
       </button>
 
       <button

@@ -1,5 +1,5 @@
 // parcours-archetypes/signatures.ts
-// LE NOUVEAU SOCLE DE CONTENU — les 20 Signatures IdentitX, appelées à remplacer
+// LE NOUVEAU SOCLE DE CONTENU — les 20 Signatures Constellation, appelées à remplacer
 // les 12 anciens archétypes (Phase A : données seules, encore non branchées).
 //
 // Chaque signature porte : les 8 champs de fiche (valeur, forces, schéma, ombres,

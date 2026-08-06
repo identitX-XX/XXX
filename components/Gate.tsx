@@ -206,7 +206,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
           textIndent: ".14em",
         }}
       >
-        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
+        Constellatio<span style={{ color: "var(--fuchsia)" }}>n</span>
       </div>
 
       {/* Le visage dense, héros juste sous le nom, fondu dans le noir. */}
@@ -265,7 +265,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
                 cursor: "pointer",
               }}
             >
-              Entrer dans IdentitX →
+              Entrer dans Constellation →
             </button>
             <button
               onClick={() => {

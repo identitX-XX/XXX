@@ -5,7 +5,7 @@ import { JOURNEY } from "@/data/constants";
 import { ARCHETYPES, PHASES, SPHERES } from "@/parcours-archetypes/archetypes";
 
 // Page de présentation : l'objectif du module et sa place dans le parcours,
-// aux côtés des autres modules (les 8 blocs de la Quête IdentitX).
+// aux côtés des autres modules (les 8 blocs de la Quête Constellation).
 
 const PONTS = [
   {
@@ -15,7 +15,7 @@ const PONTS = [
       "Ce que la Quête révèle de toi ouvre le parcours : ta signature ouvre le J1, ta secondaire la charnière (J15).",
   },
   {
-    amont: "Journal · Coach IdentitX",
+    amont: "Journal · Coach Constellation",
     role: "prolongent chaque journée",
     detail:
       "Ce que tu notes et ce que tu explores en dialogue nourrissent l'observation quotidienne, jour après jour.",
@@ -60,7 +60,7 @@ export default function ObjectifPage() {
       <Card className="mb-8 p-6">
         <h2 className="font-display text-xl font-light text-ink">L'intention</h2>
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
-          Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
+          Les 8 étapes de ta <strong className="text-ink">Quête Constellation</strong> révèlent qui
           tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 20
           signatures</strong> les met en mouvement : 30 jours pour observer, à travers 20
           signatures, comment ces facettes s'activent selon tes contextes. Chaque
@@ -77,7 +77,7 @@ export default function ObjectifPage() {
       {/* Flux : les 8 blocs de la Quête → le module 30 jours */}
       <Card className="mb-4 p-6">
         <div className="mb-2 text-xs uppercase tracking-wider text-muted">
-          La Quête IdentitX — 8 étapes
+          La Quête Constellation — 8 étapes
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {JOURNEY.map((b, i) => (

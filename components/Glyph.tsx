@@ -1,4 +1,4 @@
-// Jeu de glyphes maison d'IdentitX — trait fin « gravé », accents étoilés, dans
+// Jeu de glyphes maison d'Constellation — trait fin « gravé », accents étoilés, dans
 // la même famille que la constellation-visage et l'orbite des phases. Remplace
 // les pictos lucide génériques sous l'accueil (onboarding, sphères, rythme).
 //

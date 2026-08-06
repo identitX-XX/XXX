@@ -227,7 +227,7 @@ export function CoachIA() {
             color: "transparent",
           }}
         >
-          IdentitX
+          Constellation
         </span>
       </h1>
 
@@ -340,7 +340,7 @@ export function CoachIA() {
               animation: "idx-pulse 1.4s ease infinite",
             }}
           >
-            IdentitX lit tes données…
+            Constellation lit tes données…
           </div>
         )}
 
@@ -383,7 +383,7 @@ export function CoachIA() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
-            placeholder="Écris à IdentitX…"
+            placeholder="Écris à Constellation…"
             style={{
               flex: 1,
               background: "rgba(38,22,41,.7)",

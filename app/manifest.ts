@@ -4,8 +4,8 @@ import type { MetadataRoute } from "next";
 // rituel quotidien local-first.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "IdentitX — ta quête identitaire",
-    short_name: "IdentitX",
+    name: "Constellation — ta quête identitaire",
+    short_name: "Constellation",
     description:
       "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 20 signatures, en local.",
     start_url: "/aujourdhui",

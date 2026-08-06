@@ -517,7 +517,7 @@ export function Synthese() {
             animation: "idx-rise .7s ease both",
           }}
         >
-          Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
+          Constellatio<span style={{ color: "var(--fuchsia)" }}>n</span>
         </div>
 
         <h1

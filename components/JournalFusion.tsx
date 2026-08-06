@@ -198,7 +198,7 @@ export function JournalFusion() {
           textTransform: "uppercase",
         }}
       >
-        Identit<span style={{ color: "var(--fuchsia)" }}>X</span>
+        Constellatio<span style={{ color: "var(--fuchsia)" }}>n</span>
       </div>
 
       <Emblem size={78} />

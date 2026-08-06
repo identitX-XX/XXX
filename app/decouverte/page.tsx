@@ -1,6 +1,6 @@
 "use client";
 
-// « Premier succès en 90 s » — la boucle quotidienne d'IdentitX en 5 temps :
+// « Premier succès en 90 s » — la boucle quotidienne d'Constellation en 5 temps :
 // invitation → interaction légère (cartes) → micro-révélation → la carte qui
 // s'éclaire → ouverture vers demain. Chaque passage produit une découverte, une
 // connexion, ou une possibilité d'action. Léger, jamais un questionnaire.
@@ -212,7 +212,7 @@ export default function DecouvertePage() {
               href="/aujourdhui"
               className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow"
             >
-              Entrer dans IdentitX
+              Entrer dans Constellation
               <ArrowRight size={17} />
             </Link>
           </div>

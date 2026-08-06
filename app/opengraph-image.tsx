@@ -2,9 +2,9 @@ import { ImageResponse } from "next/og";
 
 // A-02 — Image OG générée dynamiquement (1200×630). CSS inline compatible
 // ImageResponse (Satori) : pas de police custom, pas d'image externe. Fond noir,
-// « La Traversée » au centre, sous-titre, « IdentitX » discret en bas.
+// « La Traversée » au centre, sous-titre, « Constellation » discret en bas.
 
-export const alt = "IdentitX — La Traversée";
+export const alt = "Constellation — La Traversée";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -58,7 +58,7 @@ export default function Image() {
             color: "#d4af6a",
           }}
         >
-          IDENTITX
+          CONSTELLATION
         </div>
       </div>
     ),

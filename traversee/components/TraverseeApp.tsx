@@ -126,7 +126,7 @@ export function TraverseeApp() {
         @media (prefers-reduced-motion: reduce) { .tx-page { animation: none; } }
       `}</style>
       <Link href="/aujourdhui" style={ST.lienQuitter}>
-        ← IdentitX
+        ← Constellation
       </Link>
       {demarre && (
         <Link href="/traversee/vestiaire" style={ST.lienVestiaire}>
@@ -216,7 +216,7 @@ export function TraverseeApp() {
 const ST: Record<string, React.CSSProperties> = {
   page: {
     // Plein écran : couvre le shell de l'ancien produit — La Traversée a son
-    // propre monde. On revient à IdentitX par « Quitter ».
+    // propre monde. On revient à Constellation par « Quitter ».
     position: "fixed",
     inset: 0,
     zIndex: 9999,

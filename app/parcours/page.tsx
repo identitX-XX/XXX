@@ -5,7 +5,7 @@ export default function ParcoursPage() {
   return (
     <div>
       <PageHead
-        eyebrow="Quête IdentitX"
+        eyebrow="Quête Constellation"
         title="Ton parcours"
         sub="Ton exploration, étape par étape. Suis le fil, ou entre par où ça t'appelle."
       />
