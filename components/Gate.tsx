@@ -94,44 +94,31 @@ export function Gate({ children }: { children: React.ReactNode }) {
     }
   };
 
-  // Envoi effectif du lien magique à une adresse donnée. Le lien magique est le
-  // SEUL chemin d'entrée : en cas d'échec, on affiche une erreur claire (on NE
-  // laisse PAS entrer sans lien, et on ne feint pas un succès).
+  // Accès robuste : on COLLECTE l'email (c'est ce qu'on garde), puis on entre
+  // TOUT DE SUITE — l'accès ne dépend jamais de la réception d'un email. Le lien
+  // magique part en arrière-plan (bonus, pour reprendre plus tard multi-appareils),
+  // sans bloquer. Fonctionne à l'échelle (30+) sans SMTP dédié ni domaine.
   const envoyer = async (value: string) => {
     setSuggestion("");
     setLoading(true);
     setError("");
     try {
-      // 1) Relier l'e-mail à l'identité (liste des inscrites, côté admin).
+      // 1) Collecte de l'e-mail (liste des inscrites — visible dans /admin).
       await fetch("/api/access", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ anon_id: anonId(), email: value }),
       }).catch(() => {});
 
-      // 2) Envoyer le lien magique. Cliquer le lien → /auth/callback → session
-      //    → reprise de la progression.
-      const supabase = getSupabase();
-      if (!supabase) {
-        setError("Connexion indisponible pour le moment. Réessaie plus tard.");
-        return;
-      }
-      const { error: otpErr } = await supabase.auth.signInWithOtp({
-        email: value,
-        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
-      });
-      if (otpErr) {
-        const m = (otpErr.message || "").toLowerCase();
-        const status = (otpErr as { status?: number }).status;
-        if (status === 429 || m.includes("rate") || m.includes("limit") || m.includes("too many")) {
-          setError(
-            "Trop d'envois en peu de temps (limite d'emails). Attends quelques minutes — jusqu'à ~1 h si ça persiste — puis réessaie."
-          );
-        } else {
-          setError(`Envoi impossible : ${otpErr.message}`);
-        }
-        return;
-      }
+      // 2) Lien magique en arrière-plan (best-effort, non bloquant).
+      try {
+        getSupabase()?.auth.signInWithOtp({
+          email: value,
+          options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+        });
+      } catch {}
+
+      // 3) On ouvre l'espace : rien ne dépend de l'email.
       setLinkSent(true);
       setWelcome("link");
     } catch {
@@ -239,56 +226,54 @@ export function Gate({ children }: { children: React.ReactNode }) {
       {welcome ? (
         linkSent ? (
           <div style={{ textAlign: "center", maxWidth: 340 }}>
-            <div style={{ fontSize: 30, marginBottom: 10 }}>📩</div>
-            <div style={{ fontSize: 16, color: "var(--ink)", lineHeight: 1.55, fontWeight: 500 }}>
-              Un lien de connexion vient de partir vers
-              <br />
-              <span style={{ color: "var(--fuchsia)", wordBreak: "break-all" }}>
-                {email.trim()}
-              </span>
+            <div style={{ fontSize: 30, marginBottom: 10 }}>✨</div>
+            <div style={{ fontSize: 17, color: "var(--ink)", lineHeight: 1.5, fontWeight: 600 }}>
+              Bienvenue — ton espace est prêt.
             </div>
             <div style={{ marginTop: 12, fontSize: 14, color: "var(--muted)", lineHeight: 1.6 }}>
-              Ouvre ta boîte mail et <b style={{ color: "var(--ink)" }}>clique sur le lien</b> pour
-              entrer dans IdentitX.
-              <br />
-              <span style={{ opacity: 0.8 }}>Pense à vérifier tes spams.</span>
+              On envoie aussi un lien à{" "}
+              <span style={{ color: "var(--fuchsia)", wordBreak: "break-all" }}>{email.trim()}</span>{" "}
+              pour reprendre plus tard sur un autre appareil (pense à vérifier tes spams). Mais tu
+              peux entrer <b style={{ color: "var(--ink)" }}>tout de suite</b>.
             </div>
-            <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
-              <button
-                onClick={() => envoyer(email.trim().toLowerCase())}
-                disabled={loading}
-                style={{
-                  minHeight: 50,
-                  padding: "0 26px",
-                  borderRadius: 14,
-                  border: "1px solid color-mix(in srgb, var(--orange) 30%, transparent)",
-                  background: "transparent",
-                  color: "var(--ink)",
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                }}
-              >
-                {loading ? "Envoi…" : "Je n'ai rien reçu — renvoyer le lien"}
-              </button>
-              <button
-                onClick={() => {
-                  setLinkSent(false);
-                  setWelcome("");
-                }}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "var(--muted)",
-                  fontSize: 13,
-                  textDecoration: "underline",
-                  textUnderlineOffset: 3,
-                  cursor: "pointer",
-                }}
-              >
-                Changer d'adresse
-              </button>
-            </div>
+            <button
+              onClick={enter}
+              style={{
+                marginTop: 22,
+                minHeight: 52,
+                width: "100%",
+                maxWidth: 300,
+                padding: "0 26px",
+                borderRadius: 14,
+                border: "none",
+                background: "linear-gradient(90deg,var(--fuchsia),var(--orange))",
+                color: "var(--noir)",
+                fontSize: 16,
+                fontWeight: 700,
+                cursor: "pointer",
+              }}
+            >
+              Entrer dans IdentitX →
+            </button>
+            <button
+              onClick={() => {
+                setLinkSent(false);
+                setWelcome("");
+              }}
+              style={{
+                display: "block",
+                margin: "12px auto 0",
+                background: "none",
+                border: "none",
+                color: "var(--muted)",
+                fontSize: 13,
+                textDecoration: "underline",
+                textUnderlineOffset: 3,
+                cursor: "pointer",
+              }}
+            >
+              Changer d'adresse
+            </button>
           </div>
         ) : (
           <div style={{ fontSize: 14, color: "var(--fuchsia)", textAlign: "center", maxWidth: 320, lineHeight: 1.5 }}>
@@ -397,7 +382,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
           )}
 
           <div style={{ marginTop: 12, fontSize: 12.5, color: "var(--muted)", opacity: 0.8, textAlign: "center", lineHeight: 1.5 }}>
-            On t'envoie un lien de connexion par email — c'est ta clé d'entrée.
+            Tu entres tout de suite. On envoie aussi un lien pour reprendre plus tard, ailleurs.
           </div>
         </div>
       )}
