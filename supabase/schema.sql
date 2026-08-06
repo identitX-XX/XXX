@@ -46,6 +46,17 @@ create table if not exists feedback (
 );
 create index if not exists feedback_created_idx on feedback (created_at);
 
+-- Sauvegarde serveur du parcours, clée sur l'E-MAIL (durabilité sans lien
+-- magique). Écrite par /api/etat via la clé service (contourne la RLS). RLS
+-- activée sans policy : la clé publique ne peut rien lire ni écrire.
+create table if not exists etats (
+  email text primary key,
+  anon_id text,
+  stores jsonb not null default '{}',
+  updated_at timestamptz not null default now()
+);
+alter table etats enable row level security;
+
 -- Entonnoir d'activation (une ligne) : combien de personnes distinctes à chaque
 -- étape-clé — de l'inscription au scénario généré. Le cœur du récit de traction.
 create or replace view funnel as

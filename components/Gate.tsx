@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { anonId } from "@/lib/metrics";
 import { getSupabase } from "@/lib/supabaseBrowser";
+import { setEmail as setEmailLocal, pullEtat } from "@/lib/etatSync";
 
 // Clé versionnée : la bumper invalide tous les accès mémorisés → chacun doit
 // ressaisir le code. À incrémenter à chaque rotation du GATE_CODE (Vercel).
@@ -109,6 +110,14 @@ export function Gate({ children }: { children: React.ReactNode }) {
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ anon_id: anonId(), email: value }),
       }).catch(() => {});
+
+      // 1 bis) Durabilité : on mémorise l'e-mail et on RESTAURE la progression
+      // serveur si elle existe (nouvel appareil / cache vidé). L'e-mail est la
+      // clé de reprise — pas besoin de cliquer un lien.
+      setEmailLocal(value);
+      try {
+        await pullEtat(value);
+      } catch {}
 
       // 2) Lien magique en arrière-plan (best-effort, non bloquant).
       try {

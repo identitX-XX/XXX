@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
 import { StateSync } from "@/components/StateSync";
+import { EtatSync } from "@/components/EtatSync";
 
 // Typographie « douce ronde » — Poppins partout : une sans-serif géométrique aux
 // formes rondes, chaleureuse et accueillante, pour les titres (en gras) comme
@@ -81,6 +82,7 @@ export default function RootLayout({
             pour agir partout, y compris au retour du lien magique. No-op sans
             backend Supabase configuré. */}
         <StateSync />
+        <EtatSync />
         <Gate>
           <ClientShell>{children}</ClientShell>
         </Gate>
