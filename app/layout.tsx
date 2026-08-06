@@ -41,18 +41,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "IdentitX",
-    images: [
-      { url: "/og.png", width: 1200, height: 630, alt: "IdentitX — La Traversée" },
-    ],
+    // L'image est fournie par app/opengraph-image.tsx (génération dynamique).
   },
   twitter: {
     card: "summary_large_image",
     title: "IdentitX — La Traversée",
     description:
       "30 jours pour retirer ce qui n'est plus toi. Cinq actes, un portrait qui se précise.",
-    images: [
-      { url: "/og.png", width: 1200, height: 630, alt: "IdentitX — La Traversée" },
-    ],
+    // L'image est fournie par app/twitter-image.tsx (génération dynamique).
   },
 };
 
