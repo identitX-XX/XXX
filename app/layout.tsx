@@ -17,13 +17,13 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://identitx.app"),
+  metadataBase: new URL("https://xxx-pi-eight.vercel.app"),
   title: {
-    default: "IdentitX — ta quête identitaire",
+    default: "IdentitX — La Traversée",
     template: "%s · IdentitX",
   },
   description:
-    "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 20 signatures, en local.",
+    "30 jours pour retirer ce qui n'est plus toi. Cinq actes, un portrait qui se précise.",
   applicationName: "IdentitX",
   appleWebApp: {
     capable: true,
@@ -35,11 +35,24 @@ export const metadata: Metadata = {
     apple: "/apple-icon.png",
   },
   openGraph: {
-    title: "IdentitX — ta quête identitaire",
+    title: "IdentitX — La Traversée",
     description:
-      "Transforme tes objectifs dispersés en un scénario clair et aligné. 30 jours, 20 signatures, en local.",
+      "30 jours pour retirer ce qui n'est plus toi. Cinq actes, un portrait qui se précise.",
     type: "website",
     locale: "fr_FR",
+    siteName: "IdentitX",
+    images: [
+      { url: "/og.png", width: 1200, height: 630, alt: "IdentitX — La Traversée" },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "IdentitX — La Traversée",
+    description:
+      "30 jours pour retirer ce qui n'est plus toi. Cinq actes, un portrait qui se précise.",
+    images: [
+      { url: "/og.png", width: 1200, height: 630, alt: "IdentitX — La Traversée" },
+    ],
   },
 };
 
