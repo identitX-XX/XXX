@@ -67,40 +67,55 @@ export function ADN({ h = 156 }: { h?: number }) {
   );
 }
 
-// ── Planètes : trois territoires en orbite autour de l'identité ──────────────
+// ── Planètes : trois territoires EN MOUVEMENT autour de l'identité ───────────
+// Chaque planète orbite réellement (animateMotion le long de son ellipse), à sa
+// propre vitesse — la figure vit au lieu d'être un schéma figé.
 export function Planetes({ h = 200 }: { h?: number }) {
   const id = "pla";
-  const orbites = [
-    { r: 48, a: -28, nom: "Perso", taille: 10 },
-    { r: 74, a: 120, nom: "Pro", taille: 11 },
-    { r: 98, a: 218, nom: "Relationnel", taille: 9 },
-  ];
   const cx = 160;
   const cy = 104;
+  const orbites = [
+    { r: 48, nom: "Perso", taille: 10, dur: 26, phase: -3 },
+    { r: 74, nom: "Pro", taille: 11, dur: 38, phase: -16 },
+    { r: 98, nom: "Relationnel", taille: 9, dur: 52, phase: -34 },
+  ];
+  // Ellipse fermée centrée sur le cœur, servant de rail à animateMotion.
+  const rail = (r: number) => {
+    const ry = r * 0.6;
+    return `M ${cx - r} ${cy} a ${r} ${ry} 0 1 0 ${2 * r} 0 a ${r} ${ry} 0 1 0 ${-2 * r} 0`;
+  };
   return (
     <svg viewBox="0 0 320 208" width="100%" height={h} aria-hidden="true" style={{ display: "block", overflow: "visible" }}>
       <Defs id={id} />
+      {/* Rails d'orbite (guides + chemins d'animation) */}
       {orbites.map((o, i) => (
-        <ellipse key={i} cx={cx} cy={cy} rx={o.r} ry={o.r * 0.6} fill="none" stroke={A} strokeWidth="1" opacity="0.28" />
+        <path
+          key={"r" + i}
+          id={`${id}-rail-${i}`}
+          d={rail(o.r)}
+          fill="none"
+          stroke={A}
+          strokeWidth="1"
+          opacity="0.28"
+        />
       ))}
       {/* Cœur — l'identité */}
       <circle cx={cx} cy={cy} r="26" fill={`url(#${id}-halo)`} />
       <circle cx={cx} cy={cy} r="18" fill="none" stroke={A} strokeWidth="1.2" opacity="0.5" />
       <circle cx={cx} cy={cy} r="8" fill={`url(#${id}-or)`} filter={`url(#${id}-glow)`} />
-      {orbites.map((o, i) => {
-        const rad = (o.a * Math.PI) / 180;
-        const x = cx + o.r * Math.cos(rad);
-        const y = cy + o.r * 0.6 * Math.sin(rad);
-        return (
-          <g key={"p" + i}>
-            <circle cx={x} cy={y} r={o.taille + 9} fill={`url(#${id}-halo)`} />
-            <circle cx={x} cy={y} r={o.taille} fill={`url(#${id}-or)`} filter={`url(#${id}-glow)`} />
-            <text x={x} y={y - o.taille - 9} fill={INK} fontSize="13" fontWeight="800" textAnchor="middle" fontFamily="inherit">
-              {o.nom}
-            </text>
-          </g>
-        );
-      })}
+      {/* Planètes en orbite : le groupe (origine 0,0) suit le rail. */}
+      {orbites.map((o, i) => (
+        <g key={"p" + i}>
+          <circle cx={0} cy={0} r={o.taille + 9} fill={`url(#${id}-halo)`} />
+          <circle cx={0} cy={0} r={o.taille} fill={`url(#${id}-or)`} filter={`url(#${id}-glow)`} />
+          <text x={0} y={-o.taille - 9} fill={INK} fontSize="13" fontWeight="800" textAnchor="middle" fontFamily="inherit">
+            {o.nom}
+          </text>
+          <animateMotion dur={`${o.dur}s`} begin={`${o.phase}s`} repeatCount="indefinite" rotate="0">
+            <mpath href={`#${id}-rail-${i}`} xlinkHref={`#${id}-rail-${i}`} />
+          </animateMotion>
+        </g>
+      ))}
     </svg>
   );
 }
