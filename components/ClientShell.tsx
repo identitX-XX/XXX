@@ -45,8 +45,11 @@ export function ClientShell({ children }: { children: ReactNode }) {
     if (palette && palette !== "origine") root.classList.add(`pal-${palette}`);
   }, [theme, palette, mounted]);
 
-  // Le retour du lien magique se rend seul (pas d'onboarding, pas de chrome).
-  if (pathname === "/auth/callback") return <>{children}</>;
+  // Se rendent seuls, sans chrome de l'app (ni sidebar, ni onboarding) :
+  //  · le retour du lien magique ;
+  //  · la vitrine publique « Marina#constellations » (site autonome plein écran).
+  if (pathname === "/auth/callback" || pathname === "/marina-constellations")
+    return <>{children}</>;
 
   if (!mounted) {
     return (

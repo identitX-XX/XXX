@@ -35,7 +35,7 @@ export default function MarinaConstellationsPage() {
   const [actif, setActif] = useState<Realisation | null>(null);
 
   return (
-    <div className="relative -mx-5 -my-8 min-h-screen overflow-hidden lg:-mx-12 lg:-my-12">
+    <div className="relative min-h-screen overflow-hidden">
       {/* Fond constellé, très discret : la nuit derrière le verre. */}
       <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
         <ConstellationBg

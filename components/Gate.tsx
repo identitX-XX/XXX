@@ -155,8 +155,11 @@ export function Gate({ children }: { children: React.ReactNode }) {
   };
 
   // Le retour du lien magique doit s'exécuter SANS portail (l'utilisatrice peut
-  // cliquer le lien depuis un e-mail, hors session déverrouillée).
-  if (pathname === "/auth/callback") return <>{children}</>;
+  // cliquer le lien depuis un e-mail, hors session déverrouillée). La vitrine
+  // publique « Marina#constellations » est également hors portail : c'est une
+  // page ouverte (portfolio + contact), sans accès mémorisé requis.
+  if (pathname === "/auth/callback" || pathname === "/marina-constellations")
+    return <>{children}</>;
   if (!checked) return null;
   if (unlocked) return <>{children}</>;
 
