@@ -80,6 +80,41 @@ export default function AdminPage() {
     setSaved(k);
   };
 
+  // Communiquer avec les testeuses : récupérer leurs e-mails d'un geste.
+  const [copie, setCopie] = useState(false);
+  const emails = (data?.inscriptions ?? [])
+    .map((p) => p.email?.trim())
+    .filter((e): e is string => Boolean(e));
+
+  const copierEmails = async () => {
+    try {
+      await navigator.clipboard.writeText(emails.join(", "));
+      setCopie(true);
+      setTimeout(() => setCopie(false), 2000);
+    } catch {}
+  };
+
+  const exporterCSV = () => {
+    try {
+      const esc = (s: string) => `"${(s ?? "").replace(/"/g, '""')}"`;
+      const lignes = [
+        "email,prenom,date",
+        ...(data?.inscriptions ?? []).map((p) =>
+          [esc(p.email ?? ""), esc(p.prenom ?? ""), esc(p.created_at ?? "")].join(",")
+        ),
+      ].join("\n");
+      const blob = new Blob([lignes], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `identitx-testeuses-${new Date().toISOString().slice(0, 10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    } catch {}
+  };
+
   if (!saved || err) {
     return (
       <div>
@@ -135,7 +170,25 @@ export default function AdminPage() {
 
           {/* Inscriptions — le « qui » : les e-mails réels, réservé à l'éditrice. */}
           <section>
-            <SectionTitle>Inscriptions · {data?.inscriptions?.length ?? 0}</SectionTitle>
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <SectionTitle>Inscriptions · {data?.inscriptions?.length ?? 0}</SectionTitle>
+              {emails.length > 0 && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={copierEmails}
+                    className="rounded-full border border-line px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
+                  >
+                    {copie ? "✓ Copié" : `Copier les emails (${emails.length})`}
+                  </button>
+                  <button
+                    onClick={exporterCSV}
+                    className="rounded-full border border-line px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
+                  >
+                    Exporter CSV
+                  </button>
+                </div>
+              )}
+            </div>
             {data?.inscriptions && data.inscriptions.length > 0 ? (
               <div className="overflow-x-auto rounded-2xl border border-line bg-surface">
                 <table className="w-full text-sm">
