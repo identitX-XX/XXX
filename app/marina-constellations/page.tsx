@@ -64,7 +64,7 @@ export default function MarinaConstellationsPage() {
         <Contact />
       </main>
 
-      <footer className="border-t border-line/60 py-10 text-center text-[12px] tracking-[0.16em] text-muted">
+      <footer className="border-t border-line py-10 text-center text-[12px] tracking-[0.16em] text-muted">
         {PROFIL.nom.toUpperCase()} · CONSTELLATIONS — {new Date().getFullYear()}
       </footer>
 
@@ -78,7 +78,7 @@ export default function MarinaConstellationsPage() {
 function Nav() {
   const [open, setOpen] = useState(false);
   return (
-    <header className="safe-top sticky top-0 z-30 border-b border-line/60 bg-noir/70 backdrop-blur">
+    <header className="safe-top sticky top-0 z-30 border-b border-line bg-black/40 backdrop-blur">
       <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-4 lg:px-8">
         <a
           href="#top"
@@ -110,7 +110,7 @@ function Nav() {
       </div>
 
       {open && (
-        <nav className="flex flex-col gap-1 border-t border-line/60 px-5 py-3 sm:hidden">
+        <nav className="flex flex-col gap-1 border-t border-line px-5 py-3 sm:hidden">
           {SECTIONS.map((s) => (
             <a
               key={s.id}
@@ -137,9 +137,9 @@ function Hero() {
         Portfolio &amp; contact
       </div>
 
-      <h1 className="font-display text-[3rem] font-semibold leading-[1.02] tracking-tight text-ink sm:text-[4.5rem]">
+      <h1 className="font-display text-[clamp(2.1rem,10vw,4.5rem)] font-semibold leading-[1.02] tracking-tight text-ink">
         {PROFIL.nom}
-        <span className="block brand-text">#constellations</span>
+        <span className="block break-words brand-text">#constellations</span>
       </h1>
 
       <p className="mt-4 text-[14px] uppercase tracking-[0.16em] text-muted">
@@ -186,7 +186,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 border-t border-line/60 py-20">
+    <section id={id} className="scroll-mt-24 border-t border-line py-20">
       <div className="mb-8 flex items-center gap-3 text-fuchsia">
         <span className="text-[12px] font-semibold tracking-[0.2em] text-muted">
           {index}
@@ -266,7 +266,7 @@ function Portfolio({ onOpen }: { onOpen: (r: Realisation) => void }) {
               onClick={() => setFiltre(f)}
               className={`rounded-full border px-4 py-1.5 text-[13px] transition-colors ${
                 on
-                  ? "border-fuchsia bg-fuchsia/10 text-ink"
+                  ? "border-fuchsia bg-white/[0.06] text-ink"
                   : "border-line text-muted hover:border-fuchsia hover:text-ink"
               }`}
             >
@@ -294,7 +294,7 @@ function Tuile({ item, onOpen }: { item: Realisation; onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}
-      className="group relative block aspect-[4/3] overflow-hidden rounded-2xl border border-line/60 bg-noir/40 text-left transition-colors hover:border-fuchsia/50"
+      className="group relative block aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-white/[0.03] text-left transition-colors hover:border-fuchsia"
     >
       <Visuel item={item} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
       {/* Voile + légende */}
@@ -406,7 +406,7 @@ function Lightbox({ item, onClose }: { item: Realisation; onClose: () => void })
         <button
           onClick={onClose}
           aria-label="Fermer"
-          className="absolute right-3 top-3 z-10 rounded-full border border-line bg-noir/60 p-2 text-ink transition-colors hover:text-fuchsia"
+          className="absolute right-3 top-3 z-10 rounded-full border border-line bg-black/50 p-2 text-ink transition-colors hover:text-fuchsia"
         >
           <X size={18} />
         </button>
@@ -531,7 +531,7 @@ function Contact() {
         {/* Formulaire */}
         <div>
           {etat === "merci" ? (
-            <div className="rounded-2xl border border-line bg-noir/40 px-5 py-10 text-center animate-fade-in">
+            <div className="rounded-2xl border border-line bg-white/[0.03] px-5 py-10 text-center animate-fade-in">
               <p className="font-display text-[1.3rem] font-semibold text-ink">
                 Merci — je te lis.
               </p>
@@ -542,7 +542,7 @@ function Contact() {
           ) : (
             <div className="flex flex-col gap-3">
               {etat === "erreur" && (
-                <p className="rounded-lg border border-danger/40 bg-danger/10 px-3 py-2 text-[13px] text-danger">
+                <p className="rounded-lg border border-danger bg-white/[0.03] px-3 py-2 text-[13px] text-danger">
                   L'envoi a échoué. Réessaie, ou écris-moi directement par{" "}
                   <a href={mailto} className="underline">
                     email
@@ -554,21 +554,21 @@ function Contact() {
                 value={nom}
                 onChange={(e) => setNom(e.target.value)}
                 placeholder="Ton nom (optionnel)"
-                className="min-h-[3rem] rounded-xl border border-line bg-noir/40 px-4 text-[15px] text-ink placeholder:text-muted focus:border-fuchsia"
+                className="min-h-[3rem] rounded-xl border border-line bg-white/[0.03] px-4 text-[15px] text-ink placeholder:text-muted focus:border-fuchsia"
               />
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Ton email"
-                className="min-h-[3rem] rounded-xl border border-line bg-noir/40 px-4 text-[15px] text-ink placeholder:text-muted focus:border-fuchsia"
+                className="min-h-[3rem] rounded-xl border border-line bg-white/[0.03] px-4 text-[15px] text-ink placeholder:text-muted focus:border-fuchsia"
               />
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 placeholder="Ton message…"
                 rows={5}
-                className="rounded-xl border border-line bg-noir/40 px-4 py-3 text-[15px] leading-relaxed text-ink placeholder:text-muted focus:border-fuchsia"
+                className="rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-[15px] leading-relaxed text-ink placeholder:text-muted focus:border-fuchsia"
               />
               <div className="flex items-center justify-between gap-3">
                 <a
