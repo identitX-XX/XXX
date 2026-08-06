@@ -17,6 +17,7 @@ import { jourN, acteDuJour, ACTES } from "../content/jours";
 import { territoireByKey } from "../content/territoires";
 import { composerSignal, voiceClarity, registre } from "../lib/voice";
 import { signes } from "../lib/derivation";
+import { track } from "@/lib/analytics";
 
 const REG_LABEL: Record<string, string> = { brume: "Brume", assure: "Assuré", intime: "Intime" };
 
@@ -36,9 +37,27 @@ export function TraverseeApp() {
     } else {
       setJourAffiche(s.journey.currentDay);
     }
+    // Reprise après absence : on mesure l'écart AVANT de noter la visite.
+    try {
+      const last = s.journey.lastVisit;
+      if (s.journey.startDate && last) {
+        const a = new Date(last); a.setHours(0, 0, 0, 0);
+        const b = new Date(); b.setHours(0, 0, 0, 0);
+        const gap = Math.round((b.getTime() - a.getTime()) / 86400000);
+        if (gap > 1) track("session_reprise", { jours: gap - 1 });
+      }
+    } catch {}
+    s.noterVisite();
     setMounted(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // « Jour ouvert » : à chaque jour affiché, une fois la traversée démarrée.
+  useEffect(() => {
+    if (!mounted || s.journey.startDate === null) return;
+    if (jourAffiche >= 1 && jourAffiche <= 30) track("jour_ouvert", { jour: jourAffiche });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, jourAffiche]);
 
   // Acte IV : dériver les trois destinations en entrant dans l'atterrissage.
   useEffect(() => {
@@ -139,7 +158,12 @@ export function TraverseeApp() {
         ))}
       <div className="tx-page" style={ST.inner}>
         {!demarre ? (
-          <Onboarding onDemarrer={(prenom, heure) => s.demarrer(prenom, heure)} />
+          <Onboarding
+            onDemarrer={(prenom, heure) => {
+              s.demarrer(prenom, heure);
+              track("onboarding_complete");
+            }}
+          />
         ) : contenu ? (
           <>
             <p style={ST.meta}>
@@ -169,7 +193,14 @@ export function TraverseeApp() {
                   signal={signal}
                   etoiles={s.etoiles}
                   dejaVecu={!!s.reponses[jourAffiche]}
-                  onVivre={(choixId, verbe, cible) => s.vivreJour(jourAffiche, choixId, verbe, cible)}
+                  onVivre={(choixId, verbe, cible) => {
+                    const nouveau = !s.reponses[jourAffiche];
+                    s.vivreJour(jourAffiche, choixId, verbe, cible);
+                    if (nouveau) {
+                      track("jour_complete", { jour: jourAffiche });
+                      if (verbe) track("verbe_utilise", { verbe, jour: jourAffiche });
+                    }
+                  }}
                   onTermine={() => setJourAffiche(s.journey.currentDay)}
                   traceExtra={traceExtra}
                 />

@@ -7,11 +7,16 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useTraversee } from "../../../traversee/store/useTraversee";
 import { Vestiaire } from "../../../traversee/components/Vestiaire";
+import { track } from "@/lib/analytics";
 
 export default function PageVestiaire() {
   const s = useTraversee();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // « Vestiaire ouvert » : à l'ouverture de la page.
+  useEffect(() => {
+    setMounted(true);
+    track("vestiaire_ouvert");
+  }, []);
 
   return (
     <div style={ST.page}>
@@ -19,7 +24,15 @@ export default function PageVestiaire() {
         ← Le jour
       </Link>
       <div style={ST.inner}>
-        {mounted && <Vestiaire depots={s.vestiaire} onReprendre={s.reprendre} />}
+        {mounted && (
+          <Vestiaire
+            depots={s.vestiaire}
+            onReprendre={(id) => {
+              s.reprendre(id);
+              track("vestiaire_repris");
+            }}
+          />
+        )}
       </div>
     </div>
   );

@@ -4,12 +4,18 @@
 // moins). Le prénom, puis l'heure du rendez-vous quotidien (affichage seul,
 // aucune notification, aucune pression).
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { track } from "@/lib/analytics";
 
 export function Onboarding({ onDemarrer }: { onDemarrer: (prenom: string, heure: string) => void }) {
   const [etape, setEtape] = useState<"prenom" | "heure">("prenom");
   const [prenom, setPrenom] = useState("");
   const [heure, setHeure] = useState("08:00");
+
+  // « Onboarding start » : à l'affichage du premier écran d'entrée.
+  useEffect(() => {
+    track("onboarding_start");
+  }, []);
 
   return (
     <div style={S.wrap}>
