@@ -18,6 +18,11 @@
   --gold: #ffd16b;
   --cyan: #6be3ff;
   --slate: #8e8497;
+  /* Couleur de texte LISIBLE posée sur le dégradé brand (boutons dorés/colorés).
+     Le texte blanc échouait le contraste sur l'or clair ; un texte foncé passe
+     sur toutes les palettes sauf l'ardoise claire (bleu foncé), qui repasse au
+     blanc plus bas. */
+  --on-brand: #0e0d14;
 }
 
 .light {
@@ -71,6 +76,8 @@ html.pal-ardoise.light {
   --noir: #f3f5f7; --surface: #ffffff; --raised: #ffffff;
   --ink: #1a1e24; --muted: #5c6672; --line: rgba(20, 22, 30, 0.1);
   --fuchsia: #3e6588; --orange: #3e6588; --slate: #5c6672;
+  /* Accent bleu foncé : ici le texte foncé ne passe pas → blanc. */
+  --on-brand: #ffffff;
 }
 
 /* B · Or discret — presque-noir bleuté, accent laiton mat */

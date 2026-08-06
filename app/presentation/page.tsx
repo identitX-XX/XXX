@@ -63,7 +63,7 @@ export default function PresentationPage() {
           {i < ecrans.length - 1 && (
             <button
               onClick={() => scrollTo(i + 1)}
-              className="mx-auto mt-9 flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia/85 transition-colors hover:text-fuchsia"
+              className="mx-auto mt-9 flex flex-col items-center gap-1 text-[12px] font-bold uppercase tracking-[0.18em] text-fuchsia/85 transition-colors hover:text-fuchsia"
               aria-label="Continuer"
             >
               {i === 0 && <span>Fais défiler</span>}
@@ -76,7 +76,7 @@ export default function PresentationPage() {
       <div className="flex flex-col items-center gap-2 py-10">
         <Link
           href="/aujourdhui"
-          className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow transition-transform hover:scale-[1.02]"
+          className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
         >
           Reprendre ma quête <ArrowRight size={17} />
         </Link>

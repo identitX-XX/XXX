@@ -48,7 +48,7 @@ export default function QuetePage() {
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow"
         >
           Révéler ma signature
           <ArrowRight size={16} />
@@ -188,7 +188,7 @@ function QueteMonde({
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow"
         >
           Retour à ma quête <ArrowRight size={16} />
         </Link>
@@ -282,7 +282,7 @@ function QueteMonde({
           </div>
           {/* Palier de maîtrise mesurable — combien de boucles complètes tenues. */}
           <span
-            className="rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
+            className="rounded-full px-3 py-1 text-[12px] font-semibold uppercase tracking-[0.14em]"
             style={{ background: `color-mix(in srgb, ${m.accent} 14%, transparent)`, color: m.accent }}
           >
             Palier {palier + (accompli ? 1 : 0)}
@@ -293,12 +293,12 @@ function QueteMonde({
             <div key={e.label} className="flex flex-1 items-start">
               <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center">
                 <span
-                  className="grid h-7 w-7 flex-none place-items-center rounded-full text-[11px] font-semibold"
+                  className="grid h-7 w-7 flex-none place-items-center rounded-full text-[12px] font-semibold"
                   style={e.done ? { background: m.accent, color: "#0a0a0a" } : { border: `1px solid ${m.line}`, color: m.muted }}
                 >
                   {e.done ? <Check size={13} /> : i + 1}
                 </span>
-                <span className="text-[11px] leading-tight" style={{ color: e.done ? m.ink : m.muted }}>
+                <span className="text-[12px] leading-tight" style={{ color: e.done ? m.ink : m.muted }}>
                   {e.label}
                 </span>
               </div>
@@ -325,7 +325,7 @@ function QueteMonde({
         {/* Maîtrise mesurable, cumulée à travers les mues — elle ne remet jamais
             le compteur à zéro : chaque archétype traversé ajoute ses paliers. */}
         {maitriseTotale > 0 && (
-          <p className="mt-3 text-[11px]" style={{ color: m.muted }}>
+          <p className="mt-3 text-[12px]" style={{ color: m.muted }}>
             Maîtrise totale · <b style={{ color: m.ink }}>{maitriseTotale}</b> palier
             {maitriseTotale > 1 ? "s" : ""} sur {archTraverses} signature
             {archTraverses > 1 ? "s" : ""} traversée{archTraverses > 1 ? "s" : ""}.
@@ -337,7 +337,7 @@ function QueteMonde({
       {accompli && (
         <div className="mt-4 flex flex-col items-center gap-1" style={{ color: m.accent }}>
           <ArrowDown size={18} />
-          <span className="text-[11px] uppercase tracking-[0.18em]">La boucle t'a mené ici</span>
+          <span className="text-[12px] uppercase tracking-[0.18em]">La boucle t'a mené ici</span>
         </div>
       )}
 

@@ -15,7 +15,7 @@ export default function NotFound() {
       </p>
       <Link
         href="/aujourdhui"
-        className="mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white"
+        className="mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)]"
       >
         Retour à Aujourd'hui
         <ArrowRight size={16} />

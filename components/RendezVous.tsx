@@ -26,7 +26,7 @@ export function RendezVous() {
           href={CAL_LINK}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
         >
           <CalendarHeart size={16} /> Réserver un créneau
         </a>

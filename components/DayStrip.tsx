@@ -42,7 +42,7 @@ export function DayStrip({
                 "h-8 w-8 rounded-lg text-xs font-medium transition-all",
                 isSel ? "ring-2 ring-fuchsia ring-offset-2 ring-offset-noir" : "",
                 done
-                  ? "brand-gradient text-white"
+                  ? "brand-gradient text-[color:var(--on-brand)]"
                   : current
                   ? "border border-fuchsia bg-fuchsia/10 text-fuchsia ring-1 ring-fuchsia/40"
                   : locked

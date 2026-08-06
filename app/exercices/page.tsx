@@ -69,7 +69,7 @@ export default function ExercicesPage() {
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-white shadow-glow"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow"
         >
           Commencer ma quête <ArrowRight size={16} />
         </Link>
@@ -145,7 +145,7 @@ export default function ExercicesPage() {
                   <span className="text-sm font-bold uppercase tracking-[0.1em] text-ink">{label}</span>
                 </div>
                 {dir && (
-                  <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-muted">
+                  <span className="rounded-full border border-line px-2.5 py-0.5 text-[12px] text-muted">
                     {dir}
                   </span>
                 )}
@@ -153,7 +153,7 @@ export default function ExercicesPage() {
               <div className="grid gap-4">
                 {CHAMPS.map((c) => (
                   <div key={c.key}>
-                    <div className="mb-1 text-[11px] font-bold uppercase tracking-[0.14em] text-fuchsia">
+                    <div className="mb-1 text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">
                       {c.label}
                     </div>
                     <p className="mb-1.5 text-xs text-muted">{c.hint}</p>
@@ -173,7 +173,7 @@ export default function ExercicesPage() {
 
       {/* Les autres exercices du jour — au-delà de l'écart, en rotation. */}
       <div className="mt-8">
-        <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
           <Sparkles size={13} /> Les autres exercices du jour
         </div>
         <p className="mb-4 max-w-xl text-xs leading-relaxed text-muted">
@@ -183,7 +183,7 @@ export default function ExercicesPage() {
         <div className="grid gap-4">
           {prats.map((t) => (
             <section key={t.id} className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
-              <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-fuchsia">
+              <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">
                 {t.nom}
               </div>
               <p className="mt-1.5 mb-3 text-sm leading-relaxed text-ink">
@@ -206,7 +206,7 @@ export default function ExercicesPage() {
           <button
             onClick={demanderEclairage}
             disabled={loading || !matiere}
-            className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
+            className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
           >
             {loading ? (
               <>
@@ -235,10 +235,10 @@ export default function ExercicesPage() {
                 "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
             }}
           >
-            <div className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
               <Sparkles size={14} /> Ton éclairage du jour
               {eclairage._mock && (
-                <span className="ml-1 rounded-full border border-line px-2 py-0.5 text-[10px] font-normal normal-case tracking-normal text-muted">
+                <span className="ml-1 rounded-full border border-line px-2 py-0.5 text-[12px] font-normal normal-case tracking-normal text-muted">
                   maquette
                 </span>
               )}
@@ -257,7 +257,7 @@ export default function ExercicesPage() {
             )}
 
             <div className="mt-4 border-t border-line pt-4">
-              <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-fuchsia">
+              <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">
                 Projection pour ta quête
               </div>
               <p className="mt-1.5 text-sm leading-relaxed text-ink">{eclairage.projection}</p>

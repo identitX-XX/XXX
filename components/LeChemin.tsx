@@ -198,7 +198,7 @@ function Pastille({ st, actif }: { st: Station; actif: boolean }) {
   if (st.etat === "fait") {
     return (
       <span
-        className={`relative grid place-items-center rounded-full brand-gradient text-white transition-transform ${
+        className={`relative grid place-items-center rounded-full brand-gradient text-[color:var(--on-brand)] transition-transform ${
           actif ? "scale-105" : ""
         }`}
         style={{ width: size, height: size }}

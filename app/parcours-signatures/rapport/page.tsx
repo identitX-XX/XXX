@@ -157,7 +157,7 @@ export default function RapportPage() {
                 onClick={() => setActif(on ? null : s.perimetre)}
                 className={`mt-4 inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all ${
                   on
-                    ? "brand-gradient text-white"
+                    ? "brand-gradient text-[color:var(--on-brand)]"
                     : "border border-line text-ink hover:border-fuchsia hover:text-fuchsia"
                 }`}
               >

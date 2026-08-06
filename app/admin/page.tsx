@@ -126,7 +126,7 @@ export default function AdminPage() {
             placeholder="Clé d'admin"
             className="flex-1 rounded-xl border border-line bg-noir px-4 py-3 text-sm text-ink placeholder:text-muted focus:border-fuchsia"
           />
-          <button onClick={connect} className="rounded-xl brand-gradient px-5 text-sm font-medium text-white">Entrer</button>
+          <button onClick={connect} className="rounded-xl brand-gradient px-5 text-sm font-medium text-[color:var(--on-brand)]">Entrer</button>
         </div>
         {err && <p className="mt-3 text-sm text-orange">{err}</p>}
       </div>
@@ -317,7 +317,7 @@ function Hero({ label, value, sub, accent }: { label: string; value: number | st
       <div className="mt-1 font-display text-4xl font-light" style={{ color: accent ? ACCENT : "var(--ink)" }}>
         {value}
       </div>
-      <div className="mt-0.5 text-[11px] text-muted">{sub}</div>
+      <div className="mt-0.5 text-[12px] text-muted">{sub}</div>
     </div>
   );
 }
@@ -364,7 +364,7 @@ function Funnel({ f }: { f: Funnel }) {
           );
         })}
       </div>
-      <p className="mt-3 text-[11px] text-muted">
+      <p className="mt-3 text-[12px] text-muted">
         Largeur = part des ouvertures · colonne de droite = conversion depuis l'étape précédente.
       </p>
     </div>

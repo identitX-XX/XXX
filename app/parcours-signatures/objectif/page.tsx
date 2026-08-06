@@ -94,7 +94,7 @@ export default function ObjectifPage() {
           <ArrowRight size={16} className="text-fuchsia" />
           <span className="text-xs uppercase tracking-wider">met en mouvement</span>
         </div>
-        <div className="brand-gradient inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-white">
+        <div className="brand-gradient inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-[color:var(--on-brand)]">
           Parcours des 20 signatures · 30 jours
         </div>
       </Card>
@@ -172,7 +172,7 @@ export default function ObjectifPage() {
 
       <Link
         href="/parcours-signatures"
-        className="group inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white hover:opacity-90"
+        className="group inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)] hover:opacity-90"
       >
         Commencer le parcours
         <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />

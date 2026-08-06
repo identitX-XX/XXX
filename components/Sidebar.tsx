@@ -48,7 +48,7 @@ export function NavList({ onNavigate }: { onNavigate?: () => void }) {
                   <span className="flex-1">{item.label}</span>
                   {badge && (
                     <span
-                      className="rounded-full px-2 py-0.5 text-[12px] font-medium uppercase tracking-[0.12em] text-white"
+                      className="rounded-full px-2 py-0.5 text-[12px] font-medium uppercase tracking-[0.12em] text-[color:var(--on-brand)]"
                       style={{ background: "linear-gradient(90deg,var(--fuchsia),var(--orange))" }}
                     >
                       Nouveau

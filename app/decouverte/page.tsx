@@ -84,7 +84,7 @@ export default function DecouvertePage() {
           </p>
           <button
             onClick={() => setEtape("jeu")}
-            className="mt-8 inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow transition-transform hover:scale-[1.02]"
+            className="mt-8 inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
           >
             Commencer — 3 min
             <ArrowRight size={17} />
@@ -122,7 +122,7 @@ export default function DecouvertePage() {
           <button
             onClick={valider}
             disabled={sel.length < 2}
-            className="mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full px-8 text-base font-semibold text-white transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
+            className="mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full px-8 text-base font-semibold text-[color:var(--on-brand)] transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
             style={{ background: "linear-gradient(90deg,var(--fuchsia),var(--orange))" }}
           >
             {sel.length < 2 ? `Encore ${2 - sel.length}` : "Continuer"}
@@ -153,7 +153,7 @@ export default function DecouvertePage() {
           </div>
           <button
             onClick={() => setEtape("carte")}
-            className="mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow transition-transform hover:scale-[1.01]"
+            className="mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.01]"
           >
             Voir ma carte s'éclairer
             <ArrowRight size={17} />
@@ -181,7 +181,7 @@ export default function DecouvertePage() {
           </p>
           <button
             onClick={() => setEtape("ouverture")}
-            className="mt-7 inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow transition-transform hover:scale-[1.02]"
+            className="mt-7 inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
           >
             Continuer
             <ArrowRight size={17} />
@@ -204,13 +204,13 @@ export default function DecouvertePage() {
           <div className="mt-8 flex flex-col items-center gap-3">
             <Link
               href="/scenarios"
-              className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-full border border-fuchsia px-8 text-base font-semibold text-fuchsia transition-colors hover:bg-fuchsia hover:text-white"
+              className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-full border border-fuchsia px-8 text-base font-semibold text-fuchsia transition-colors hover:bg-fuchsia hover:text-[color:var(--on-brand)]"
             >
               Créer une intention
             </Link>
             <Link
               href="/aujourdhui"
-              className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-white shadow-glow"
+              className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow"
             >
               Entrer dans IdentitX
               <ArrowRight size={17} />

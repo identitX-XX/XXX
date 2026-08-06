@@ -58,7 +58,7 @@ export default function ExplorerPage() {
             {prochain && (
               <button
                 onClick={() => setOpenId(prochain.id)}
-                className="inline-flex shrink-0 items-center gap-2 rounded-full brand-gradient px-4 py-2 text-sm font-medium text-white transition-all hover:opacity-90 hover:shadow-glow"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full brand-gradient px-4 py-2 text-sm font-medium text-[color:var(--on-brand)] transition-all hover:opacity-90 hover:shadow-glow"
               >
                 Compléter : {prochain.category}
                 <ArrowRight size={15} />
@@ -81,11 +81,11 @@ export default function ExplorerPage() {
             <span className="flex flex-1 flex-wrap items-center gap-2">
               <span className="font-display text-lg text-ink">{c.category}</span>
               {aCompleter ? (
-                <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-fuchsia">
+                <span className="inline-flex items-center gap-1 rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2 py-0.5 text-[12px] font-medium uppercase tracking-wider text-fuchsia">
                   À compléter
                 </span>
               ) : (
-                <span className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
+                <span className="inline-flex items-center gap-1 rounded-full border border-line px-2 py-0.5 text-[12px] font-medium uppercase tracking-wider text-muted">
                   <Check size={10} /> Complété
                 </span>
               )}

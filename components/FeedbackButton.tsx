@@ -91,7 +91,7 @@ export function FeedbackButton() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Laisser un commentaire"
-        className={`fixed right-4 z-40 flex items-center gap-2 rounded-full brand-gradient px-4 py-3 text-sm font-medium text-white shadow-glow transition-all duration-300 hover:scale-[1.03] lg:bottom-6 lg:right-6 ${
+        className={`fixed right-4 z-40 flex items-center gap-2 rounded-full brand-gradient px-4 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-all duration-300 hover:scale-[1.03] lg:bottom-6 lg:right-6 ${
           escamote ? "pointer-events-none translate-y-24 opacity-0" : ""
         }`}
         style={{ bottom: "calc(4.75rem + env(safe-area-inset-bottom))" }}
@@ -110,7 +110,7 @@ export function FeedbackButton() {
                 <p className="text-ink">Ton avis sur cette page</p>
                 <p className="text-[12px] uppercase tracking-[0.12em] text-fuchsia">{nomPage(pathname)}</p>
               </div>
-              <button onClick={() => setOpen(false)} aria-label="Fermer" className="rounded-lg p-1 text-muted hover:text-ink">
+              <button onClick={() => setOpen(false)} aria-label="Fermer" className="-m-2 grid h-11 w-11 flex-none place-items-center rounded-lg text-muted hover:text-ink">
                 <X size={18} />
               </button>
             </div>

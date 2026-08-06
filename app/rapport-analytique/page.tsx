@@ -100,7 +100,7 @@ export default function RapportAnalytiquePage() {
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-white shadow-glow"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow"
         >
           Commencer ma quête <ArrowRight size={16} />
         </Link>
@@ -145,7 +145,7 @@ export default function RapportAnalytiquePage() {
       <div className="no-print mb-8 flex flex-wrap gap-3">
         <button
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-semibold text-white shadow-glow"
+          className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow"
         >
           <Printer size={16} /> Imprimer / PDF
         </button>
@@ -258,7 +258,7 @@ export default function RapportAnalytiquePage() {
 function Bloc({ titre, children }: { titre: string; children: React.ReactNode }) {
   return (
     <section className="rapport-card rounded-2xl border border-line bg-surface p-6 shadow-soft">
-      <h2 className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">{titre}</h2>
+      <h2 className="mb-4 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">{titre}</h2>
       {children}
     </section>
   );
@@ -267,7 +267,7 @@ function Bloc({ titre, children }: { titre: string; children: React.ReactNode })
 function Stat({ label, valeur, accent }: { label: string; valeur: string; accent?: boolean }) {
   return (
     <div className="rounded-xl border border-line p-3.5">
-      <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">{label}</div>
+      <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">{label}</div>
       <div className={`mt-1 text-base font-semibold leading-snug ${accent ? "text-fuchsia" : "text-ink"}`}>
         {valeur}
       </div>

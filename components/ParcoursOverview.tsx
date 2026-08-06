@@ -24,7 +24,7 @@ export function ParcoursOverview({
           className="group block focus-visible:outline-none"
         >
           <Card className="flex h-full items-start gap-4 p-5 transition-all group-hover:border-fuchsia group-hover:shadow-glow group-focus-visible:border-fuchsia">
-            <span className="brand-gradient flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-display text-sm text-white">
+            <span className="brand-gradient flex h-8 w-8 shrink-0 items-center justify-center rounded-full font-display text-sm text-[color:var(--on-brand)]">
               {i + 1}
             </span>
             <div className="min-w-0">

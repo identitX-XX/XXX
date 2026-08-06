@@ -106,11 +106,11 @@ export default function TurbinePage() {
       {input && (
         <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
           <div className="flex items-center justify-between">
-            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
               {reel ? "Ton vortex" : "Ton point de départ"}
             </div>
             <span
-              className={`rounded-full border px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider ${
+              className={`rounded-full border px-2 py-0.5 text-[12px] font-medium uppercase tracking-wider ${
                 reel
                   ? "border-fuchsia/40 bg-fuchsia/10 text-fuchsia"
                   : "border-line text-muted"
@@ -178,7 +178,7 @@ export default function TurbinePage() {
       {!loading && !error && output && (
         <div className="mt-6">
           {output._mock && (
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[11px] text-muted">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[12px] text-muted">
               <Sparkles size={12} className="text-fuchsia" />
               Mode maquette — branche <code className="mx-1">MISTRAL_API_KEY</code> pour
               la génération réelle
@@ -204,7 +204,7 @@ export default function TurbinePage() {
                     {s.multiples_en_dialogue.map((m, j) => (
                       <span
                         key={j}
-                        className="rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2.5 py-0.5 text-[11px] font-medium text-fuchsia"
+                        className="rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2.5 py-0.5 text-[12px] font-medium text-fuchsia"
                       >
                         {m}
                       </span>
@@ -353,7 +353,7 @@ function CarteEditor({
       </div>
 
       <div className="mt-5">
-        <div className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-muted">Tensions</div>
+        <div className="mb-2 text-[12px] font-bold uppercase tracking-[0.18em] text-muted">Tensions</div>
         <div className="mb-2 flex flex-wrap gap-2">
           {tensions.map((t, i) => (
             <span

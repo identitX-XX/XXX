@@ -110,12 +110,12 @@ export default function AujourdhuiPage() {
           sub="Le temps de recueillir ce qui a surgi."
         />
         <Card className="overflow-hidden p-0 animate-fade-up">
-          <div className="relative brand-gradient px-8 py-10 text-center text-white">
-            <Sparkles size={40} className="mx-auto text-white" />
+          <div className="relative brand-gradient px-8 py-10 text-center text-[color:var(--on-brand)]">
+            <Sparkles size={40} className="mx-auto text-[color:var(--on-brand)]" />
             <h2 className="mt-2 font-display text-3xl font-light">
               Les 30 jours sont accomplis
             </h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-white/90">
+            <p className="mx-auto mt-2 max-w-md text-sm text-[color:var(--on-brand)]/80">
               Ton rapport te propose trois scénarios activables sur tes
               périmètres perso, pro et relationnel.
             </p>
@@ -255,7 +255,7 @@ export default function AujourdhuiPage() {
 
           {/* La capsule du jour + CTA */}
           <div className="flex-1 text-center sm:text-left">
-            <div className="flex items-center justify-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
+            <div className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
               <span>
                 La capsule · Jour {n} · {phase.label}
               </span>
@@ -274,7 +274,7 @@ export default function AujourdhuiPage() {
                 <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
                   <Sunrise size={16} className="mt-0.5 flex-none text-fuchsia" />
                   <div>
-                    <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-fuchsia">
+                    <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
                       Le geste · en journée
                     </div>
                     <p className="mt-0.5 text-sm leading-snug text-ink">{arch.defi}</p>
@@ -283,7 +283,7 @@ export default function AujourdhuiPage() {
                 <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
                   <Moon size={16} className="mt-0.5 flex-none text-fuchsia" />
                   <div>
-                    <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-fuchsia">
+                    <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
                       Le bilan · le soir ≈ 5 min
                     </div>
                     <p className="mt-0.5 text-sm leading-snug text-ink">
@@ -296,7 +296,7 @@ export default function AujourdhuiPage() {
 
             <Link
               href="/parcours-signatures"
-              className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
+              className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
             >
               {dejaFait ? "Revoir ma journée" : "Vivre ma capsule du jour"}
               <ArrowRight
@@ -404,7 +404,7 @@ function TroisExercices({
   const ex = exercicesDuJour(arch, objectifs);
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
-      <div className="mb-1 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
@@ -429,7 +429,7 @@ function TroisExercices({
                 </span>
               </div>
               {e.direction && (
-                <span className="rounded-full border border-line px-2.5 py-0.5 text-[11px] text-muted">
+                <span className="rounded-full border border-line px-2.5 py-0.5 text-[12px] text-muted">
                   {e.direction}
                 </span>
               )}
@@ -476,7 +476,7 @@ function ItineraireDuJour({
 
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "70ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         <Route size={13} /> Ton itinéraire du jour
       </div>
       <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
@@ -488,7 +488,7 @@ function ItineraireDuJour({
           >
             <span
               className={`grid h-7 w-7 flex-none place-items-center rounded-full text-[12px] font-bold ${
-                e.done ? "text-white" : "border border-line text-muted"
+                e.done ? "text-[color:var(--on-brand)]" : "border border-line text-muted"
               }`}
               style={e.done ? { background: "linear-gradient(120deg,var(--fuchsia),var(--orange))" } : undefined}
             >
@@ -541,7 +541,7 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
 
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         <Sparkles size={13} /> Le fil du jour
       </div>
 
@@ -688,7 +688,7 @@ function PremiereLecture() {
           "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
       }}
     >
-      <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         Ta première lecture · à vérifier sur 30 jours
       </div>
       <h2 className="mt-1 font-display text-xl font-light text-ink">{pl.titre}</h2>
@@ -715,7 +715,7 @@ function PremiereLecture() {
 function PossiblesCard() {
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "90ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
         <Compass size={13} /> Tes possibles
       </div>
       <Link
@@ -766,7 +766,7 @@ function ClimatCard({ jour }: { jour: number }) {
       <div className="mt-4 animate-fade-up">
         <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
               Climat du jour · {climatLabel(idx)}
             </div>
             <p className="mt-1 max-w-md text-sm text-muted">{climatPhrase(idx)}</p>
@@ -785,7 +785,7 @@ function ClimatCard({ jour }: { jour: number }) {
   return (
     <div className="mt-4 animate-fade-up">
       <Card className="p-5 sm:p-6">
-        <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
           Climat &amp; corps · optionnel
         </div>
         <p className="mt-1 text-sm text-muted">
@@ -799,7 +799,7 @@ function ClimatCard({ jour }: { jour: number }) {
         </div>
         <button
           onClick={save}
-          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-white"
+          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
         >
           Enregistrer mon climat
         </button>
@@ -826,7 +826,7 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
   ];
   return (
     <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
-      <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-muted">
+      <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.2em] text-muted">
         Explorer
       </div>
       <div className="flex flex-wrap gap-3">
@@ -889,7 +889,7 @@ function Amorce({
         )}
         <Link
           href="/parcours-signatures"
-          className="group mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-white shadow-glow transition-transform hover:scale-[1.02]"
+          className="group mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
         >
           {cta}
           <ArrowRight

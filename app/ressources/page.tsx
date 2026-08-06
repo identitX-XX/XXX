@@ -56,7 +56,7 @@ export default function RessourcesPage() {
           if (liste.length === 0) return null;
           return (
             <section key={type} className="animate-fade-up">
-              <div className="mb-2 flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+              <div className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
                 {icon} {titre}
               </div>
               {intro && (
@@ -65,7 +65,7 @@ export default function RessourcesPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 {liste.map((r) => (
                   <Card key={r.id} className="flex flex-col p-5 sm:p-6">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.14em] text-muted">
+                    <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-muted">
                       {r.duree}
                     </div>
                     <h3 className="mt-2 font-display text-lg font-light text-ink">{r.titre}</h3>

@@ -163,7 +163,7 @@ export function Onboarding() {
           {i < STEPS - 1 && (
             <button
               onClick={() => scrollTo(i + 1)}
-              className="group mx-auto mt-9 flex flex-col items-center gap-1 text-[11px] font-bold uppercase tracking-[0.18em] text-fuchsia/85 transition-colors hover:text-fuchsia"
+              className="group mx-auto mt-9 flex flex-col items-center gap-1 text-[12px] font-bold uppercase tracking-[0.18em] text-fuchsia/85 transition-colors hover:text-fuchsia"
               aria-label="Continuer"
             >
               {i === 0 && <span>Fais défiler</span>}
