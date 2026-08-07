@@ -24,6 +24,13 @@ function Defs({ id }: { id: string }) {
         <stop offset="0%" stopColor={A} stopOpacity="0.55" />
         <stop offset="100%" stopColor={A} stopOpacity="0" />
       </radialGradient>
+      {/* Bille 3D : lumière en haut-gauche, cœur doré, bord sombre → volume. */}
+      <radialGradient id={`${id}-sphere`} cx="34%" cy="28%" r="80%">
+        <stop offset="0%" stopColor="#faf1d8" />
+        <stop offset="26%" stopColor={A} />
+        <stop offset="78%" stopColor={B} />
+        <stop offset="100%" stopColor="#171019" />
+      </radialGradient>
       <filter id={`${id}-glow`} x="-60%" y="-60%" width="220%" height="220%">
         <feDropShadow dx="0" dy="0" stdDeviation="3.4" floodColor={A} floodOpacity="0.7" />
       </filter>
@@ -99,15 +106,15 @@ export function Planetes({ h = 200 }: { h?: number }) {
           opacity="0.28"
         />
       ))}
-      {/* Cœur — l'identité */}
+      {/* Cœur — l'identité, une petite sphère lumineuse */}
       <circle cx={cx} cy={cy} r="26" fill={`url(#${id}-halo)`} />
       <circle cx={cx} cy={cy} r="18" fill="none" stroke={A} strokeWidth="1.2" opacity="0.5" />
-      <circle cx={cx} cy={cy} r="8" fill={`url(#${id}-or)`} filter={`url(#${id}-glow)`} />
+      <circle cx={cx} cy={cy} r="10" fill={`url(#${id}-sphere)`} filter={`url(#${id}-glow)`} />
       {/* Planètes en orbite : le groupe (origine 0,0) suit le rail. */}
       {orbites.map((o, i) => (
         <g key={"p" + i}>
           <circle cx={0} cy={0} r={o.taille + 9} fill={`url(#${id}-halo)`} />
-          <circle cx={0} cy={0} r={o.taille} fill={`url(#${id}-or)`} filter={`url(#${id}-glow)`} />
+          <circle cx={0} cy={0} r={o.taille} fill={`url(#${id}-sphere)`} filter={`url(#${id}-glow)`} />
           <text x={0} y={-o.taille - 9} fill={INK} fontSize="13" fontWeight="800" textAnchor="middle" fontFamily="inherit">
             {o.nom}
           </text>
@@ -250,44 +257,62 @@ export function Possibles({ h = 186 }: { h?: number }) {
   );
 }
 
-// ── Orbite : les 30 jours, la signature qui se déplace ───────────────────────
-export function Orbite({ h = 192 }: { h?: number }) {
+// ── Sphère : les 30 jours — une VRAIE sphère (volume, méridiens, parallèles),
+// avec un satellite qui l'orbite. Plus un cercle plat : du relief.
+export function Orbite({ h = 208 }: { h?: number }) {
   const id = "orb";
   const cx = 160;
-  const cy = 100;
-  const r = 72;
-  const jalons = [0, 90, 180, 270];
+  const cy = 106;
+  const R = 60;
+  const oRx = 100;
+  const oRy = 30; // anneau en perspective (aplati)
+  const rail = `M ${cx - oRx} ${cy} a ${oRx} ${oRy} 0 1 0 ${2 * oRx} 0 a ${oRx} ${oRy} 0 1 0 ${-2 * oRx} 0`;
+  const meridiens = [0.3, 0.62, 0.88].map((f) => R * f); // demi-largeurs des méridiens
+  const paralleles = [-0.6, -0.28, 0.28, 0.6].map((f) => R * f); // décalages verticaux
   return (
-    <svg viewBox="0 0 320 200" width="100%" height={h} aria-hidden="true" style={{ display: "block", overflow: "visible" }}>
+    <svg viewBox="0 0 320 216" width="100%" height={h} aria-hidden="true" style={{ display: "block", overflow: "visible" }}>
       <Defs id={id} />
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke={A} strokeWidth="1" opacity="0.28" />
-      <g style={{ transformOrigin: `${cx}px ${cy}px`, animation: "idx-spin 20s linear infinite" }}>
-        <circle
-          cx={cx}
-          cy={cy}
-          r={r}
-          fill="none"
-          stroke={`url(#${id}-or)`}
-          strokeWidth="3.2"
-          strokeLinecap="round"
-          strokeDasharray="70 382"
-          filter={`url(#${id}-glow)`}
-        />
+      <clipPath id={`${id}-ball`}>
+        <circle cx={cx} cy={cy} r={R} />
+      </clipPath>
+
+      {/* Halo + anneau orbital (derrière la sphère) */}
+      <circle cx={cx} cy={cy} r={R + 22} fill={`url(#${id}-halo)`} />
+      <ellipse cx={cx} cy={cy} rx={oRx} ry={oRy} fill="none" stroke={A} strokeWidth="1.2" opacity="0.3" />
+
+      {/* La sphère : dégradé = lumière/volume */}
+      <circle cx={cx} cy={cy} r={R} fill={`url(#${id}-sphere)`} />
+
+      {/* Méridiens (longitudes) + parallèles (latitudes), clippés à la sphère */}
+      <g clipPath={`url(#${id}-ball)`} stroke={B} fill="none" opacity="0.22" strokeWidth="1">
+        <line x1={cx} y1={cy - R} x2={cx} y2={cy + R} />
+        {meridiens.map((m, i) => (
+          <ellipse key={"m" + i} cx={cx} cy={cy} rx={m} ry={R} />
+        ))}
+        <line x1={cx - R} y1={cy} x2={cx + R} y2={cy} />
+        {paralleles.map((o, i) => {
+          const w = Math.sqrt(Math.max(0, R * R - o * o));
+          return <ellipse key={"p" + i} cx={cx} cy={cy + o} rx={w} ry={w * 0.16} />;
+        })}
       </g>
-      {jalons.map((a, i) => {
-        const rad = (a * Math.PI) / 180;
-        const x = cx + r * Math.cos(rad);
-        const y = cy + r * Math.sin(rad);
-        return (
-          <g key={i}>
-            {i === 0 && <circle cx={x} cy={y} r="13" fill={`url(#${id}-halo)`} />}
-            <circle cx={x} cy={y} r={i === 0 ? 7 : 4} fill={`url(#${id}-or)`} opacity={i === 0 ? 1 : 0.6} filter={i === 0 ? `url(#${id}-glow)` : undefined} />
-          </g>
-        );
-      })}
-      <circle cx={cx} cy={cy} r="18" fill={`url(#${id}-halo)`} />
-      <circle cx={cx} cy={cy} r="5" fill={`url(#${id}-or)`} />
-      <text x={cx} y={cy - 16} fill={INK} fontSize="12" fontWeight="800" textAnchor="middle" fontFamily="inherit">30 jours</text>
+
+      {/* Reflet spéculaire + liseré de bord (rebond de lumière) */}
+      <ellipse cx={cx - R * 0.32} cy={cy - R * 0.38} rx={R * 0.28} ry={R * 0.18} fill="#fbf3dd" opacity="0.5" />
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke={A} strokeWidth="1" opacity="0.5" />
+
+      {/* Satellite en orbite (mouvement réel le long de l'anneau) */}
+      <path id={`${id}-rail`} d={rail} fill="none" stroke="none" />
+      <g>
+        <circle cx={0} cy={0} r="11" fill={`url(#${id}-halo)`} />
+        <circle cx={0} cy={0} r="5.5" fill={`url(#${id}-or)`} filter={`url(#${id}-glow)`} />
+        <animateMotion dur="16s" repeatCount="indefinite" rotate="0">
+          <mpath href={`#${id}-rail`} xlinkHref={`#${id}-rail`} />
+        </animateMotion>
+      </g>
+
+      <text x={cx} y={cy + R + 26} fill={INK} fontSize="12" fontWeight="800" textAnchor="middle" fontFamily="inherit">
+        30 jours
+      </text>
     </svg>
   );
 }

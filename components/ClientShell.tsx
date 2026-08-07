@@ -68,6 +68,16 @@ export function ClientShell({ children }: { children: ReactNode }) {
 
   return (
     <div className="min-h-screen bg-noir">
+      {/* Fond FIXE (profondeur premium) : il reste immobile pendant que les blocs
+          défilent par-dessus — donne le relief et la « dynamique » de scroll. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(85% 55% at 50% -8%, color-mix(in srgb, var(--fuchsia) 12%, transparent), transparent 60%), radial-gradient(70% 50% at 100% 100%, color-mix(in srgb, var(--orange) 9%, transparent), transparent 55%), radial-gradient(60% 45% at 0% 40%, color-mix(in srgb, var(--fuchsia) 6%, transparent), transparent 60%), var(--noir)",
+        }}
+      />
       {/* Desktop sidebar */}
       <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col border-r border-line bg-surface px-5 py-7 lg:flex">
         <Brand />
