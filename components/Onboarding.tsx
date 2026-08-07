@@ -110,7 +110,7 @@ export function Onboarding() {
   const STEPS = steps.length;
 
   return (
-    <div className="relative min-h-[100dvh]">
+    <div className="relative h-[100dvh] snap-y snap-mandatory overflow-y-auto scroll-smooth scroll-pt-[5.5rem]">
       {/* Champ bleuté très discret, sous le ton doré : il fait « ressortir » les
           blocs de verre, comme s'ils glissaient sur une profondeur. */}
       <div
@@ -149,7 +149,7 @@ export function Onboarding() {
           ref={(el) => {
             sectionRefs.current[i] = el;
           }}
-          className={`flex flex-col px-6 pb-14 ${
+          className={`flex snap-start flex-col px-6 pb-14 ${
             i === STEPS - 1 ? "min-h-[60vh] justify-start" : "min-h-[100dvh] justify-center"
           } ${
             i === 0

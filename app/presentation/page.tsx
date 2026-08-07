@@ -34,7 +34,7 @@ export default function PresentationPage() {
     refs.current[i]?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return (
-    <div className="relative">
+    <div className="relative h-[100dvh] snap-y snap-mandatory overflow-y-auto scroll-smooth">
       {/* Champ bleuté très discret, sous le ton doré : il fait « ressortir » les
           blocs de verre, comme s'ils glissaient sur une profondeur. */}
       <div
@@ -52,7 +52,7 @@ export default function PresentationPage() {
           ref={(el) => {
             refs.current[i] = el;
           }}
-          className="flex min-h-[82vh] flex-col justify-center px-4 py-8"
+          className="flex min-h-[100dvh] snap-start flex-col justify-center px-4 py-8"
         >
           <div className="mx-auto w-full max-w-lg animate-fade-up rounded-[1.75rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(90,118,208,0.10),rgba(90,118,208,0.03))] px-5 py-9 shadow-[0_24px_70px_-34px_rgba(72,102,200,0.55)]">
             {e}
