@@ -291,7 +291,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
         )
       ) : (
         <div style={{ width: "100%", maxWidth: 340 }}>
-          <div style={{ display: "flex", gap: 8, width: "100%" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, width: "100%" }}>
             <input
               type="email"
               value={email}
@@ -323,16 +323,18 @@ export function Gate({ children }: { children: React.ReactNode }) {
               disabled={loading || !email.trim()}
               aria-label="Recevoir mon lien"
               style={{
+                width: "100%",
+                minHeight: 52,
                 background:
                   loading || !email.trim()
                     ? "color-mix(in srgb, var(--fuchsia) 25%, transparent)"
                     : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
-                color: "var(--noir)",
+                color: "var(--on-brand)",
                 border: "none",
                 borderRadius: 14,
                 padding: "0 18px",
-                fontSize: 15,
-                fontWeight: 500,
+                fontSize: 16,
+                fontWeight: 700,
                 cursor: "pointer",
                 whiteSpace: "nowrap",
               }}
