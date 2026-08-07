@@ -47,6 +47,8 @@ export function ClientShell({ children }: { children: ReactNode }) {
 
   // Le retour du lien magique se rend seul (pas d'onboarding, pas de chrome).
   if (pathname === "/auth/callback") return <>{children}</>;
+  // Landing publique : rendu nu, sans sidebar, sans nav, sans onboarding.
+  if (pathname?.startsWith("/la-conversation")) return <>{children}</>;
 
   if (!mounted) {
     return (

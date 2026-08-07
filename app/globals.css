@@ -116,6 +116,19 @@ html.pal-aubergine.light {
   --fuchsia: #7a5277; --orange: #7a5277; --slate: #675e6c;
 }
 
+/* ---- Landing « La Conversation » -------------------------------------------
+   Page de vente autonome (route /la-conversation), hors chrome de l'app.
+   Palette éditoriale ivoire/encre, un seul accent bronze. Ces tokens ne
+   servent QUE cette page : ils cohabitent avec les palettes de l'app sans les
+   toucher (la page pose ses couleurs à plat, explicitement). */
+:root {
+  --ivoire: #faf8f4; /* fond principal */
+  --encre: #1c1b19; /* texte principal */
+  --gris: #6b6862; /* texte secondaire */
+  --bronze: #8a6e4a; /* accent unique (liens, filet, CTA) */
+  --filet: #e3ded4; /* séparateurs 1px */
+}
+
 * {
   border-color: var(--line);
 }

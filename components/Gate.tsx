@@ -157,6 +157,9 @@ export function Gate({ children }: { children: React.ReactNode }) {
   // Le retour du lien magique doit s'exécuter SANS portail (l'utilisatrice peut
   // cliquer le lien depuis un e-mail, hors session déverrouillée).
   if (pathname === "/auth/callback") return <>{children}</>;
+  // Page de vente publique : accessible sans code ni e-mail (c'est elle qui
+  // amène le trafic vers l'app). Aucun portail, aucun chrome.
+  if (pathname?.startsWith("/la-conversation")) return <>{children}</>;
   if (!checked) return null;
   if (unlocked) return <>{children}</>;
 
