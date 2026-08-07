@@ -103,6 +103,8 @@ export function Onboarding() {
       setAge={setAge}
       intention={intention}
       setIntention={setIntention}
+      canFinish={canFinish}
+      onFinish={finish}
     />,
   ];
   const STEPS = steps.length;
@@ -147,7 +149,9 @@ export function Onboarding() {
           ref={(el) => {
             sectionRefs.current[i] = el;
           }}
-          className={`flex min-h-[100dvh] flex-col justify-center px-6 pb-14 ${
+          className={`flex flex-col px-6 pb-14 ${
+            i === STEPS - 1 ? "min-h-[60vh] justify-start" : "min-h-[100dvh] justify-center"
+          } ${
             i === 0
               ? "pt-[calc(6rem+env(safe-area-inset-top))]"
               : "pt-[calc(5rem+env(safe-area-inset-top))]"
@@ -173,27 +177,7 @@ export function Onboarding() {
         </section>
       ))}
 
-      {/* L'action finale — dans le flux, en fin de déroulé : impossible à rater,
-          impossible à recouvrir. Le prénom reste requis (gate doux). */}
-      <section className="flex flex-col px-6 pb-[calc(4rem+env(safe-area-inset-bottom))] pt-2">
-        <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-2">
-          <Button
-            onClick={finish}
-            disabled={!canFinish}
-            className="w-full justify-center"
-          >
-            Révéler ma signature <ArrowRight size={16} />
-          </Button>
-          {!canFinish && (
-            <button
-              onClick={() => scrollTo(steps.length - 1)}
-              className="text-xs text-muted underline underline-offset-2"
-            >
-              Il manque juste ton prénom — appuie pour l'ajouter
-            </button>
-          )}
-        </div>
-      </section>
+      <div className="pb-[calc(4rem+env(safe-area-inset-bottom))]" />
     </div>
   );
 }
@@ -383,7 +367,7 @@ export function StepMenu() {
 
 // Étape 3 — la seule saisie : le prénom (requis) + une intention (optionnelle).
 function StepPrenom({
-  name, setName, age, setAge, intention, setIntention,
+  name, setName, age, setAge, intention, setIntention, canFinish, onFinish,
 }: {
   name: string;
   setName: (v: string) => void;
@@ -391,6 +375,8 @@ function StepPrenom({
   setAge: (v: string) => void;
   intention: string;
   setIntention: (v: string) => void;
+  canFinish: boolean;
+  onFinish: () => void;
 }) {
   // Un libellé de champ à fort contraste (lisible sur le bloc de verre) + une
   // aide un cran plus claire que le gris « muted », pour que le formulaire se
@@ -438,6 +424,17 @@ function StepPrenom({
         </a>
         .
       </p>
+
+      {/* L'action finale, juste sous les champs : impossible à rater, pas besoin
+          de chercher un bouton perdu en bas de page. Le prénom reste requis. */}
+      <div className="flex flex-col items-center gap-2 pt-1">
+        <Button onClick={onFinish} disabled={!canFinish} className="w-full justify-center">
+          Révéler ma signature <ArrowRight size={16} />
+        </Button>
+        {!canFinish && (
+          <p className="text-xs text-muted">Ajoute ton prénom pour continuer.</p>
+        )}
+      </div>
     </div>
   );
 }
