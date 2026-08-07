@@ -365,6 +365,21 @@ export function StepMenu() {
   );
 }
 
+// Libellé de champ à fort contraste (lisible sur le bloc), défini AU NIVEAU
+// MODULE : une identité stable évite que React ne remonte les champs à chaque
+// frappe (sinon l'input perd le focus et la page saute).
+function Champ({
+  titre, aide, children,
+}: { titre: string; aide: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-1 text-[15px] font-semibold text-ink">{titre}</p>
+      <p className="mb-2 text-[13px] leading-relaxed text-ink/70">{aide}</p>
+      {children}
+    </div>
+  );
+}
+
 // Étape 3 — la seule saisie : le prénom (requis) + une intention (optionnelle).
 function StepPrenom({
   name, setName, age, setAge, intention, setIntention, canFinish, onFinish,
@@ -378,19 +393,6 @@ function StepPrenom({
   canFinish: boolean;
   onFinish: () => void;
 }) {
-  // Un libellé de champ à fort contraste (lisible sur le bloc de verre) + une
-  // aide un cran plus claire que le gris « muted », pour que le formulaire se
-  // remplisse sans effort.
-  const Champ = ({
-    titre, aide, children,
-  }: { titre: string; aide: string; children: React.ReactNode }) => (
-    <div>
-      <p className="mb-1 text-[15px] font-semibold text-ink">{titre}</p>
-      <p className="mb-2 text-[13px] leading-relaxed text-ink/70">{aide}</p>
-      {children}
-    </div>
-  );
-
   return (
     <div className="space-y-6">
       <div className="text-center">
