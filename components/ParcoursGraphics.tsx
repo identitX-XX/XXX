@@ -31,6 +31,12 @@ function Defs({ id }: { id: string }) {
         <stop offset="78%" stopColor={B} />
         <stop offset="100%" stopColor="#171019" />
       </radialGradient>
+      {/* Ombre portée douce (pour « poser » la sphère, lui donner du poids). */}
+      <radialGradient id={`${id}-shadow`} cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stopColor="#000000" stopOpacity="0.5" />
+        <stop offset="65%" stopColor="#000000" stopOpacity="0.16" />
+        <stop offset="100%" stopColor="#000000" stopOpacity="0" />
+      </radialGradient>
       <filter id={`${id}-glow`} x="-60%" y="-60%" width="220%" height="220%">
         <feDropShadow dx="0" dy="0" stdDeviation="3.4" floodColor={A} floodOpacity="0.7" />
       </filter>
@@ -106,13 +112,15 @@ export function Planetes({ h = 200 }: { h?: number }) {
           opacity="0.28"
         />
       ))}
-      {/* Cœur — l'identité, une petite sphère lumineuse */}
+      {/* Cœur — l'identité, une petite sphère lumineuse (avec son ombre) */}
+      <ellipse cx={cx} cy={cy + 16} rx="16" ry="5" fill={`url(#${id}-shadow)`} />
       <circle cx={cx} cy={cy} r="26" fill={`url(#${id}-halo)`} />
       <circle cx={cx} cy={cy} r="18" fill="none" stroke={A} strokeWidth="1.2" opacity="0.5" />
       <circle cx={cx} cy={cy} r="10" fill={`url(#${id}-sphere)`} filter={`url(#${id}-glow)`} />
       {/* Planètes en orbite : le groupe (origine 0,0) suit le rail. */}
       {orbites.map((o, i) => (
         <g key={"p" + i}>
+          <ellipse cx={0} cy={o.taille + 6} rx={o.taille * 1.15} ry={o.taille * 0.36} fill={`url(#${id}-shadow)`} />
           <circle cx={0} cy={0} r={o.taille + 9} fill={`url(#${id}-halo)`} />
           <circle cx={0} cy={0} r={o.taille} fill={`url(#${id}-sphere)`} filter={`url(#${id}-glow)`} />
           <text x={0} y={-o.taille - 9} fill={INK} fontSize="13" fontWeight="800" textAnchor="middle" fontFamily="inherit">
@@ -275,6 +283,9 @@ export function Orbite({ h = 208 }: { h?: number }) {
       <clipPath id={`${id}-ball`}>
         <circle cx={cx} cy={cy} r={R} />
       </clipPath>
+
+      {/* Ombre portée sous la sphère — elle « tient la route ». */}
+      <ellipse cx={cx + 6} cy={cy + R + 14} rx={R * 0.82} ry={R * 0.17} fill={`url(#${id}-shadow)`} />
 
       {/* Halo + anneau orbital (derrière la sphère) */}
       <circle cx={cx} cy={cy} r={R + 22} fill={`url(#${id}-halo)`} />
