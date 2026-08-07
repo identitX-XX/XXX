@@ -157,7 +157,7 @@ export function Onboarding() {
               : "pt-[calc(5rem+env(safe-area-inset-top))]"
           }`}
         >
-          <div className="mx-auto w-full max-w-lg animate-fade-up rounded-[1.75rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(90,118,208,0.08),rgba(90,118,208,0.02))] px-5 py-9 shadow-[0_24px_70px_-34px_rgba(72,102,200,0.55)] backdrop-blur-[7px]">
+          <div className="mx-auto w-full max-w-lg animate-fade-up rounded-[1.75rem] border border-white/[0.06] bg-[linear-gradient(180deg,rgba(90,118,208,0.10),rgba(90,118,208,0.03))] px-5 py-9 shadow-[0_24px_70px_-34px_rgba(72,102,200,0.55)]">
             {content}
           </div>
 
