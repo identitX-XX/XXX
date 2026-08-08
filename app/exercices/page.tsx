@@ -128,6 +128,28 @@ export default function ExercicesPage() {
         sub={`Sur chaque périmètre — perso, pro, relationnel — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
       />
 
+      {/* Parcours explicatif — la logique de l'exercice, en 3 temps, avant de se
+          lancer. Pour qu'on comprenne POURQUOI on remplit ces champs. */}
+      <div className="mb-6 rounded-2xl border border-line bg-surface p-5 animate-fade-up">
+        <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          Comment ça marche
+        </div>
+        <ol className="mt-3 grid gap-3">
+          {[
+            "Sur chaque périmètre (perso, pro, relationnel), écris ce que tu crois, ce que tu penses, ce que tu fais. L'écart entre les trois, c'est ta matière.",
+            "Deux autres pratiques du jour élargissent le regard — facultatif, quelques mots suffisent.",
+            "Tu reçois ton éclairage : l'IA relie ton écart à ta signature du moment et projette la suite de ta quête.",
+          ].map((t, i) => (
+            <li key={i} className="flex items-start gap-3">
+              <span className="grid h-6 w-6 flex-none place-items-center rounded-full border border-line text-[12px] font-bold text-fuchsia">
+                {i + 1}
+              </span>
+              <span className="text-sm leading-relaxed text-ink">{t}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
       <div className="grid gap-5">
         {PERIMETRES.map(({ key, label }) => {
           const dir = directionDe(objectifs, key);
