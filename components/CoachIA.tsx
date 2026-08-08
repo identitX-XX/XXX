@@ -266,7 +266,7 @@ export function CoachIA() {
             { label: "Scénario identitaire", prompt: "Génère mon scénario identitaire : une lecture développée (8 à 20 lignes) de ma trajectoire identitaire à 90 jours, à partir de ma cartographie, de mon journal et de mon profil." },
             { label: "Scénario pro", prompt: "Génère mon scénario professionnel : une projection développée (8 à 20 lignes) de mon évolution professionnelle à 90 jours, appuyée sur mes données réelles." },
             { label: "Scénario perso", prompt: "Génère mon scénario personnel : une lecture développée (8 à 20 lignes) de mon équilibre et de mon énergie personnelle à 90 jours, appuyée sur mes données." },
-            { label: "Scénario familial", prompt: "Génère mon scénario familial et relationnel : une lecture développée (8 à 20 lignes) de mes rôles relationnels à 90 jours, appuyée sur ma cartographie et mon journal." },
+            { label: "Scénario relationnel", prompt: "Génère mon scénario relationnel : une lecture développée (8 à 20 lignes) de mes rôles et liens relationnels à 90 jours, appuyée sur ma cartographie et mon journal." },
           ].map((c) => (
             <button
               key={c.label}
