@@ -316,6 +316,24 @@ export default function AujourdhuiPage() {
           (déblocage progressif façon Headspace, révélation façon Co-Star). */}
       <RevelationCard faits={prog.faits} />
 
+      {/* Accès directs aux deux pages « socle » : ta signature et ton rapport. */}
+      <div className="mt-4 grid grid-cols-2 gap-3 animate-fade-up">
+        <Link
+          href="/parcours-signatures"
+          className="flex items-center justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm text-ink transition-colors hover:border-fuchsia/40"
+        >
+          Ta signature
+          <ArrowRight size={15} className="flex-none text-muted" />
+        </Link>
+        <Link
+          href="/rapport-analytique"
+          className="flex items-center justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm text-ink transition-colors hover:border-fuchsia/40"
+        >
+          Ton rapport
+          <ArrowRight size={15} className="flex-none text-muted" />
+        </Link>
+      </div>
+
       {/* Un seul point de sortie : tout le reste est dans le menu. Le hub reste
           limpide — une capsule, un exercice — le secondaire est rangé. */}
       <Link
@@ -337,28 +355,33 @@ export default function AujourdhuiPage() {
 // raison de revenir demain, sans surcharger le hub.
 function RevelationCard({ faits }: { faits: number }) {
   const jalons = [
-    { j: 7, titre: "Ta première révélation de motif" },
-    { j: 15, titre: "Ton portrait à mi-parcours" },
-    { j: 30, titre: "Ton portrait complet + tes scénarios" },
+    { j: 7, titre: "Ta première révélation de motif", href: "/progression" },
+    { j: 15, titre: "Ton portrait à mi-parcours", href: "/synthese" },
+    { j: 30, titre: "Ton portrait complet + tes scénarios", href: "/rapport-analytique" },
   ];
   const prochain = jalons.find((x) => x.j > faits) ?? jalons[jalons.length - 1];
   const reste = Math.max(0, prochain.j - faits);
   const pct = Math.min(100, Math.round((faits / prochain.j) * 100));
   return (
-    <Card className="mt-4 p-5 animate-fade-up">
-      <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-        <Sparkles size={13} /> À venir
-      </div>
-      <p className="mt-2 text-[15px] font-semibold text-ink">{prochain.titre}</p>
-      <p className="mt-1 text-sm text-muted">
-        {reste === 0
-          ? "Elle se révèle aujourd'hui."
-          : `Se dévoile dans ${reste} jour${reste > 1 ? "s" : ""}.`}
-      </p>
-      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-line">
-        <div className="h-full rounded-full brand-gradient transition-all" style={{ width: `${pct}%` }} />
-      </div>
-    </Card>
+    <Link href={prochain.href} className="mt-4 block animate-fade-up">
+      <Card className="p-5 transition-colors hover:border-fuchsia/40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <Sparkles size={13} /> À venir
+          </div>
+          <ArrowRight size={15} className="text-muted" />
+        </div>
+        <p className="mt-2 text-[15px] font-semibold text-ink">{prochain.titre}</p>
+        <p className="mt-1 text-sm text-muted">
+          {reste === 0
+            ? "Elle se révèle aujourd'hui — appuie pour la voir."
+            : `Se dévoile dans ${reste} jour${reste > 1 ? "s" : ""}.`}
+        </p>
+        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-line">
+          <div className="h-full rounded-full brand-gradient transition-all" style={{ width: `${pct}%` }} />
+        </div>
+      </Card>
+    </Link>
   );
 }
 
