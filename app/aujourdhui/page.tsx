@@ -312,76 +312,53 @@ export default function AujourdhuiPage() {
           moment (qui varie) : la quête « évolue », les exercices avec elle. */}
       {arch && <TroisExercices arch={arch} objectifs={objectifs} />}
 
-      {/* L'itinéraire du jour : le fil conducteur qui fait passer, dans l'ordre,
-          par toutes les pages de la quête — plus aucun écran orphelin. */}
-      <ItineraireDuJour diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} dejaFait={dejaFait} />
+      {/* Prochaine révélation — le rebondissement qui donne envie de revenir
+          (déblocage progressif façon Headspace, révélation façon Co-Star). */}
+      <RevelationCard faits={prog.faits} />
 
-      {/* Le fil du jour : la raison de revenir — nouveauté, révélation, ressource. */}
-      <FilDuJour n={n} arch={arch} />
-
-      {/* Momentum : série + prochain cap. Le levier « ne casse pas la chaîne ». */}
-      {prog.faits > 0 && (
-        <div
-          className="mt-4 grid gap-4 sm:grid-cols-2 animate-fade-up"
-          style={{ animationDelay: "60ms" }}
-        >
-          <Card className="flex items-center gap-4 p-5">
-            <div
-              className="grid h-11 w-11 flex-none place-items-center rounded-full"
-              style={{
-                background: "color-mix(in srgb, var(--orange) 14%, transparent)",
-                color: "var(--orange)",
-              }}
-            >
-              <Flame size={20} />
-            </div>
-            <div>
-              <div className="font-display text-xl text-ink">
-                {mo.serie > 0
-                  ? `${mo.serie} jour${mo.serie > 1 ? "s" : ""} d'affilée`
-                  : "Reprends le fil"}
-              </div>
-              <div className="text-xs text-muted">
-                {mo.serie > 0
-                  ? mo.record > mo.serie
-                    ? `Ton record : ${mo.record} jours`
-                    : "C'est ta meilleure série — tiens-la."
-                  : "Une journée aujourd'hui relance ta série."}
-              </div>
-            </div>
-          </Card>
-
-          {mo.prochainJalon && (
-            <Card className="flex flex-col justify-center gap-2 p-5">
-              <div className="flex items-baseline justify-between">
-                <span className="text-sm text-ink">
-                  Prochain cap · {mo.prochainJalon} jours
-                </span>
-                <span className="text-xs text-muted">
-                  plus que {mo.resteAvantJalon}
-                </span>
-              </div>
-              <div className="h-1.5 overflow-hidden rounded-full bg-line">
-                <div
-                  className="h-full rounded-full brand-gradient transition-all"
-                  style={{
-                    width: `${Math.round((prog.faits / mo.prochainJalon) * 100)}%`,
-                  }}
-                />
-              </div>
-            </Card>
-          )}
-        </div>
-      )}
-
-      {/* « Ce que tes directions rendent possible » : les scénarios, jusque-là
-          enterrés derrière une station du chemin — surfacés en bloc conscient. */}
-      <PossiblesCard />
-
-      <ClimatCard jour={n} />
-
-      <SecondPlan prog={prog} />
+      {/* Un seul point de sortie : tout le reste est dans le menu. Le hub reste
+          limpide — une capsule, un exercice — le secondaire est rangé. */}
+      <Link
+        href="/explorer"
+        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-4 animate-fade-up transition-colors hover:border-fuchsia/40"
+      >
+        <span className="text-sm leading-snug text-ink">
+          Tout ton parcours est dans le menu — portrait, cartographie, scénarios,
+          coach, ressources.
+        </span>
+        <ArrowRight size={16} className="flex-none text-muted" />
+      </Link>
     </div>
+  );
+}
+
+// Prochaine révélation — un seul « à venir », clair et désirable. Déblocage
+// progressif (façon Headspace) + révélation d'identité (façon Co-Star) : la
+// raison de revenir demain, sans surcharger le hub.
+function RevelationCard({ faits }: { faits: number }) {
+  const jalons = [
+    { j: 7, titre: "Ta première révélation de motif" },
+    { j: 15, titre: "Ton portrait à mi-parcours" },
+    { j: 30, titre: "Ton portrait complet + tes scénarios" },
+  ];
+  const prochain = jalons.find((x) => x.j > faits) ?? jalons[jalons.length - 1];
+  const reste = Math.max(0, prochain.j - faits);
+  const pct = Math.min(100, Math.round((faits / prochain.j) * 100));
+  return (
+    <Card className="mt-4 p-5 animate-fade-up">
+      <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <Sparkles size={13} /> À venir
+      </div>
+      <p className="mt-2 text-[15px] font-semibold text-ink">{prochain.titre}</p>
+      <p className="mt-1 text-sm text-muted">
+        {reste === 0
+          ? "Elle se révèle aujourd'hui."
+          : `Se dévoile dans ${reste} jour${reste > 1 ? "s" : ""}.`}
+      </p>
+      <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-line">
+        <div className="h-full rounded-full brand-gradient transition-all" style={{ width: `${pct}%` }} />
+      </div>
+    </Card>
   );
 }
 
