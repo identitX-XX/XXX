@@ -50,6 +50,9 @@ export default function ExercicesPage() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  // Flux guidé « façon Duolingo » : une étape (un périmètre) à la fois.
+  // 0..N-1 = périmètres ; N = l'éclairage (la récompense).
+  const [etape, setEtape] = useState(0);
 
   const jour = useMemo(() => Math.min(progression(etat).jourCourant, 30), [etat]);
   const sig = useMemo(() => {
@@ -128,102 +131,95 @@ export default function ExercicesPage() {
         sub={`Sur chaque périmètre — perso, pro, relationnel — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
       />
 
-      {/* Parcours explicatif — la logique de l'exercice, en 3 temps, avant de se
-          lancer. Pour qu'on comprenne POURQUOI on remplit ces champs. */}
-      <div className="mb-6 rounded-2xl border border-line bg-surface p-5 animate-fade-up">
-        <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-          Comment ça marche
-        </div>
-        <ol className="mt-3 grid gap-3">
-          {[
-            "Sur chaque périmètre (perso, pro, relationnel), écris ce que tu crois, ce que tu penses, ce que tu fais. L'écart entre les trois, c'est ta matière.",
-            "Deux autres pratiques du jour élargissent le regard — facultatif, quelques mots suffisent.",
-            "Tu reçois ton éclairage : l'IA relie ton écart à ta signature du moment et projette la suite de ta quête.",
-          ].map((t, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className="grid h-6 w-6 flex-none place-items-center rounded-full border border-line text-[12px] font-bold text-fuchsia">
-                {i + 1}
-              </span>
-              <span className="text-sm leading-relaxed text-ink">{t}</span>
-            </li>
+      {/* Barre de progression — façon Duolingo : une étape à la fois. */}
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex flex-1 gap-1.5">
+          {Array.from({ length: PERIMETRES.length + 1 }).map((_, i) => (
+            <div
+              key={i}
+              className={`h-1.5 flex-1 rounded-full transition-all ${i <= etape ? "brand-gradient" : "bg-line"}`}
+            />
           ))}
-        </ol>
+        </div>
+        <span className="text-xs text-muted">
+          {Math.min(etape + 1, PERIMETRES.length + 1)}/{PERIMETRES.length + 1}
+        </span>
       </div>
 
-      <div className="grid gap-5">
-        {PERIMETRES.map(({ key, label }) => {
+      {etape < PERIMETRES.length ? (
+        (() => {
+          const { key, label } = PERIMETRES[etape];
           const dir = directionDe(objectifs, key);
           const Icone = ICONE[key];
           return (
-            <section key={key} className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
-              <div className="mb-4 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2.5">
-                  <span
-                    className="grid h-9 w-9 flex-none place-items-center rounded-xl text-fuchsia"
-                    style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
-                  >
-                    <Icone size={18} />
-                  </span>
-                  <span className="text-sm font-bold uppercase tracking-[0.1em] text-ink">{label}</span>
-                </div>
-                {dir && (
-                  <span className="rounded-full border border-line px-2.5 py-0.5 text-[12px] text-muted">
-                    {dir}
-                  </span>
-                )}
-              </div>
-              <div className="grid gap-4">
-                {CHAMPS.map((c) => (
-                  <div key={c.key}>
-                    <div className="mb-1 text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">
-                      {c.label}
-                    </div>
-                    <p className="mb-1.5 text-xs text-muted">{c.hint}</p>
-                    <TextArea
-                      value={jourGap[key][c.key]}
-                      onChange={(v) => setChamp(jour, key, c.key, v)}
-                      placeholder="Quelques mots suffisent…"
-                      rows={2}
-                    />
+            <div key={key} className="animate-fade-up">
+              {etape === 0 && (
+                <p className="mb-4 text-sm leading-relaxed text-muted">
+                  Un périmètre à la fois. Écris ce que tu <b className="text-ink">crois</b>,
+                  ce que tu <b className="text-ink">penses</b>, ce que tu <b className="text-ink">fais</b> —
+                  l'écart entre les trois est ta matière. À la fin, tu reçois ton éclairage.
+                </p>
+              )}
+              <section className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
+                <div className="mb-4 flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <span
+                      className="grid h-9 w-9 flex-none place-items-center rounded-xl text-fuchsia"
+                      style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)" }}
+                    >
+                      <Icone size={18} />
+                    </span>
+                    <span className="text-sm font-bold uppercase tracking-[0.1em] text-ink">{label}</span>
                   </div>
-                ))}
+                  {dir && (
+                    <span className="rounded-full border border-line px-2.5 py-0.5 text-[12px] text-muted">
+                      {dir}
+                    </span>
+                  )}
+                </div>
+                <div className="grid gap-4">
+                  {CHAMPS.map((c) => (
+                    <div key={c.key}>
+                      <div className="mb-1 text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">
+                        {c.label}
+                      </div>
+                      <p className="mb-1.5 text-xs text-muted">{c.hint}</p>
+                      <TextArea
+                        value={jourGap[key][c.key]}
+                        onChange={(v) => setChamp(jour, key, c.key, v)}
+                        placeholder="Quelques mots suffisent…"
+                        rows={2}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <div className="mt-5 flex items-center justify-between gap-3">
+                {etape > 0 ? (
+                  <button
+                    onClick={() => setEtape(etape - 1)}
+                    className="text-sm text-muted underline underline-offset-2"
+                  >
+                    Précédent
+                  </button>
+                ) : (
+                  <span />
+                )}
+                <button
+                  onClick={() => setEtape(etape + 1)}
+                  className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-7 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.01]"
+                >
+                  {etape < PERIMETRES.length - 1 ? "Continuer" : "Vers mon éclairage"}
+                  <ArrowRight size={16} />
+                </button>
               </div>
-            </section>
+            </div>
           );
-        })}
-      </div>
-
-      {/* Les autres exercices du jour — au-delà de l'écart, en rotation. */}
-      <div className="mt-8">
-        <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-          <Sparkles size={13} /> Les autres exercices du jour
-        </div>
-        <p className="mb-4 max-w-xl text-xs leading-relaxed text-muted">
-          Deux pratiques qui changent chaque jour, en plus de l'écart — pour explorer
-          ton identité sous d'autres angles.
-        </p>
-        <div className="grid gap-4">
-          {prats.map((t) => (
-            <section key={t.id} className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
-              <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">
-                {t.nom}
-              </div>
-              <p className="mt-1.5 mb-3 text-sm leading-relaxed text-ink">
-                {promptRendu(t, sig)}
-              </p>
-              <TextArea
-                value={jourPratiques[t.id] ?? ""}
-                onChange={(v) => setPratique(jour, t.id, v)}
-                placeholder="Quelques mots suffisent…"
-                rows={2}
-              />
-            </section>
-          ))}
-        </div>
-      </div>
-
-      {/* Éclairage IA */}
-      <div className="mt-8">
+        })()
+      ) : (
+      <div className="animate-fade-up">
+      {/* Éclairage IA — la récompense */}
+      <div>
         {!eclairage && (
           <button
             onClick={demanderEclairage}
@@ -296,10 +292,44 @@ export default function ExercicesPage() {
         )}
       </div>
 
+      {/* Aller plus loin (optionnel) : deux pratiques du jour, en rotation. */}
+      <div className="mt-8">
+        <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          <Sparkles size={13} /> Envie d'aller plus loin ?
+        </div>
+        <p className="mb-4 max-w-xl text-xs leading-relaxed text-muted">
+          Deux pratiques facultatives qui changent chaque jour — pour explorer ton
+          identité sous d'autres angles.
+        </p>
+        <div className="grid gap-4">
+          {prats.map((t) => (
+            <section key={t.id} className="rounded-2xl border border-line bg-surface p-5 shadow-soft sm:p-6">
+              <div className="text-[12px] font-bold uppercase tracking-[0.14em] text-fuchsia">{t.nom}</div>
+              <p className="mt-1.5 mb-3 text-sm leading-relaxed text-ink">{promptRendu(t, sig)}</p>
+              <TextArea
+                value={jourPratiques[t.id] ?? ""}
+                onChange={(v) => setPratique(jour, t.id, v)}
+                placeholder="Quelques mots suffisent…"
+                rows={2}
+              />
+            </section>
+          ))}
+        </div>
+      </div>
+
+      <button
+        onClick={() => setEtape(0)}
+        className="mt-6 text-sm text-muted underline underline-offset-2"
+      >
+        ← Revoir mes réponses
+      </button>
+
       <p className="mt-6 text-xs italic leading-relaxed text-muted">
         Ce que tu écris reste sur ton appareil. L'éclairage est calculé à partir de tes réponses,
         relié à ta signature du moment.
       </p>
+      </div>
+      )}
     </div>
   );
 }
