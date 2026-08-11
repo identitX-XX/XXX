@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { anonId } from "@/lib/metrics";
 import { getSupabase } from "@/lib/supabaseBrowser";
-import { setEmail as setEmailLocal, pullEtat } from "@/lib/etatSync";
+import { setEmail as setEmailLocal, getEmail, pullEtat } from "@/lib/etatSync";
 
 // Clé versionnée : la bumper invalide tous les accès mémorisés → chacun doit
 // ressaisir le code. À incrémenter à chaque rotation du GATE_CODE (Vercel).
@@ -36,6 +36,11 @@ type Mode = "code" | "email";
 export function Gate({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [unlocked, setUnlocked] = useState(false);
+  // A-t-on un email connu en local ? On ne considère l'accès « acquis » que si
+  // l'appareil est déverrouillé ET qu'un email est connu — sinon on redemande
+  // l'email (cas des appareils déverrouillés AVANT la collecte d'email : leur
+  // profil existe avec un prénom mais sans email).
+  const [hasEmail, setHasEmail] = useState(false);
   const [checked, setChecked] = useState(false);
   const [mode, setMode] = useState<Mode>("code");
   const [code, setCode] = useState("");
@@ -50,6 +55,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
     try {
       if (localStorage.getItem(GATE_KEY) === "ok") setUnlocked(true);
     } catch {}
+    setHasEmail(Boolean(getEmail()));
     // Le Gate s'affiche AVANT ClientShell : il doit appliquer lui-même la
     // palette (Nuit & Or par défaut) et le thème sur <html>, sinon l'écran
     // d'accès retombe sur le rose du :root. Même logique que ClientShell.
@@ -115,6 +121,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
       // serveur si elle existe (nouvel appareil / cache vidé). L'e-mail est la
       // clé de reprise — pas besoin de cliquer un lien.
       setEmailLocal(value);
+      setHasEmail(true);
       try {
         await pullEtat(value);
       } catch {}
@@ -158,7 +165,10 @@ export function Gate({ children }: { children: React.ReactNode }) {
   // cliquer le lien depuis un e-mail, hors session déverrouillée).
   if (pathname === "/auth/callback") return <>{children}</>;
   if (!checked) return null;
-  if (unlocked) return <>{children}</>;
+  // Accès acquis seulement si déverrouillé ET email connu. Un appareil
+  // déverrouillé sans email (entré avant la collecte) repasse par l'écran email
+  // une fois — on capte alors l'adresse manquante, sans jamais la redemander.
+  if (unlocked && hasEmail) return <>{children}</>;
 
   const submit = mode === "code" ? submitCode : submitEmail;
 

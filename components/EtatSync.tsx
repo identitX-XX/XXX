@@ -20,6 +20,16 @@ export function EtatSync() {
     let annule = false;
     const push = () => pushEtat(email, anonId());
 
+    // Backfill email → profil : un profil a pu être créé avec le seul prénom
+    // (fin d'onboarding) sans email, ou l'email a été saisi quand le backend
+    // n'était pas encore branché. À chaque ouverture, si on connaît l'email en
+    // local, on le (ré)enregistre — upsert idempotent, remplit la colonne vide.
+    fetch("/api/access", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ anon_id: anonId(), email }),
+    }).catch(() => {});
+
     (async () => {
       // Restauration au démarrage (le plus avancé gagne), puis on sème le serveur.
       await pullEtat(email);
