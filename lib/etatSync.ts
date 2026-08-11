@@ -112,3 +112,21 @@ export function pushEtat(email: string, anonId?: string): void {
     }).catch(() => {});
   }, 1500);
 }
+
+// Pousse IMMÉDIATEMENT l'état local (sans débounce) et attend la confirmation.
+// Utilisé après un « Refaire mon diagnostic » : sans ça, le serveur garde la
+// signature précédente et la restaure au prochain chargement (l'utilisatrice
+// n'atteint jamais les 12 questions). On annule d'abord tout push débouncé en
+// attente pour qu'un ancien snapshot ne reparte pas après coup.
+export async function pushEtatNow(email: string, anonId?: string): Promise<void> {
+  clearTimeout(timer);
+  const stores = snapshot();
+  if (Object.keys(stores).length === 0) return;
+  try {
+    await fetch("/api/etat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ email, anon_id: anonId, stores }),
+    });
+  } catch {}
+}

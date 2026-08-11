@@ -13,6 +13,8 @@ import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
+import { getEmail, pushEtatNow } from "@/lib/etatSync";
+import { anonId } from "@/lib/metrics";
 import type { Diagnostic as Diag, Objectifs as ObjectifsT, EtatEvolution } from "@/parcours-archetypes/types";
 
 // Route du module. Tant que le dominant n'est pas déterminé, on présente le
@@ -191,14 +193,18 @@ function MaQueteApercu({
   etat: EtatEvolution;
 }) {
   const reinitialiser = useParcoursStore((s) => s.reinitialiser);
-  const refaire = () => {
+  const refaire = async () => {
     const ok = window.confirm(
       "Refaire ton diagnostic efface ta signature et ta progression, et relance les 12 questions. Continuer ?"
     );
-    if (ok) {
-      reinitialiser();
-      window.scrollTo({ top: 0, behavior: "auto" });
-    }
+    if (!ok) return;
+    reinitialiser();
+    // On efface AUSSI la sauvegarde serveur (indexée par email) tout de suite,
+    // sinon elle restaurerait la signature au prochain chargement et on
+    // n'atteindrait jamais les 12 questions.
+    const email = getEmail();
+    if (email) await pushEtatNow(email, anonId());
+    window.scrollTo({ top: 0, behavior: "auto" });
   };
   const dom = archetypeByKey[diagnostic.dominant];
   const sec = archetypeByKey[diagnostic.secondaire];
