@@ -190,6 +190,16 @@ function MaQueteApercu({
   objectifs: ObjectifsT | null;
   etat: EtatEvolution;
 }) {
+  const reinitialiser = useParcoursStore((s) => s.reinitialiser);
+  const refaire = () => {
+    const ok = window.confirm(
+      "Refaire ton diagnostic efface ta signature et ta progression, et relance les 12 questions. Continuer ?"
+    );
+    if (ok) {
+      reinitialiser();
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+  };
   const dom = archetypeByKey[diagnostic.dominant];
   const sec = archetypeByKey[diagnostic.secondaire];
   const caps = objectifs
@@ -267,6 +277,18 @@ function MaQueteApercu({
             </span>
           </Link>
         ))}
+      </div>
+      {/* Refaire le diagnostic — pour repasser les 12 questions à tout moment
+          (nouvelle utilisatrice sur un appareil déjà utilisé, ou envie de
+          réévaluer sa signature). Discret mais toujours accessible. */}
+      <div className="mt-5 border-t border-line pt-4">
+        <button
+          type="button"
+          onClick={refaire}
+          className="text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-fuchsia"
+        >
+          Refaire mon diagnostic (12 questions) →
+        </button>
       </div>
     </section>
   );
