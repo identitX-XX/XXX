@@ -193,11 +193,11 @@ function MaQueteApercu({
   etat: EtatEvolution;
 }) {
   const reinitialiser = useParcoursStore((s) => s.reinitialiser);
+  // Confirmation DANS la page (pas window.confirm : la pop-up système ne
+  // s'affiche pas quand l'app est ajoutée à l'écran d'accueil sur iOS → le
+  // clic restait sans effet).
+  const [confirmer, setConfirmer] = useState(false);
   const refaire = async () => {
-    const ok = window.confirm(
-      "Refaire ton diagnostic efface ta signature et ta progression, et relance les 12 questions. Continuer ?"
-    );
-    if (!ok) return;
     reinitialiser();
     // On efface AUSSI la sauvegarde serveur (indexée par email) tout de suite,
     // sinon elle restaurerait la signature au prochain chargement et on
@@ -286,15 +286,39 @@ function MaQueteApercu({
       </div>
       {/* Refaire le diagnostic — pour repasser les 12 questions à tout moment
           (nouvelle utilisatrice sur un appareil déjà utilisé, ou envie de
-          réévaluer sa signature). Discret mais toujours accessible. */}
+          réévaluer sa signature). Confirmation en deux temps, dans la page. */}
       <div className="mt-5 border-t border-line pt-4">
-        <button
-          type="button"
-          onClick={refaire}
-          className="text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-fuchsia"
-        >
-          Refaire mon diagnostic (12 questions) →
-        </button>
+        {!confirmer ? (
+          <button
+            type="button"
+            onClick={() => setConfirmer(true)}
+            className="text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-fuchsia"
+          >
+            Refaire mon diagnostic (12 questions) →
+          </button>
+        ) : (
+          <div className="animate-fade-in">
+            <p className="mb-3 text-sm text-muted">
+              Ça efface ta signature et ta progression, puis relance les 12 questions. Continuer&nbsp;?
+            </p>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={refaire}
+                className="rounded-full bg-fuchsia px-4 py-2 text-sm font-semibold text-[color:var(--on-brand)] transition-opacity hover:opacity-90"
+              >
+                Oui, refaire les questions
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmer(false)}
+                className="text-sm text-muted transition-colors hover:text-ink"
+              >
+                Annuler
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
