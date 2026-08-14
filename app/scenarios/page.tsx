@@ -187,11 +187,18 @@ export default function TurbinePage() {
 
           {output.scenarios.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-line p-8 text-center">
-              <p className="font-display text-lg text-ink">Signal insuffisant</p>
-              <p className="mt-1 text-sm text-muted">
-                {output.raison ??
-                  "Rien de neuf ne justifie une bascule. Le silence vaut mieux que le bruit — reviens après avoir bougé."}
+              <p className="font-display text-lg text-ink">Ajoute un peu de matière</p>
+              <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
+                Écris au moins une direction ci-dessus — un projet, une envie,
+                une casquette — puis relance. Tes scénarios naîtront de ce que tu
+                explores.
               </p>
+              <button
+                onClick={generer}
+                className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia"
+              >
+                <RefreshCw size={14} /> Relancer
+              </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-4">

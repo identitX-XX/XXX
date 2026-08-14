@@ -272,7 +272,9 @@ export function CoachIA() {
               key={c.label}
               onClick={() => {
                 if (loading) return;
-                setInput(c.prompt);
+                // Un seul tap : on lance directement le scénario, sans obliger à
+                // redescendre taper « envoyer » tout en bas de la page.
+                void send(c.prompt);
               }}
               style={{
                 background: "color-mix(in srgb, var(--fuchsia) 8%, transparent)",
