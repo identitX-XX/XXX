@@ -57,8 +57,9 @@ export function ClientShell({ children }: { children: ReactNode }) {
   }
 
   // Direct du portail à l'onboarding : plus d'écran d'accueil intermédiaire
-  // (il faisait doublon avec la 1re étape de l'onboarding).
-  if (!onboarded)
+  // (il faisait doublon avec la 1re étape de l'onboarding). L'admin (protégé
+  // par ADMIN_KEY) n'y passe jamais, sinon il reste bloqué sur les questions.
+  if (!onboarded && !pathname.startsWith("/admin"))
     return (
       <>
         <Onboarding />

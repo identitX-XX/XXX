@@ -164,6 +164,10 @@ export function Gate({ children }: { children: React.ReactNode }) {
   // Le retour du lien magique doit s'exécuter SANS portail (l'utilisatrice peut
   // cliquer le lien depuis un e-mail, hors session déverrouillée).
   if (pathname === "/auth/callback") return <>{children}</>;
+  // L'admin a sa PROPRE protection (ADMIN_KEY) : il ne doit jamais être piégé
+  // derrière le portail email/onboarding grand public. Sinon on ne peut plus
+  // accéder au tableau de bord depuis un navigateur sans email enregistré.
+  if (pathname.startsWith("/admin")) return <>{children}</>;
   if (!checked) return null;
   // Accès acquis seulement si déverrouillé ET email connu. Un appareil
   // déverrouillé sans email (entré avant la collecte) repasse par l'écran email
