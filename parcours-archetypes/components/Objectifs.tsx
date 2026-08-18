@@ -74,8 +74,21 @@ export function Objectifs({
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const definirObjectifs = useParcoursStore((s) => s.definirObjectifs);
   const [vals, setVals] = useState<ObjectifsT>(initial ?? VIDE);
+  // Champ libre optionnel, replié par défaut : le choix se fait d'abord au tap.
+  const [custom, setCustom] = useState<Record<string, boolean>>(() => {
+    const init = initial ?? VIDE;
+    const out: Record<string, boolean> = {};
+    (["perso", "pro", "relationnel"] as PerimetreKey[]).forEach((k) => {
+      const v = init[k]?.trim();
+      out[k] = Boolean(v) && !SUGGESTIONS[k].includes(v);
+    });
+    return out;
+  });
 
   const set = (k: PerimetreKey, v: string) => setVals((p) => ({ ...p, [k]: v }));
+  // Tap sur une proposition : sélectionne, ou désélectionne si déjà choisie.
+  const toggle = (k: PerimetreKey, s: string) =>
+    setVals((p) => ({ ...p, [k]: p[k] === s ? "" : s }));
   const arch = diagnostic ? archetypeByKey[diagnostic.dominant] : null;
   const submit = () => {
     // Fuite majeure du funnel : on mesure le passage ET combien d'objectifs sont
@@ -118,35 +131,62 @@ export function Objectifs({
               <span style={{ fontFamily: serif, fontSize: 18, color: INK }}>{c.label}</span>
             </div>
             <div style={{ fontSize: 12.5, color: MUTED, marginBottom: 10 }}>{c.hint}</div>
-            <textarea
-              value={vals[c.key]}
-              onChange={(e) => set(c.key, e.target.value)}
-              rows={2}
-              placeholder="Mon objectif… (optionnel)"
-              style={{
-                width: "100%", resize: "none", borderRadius: 12,
-                border: `1px solid ${LINE}`, background: NOIR, color: INK,
-                fontFamily: sans, fontSize: 14.5, padding: "11px 13px", lineHeight: 1.5,
-              }}
-            />
-            {/* Suggestions cliquables — un tap pré-remplit le champ. */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 8 }}>
-              {SUGGESTIONS[c.key].map((s) => (
-                <button
-                  key={s}
-                  type="button"
-                  onClick={() => set(c.key, s)}
-                  style={{
-                    borderRadius: 999, border: `1px solid ${LINE}`, background: "transparent",
-                    color: MUTED, fontFamily: sans, fontSize: 12.5, padding: "5px 11px", cursor: "pointer",
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; e.currentTarget.style.color = INK; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = LINE; e.currentTarget.style.color = MUTED; }}
-                >
-                  {s}
-                </button>
-              ))}
+            {/* Choix au tap : une proposition sélectionnée devient la direction.
+                Un second tap la désélectionne. Pas d'obligation d'écrire. */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 7 }}>
+              {SUGGESTIONS[c.key].map((s) => {
+                const on = vals[c.key] === s;
+                return (
+                  <button
+                    key={s}
+                    type="button"
+                    aria-pressed={on}
+                    onClick={() => { toggle(c.key, s); setCustom((p) => ({ ...p, [c.key]: false })); }}
+                    style={{
+                      borderRadius: 999,
+                      border: `1px solid ${on ? FUCHSIA : LINE}`,
+                      background: on ? FUCHSIA : "transparent",
+                      color: on ? "var(--on-brand)" : MUTED,
+                      fontFamily: sans, fontSize: 13, fontWeight: on ? 600 : 400,
+                      padding: "8px 13px", cursor: "pointer", transition: "all .12s",
+                    }}
+                  >
+                    {s}
+                  </button>
+                );
+              })}
+              {/* Écrire la mienne — replié par défaut. */}
+              <button
+                type="button"
+                aria-pressed={custom[c.key] || false}
+                onClick={() => {
+                  const next = !custom[c.key];
+                  setCustom((p) => ({ ...p, [c.key]: next }));
+                  if (next && SUGGESTIONS[c.key].includes(vals[c.key])) set(c.key, "");
+                }}
+                style={{
+                  borderRadius: 999, border: `1px dashed ${custom[c.key] ? FUCHSIA : LINE}`,
+                  background: "transparent", color: custom[c.key] ? INK : MUTED,
+                  fontFamily: sans, fontSize: 13, padding: "8px 13px", cursor: "pointer",
+                }}
+              >
+                ＋ écrire la mienne
+              </button>
             </div>
+            {custom[c.key] && (
+              <textarea
+                value={vals[c.key]}
+                onChange={(e) => set(c.key, e.target.value)}
+                rows={2}
+                autoFocus
+                placeholder="Ma direction, en mes mots…"
+                style={{
+                  width: "100%", resize: "none", borderRadius: 12, marginTop: 10,
+                  border: `1px solid ${LINE}`, background: NOIR, color: INK,
+                  fontFamily: sans, fontSize: 14.5, padding: "11px 13px", lineHeight: 1.5,
+                }}
+              />
+            )}
           </div>
         ))}
       </div>

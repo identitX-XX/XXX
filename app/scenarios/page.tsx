@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Loader2, Plus, RefreshCw, Sparkles, X } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { useStore } from "@/store/useStore";
@@ -18,8 +18,26 @@ export default function TurbinePage() {
   const profile = useStore((s) => s.profile);
   const historique = useParcoursStore((s) => s.etat.historique);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
+  const objectifs = useParcoursStore((s) => s.objectifs);
   const { directions, tensions, ajouterDirection, retirerDirection, setTensions } =
     useCarteTurbine();
+
+  // Amorce automatique : si aucune direction n'a encore été posée ICI mais que
+  // l'utilisatrice a déjà défini ses directions (objectifs perso / pro /
+  // relationnel), on les injecte pour que les scénarios surgissent SANS
+  // re-saisie manuelle. Seuls les exercices restent à remplir à la main.
+  const seeded = useRef(false);
+  useEffect(() => {
+    if (seeded.current) return;
+    if (directions.length > 0) { seeded.current = true; return; }
+    if (!objectifs) return;
+    const items = [objectifs.perso, objectifs.pro, objectifs.relationnel]
+      .map((v) => v?.trim())
+      .filter((v): v is string => Boolean(v));
+    if (items.length === 0) return;
+    seeded.current = true;
+    items.forEach((nom) => ajouterDirection({ nom, energie: "moyenne", etat: "actif" }));
+  }, [objectifs, directions.length, ajouterDirection]);
 
   const [output, setOutput] = useState<TurbineOutput | null>(null);
   const [loading, setLoading] = useState(false);
