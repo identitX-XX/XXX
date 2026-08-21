@@ -38,3 +38,9 @@ export function advancement(blob: unknown): number {
 export function serveurPlusAvance(server: unknown, local: unknown): boolean {
   return advancement(server) > advancement(local);
 }
+
+// Normalisation de l'email = la CLÉ de reprise. Une casse ou un espace différent
+// ne doit jamais créer un « second compte » : on rogne et on met en minuscules.
+export function normaliserEmail(email: string): string {
+  return (email ?? "").trim().toLowerCase();
+}

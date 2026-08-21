@@ -14,6 +14,7 @@ import {
   ReponseJour,
 } from "./types";
 import { clotureJour, initialiser, matriceVide } from "./evolution";
+import { estObjet, snapshotValide, diagnosticValide } from "./hydration";
 import { generateParcours, DIAGNOSTIC_DEFAUT } from "./generateParcours";
 import { ARCHETYPE_KEYS } from "./archetypes";
 import { track } from "@/lib/metrics";
@@ -28,14 +29,8 @@ function etatDepart(): EtatEvolution {
 // exception » : un localStorage d'ANCIENNE version (clés de signature disparues,
 // snapshots d'historique d'une autre forme…) faisait planter le rendu. Ici, on
 // garantit un état TOUJOURS valide — on répare ou on écarte, jamais on ne casse.
+// Prédicats d'assainissement extraits dans ./hydration (purs, testés).
 const KEYS = new Set(ARCHETYPE_KEYS as unknown as string[]);
-const estObjet = (v: unknown): v is Record<string, unknown> =>
-  Boolean(v) && typeof v === "object";
-// Un snapshot d'historique exploitable : la segmentation (detecterChapitres) et
-// les indicateurs lisent `radar` et `jour` — s'ils manquent, on écarte l'entrée.
-const snapshotValide = (h: unknown): boolean =>
-  estObjet(h) && estObjet((h as Record<string, unknown>).radar) &&
-  typeof (h as Record<string, unknown>).jour === "number";
 
 function assainir(
   persisted: unknown,
@@ -46,8 +41,7 @@ function assainir(
   // diagnostic : dominant/secondaire doivent être des clés connues, sinon on
   // repart proprement au diagnostic (mieux qu'un écran mort).
   const d = p.diagnostic as Diagnostic | null | undefined;
-  const diagOk =
-    d && KEYS.has(d.dominant as string) && KEYS.has(d.secondaire as string);
+  const diagOk = diagnosticValide(d, KEYS);
   const diagnostic = diagOk ? (d as Diagnostic) : null;
 
   // parcours : doit avoir un tableau `jours` non vide, sinon on régénère.

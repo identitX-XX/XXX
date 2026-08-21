@@ -7,7 +7,7 @@
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { useStore } from "@/store/useStore";
 import { useGap } from "@/parcours-gap/store";
-import { serveurPlusAvance } from "./etatSync.logic";
+import { serveurPlusAvance, normaliserEmail } from "./etatSync.logic";
 
 const EMAIL_LS = "idx-email";
 // Les clés localStorage qui composent l'état complet du parcours.
@@ -25,7 +25,7 @@ export function getEmail(): string | null {
 }
 export function setEmail(email: string): void {
   try {
-    localStorage.setItem(EMAIL_LS, email.trim().toLowerCase());
+    localStorage.setItem(EMAIL_LS, normaliserEmail(email));
   } catch {}
 }
 

@@ -1,6 +1,16 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { advancement, serveurPlusAvance } from "./etatSync.logic";
+import { advancement, serveurPlusAvance, normaliserEmail } from "./etatSync.logic";
+
+test("normaliserEmail : casse et espaces ne créent pas deux comptes", () => {
+  assert.equal(normaliserEmail("  Marina@Gmail.COM "), "marina@gmail.com");
+  assert.equal(normaliserEmail("marina@gmail.com"), "marina@gmail.com");
+  assert.equal(
+    normaliserEmail("Test@Icloud.com"),
+    normaliserEmail("  test@icloud.com  ")
+  );
+  assert.equal(normaliserEmail(""), "");
+});
 
 // Fabrique un blob d'état persisté (forme zustand : { state, version }).
 const blob = (opts: { diag?: boolean; jour?: number; vecus?: number }) => ({
