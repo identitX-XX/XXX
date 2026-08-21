@@ -7,6 +7,7 @@
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { useStore } from "@/store/useStore";
 import { useGap } from "@/parcours-gap/store";
+import { serveurPlusAvance } from "./etatSync.logic";
 
 const EMAIL_LS = "idx-email";
 // Les clés localStorage qui composent l'état complet du parcours.
@@ -39,27 +40,7 @@ function snapshot(): Stores {
   return out;
 }
 
-// Niveau d'avancement du parcours. Le DIAGNOSTIC pèse très lourd : un état qui a
-// une signature ne doit JAMAIS être écrasé par un état qui n'en a pas (sinon on
-// perd le diagnostic et on doit tout refaire). Puis départage par jour courant
-// et jours vécus. Jamais on ne régresse.
-function advancement(parcours: Blob): number {
-  try {
-    const st = parcours?.state as
-      | {
-          diagnostic?: { dominant?: string } | null;
-          etat?: { jourCourant?: number; historique?: unknown[] };
-        }
-      | undefined;
-    const hasDiag =
-      st?.diagnostic && typeof st.diagnostic.dominant === "string" ? 1 : 0;
-    const jour = typeof st?.etat?.jourCourant === "number" ? st.etat.jourCourant : 0;
-    const vecus = Array.isArray(st?.etat?.historique) ? st.etat.historique.length : 0;
-    return hasDiag * 1_000_000 + jour * 1000 + vecus;
-  } catch {
-    return 0;
-  }
-}
+// La logique d'avancement / de décision vit dans ./etatSync.logic (pure, testée).
 
 async function rehydrate(): Promise<void> {
   try {
@@ -82,19 +63,18 @@ export async function pullEtat(email: string): Promise<boolean> {
   }
   if (!stores || typeof stores !== "object") return false;
 
-  const avServeur = advancement((stores["parcours-archetypes"] as Blob) ?? null);
+  const serverBlob = (stores["parcours-archetypes"] as Blob) ?? null;
   let localBlob: Blob = null;
   try {
     const v = localStorage.getItem("parcours-archetypes");
     localBlob = v ? (JSON.parse(v) as Blob) : null;
   } catch {}
-  const avLocal = advancement(localBlob);
 
-  if (avServeur <= avLocal) {
-    // On ne restaure QUE si le serveur est STRICTEMENT plus avancé. À égalité (ou
-    // en-dessous), on garde le local : c'est ce qui évitait, avant, qu'une
-    // sauvegarde serveur « à égalité » mais incomplète écrase la progression et
-    // force à tout refaire. Le push rattrapera le serveur.
+  // On ne restaure QUE si le serveur est STRICTEMENT plus avancé. À égalité (ou
+  // en-dessous), on garde le local : c'est ce qui évitait, avant, qu'une
+  // sauvegarde serveur « à égalité » mais incomplète écrase la progression et
+  // force à tout refaire. Le push rattrapera le serveur.
+  if (!serveurPlusAvance(serverBlob, localBlob)) {
     return false;
   }
 
