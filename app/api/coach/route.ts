@@ -9,9 +9,10 @@ type ChatMessage = { role: "user" | "assistant"; content: string };
 export async function POST(req: Request) {
   const apiKey = process.env.MISTRAL_API_KEY;
   if (!apiKey) {
+    console.error("[coach] MISTRAL_API_KEY absente");
     return Response.json(
-      { error: "Clé API absente. Ajoute MISTRAL_API_KEY dans les variables d'environnement Vercel." },
-      { status: 500 }
+      { error: "IdentitX est momentanément indisponible. Réessaie un peu plus tard." },
+      { status: 503 }
     );
   }
 
@@ -65,10 +66,16 @@ ${context || "Aucune donnée disponible pour le moment — invite la personne à
     const data = await r.json();
 
     if (!r.ok) {
-      return Response.json(
-        { error: data?.error?.message ?? data?.message ?? "Erreur du service IA." },
-        { status: 502 }
-      );
+      // On journalise l'erreur brute (visible dans les logs Vercel) pour le
+      // diagnostic, mais on ne l'expose pas à l'utilisatrice — message humain.
+      console.error("[coach] Mistral non-ok", r.status, data?.error?.message ?? data?.message);
+      const message =
+        r.status === 429
+          ? "IdentitX est très sollicitée en ce moment — réessaie dans un instant."
+          : r.status === 401 || r.status === 403
+          ? "IdentitX est momentanément indisponible. Réessaie un peu plus tard."
+          : "IdentitX n'a pas pu répondre. Réessaie dans un instant.";
+      return Response.json({ error: message }, { status: 502 });
     }
 
     const text: string = data?.choices?.[0]?.message?.content ?? "";

@@ -198,8 +198,7 @@ export default function TurbinePage() {
           {output._mock && (
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[12px] text-muted">
               <Sparkles size={12} className="text-fuchsia" />
-              Mode maquette — branche <code className="mx-1">MISTRAL_API_KEY</code> pour
-              la génération réelle
+              Aperçu généré à partir de tes directions — la lecture approfondie revient bientôt.
             </div>
           )}
 

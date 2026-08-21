@@ -40,11 +40,12 @@ export async function POST(req: Request) {
 
     const data = await r.json();
 
+    // Résilience : si Mistral échoue (crédit, quota, saturation…), on ne laisse
+    // JAMAIS l'écran vide. On dégrade vers des scénarios « maquette » dérivés des
+    // vraies directions, pour que l'utilisatrice ait toujours de la matière.
     if (!r.ok) {
-      return Response.json(
-        { error: data?.error?.message ?? data?.message ?? "Erreur du service IA." },
-        { status: 502 }
-      );
+      console.error("[turbine] Mistral non-ok", r.status, data?.error?.message ?? data?.message);
+      return Response.json({ ...mockOutput(input), _mock: true });
     }
 
     const content: string = data?.choices?.[0]?.message?.content ?? "{}";
@@ -52,18 +53,20 @@ export async function POST(req: Request) {
     try {
       parsed = JSON.parse(content) as TurbineOutput;
     } catch {
-      return Response.json(
-        { error: "Réponse du modèle illisible (JSON invalide)." },
-        { status: 502 }
-      );
+      console.error("[turbine] JSON illisible");
+      return Response.json({ ...mockOutput(input), _mock: true });
+    }
+
+    // Le modèle a renvoyé un vide alors qu'il y a des directions → on complète
+    // avec la maquette plutôt que d'afficher « rien à proposer ».
+    if (!parsed.scenarios?.length && input.directions?.length) {
+      return Response.json({ ...mockOutput(input), _mock: true });
     }
 
     return Response.json(parsed);
   } catch {
-    return Response.json(
-      { error: "La Turbine est momentanément injoignable." },
-      { status: 502 }
-    );
+    console.error("[turbine] injoignable");
+    return Response.json({ ...mockOutput(input), _mock: true });
   }
 }
 
