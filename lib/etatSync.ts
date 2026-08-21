@@ -39,16 +39,23 @@ function snapshot(): Stores {
   return out;
 }
 
-// Niveau d'avancement du parcours (jour courant, puis jours vécus en départage) —
-// pour décider quel côté est « le plus avancé ». Jamais on ne régresse.
+// Niveau d'avancement du parcours. Le DIAGNOSTIC pèse très lourd : un état qui a
+// une signature ne doit JAMAIS être écrasé par un état qui n'en a pas (sinon on
+// perd le diagnostic et on doit tout refaire). Puis départage par jour courant
+// et jours vécus. Jamais on ne régresse.
 function advancement(parcours: Blob): number {
   try {
-    const etat = parcours?.state?.etat as
-      | { jourCourant?: number; historique?: unknown[] }
+    const st = parcours?.state as
+      | {
+          diagnostic?: { dominant?: string } | null;
+          etat?: { jourCourant?: number; historique?: unknown[] };
+        }
       | undefined;
-    const jour = typeof etat?.jourCourant === "number" ? etat.jourCourant : 0;
-    const vecus = Array.isArray(etat?.historique) ? etat!.historique!.length : 0;
-    return jour * 1000 + vecus;
+    const hasDiag =
+      st?.diagnostic && typeof st.diagnostic.dominant === "string" ? 1 : 0;
+    const jour = typeof st?.etat?.jourCourant === "number" ? st.etat.jourCourant : 0;
+    const vecus = Array.isArray(st?.etat?.historique) ? st.etat.historique.length : 0;
+    return hasDiag * 1_000_000 + jour * 1000 + vecus;
   } catch {
     return 0;
   }
@@ -83,9 +90,11 @@ export async function pullEtat(email: string): Promise<boolean> {
   } catch {}
   const avLocal = advancement(localBlob);
 
-  if (avServeur < avLocal) {
-    // Le local est plus avancé (progression faite avant de re-saisir l'e-mail) →
-    // on ne restaure pas ; on laissera le push rattraper le serveur.
+  if (avServeur <= avLocal) {
+    // On ne restaure QUE si le serveur est STRICTEMENT plus avancé. À égalité (ou
+    // en-dessous), on garde le local : c'est ce qui évitait, avant, qu'une
+    // sauvegarde serveur « à égalité » mais incomplète écrase la progression et
+    // force à tout refaire. Le push rattrapera le serveur.
     return false;
   }
 
