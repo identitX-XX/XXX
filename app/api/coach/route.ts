@@ -61,6 +61,8 @@ ${context || "Aucune donnée disponible pour le moment — invite la personne à
         max_tokens: 1400,
         messages: [{ role: "system", content: system }, ...messages],
       }),
+      // Délai maximum : on ne laisse pas le Coach tourner 60 s si Mistral traîne.
+      signal: AbortSignal.timeout(25000),
     });
 
     const data = await r.json();

@@ -36,6 +36,9 @@ export async function POST(req: Request) {
           { role: "user", content: buildUserMessage(input) },
         ],
       }),
+      // Délai maximum : si Mistral traîne (surcharge, souci de compte…), on
+      // n'attend pas 60 s à tourner dans le vide — on bascule sur l'aperçu.
+      signal: AbortSignal.timeout(18000),
     });
 
     const data = await r.json();
