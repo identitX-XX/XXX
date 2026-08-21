@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useStore } from "@/store/useStore";
 import { Onboarding } from "./Onboarding";
+import { shellDecision } from "@/lib/access";
 
 
 import { Brand, NavList } from "./Sidebar";
@@ -45,10 +46,13 @@ export function ClientShell({ children }: { children: ReactNode }) {
     if (palette && palette !== "origine") root.classList.add(`pal-${palette}`);
   }, [theme, palette, mounted]);
 
-  // Le retour du lien magique se rend seul (pas d'onboarding, pas de chrome).
-  if (pathname === "/auth/callback") return <>{children}</>;
+  // Décision de coquille centralisée et testée (lib/access). auth/callback se
+  // rend nu ; l'admin (protégé par ADMIN_KEY) ne passe jamais par l'onboarding.
+  const shell = shellDecision({ pathname, mounted, onboarded });
 
-  if (!mounted) {
+  if (shell === "bare") return <>{children}</>;
+
+  if (shell === "loading") {
     return (
       <div className="flex min-h-screen items-center justify-center bg-noir">
         <div className="brand-gradient h-10 w-10 animate-pulse rounded-xl" />
@@ -56,10 +60,7 @@ export function ClientShell({ children }: { children: ReactNode }) {
     );
   }
 
-  // Direct du portail à l'onboarding : plus d'écran d'accueil intermédiaire
-  // (il faisait doublon avec la 1re étape de l'onboarding). L'admin (protégé
-  // par ADMIN_KEY) n'y passe jamais, sinon il reste bloqué sur les questions.
-  if (!onboarded && !pathname.startsWith("/admin"))
+  if (shell === "onboarding")
     return (
       <>
         <Onboarding />

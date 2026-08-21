@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { anonId } from "@/lib/metrics";
 import { getSupabase } from "@/lib/supabaseBrowser";
 import { setEmail as setEmailLocal, getEmail, pullEtat } from "@/lib/etatSync";
+import { gateDecision } from "@/lib/access";
 
 // Clé versionnée : la bumper invalide tous les accès mémorisés → chacun doit
 // ressaisir le code. À incrémenter à chaque rotation du GATE_CODE (Vercel).
@@ -161,18 +162,12 @@ export function Gate({ children }: { children: React.ReactNode }) {
     envoyer(value);
   };
 
-  // Le retour du lien magique doit s'exécuter SANS portail (l'utilisatrice peut
-  // cliquer le lien depuis un e-mail, hors session déverrouillée).
-  if (pathname === "/auth/callback") return <>{children}</>;
-  // L'admin a sa PROPRE protection (ADMIN_KEY) : il ne doit jamais être piégé
-  // derrière le portail email/onboarding grand public. Sinon on ne peut plus
-  // accéder au tableau de bord depuis un navigateur sans email enregistré.
-  if (pathname.startsWith("/admin")) return <>{children}</>;
-  if (!checked) return null;
-  // Accès acquis seulement si déverrouillé ET email connu. Un appareil
-  // déverrouillé sans email (entré avant la collecte) repasse par l'écran email
-  // une fois — on capte alors l'adresse manquante, sans jamais la redemander.
-  if (unlocked && hasEmail) return <>{children}</>;
+  // Décision d'accès centralisée et testée (lib/access). auth/callback et /admin
+  // (protégé par ADMIN_KEY) passent toujours ; sinon il faut être déverrouillé
+  // ET avoir un email connu — sans quoi on affiche le portail email.
+  const acces = gateDecision({ pathname, checked, unlocked, hasEmail });
+  if (acces === "children") return <>{children}</>;
+  if (acces === "loading") return null;
 
   const submit = mode === "code" ? submitCode : submitEmail;
 
