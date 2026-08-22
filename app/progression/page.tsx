@@ -92,6 +92,27 @@ export default function ProgressionPage() {
         sub="Où tu en es, ce que tu as tenu — le chemin vivant, pas un archivage."
       />
 
+      {/* État vide explicite : sans journée terminée, rien n'évolue — on le dit
+          clairement (au lieu de sembler figé/cassé) et on flèche l'action. */}
+      {prog.faits === 0 && !termine && (
+        <Card className="mb-4 p-5 animate-fade-up">
+          <div className="text-xs font-semibold uppercase tracking-[0.18em] text-fuchsia">
+            Ton évolution démarre bientôt
+          </div>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted">
+            Ton radar, ta signature du moment et tes mues se dessineront{" "}
+            <span className="text-ink">dès ta première journée terminée</span>. Il
+            n'y a encore rien à faire évoluer — c'est normal, pas un bug.
+          </p>
+          <Link
+            href="/aujourdhui"
+            className="mt-3 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-semibold text-[color:var(--on-brand)]"
+          >
+            Terminer ma journée du jour {Math.min(prog.jourCourant, 30)} →
+          </Link>
+        </Card>
+      )}
+
       {/* Anneau + repères */}
       <div className="grid gap-4 animate-fade-up sm:grid-cols-[auto_1fr]">
         <Card className="flex items-center gap-5 p-6">
