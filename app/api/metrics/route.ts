@@ -120,10 +120,41 @@ export async function GET(req: Request) {
     verbatims = [];
   }
 
+  // Testeuses ACTIVES = ont terminé au moins une journée (event « day_completed »),
+  // nettes des sessions de l'éditrice. C'est LE chiffre d'engagement réel.
+  let actives = 0;
+  let joursTermines = 0;
+  try {
+    const exclAnon = new Set<string>();
+    for (const p of patternsExclus()) {
+      const rr = await fetch(
+        `${url}/rest/v1/profiles?select=anon_id&email=ilike.${encodeURIComponent(`*${p}*`)}`,
+        { headers }
+      );
+      const rows = rr.ok ? await rr.json() : [];
+      for (const row of rows) if (row?.anon_id) exclAnon.add(row.anon_id as string);
+    }
+    const rc = await fetch(
+      `${url}/rest/v1/events?select=anon_id&name=eq.day_completed&limit=100000`,
+      { headers }
+    );
+    const evts = rc.ok ? await rc.json() : [];
+    const set = new Set<string>();
+    for (const e of evts as { anon_id?: string }[]) {
+      const a = e?.anon_id;
+      if (!a || exclAnon.has(a)) continue;
+      set.add(a);
+      joursTermines++;
+    }
+    actives = set.size;
+  } catch {}
+
   return Response.json({
     ok: true,
     configured: true,
     kpis: { users, opens, scenarios, feedback, consentsOui },
+    actives,
+    joursTermines,
     funnel: Array.isArray(funnelRows) ? funnelRows[0] ?? null : null,
     growth,
     retention,

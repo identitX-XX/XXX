@@ -23,6 +23,8 @@ interface Metrics {
   ok: boolean;
   configured?: boolean;
   kpis?: { users: number; opens: number; scenarios: number; feedback: number; consentsOui: number };
+  actives?: number;
+  joursTermines?: number;
   funnel?: Funnel | null;
   growth?: { jour: string; nb: number }[];
   retention?: Retention[];
@@ -162,8 +164,9 @@ export default function AdminPage() {
         <div className="flex flex-col gap-8">
           {/* Hero KPI */}
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            <Hero label="Testeuses actives" value={data?.actives ?? 0} sub={`ont terminé ≥ 1 journée · ${data?.joursTermines ?? 0} journées au total`} accent />
             <Hero label="Testeuses" value={k.users} sub="emails reliés" />
-            <Hero label="Activation" value={`${activation}%`} sub="signature révélée / ouverture" accent />
+            <Hero label="Activation" value={`${activation}%`} sub="signature révélée / ouverture" />
             <Hero label="Rétention J7" value={`${j7}%`} sub={`sur ${taille} en cohorte`} />
             <Hero label="Scénarios" value={k.scenarios} sub="générés (valeur produite)" />
           </div>
