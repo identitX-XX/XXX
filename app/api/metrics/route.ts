@@ -27,25 +27,26 @@ async function count(
 }
 
 // Emails de l'éditrice à EXCLURE des chiffres (elle se connecte beaucoup en
-// test → elle polluerait le compte et la liste). Source : la variable Vercel
-// ADMIN_EXCLUDE_EMAILS (séparés par des virgules) et/ou la liste ci-dessous.
-const EMAILS_EXCLUS_MANUEL: string[] = [
-  "marinabignon06@gmail.com", // éditrice — exclue des chiffres
+// test, avec plein de variantes/typos → elle polluerait le compte et la liste).
+// Exclusion par MOTIF (sous-chaîne) : tout email contenant l'un de ces motifs
+// est écarté — donc toutes les variantes (gmail/gmaill/fmail/yahoo…) et les
+// futures fautes de frappe. Source : Vercel ADMIN_EXCLUDE_PATTERNS et/ou ci-dessous.
+const PATTERNS_EXCLUS: string[] = [
+  "marinabignon", // éditrice — toutes ses variantes
 ];
-function emailsExclus(): string[] {
-  const env = (process.env.ADMIN_EXCLUDE_EMAILS || "")
+function patternsExclus(): string[] {
+  const env = (process.env.ADMIN_EXCLUDE_PATTERNS || "")
     .split(",")
     .map((s) => s.trim().toLowerCase())
     .filter(Boolean);
-  const set = new Set([...env, ...EMAILS_EXCLUS_MANUEL.map((s) => s.trim().toLowerCase())]);
+  const set = new Set([...env, ...PATTERNS_EXCLUS.map((s) => s.trim().toLowerCase())]);
   return Array.from(set).filter(Boolean);
 }
-// Fragment PostgREST « email pas dans la liste exclue » (vide si rien à exclure).
+// Fragment PostgREST « email ne contient aucun des motifs » (ANDés). Vide si rien.
 function exclusionEmail(): string {
-  const ex = emailsExclus();
-  if (!ex.length) return "";
-  const liste = ex.map((e) => `"${e}"`).join(",");
-  return `email=${encodeURIComponent(`not.in.(${liste})`)}`;
+  const pats = patternsExclus();
+  if (!pats.length) return "";
+  return pats.map((p) => `email=not.ilike.${encodeURIComponent(`*${p}*`)}`).join("&");
 }
 
 export async function GET(req: Request) {
