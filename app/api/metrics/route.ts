@@ -26,6 +26,28 @@ async function count(
   }
 }
 
+// Emails de l'éditrice à EXCLURE des chiffres (elle se connecte beaucoup en
+// test → elle polluerait le compte et la liste). Source : la variable Vercel
+// ADMIN_EXCLUDE_EMAILS (séparés par des virgules) et/ou la liste ci-dessous.
+const EMAILS_EXCLUS_MANUEL: string[] = [
+  // ex. "marina@exemple.com" — je remplis avec tes adresses.
+];
+function emailsExclus(): string[] {
+  const env = (process.env.ADMIN_EXCLUDE_EMAILS || "")
+    .split(",")
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean);
+  const set = new Set([...env, ...EMAILS_EXCLUS_MANUEL.map((s) => s.trim().toLowerCase())]);
+  return Array.from(set).filter(Boolean);
+}
+// Fragment PostgREST « email pas dans la liste exclue » (vide si rien à exclure).
+function exclusionEmail(): string {
+  const ex = emailsExclus();
+  if (!ex.length) return "";
+  const liste = ex.map((e) => `"${e}"`).join(",");
+  return `email=${encodeURIComponent(`not.in.(${liste})`)}`;
+}
+
 export async function GET(req: Request) {
   const admin = process.env.ADMIN_KEY;
   const given = new URL(req.url).searchParams.get("key") || "";
@@ -46,8 +68,10 @@ export async function GET(req: Request) {
 
   const headers = { apikey: key, authorization: `Bearer ${key}` };
 
+  const exclEmail = exclusionEmail(); // exclut les emails de l'éditrice
+
   const [users, opens, scenarios, feedback, consentsOui] = await Promise.all([
-    count(url, key, "profiles"),
+    count(url, key, "profiles", exclEmail),
     count(url, key, "events", "name=eq.app_open"),
     count(url, key, "events", "name=eq.scenario_generated"),
     count(url, key, "feedback"),
@@ -75,7 +99,7 @@ export async function GET(req: Request) {
   let inscriptions: unknown[] = [];
   try {
     const r = await fetch(
-      `${url}/rest/v1/profiles?select=email,prenom,created_at&order=created_at.desc&limit=500`,
+      `${url}/rest/v1/profiles?select=email,prenom,created_at&order=created_at.desc&limit=500${exclEmail ? "&" + exclEmail : ""}`,
       { headers }
     );
     inscriptions = r.ok ? await r.json() : [];
