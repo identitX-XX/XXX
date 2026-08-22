@@ -30,7 +30,7 @@ async function count(
 // test → elle polluerait le compte et la liste). Source : la variable Vercel
 // ADMIN_EXCLUDE_EMAILS (séparés par des virgules) et/ou la liste ci-dessous.
 const EMAILS_EXCLUS_MANUEL: string[] = [
-  // ex. "marina@exemple.com" — je remplis avec tes adresses.
+  "marinabignon06@gmail.com", // éditrice — exclue des chiffres
 ];
 function emailsExclus(): string[] {
   const env = (process.env.ADMIN_EXCLUDE_EMAILS || "")
