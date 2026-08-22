@@ -21,8 +21,9 @@ export function JourneyBar() {
   const etat = useParcoursStore((s) => s.etat);
 
   if (!mounted) return null;
-  // Sur le hub (et le tableau de bord éditrice), pas de repère de quête.
-  if (pathname === "/aujourdhui" || pathname === "/admin") return null;
+  // La barre « Jour N / 30 » reste visible PARTOUT (demande utilisatrice : un
+  // repère de progression toujours présent). Seul l'admin l'exclut.
+  if (pathname === "/admin") return null;
 
   // Quête pas encore lancée : NextStep porte déjà l'unique appel « révèle ton
   // archétype ». On ne le répète pas ici — une seule action par écran.

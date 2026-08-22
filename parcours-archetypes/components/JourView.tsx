@@ -320,7 +320,7 @@ export function JourView({
             background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
           }}
         >
-          {readOnly ? "Observation enregistrée ✓" : "Enregistrer mon observation →"}
+          {readOnly ? "Journée terminée ✓" : "Terminer ma journée →"}
         </button>
       </div>
     </div>
@@ -548,7 +548,7 @@ function ReactionClotature({
         {bascule ? "⇄" : "✓"}
       </div>
       <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-        Jour {r.jour} · {entete.eyebrow}
+        Jour {r.jour} terminé ✓{r.jour < 30 ? ` · Jour ${r.jour + 1} débloqué` : " · Quête accomplie"}
       </div>
       <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
         {entete.titre}
