@@ -14,7 +14,7 @@ import {
   ReponseJour,
 } from "./types";
 import { clotureJour, initialiser, matriceVide } from "./evolution";
-import { estObjet, snapshotValide, diagnosticValide } from "./hydration";
+import { estObjet, snapshotValide, diagnosticValide, jourCourantReconcilie } from "./hydration";
 import { generateParcours, DIAGNOSTIC_DEFAUT } from "./generateParcours";
 import { ARCHETYPE_KEYS } from "./archetypes";
 import { track } from "@/lib/metrics";
@@ -84,6 +84,17 @@ function assainir(
   if (!diagnostic) {
     return { ...base, parcours: current.parcours, etat: etatDepart(), reponses: {}, objectifs: null };
   }
+
+  // Auto-réparation : le jour courant ne peut pas être en retard sur les
+  // journées déjà répondues / vécues (sinon parcours coincé au jour 1).
+  base.etat = {
+    ...base.etat,
+    jourCourant: jourCourantReconcilie(
+      base.etat.jourCourant,
+      Object.keys(base.reponses).map(Number),
+      base.etat.historique.length
+    ),
+  };
   return base;
 }
 
