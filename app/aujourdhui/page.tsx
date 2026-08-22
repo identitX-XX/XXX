@@ -310,7 +310,7 @@ export default function AujourdhuiPage() {
 
       {/* Les 3 exercices du jour — un par périmètre, pilotés par la signature du
           moment (qui varie) : la quête « évolue », les exercices avec elle. */}
-      {arch && <TroisExercices arch={arch} objectifs={objectifs} />}
+      {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
 
       {/* Prochaine révélation — le rebondissement qui donne envie de revenir
           (déblocage progressif façon Headspace, révélation façon Co-Star). */}
@@ -397,11 +397,61 @@ const ICONE_PERIMETRE: Record<Perimetre, React.ElementType> = {
 function TroisExercices({
   arch,
   objectifs,
+  jour,
 }: {
   arch: Archetype;
   objectifs: Objectifs | null;
+  jour: number;
 }) {
-  const ex = exercicesDuJour(arch, objectifs);
+  // Exercice « modèle » affiché INSTANTANÉMENT (aucun spinner). En arrière-plan,
+  // l'IA génère une version unique du jour ; quand elle arrive, on la substitue.
+  // Mise en cache par (jour + signature) → un seul appel Mistral par jour et par
+  // appareil. Repli silencieux sur le modèle si l'IA tarde ou échoue.
+  const base = exercicesDuJour(arch, objectifs);
+  const [ia, setIa] = useState<Record<string, string> | null>(null);
+  useEffect(() => {
+    setIa(null);
+    const cle = `idx-exos-${jour}-${arch.key}`;
+    try {
+      const cache = localStorage.getItem(cle);
+      if (cache) {
+        setIa(JSON.parse(cache));
+        return;
+      }
+    } catch {}
+    let annule = false;
+    fetch("/api/exercices", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        archName: arch.name,
+        jour,
+        directions: {
+          perso: objectifs?.perso ?? "",
+          pro: objectifs?.pro ?? "",
+          relationnel: objectifs?.relationnel ?? "",
+        },
+      }),
+    })
+      .then((r) => r.json())
+      .then((d: { exercices?: { perimetre: string; consigne: string }[] | null }) => {
+        if (annule || !d?.exercices?.length) return;
+        const map: Record<string, string> = {};
+        for (const e of d.exercices) map[e.perimetre] = e.consigne;
+        setIa(map);
+        try {
+          localStorage.setItem(cle, JSON.stringify(map));
+        } catch {}
+      })
+      .catch(() => {});
+    return () => {
+      annule = true;
+    };
+  }, [jour, arch.key, arch.name, objectifs]);
+
+  const ex = base.map((e) =>
+    ia && ia[e.perimetre] ? { ...e, consigne: ia[e.perimetre] } : e
+  );
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
       <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">

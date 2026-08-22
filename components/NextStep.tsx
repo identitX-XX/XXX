@@ -14,11 +14,12 @@ import { progression } from "@/parcours-archetypes/indicateurs";
 // goal-gradient (« plus que X jours » près du but), charge cognitive minimale
 // (une seule action primaire), indice directionnel (flèche, verbe d'action).
 
-// On masque le fléchage là où la page porte déjà sa propre action de tête :
-// le hub, la quête active, la progression.
-// On masque le fléchage là où la page porte déjà sa propre action de tête :
-// le hub, la quête active, la progression, la Quête (déjà un CTA « Révéler »).
-const SKIP_EXACT = ["/aujourdhui", "/progression", "/admin", "/coach", "/quete", "/decouverte"];
+// On masque le fléchage UNIQUEMENT là où la page porte déjà sa propre action de
+// tête (le hub a sa capsule ; parcours-signatures a son parcours) ou n'a pas de
+// boucle (admin, découverte). Partout ailleurs — coach, scénarios, quête,
+// progression, portrait… — on affiche la prochaine étape pour ne JAMAIS laisser
+// l'utilisatrice sur un cul-de-sac : toujours une flèche vers quoi faire ensuite.
+const SKIP_EXACT = ["/aujourdhui", "/admin", "/decouverte"];
 
 type Step = { titre: string; pourquoi: string; cta: string; href: string };
 
@@ -99,15 +100,15 @@ function computeStep(
   const n = Math.min(prog.jourCourant, 30);
   if (!reponses[n])
     return {
-      titre: "Ta capsule du jour",
-      pourquoi: "≈ 5 min, quand tu veux. Une question, un geste, un appui — à ton rythme.",
-      cta: "Vivre ma capsule",
+      titre: `Ta journée du jour ${n}`,
+      pourquoi: "≈ 5 min : un geste, un exercice, un bilan. La terminer débloque le jour suivant.",
+      cta: "Terminer ma journée",
       href: "/parcours-signatures",
     };
 
   return {
-    titre: "Journée close ✓",
-    pourquoi: "Retrouve ton élan sur la carte des 30 jours.",
+    titre: `Jour ${n} terminé ✓`,
+    pourquoi: "Reviens quand tu veux pour le jour suivant — ou observe ton évolution.",
     cta: "Voir ma progression",
     href: "/progression",
   };
