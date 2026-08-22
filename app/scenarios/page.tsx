@@ -80,37 +80,72 @@ export default function TurbinePage() {
     };
   }, [historique, profile, directions, tensions, diagnostic]);
 
-  const generer = useCallback(async () => {
-    if (!input) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/turbine", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify(input),
-      });
-      const data = (await res.json()) as TurbineOutput & { error?: string };
-      if (!res.ok || data.error) {
-        setError(data.error ?? "Aucun scénario n'a pu être généré.");
-        return;
-      }
-      setOutput(data);
-      track("scenario_generated", {
-        reel,
-        count: data.scenarios?.length ?? 0,
-        mock: Boolean(data._mock),
-      });
-    } catch {
-      setError("Génération momentanément injoignable.");
-    } finally {
-      setLoading(false);
-    }
-  }, [input]);
+  // Clé de cache dérivée des directions posées : on génère UNE fois, puis on
+  // ressert instantanément (fini le « ça tourne » à chaque visite + on épargne
+  // des appels IA). On ne régénère que sur demande explicite (« d'autres
+  // possibles ») ou si les directions changent.
+  const cacheKey = useMemo(
+    () =>
+      input
+        ? "idx-scenarios-" + input.directions.map((d) => d.nom).join("|") + "::" + input.tensions.join("|")
+        : null,
+    [input]
+  );
 
+  const generer = useCallback(
+    async (force = false) => {
+      if (!input || !cacheKey) return;
+      // Anti-répétition : sur une relance, on donne au générateur les titres
+      // déjà vus pour qu'il en propose de NOUVEAUX.
+      const precedents =
+        force && output?.scenarios?.length ? output.scenarios.map((s) => s.titre) : [];
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/turbine", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ ...input, scenariosPrecedents: precedents }),
+        });
+        const data = (await res.json()) as TurbineOutput & { error?: string };
+        if (!res.ok || data.error) {
+          setError(data.error ?? "Aucun scénario n'a pu être généré.");
+          return;
+        }
+        setOutput(data);
+        try {
+          if (data.scenarios?.length) localStorage.setItem(cacheKey, JSON.stringify(data));
+        } catch {}
+        track("scenario_generated", {
+          reel,
+          count: data.scenarios?.length ?? 0,
+          mock: Boolean(data._mock),
+        });
+      } catch {
+        setError("Génération momentanément injoignable.");
+      } finally {
+        setLoading(false);
+      }
+    },
+    [input, cacheKey, output, reel]
+  );
+
+  // Au montage / changement de directions : on charge le cache s'il existe,
+  // sinon on génère une seule fois. Plus de régénération à chaque visite.
   useEffect(() => {
-    generer();
-  }, [generer]);
+    if (!cacheKey) return;
+    let cached: TurbineOutput | null = null;
+    try {
+      const c = localStorage.getItem(cacheKey);
+      if (c) cached = JSON.parse(c) as TurbineOutput;
+    } catch {}
+    if (cached?.scenarios?.length) {
+      setOutput(cached);
+      return;
+    }
+    void generer(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cacheKey]);
 
   return (
     <div>
@@ -185,7 +220,7 @@ export default function TurbinePage() {
         <div className="mt-6 rounded-2xl border border-line bg-surface p-6">
           <p className="text-sm text-ink">{error}</p>
           <button
-            onClick={generer}
+            onClick={() => generer(true)}
             className="mt-3 inline-flex items-center gap-2 text-sm text-fuchsia"
           >
             <RefreshCw size={14} /> Réessayer
@@ -211,7 +246,7 @@ export default function TurbinePage() {
                 explores.
               </p>
               <button
-                onClick={generer}
+                onClick={() => generer(true)}
                 className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-fuchsia"
               >
                 <RefreshCw size={14} /> Relancer
@@ -267,7 +302,7 @@ export default function TurbinePage() {
           )}
 
           <button
-            onClick={generer}
+            onClick={() => generer(true)}
             className="mt-8 inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
           >
             <RefreshCw size={15} /> Faire surgir d'autres possibles
