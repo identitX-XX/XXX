@@ -209,10 +209,15 @@ export default function TurbinePage() {
         </div>
       )}
 
-      {loading && (
+      {/* Spinner PLEIN écran seulement à la 1re génération (aucun scénario
+          encore). Sur une relance, on garde les scénarios visibles (voir plus
+          bas) — plus jamais l'impression que « ça bloque ». */}
+      {loading && !output && (
         <div className="mt-6 flex items-center gap-3 rounded-2xl border border-line bg-surface p-6 text-muted">
           <Loader2 size={18} className="animate-spin text-fuchsia" />
-          Tes scénarios se composent…
+          <span>
+            L'IA compose 3 scénarios sur mesure… <span className="text-faint">≈ 15 s</span>
+          </span>
         </div>
       )}
 
@@ -228,8 +233,16 @@ export default function TurbinePage() {
         </div>
       )}
 
-      {!loading && !error && output && (
+      {/* On garde les scénarios affichés même pendant une relance : un petit
+          indicateur « en cours » suffit — l'écran ne se vide plus. */}
+      {!error && output && (
         <div className="mt-6">
+          {loading && (
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[12px] text-muted">
+              <Loader2 size={12} className="animate-spin text-fuchsia" />
+              Je cherche d'autres possibles…
+            </div>
+          )}
           {output._mock && (
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[12px] text-muted">
               <Sparkles size={12} className="text-fuchsia" />
@@ -303,9 +316,11 @@ export default function TurbinePage() {
 
           <button
             onClick={() => generer(true)}
-            className="mt-8 inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
+            disabled={loading}
+            className="mt-8 inline-flex items-center gap-2 rounded-full border border-line px-5 py-2.5 text-sm text-ink transition-colors hover:border-fuchsia hover:text-fuchsia disabled:opacity-50"
           >
-            <RefreshCw size={15} /> Faire surgir d'autres possibles
+            <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
+            {loading ? "Recherche…" : "Faire surgir d'autres possibles"}
           </button>
         </div>
       )}
