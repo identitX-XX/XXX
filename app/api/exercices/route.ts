@@ -26,7 +26,7 @@ export async function POST(req: Request): Promise<Response> {
       headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
       body: JSON.stringify({
         model: "mistral-large-latest",
-        temperature: 0.85,
+        temperature: 0.7,
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
