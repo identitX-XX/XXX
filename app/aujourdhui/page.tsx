@@ -407,7 +407,7 @@ function TroisExercices({
   // l'IA génère une version unique du jour ; quand elle arrive, on la substitue.
   // Mise en cache par (jour + signature) → un seul appel Mistral par jour et par
   // appareil. Repli silencieux sur le modèle si l'IA tarde ou échoue.
-  const base = exercicesDuJour(arch, objectifs);
+  const base = exercicesDuJour(arch, objectifs, jour);
   const [ia, setIa] = useState<Record<string, string> | null>(null);
   useEffect(() => {
     setIa(null);
@@ -458,8 +458,10 @@ function TroisExercices({
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Un par périmètre — perso, pro, relationnel — adapté à ta signature du
-        moment (<b className="text-ink">{arch.name}</b>). Il change selon ton avancement.
+        Ce sont tes exercices du <b className="text-ink">Jour {jour}</b>, teintés de
+        ta signature du moment (<b className="text-ink">{arch.name}</b>). Ils se
+        renouvellent au <b className="text-ink">Jour {jour + 1}</b> — que tu débloques
+        en terminant ta journée (bouton « Terminer ma journée » en bas du bilan).
       </p>
       <div className="grid gap-3">
         {ex.map((e) => {
