@@ -11,6 +11,7 @@ import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
+import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
 import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
@@ -248,17 +249,17 @@ function QueteMonde({
         </div>
       )}
 
-      {/* Clarté jour après jour : pourquoi ça ne change pas tous les jours. */}
+      {/* Clarté jour après jour : ce qui est ton fil, ce qui change chaque jour. */}
       {!mue && (
         <div className="mt-5 rounded-2xl border p-4" style={{ borderColor: m.line, background: m.panel }}>
           <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
             Jour {jour} / 30
           </div>
           <p className="mt-1 text-sm leading-relaxed" style={{ color: m.muted }}>
-            Ta quête suit ta signature du moment (<b style={{ color: m.ink }}>{arch.name}</b>).
-            Tant qu'elle ne bascule pas, les exercices restent les mêmes : chaque
-            jour, tu les <b style={{ color: m.ink }}>approfondis</b> — tu ne repars pas
-            de zéro. Le jour où tu <b style={{ color: m.ink }}>mues</b>, ils se renouvellent.
+            Le <b style={{ color: m.ink }}>lest</b> de <b style={{ color: m.ink }}>{arch.name}</b> est
+            ton fil : il te travaille sur la durée. Mais chaque jour t'apporte du neuf —
+            ton <b style={{ color: m.ink }}>pacte du jour</b> change, et l'ordre de tes
+            poids à relâcher aussi. Le jour où tu <b style={{ color: m.ink }}>mues</b>, tout se renouvelle.
           </p>
         </div>
       )}
@@ -381,9 +382,9 @@ function QueteMonde({
 
       {/* Les trois exercices */}
       <div className="mt-6 flex flex-col gap-4">
-        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} />
+        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} jour={jour} />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
-        <Pacte key={`pac-${tour}`} m={m} geste={quete.geste} id={ids.pacte} />
+        <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} />
       </div>
 
       {/* Fléchage Coach & Ressources — présent jusque dans le monde immersif :
@@ -506,28 +507,37 @@ function Cadre({
   );
 }
 
-// Exercice 1 — relâcher, un à un, cinq poids.
-function Delestage({ m, poids, id }: { m: Monde; poids: string[]; id: string }) {
+// Exercice 1 — relâcher, un à un, cinq poids. L'ORDRE tourne chaque jour : un
+// poids différent ouvre le délestage, pour que l'exercice se renouvelle sans
+// rien perdre de son sens (les cinq poids restent ceux de ta signature).
+function Delestage({ m, poids, id, jour }: { m: Monde; poids: string[]; id: string; jour: number }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
   const [relaches, setRelaches] = useState<Set<number>>(new Set());
+
+  // Rotation déterministe de l'ordre selon le jour (contenu identique, ordre
+  // renouvelé → le premier poids « à relâcher aujourd'hui » change chaque jour).
+  const poidsDuJour = poids.map(
+    (_, i) => poids[(i + ((jour - 1) % poids.length) + poids.length) % poids.length]
+  );
 
   const relacher = (i: number) => {
     const next = new Set(relaches);
     next.add(i);
     setRelaches(next);
-    if (next.size === poids.length) marquer(id);
+    if (next.size === poidsDuJour.length) marquer(id);
   };
 
   return (
     <Cadre m={m} num={1} titre="Le délestage" done={Boolean(done)} kind="delestage">
       {!done && (
         <p className="mb-3 text-sm" style={{ color: m.muted }}>
-          Touche chaque poids pour le relâcher. Ils t'appartiennent — mais tu n'es pas obligé de les porter.
+          Aujourd'hui, commence par relâcher : <b style={{ color: m.ink }}>{poidsDuJour[0]}</b>.
+          Touche chaque poids pour le relâcher — ils t'appartiennent, mais tu n'es pas obligé de les porter.
         </p>
       )}
       <div className="flex flex-wrap gap-2.5">
-        {poids.map((p, i) => {
+        {poidsDuJour.map((p, i) => {
           const off = done || relaches.has(i);
           return (
             <button
