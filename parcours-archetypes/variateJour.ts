@@ -15,10 +15,12 @@ import type { Archetype } from "./types";
 function gestes(arch: Archetype): string[] {
   const n = arch.name;
   return [
-    arch.defi,
-    `Avant ce soir, pose un geste minuscule où « ${n} » s'exprime pleinement — sans te justifier.`,
+    arch.defi, // le geste natif, spécifique à la signature
+    `Aujourd'hui, dans une conversation, laisse « ${n} » parler à ta place une fois — et vois ce que ça change.`,
     `Repère un moment où tu brides « ${n} ». Laisse-la respirer, une fois, juste pour voir.`,
-    `Offre à « ${n} » une occasion inhabituelle de se montrer aujourd'hui.`,
+    `Prends une micro-décision aujourd'hui depuis « ${n} », pas depuis tes habitudes.`,
+    `Offre à « ${n} » une occasion inhabituelle de se montrer — là où tu ne l'attends pas.`,
+    `Ce soir, note un moment où « ${n} » t'a manqué aujourd'hui, et ce que tu aurais fait autrement.`,
     `Choisis une situation ordinaire et traverse-la délibérément en « ${n} ».`,
   ].filter((s) => (s ?? "").trim());
 }
@@ -26,11 +28,13 @@ function gestes(arch: Archetype): string[] {
 function questions(arch: Archetype): string[] {
   const n = arch.name;
   return [
-    arch.question,
+    arch.question, // la question de coaching native
     `Aujourd'hui, où « ${n} » demande-t-elle à s'exprimer — et qu'est-ce qui la retient ?`,
     `Quand « ${n} » s'active en toi, qu'est-ce qu'elle cherche à protéger ou à faire grandir ?`,
-    `Si tu accordais un cran de liberté de plus à « ${n} » aujourd'hui, que ferais-tu autrement ?`,
-    `Où, aujourd'hui, joues-tu contre « ${n} » au lieu de t'appuyer sur elle ?`,
+    `Qu'est-ce qui, aujourd'hui, nourrit « ${n} » — et qu'est-ce qui l'épuise ?`,
+    `Si tu accordais un cran de liberté de plus à « ${n} », que ferais-tu autrement ?`,
+    `Où joues-tu contre « ${n} » au lieu de t'appuyer sur elle ?`,
+    `À quoi ressemblerait ta journée si « ${n} » la menait entièrement ?`,
   ].filter((s) => (s ?? "").trim());
 }
 

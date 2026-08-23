@@ -16,10 +16,16 @@ const arch = {
 } as unknown as Archetype;
 
 test("variateJour : jours consécutifs → phrases différentes (geste + question)", () => {
-  const g = [1, 2, 3, 4, 5].map((j) => gesteDuJour(arch, j));
-  const q = [1, 2, 3, 4, 5].map((j) => questionDuJour(arch, j));
-  assert.equal(new Set(g).size, 5, "5 gestes distincts sur 5 jours");
-  assert.equal(new Set(q).size, 5, "5 questions distinctes sur 5 jours");
+  const jours = [1, 2, 3, 4, 5, 6, 7];
+  const g = jours.map((j) => gesteDuJour(arch, j));
+  const q = jours.map((j) => questionDuJour(arch, j));
+  assert.equal(new Set(g).size, jours.length, "7 gestes distincts sur 7 jours");
+  assert.equal(new Set(q).size, jours.length, "7 questions distinctes sur 7 jours");
+  // Deux jours de suite ne sont jamais identiques.
+  for (let i = 1; i < jours.length; i++) {
+    assert.notEqual(gesteDuJour(arch, jours[i]), gesteDuJour(arch, jours[i - 1]));
+    assert.notEqual(questionDuJour(arch, jours[i]), questionDuJour(arch, jours[i - 1]));
+  }
 });
 
 test("variateJour : déterministe (un jour donné rend toujours la même phrase)", () => {
