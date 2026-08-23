@@ -14,6 +14,7 @@ import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
+import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
@@ -277,7 +278,7 @@ export default function AujourdhuiPage() {
                     <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
                       Le geste · en journée
                     </div>
-                    <p className="mt-0.5 text-sm leading-snug text-ink">{arch.defi}</p>
+                    <p className="mt-0.5 text-sm leading-snug text-ink">{gesteDuJour(arch, n)}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
