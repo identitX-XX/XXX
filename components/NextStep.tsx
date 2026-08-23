@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Card } from "./ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { progression } from "@/parcours-archetypes/indicateurs";
+import { prochaineEtape } from "@/lib/prochaineEtape";
 
 // Continuité de parcours : sur chaque page « périphérique », un unique passage
 // à l'action ramène l'utilisateur dans la boucle quotidienne — jamais de
@@ -20,8 +20,6 @@ import { progression } from "@/parcours-archetypes/indicateurs";
 // progression, portrait… — on affiche la prochaine étape pour ne JAMAIS laisser
 // l'utilisatrice sur un cul-de-sac : toujours une flèche vers quoi faire ensuite.
 const SKIP_EXACT = ["/aujourdhui", "/admin", "/decouverte"];
-
-type Step = { titre: string; pourquoi: string; cta: string; href: string };
 
 export function NextStep() {
   const pathname = usePathname();
@@ -38,7 +36,7 @@ export function NextStep() {
   if (SKIP_EXACT.includes(pathname) || pathname.startsWith("/parcours-signatures"))
     return null;
 
-  const step = computeStep(diagnostic, objectifs, etat, reponses);
+  const step = prochaineEtape(diagnostic, objectifs, etat, reponses);
 
   return (
     <div className="mt-12 animate-fade-up">
@@ -65,51 +63,4 @@ export function NextStep() {
       </Card>
     </div>
   );
-}
-
-function computeStep(
-  diagnostic: unknown,
-  objectifs: unknown,
-  etat: Parameters<typeof progression>[0],
-  reponses: Record<number, unknown>
-): Step {
-  if (!diagnostic)
-    return {
-      titre: "Révèle ta signature",
-      pourquoi: "Tout part de là : douze questions, et ton point de départ.",
-      cta: "Commencer",
-      href: "/parcours-signatures",
-    };
-  if (!objectifs)
-    return {
-      titre: "Pose ton cap",
-      pourquoi: "Un objectif par périmètre — ta boussole des 30 jours.",
-      cta: "Poser mon cap",
-      href: "/parcours-signatures",
-    };
-
-  const prog = progression(etat);
-  if (prog.jourCourant > 30)
-    return {
-      titre: "Ton bilan t'attend",
-      pourquoi: "Tes 30 jours sont accomplis — recueille ce qui ressort.",
-      cta: "Voir mon bilan",
-      href: "/parcours-signatures/rapport",
-    };
-
-  const n = Math.min(prog.jourCourant, 30);
-  if (!reponses[n])
-    return {
-      titre: `Ta journée du jour ${n}`,
-      pourquoi: "≈ 5 min : un geste, un exercice, un bilan. La terminer débloque le jour suivant.",
-      cta: "Terminer ma journée",
-      href: "/parcours-signatures",
-    };
-
-  return {
-    titre: `Jour ${n} terminé ✓`,
-    pourquoi: "Reviens quand tu veux pour le jour suivant — ou observe ton évolution.",
-    cta: "Voir ma progression",
-    href: "/progression",
-  };
 }
