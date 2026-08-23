@@ -122,10 +122,15 @@ export function CoachIA() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const lastMsgRef = useRef<HTMLDivElement | null>(null);
 
+  // On amène le DÉBUT du dernier message en haut de l'écran (block:"start"),
+  // pas un repère tout en bas de page : sinon, avec un fil court, la page saute
+  // PAR-DESSUS la réponse et on atterrit dans le vide (la carte « La suite »).
+  // Ici, quand un scénario/une réponse arrive, on tombe pile sur son début.
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (!messages.length) return;
+    lastMsgRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [messages]);
 
   const context = useMemo(
@@ -255,7 +260,6 @@ export function CoachIA() {
           flexDirection: "column",
           gap: 12,
           marginTop: 26,
-          flex: 1,
           // Dégage la place pour la zone de saisie fixe + la barre d'onglets.
           paddingBottom: "calc(7rem + env(safe-area-inset-bottom))",
         }}
@@ -310,7 +314,11 @@ export function CoachIA() {
         {messages.map((m, i) => (
           <div
             key={i}
+            ref={i === messages.length - 1 ? lastMsgRef : undefined}
             style={{
+              // Marge de défilement : le message ne se colle pas sous la barre
+              // du haut quand on l'amène en tête d'écran.
+              scrollMarginTop: 80,
               alignSelf: m.role === "user" ? "flex-end" : "flex-start",
               maxWidth: "86%",
               padding: "12px 15px",
@@ -361,8 +369,6 @@ export function CoachIA() {
             {error}
           </div>
         )}
-
-        <div ref={bottomRef} />
       </div>
 
       {/* Zone de saisie — remontée AU-DESSUS de la barre d'onglets (sinon elle
