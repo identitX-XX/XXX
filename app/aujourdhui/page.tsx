@@ -247,7 +247,7 @@ export default function AujourdhuiPage() {
                     {prog.faits}
                   </div>
                   <div className="mt-1 text-[12px] uppercase tracking-[0.18em] text-muted">
-                    / 30 jours
+                    jours accomplis
                   </div>
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default function AujourdhuiPage() {
           <div className="flex-1 text-center sm:text-left">
             <div className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
               <span>
-                La capsule · Jour {n} · {phase.label}
+                Aujourd'hui · Jour {n} / 30 · {phase.label}
               </span>
             </div>
             <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[1.7rem]">
