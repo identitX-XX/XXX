@@ -12,6 +12,7 @@ import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
 import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
 import { getEmail, pushEtatNow } from "@/lib/etatSync";
 import { anonId } from "@/lib/metrics";
@@ -211,6 +212,12 @@ function MaQueteApercu({
   const caps = objectifs
     ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((v) => v && v.trim())
     : [];
+  // Vue VIVANTE (pas un instantané figé du diagnostic) : le jour courant, la
+  // signature du moment (qui bouge au fil du vécu) et la direction mise en
+  // chantier aujourd'hui (rotation par jour) → la carte « Ma quête » évolue.
+  const jourCourantVue = Math.min(progression(etat).jourCourant, 30);
+  const sigMoment = archetypeDominant(etat);
+  const capDuJour = caps.length ? caps[(jourCourantVue - 1) % caps.length] : "";
   // Détection de mue : blindée (un historique d'ancienne version peut avoir une
   // autre forme et faire planter la segmentation → on tombe alors sur « pas de
   // mue » au lieu de casser toute la page).
@@ -232,16 +239,16 @@ function MaQueteApercu({
     {
       titre: "Ce que je construis",
       hint: caps.length
-        ? "Tes directions — et ce qu'elles rendent possible."
+        ? `Ta direction en chantier aujourd'hui${caps.length > 1 ? ` · ${caps.length} en tout` : ""}.`
         : "Ce que je souhaite faire exister.",
-      valeur: caps.length ? caps.join(" · ") : "À préciser",
+      valeur: caps.length ? capDuJour : "À préciser",
       href: caps.length ? "/scenarios" : "/progression",
       cta: caps.length ? "Voir ce que ça ouvre" : "Poser tes directions",
     },
     {
       titre: "Ce que j'explore",
-      hint: "Les dimensions que je veux mieux comprendre.",
-      valeur: sec.name,
+      hint: "La signature active en ce moment — elle bouge au fil des jours.",
+      valeur: sigMoment?.name ?? sec.name,
       href: "/explorer",
       cta: "Explorer",
     },

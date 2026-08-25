@@ -123,13 +123,22 @@ export function CoachIA() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const lastMsgRef = useRef<HTMLDivElement | null>(null);
+  // Ergonomie : on ne « suit » le fil (scroll vers le dernier message) QU'APRÈS
+  // une interaction dans cette session. Sinon, en arrivant sur le Coach on était
+  // largué tout en bas d'une vieille conversation accumulée — pas fluide.
+  const interacted = useRef(false);
 
-  // On amène le DÉBUT du dernier message en haut de l'écran (block:"start"),
-  // pas un repère tout en bas de page : sinon, avec un fil court, la page saute
-  // PAR-DESSUS la réponse et on atterrit dans le vide (la carte « La suite »).
-  // Ici, quand un scénario/une réponse arrive, on tombe pile sur son début.
+  // À l'arrivée : on se pose EN HAUT (titre + puces de scénarios visibles),
+  // quelle que soit la longueur de l'historique — entrée propre, jamais au
+  // milieu d'un ancien échange.
   useEffect(() => {
-    if (!messages.length) return;
+    window.scrollTo(0, 0);
+  }, []);
+
+  // Après une interaction : on amène le DÉBUT du dernier message en haut de
+  // l'écran (block:"start") → on lit la réponse depuis sa première ligne.
+  useEffect(() => {
+    if (!interacted.current || !messages.length) return;
     lastMsgRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [messages]);
 
@@ -141,6 +150,7 @@ export function CoachIA() {
   const send = async (seedText?: string) => {
     const text = (seedText ?? input).trim();
     if (!text || loading) return;
+    interacted.current = true; // à partir d'ici, on suit le fil
     setError(null);
     const next: ChatMsg[] = [...messages, { role: "user", content: text }];
     setCoachChat(next.slice(-40));
