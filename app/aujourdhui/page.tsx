@@ -97,6 +97,10 @@ export default function AujourdhuiPage() {
   const n = Math.min(prog.jourCourant, 30);
   const jour = parcours.jours.find((j) => j.n === n) ?? null;
   const arch = jour ? archetypeByKey[jour.archetype] : null;
+  // Signature d'hier — pour rendre le changement VISIBLE sur la capsule (« hier
+  // X, aujourd'hui Y ») : la capsule cesse de sembler figée d'un jour à l'autre.
+  const hierJour = n > 1 ? parcours.jours.find((j) => j.n === n - 1) : null;
+  const hierArch = hierJour ? archetypeByKey[hierJour.archetype] : null;
   const phase = phaseDuJour(n);
   const angle = (prog.part / 100) * 360;
   const dejaFait = Boolean(reponses[n]);
@@ -267,6 +271,13 @@ export default function AujourdhuiPage() {
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {arch?.lens}
             </p>
+            {arch && (
+              <p className="mt-1.5 text-xs text-fuchsia">
+                {hierArch && hierArch.name !== arch.name
+                  ? `Hier : ${hierArch.name} — aujourd'hui, une autre facette de toi.`
+                  : "Ta signature du jour — elle change à chaque nouvelle journée."}
+              </p>
+            )}
 
             {/* Les deux moments de la capsule, nommés — pour qu'ils cessent
                 d'être invisibles derrière un simple « Vivre ma journée ». */}
