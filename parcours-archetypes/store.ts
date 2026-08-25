@@ -17,6 +17,7 @@ import { clotureJour, initialiser, matriceVide } from "./evolution";
 import { estObjet, snapshotValide, diagnosticValide, jourCourantReconcilie } from "./hydration";
 import { generateParcours, DIAGNOSTIC_DEFAUT } from "./generateParcours";
 import { ARCHETYPE_KEYS } from "./archetypes";
+import type { PacteJour, TenuPacte } from "./pactes";
 import { track } from "@/lib/metrics";
 
 const parcoursBase = parcoursData as unknown as Parcours;
@@ -75,6 +76,7 @@ function assainir(
     climat: obj(p.climat, {} as StoreParcours["climat"]),
     queteExercices: obj(p.queteExercices, {} as StoreParcours["queteExercices"]),
     quetePaliers: obj(p.quetePaliers, {} as StoreParcours["quetePaliers"]),
+    pactes: obj(p.pactes, {} as StoreParcours["pactes"]),
     filVu: typeof p.filVu === "number" ? p.filVu : 0,
     mondeChoisi: typeof p.mondeChoisi === "string" ? (p.mondeChoisi as string) : null,
   };
@@ -116,6 +118,9 @@ interface StoreParcours {
   // `${archetype}:${exercice}` → true).
   mondeChoisi: string | null;
   queteExercices: Record<string, boolean>;
+  // Le fil des pactes : l'engagement pris chaque jour de Quête, et sa tenue
+  // (évaluée le lendemain). Continuité de la Quête d'un jour à l'autre.
+  pactes: Record<number, PacteJour>;
   // Progression mesurable de la Quête : nombre de boucles complètes accomplies
   // PAR archétype (`archetype` → paliers). Un palier = les trois exercices
   // bouclés, puis « reparcourir un cran plus haut ». Suit la mue : chaque
@@ -147,6 +152,10 @@ interface StoreParcours {
   marquerExercice: (id: string) => void;
   rejouerQuete: (archKey: string) => void;
 
+  // Le fil des pactes : s'engager (jour J), puis évaluer sa tenue (jour J+1).
+  prendrePacte: (jour: number, texte: string, archKey: string) => void;
+  repondrePacte: (jour: number, tenu: TenuPacte) => void;
+
   // Réinitialise tout (garde le parcours de base généré).
   reinitialiser: () => void;
 }
@@ -165,6 +174,7 @@ export const useParcoursStore = create<StoreParcours>()(
       mondeChoisi: null,
       queteExercices: {},
       quetePaliers: {},
+      pactes: {},
 
       initialiserParcours: (diag) => {
         track("archetype_revealed", { dominant: diag.dominant });
@@ -215,6 +225,23 @@ export const useParcoursStore = create<StoreParcours>()(
         set({ queteExercices: q, quetePaliers: paliers });
       },
 
+      prendrePacte: (jour, texte, archKey) => {
+        const pactes = get().pactes;
+        // Idempotent : un seul engagement par jour, on n'écrase jamais sa tenue.
+        if (pactes[jour]?.texte) return;
+        set({
+          pactes: {
+            ...pactes,
+            [jour]: { jour, texte, archKey, dateEngagement: new Date().toISOString() },
+          },
+        });
+      },
+      repondrePacte: (jour, tenu) => {
+        const pactes = get().pactes;
+        if (!pactes[jour]) return;
+        set({ pactes: { ...pactes, [jour]: { ...pactes[jour], tenu } } });
+      },
+
       reinitialiser: () =>
         set({
           diagnostic: null,
@@ -230,6 +257,7 @@ export const useParcoursStore = create<StoreParcours>()(
           mondeChoisi: null,
           queteExercices: {},
           quetePaliers: {},
+          pactes: {},
         }),
     }),
     {

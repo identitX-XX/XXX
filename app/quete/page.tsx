@@ -12,6 +12,7 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
+import { constancePactes } from "@/parcours-archetypes/pactes";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
 import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
@@ -181,6 +182,8 @@ function QueteMonde({
   const futur = futurMoiDe(archKey);
   const done = useParcoursStore((s) => s.queteExercices);
   const paliers = useParcoursStore((s) => s.quetePaliers);
+  const pactes = useParcoursStore((s) => s.pactes);
+  const constance = constancePactes(pactes);
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
   const rejouer = useParcoursStore((s) => s.rejouerQuete);
   const [tour, setTour] = useState(0);
@@ -330,6 +333,14 @@ function QueteMonde({
             />
           ))}
         </div>
+        {/* Jauge de constance — les engagements tenus, jour après jour. */}
+        {constance.serie > 0 && (
+          <p className="mt-2.5 text-[12px] font-medium" style={{ color: m.accent }}>
+            🔥 {constance.serie} engagement{constance.serie > 1 ? "s" : ""} tenu
+            {constance.serie > 1 ? "s" : ""} d'affilée
+            {constance.tenus > constance.serie ? ` · ${constance.tenus} au total` : ""}
+          </p>
+        )}
       </div>
 
       {/* Le lest */}
@@ -452,7 +463,7 @@ function QueteMonde({
       <div className="mt-6 flex flex-col gap-4">
         <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} jour={jour} />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
-        <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} />
+        <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={jour} archKey={archKey} />
       </div>
 
       {/* Fléchage Coach & Ressources — présent jusque dans le monde immersif :
@@ -677,9 +688,14 @@ function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: NonNullable<Retu
 }
 
 // Exercice 3 — s'engager sur un geste.
-function Pacte({ m, geste, id }: { m: Monde; geste: string; id: string }) {
+function Pacte({ m, geste, id, jour, archKey }: { m: Monde; geste: string; id: string; jour: number; archKey: string }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
+  const prendrePacte = useParcoursStore((s) => s.prendrePacte);
+  const sengager = () => {
+    marquer(id); // valide l'étape de la boucle
+    prendrePacte(jour, geste, archKey); // ...et inscrit l'engagement dans le fil (check-in demain)
+  };
   return (
     <Cadre m={m} num={3} titre="Le pacte" done={Boolean(done)} kind="pacte">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{geste}</p>
@@ -695,7 +711,7 @@ function Pacte({ m, geste, id }: { m: Monde; geste: string; id: string }) {
         </div>
       ) : (
         <button
-          onClick={() => marquer(id)}
+          onClick={sengager}
           className="mt-4 rounded-full px-6 py-2.5 text-sm font-medium transition-transform hover:scale-[1.03]"
           style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "#0a0a0a" }}
         >

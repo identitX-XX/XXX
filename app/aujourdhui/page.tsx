@@ -15,6 +15,7 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
+import { pacteAVerifier, TenuPacte } from "@/parcours-archetypes/pactes";
 import { progression, momentum } from "@/parcours-archetypes/indicateurs";
 import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
@@ -181,6 +182,10 @@ export default function AujourdhuiPage() {
 
       {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
       <LeChemin />
+
+      {/* Le fil des pactes : l'engagement pris dans la Quête revient te chercher
+          le lendemain. C'est ce qui donne un « payoff » au jour suivant. */}
+      <CheckinPacte jourCourant={prog.jourCourant} />
 
       {/* Retour bienveillant après une absence : pas de rattrapage, pas de
           pénalité — le parcours suit les jours vécus, jamais le calendrier. */}
@@ -359,6 +364,45 @@ export default function AujourdhuiPage() {
         <ArrowRight size={16} className="flex-none text-muted" />
       </Link>
     </div>
+  );
+}
+
+// Check-in du pacte : l'engagement pris un jour de Quête revient le lendemain.
+// « Tenu ? » → la réponse nourrit la constance. C'est le fil qui relie les jours.
+function CheckinPacte({ jourCourant }: { jourCourant: number }) {
+  const pactes = useParcoursStore((s) => s.pactes);
+  const repondrePacte = useParcoursStore((s) => s.repondrePacte);
+  const pacte = pacteAVerifier(pactes, jourCourant);
+  if (!pacte) return null;
+
+  const opts: { t: TenuPacte; label: string }[] = [
+    { t: "oui", label: "Oui, tenu" },
+    { t: "partiel", label: "En partie" },
+    { t: "non", label: "Pas cette fois" },
+  ];
+  return (
+    <Card className="mb-4 p-5 animate-fade-up sm:p-6">
+      <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        Ton engagement du Jour {pacte.jour}
+      </div>
+      <p className="mt-1.5 font-display text-lg font-light leading-snug text-ink">
+        « {pacte.texte} »
+      </p>
+      <p className="mt-1 text-xs text-muted">
+        L'as-tu tenu ? Ta réponse fait grandir ta constance.
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {opts.map((o) => (
+          <button
+            key={o.t}
+            onClick={() => repondrePacte(pacte.jour, o.t)}
+            className="rounded-full border border-line px-4 py-2 text-sm text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </Card>
   );
 }
 
