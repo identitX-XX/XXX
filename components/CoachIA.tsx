@@ -128,11 +128,14 @@ export function CoachIA() {
   // largué tout en bas d'une vieille conversation accumulée — pas fluide.
   const interacted = useRef(false);
 
-  // À l'arrivée : on se pose EN HAUT (titre + puces de scénarios visibles),
-  // quelle que soit la longueur de l'historique — entrée propre, jamais au
-  // milieu d'un ancien échange.
+  // À l'arrivée : conversation VIERGE (choix utilisatrice) + on se pose en haut.
+  // Chaque ouverture du Coach repart d'une page blanche → zéro accumulation.
+  // Exception : si une amorce a été déposée (ex. clôture d'une journée), l'effet
+  // d'amorce démarre une conversation neuve AVEC elle (base vide).
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (!coachSeed) setCoachChat([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Après une interaction : on amène le DÉBUT du dernier message en haut de
@@ -147,12 +150,15 @@ export function CoachIA() {
     [profile, journalFusion, identities]
   );
 
-  const send = async (seedText?: string) => {
+  const send = async (seedText?: string, opts?: { fresh?: boolean }) => {
     const text = (seedText ?? input).trim();
     if (!text || loading) return;
     interacted.current = true; // à partir d'ici, on suit le fil
     setError(null);
-    const next: ChatMsg[] = [...messages, { role: "user", content: text }];
+    // `fresh` : démarre d'une base vide (amorce d'une nouvelle visite), sans
+    // dépendre d'un historique potentiellement encore en mémoire au montage.
+    const base = opts?.fresh ? [] : messages;
+    const next: ChatMsg[] = [...base, { role: "user", content: text }];
     setCoachChat(next.slice(-40));
     setInput("");
     setLoading(true);
@@ -188,7 +194,7 @@ export function CoachIA() {
     seedFired.current = true;
     const seed = coachSeed;
     setCoachSeed(null);
-    void send(seed);
+    void send(seed, { fresh: true }); // nouvelle conversation, amorce en 1er message
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coachSeed, loading]);
 
