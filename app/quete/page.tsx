@@ -27,6 +27,38 @@ const FOND: Record<MondeKey, string> = {
   manga: "#0c0c12",
 };
 
+// Arc narratif de la Quête — une histoire qui AVANCE à chaque palier tenu. Le
+// « niveau » = nombre de boucles complètes (+1 si la boucle courante est finie).
+// Générique (tissé sur le lest + le futur moi de la signature) → marche pour les
+// 20 signatures sans réécrire 20 récits, et se renouvelle palier après palier.
+function narratifQuete(
+  archName: string,
+  lest: string,
+  futurNom: string,
+  niveau: number
+): { titre: string; texte: string; niveau: number; total: number } {
+  const chapitres = [
+    {
+      titre: "Chapitre 1 · La rencontre",
+      texte: `Tu reconnais ${lest} — ce poids qui te suit partout. Le nommer, c'est déjà commencer à t'en défaire.`,
+    },
+    {
+      titre: "Chapitre 2 · Le relâchement",
+      texte: `Une première boucle tenue. ${lest} desserre son emprise ; « ${archName} » respire un peu plus librement.`,
+    },
+    {
+      titre: "Chapitre 3 · L'ancrage",
+      texte: `Ce n'est plus un effort : ça devient un réflexe. Chaque boucle grave un peu plus la nouvelle façon d'être.`,
+    },
+    {
+      titre: `Chapitre final · ${futurNom}`,
+      texte: `Le lest posé, tu deviens ${futurNom}. Tu peux rejouer la boucle pour ancrer encore — mais le chemin, désormais, tu le connais.`,
+    },
+  ];
+  const i = Math.max(0, Math.min(niveau, chapitres.length - 1));
+  return { ...chapitres[i], niveau: i, total: chapitres.length };
+}
+
 export default function QuetePage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const etat = useParcoursStore((s) => s.etat);
@@ -197,11 +229,20 @@ function QueteMonde({
     );
   }
 
+  // Niveau narratif = boucles complètes tenues (+1 si la boucle courante est finie).
+  const narr = narratifQuete(arch.name, quete.lest, futur.nom, palier + (accompli ? 1 : 0));
+
   return (
     <div
       className="rounded-3xl border p-6 sm:p-9"
       style={{ background: m.bg, borderColor: m.line, color: m.ink }}
     >
+      <style>{`
+        @keyframes idx-envol { from { transform: translateY(0) scale(1); opacity: 1; } to { transform: translateY(-22px) scale(.86); opacity: .28; } }
+        @keyframes idx-sceau { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes idx-monte { from { width: 0; } }
+      `}</style>
+
       {/* Scène du monde en tête — la case de BD, continuité visuelle. */}
       <div className="relative mb-6 overflow-hidden rounded-2xl" style={{ border: `1px solid ${m.line}` }}>
         <MondeScene mk={m.key} accent={m.accent} accent2={m.accent2} ink={m.ink} fond={FOND[m.key]} height={128} />
@@ -263,6 +304,33 @@ function QueteMonde({
           </p>
         </div>
       )}
+
+      {/* Progression NARRATIVE — un chapitre qui avance à chaque palier tenu.
+          On revient pour connaître la suite, pas pour refaire la même chose. */}
+      <div
+        className="mt-5 overflow-hidden rounded-2xl border p-5"
+        style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+            {narr.titre}
+          </div>
+          <span className="text-[12px] font-semibold" style={{ color: m.muted }}>
+            {narr.niveau + 1} / {narr.total}
+          </span>
+        </div>
+        <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>{narr.texte}</p>
+        {/* Frise des chapitres — la barre d'histoire qui se remplit. */}
+        <div className="mt-3 flex gap-1.5">
+          {Array.from({ length: narr.total }).map((_, i) => (
+            <div
+              key={i}
+              className="h-1.5 flex-1 rounded-full transition-all"
+              style={{ background: i <= narr.niveau ? m.accent : m.line }}
+            />
+          ))}
+        </div>
+      </div>
 
       {/* Le lest */}
       <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
@@ -538,16 +606,21 @@ function Delestage({ m, poids, id, jour }: { m: Monde; poids: string[]; id: stri
       )}
       <div className="flex flex-wrap gap-2.5">
         {poidsDuJour.map((p, i) => {
-          const off = done || relaches.has(i);
+          const justRelache = relaches.has(i); // relâché À L'INSTANT (cette session)
+          const off = done || justRelache;
           return (
             <button
               key={i}
               onClick={() => !off && relacher(i)}
               disabled={off}
               className="rounded-full border px-4 py-2 text-sm transition-all"
-              style={off
-                ? { borderColor: m.line, color: m.muted, opacity: 0.32, textDecoration: "line-through" }
-                : { borderColor: m.accent, color: m.ink, background: `color-mix(in srgb, ${m.accent} 12%, transparent)` }}
+              style={{
+                ...(off
+                  ? { borderColor: m.line, color: m.muted, opacity: 0.32, textDecoration: "line-through" }
+                  : { borderColor: m.accent, color: m.ink, background: `color-mix(in srgb, ${m.accent} 12%, transparent)` }),
+                // Le poids s'envole quand on le relâche (jamais au montage d'un déjà-fait).
+                ...(justRelache ? { animation: "idx-envol .55s cubic-bezier(.22,1,.36,1) forwards" } : {}),
+              }}
             >
               {p}
             </button>
@@ -611,11 +684,19 @@ function Pacte({ m, geste, id }: { m: Monde; geste: string; id: string }) {
     <Cadre m={m} num={3} titre="Le pacte" done={Boolean(done)} kind="pacte">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{geste}</p>
       {done ? (
-        <p className="mt-3 text-sm" style={{ color: m.accent }}>Engagement pris. À toi de le tenir.</p>
+        <div className="mt-3 flex items-center gap-2.5">
+          <span
+            className="grid h-7 w-7 flex-none place-items-center rounded-full text-sm font-bold"
+            style={{ background: m.accent, color: "#0a0a0a", animation: "idx-sceau .5s ease forwards" }}
+          >
+            ✓
+          </span>
+          <p className="text-sm" style={{ color: m.accent }}>Engagement pris. À toi de le tenir.</p>
+        </div>
       ) : (
         <button
           onClick={() => marquer(id)}
-          className="mt-4 rounded-full px-6 py-2.5 text-sm font-medium"
+          className="mt-4 rounded-full px-6 py-2.5 text-sm font-medium transition-transform hover:scale-[1.03]"
           style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "#0a0a0a" }}
         >
           Je m'engage
