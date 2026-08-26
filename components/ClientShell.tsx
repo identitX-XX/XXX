@@ -11,6 +11,7 @@ import { shellDecision } from "@/lib/access";
 import { Brand, NavList } from "./Sidebar";
 import { NextStep } from "./NextStep";
 import { JourneyBar } from "./JourneyBar";
+import { VersionBadge } from "./VersionBadge";
 import { BottomNav } from "./BottomNav";
 import { ConsentGate } from "./ConsentGate";
 import { ScrollTop } from "./ScrollTop";
@@ -123,6 +124,7 @@ export function ClientShell({ children }: { children: ReactNode }) {
             <div className="mt-8">
               <ThemeToggle theme={theme} setTheme={setTheme} />
             </div>
+            <VersionBadge />
           </div>
         </div>
       )}

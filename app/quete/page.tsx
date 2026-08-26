@@ -11,6 +11,9 @@ import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
+import { gesteDuJour } from "@/parcours-archetypes/variateJour";
+import { constancePactes } from "@/parcours-archetypes/pactes";
+import { delestageDuJour } from "@/parcours-archetypes/delestageJour";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
 import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
@@ -25,6 +28,38 @@ const FOND: Record<MondeKey, string> = {
   retro: "#160a1a",
   manga: "#0c0c12",
 };
+
+// Arc narratif de la Quête — une histoire qui AVANCE à chaque palier tenu. Le
+// « niveau » = nombre de boucles complètes (+1 si la boucle courante est finie).
+// Générique (tissé sur le lest + le futur moi de la signature) → marche pour les
+// 20 signatures sans réécrire 20 récits, et se renouvelle palier après palier.
+function narratifQuete(
+  archName: string,
+  lest: string,
+  futurNom: string,
+  niveau: number
+): { titre: string; texte: string; niveau: number; total: number } {
+  const chapitres = [
+    {
+      titre: "Chapitre 1 · La rencontre",
+      texte: `Tu reconnais ${lest} — ce poids qui te suit partout. Le nommer, c'est déjà commencer à t'en défaire.`,
+    },
+    {
+      titre: "Chapitre 2 · Le relâchement",
+      texte: `Une première boucle tenue. ${lest} desserre son emprise ; « ${archName} » respire un peu plus librement.`,
+    },
+    {
+      titre: "Chapitre 3 · L'ancrage",
+      texte: `Ce n'est plus un effort : ça devient un réflexe. Chaque boucle grave un peu plus la nouvelle façon d'être.`,
+    },
+    {
+      titre: `Chapitre final · ${futurNom}`,
+      texte: `Le lest posé, tu deviens ${futurNom}. Tu peux rejouer la boucle pour ancrer encore — mais le chemin, désormais, tu le connais.`,
+    },
+  ];
+  const i = Math.max(0, Math.min(niveau, chapitres.length - 1));
+  return { ...chapitres[i], niveau: i, total: chapitres.length };
+}
 
 export default function QuetePage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
@@ -148,6 +183,12 @@ function QueteMonde({
   const futur = futurMoiDe(archKey);
   const done = useParcoursStore((s) => s.queteExercices);
   const paliers = useParcoursStore((s) => s.quetePaliers);
+  const pactes = useParcoursStore((s) => s.pactes);
+  const constance = constancePactes(pactes);
+  const objectifs = useParcoursStore((s) => s.objectifs);
+  const directions = objectifs
+    ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((d): d is string => Boolean(d && d.trim()))
+    : [];
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
   const rejouer = useParcoursStore((s) => s.rejouerQuete);
   const [tour, setTour] = useState(0);
@@ -196,11 +237,20 @@ function QueteMonde({
     );
   }
 
+  // Niveau narratif = boucles complètes tenues (+1 si la boucle courante est finie).
+  const narr = narratifQuete(arch.name, quete.lest, futur.nom, palier + (accompli ? 1 : 0));
+
   return (
     <div
       className="rounded-3xl border p-6 sm:p-9"
       style={{ background: m.bg, borderColor: m.line, color: m.ink }}
     >
+      <style>{`
+        @keyframes idx-envol { from { transform: translateY(0) scale(1); opacity: 1; } to { transform: translateY(-22px) scale(.86); opacity: .28; } }
+        @keyframes idx-sceau { 0% { transform: scale(.6); opacity: 0; } 60% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes idx-monte { from { width: 0; } }
+      `}</style>
+
       {/* Scène du monde en tête — la case de BD, continuité visuelle. */}
       <div className="relative mb-6 overflow-hidden rounded-2xl" style={{ border: `1px solid ${m.line}` }}>
         <MondeScene mk={m.key} accent={m.accent} accent2={m.accent2} ink={m.ink} fond={FOND[m.key]} height={128} />
@@ -248,20 +298,55 @@ function QueteMonde({
         </div>
       )}
 
-      {/* Clarté jour après jour : pourquoi ça ne change pas tous les jours. */}
+      {/* Clarté jour après jour : ce qui est ton fil, ce qui change chaque jour. */}
       {!mue && (
         <div className="mt-5 rounded-2xl border p-4" style={{ borderColor: m.line, background: m.panel }}>
           <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
             Jour {jour} / 30
           </div>
           <p className="mt-1 text-sm leading-relaxed" style={{ color: m.muted }}>
-            Ta quête suit ta signature du moment (<b style={{ color: m.ink }}>{arch.name}</b>).
-            Tant qu'elle ne bascule pas, les exercices restent les mêmes : chaque
-            jour, tu les <b style={{ color: m.ink }}>approfondis</b> — tu ne repars pas
-            de zéro. Le jour où tu <b style={{ color: m.ink }}>mues</b>, ils se renouvellent.
+            Le <b style={{ color: m.ink }}>lest</b> de <b style={{ color: m.ink }}>{arch.name}</b> est
+            ton fil : il te travaille sur la durée. Mais chaque jour t'apporte du neuf —
+            ton <b style={{ color: m.ink }}>pacte du jour</b> change, et l'ordre de tes
+            poids à relâcher aussi. Le jour où tu <b style={{ color: m.ink }}>mues</b>, tout se renouvelle.
           </p>
         </div>
       )}
+
+      {/* Progression NARRATIVE — un chapitre qui avance à chaque palier tenu.
+          On revient pour connaître la suite, pas pour refaire la même chose. */}
+      <div
+        className="mt-5 overflow-hidden rounded-2xl border p-5"
+        style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
+      >
+        <div className="flex items-center justify-between gap-3">
+          <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+            {narr.titre}
+          </div>
+          <span className="text-[12px] font-semibold" style={{ color: m.muted }}>
+            {narr.niveau + 1} / {narr.total}
+          </span>
+        </div>
+        <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>{narr.texte}</p>
+        {/* Frise des chapitres — la barre d'histoire qui se remplit. */}
+        <div className="mt-3 flex gap-1.5">
+          {Array.from({ length: narr.total }).map((_, i) => (
+            <div
+              key={i}
+              className="h-1.5 flex-1 rounded-full transition-all"
+              style={{ background: i <= narr.niveau ? m.accent : m.line }}
+            />
+          ))}
+        </div>
+        {/* Jauge de constance — les engagements tenus, jour après jour. */}
+        {constance.serie > 0 && (
+          <p className="mt-2.5 text-[12px] font-medium" style={{ color: m.accent }}>
+            🔥 {constance.serie} engagement{constance.serie > 1 ? "s" : ""} tenu
+            {constance.serie > 1 ? "s" : ""} d'affilée
+            {constance.tenus > constance.serie ? ` · ${constance.tenus} au total` : ""}
+          </p>
+        )}
+      </div>
 
       {/* Le lest */}
       <div className="mt-6 rounded-2xl border p-5" style={{ borderColor: m.line, background: m.panel }}>
@@ -381,9 +466,9 @@ function QueteMonde({
 
       {/* Les trois exercices */}
       <div className="mt-6 flex flex-col gap-4">
-        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} />
+        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} directions={directions} id={ids.delestage} jour={jour} />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
-        <Pacte key={`pac-${tour}`} m={m} geste={quete.geste} id={ids.pacte} />
+        <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={jour} archKey={archKey} />
       </div>
 
       {/* Fléchage Coach & Ressources — présent jusque dans le monde immersif :
@@ -506,38 +591,47 @@ function Cadre({
   );
 }
 
-// Exercice 1 — relâcher, un à un, cinq poids.
-function Delestage({ m, poids, id }: { m: Monde; poids: string[]; id: string }) {
+// Exercice 1 — le délestage du JOUR : un exercice différent chaque jour (30),
+// personnalisé (poids de la signature + tirés de tes directions + génériques),
+// avec une consigne qui tourne. Deux jours consécutifs ne partagent aucun poids.
+function Delestage({ m, poids, directions, id, jour }: { m: Monde; poids: string[]; directions: string[]; id: string; jour: number }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
   const [relaches, setRelaches] = useState<Set<number>>(new Set());
+
+  const { items: poidsDuJour, consigne } = delestageDuJour(poids, directions, jour);
 
   const relacher = (i: number) => {
     const next = new Set(relaches);
     next.add(i);
     setRelaches(next);
-    if (next.size === poids.length) marquer(id);
+    if (next.size === poidsDuJour.length) marquer(id);
   };
 
   return (
     <Cadre m={m} num={1} titre="Le délestage" done={Boolean(done)} kind="delestage">
       {!done && (
         <p className="mb-3 text-sm" style={{ color: m.muted }}>
-          Touche chaque poids pour le relâcher. Ils t'appartiennent — mais tu n'es pas obligé de les porter.
+          {consigne}
         </p>
       )}
       <div className="flex flex-wrap gap-2.5">
-        {poids.map((p, i) => {
-          const off = done || relaches.has(i);
+        {poidsDuJour.map((p, i) => {
+          const justRelache = relaches.has(i); // relâché À L'INSTANT (cette session)
+          const off = done || justRelache;
           return (
             <button
               key={i}
               onClick={() => !off && relacher(i)}
               disabled={off}
               className="rounded-full border px-4 py-2 text-sm transition-all"
-              style={off
-                ? { borderColor: m.line, color: m.muted, opacity: 0.32, textDecoration: "line-through" }
-                : { borderColor: m.accent, color: m.ink, background: `color-mix(in srgb, ${m.accent} 12%, transparent)` }}
+              style={{
+                ...(off
+                  ? { borderColor: m.line, color: m.muted, opacity: 0.32, textDecoration: "line-through" }
+                  : { borderColor: m.accent, color: m.ink, background: `color-mix(in srgb, ${m.accent} 12%, transparent)` }),
+                // Le poids s'envole quand on le relâche (jamais au montage d'un déjà-fait).
+                ...(justRelache ? { animation: "idx-envol .55s cubic-bezier(.22,1,.36,1) forwards" } : {}),
+              }}
             >
               {p}
             </button>
@@ -594,18 +688,31 @@ function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: NonNullable<Retu
 }
 
 // Exercice 3 — s'engager sur un geste.
-function Pacte({ m, geste, id }: { m: Monde; geste: string; id: string }) {
+function Pacte({ m, geste, id, jour, archKey }: { m: Monde; geste: string; id: string; jour: number; archKey: string }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
+  const prendrePacte = useParcoursStore((s) => s.prendrePacte);
+  const sengager = () => {
+    marquer(id); // valide l'étape de la boucle
+    prendrePacte(jour, geste, archKey); // ...et inscrit l'engagement dans le fil (check-in demain)
+  };
   return (
     <Cadre m={m} num={3} titre="Le pacte" done={Boolean(done)} kind="pacte">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{geste}</p>
       {done ? (
-        <p className="mt-3 text-sm" style={{ color: m.accent }}>Engagement pris. À toi de le tenir.</p>
+        <div className="mt-3 flex items-center gap-2.5">
+          <span
+            className="grid h-7 w-7 flex-none place-items-center rounded-full text-sm font-bold"
+            style={{ background: m.accent, color: "#0a0a0a", animation: "idx-sceau .5s ease forwards" }}
+          >
+            ✓
+          </span>
+          <p className="text-sm" style={{ color: m.accent }}>Engagement pris. À toi de le tenir.</p>
+        </div>
       ) : (
         <button
-          onClick={() => marquer(id)}
-          className="mt-4 rounded-full px-6 py-2.5 text-sm font-medium"
+          onClick={sengager}
+          className="mt-4 rounded-full px-6 py-2.5 text-sm font-medium transition-transform hover:scale-[1.03]"
           style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "#0a0a0a" }}
         >
           Je m'engage

@@ -21,6 +21,7 @@ import {
   radarCourant,
 } from "../indicateurs";
 import { useStore } from "@/store/useStore";
+import { gesteDuJour, questionDuJour } from "../variateJour";
 import { track } from "@/lib/metrics";
 
 const FUCHSIA = "var(--fuchsia)";
@@ -178,17 +179,15 @@ export function JourView({
             {sectionsByKind["question"]?.titre ?? "La question à porter"}
           </div>
           <div style={{ fontFamily: serif, fontWeight: 300, fontSize: 18, lineHeight: 1.45, color: INK }}>
-            {sectionsByKind["question"]?.texte}
+            {questionDuJour(a, jour.n)}
           </div>
         </div>
 
         {/* Le geste concret à poser dans la journée (texte seul ; son intensité
             se note le soir, dans le bilan). */}
-        {sectionsByKind["defi"]?.texte && (
-          <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
-            {sectionsByKind["defi"]?.texte}
-          </Bloc>
-        )}
+        <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
+          {gesteDuJour(a, jour.n)}
+        </Bloc>
 
         <Separateur label="Ton bilan du soir" sous="Une fois la journée terminée, observe ce qui s'est exprimé." />
 

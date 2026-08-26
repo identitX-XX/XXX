@@ -12,6 +12,7 @@ import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
 import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
 import { getEmail, pushEtatNow } from "@/lib/etatSync";
 import { anonId } from "@/lib/metrics";
@@ -211,6 +212,12 @@ function MaQueteApercu({
   const caps = objectifs
     ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((v) => v && v.trim())
     : [];
+  // Vue VIVANTE (pas un instantané figé du diagnostic) : le jour courant, la
+  // signature du moment (qui bouge au fil du vécu) et la direction mise en
+  // chantier aujourd'hui (rotation par jour) → la carte « Ma quête » évolue.
+  const jourCourantVue = Math.min(progression(etat).jourCourant, 30);
+  const sigMoment = archetypeDominant(etat);
+  const capDuJour = caps.length ? caps[(jourCourantVue - 1) % caps.length] : "";
   // Détection de mue : blindée (un historique d'ancienne version peut avoir une
   // autre forme et faire planter la segmentation → on tombe alors sur « pas de
   // mue » au lieu de casser toute la page).
@@ -228,22 +235,27 @@ function MaQueteApercu({
       valeur: dom.name,
       href: "/synthese",
       cta: "Voir ton portrait",
+      aCompleter: false,
     },
     {
       titre: "Ce que je construis",
       hint: caps.length
-        ? "Tes directions — et ce qu'elles rendent possible."
-        : "Ce que je souhaite faire exister.",
-      valeur: caps.length ? caps.join(" · ") : "À préciser",
+        ? `Ta direction en chantier aujourd'hui${caps.length > 1 ? ` · ${caps.length} en tout` : ""}.`
+        : "Choisis une direction par périmètre — c'est ce qui guide chaque journée.",
+      valeur: caps.length ? capDuJour : "À toi d'ajouter ta direction",
       href: caps.length ? "/scenarios" : "/progression",
-      cta: caps.length ? "Voir ce que ça ouvre" : "Poser tes directions",
+      cta: caps.length ? "Voir ce que ça ouvre" : "＋ Ajouter une direction",
+      // Tant qu'aucune direction n'est posée, on met la carte EN AVANT (accent +
+      // badge) pour que l'utilisatrice comprenne qu'il y a une action à faire.
+      aCompleter: !caps.length,
     },
     {
       titre: "Ce que j'explore",
-      hint: "Les dimensions que je veux mieux comprendre.",
-      valeur: sec.name,
+      hint: "La signature active en ce moment — elle bouge au fil des jours.",
+      valeur: sigMoment?.name ?? sec.name,
       href: "/explorer",
       cta: "Explorer",
+      aCompleter: false,
     },
     {
       titre: "Ce qui évolue",
@@ -253,6 +265,7 @@ function MaQueteApercu({
         : "Tes premières observations se dessinent",
       href: "/progression",
       cta: "Suivre l'évolution",
+      aCompleter: false,
     },
   ];
 
@@ -268,19 +281,36 @@ function MaQueteApercu({
           <Link
             key={s.titre}
             href={s.href}
-            className="group flex flex-col rounded-xl border border-line p-4 transition-colors hover:border-fuchsia"
+            className={`group flex flex-col rounded-xl border p-4 transition-colors ${
+              s.aCompleter
+                ? "border-fuchsia bg-fuchsia/[0.06] ring-1 ring-fuchsia/30"
+                : "border-line hover:border-fuchsia"
+            }`}
           >
             <div className="flex items-start justify-between gap-2">
-              <div className="text-sm font-semibold uppercase tracking-[0.08em] text-ink">{s.titre}</div>
+              <div className="flex items-center gap-2">
+                <div className="text-sm font-semibold uppercase tracking-[0.08em] text-ink">{s.titre}</div>
+                {s.aCompleter && (
+                  <span className="rounded-full bg-fuchsia px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[color:var(--on-brand)]">
+                    À compléter
+                  </span>
+                )}
+              </div>
               <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
             </div>
             <div className="mt-0.5 text-xs text-muted">{s.hint}</div>
-            <div className="mt-2 font-display text-base font-semibold leading-snug text-ink">
+            <div className={`mt-2 font-display text-base font-semibold leading-snug ${s.aCompleter ? "text-fuchsia" : "text-ink"}`}>
               {s.valeur}
             </div>
-            <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
-              {s.cta} →
-            </span>
+            {s.aCompleter ? (
+              <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-full brand-gradient px-4 py-2 text-xs font-semibold text-[color:var(--on-brand)] shadow-glow">
+                {s.cta}
+              </span>
+            ) : (
+              <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
+                {s.cta} →
+              </span>
+            )}
           </Link>
         ))}
       </div>

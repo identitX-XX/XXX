@@ -138,7 +138,7 @@ export default function ProgressionPage() {
               <div className="grid h-[86px] w-[86px] place-items-center rounded-full bg-surface text-center">
                 <div>
                   <div className="font-display text-2xl text-ink">{prog.faits}</div>
-                  <div className="text-[12px] uppercase tracking-wider text-muted">/ 30 jours</div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted">jours accomplis</div>
                 </div>
               </div>
             </div>
@@ -149,25 +149,19 @@ export default function ProgressionPage() {
           </div>
         </Card>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Card className="p-5">
-            <div className="text-[12px] font-bold uppercase tracking-[0.18em] text-muted">Ta signature</div>
-            <div className="mt-1 font-display text-lg font-light text-ink">
-              {dom ? dom.name : "—"}
-            </div>
-          </Card>
-          <Card className="p-5">
-            <div className="text-[12px] font-bold uppercase tracking-[0.18em] text-muted">Cohérence</div>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="font-display text-lg font-light text-ink">
-                {coherenceCourante(etat)}
-              </span>
-              <span className={`text-xs ${trend >= 0 ? "text-fuchsia" : "text-muted"}`}>
-                {trend >= 0 ? "▲" : "▼"} {Math.abs(trend)}
-              </span>
-            </div>
-          </Card>
-        </div>
+        {/* La signature vit sur l'accueil (sa maison) : ici on ne la répète pas,
+            on montre l'ÉVOLUTION — la cohérence de la trajectoire et sa tendance. */}
+        <Card className="flex flex-col justify-center p-5">
+          <div className="text-[12px] font-bold uppercase tracking-[0.18em] text-muted">Cohérence de ta trajectoire</div>
+          <div className="mt-1 flex items-baseline gap-2">
+            <span className="font-display text-2xl font-light text-ink">
+              {coherenceCourante(etat)}
+            </span>
+            <span className={`text-xs ${trend >= 0 ? "text-fuchsia" : "text-muted"}`}>
+              {trend >= 0 ? "▲" : "▼"} {Math.abs(trend)} depuis le début
+            </span>
+          </div>
+        </Card>
       </div>
 
       {/* Momentum — même langage que le hub Aujourd'hui : série + prochain cap. */}

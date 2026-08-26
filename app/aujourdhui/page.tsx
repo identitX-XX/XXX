@@ -14,7 +14,9 @@ import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
-import { progression, momentum } from "@/parcours-archetypes/indicateurs";
+import { gesteDuJour } from "@/parcours-archetypes/variateJour";
+import { pacteAVerifier, TenuPacte } from "@/parcours-archetypes/pactes";
+import { progression, momentum, radarCourant } from "@/parcours-archetypes/indicateurs";
 import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
@@ -96,6 +98,10 @@ export default function AujourdhuiPage() {
   const n = Math.min(prog.jourCourant, 30);
   const jour = parcours.jours.find((j) => j.n === n) ?? null;
   const arch = jour ? archetypeByKey[jour.archetype] : null;
+  // Signature d'hier — pour rendre le changement VISIBLE sur la capsule (« hier
+  // X, aujourd'hui Y ») : la capsule cesse de sembler figée d'un jour à l'autre.
+  const hierJour = n > 1 ? parcours.jours.find((j) => j.n === n - 1) : null;
+  const hierArch = hierJour ? archetypeByKey[hierJour.archetype] : null;
   const phase = phaseDuJour(n);
   const angle = (prog.part / 100) * 360;
   const dejaFait = Boolean(reponses[n]);
@@ -177,6 +183,10 @@ export default function AujourdhuiPage() {
       {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
       <LeChemin />
 
+      {/* Le fil des pactes : l'engagement pris dans la Quête revient te chercher
+          le lendemain. C'est ce qui donne un « payoff » au jour suivant. */}
+      <CheckinPacte jourCourant={prog.jourCourant} />
+
       {/* Retour bienveillant après une absence : pas de rattrapage, pas de
           pénalité — le parcours suit les jours vécus, jamais le calendrier. */}
       {mo.absence >= 2 && prog.faits > 0 && !dejaFait && (
@@ -246,7 +256,7 @@ export default function AujourdhuiPage() {
                     {prog.faits}
                   </div>
                   <div className="mt-1 text-[12px] uppercase tracking-[0.18em] text-muted">
-                    / 30 jours
+                    jours accomplis
                   </div>
                 </div>
               </div>
@@ -257,7 +267,7 @@ export default function AujourdhuiPage() {
           <div className="flex-1 text-center sm:text-left">
             <div className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
               <span>
-                La capsule · Jour {n} · {phase.label}
+                Aujourd'hui · Jour {n} / 30 · {phase.label}
               </span>
             </div>
             <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[1.7rem]">
@@ -266,6 +276,13 @@ export default function AujourdhuiPage() {
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {arch?.lens}
             </p>
+            {arch && (
+              <p className="mt-1.5 text-xs text-fuchsia">
+                {hierArch && hierArch.name !== arch.name
+                  ? `Hier : ${hierArch.name} — aujourd'hui, une autre facette de toi.`
+                  : "Ta signature du jour — elle change à chaque nouvelle journée."}
+              </p>
+            )}
 
             {/* Les deux moments de la capsule, nommés — pour qu'ils cessent
                 d'être invisibles derrière un simple « Vivre ma journée ». */}
@@ -277,7 +294,7 @@ export default function AujourdhuiPage() {
                     <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
                       Le geste · en journée
                     </div>
-                    <p className="mt-0.5 text-sm leading-snug text-ink">{arch.defi}</p>
+                    <p className="mt-0.5 text-sm leading-snug text-ink">{gesteDuJour(arch, n)}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
@@ -311,6 +328,10 @@ export default function AujourdhuiPage() {
       {/* Les 3 exercices du jour — un par périmètre, pilotés par la signature du
           moment (qui varie) : la quête « évolue », les exercices avec elle. */}
       {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
+
+      {/* Une bascule à explorer — dès qu'une journée est vécue, on invite à
+          essayer la facette qui monte (pas juste attendre la mue). */}
+      <BasculeAExplorer />
 
       {/* Prochaine révélation — le rebondissement qui donne envie de revenir
           (déblocage progressif façon Headspace, révélation façon Co-Star). */}
@@ -347,6 +368,79 @@ export default function AujourdhuiPage() {
         <ArrowRight size={16} className="flex-none text-muted" />
       </Link>
     </div>
+  );
+}
+
+// Une bascule à explorer : dès la première journée vécue, on propose d'explorer
+// la signature qui MONTE dans la matrice (la 2ᵉ derrière la dominante) — une
+// invitation à tester une autre facette de soi, sans attendre la mue.
+function BasculeAExplorer() {
+  const etat = useParcoursStore((s) => s.etat);
+  const prog = progression(etat);
+  if (prog.faits < 1) return null;
+
+  const tri = [...radarCourant(etat)].sort((a, b) => b.valeur - a.valeur);
+  const dom = tri[0];
+  const emerg = tri[1];
+  if (!dom || !emerg || emerg.key === dom.key || emerg.valeur <= 0) return null;
+
+  return (
+    <Link href="/explorer" className="mt-4 block animate-fade-up">
+      <Card className="p-5 transition-colors hover:border-fuchsia/40">
+        <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          <Compass size={13} /> Une bascule à explorer
+        </div>
+        <p className="mt-2 text-[15px] font-semibold text-ink">
+          Ces jours-ci, <span className="text-fuchsia">{emerg.name}</span> monte en toi.
+        </p>
+        <p className="mt-1 text-sm text-muted">
+          Et si, aujourd'hui, tu explorais cette facette — une autre manière d'être toi ?
+        </p>
+        <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
+          Explorer {emerg.name}
+          <ArrowRight size={13} />
+        </span>
+      </Card>
+    </Link>
+  );
+}
+
+// Check-in du pacte : l'engagement pris un jour de Quête revient le lendemain.
+// « Tenu ? » → la réponse nourrit la constance. C'est le fil qui relie les jours.
+function CheckinPacte({ jourCourant }: { jourCourant: number }) {
+  const pactes = useParcoursStore((s) => s.pactes);
+  const repondrePacte = useParcoursStore((s) => s.repondrePacte);
+  const pacte = pacteAVerifier(pactes, jourCourant);
+  if (!pacte) return null;
+
+  const opts: { t: TenuPacte; label: string }[] = [
+    { t: "oui", label: "Oui, tenu" },
+    { t: "partiel", label: "En partie" },
+    { t: "non", label: "Pas cette fois" },
+  ];
+  return (
+    <Card className="mb-4 p-5 animate-fade-up sm:p-6">
+      <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        Ton engagement du Jour {pacte.jour}
+      </div>
+      <p className="mt-1.5 font-display text-lg font-light leading-snug text-ink">
+        « {pacte.texte} »
+      </p>
+      <p className="mt-1 text-xs text-muted">
+        L'as-tu tenu ? Ta réponse fait grandir ta constance.
+      </p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {opts.map((o) => (
+          <button
+            key={o.t}
+            onClick={() => repondrePacte(pacte.jour, o.t)}
+            className="rounded-full border border-line px-4 py-2 text-sm text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
+          >
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </Card>
   );
 }
 
@@ -407,11 +501,13 @@ function TroisExercices({
   // l'IA génère une version unique du jour ; quand elle arrive, on la substitue.
   // Mise en cache par (jour + signature) → un seul appel Mistral par jour et par
   // appareil. Repli silencieux sur le modèle si l'IA tarde ou échoue.
-  const base = exercicesDuJour(arch, objectifs);
+  const base = exercicesDuJour(arch, objectifs, jour);
   const [ia, setIa] = useState<Record<string, string> | null>(null);
   useEffect(() => {
     setIa(null);
-    const cle = `idx-exos-${jour}-${arch.key}`;
+    // v2 : le registre du prompt a changé (fini les exercices « cuisine » hors
+    // sujet) → on repart d'un cache neuf pour ne pas resservir les anciens.
+    const cle = `idx-exos-v2-${jour}-${arch.key}`;
     try {
       const cache = localStorage.getItem(cle);
       if (cache) {
@@ -458,8 +554,10 @@ function TroisExercices({
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Un par périmètre — perso, pro, relationnel — adapté à ta signature du
-        moment (<b className="text-ink">{arch.name}</b>). Il change selon ton avancement.
+        Ce sont tes exercices du <b className="text-ink">Jour {jour}</b>, teintés de
+        ta signature du moment (<b className="text-ink">{arch.name}</b>). Ils se
+        renouvellent au <b className="text-ink">Jour {jour + 1}</b> — que tu débloques
+        en terminant ta journée (bouton « Terminer ma journée » en bas du bilan).
       </p>
       <div className="grid gap-3">
         {ex.map((e) => {

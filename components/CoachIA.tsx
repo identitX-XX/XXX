@@ -122,10 +122,27 @@ export function CoachIA() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
+  const lastMsgRef = useRef<HTMLDivElement | null>(null);
+  // Ergonomie : on ne « suit » le fil (scroll vers le dernier message) QU'APRÈS
+  // une interaction dans cette session. Sinon, en arrivant sur le Coach on était
+  // largué tout en bas d'une vieille conversation accumulée — pas fluide.
+  const interacted = useRef(false);
 
+  // À l'arrivée : conversation VIERGE (choix utilisatrice) + on se pose en haut.
+  // Chaque ouverture du Coach repart d'une page blanche → zéro accumulation.
+  // Exception : si une amorce a été déposée (ex. clôture d'une journée), l'effet
+  // d'amorce démarre une conversation neuve AVEC elle (base vide).
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo(0, 0);
+    if (!coachSeed) setCoachChat([]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Après une interaction : on amène le DÉBUT du dernier message en haut de
+  // l'écran (block:"start") → on lit la réponse depuis sa première ligne.
+  useEffect(() => {
+    if (!interacted.current || !messages.length) return;
+    lastMsgRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [messages]);
 
   const context = useMemo(
@@ -133,11 +150,15 @@ export function CoachIA() {
     [profile, journalFusion, identities]
   );
 
-  const send = async (seedText?: string) => {
+  const send = async (seedText?: string, opts?: { fresh?: boolean }) => {
     const text = (seedText ?? input).trim();
     if (!text || loading) return;
+    interacted.current = true; // à partir d'ici, on suit le fil
     setError(null);
-    const next: ChatMsg[] = [...messages, { role: "user", content: text }];
+    // `fresh` : démarre d'une base vide (amorce d'une nouvelle visite), sans
+    // dépendre d'un historique potentiellement encore en mémoire au montage.
+    const base = opts?.fresh ? [] : messages;
+    const next: ChatMsg[] = [...base, { role: "user", content: text }];
     setCoachChat(next.slice(-40));
     setInput("");
     setLoading(true);
@@ -173,7 +194,7 @@ export function CoachIA() {
     seedFired.current = true;
     const seed = coachSeed;
     setCoachSeed(null);
-    void send(seed);
+    void send(seed, { fresh: true }); // nouvelle conversation, amorce en 1er message
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [coachSeed, loading]);
 
@@ -255,9 +276,9 @@ export function CoachIA() {
           flexDirection: "column",
           gap: 12,
           marginTop: 26,
-          flex: 1,
-          // Dégage la place pour la zone de saisie fixe + la barre d'onglets.
-          paddingBottom: "calc(7rem + env(safe-area-inset-bottom))",
+          // Dégage la place pour la zone de saisie fixe (champ + bouton empilés)
+          // + la barre d'onglets, pour que le dernier message ne passe pas dessous.
+          paddingBottom: "calc(10rem + env(safe-area-inset-bottom))",
         }}
       >
         {/* Puces scénarios par domaine */}
@@ -310,7 +331,11 @@ export function CoachIA() {
         {messages.map((m, i) => (
           <div
             key={i}
+            ref={i === messages.length - 1 ? lastMsgRef : undefined}
             style={{
+              // Marge de défilement : le message ne se colle pas sous la barre
+              // du haut quand on l'amène en tête d'écran.
+              scrollMarginTop: 80,
               alignSelf: m.role === "user" ? "flex-end" : "flex-start",
               maxWidth: "86%",
               padding: "12px 15px",
@@ -361,8 +386,6 @@ export function CoachIA() {
             {error}
           </div>
         )}
-
-        <div ref={bottomRef} />
       </div>
 
       {/* Zone de saisie — remontée AU-DESSUS de la barre d'onglets (sinon elle
@@ -380,19 +403,22 @@ export function CoachIA() {
           justifyContent: "center",
         }}
       >
-        <div style={{ display: "flex", gap: 8, width: "100%", maxWidth: 480 }}>
+        {/* Champ + bouton EMPILÉS : le bouton « Envoyer » passe SOUS le champ,
+            pleine largeur → toujours visible et facile à toucher au pouce (il
+            était auparavant à droite du champ et sortait de l'écran). */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 8, width: "100%", maxWidth: 480 }}>
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && send()}
             placeholder="Écris à IdentitX…"
             style={{
-              flex: 1,
+              width: "100%",
               background: "rgba(38,22,41,.7)",
               border: "1px solid color-mix(in srgb, var(--orange) 25%, transparent)",
               borderRadius: 14,
               color: "var(--ink)",
-              fontSize: 15,
+              fontSize: 16, // ≥16px : évite le zoom auto d'iOS au focus
               padding: "14px 15px",
               outline: "none",
               fontFamily: "var(--font-inter),sans-serif",
@@ -403,8 +429,8 @@ export function CoachIA() {
           <button
             onClick={() => send()}
             disabled={loading || !input.trim()}
-            aria-label="Envoyer"
             style={{
+              width: "100%",
               background:
                 loading || !input.trim()
                   ? "color-mix(in srgb, var(--fuchsia) 25%, transparent)"
@@ -412,13 +438,17 @@ export function CoachIA() {
               color: "var(--noir)",
               border: "none",
               borderRadius: 14,
-              padding: "0 20px",
-              fontSize: 18,
-              fontWeight: 500,
-              cursor: "pointer",
+              padding: "13px 20px",
+              fontSize: 15,
+              fontWeight: 600,
+              cursor: loading || !input.trim() ? "default" : "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
             }}
           >
-            →
+            {loading ? "IdentitX réfléchit…" : "Envoyer →"}
           </button>
         </div>
       </div>

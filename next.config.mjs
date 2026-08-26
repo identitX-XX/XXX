@@ -12,17 +12,20 @@ const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   // Renommage de route archétype → signature : les anciens liens (testeuses,
   // favoris) continuent de fonctionner en redirigeant vers le nouveau chemin.
-  // Anti-cache périmé : on force le navigateur à REVALIDER le document HTML à
-  // chaque chargement (donc à récupérer les nouveaux fichiers dès qu'une version
-  // est déployée). On exclut _next (assets hachés, à garder en cache long) et
-  // l'API. Combiné au détecteur de version côté client → mises à jour sans que
-  // l'utilisatrice ait à vider quoi que ce soit.
+  // Anti-cache périmé — verrou fort. Les apps iOS ajoutées à l'écran d'accueil
+  // IGNORENT « must-revalidate » et servent une vieille page indéfiniment : c'est
+  // LA cause des « rien ne change / manip chaque jour ». On passe donc le document
+  // HTML en « no-store » : le navigateur n'a plus le droit de le garder en mémoire,
+  // donc CHAQUE ouverture récupère la version en ligne. Les assets hachés (_next,
+  // nom unique par build) restent en cache long — aucun coût de perf. Combiné au
+  // détecteur de version côté client (VersionGuard) → mise à jour automatique,
+  // sans que l'utilisatrice ait quoi que ce soit à vider, jamais.
   async headers() {
     return [
       {
         source: "/((?!_next/|api/).*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+          { key: "Cache-Control", value: "no-store, no-cache, must-revalidate, max-age=0" },
         ],
       },
     ];
