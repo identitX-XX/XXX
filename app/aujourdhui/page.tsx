@@ -337,6 +337,24 @@ export default function AujourdhuiPage() {
           (déblocage progressif façon Headspace, révélation façon Co-Star). */}
       <RevelationCard faits={prog.faits} />
 
+      {/* Offre premium — la lecture approfondie de ta signature. */}
+      <Link href="/premium/signature" className="mt-4 block animate-fade-up">
+        <Card className="p-5 transition-colors hover:border-fuchsia/40">
+          <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <Sparkles size={13} /> Premium · 2,50 €
+          </div>
+          <p className="mt-2 text-[15px] font-semibold text-ink">
+            Ta lecture approfondie de signature
+          </p>
+          <p className="mt-1 text-sm text-muted">
+            Ta signature principale, ta secondaire et celle qui émerge — reliées, décortiquées.
+          </p>
+          <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
+            Découvrir <ArrowRight size={13} />
+          </span>
+        </Card>
+      </Link>
+
       {/* Accès directs aux deux pages « socle » : ta signature et ton rapport. */}
       <div className="mt-4 grid grid-cols-2 gap-3 animate-fade-up">
         <Link
