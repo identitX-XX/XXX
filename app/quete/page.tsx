@@ -13,6 +13,7 @@ import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { constancePactes } from "@/parcours-archetypes/pactes";
+import { delestageDuJour } from "@/parcours-archetypes/delestageJour";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
 import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
@@ -184,6 +185,10 @@ function QueteMonde({
   const paliers = useParcoursStore((s) => s.quetePaliers);
   const pactes = useParcoursStore((s) => s.pactes);
   const constance = constancePactes(pactes);
+  const objectifs = useParcoursStore((s) => s.objectifs);
+  const directions = objectifs
+    ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((d): d is string => Boolean(d && d.trim()))
+    : [];
   const choisirMonde = useParcoursStore((s) => s.choisirMonde);
   const rejouer = useParcoursStore((s) => s.rejouerQuete);
   const [tour, setTour] = useState(0);
@@ -461,7 +466,7 @@ function QueteMonde({
 
       {/* Les trois exercices */}
       <div className="mt-6 flex flex-col gap-4">
-        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} id={ids.delestage} jour={jour} />
+        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} directions={directions} id={ids.delestage} jour={jour} />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
         <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={jour} archKey={archKey} />
       </div>
@@ -586,19 +591,15 @@ function Cadre({
   );
 }
 
-// Exercice 1 — relâcher, un à un, cinq poids. L'ORDRE tourne chaque jour : un
-// poids différent ouvre le délestage, pour que l'exercice se renouvelle sans
-// rien perdre de son sens (les cinq poids restent ceux de ta signature).
-function Delestage({ m, poids, id, jour }: { m: Monde; poids: string[]; id: string; jour: number }) {
+// Exercice 1 — le délestage du JOUR : un exercice différent chaque jour (30),
+// personnalisé (poids de la signature + tirés de tes directions + génériques),
+// avec une consigne qui tourne. Deux jours consécutifs ne partagent aucun poids.
+function Delestage({ m, poids, directions, id, jour }: { m: Monde; poids: string[]; directions: string[]; id: string; jour: number }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
   const [relaches, setRelaches] = useState<Set<number>>(new Set());
 
-  // Rotation déterministe de l'ordre selon le jour (contenu identique, ordre
-  // renouvelé → le premier poids « à relâcher aujourd'hui » change chaque jour).
-  const poidsDuJour = poids.map(
-    (_, i) => poids[(i + ((jour - 1) % poids.length) + poids.length) % poids.length]
-  );
+  const { items: poidsDuJour, consigne } = delestageDuJour(poids, directions, jour);
 
   const relacher = (i: number) => {
     const next = new Set(relaches);
@@ -611,8 +612,7 @@ function Delestage({ m, poids, id, jour }: { m: Monde; poids: string[]; id: stri
     <Cadre m={m} num={1} titre="Le délestage" done={Boolean(done)} kind="delestage">
       {!done && (
         <p className="mb-3 text-sm" style={{ color: m.muted }}>
-          Aujourd'hui, commence par relâcher : <b style={{ color: m.ink }}>{poidsDuJour[0]}</b>.
-          Touche chaque poids pour le relâcher — ils t'appartiennent, mais tu n'es pas obligé de les porter.
+          {consigne}
         </p>
       )}
       <div className="flex flex-wrap gap-2.5">
