@@ -16,7 +16,7 @@ import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { pacteAVerifier, TenuPacte } from "@/parcours-archetypes/pactes";
-import { progression, momentum } from "@/parcours-archetypes/indicateurs";
+import { progression, momentum, radarCourant } from "@/parcours-archetypes/indicateurs";
 import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
@@ -329,6 +329,10 @@ export default function AujourdhuiPage() {
           moment (qui varie) : la quête « évolue », les exercices avec elle. */}
       {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
 
+      {/* Une bascule à explorer — dès qu'une journée est vécue, on invite à
+          essayer la facette qui monte (pas juste attendre la mue). */}
+      <BasculeAExplorer />
+
       {/* Prochaine révélation — le rebondissement qui donne envie de revenir
           (déblocage progressif façon Headspace, révélation façon Co-Star). */}
       <RevelationCard faits={prog.faits} />
@@ -364,6 +368,40 @@ export default function AujourdhuiPage() {
         <ArrowRight size={16} className="flex-none text-muted" />
       </Link>
     </div>
+  );
+}
+
+// Une bascule à explorer : dès la première journée vécue, on propose d'explorer
+// la signature qui MONTE dans la matrice (la 2ᵉ derrière la dominante) — une
+// invitation à tester une autre facette de soi, sans attendre la mue.
+function BasculeAExplorer() {
+  const etat = useParcoursStore((s) => s.etat);
+  const prog = progression(etat);
+  if (prog.faits < 1) return null;
+
+  const tri = [...radarCourant(etat)].sort((a, b) => b.valeur - a.valeur);
+  const dom = tri[0];
+  const emerg = tri[1];
+  if (!dom || !emerg || emerg.key === dom.key || emerg.valeur <= 0) return null;
+
+  return (
+    <Link href="/explorer" className="mt-4 block animate-fade-up">
+      <Card className="p-5 transition-colors hover:border-fuchsia/40">
+        <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          <Compass size={13} /> Une bascule à explorer
+        </div>
+        <p className="mt-2 text-[15px] font-semibold text-ink">
+          Ces jours-ci, <span className="text-fuchsia">{emerg.name}</span> monte en toi.
+        </p>
+        <p className="mt-1 text-sm text-muted">
+          Et si, aujourd'hui, tu explorais cette facette — une autre manière d'être toi ?
+        </p>
+        <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
+          Explorer {emerg.name}
+          <ArrowRight size={13} />
+        </span>
+      </Card>
+    </Link>
   );
 }
 
