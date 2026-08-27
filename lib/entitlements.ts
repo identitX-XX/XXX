@@ -19,6 +19,20 @@ export const OFFRES = {
   questionsRelationnel: "questions:relationnel",
 } as const;
 
+// Catalogue : nom + montant (en centimes) par offre. Source unique côté serveur
+// (checkout) ET côté client (affichage). `montant` alimente Stripe directement
+// (price_data) → pas besoin de créer des « produits » dans le dashboard.
+export const CATALOGUE: Record<OffreId, { nom: string; montant: number }> = {
+  [OFFRES.signature]: { nom: "Lecture approfondie de ta signature", montant: 250 },
+  [OFFRES.perimetrePerso]: { nom: "Approfondir ton périmètre perso", montant: 450 },
+  [OFFRES.perimetrePro]: { nom: "Approfondir ton périmètre pro", montant: 450 },
+  [OFFRES.perimetreRelationnel]: { nom: "Approfondir ton périmètre relationnel", montant: 450 },
+  [OFFRES.questionsPerso]: { nom: "Panel de 10 questions · Perso", montant: 250 },
+  [OFFRES.questionsPro]: { nom: "Panel de 10 questions · Pro", montant: 250 },
+  [OFFRES.questionsIdentitaire]: { nom: "Panel de 10 questions · Identitaire", montant: 250 },
+  [OFFRES.questionsRelationnel]: { nom: "Panel de 10 questions · Relationnel", montant: 250 },
+};
+
 export function estDebloque(map: Entitlements | null | undefined, id: OffreId): boolean {
   return Boolean(map && map[id]);
 }

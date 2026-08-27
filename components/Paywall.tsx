@@ -28,10 +28,60 @@ export function Paywall({
 }) {
   const [mounted, setMounted] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
   useEffect(() => {
     setMounted(true);
     setUnlocked(estDebloque(lireEntitlements(), offerId));
   }, [offerId]);
+
+  // Retour de paiement Stripe (success_url ?session_id=…) : on VÉRIFIE la session
+  // côté serveur ; si elle est bien payée et concerne cette offre, on déverrouille.
+  useEffect(() => {
+    let sid: string | null = null;
+    try {
+      sid = new URLSearchParams(window.location.search).get("session_id");
+    } catch {}
+    if (!sid) return;
+    fetch(`/api/checkout/verify?session_id=${encodeURIComponent(sid)}`)
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.ok && d.offerId === offerId) {
+          debloquer(offerId);
+          setUnlocked(true);
+        }
+      })
+      .catch(() => {});
+  }, [offerId]);
+
+  // Clic « Débloquer » : ouvre le paiement Stripe si la clé est branchée ; sinon
+  // (Stripe pas encore configuré) déblocage démo local, le temps du branchement.
+  const acheter = async () => {
+    setBusy(true);
+    setErr("");
+    try {
+      const r = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ offerId }),
+      });
+      const d = await r.json();
+      if (d?.url) {
+        window.location.href = d.url as string; // → page de paiement Stripe
+        return;
+      }
+      if (d?.configured === false) {
+        debloquer(offerId);
+        setUnlocked(true);
+        return;
+      }
+      setErr(d?.error || "Paiement indisponible pour le moment.");
+    } catch {
+      setErr("Connexion impossible. Réessaie.");
+    } finally {
+      setBusy(false);
+    }
+  };
 
   if (!mounted) return null;
   if (unlocked) return <>{children}</>;
@@ -55,19 +105,16 @@ export function Paywall({
         <h3 className="mt-3 font-display text-xl font-light text-ink">{titre}</h3>
         {sousTitre && <p className="mx-auto mt-1.5 max-w-md text-sm leading-relaxed text-muted">{sousTitre}</p>}
         <button
-          onClick={() => {
-            debloquer(offerId);
-            setUnlocked(true);
-          }}
-          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-7 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+          onClick={acheter}
+          disabled={busy}
+          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-7 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02] disabled:opacity-60"
         >
           <Sparkles size={16} />
-          Débloquer à {prix}
+          {busy ? "Redirection…" : `Débloquer à ${prix}`}
         </button>
+        {err && <p className="mt-2 text-xs text-danger">{err}</p>}
         <p className="mt-3 text-xs text-muted">
-          Paiement sécurisé par carte &amp; Apple Pay — <span className="italic">bientôt disponible</span>.
-          <br />
-          (Aperçu testeuse : le déblocage ci-dessus est une démonstration.)
+          Paiement sécurisé par carte &amp; Apple Pay (Stripe).
         </p>
       </Card>
     </div>
