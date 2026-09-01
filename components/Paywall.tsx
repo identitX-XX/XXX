@@ -71,8 +71,9 @@ export function Paywall({
         return;
       }
       if (d?.configured === false) {
-        debloquer(offerId);
-        setUnlocked(true);
+        // Stripe pas encore branché : on NE débloque PAS (jamais de gratuit) —
+        // on annonce simplement que le paiement arrive.
+        setErr("Le paiement arrive très bientôt — merci de ta patience.");
         return;
       }
       setErr(d?.error || "Paiement indisponible pour le moment.");
