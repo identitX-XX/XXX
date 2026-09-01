@@ -13,7 +13,7 @@ import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { constancePactes } from "@/parcours-archetypes/pactes";
-import { delestageDuJour } from "@/parcours-archetypes/delestageJour";
+import { delestageDuJour, conseilDelestage } from "@/parcours-archetypes/delestageJour";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
 import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
@@ -466,7 +466,17 @@ function QueteMonde({
 
       {/* Les trois exercices */}
       <div className="mt-6 flex flex-col gap-4">
-        <Delestage key={`del-${tour}`} m={m} poids={quete.poids} directions={directions} id={ids.delestage} jour={jour} />
+        <Delestage
+          key={`del-${tour}`}
+          m={m}
+          poids={quete.poids}
+          directions={directions}
+          id={ids.delestage}
+          jour={jour}
+          lest={quete.lest}
+          futurNom={futur.nom}
+          futurPourquoi={futur.pourquoi}
+        />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
         <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={jour} archKey={archKey} />
       </div>
@@ -594,7 +604,25 @@ function Cadre({
 // Exercice 1 — le délestage du JOUR : un exercice différent chaque jour (30),
 // personnalisé (poids de la signature + tirés de tes directions + génériques),
 // avec une consigne qui tourne. Deux jours consécutifs ne partagent aucun poids.
-function Delestage({ m, poids, directions, id, jour }: { m: Monde; poids: string[]; directions: string[]; id: string; jour: number }) {
+function Delestage({
+  m,
+  poids,
+  directions,
+  id,
+  jour,
+  lest,
+  futurNom,
+  futurPourquoi,
+}: {
+  m: Monde;
+  poids: string[];
+  directions: string[];
+  id: string;
+  jour: number;
+  lest: string;
+  futurNom: string;
+  futurPourquoi: string;
+}) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
   const marquer = useParcoursStore((s) => s.marquerExercice);
   const [relaches, setRelaches] = useState<Set<number>>(new Set());
@@ -638,6 +666,22 @@ function Delestage({ m, poids, directions, id, jour }: { m: Monde; poids: string
           );
         })}
       </div>
+
+      {/* La récompense : un CONSEIL une fois les poids relâchés — l'exercice
+          conduit à un avis, tissé sur ton lest et ce vers quoi tu vas. */}
+      {done && (
+        <div
+          className="mt-4 rounded-xl border p-4"
+          style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
+        >
+          <div className="text-[12px] font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
+            Le conseil du jour
+          </div>
+          <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>
+            {conseilDelestage(lest, futurNom, futurPourquoi, jour)}
+          </p>
+        </div>
+      )}
     </Cadre>
   );
 }

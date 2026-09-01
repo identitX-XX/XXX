@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { delestageDuJour } from "./delestageJour";
+import { delestageDuJour, conseilDelestage } from "./delestageJour";
 
 const poids = ["poids A", "poids B", "poids C", "poids D", "poids E"];
 const directions = ["me lancer", "ralentir", "oser dire non"];
@@ -50,4 +50,17 @@ test("délestage : la consigne tourne d'un jour à l'autre", () => {
 test("délestage : robuste sans directions", () => {
   const { items } = delestageDuJour(poids, [], 3);
   assert.equal(items.length, 5);
+});
+
+test("conseil : tisse le lest et le futur moi, tourne d'un jour à l'autre", () => {
+  const a = conseilDelestage("la dispersion", "Celle qui relie", "Ta curiosité creuse.", 1);
+  const b = conseilDelestage("la dispersion", "Celle qui relie", "Ta curiosité creuse.", 2);
+  assert.notEqual(a, b, "deux jours consécutifs → conseils différents");
+  assert.ok(a.includes("Celle qui relie") || a.includes("la dispersion"));
+});
+
+test("conseil : robuste avec champs vides (jamais vide, pas de « undefined »)", () => {
+  const c = conseilDelestage("", "", "", 4);
+  assert.ok(c.trim().length > 0);
+  assert.ok(!c.includes("undefined"));
 });

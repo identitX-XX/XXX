@@ -51,6 +51,35 @@ export interface DelestageJour {
   consigne: string; // l'angle du jour
 }
 
+// Le CONSEIL qui clôt le délestage : après avoir relâché ses poids, l'utilisatrice
+// reçoit un avis — tissé sur son lest et sur ce vers quoi elle va (son futur moi).
+// La formulation tourne chaque jour. Pur, testé.
+const CONSEILS: ((lest: string, nom: string, pourquoi: string) => string)[] = [
+  (lest, nom, pourquoi) =>
+    `En déposant ${lest}, tu ouvres la voie à ${nom}. ${pourquoi} Aujourd'hui, un seul pas suffit.`,
+  (lest, nom, pourquoi) =>
+    `Ce que tu viens de relâcher n'était pas toi, juste ce que tu portais. ${pourquoi} Laisse ${nom} prendre un peu plus de place.`,
+  (lest, nom, pourquoi) =>
+    `Le conseil du jour : ne remplis pas tout de suite l'espace libéré. ${nom} a besoin de ce vide pour respirer.`,
+  (lest, nom, pourquoi) =>
+    `Rappelle-toi pourquoi ce délestage compte. ${pourquoi} Reviens-y dès que ${lest} cherche à te reprendre.`,
+  (lest, nom, pourquoi) =>
+    `Tu n'as pas à tout tenir. ${pourquoi} Fais-en l'expérience une fois, avant ce soir — et observe ce qui change.`,
+];
+
+export function conseilDelestage(
+  lest: string,
+  futurNom: string,
+  futurPourquoi: string,
+  jour: number
+): string {
+  const l = (lest || "ce qui te pèse").trim();
+  const nom = (futurNom || "ta version haute").trim();
+  const pourquoi = (futurPourquoi || "").trim();
+  const i = ((jour - 1) % CONSEILS.length + CONSEILS.length) % CONSEILS.length;
+  return CONSEILS[i](l, nom, pourquoi).replace(/\s+/g, " ").trim();
+}
+
 export function delestageDuJour(
   poids: string[],
   directions: string[],
