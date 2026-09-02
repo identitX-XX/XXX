@@ -60,7 +60,7 @@ export function Button({
   disabled?: boolean;
 }) {
   const base =
-    "inline-flex min-h-[3.25rem] items-center justify-center gap-2 rounded-full px-7 py-3.5 text-base font-semibold transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
+    "inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
   const styles =
     variant === "solid"
       ? "brand-gradient text-[color:var(--on-brand)] hover:opacity-90 hover:shadow-glow"

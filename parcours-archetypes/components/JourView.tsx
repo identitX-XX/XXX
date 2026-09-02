@@ -29,7 +29,7 @@ const ORANGE = "var(--orange)";
 const LINE = "var(--line)";
 const MUTED = "var(--muted)";
 const INK = "var(--ink)";
-const NOIR = "#0a090d";
+const NOIR = "var(--surface)"; // fond de champ — via token pour suivre le thème
 const SURFACE = "var(--surface)";
 
 const serif = "var(--font-fraunces), Georgia, serif";
@@ -307,14 +307,14 @@ export function JourView({
           disabled={readOnly}
           style={{
             borderRadius: 999,
-            padding: "16px 28px",
-            minHeight: 52,
-            fontSize: 15,
-            fontWeight: 600,
-            letterSpacing: "0.02em",
+            padding: "11px 22px",
+            minHeight: 44,
+            fontSize: 14,
+            fontWeight: 500,
+            letterSpacing: "0.01em",
             cursor: readOnly ? "default" : "pointer",
             border: "none",
-            color: "#fff",
+            color: "var(--on-brand)",
             opacity: readOnly ? 0.4 : 1,
             background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
           }}

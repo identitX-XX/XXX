@@ -10,7 +10,7 @@ export default function Loading() {
         inset: 0,
         display: "grid",
         placeItems: "center",
-        background: "#0a090d",
+        background: "var(--noir)",
       }}
     >
       <style>{`

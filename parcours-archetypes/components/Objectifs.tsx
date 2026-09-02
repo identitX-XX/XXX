@@ -15,7 +15,7 @@ const ORANGE = "var(--orange)";
 const LINE = "var(--line)";
 const MUTED = "var(--muted)";
 const INK = "var(--ink)";
-const NOIR = "#0a090d";
+const NOIR = "var(--surface)"; // fond de champ — via token pour suivre le thème
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
 
