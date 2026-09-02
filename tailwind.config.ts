@@ -36,8 +36,9 @@ const config: Config = {
         "3xl": "2rem",
       },
       boxShadow: {
-        soft: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 20px 50px -30px rgba(0,0,0,0.8)",
-        glow: "0 0 40px -12px var(--fuchsia)",
+        // Ombres MATES et chaudes (esprit danois) : plus de halo coloré.
+        soft: "0 14px 36px -28px rgba(60,45,35,0.5)",
+        glow: "0 9px 20px -14px rgba(60,45,35,0.55)",
       },
       keyframes: {
         "fade-up": {
