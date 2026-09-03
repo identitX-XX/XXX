@@ -324,7 +324,7 @@ export const QUETES: Partial<Record<ArchetypeKey, Quete>> = {
     ],
     carrefour: {
       situation:
-        "Ton entourage compte sur toi, comme toujours. Tu es fatiguée, et une envie à toi — un moment rien que pour toi — passe au second plan.",
+        "Ton entourage compte sur toi, comme toujours. Tu es à bout, et une envie à toi — un moment rien que pour toi — passe au second plan.",
       choix: [
         { texte: "Je m'oublie encore, ils ont besoin de moi", bon: false, retour: "Le don sans retour t'épuise, et prive l'autre de grandir seul." },
         { texte: "Je pose mon besoin, sans culpabilité", bon: true, retour: "Prendre soin de toi n'abandonne personne : ça remplit la source." },

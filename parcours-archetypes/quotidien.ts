@@ -108,7 +108,7 @@ export const RESSOURCES: Ressource[] = [
     titre: "Le mythe de la version finale de toi",
     duree: "4 min",
     corps:
-      "Il n'y a pas de ligne d'arrivée où tu serais enfin « accomplie ». Les psychologues nomment ce mirage l'illusion d'arrivée : on croit que le prochain palier apportera le contentement, et il se dérobe à chaque fois. Le sens ne vient pas d'arriver, mais d'avancer vers ce qui compte.",
+      "Il n'y a pas de ligne d'arrivée où tout serait enfin « accompli ». Les psychologues nomment ce mirage l'illusion d'arrivée : on croit que le prochain palier apportera le contentement, et il se dérobe à chaque fois. Le sens ne vient pas d'arriver, mais d'avancer vers ce qui compte.",
     source: "Tal Ben-Shahar, « Happier » (2007)",
   },
   {
