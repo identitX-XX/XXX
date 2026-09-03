@@ -6,10 +6,10 @@ import { estDebloque } from "@/lib/entitlements";
 test("lectureApprofondie : compose principale + secondaire + émergente", () => {
   const l = lectureApprofondie("multiple", "sage", "rebelle");
   assert.ok(l);
-  assert.equal(l!.principale.name, "La Multiple");
-  assert.equal(l!.secondaire?.name, "La Sage");
-  assert.equal(l!.emergente?.name, "La Rebelle");
-  assert.ok(l!.synthese.includes("La Multiple"));
+  assert.equal(l!.principale.name, "Multiple");
+  assert.equal(l!.secondaire?.name, "Sage");
+  assert.equal(l!.emergente?.name, "Rebelle");
+  assert.ok(l!.synthese.includes("Multiple"));
 });
 
 test("lectureApprofondie : émergente ignorée si = principale ou secondaire", () => {
