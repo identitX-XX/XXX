@@ -6,6 +6,29 @@ type Sortie = { exercices: { perimetre: string; consigne: string }[] | null };
 
 const PERIMETRES = ["perso", "pro", "relationnel"];
 
+// Filet anti-dérive : même avec un prompt strict, le modèle glisse parfois vers
+// la corvée domestique (cuisine, courses, ménage…), hors sujet pour une appli
+// d'identité. Si UNE seule consigne contient un de ces mots, on jette tout le
+// lot → le client garde ses exercices « modèle » (déterministes, jamais hors
+// sujet). Recherche insensible aux accents et à la casse.
+const MOTS_INTERDITS = [
+  "cuisin", "recette", "repas", "diner", "dejeuner", "petit-dejeuner", "gouter",
+  "course", "supermarch", "epicerie", "frigo", "placard", "garde-manger",
+  "menage", "rang", "vaisselle", "lessive", "linge", "plier", "repasser",
+  "aspirateur", "balai", "poussiere", "poubelle", "nettoy", "laver", "lavage",
+  "jardin", "arros", "bricol", "voiture", "garage",
+];
+
+export function contientCorvee(texte: string): boolean {
+  const t = texte
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, ""); // retire les accents
+  // Chaque racine est testee en debut de mot (\b) : "rang" attrape "ranger" et
+  // "rangement", mais jamais "orange" ni "deranger".
+  return MOTS_INTERDITS.some((mot) => new RegExp(`\\b${mot}`).test(t));
+}
+
 // Génère l'exercice du jour par l'IA. En cas d'échec (pas de clé, quota,
 // lenteur, JSON illisible) → { exercices: null } : le client garde alors son
 // exercice « modèle », donc jamais d'écran vide ni de spinner.
@@ -45,6 +68,10 @@ export async function POST(req: Request): Promise<Response> {
       (e) => e && PERIMETRES.includes(e.perimetre) && typeof e.consigne === "string" && e.consigne.trim()
     );
     if (propre.length < 3) return Response.json({ exercices: null } satisfies Sortie);
+    // Si le modèle a glissé vers la corvée domestique, on rejette TOUT le lot :
+    // le client garde ses exercices « modèle », propres et dans le sujet.
+    if (propre.some((e) => contientCorvee(e.consigne)))
+      return Response.json({ exercices: null } satisfies Sortie);
     return Response.json({ exercices: propre } satisfies Sortie);
   } catch {
     return Response.json({ exercices: null } satisfies Sortie);

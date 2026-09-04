@@ -523,9 +523,9 @@ function TroisExercices({
   const [ia, setIa] = useState<Record<string, string> | null>(null);
   useEffect(() => {
     setIa(null);
-    // v2 : le registre du prompt a changé (fini les exercices « cuisine » hors
+    // v3 : filtre anti-corvée côté serveur (fini les exercices « cuisine » hors
     // sujet) → on repart d'un cache neuf pour ne pas resservir les anciens.
-    const cle = `idx-exos-v2-${jour}-${arch.key}`;
+    const cle = `idx-exos-v3-${jour}-${arch.key}`;
     try {
       const cache = localStorage.getItem(cle);
       if (cache) {
