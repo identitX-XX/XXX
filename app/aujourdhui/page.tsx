@@ -313,7 +313,7 @@ export default function AujourdhuiPage() {
 
             <Link
               href="/parcours-signatures"
-              className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+              className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-[13px] font-medium text-[color:var(--on-brand)] transition-transform hover:scale-[1.02]"
             >
               {dejaFait ? "Revoir ma journée" : "Vivre ma capsule du jour"}
               <ArrowRight
@@ -337,20 +337,20 @@ export default function AujourdhuiPage() {
           (déblocage progressif façon Headspace, révélation façon Co-Star). */}
       <RevelationCard faits={prog.faits} />
 
-      {/* Offres premium — aller plus loin (signature, périmètre, questions). */}
+      {/* Aller plus loin — explorations plus profondes, en accès libre. */}
       <Link href="/premium" className="mt-4 block animate-fade-up">
         <Card className="p-5 transition-colors hover:border-fuchsia/40">
           <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-            <Sparkles size={13} /> Premium
+            <Sparkles size={13} /> Aller plus loin
           </div>
           <p className="mt-2 text-[15px] font-semibold text-ink">
-            Aller plus loin
+            Envie de creuser davantage ?
           </p>
           <p className="mt-1 text-sm text-muted">
-            Lecture approfondie de ta signature, approfondissement par périmètre, panels de questions.
+            Ta signature en profondeur, l'approfondissement par périmètre, tes panels de questions.
           </p>
           <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
-            Découvrir les offres <ArrowRight size={13} />
+            Explorer <ArrowRight size={13} />
           </span>
         </Card>
       </Link>

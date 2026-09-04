@@ -17,6 +17,7 @@ import {
 // Palettes visuelles commutables. « origine » = le magenta d'origine ;
 // les trois autres sont sobres (un seul accent à plat, sans dégradé).
 export type PaletteKey =
+  | "lin"
   | "nuit"
   | "origine"
   | "ardoise"
@@ -101,8 +102,8 @@ export const useStore = create<AppState>()(
   persist(
     (set, get) => ({
       onboarded: false,
-      theme: "dark",
-      palette: "nuit",
+      theme: "light",
+      palette: "lin",
       profile: emptyProfile,
       cards: [],
       timeline: [],
@@ -208,7 +209,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: "identitx",
-      version: 2,
+      version: 3,
       storage: createJSONStorage(() => localStorage),
       // One-shot migrations: absorb the pre-Bloc-3 standalone localStorage keys
       // into the unified store, then drop them. Cumulative and version-gated so
@@ -252,6 +253,13 @@ export const useStore = create<AppState>()(
             }
             localStorage.removeItem(LEGACY_JOURNAL_KEY);
           } catch {}
+        }
+        if (version < 3) {
+          // Nouvelle identité de marque « Lin & Prune » (clair) : on bascule tout
+          // le monde dessus une fois, en douceur. L'utilisatrice peut toujours
+          // rechanger ensuite via les réglages.
+          s.palette = "lin";
+          s.theme = "light";
         }
         return s as AppState;
       },

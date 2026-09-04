@@ -324,7 +324,7 @@ export const QUETES: Partial<Record<ArchetypeKey, Quete>> = {
     ],
     carrefour: {
       situation:
-        "Ton entourage compte sur toi, comme toujours. Tu es fatiguée, et une envie à toi — un moment rien que pour toi — passe au second plan.",
+        "Ton entourage compte sur toi, comme toujours. Tu es à bout, et une envie à toi — un moment rien que pour toi — passe au second plan.",
       choix: [
         { texte: "Je m'oublie encore, ils ont besoin de moi", bon: false, retour: "Le don sans retour t'épuise, et prive l'autre de grandir seul." },
         { texte: "Je pose mon besoin, sans culpabilité", bon: true, retour: "Prendre soin de toi n'abandonne personne : ça remplit la source." },
@@ -557,7 +557,7 @@ export const FUTURS_MOI: Partial<Record<ArchetypeKey, FuturMoi>> = {
       "Tes visions multiples cessent de rester en l'air : tu fais atterrir l'impossible, un pas à la fois.",
   },
   presence: {
-    nom: "La Métamorphe enracinée",
+    nom: "Présence enracinée",
     pourquoi:
       "La peur de te fixer posée, tu te déposes assez pour récolter. Tu changes sans fuir — tu deviens, vraiment.",
     multipotentiel:
@@ -578,14 +578,14 @@ export const FUTURS_MOI: Partial<Record<ArchetypeKey, FuturMoi>> = {
       "Ta capacité à sentir les besoins, alliée à tes facettes multiples, fait de toi un refuge où chacun trouve sa place — toi comprise.",
   },
   multiple: {
-    nom: "La Multiple assumée",
+    nom: "Multiple, pleinement",
     pourquoi:
       "La peur de choisir posée, ta pluralité cesse de te tirailler : elle se tient. Tu es plusieurs, et tu l'habites sans t'excuser.",
     multipotentiel:
       "Tes mondes cessent de se concurrencer : tu deviens la passeuse entre des langues que personne d'autre ne parle ensemble.",
   },
   gardienne: {
-    nom: "La Gardienne qui transmet le feu",
+    nom: "Sentinelle qui transmet le feu",
     pourquoi:
       "La peur du changement posée, tu protèges l'essentiel sans figer la forme. Ce que tu gardes se transmet, au lieu de se scléroser.",
     multipotentiel:
@@ -599,21 +599,21 @@ export const FUTURS_MOI: Partial<Record<ArchetypeKey, FuturMoi>> = {
       "Ton feu, croisé à tes talents multiples, fait de toi celle qui organise et relie des mondes autour d'un même élan — sans s'y brûler.",
   },
   mediatrice: {
-    nom: "La Médiatrice qui dit vrai",
+    nom: "Diplomate qui dit vrai",
     pourquoi:
       "L'évitement posé, ton écoute s'arme de franchise. Tu relies les êtres sur du solide, plus sur un accord de façade.",
     multipotentiel:
       "Ton flair des tensions, croisé à ta capacité à parler plusieurs langages, fait de toi celle qui traduit et réconcilie des mondes qui s'ignoraient.",
   },
   sorciere: {
-    nom: "La Sorcière au grand jour",
+    nom: "Alchimiste au grand jour",
     pourquoi:
       "Le retrait posé, ton intuition s'assume et transforme. Ton lien à l'invisible éclaire les autres au lieu de t'isoler.",
     multipotentiel:
       "Ta lecture du profond, croisée à tes savoirs multiples, fait de toi celle qui transmute la matière brute de plusieurs mondes en or partagé.",
   },
   souveraine: {
-    nom: "La Souveraine qui s'entoure",
+    nom: "Souverain·e qui s'entoure",
     pourquoi:
       "La solitude posée, ton autorité s'appuie sur les autres au lieu de tout porter. Tu tiens le cap sans t'y consumer.",
     multipotentiel:

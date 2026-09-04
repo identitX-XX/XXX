@@ -23,7 +23,7 @@ const POIDS_GENERIQUES = [
 
 // Consignes qui tournent chaque jour — l'angle du délestage change.
 const CONSIGNES = [
-  "Aujourd'hui, allège-toi : touche chaque poids que tu es prête à déposer.",
+  "Aujourd'hui, allège-toi : touche chaque poids que tu choisis de déposer.",
   "Ce que tu portes n'est pas toujours à toi. Relâche ce qui pèse, un à un.",
   "Un poids à la fois. Touche ceux que tu choisis de ne plus porter aujourd'hui.",
   "Fais de la place : dépose ce qui t'encombre en ce moment.",

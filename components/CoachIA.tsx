@@ -342,8 +342,8 @@ export function CoachIA() {
               borderRadius: m.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
               background:
                 m.role === "user"
-                  ? "linear-gradient(120deg, color-mix(in srgb, var(--fuchsia) 22%, transparent), color-mix(in srgb, var(--orange) 18%, transparent))"
-                  : "rgba(38,22,41,.55)",
+                  ? "color-mix(in srgb, var(--fuchsia) 16%, var(--surface))"
+                  : "var(--raised)",
               border:
                 m.role === "user"
                   ? "1px solid color-mix(in srgb, var(--fuchsia) 30%, transparent)"
@@ -398,7 +398,7 @@ export function CoachIA() {
           right: 0,
           zIndex: 35,
           padding: "10px 16px 12px",
-          background: "linear-gradient(180deg, rgba(10,9,13,0), rgba(10,9,13,.95) 40%)",
+          background: "linear-gradient(180deg, transparent, var(--noir) 42%)",
           display: "flex",
           justifyContent: "center",
         }}
@@ -414,7 +414,7 @@ export function CoachIA() {
             placeholder="Écris à IdentitX…"
             style={{
               width: "100%",
-              background: "rgba(38,22,41,.7)",
+              background: "var(--surface)",
               border: "1px solid color-mix(in srgb, var(--orange) 25%, transparent)",
               borderRadius: 14,
               color: "var(--ink)",

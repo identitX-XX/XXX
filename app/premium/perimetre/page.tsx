@@ -6,8 +6,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageHead, Card } from "@/components/ui";
-import { Paywall } from "@/components/Paywall";
-import { OFFRES } from "@/lib/entitlements";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import {
@@ -17,11 +15,6 @@ import {
   Approfondissement,
 } from "@/parcours-archetypes/premiumContenu";
 
-const OFFRE_ID: Record<PerimetreA, string> = {
-  perso: OFFRES.perimetrePerso,
-  pro: OFFRES.perimetrePro,
-  relationnel: OFFRES.perimetreRelationnel,
-};
 const ORDRE: PerimetreA[] = ["perso", "pro", "relationnel"];
 
 export default function PerimetrePage() {
@@ -52,7 +45,7 @@ export default function PerimetrePage() {
   return (
     <div>
       <PageHead
-        eyebrow="Premium · 4,50 € / périmètre"
+        eyebrow="Aller plus loin"
         title="Ton périmètre, en profondeur"
         sub="Une lecture reliée à ta signature et à ton cap, puis des pistes concrètes à tenter."
       />
@@ -60,18 +53,7 @@ export default function PerimetrePage() {
         {ORDRE.map((p) => {
           const direction = objectifs?.[p] ?? "";
           const contenu = approfondissementPerimetre(p, direction, sig.name, sig.force, sig.ombre);
-          return (
-            <Paywall
-              key={p}
-              offerId={OFFRE_ID[p]}
-              prix="4,50 €"
-              titre={`Débloque ton approfondissement · ${LABEL_PERIMETRE[p]}`}
-              sousTitre="Une lecture personnalisée + trois pistes concrètes pour ce périmètre."
-              apercu={<ApprofondissementView contenu={contenu} apercu />}
-            >
-              <ApprofondissementView contenu={contenu} />
-            </Paywall>
-          );
+          return <ApprofondissementView key={p} contenu={contenu} />;
         })}
       </div>
     </div>

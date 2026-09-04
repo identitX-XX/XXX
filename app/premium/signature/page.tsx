@@ -7,8 +7,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PageHead, Card } from "@/components/ui";
-import { Paywall } from "@/components/Paywall";
-import { OFFRES } from "@/lib/entitlements";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { radarCourant } from "@/parcours-archetypes/indicateurs";
 import { lectureApprofondie, FicheLecture } from "@/parcours-archetypes/lectureSignature";
@@ -50,29 +48,16 @@ export default function LectureSignaturePage() {
   return (
     <div>
       <PageHead
-        eyebrow="Lecture approfondie · Premium"
+        eyebrow="Aller plus loin"
         title="Ta signature, en profondeur"
         sub="Ta signature principale, ta secondaire, et celle qui commence à émerger — reliées en une seule lecture."
       />
-      <Paywall
-        offerId={OFFRES.signature}
-        prix="2,50 €"
-        titre="Débloque ta lecture approfondie"
-        sousTitre="Trois facettes de toi, décortiquées et reliées : valeur profonde, forces, schéma, zone d'ombre, communication, version mature, et ta question de bascule."
-        apercu={
-          <div className="space-y-4">
-            <SyntheseBloc synthese={lecture.synthese} />
-            <FicheView titre="Ta signature principale" fiche={lecture.principale} apercu />
-          </div>
-        }
-      >
-        <div className="space-y-4">
-          <SyntheseBloc synthese={lecture.synthese} />
-          <FicheView titre="Ta signature principale" fiche={lecture.principale} />
-          {lecture.secondaire && <FicheView titre="Ta signature secondaire" fiche={lecture.secondaire} />}
-          {lecture.emergente && <FicheView titre="Celle qui émerge en toi" fiche={lecture.emergente} />}
-        </div>
-      </Paywall>
+      <div className="space-y-4">
+        <SyntheseBloc synthese={lecture.synthese} />
+        <FicheView titre="Ta signature principale" fiche={lecture.principale} />
+        {lecture.secondaire && <FicheView titre="Ta signature secondaire" fiche={lecture.secondaire} />}
+        {lecture.emergente && <FicheView titre="Celle qui émerge en toi" fiche={lecture.emergente} />}
+      </div>
     </div>
   );
 }

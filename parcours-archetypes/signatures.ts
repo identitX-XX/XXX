@@ -58,7 +58,7 @@ export interface Signature {
 export const SIGNATURES: Signature[] = [
   {
     key: "stratege",
-    name: "La Stratège",
+    name: "Stratège",
     hue: 212,
     valeur: "L'efficacité mise au service d'un dessein plus grand qu'elle.",
     forces: "Vision d'ensemble, anticipation, sang-froid. Sait exactement où porter l'effort pour qu'il compte.",
@@ -74,7 +74,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "visionnaire",
-    name: "La Visionnaire",
+    name: "Visionnaire",
     hue: 265,
     valeur: "Le futur rendu désirable, et l'élan pour y aller.",
     forces: "Intuition du possible, sens du sens, capacité à entraîner derrière une image d'avenir.",
@@ -90,7 +90,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "rebelle",
-    name: "La Rebelle",
+    name: "Rebelle",
     hue: 6,
     valeur: "La liberté arrachée aux conformismes.",
     forces: "Courage, lucidité sur les faux-semblants, énergie de rupture. Ose ce que d'autres taisent.",
@@ -106,7 +106,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "mere",
-    name: "La Mère",
+    name: "Pilier",
     hue: 145,
     valeur: "Le soin qui fait grandir l'autre.",
     forces: "Présence inconditionnelle, sécurité qu'elle installe autour d'elle, générosité qui abrite.",
@@ -122,7 +122,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "multiple",
-    name: "La Multiple",
+    name: "Multiple",
     hue: 45,
     role: "meta",
     valeur: "La richesse d'une pluralité tenue, et non subie.",
@@ -139,7 +139,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "batisseuse",
-    name: "La Bâtisseuse",
+    name: "Architecte",
     hue: 30,
     valeur: "Le durable — ce qui tient quand le reste passe.",
     forces: "Patience, méthode, fiabilité. Sait finir ce qu'elle commence, et le faire solide.",
@@ -155,7 +155,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "gardienne",
-    name: "La Gardienne",
+    name: "Sentinelle",
     hue: 188,
     valeur: "La transmission de ce qui compte, et la mémoire des liens.",
     forces: "Loyauté, sens du juste, tenue du cadre et des valeurs. Veille sur l'essentiel.",
@@ -171,7 +171,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "activiste",
-    name: "L'Activiste",
+    name: "Activiste",
     hue: 354,
     valeur: "Le changement collectif au nom du juste.",
     forces: "Engagement, capacité à mobiliser, endurance au combat. Transforme l'indignation en action.",
@@ -187,7 +187,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "mediatrice",
-    name: "La Médiatrice",
+    name: "Diplomate",
     hue: 170,
     valeur: "Le lien retrouvé, l'accord juste entre les êtres.",
     forces: "Écoute, diplomatie, flair des tensions. Traduit les uns aux autres et apaise ce qui s'échauffe.",
@@ -203,7 +203,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "passeuse",
-    name: "La Passeuse",
+    name: "Passeur·se",
     hue: 285,
     valeur: "Faire traverser — initier l'autre à un seuil.",
     forces: "Pédagogie, générosité du savoir, art d'accompagner un passage sans le forcer.",
@@ -219,7 +219,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "artiste",
-    name: "L'Artiste",
+    name: "Artiste",
     hue: 322,
     valeur: "La beauté comme façon de dire le vrai.",
     forces: "Sensibilité, singularité du regard, don de mettre en forme l'informe.",
@@ -235,7 +235,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "sage",
-    name: "La Sage",
+    name: "Sage",
     hue: 250,
     valeur: "Le discernement — voir juste avant d'agir.",
     forces: "Recul, profondeur, calme. Sait poser la question qui déplace tout.",
@@ -251,7 +251,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "altruiste",
-    name: "L'Altruiste",
+    name: "Altruiste",
     hue: 128,
     valeur: "Le bien de l'autre comme boussole.",
     forces: "Empathie, dévouement, sens du collectif. Trouve du sens dans l'utilité aux autres.",
@@ -267,7 +267,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "amante",
-    name: "L'Amante",
+    name: "Amoureux·se",
     hue: 340,
     valeur: "L'intensité du lien, la vie pleinement ressentie.",
     forces: "Présence sensuelle, capacité d'attachement profond, art de célébrer l'instant.",
@@ -283,7 +283,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "sorciere",
-    name: "La Sorcière",
+    name: "Alchimiste",
     hue: 300,
     valeur: "Le pouvoir de transformation, l'intelligence de l'invisible.",
     forces: "Intuition puissante, lien au symbolique, capacité à métamorphoser une situation ou une émotion.",
@@ -299,7 +299,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "protectrice",
-    name: "La Protectrice",
+    name: "Rempart",
     hue: 222,
     valeur: "La sécurité des siens et la frontière juste.",
     forces: "Courage, loyauté, fermeté. Sait poser une limite et défendre les plus fragiles.",
@@ -315,7 +315,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "souveraine",
-    name: "La Souveraine",
+    name: "Souverain·e",
     hue: 40,
     valeur: "L'autorité juste, assumée et responsable.",
     forces: "Leadership naturel, sens de la décision, tenue du cadre et du cap. Ne fuit pas la responsabilité.",
@@ -331,7 +331,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "creatrice",
-    name: "La Créatrice",
+    name: "Créateur·rice",
     hue: 16,
     valeur: "Faire naître — donner corps à ce qui n'existait pas.",
     forces: "Énergie génératrice, imagination fertile, art de transformer une idée en réel.",
@@ -347,7 +347,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "libre",
-    name: "La Libre",
+    name: "Libre",
     hue: 92,
     valeur: "L'autonomie et l'espace pour respirer.",
     forces: "Indépendance, authenticité, refus des cages, légèreté qui allège l'entourage.",
@@ -363,7 +363,7 @@ export const SIGNATURES: Signature[] = [
   },
   {
     key: "presence",
-    name: "La Présence",
+    name: "Présence",
     hue: 200,
     role: "socle",
     valeur: "L'ancrage habité : exister pleinement sans avoir à le prouver.",

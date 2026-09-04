@@ -52,7 +52,7 @@ export function NextStep() {
         </div>
         <Link
           href={step.href}
-          className="group inline-flex flex-none items-center justify-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+          className="group inline-flex flex-none items-center justify-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-[13px] font-medium text-[color:var(--on-brand)] transition-transform hover:scale-[1.02]"
         >
           {step.cta}
           <ArrowRight

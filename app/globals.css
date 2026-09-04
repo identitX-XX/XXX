@@ -116,6 +116,23 @@ html.pal-aubergine.light {
   --fuchsia: #7a5277; --orange: #7a5277; --slate: #675e6c;
 }
 
+/* Lin & Prune — clair par défaut : lin chaud, accent prune profond. Féminin,
+   éditorial, sobre. C'est l'identité de la marque (défaut de l'app). */
+html.pal-lin {
+  /* Variante sombre (si bascule) — bois brûlé + prune clair. */
+  --noir: #1b1813; --surface: #26221a; --raised: #302b21;
+  --ink: #ece5d9; --muted: #a79e8f; --line: rgba(255, 255, 255, 0.08);
+  --fuchsia: #c294a8; --orange: #c294a8; --slate: #a79e8f;
+  --on-brand: #1b1813;
+}
+html.pal-lin.light {
+  /* Ambiance danoise (hygge) : lin chaud, blanc chaud, prune feutré. Tout mat. */
+  --noir: #e8e3d8; --surface: #f3efe7; --raised: #f7f3ec;
+  --ink: #2c2a24; --muted: #8a8478; --line: rgba(44, 42, 36, 0.09);
+  --fuchsia: #6f4356; --orange: #6f4356; --slate: #8a8478;
+  --on-brand: #f5eef0;
+}
+
 * {
   border-color: var(--line);
 }

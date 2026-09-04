@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a090d",
+  themeColor: "#f1ebe3",
   width: "device-width",
   initialScale: 1,
   // Permet aux retraits « safe area » (encoche, barre d'accueil iOS) d'agir.
@@ -67,7 +67,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={poppins.className + " pal-nuit"}
+      className={poppins.className + " pal-lin light"}
       style={
         {
           "--font-fraunces": poppins.style.fontFamily,
