@@ -14,6 +14,7 @@ export type GlyphName =
   | "perso"
   | "pro"
   | "relationnel"
+  | "love"
   | "question"
   | "defi"
   | "ressource";
@@ -62,6 +63,10 @@ const GLYPHS: Record<GlyphName, ReactNode> = {
       <circle cx="9.4" cy="12" r="4.8" />
       <circle cx="14.6" cy="12" r="4.8" />
     </>
+  ),
+  // Love — un cœur, trait gravé.
+  love: (
+    <path d="M12 19 C6 14.6 4.5 11.4 4.5 8.9 A3.6 3.6 0 0 1 12 7.1 A3.6 3.6 0 0 1 19.5 8.9 C19.5 11.4 18 14.6 12 19 Z" />
   ),
   // Une question — tracé interrogatif net, point plein.
   question: (

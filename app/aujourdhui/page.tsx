@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
   MessageCircle, Sunrise, Moon, Compass, Check, Route, Dumbbell,
-  User, Briefcase, Users, RefreshCw,
+  Briefcase, Users, RefreshCw, Heart, HeartPulse,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
@@ -501,9 +501,10 @@ function RevelationCard({ faits }: { faits: number }) {
 // teinté par la signature du moment. Comme la signature varie au fil
 // de la quête, les consignes évoluent avec elle, selon ton avancement.
 const ICONE_PERIMETRE: Record<Perimetre, React.ElementType> = {
-  perso: User,
-  pro: Briefcase,
   relationnel: Users,
+  love: Heart,
+  pro: Briefcase,
+  perso: HeartPulse,
 };
 
 function TroisExercices({
@@ -554,9 +555,10 @@ function TroisExercices({
         archName: arch.name,
         jour: seed, // graine = jour + variante (renouvellement à la demande)
         directions: {
-          perso: objectifs?.perso ?? "",
-          pro: objectifs?.pro ?? "",
           relationnel: objectifs?.relationnel ?? "",
+          love: objectifs?.love ?? "",
+          pro: objectifs?.pro ?? "",
+          perso: objectifs?.perso ?? "",
         },
       }),
     })

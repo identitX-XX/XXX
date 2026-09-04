@@ -4,14 +4,14 @@ import { exercicesDuJour } from "./exercices";
 import { archetypeByKey } from "./archetypes";
 
 const arch = archetypeByKey["multiple"];
-const objectifs = { perso: "mon énergie", pro: "mon élan", relationnel: "mes liens" };
+const objectifs = { perso: "mon énergie", pro: "mon élan", relationnel: "mes liens", love: "plus de tendresse" };
 
-test("exercicesDuJour : un exercice par périmètre", () => {
+test("exercicesDuJour : un exercice par pilier (4 piliers)", () => {
   const ex = exercicesDuJour(arch, objectifs, 1);
-  assert.equal(ex.length, 3);
+  assert.equal(ex.length, 4);
   assert.deepEqual(
     ex.map((e) => e.perimetre),
-    ["perso", "pro", "relationnel"]
+    ["relationnel", "love", "pro", "perso"]
   );
 });
 

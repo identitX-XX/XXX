@@ -2,10 +2,11 @@
 // Source unique — les glyphes maison d'IdentitX (voir Glyph.tsx), jamais d'emoji.
 import { Glyph, GlyphName } from "./Glyph";
 
-const MAP: Record<"perso" | "pro" | "relationnel", GlyphName> = {
+const MAP: Record<"perso" | "pro" | "relationnel" | "love", GlyphName> = {
   perso: "perso",
   pro: "pro",
   relationnel: "relationnel",
+  love: "love",
 };
 
 export function SphereIcon({
@@ -14,7 +15,7 @@ export function SphereIcon({
   color = "var(--fuchsia)",
   className,
 }: {
-  sphere: "perso" | "pro" | "relationnel";
+  sphere: "perso" | "pro" | "relationnel" | "love";
   size?: number;
   color?: string;
   className?: string;

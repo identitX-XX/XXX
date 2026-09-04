@@ -20,23 +20,28 @@ const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
 
 const CHAMPS: { key: PerimetreKey; label: string; hint: string }[] = [
-  { key: "perso", label: "Perso", hint: "Pour toi : ton équilibre, ton corps, ton sens, ta création." },
+  { key: "relationnel", label: "Relationnel & famille", hint: "Dans tes liens : famille, amis, entourage." },
+  { key: "love", label: "Love", hint: "Côté cœur : couple, amour, intimité, vie sentimentale." },
   { key: "pro", label: "Pro", hint: "Côté travail et projets : ce que tu veux faire avancer." },
-  { key: "relationnel", label: "Relationnel", hint: "Dans tes liens : amour, famille, amis." },
+  { key: "perso", label: "Santé", hint: "Toi d'abord : ton corps, ton énergie, ton sommeil, ton équilibre." },
 ];
 
-const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "" };
+const VIDE: ObjectifsT = { perso: "", pro: "", relationnel: "", love: "" };
 
-// Suggestions cliquables par sphère (chips) qui pré-remplissent le champ.
+// Suggestions cliquables par pilier (chips) qui pré-remplissent le champ.
 const SUGGESTIONS: Record<PerimetreKey, string[]> = {
-  perso: [
-    "Nourrir ma curiosité",
-    "Protéger mon énergie",
-    "Connaissance de soi",
-    "Bouger",
-    "Écrire, lire, dessiner",
-    "Méditer",
-    "Réorganiser quelque chose",
+  relationnel: [
+    "Actualiser mes relations",
+    "Identifier mes schémas",
+    "Me rapprocher des miens",
+    "Me débarrasser des liens toxiques",
+  ],
+  love: [
+    "Oser aimer vraiment",
+    "Poser mes besoins dans le couple",
+    "Faire des rencontres",
+    "Sortir d'un schéma amoureux",
+    "Retrouver de la tendresse",
   ],
   pro: [
     "Changer de poste",
@@ -46,11 +51,13 @@ const SUGGESTIONS: Record<PerimetreKey, string[]> = {
     "Changer de dimension",
     "Mobilité",
   ],
-  relationnel: [
-    "Actualiser mes relations",
-    "Identifier mes schémas",
-    "Faire des rencontres",
-    "Me débarrasser des liens toxiques",
+  perso: [
+    "Protéger mon énergie",
+    "Mieux dormir",
+    "Bouger mon corps",
+    "Retrouver du calme",
+    "Prendre soin de moi",
+    "Connaissance de soi",
   ],
 };
 
@@ -78,7 +85,7 @@ export function Objectifs({
   const [custom, setCustom] = useState<Record<string, boolean>>(() => {
     const init = initial ?? VIDE;
     const out: Record<string, boolean> = {};
-    (["perso", "pro", "relationnel"] as PerimetreKey[]).forEach((k) => {
+    (["relationnel", "love", "pro", "perso"] as PerimetreKey[]).forEach((k) => {
       const v = init[k]?.trim();
       out[k] = Boolean(v) && !SUGGESTIONS[k].includes(v);
     });
@@ -103,8 +110,8 @@ export function Objectifs({
   const introDefaut = (
     <>
       {arch ? <>Ta signature <strong style={{ color: INK }}>{arch.name}</strong> t'accompagnera. </> : null}
-      Choisis une direction à observer par périmètre — perso, pro, relationnel.
-      Rien de définitif : elles pourront évoluer.
+      Choisis une direction à observer par pilier — relationnel &amp; famille, love,
+      pro, santé. Rien de définitif : elles pourront évoluer.
     </>
   );
 

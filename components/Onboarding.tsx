@@ -15,10 +15,12 @@ import { ADN, Planetes, Neurones, EcartVisu, Possibles, Orbite } from "./Parcour
 // Signature · Le rythme · Le mouvement — avant de révéler le diagnostic. Une
 // seule saisie : le prénom. Le reste du profil se complète au fil de la quête
 // (profil progressif), jamais en barrage à l'entrée.
+export type Genre = "femme" | "homme" | "np";
+
 export function Onboarding() {
   const complete = useStore((s) => s.completeOnboarding);
   const router = useRouter();
-  const [name, setName] = useState("");
+  const [gender, setGender] = useState<Genre | "">("");
   const [age, setAge] = useState("");
   const [intention, setIntention] = useState("");
   // La section actuellement à l'écran (défilement vertical), pour le fil de
@@ -26,9 +28,9 @@ export function Onboarding() {
   const [active, setActive] = useState(0);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
-  // Le prénom (étape 1) reste requis : la dernière action est verrouillée tant
-  // qu'il n'est pas saisi — le gate, préservé malgré le défilement libre.
-  const canFinish = name.trim().length > 0;
+  // Le genre (dernière étape) reste requis : la dernière action est verrouillée
+  // tant qu'il n'est pas choisi — le gate, préservé malgré le défilement libre.
+  const canFinish = gender !== "";
 
   // On suit la section la plus visible : elle pilote le fil de progression.
   useEffect(() => {
@@ -54,12 +56,13 @@ export function Onboarding() {
 
   const finish = () => {
     if (!canFinish) {
-      scrollTo(steps.length - 1); // il manque le prénom : on y ramène plutôt que de bloquer sec
+      scrollTo(steps.length - 1); // il manque le genre : on y ramène plutôt que de bloquer sec
       return;
     }
     const mot = intention.trim();
     const profile: Profile = {
-      name: name.trim(),
+      name: "", // plus de prénom demandé : on s'adresse à « toi »
+      gender: (gender || undefined) as Profile["gender"],
       age: age.trim(),
       situation: "",
       goal: mot,
@@ -74,7 +77,7 @@ export function Onboarding() {
       keyword: mot && !mot.includes(" ") ? mot : "",
     };
     complete(profile);
-    track("onboarding_completed");
+    track("onboarding_completed", { gender });
     // Droit aux questions : plus d'écran intermédiaire « Qui es-tu » qui
     // apparaissait entre l'onboarding et le diagnostic (double départ).
     router.push("/parcours-signatures");
@@ -95,10 +98,10 @@ export function Onboarding() {
     <StepScenarios key="scenarios" />,
     <StepQuete key="quete" />,
     <StepMenu key="menu" />,
-    <StepPrenom
-      key="prenom"
-      name={name}
-      setName={setName}
+    <StepIdentite
+      key="identite"
+      gender={gender}
+      setGender={setGender}
       age={age}
       setAge={setAge}
       intention={intention}
@@ -263,7 +266,7 @@ export function StepSignature() {
       eyebrow="Ta signature"
       titre="Une signature identitaire unique"
       graphic={<ADN />}
-      texte="12 questions révèlent ta signature principale et ta secondaire — ton point de départ. C'est la toute première étape, avant tout le reste."
+      texte="Quelques questions révèlent ta signature principale et tes deux signatures secondaires — ton point de départ. C'est la toute première étape, avant tout le reste."
     />
   );
 }
@@ -272,10 +275,10 @@ export function StepSignature() {
 export function StepTerritoires() {
   return (
     <StageP
-      eyebrow="Tes territoires"
-      titre="Trois territoires"
+      eyebrow="Tes piliers"
+      titre="Quatre piliers de vie"
       graphic={<Planetes />}
-      texte="Perso, pro, relationnel. Sur chacun se révèlent tes valeurs, tes forces, tes compétences — rassemblées dans « Ton portrait »."
+      texte="Relationnel & famille, love, pro, santé. Sur chacun, tu choisis une direction — et ta quête t'y fait avancer, un geste à la fois."
     />
   );
 }
@@ -380,12 +383,13 @@ function Champ({
   );
 }
 
-// Étape 3 — la seule saisie : le prénom (requis) + une intention (optionnelle).
-function StepPrenom({
-  name, setName, age, setAge, intention, setIntention, canFinish, onFinish,
+// Étape finale — l'intake : genre (requis, 3 choix) + âge approximatif +
+// intention (optionnelle). Plus de prénom : on s'adresse à « toi ».
+function StepIdentite({
+  gender, setGender, age, setAge, intention, setIntention, canFinish, onFinish,
 }: {
-  name: string;
-  setName: (v: string) => void;
+  gender: Genre | "";
+  setGender: (v: Genre) => void;
   age: string;
   setAge: (v: string) => void;
   intention: string;
@@ -393,6 +397,11 @@ function StepPrenom({
   canFinish: boolean;
   onFinish: () => void;
 }) {
+  const GENRES: { key: Genre; label: string }[] = [
+    { key: "femme", label: "Femme" },
+    { key: "homme", label: "Homme" },
+    { key: "np", label: "Je préfère ne pas dire" },
+  ];
   return (
     <div className="space-y-6">
       <div className="text-center">
@@ -400,16 +409,35 @@ function StepPrenom({
           Faisons connaissance
         </div>
         <p className="mx-auto mt-3 max-w-sm text-[15px] font-medium leading-relaxed text-ink/85">
-          Avant d'explorer ta constellation, donne-nous quelques repères.
+          Deux repères, et on entre dans ta quête. Pas de prénom : ici, on se
+          parle en « tu ».
         </p>
       </div>
-      <Champ titre="Ton prénom" aide="Comment souhaites-tu être appelé·e ?">
-        <TextInput value={name} onChange={setName} placeholder="Ton prénom" />
+      <Champ titre="Tu es…" aide="Pour un ton juste. IdentitX accueille les femmes comme les hommes.">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          {GENRES.map((g) => {
+            const on = gender === g.key;
+            return (
+              <button
+                key={g.key}
+                type="button"
+                onClick={() => setGender(g.key)}
+                className={`rounded-xl border px-4 py-3 text-sm font-semibold transition-colors ${
+                  on
+                    ? "border-fuchsia bg-fuchsia/10 text-ink"
+                    : "border-line bg-surface text-muted hover:border-fuchsia/50 hover:text-ink"
+                }`}
+              >
+                {g.label}
+              </button>
+            );
+          })}
+        </div>
       </Champ>
-      <Champ titre="Ton âge approximatif" aide="Chaque période de vie ouvre des questions différentes.">
+      <Champ titre="Ton âge approximatif" aide="Chaque période de vie ouvre des questions différentes. (facultatif)">
         <TextInput value={age} onChange={setAge} placeholder="ex. la trentaine, 42…" />
       </Champ>
-      <Champ titre="Ton intention du moment" aide="Qu'aimerais-tu mieux comprendre, clarifier ou faire évoluer ?">
+      <Champ titre="Ton intention du moment" aide="Qu'aimerais-tu mieux comprendre, clarifier ou faire évoluer ? (facultatif)">
         <TextInput value={intention} onChange={setIntention} placeholder="ex. clarté, oser, alignement…" />
       </Champ>
       <p className="text-center text-[13px] italic leading-relaxed text-ink/60">
@@ -434,7 +462,7 @@ function StepPrenom({
           Révéler ma signature <ArrowRight size={16} />
         </Button>
         {!canFinish && (
-          <p className="text-xs text-muted">Ajoute ton prénom pour continuer.</p>
+          <p className="text-xs text-muted">Choisis une option ci-dessus pour continuer.</p>
         )}
       </div>
     </div>

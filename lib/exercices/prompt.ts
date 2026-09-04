@@ -5,18 +5,19 @@
 export interface ExercicesInput {
   archName: string;
   jour: number;
-  directions: { perso?: string; pro?: string; relationnel?: string };
+  directions: { relationnel?: string; love?: string; pro?: string; perso?: string };
 }
 
-// Sens de chaque périmètre — fourni au modèle pour qu'il ancre l'action dans le
+// Sens de chaque pilier — fourni au modèle pour qu'il ancre l'action dans le
 // bon domaine de vie SANS inventer de scène concrète (cuisine, courses…).
 const ANGLES: Record<string, string> = {
-  perso: "ton équilibre intérieur, ton corps, ton énergie, ton rapport à toi-même",
+  relationnel: "tes proches, ta famille, tes amis, ta manière d'être en lien",
+  love: "ton couple, l'amour, l'intimité, ta vie sentimentale",
   pro: "ton travail, tes projets, ta façon d'agir et de décider",
-  relationnel: "tes proches, ton couple, ta famille, tes amis, ta manière d'être en lien",
+  perso: "ta santé, ton corps, ton énergie, ton sommeil, ton équilibre intérieur",
 };
 
-export const SYSTEM_PROMPT = `Tu génères, pour IdentitX, l'exercice du jour d'une personne — exactement UN par périmètre de vie : perso, pro, relationnel.
+export const SYSTEM_PROMPT = `Tu génères, pour IdentitX, l'exercice du jour d'une personne — exactement UN par pilier de vie : relationnel (relationnel & famille), love (couple, amour), pro, perso (santé).
 
 IdentitX explore l'IDENTITÉ : chaque exercice fait OBSERVER, HABITER ou EXPRIMER une facette de soi (la signature du moment) dans sa vie réelle. Ce n'est JAMAIS une tâche ménagère, logistique ou d'organisation.
 
@@ -27,19 +28,20 @@ RÈGLES ABSOLUES
 4. Chaque jour doit être DIFFÉRENT du précédent — varie l'angle, le verbe, la forme. Le numéro du jour t'aide à ne jamais te répéter.
 5. Ton direct, adulte, incarné. Pas de coach mielleux, pas d'emoji. 1 à 2 phrases par consigne, maximum.
 
-SORTIE — STRICTEMENT ce JSON, rien d'autre :
-{"exercices":[{"perimetre":"perso","consigne":"..."},{"perimetre":"pro","consigne":"..."},{"perimetre":"relationnel","consigne":"..."}]}`;
+SORTIE — STRICTEMENT ce JSON, rien d'autre (les 4 piliers, dans cet ordre) :
+{"exercices":[{"perimetre":"relationnel","consigne":"..."},{"perimetre":"love","consigne":"..."},{"perimetre":"pro","consigne":"..."},{"perimetre":"perso","consigne":"..."}]}`;
 
 export function buildUserMessage(input: ExercicesInput): string {
   return JSON.stringify(
     {
       signature_du_moment: input.archName,
       jour: input.jour,
-      // périmètres : le SENS (pour ancrer sans inventer) + la direction posée si elle existe.
-      perimetres: {
-        perso: { sens: ANGLES.perso, direction: input.directions.perso || null },
-        pro: { sens: ANGLES.pro, direction: input.directions.pro || null },
+      // piliers : le SENS (pour ancrer sans inventer) + la direction posée si elle existe.
+      piliers: {
         relationnel: { sens: ANGLES.relationnel, direction: input.directions.relationnel || null },
+        love: { sens: ANGLES.love, direction: input.directions.love || null },
+        pro: { sens: ANGLES.pro, direction: input.directions.pro || null },
+        perso: { sens: ANGLES.perso, direction: input.directions.perso || null },
       },
     },
     null,

@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { premiereLecture } from "./premiereLecture";
 import { Diagnostic, Objectifs } from "./types";
 
-const OBJ: Objectifs = { perso: "Prendre soin de mon énergie", pro: "", relationnel: "" };
+const OBJ: Objectifs = { perso: "Prendre soin de mon énergie", pro: "", relationnel: "", love: "" };
 
 test("cite des comptes réels quand le tally est présent", () => {
   const diag: Diagnostic = {
