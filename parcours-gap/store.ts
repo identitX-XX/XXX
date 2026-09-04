@@ -30,6 +30,7 @@ export const gapJourVide = (): GapJour => ({
   perso: tripletVide(),
   pro: tripletVide(),
   relationnel: tripletVide(),
+  love: tripletVide(),
 });
 
 interface GapState {

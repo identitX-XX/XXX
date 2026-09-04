@@ -138,12 +138,15 @@ export interface Diagnostic {
 
 // Objectif que l'utilisateur pose au départ, sur chacun de ses trois
 // périmètres de vie. Sert de cap aux 30 jours et nourrit le rapport final.
-export type PerimetreKey = "perso" | "pro" | "relationnel";
+// Clés internes historiques conservées ; « perso » porte le pilier Santé,
+// « love » est le pilier ajouté. Voir parcours-gap/perimetres.ts pour les libellés.
+export type PerimetreKey = "relationnel" | "love" | "pro" | "perso";
 
 export interface Objectifs {
-  perso: string;
+  perso: string; // Santé
   pro: string;
-  relationnel: string;
+  relationnel: string; // Relationnel & famille
+  love: string; // Love
 }
 
 // Couche « climat & corps » (dimension COR du twin). Optionnelle, locale.

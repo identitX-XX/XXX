@@ -1,5 +1,7 @@
 export interface Profile {
   name: string;
+  // Genre — pour un ton juste (accueille femmes et hommes). "" = non renseigné.
+  gender?: "femme" | "homme" | "np";
   age: string;
   situation: string;
   goal: string;

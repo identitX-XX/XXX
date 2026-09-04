@@ -6,7 +6,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Loader2, Sparkles, RefreshCw, User, Briefcase, Users } from "lucide-react";
+import { ArrowRight, Loader2, Sparkles, RefreshCw, Briefcase, Users, Heart, HeartPulse } from "lucide-react";
 import { PageHead, TextArea } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -22,9 +22,10 @@ import { PERIMETRES, directionDe, Perimetre } from "@/parcours-gap/perimetres";
 import { pratiquesDuJour, promptRendu } from "@/parcours-gap/exercicesLib";
 
 const ICONE: Record<Perimetre, React.ElementType> = {
-  perso: User,
-  pro: Briefcase,
   relationnel: Users,
+  love: Heart,
+  pro: Briefcase,
+  perso: HeartPulse,
 };
 
 const CHAMPS: { key: keyof GapTriplet; label: string; hint: string }[] = [
@@ -100,9 +101,10 @@ export default function ExercicesPage() {
           jour,
           signature: sig,
           directions: {
-            perso: directionDe(objectifs, "perso"),
-            pro: directionDe(objectifs, "pro"),
             relationnel: directionDe(objectifs, "relationnel"),
+            love: directionDe(objectifs, "love"),
+            pro: directionDe(objectifs, "pro"),
+            perso: directionDe(objectifs, "perso"),
           },
           gaps: jourGap,
           pratiques: prats
@@ -128,7 +130,7 @@ export default function ExercicesPage() {
       <PageHead
         eyebrow={`Exercice du jour · Jour ${jour}`}
         title="L'écart entre ce que tu crois, penses et fais"
-        sub={`Sur chaque périmètre — perso, pro, relationnel — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
+        sub={`Sur chaque pilier — relationnel & famille, love, pro, santé — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
       />
 
       {/* Barre de progression — façon Duolingo : une étape à la fois. */}
