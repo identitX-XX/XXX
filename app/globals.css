@@ -127,9 +127,9 @@ html.pal-lin {
 }
 html.pal-lin.light {
   /* Ambiance danoise (hygge) : lin chaud, blanc chaud, prune feutré. Tout mat. */
-  --noir: #e8e3d8; --surface: #f3efe7; --raised: #f7f3ec;
-  --ink: #2c2a24; --muted: #8a8478; --line: rgba(44, 42, 36, 0.09);
-  --fuchsia: #6f4356; --orange: #6f4356; --slate: #8a8478;
+  --noir: #e8e3d8; --surface: #f6f2ea; --raised: #fdfbf6;
+  --ink: #2c2a24; --muted: #726c5f; --line: rgba(44, 42, 36, 0.16);
+  --fuchsia: #6f4356; --orange: #6f4356; --slate: #726c5f;
   --on-brand: #f5eef0;
 }
 
