@@ -1,33 +1,11 @@
 import { SYSTEM_PROMPT, buildUserMessage, ExercicesInput } from "@/lib/exercices/prompt";
+import { contientCorvee } from "@/lib/exercices/corvee";
 
 export const maxDuration = 30;
 
 type Sortie = { exercices: { perimetre: string; consigne: string }[] | null };
 
 const PERIMETRES = ["perso", "pro", "relationnel"];
-
-// Filet anti-dérive : même avec un prompt strict, le modèle glisse parfois vers
-// la corvée domestique (cuisine, courses, ménage…), hors sujet pour une appli
-// d'identité. Si UNE seule consigne contient un de ces mots, on jette tout le
-// lot → le client garde ses exercices « modèle » (déterministes, jamais hors
-// sujet). Recherche insensible aux accents et à la casse.
-const MOTS_INTERDITS = [
-  "cuisin", "recette", "repas", "diner", "dejeuner", "petit-dejeuner", "gouter",
-  "course", "supermarch", "epicerie", "frigo", "placard", "garde-manger",
-  "menage", "rang", "vaisselle", "lessive", "linge", "plier", "repasser",
-  "aspirateur", "balai", "poussiere", "poubelle", "nettoy", "laver", "lavage",
-  "jardin", "arros", "bricol", "voiture", "garage",
-];
-
-export function contientCorvee(texte: string): boolean {
-  const t = texte
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, ""); // retire les accents
-  // Chaque racine est testee en debut de mot (\b) : "rang" attrape "ranger" et
-  // "rangement", mais jamais "orange" ni "deranger".
-  return MOTS_INTERDITS.some((mot) => new RegExp(`\\b${mot}`).test(t));
-}
 
 // Génère l'exercice du jour par l'IA. En cas d'échec (pas de clé, quota,
 // lenteur, JSON illisible) → { exercices: null } : le client garde alors son

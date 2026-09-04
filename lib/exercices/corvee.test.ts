@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { contientCorvee } from "@/app/api/exercices/route";
+import { contientCorvee } from "./corvee";
 
 test("contientCorvee : détecte la dérive vers la corvée domestique", () => {
   assert.equal(contientCorvee("Prépare le dîner en famille ce soir."), true);
