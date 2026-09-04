@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
   MessageCircle, Sunrise, Moon, Compass, Check, Route, Dumbbell,
-  User, Briefcase, Users,
+  User, Briefcase, Users, RefreshCw,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { LeChemin } from "@/components/LeChemin";
@@ -515,17 +515,30 @@ function TroisExercices({
   objectifs: Objectifs | null;
   jour: number;
 }) {
+  // « variante » : levier de RENOUVELLEMENT à la demande. La quête n'avance
+  // d'un jour qu'en fin de journée ; entre-temps, on peut vouloir un autre angle.
+  // Chaque appui sur « Un autre angle » change la graine → nouveaux cadrages
+  // déterministes + nouvelle génération IA. Persisté par jour pour ne pas
+  // revenir en arrière au rechargement.
+  const [variante, setVariante] = useState(0);
+  useEffect(() => {
+    try {
+      const v = localStorage.getItem(`idx-exos-var-${jour}-${arch.key}`);
+      if (v) setVariante(parseInt(v, 10) || 0);
+    } catch {}
+  }, [jour, arch.key]);
+  const seed = jour + variante;
   // Exercice « modèle » affiché INSTANTANÉMENT (aucun spinner). En arrière-plan,
-  // l'IA génère une version unique du jour ; quand elle arrive, on la substitue.
-  // Mise en cache par (jour + signature) → un seul appel Mistral par jour et par
-  // appareil. Repli silencieux sur le modèle si l'IA tarde ou échoue.
-  const base = exercicesDuJour(arch, objectifs, jour);
+  // l'IA génère une version unique ; quand elle arrive, on la substitue.
+  // Mise en cache par (graine + signature) → un seul appel Mistral par variante
+  // et par appareil. Repli silencieux sur le modèle si l'IA tarde ou échoue.
+  const base = exercicesDuJour(arch, objectifs, seed);
   const [ia, setIa] = useState<Record<string, string> | null>(null);
   useEffect(() => {
     setIa(null);
     // v3 : filtre anti-corvée côté serveur (fini les exercices « cuisine » hors
     // sujet) → on repart d'un cache neuf pour ne pas resservir les anciens.
-    const cle = `idx-exos-v3-${jour}-${arch.key}`;
+    const cle = `idx-exos-v3-${seed}-${arch.key}`;
     try {
       const cache = localStorage.getItem(cle);
       if (cache) {
@@ -539,7 +552,7 @@ function TroisExercices({
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
         archName: arch.name,
-        jour,
+        jour: seed, // graine = jour + variante (renouvellement à la demande)
         directions: {
           perso: objectifs?.perso ?? "",
           pro: objectifs?.pro ?? "",
@@ -561,7 +574,17 @@ function TroisExercices({
     return () => {
       annule = true;
     };
-  }, [jour, arch.key, arch.name, objectifs]);
+  }, [seed, arch.key, arch.name, objectifs]);
+
+  function renouveler() {
+    const v = variante + 1;
+    setVariante(v);
+    setIa(null);
+    try {
+      localStorage.setItem(`idx-exos-var-${jour}-${arch.key}`, String(v));
+    } catch {}
+    track("exercices_renouveles", { jour, variante: v });
+  }
 
   const ex = base.map((e) =>
     ia && ia[e.perimetre] ? { ...e, consigne: ia[e.perimetre] } : e
@@ -572,10 +595,11 @@ function TroisExercices({
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Ce sont tes exercices du <b className="text-ink">Jour {jour}</b>, teintés de
-        ta signature du moment (<b className="text-ink">{arch.name}</b>). Ils se
-        renouvellent au <b className="text-ink">Jour {jour + 1}</b> — que tu débloques
-        en terminant ta journée (bouton « Terminer ma journée » en bas du bilan).
+        Tes exercices du <b className="text-ink">Jour {jour}</b>, teintés de ta
+        signature du moment (<b className="text-ink">{arch.name}</b>). Ils changent
+        au <b className="text-ink">Jour {jour + 1}</b> — et si tu veux un autre
+        angle tout de suite, appuie sur <b className="text-ink">« Un autre angle »</b>.
+        {variante > 0 && <span className="text-fuchsia"> · angle {variante + 1}</span>}
       </p>
       <div className="grid gap-3">
         {ex.map((e) => {
@@ -605,13 +629,22 @@ function TroisExercices({
           );
         })}
       </div>
-      <Link
-        href="/exercices"
-        className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
-      >
-        Faire mon exercice du jour (crois · penses · fais)
-        <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-      </Link>
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2">
+        <button
+          type="button"
+          onClick={renouveler}
+          className="inline-flex items-center gap-1.5 rounded-full border border-line bg-raised px-3.5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-ink transition-colors hover:border-fuchsia hover:text-fuchsia"
+        >
+          <RefreshCw size={13} /> Un autre angle
+        </button>
+        <Link
+          href="/exercices"
+          className="group inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
+        >
+          Faire mon exercice du jour (crois · penses · fais)
+          <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+        </Link>
+      </div>
     </section>
   );
 }

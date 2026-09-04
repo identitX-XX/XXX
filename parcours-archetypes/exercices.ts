@@ -32,6 +32,11 @@ const CADRAGES: Record<Perimetre, Cadrage[]> = {
     (sig, cible) => `Choisis une habitude qui t'épuise. Traversée par « ${sig} », comment l'allégerais-tu aujourd'hui, au service de ${cible} ?`,
     (sig, cible) => `Accorde-toi un plaisir simple, teinté de « ${sig} ». En quoi nourrit-il ${cible} ?`,
     (sig, cible) => `Écoute ce dont ton énergie a besoin, là, maintenant. Réponds-y à la manière de « ${sig} », pour ${cible}.`,
+    (sig, cible) => `Quel « non » « ${sig} » poserait-elle pour se protéger aujourd'hui ? Dis-le, même tout bas, au service de ${cible}.`,
+    (sig, cible) => `Nomme une pensée qui te juge en boucle. Que lui répondrait « ${sig} » ? Écris-lui une phrase, pour ${cible}.`,
+    (sig, cible) => `Bouge ton corps deux minutes comme « ${sig} » le ferait — grande, lente, ou vive. Qu'est-ce que ça réveille pour ${cible} ?`,
+    (sig, cible) => `Repère une chose que tu fais « parce qu'il faut ». « ${sig} » la garderait-elle ? Décide, pour ${cible}.`,
+    (sig, cible) => `Avant de dormir, remercie-toi pour UN geste d'aujourd'hui, à la manière de « ${sig} ». En quoi sert-il ${cible} ?`,
   ],
   pro: [
     (sig, cible) => `Dans ${anglePerimetre("pro")}, comment « ${sig} » changerait ta prochaine action concrète ? Fais ce pas, pour faire avancer ${cible}.`,
@@ -41,6 +46,11 @@ const CADRAGES: Record<Perimetre, Cadrage[]> = {
     (sig, cible) => `Avant ce soir, termine UNE chose, à la manière de « ${sig} ». En quoi rapproche-t-elle ${cible} ?`,
     (sig, cible) => `Quelle décision pro évites-tu ? Nomme le premier micro-pas que « ${sig} » oserait, pour ${cible}.`,
     (sig, cible) => `Observe ta façon de travailler aujourd'hui. Où « ${sig} » voudrait-elle plus de place, au service de ${cible} ?`,
+    (sig, cible) => `À qui pourrais-tu demander quelque chose aujourd'hui ? Formule-le comme « ${sig} » le ferait, pour ${cible}.`,
+    (sig, cible) => `Repère un moment où tu t'effaces au travail. Qu'est-ce que « ${sig} » y affirmerait, au service de ${cible} ?`,
+    (sig, cible) => `Choisis une idée que tu gardes pour toi. Partage-la à une personne, dans l'esprit de « ${sig} », pour ${cible}.`,
+    (sig, cible) => `Où mets-tu trop d'énergie pour rien aujourd'hui ? « ${sig} » couperait où, au service de ${cible} ?`,
+    (sig, cible) => `Fixe-toi une seule priorité pour demain, choisie par « ${sig} ». En quoi sert-elle ${cible} ?`,
   ],
   relationnel: [
     (sig, cible) => `Avec ${anglePerimetre("relationnel")}, ose aujourd'hui une interaction teintée de « ${sig} » — au service de ${cible}.`,
@@ -50,6 +60,11 @@ const CADRAGES: Record<Perimetre, Cadrage[]> = {
     (sig, cible) => `Offre une attention gratuite à quelqu'un, teintée de « ${sig} ». Qu'est-ce que ça change pour ${cible} ?`,
     (sig, cible) => `Repère une relation qui te coûte. Traversée par « ${sig} », quel ajustement tenterais-tu, pour ${cible} ?`,
     (sig, cible) => `Demande de l'aide, ou dis merci vraiment, dans l'esprit de « ${sig} ». Que fait ce geste pour ${cible} ?`,
+    (sig, cible) => `À qui penses-tu sans jamais le lui dire ? Envoie-lui un mot, comme « ${sig} », au service de ${cible}.`,
+    (sig, cible) => `Dans une conversation aujourd'hui, laisse un silence au lieu de combler. Que fait « ${sig} » de ce vide, pour ${cible} ?`,
+    (sig, cible) => `Repère un « oui » que tu allais dire par habitude. « ${sig} » le dirait-elle ? Choisis, pour ${cible}.`,
+    (sig, cible) => `Exprime un désaccord sans te justifier, avec l'assise de « ${sig} ». Qu'est-ce que ça change pour ${cible} ?`,
+    (sig, cible) => `Montre une facette de toi que tu caches d'habitude à tes proches, dans l'esprit de « ${sig} », pour ${cible}.`,
   ],
 };
 
