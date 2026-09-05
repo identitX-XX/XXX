@@ -1,10 +1,10 @@
 "use client";
 
 // La Quête — pour ton archétype dominant, ce dont il faut te débarrasser, en
-// trois exercices gamifiés (délestage · carrefour · pacte), dans le monde
-// visuel de ton choix (Nature · Urbain · Futuriste · Rétro · Manga).
+// trois exercices (délestage · carrefour · pacte). Fini les « mondes » neon
+// pour ados : la Quête vit dans l'identité sobre de l'appli (lin & prune).
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, ArrowDown, Check, Repeat, MessageCircle, BookOpen } from "lucide-react";
 import { PageHead } from "@/components/ui";
@@ -15,18 +15,26 @@ import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { constancePactes } from "@/parcours-archetypes/pactes";
 import { delestageDuJour, conseilDelestage } from "@/parcours-archetypes/delestageJour";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
-import { MONDES, mondeByKey, Monde, MondeKey } from "@/parcours-archetypes/mondes";
-import { MondeScene } from "@/parcours-archetypes/components/MondeScene";
+import type { Monde } from "@/parcours-archetypes/mondes";
 import { ArchetypeKey } from "@/parcours-archetypes/types";
 
-// Fond sombre (solide) de chaque scène — l'identité passe par le trait accent,
-// pas par le fond ; un aplat sombre tient la ligne claire.
-const FOND: Record<MondeKey, string> = {
-  nature: "#0e1a11",
-  urbain: "#0b0b12",
-  futuriste: "#08131b",
-  retro: "#160a1a",
-  manga: "#0c0c12",
+// La Quête n'a plus de peaux visuelles : une seule « ambiance » sobre, câblée
+// sur les tokens de thème de l'appli. Tous les anciens `m.*` (fond, encre,
+// accent…) pointent donc vers la palette lin & prune — plus aucun neon.
+const SOBRE: Monde = {
+  key: "nature",
+  nom: "",
+  tagline: "",
+  motif: "",
+  bg: "var(--surface)",
+  panel: "var(--raised)",
+  line: "var(--line)",
+  ink: "var(--ink)",
+  muted: "var(--muted)",
+  accent: "var(--fuchsia)",
+  accent2: "var(--orange)",
+  recompense: "étoile",
+  recompensePl: "étoiles",
 };
 
 // Arc narratif de la Quête — une histoire qui AVANCE à chaque palier tenu. Le
@@ -64,14 +72,6 @@ function narratifQuete(
 export default function QuetePage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const etat = useParcoursStore((s) => s.etat);
-  const mondeChoisi = useParcoursStore((s) => s.mondeChoisi);
-  const choisirMonde = useParcoursStore((s) => s.choisirMonde);
-
-  // Toujours entrer par le haut (« Choisis ton monde »), et remonter quand on
-  // bascule vers/entre les vues — sinon on atterrit au milieu de page.
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [mondeChoisi]);
 
   if (!diagnostic) {
     return (
@@ -92,66 +92,6 @@ export default function QuetePage() {
     );
   }
 
-  const monde = mondeChoisi ? mondeByKey[mondeChoisi as Monde["key"]] : null;
-
-  if (!monde) {
-    return (
-      <div>
-        <PageHead
-          eyebrow="La Quête"
-          title="Choisis ton monde"
-          sub="La même quête, cinq univers. Choisis celui où tu as envie de la vivre — tu pourras en changer."
-        />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {MONDES.map((m, i) => (
-            <button
-              key={m.key}
-              onClick={() => choisirMonde(m.key)}
-              className="group overflow-hidden rounded-2xl border text-left transition-transform hover:scale-[1.01]"
-              style={{ borderColor: m.line, background: m.panel }}
-            >
-              {/* La « case » : scène au trait + index de coin + filet interne. */}
-              <div className="relative">
-                <MondeScene
-                  mk={m.key}
-                  accent={m.accent}
-                  accent2={m.accent2}
-                  ink={m.ink}
-                  fond={FOND[m.key]}
-                  height={150}
-                />
-                <span
-                  className="absolute left-3 top-2 font-display text-sm font-semibold"
-                  style={{ color: m.accent, letterSpacing: "0.08em" }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-2 rounded-xl"
-                  style={{ border: `1px solid color-mix(in srgb, ${m.accent} 24%, transparent)` }}
-                />
-              </div>
-              <div className="border-t p-5" style={{ borderColor: m.line }}>
-                <h3 className="font-display text-2xl font-semibold" style={{ color: m.ink }}>
-                  {m.nom}
-                </h3>
-                <p className="mt-1 text-sm" style={{ color: m.muted }}>{m.tagline}</p>
-                <span
-                  className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em]"
-                  style={{ color: m.accent }}
-                >
-                  Entrer dans ce monde
-                  <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
   // La Quête suit la MUE : elle se cale sur l'archétype dominant COURANT (le
   // dernier chapitre tenu), pas sur celui figé au diagnostic. Quand une mue a
   // eu lieu, on la nomme — et les exercices se renouvellent d'eux-mêmes.
@@ -164,7 +104,7 @@ export default function QuetePage() {
   const archKeyActuel = mue?.vers ?? diagnostic.dominant;
   const jour = Math.min(Math.max(etat.jourCourant, 1), 30);
 
-  return <QueteMonde archKey={archKeyActuel} monde={monde} mue={mue} jour={jour} />;
+  return <QueteMonde archKey={archKeyActuel} monde={SOBRE} mue={mue} jour={jour} />;
 }
 
 function QueteMonde({
@@ -187,9 +127,8 @@ function QueteMonde({
   const constance = constancePactes(pactes);
   const objectifs = useParcoursStore((s) => s.objectifs);
   const directions = objectifs
-    ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((d): d is string => Boolean(d && d.trim()))
+    ? [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso].filter((d): d is string => Boolean(d && d.trim()))
     : [];
-  const choisirMonde = useParcoursStore((s) => s.choisirMonde);
   const rejouer = useParcoursStore((s) => s.rejouerQuete);
   const [tour, setTour] = useState(0);
 
@@ -251,33 +190,14 @@ function QueteMonde({
         @keyframes idx-monte { from { width: 0; } }
       `}</style>
 
-      {/* Scène du monde en tête — la case de BD, continuité visuelle. */}
-      <div className="relative mb-6 overflow-hidden rounded-2xl" style={{ border: `1px solid ${m.line}` }}>
-        <MondeScene mk={m.key} accent={m.accent} accent2={m.accent2} ink={m.ink} fond={FOND[m.key]} height={128} />
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-2 rounded-xl"
-          style={{ border: `1px solid color-mix(in srgb, ${m.accent} 22%, transparent)` }}
-        />
-      </div>
-
       {/* En-tête */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: m.accent }}>
-            La Quête · {m.nom}
-          </div>
-          <h1 className="mt-2 break-words font-display text-3xl font-semibold leading-tight" style={{ color: m.ink }}>
-            {arch.name}
-          </h1>
+      <div className="min-w-0">
+        <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: m.accent }}>
+          La Quête
         </div>
-        <button
-          onClick={() => choisirMonde("")}
-          className="flex-none rounded-full border px-3 py-1.5 text-xs transition-colors"
-          style={{ borderColor: m.line, color: m.muted }}
-        >
-          Changer
-        </button>
+        <h1 className="mt-2 break-words font-display text-3xl font-semibold leading-tight" style={{ color: m.ink }}>
+          {arch.name}
+        </h1>
       </div>
 
       {/* La mue a fait évoluer la quête — on la nomme, et on rassure : ce qui a
