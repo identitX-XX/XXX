@@ -234,6 +234,135 @@ export const RESSOURCES: Ressource[] = [
       "Le regard qu'on porte sur ses propres capacités — figées ou perfectibles — modifie la façon dont on affronte l'effort et l'échec. Voir une aptitude comme développable transforme un revers en information plutôt qu'en verdict. Le plafond n'est pas seulement réel : il est en partie une croyance qu'on peut interroger.",
     source: "Carol Dweck, « Mindset » (2006)",
   },
+
+  // --- Renouvellement de la bibliothèque : pratiques, réflexions et savoirs
+  // neufs, dont les piliers Love & Santé. Même registre premium et sourcé. ---
+  {
+    id: "coherence-cardiaque",
+    type: "pratique",
+    titre: "La cohérence cardiaque",
+    duree: "5 min",
+    corps:
+      "Respire à un rythme régulier — environ six respirations par minute, inspiration et expiration de même durée. Ce tempo synchronise le cœur et la respiration et fait basculer le système nerveux vers le calme. Cinq minutes suffisent pour sentir la vague retomber ; l'effet se prolonge plusieurs heures.",
+    source: "David Servan-Schreiber, « Guérir » (2003)",
+  },
+  {
+    id: "plus-petit-pas",
+    type: "pratique",
+    titre: "Le plus petit pas possible",
+    duree: "2 min",
+    corps:
+      "Prends ce que tu repousses et réduis-le à une action de deux minutes : pas « ranger ma vie », mais « ouvrir le document ». On ne change pas par la volonté mais en abaissant la marche jusqu'à ce qu'elle devienne évidente. Le petit pas fait, l'élan suit souvent tout seul.",
+    source: "BJ Fogg, « Tiny Habits » (2019)",
+  },
+  {
+    id: "main-sur-le-coeur",
+    type: "pratique",
+    titre: "La main sur le cœur",
+    duree: "2 min",
+    corps:
+      "Dans un moment dur, pose une main sur ton cœur et parle-toi comme à une amie qui traverse la même chose. Ce geste et ce ton activent le système d'apaisement plutôt que l'autocritique. Se traiter avec bienveillance n'est pas se complaire : c'est ce qui redonne la force d'agir.",
+    source: "Kristin Neff, « Self-Compassion » (2011)",
+  },
+  {
+    id: "marche-debloque",
+    type: "pratique",
+    titre: "La marche qui débloque",
+    duree: "10 min",
+    corps:
+      "Bloquée sur une question ? Lève-toi et marche, dehors si possible. Marcher augmente nettement la pensée divergente — celle qui fait surgir des idées neuves. Ce n'est pas une pause DANS la réflexion : c'est une façon de réfléchir autrement, avec le corps.",
+    source: "Oppezzo & Schwartz, Stanford (2014)",
+  },
+  {
+    id: "se-parler-amie",
+    type: "reflexion",
+    titre: "Se parler à la troisième personne",
+    duree: "3 min",
+    corps:
+      "Face à une émotion forte, décris-la en t'appelant par ton prénom : « [toi] ressent… parce que… ». Cette petite distance dans le langage calme la réactivité et éclaircit la pensée, comme si tu conseillais quelqu'un que tu aimes. On se donne rarement à soi la sagesse qu'on offre aux autres.",
+    source: "Ethan Kross, « Chatter » (2021)",
+  },
+  {
+    id: "oui-trop-vite",
+    type: "reflexion",
+    titre: "À qui tu dis oui trop vite",
+    duree: "3 min",
+    corps:
+      "Repère un « oui » récent que tu as regretté. Une limite claire n'est pas un rejet de l'autre : c'est ce qui rend la relation vivable dans la durée. Dire non à ce qui t'épuise, c'est dire oui à ce que tu peux vraiment donner.",
+    source: "Henry Cloud & John Townsend, « Boundaries » (1992)",
+  },
+  {
+    id: "comparaison-vole",
+    type: "reflexion",
+    titre: "Ce que la comparaison te vole",
+    duree: "3 min",
+    corps:
+      "On s'évalue en se comparant — c'est automatique, surtout devant des vies mises en scène. Mais comparer ton intérieur au dehors des autres est un jeu truqué. Remplace « est-ce que je fais mieux que… » par « est-ce que je vais vers ce qui compte pour moi ? ».",
+    source: "Leon Festinger, théorie de la comparaison sociale (1954)",
+  },
+  {
+    id: "meilleure-version-demain",
+    type: "reflexion",
+    titre: "Ta meilleure version, demain",
+    duree: "4 min",
+    corps:
+      "Écris quelques lignes sur toi dans un futur où les choses ont bien tourné, où tu as tenu tes directions. Imaginer concrètement ce « meilleur soi possible » augmente l'optimisme et l'énergie d'agir — pas comme un rêve, mais comme un cap qu'on précise assez pour s'en approcher.",
+    source: "Laura King, recherche sur le « best possible self » (2001)",
+  },
+  {
+    id: "amour-securise",
+    type: "lecture",
+    titre: "L'amour sécurise, il ne teste pas",
+    duree: "4 min",
+    corps:
+      "Les liens amoureux fonctionnent comme un attachement : on a besoin de savoir que l'autre est là, joignable, fiable. Beaucoup de disputes ne parlent pas du sujet apparent mais d'une seule question — « est-ce que je compte pour toi ? ». Nommer ce besoin, plutôt que le déguiser en reproche, désamorce le conflit.",
+    source: "Sue Johnson, « Hold Me Tight » (2008)",
+  },
+  {
+    id: "petits-gestes-couple",
+    type: "lecture",
+    titre: "Les petits gestes font les grands couples",
+    duree: "4 min",
+    corps:
+      "Ce qui tient un couple n'est pas les grands moments, mais la façon de répondre aux minuscules appels du quotidien — un regard, une phrase, une attention. Les couples qui durent se tournent l'un vers l'autre dans ces micro-instants. L'amour se joue là, plus que dans les déclarations.",
+    source: "John Gottman, « The Seven Principles for Making Marriage Work » (1999)",
+  },
+  {
+    id: "sommeil-repare",
+    type: "lecture",
+    titre: "Le sommeil répare ton identité",
+    duree: "4 min",
+    corps:
+      "Le sommeil n'est pas du temps perdu : c'est là que le cerveau trie les émotions de la journée et consolide ce qu'on apprend. Manquer de sommeil, c'est réagir à fleur de peau et se sentir « moins soi ». Protéger tes nuits est l'un des gestes les plus profonds pour ton équilibre.",
+    source: "Matthew Walker, « Why We Sleep » (2017)",
+  },
+  {
+    id: "repos-pas-recompense",
+    type: "lecture",
+    titre: "Le repos n'est pas une récompense",
+    duree: "3 min",
+    corps:
+      "On attend souvent d'avoir « mérité » le repos pour se le permettre. Mais le repos n'est pas la prime de la performance : c'en est la condition. Il en existe plusieurs formes — physique, mentale, sensorielle, sociale — et on a rarement besoin de celle qu'on s'accorde par défaut.",
+    source: "Saundra Dalton-Smith, « Sacred Rest » (2017)",
+  },
+  {
+    id: "sens-plutot-bonheur",
+    type: "lecture",
+    titre: "Chercher le sens, pas le bonheur",
+    duree: "4 min",
+    corps:
+      "Viser directement le bonheur le fait fuir ; il arrive de surcroît, quand on est engagé dans quelque chose qui nous dépasse. Même dans l'épreuve, garder un « pourquoi » rend le « comment » tenable. Le sens ne se trouve pas une fois pour toutes : il se choisit, situation après situation.",
+    source: "Viktor Frankl, « Découvrir un sens à sa vie » (1946)",
+  },
+  {
+    id: "lien-qui-compte",
+    type: "reflexion",
+    titre: "Le lien qui te manque",
+    duree: "3 min",
+    corps:
+      "La plus longue étude sur une vie d'adulte tient en une phrase : ce sont la qualité de nos relations qui nous gardent en bonne santé et heureux, bien plus que l'argent ou la réussite. Demande-toi quel lien tu laisses se distendre — et envoie, aujourd'hui, un signe à cette personne.",
+    source: "Robert Waldinger, étude de Harvard sur le développement adulte (2015)",
+  },
 ];
 
 // La ressource du jour : déterministe, variée selon le jour et l'archétype.
