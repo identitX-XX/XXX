@@ -11,11 +11,6 @@ export interface TypeExercice {
 
 export const LIB_EXERCICES: TypeExercice[] = [
   {
-    id: "delestage",
-    nom: "Le délestage",
-    prompt: "Qu'est-ce que tu portes encore, et que tu voudrais déposer aujourd'hui ?",
-  },
-  {
     id: "experimentation",
     nom: "L'expérimentation",
     prompt: "Un micro-geste inhabituel, teinté de « {sig} », à tenter avant ce soir ?",

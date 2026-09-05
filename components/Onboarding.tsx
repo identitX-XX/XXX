@@ -290,7 +290,7 @@ export function StepExercices() {
       eyebrow="Tes exercices"
       titre="Des exercices qui te mettent en mouvement"
       graphic={<EcartVisu />}
-      texte="L'écart entre ce que tu crois, penses et fais — sur chaque territoire. Et d'autres pratiques qui tournent chaque jour : délestage, expérimentation, recadrage, projection, ancrage… Chacune nourrit ton éclairage."
+      texte="L'écart entre ce que tu crois, penses et fais — sur chaque pilier. Et d'autres pratiques qui tournent chaque jour : expérimentation, recadrage, projection, ancrage… Chacune nourrit ton éclairage."
     />
   );
 }
