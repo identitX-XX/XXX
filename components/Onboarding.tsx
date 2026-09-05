@@ -319,14 +319,14 @@ export function StepScenarios() {
   );
 }
 
-// La quête — orbite des 30 jours.
+// La quête — le redéploiement, à ton rythme.
 export function StepQuete() {
   return (
     <StageP
       eyebrow="La quête"
-      titre="30 jours de redéploiement"
+      titre="Un redéploiement, à ton rythme"
       graphic={<Orbite />}
-      texte="Ta signature se déplace, tes possibles s'actualisent, tes légendes se réécrivent. Tout se joue ici — après avoir révélé ta signature."
+      texte="Ta signature se déplace, tes possibles s'actualisent, tes légendes se réécrivent. Tu avances quand tu veux — rien n'est chronométré."
     />
   );
 }

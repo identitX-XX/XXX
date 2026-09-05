@@ -138,7 +138,7 @@ export default function RapportAnalytiquePage() {
       <PageHead
         eyebrow="Rapport analytique"
         title="Ce que ta progression révèle"
-        sub={`${r.prenom} · ${new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })} · ${r.prog.faits} jour${r.prog.faits > 1 ? "s" : ""} vécu${r.prog.faits > 1 ? "s" : ""} sur 30`}
+        sub={`${r.prenom} · ${new Date().toLocaleDateString("fr-FR", { day: "2-digit", month: "long", year: "numeric" })} · ${r.prog.faits} capsule${r.prog.faits > 1 ? "s" : ""} vécue${r.prog.faits > 1 ? "s" : ""}`}
       />
 
       {/* Actions d'export */}
@@ -390,7 +390,7 @@ function construireHTML(r: Rapport): string {
     p{font-size:14px}
     footer{color:#9a948a;font-size:12px;font-style:italic;margin-top:20px}
   </style></head><body>
-  <header><div class="eyebrow">Rapport analytique · IdentitX</div><h1>Ce que ta progression révèle</h1><div class="meta">${esc(r.prenom)} · ${date} · ${r.prog.faits} jour(s) sur 30</div></header>
+  <header><div class="eyebrow">Rapport analytique · IdentitX</div><h1>Ce que ta progression révèle</h1><div class="meta">${esc(r.prenom)} · ${date} · ${r.prog.faits} capsule(s) vécue(s)</div></header>
   ${sig}${carto}${sph}${coh}${emo}${dir}${clim}
   <footer>Rapport généré localement à partir de tes observations. Tes données restent sur ton appareil.</footer>
   </body></html>`;

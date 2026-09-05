@@ -138,7 +138,7 @@ export default function ProgressionPage() {
               <div className="grid h-[86px] w-[86px] place-items-center rounded-full bg-surface text-center">
                 <div>
                   <div className="font-display text-2xl text-ink">{prog.faits}</div>
-                  <div className="text-[12px] uppercase tracking-wider text-muted">jours accomplis</div>
+                  <div className="text-[12px] uppercase tracking-wider text-muted">capsules vécues</div>
                 </div>
               </div>
             </div>

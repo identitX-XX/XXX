@@ -34,7 +34,7 @@ export default function RapportPage() {
     return (
       <div>
         <PageHead
-          eyebrow="30 jours"
+          eyebrow="Ta quête"
           title="Ce qui a émergé"
           sub="Ton bilan se tisse à partir de ce que tu vis. Traverse quelques journées, puis reviens le découvrir."
         />
@@ -95,9 +95,9 @@ export default function RapportPage() {
   return (
     <div>
       <PageHead
-        eyebrow="30 jours"
+        eyebrow="Ta quête"
         title="Ce qui a émergé"
-        sub="Pendant 30 jours, tu as observé comment tes différentes dimensions s'expriment, se rencontrent et évoluent."
+        sub="Au fil de ta quête, tu as observé comment tes différentes dimensions s'expriment, se rencontrent et évoluent."
       />
 
       <Link

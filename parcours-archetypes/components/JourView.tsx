@@ -133,10 +133,7 @@ export function JourView({
       {/* En-tête */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ fontSize: 12, letterSpacing: "0.22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-          La capsule du jour
-        </div>
-        <div style={{ fontSize: 12, color: MUTED, marginTop: 4 }}>
-          Jour {jour.n} / 30 · {phase.label}
+          Ta capsule
         </div>
         <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 34, margin: "8px 0 4px", color: INK }}>
           {a.name}
@@ -318,7 +315,7 @@ export function JourView({
         {!readOnly && !engage && (
           <div style={{ fontSize: 12.5, color: MUTED, textAlign: "right", maxWidth: 340 }}>
             Vis ta capsule d'abord — bouge un curseur, choisis une émotion ou
-            écris un mot — puis tu pourras terminer ta journée.
+            écris un mot — puis tu pourras l'enregistrer.
           </div>
         )}
         <button
@@ -343,7 +340,7 @@ export function JourView({
             opacity: readOnly ? 0.6 : 1,
           }}
         >
-          {readOnly ? "Journée terminée ✓" : "Terminer ma journée →"}
+          {readOnly ? "Capsule enregistrée ✓" : "Enregistrer ma capsule →"}
         </button>
       </div>
     </div>
