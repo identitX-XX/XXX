@@ -36,7 +36,7 @@ const INK = "var(--ink)";
 const SURFACE = "var(--surface)";
 
 const tooltipStyle = {
-  background: "#14121a",
+  background: "var(--raised)",
   border: `1px solid ${LINE}`,
   borderRadius: 12,
   color: INK,
@@ -196,7 +196,7 @@ export function JaugeCoherence({ valeur }: { valeur: number }) {
               width: 74,
               height: 74,
               borderRadius: "50%",
-              background: "#0a090d",
+              background: "var(--surface)",
               display: "grid",
               placeItems: "center",
               textAlign: "center",
