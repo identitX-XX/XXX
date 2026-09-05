@@ -6,6 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
+import { ApprofondirUnivers } from "@/components/ApprofondirUnivers";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
 import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
@@ -125,6 +126,12 @@ function ParcoursContent() {
         <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
       )}
 
+      {/* Les 4 univers, revenus comme ENTRÉES pour approfondir la signature
+          (et non plus comme peaux de jeu de la Quête). */}
+      {diagnostic && (
+        <ApprofondirUnivers archName={archetypeByKey[diagnostic.dominant].name} />
+      )}
+
       {/* Adossé au module, une fois le parcours lancé : les exercices (Quête) et
           les savoirs. Ils n'encombrent plus l'entrée du diagnostic. */}
       <div className="mb-8 grid gap-3 sm:grid-cols-2">
@@ -210,7 +217,7 @@ function MaQueteApercu({
   const dom = archetypeByKey[diagnostic.dominant];
   const sec = archetypeByKey[diagnostic.secondaire];
   const caps = objectifs
-    ? [objectifs.perso, objectifs.pro, objectifs.relationnel].filter((v) => v && v.trim())
+    ? [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso].filter((v) => v && v.trim())
     : [];
   // Vue VIVANTE (pas un instantané figé du diagnostic) : le jour courant, la
   // signature du moment (qui bouge au fil du vécu) et la direction mise en
