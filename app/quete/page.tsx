@@ -1,7 +1,7 @@
 "use client";
 
 // La Quête — pour ton archétype dominant, ce dont il faut te débarrasser, en
-// trois exercices (délestage · carrefour · pacte). Fini les « mondes » neon
+// deux exercices (carrefour · pacte). Fini les « mondes » neon
 // pour ados : la Quête vit dans l'identité sobre de l'appli (lin & prune).
 
 import { useState } from "react";
@@ -13,7 +13,6 @@ import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { constancePactes } from "@/parcours-archetypes/pactes";
-import { delestageDuJour, conseilDelestage } from "@/parcours-archetypes/delestageJour";
 import { detecterChapitres, derniereBascule, Bascule } from "@/parcours-archetypes/bascules";
 import type { Monde } from "@/parcours-archetypes/mondes";
 import { ArchetypeKey } from "@/parcours-archetypes/types";
@@ -125,10 +124,6 @@ function QueteMonde({
   const paliers = useParcoursStore((s) => s.quetePaliers);
   const pactes = useParcoursStore((s) => s.pactes);
   const constance = constancePactes(pactes);
-  const objectifs = useParcoursStore((s) => s.objectifs);
-  const directions = objectifs
-    ? [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso].filter((d): d is string => Boolean(d && d.trim()))
-    : [];
   const rejouer = useParcoursStore((s) => s.rejouerQuete);
   const [tour, setTour] = useState(0);
 
@@ -139,17 +134,15 @@ function QueteMonde({
   const archTraverses = Object.values(paliers).filter((n) => n > 0).length;
 
   const ids = {
-    delestage: `${archKey}:delestage`,
     carrefour: `${archKey}:carrefour`,
     pacte: `${archKey}:pacte`,
   };
   const etapes = [
-    { label: "Se débarrasser", done: Boolean(done[ids.delestage]) },
     { label: "Choisir", done: Boolean(done[ids.carrefour]) },
     { label: "S'engager", done: Boolean(done[ids.pacte]) },
   ];
   const faits = etapes.filter((e) => e.done).length;
-  const accompli = faits === 3;
+  const accompli = faits === 2;
 
   const reparcourir = () => {
     rejouer(archKey);
@@ -384,19 +377,8 @@ function QueteMonde({
         </div>
       )}
 
-      {/* Les trois exercices */}
+      {/* Les exercices de la Quête */}
       <div className="mt-6 flex flex-col gap-4">
-        <Delestage
-          key={`del-${tour}`}
-          m={m}
-          poids={quete.poids}
-          directions={directions}
-          id={ids.delestage}
-          jour={jour}
-          lest={quete.lest}
-          futurNom={futur.nom}
-          futurPourquoi={futur.pourquoi}
-        />
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
         <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={jour} archKey={archKey} />
       </div>
@@ -427,10 +409,9 @@ function QueteMonde({
   );
 }
 
-// Emblèmes au trait des trois exercices (même langage ligne claire que les
-// scènes de monde) : délestage (montgolfière qui largue son lest), carrefour
+// Emblèmes au trait des exercices (même langage ligne claire) : carrefour
 // (chemin qui bifurque), pacte (sceau + ruban).
-type ExKind = "delestage" | "carrefour" | "pacte";
+type ExKind = "carrefour" | "pacte";
 function ExerciceEmbleme({ kind, color, size = 38 }: { kind: ExKind; color: string; size?: number }) {
   return (
     <svg
@@ -445,15 +426,6 @@ function ExerciceEmbleme({ kind, color, size = 38 }: { kind: ExKind; color: stri
       aria-hidden="true"
       style={{ display: "block" }}
     >
-      {kind === "delestage" && (
-        <>
-          <circle cx="20" cy="12" r="8" />
-          <path d="M14 18 L26 18 L24 26 L16 26 Z" />
-          <path d="M16 18 L16 13 M24 18 L24 13" />
-          <circle cx="11" cy="34" r="2" fill={color} stroke="none" />
-          <circle cx="29" cy="31" r="1.6" fill={color} stroke="none" />
-        </>
-      )}
       {kind === "carrefour" && (
         <>
           <path d="M20 36 V22 M20 22 C20 16 12 15 8 9 M20 22 C20 16 28 15 32 9" />
@@ -521,91 +493,6 @@ function Cadre({
   );
 }
 
-// Exercice 1 — le délestage du JOUR : un exercice différent chaque jour (30),
-// personnalisé (poids de la signature + tirés de tes directions + génériques),
-// avec une consigne qui tourne. Deux jours consécutifs ne partagent aucun poids.
-function Delestage({
-  m,
-  poids,
-  directions,
-  id,
-  jour,
-  lest,
-  futurNom,
-  futurPourquoi,
-}: {
-  m: Monde;
-  poids: string[];
-  directions: string[];
-  id: string;
-  jour: number;
-  lest: string;
-  futurNom: string;
-  futurPourquoi: string;
-}) {
-  const done = useParcoursStore((s) => s.queteExercices[id]);
-  const marquer = useParcoursStore((s) => s.marquerExercice);
-  const [relaches, setRelaches] = useState<Set<number>>(new Set());
-
-  const { items: poidsDuJour, consigne } = delestageDuJour(poids, directions, jour);
-
-  const relacher = (i: number) => {
-    const next = new Set(relaches);
-    next.add(i);
-    setRelaches(next);
-    if (next.size === poidsDuJour.length) marquer(id);
-  };
-
-  return (
-    <Cadre m={m} num={1} titre="Le délestage" done={Boolean(done)} kind="delestage">
-      {!done && (
-        <p className="mb-3 text-sm" style={{ color: m.muted }}>
-          {consigne}
-        </p>
-      )}
-      <div className="flex flex-wrap gap-2.5">
-        {poidsDuJour.map((p, i) => {
-          const justRelache = relaches.has(i); // relâché À L'INSTANT (cette session)
-          const off = done || justRelache;
-          return (
-            <button
-              key={i}
-              onClick={() => !off && relacher(i)}
-              disabled={off}
-              className="rounded-full border px-4 py-2 text-sm transition-all"
-              style={{
-                ...(off
-                  ? { borderColor: m.line, color: m.muted, opacity: 0.32, textDecoration: "line-through" }
-                  : { borderColor: m.accent, color: m.ink, background: `color-mix(in srgb, ${m.accent} 12%, transparent)` }),
-                // Le poids s'envole quand on le relâche (jamais au montage d'un déjà-fait).
-                ...(justRelache ? { animation: "idx-envol .55s cubic-bezier(.22,1,.36,1) forwards" } : {}),
-              }}
-            >
-              {p}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* La récompense : un CONSEIL une fois les poids relâchés — l'exercice
-          conduit à un avis, tissé sur ton lest et ce vers quoi tu vas. */}
-      {done && (
-        <div
-          className="mt-4 rounded-xl border p-4"
-          style={{ borderColor: m.accent, background: `color-mix(in srgb, ${m.accent} 8%, transparent)` }}
-        >
-          <div className="text-[12px] font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
-            Le conseil du jour
-          </div>
-          <p className="mt-1.5 text-sm leading-relaxed" style={{ color: m.ink }}>
-            {conseilDelestage(lest, futurNom, futurPourquoi, jour)}
-          </p>
-        </div>
-      )}
-    </Cadre>
-  );
-}
-
 // Exercice 2 — choisir la réponse qui fait grandir.
 function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: NonNullable<ReturnType<typeof queteDe>>["carrefour"]; id: string }) {
   const done = useParcoursStore((s) => s.queteExercices[id]);
@@ -619,7 +506,7 @@ function Carrefour({ m, carrefour, id }: { m: Monde; carrefour: NonNullable<Retu
   const c = choisi != null ? carrefour.choix[choisi] : null;
 
   return (
-    <Cadre m={m} num={2} titre="Le carrefour" done={Boolean(done)} kind="carrefour">
+    <Cadre m={m} num={1} titre="Le carrefour" done={Boolean(done)} kind="carrefour">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{carrefour.situation}</p>
       <div className="mt-4 flex flex-col gap-2.5">
         {carrefour.choix.map((ch, i) => {
@@ -661,7 +548,7 @@ function Pacte({ m, geste, id, jour, archKey }: { m: Monde; geste: string; id: s
     prendrePacte(jour, geste, archKey); // ...et inscrit l'engagement dans le fil (check-in demain)
   };
   return (
-    <Cadre m={m} num={3} titre="Le pacte" done={Boolean(done)} kind="pacte">
+    <Cadre m={m} num={2} titre="Le pacte" done={Boolean(done)} kind="pacte">
       <p className="text-sm leading-relaxed" style={{ color: m.ink }}>{geste}</p>
       {done ? (
         <div className="mt-3 flex items-center gap-2.5">
