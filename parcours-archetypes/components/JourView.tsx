@@ -75,6 +75,19 @@ export function JourView({
     [jour]
   );
 
+  // On ne peut « terminer sa journée » qu'après l'avoir VÉCUE : tant que rien
+  // n'a été touché (aucun curseur bougé, aucune émotion, aucune note), le bouton
+  // reste inactif — sinon il laisse croire qu'on peut clore une journée vide.
+  const curseursInitiaux = useMemo(() => {
+    const init = {} as Record<SphereKey, number>;
+    for (const s of SPHERES) init[s.key] = s.key === jour.sphereFocus ? 55 : 25;
+    return init;
+  }, [jour.sphereFocus]);
+  const curseursTouches = SPHERES.some(
+    (s) => curseurs[s.key] !== curseursInitiaux[s.key]
+  );
+  const engage = emotions.length > 0 || note.trim().length > 0 || curseursTouches;
+
   const toggleEmotion = (k: EmotionKey) => {
     if (readOnly) return;
     setEmotions((prev) =>
@@ -301,10 +314,16 @@ export function JourView({
       </div>
 
       {/* Action */}
-      <div style={{ marginTop: 24, display: "flex", justifyContent: "flex-end" }}>
+      <div style={{ marginTop: 24, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+        {!readOnly && !engage && (
+          <div style={{ fontSize: 12.5, color: MUTED, textAlign: "right", maxWidth: 340 }}>
+            Vis ta capsule d'abord — bouge un curseur, choisis une émotion ou
+            écris un mot — puis tu pourras terminer ta journée.
+          </div>
+        )}
         <button
           onClick={cloturer}
-          disabled={readOnly}
+          disabled={readOnly || !engage}
           style={{
             borderRadius: 999,
             padding: "11px 22px",
@@ -312,11 +331,16 @@ export function JourView({
             fontSize: 14,
             fontWeight: 500,
             letterSpacing: "0.01em",
-            cursor: readOnly ? "default" : "pointer",
+            cursor: readOnly || !engage ? "default" : "pointer",
             border: "none",
-            color: "var(--on-brand)",
-            opacity: readOnly ? 0.4 : 1,
-            background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+            // Inactif tant que la journée n'est pas vécue : fond discret + texte
+            // lisible (jamais du texte clair sur translucide → illisible).
+            color: readOnly || !engage ? "var(--muted)" : "var(--on-brand)",
+            background:
+              readOnly || !engage
+                ? "color-mix(in srgb, var(--ink) 12%, transparent)"
+                : `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+            opacity: readOnly ? 0.6 : 1,
           }}
         >
           {readOnly ? "Journée terminée ✓" : "Terminer ma journée →"}
