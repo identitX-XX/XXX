@@ -63,11 +63,12 @@ export function Gate({ children }: { children: React.ReactNode }) {
     try {
       const raw = localStorage.getItem("identitx");
       const st = raw ? JSON.parse(raw)?.state : null;
-      const palette = st?.palette ?? "nuit";
-      const theme = st?.theme ?? "dark";
+      // Défaut aligné sur l'app : Lin & Prune, thème clair.
+      const palette = st?.palette ?? "lin";
+      const theme = st?.theme ?? "light";
       const root = document.documentElement;
       root.classList.toggle("light", theme === "light");
-      ["pal-nuit", "pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach(
+      ["pal-lin", "pal-nuit", "pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach(
         (c) => root.classList.remove(c)
       );
       if (palette && palette !== "origine") root.classList.add(`pal-${palette}`);
@@ -334,17 +335,21 @@ export function Gate({ children }: { children: React.ReactNode }) {
               style={{
                 width: "100%",
                 minHeight: 52,
+                // État désactivé : fond discret + texte lisible (surtout PAS le
+                // texte clair « on-brand » sur un fond translucide → invisible en
+                // thème clair). État actif : plein accent + texte on-brand.
                 background:
                   loading || !email.trim()
-                    ? "color-mix(in srgb, var(--fuchsia) 25%, transparent)"
+                    ? "color-mix(in srgb, var(--ink) 12%, transparent)"
                     : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
-                color: "var(--on-brand)",
+                color:
+                  loading || !email.trim() ? "var(--muted)" : "var(--on-brand)",
                 border: "none",
                 borderRadius: 14,
                 padding: "0 18px",
                 fontSize: 16,
                 fontWeight: 700,
-                cursor: "pointer",
+                cursor: loading || !email.trim() ? "default" : "pointer",
                 whiteSpace: "nowrap",
               }}
             >
