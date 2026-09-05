@@ -8,6 +8,7 @@ import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { ApprofondirUnivers } from "@/components/ApprofondirUnivers";
 import { ExercicesVolets } from "@/components/ExercicesVolets";
+import { QuizAuto } from "@/components/QuizAuto";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
 import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
@@ -143,6 +144,9 @@ function ParcoursContent() {
           jour={Math.min(jourCourant, 30)}
         />
       )}
+
+      {/* Quiz d'auto-évaluation : où en es-tu sur un pilier, quand tu veux. */}
+      {diagnostic && <QuizAuto />}
 
       {/* Les 4 univers, revenus comme ENTRÉES pour approfondir la signature
           (et non plus comme peaux de jeu de la Quête). */}
