@@ -354,7 +354,7 @@ function Funnel({ f }: { f: Funnel }) {
               <div className="w-32 flex-none text-right text-xs text-muted">{s.label}</div>
               <div className="h-7 flex-1 overflow-hidden rounded-md bg-line/60">
                 <div
-                  className="flex h-full items-center rounded-md px-2 text-xs font-medium text-noir"
+                  className="flex h-full items-center rounded-md px-2 text-xs font-medium text-[color:var(--on-brand)]"
                   style={{ width: `${w}%`, background: `linear-gradient(90deg, var(--fuchsia), var(--orange))`, minWidth: 34 }}
                 >
                   {s.n}

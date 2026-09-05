@@ -122,12 +122,12 @@ export default function AujourdhuiPage() {
               Les 30 jours sont accomplis
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-[color:var(--on-brand)]/80">
-              Ton rapport te propose trois scénarios activables sur tes
-              périmètres perso, pro et relationnel.
+              Ton rapport te propose des scénarios activables sur tes 4 piliers :
+              relationnel & famille, love, pro, santé.
             </p>
             <Link
               href="/parcours-signatures/rapport"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-medium text-noir transition-transform hover:scale-[1.02]"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[color:var(--fuchsia)] shadow-glow transition-transform hover:scale-[1.02]"
             >
               Voir mon bilan
               <ArrowRight size={16} />
