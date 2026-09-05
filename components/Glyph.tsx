@@ -17,7 +17,11 @@ export type GlyphName =
   | "love"
   | "question"
   | "defi"
-  | "ressource";
+  | "ressource"
+  | "u_nature"
+  | "u_urbain"
+  | "u_futuriste"
+  | "u_retro";
 
 const GLYPHS: Record<GlyphName, ReactNode> = {
   // Signature — un jeton identitaire : losange net, cœur plein.
@@ -88,6 +92,35 @@ const GLYPHS: Record<GlyphName, ReactNode> = {
     <>
       <rect x="5" y="6.4" width="14" height="4.7" rx="1.6" />
       <rect x="5" y="12.9" width="14" height="4.7" rx="1.6" />
+    </>
+  ),
+  // Univers Nature — une feuille, la croissance.
+  u_nature: (
+    <>
+      <path d="M6 18 C6 10 12 5 18 5 C18 13 12 18 6 18 Z" />
+      <path d="M6 18 L15 9" />
+    </>
+  ),
+  // Univers Urbain — deux tours, le mouvement de la ville.
+  u_urbain: (
+    <>
+      <rect x="5.5" y="9" width="5.5" height="9.5" />
+      <rect x="13" y="5.5" width="5.5" height="13" />
+    </>
+  ),
+  // Univers Futuriste — une orbite, la projection.
+  u_futuriste: (
+    <>
+      <circle cx="12" cy="12" r="3" />
+      <ellipse cx="12" cy="12" rx="9" ry="3.6" />
+    </>
+  ),
+  // Univers Rétro — un cadran / disque, la mémoire.
+  u_retro: (
+    <>
+      <circle cx="12" cy="12" r="7.5" />
+      <circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none" />
+      <path d="M12 4.6 v2.4 M12 17 v2.4 M4.6 12 h2.4 M17 12 h2.4" />
     </>
   ),
 };
