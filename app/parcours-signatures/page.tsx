@@ -7,6 +7,7 @@ import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap } from "lucide-react
 import { PageHead } from "@/components/ui";
 import { DayStrip } from "@/components/DayStrip";
 import { ApprofondirUnivers } from "@/components/ApprofondirUnivers";
+import { ExercicesVolets } from "@/components/ExercicesVolets";
 import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
 import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
@@ -124,6 +125,23 @@ function ParcoursContent() {
           ce qu'elle explore et ce qui évolue — les quatre fils du parcours. */}
       {diagnostic && (
         <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
+      )}
+
+      {/* Trois exercices du jour adossés à chaque volet (capsule · explore ·
+          construis), cochables et renouvelés chaque jour. */}
+      {diagnostic && (
+        <ExercicesVolets
+          signature={archetypeByKey[diagnostic.dominant].name}
+          emergente={archetypeByKey[diagnostic.secondaire].name}
+          direction={
+            objectifs
+              ? [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso].find(
+                  (d) => d && d.trim()
+                ) ?? ""
+              : ""
+          }
+          jour={Math.min(jourCourant, 30)}
+        />
       )}
 
       {/* Les 4 univers, revenus comme ENTRÉES pour approfondir la signature
