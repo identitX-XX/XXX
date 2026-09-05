@@ -5,7 +5,6 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap } from "lucide-react";
 import { PageHead } from "@/components/ui";
-import { DayStrip } from "@/components/DayStrip";
 import { ApprofondirUnivers } from "@/components/ApprofondirUnivers";
 import { ExercicesVolets } from "@/components/ExercicesVolets";
 import { QuizAuto } from "@/components/QuizAuto";
@@ -175,21 +174,6 @@ function ParcoursContent() {
         </Link>
       </div>
 
-
-      {/* Frise des 30 jours : relecture de l'historique, sans rien perdre */}
-      <DayStrip
-        jourCourant={jourCourant}
-        selected={jourN}
-        reponses={reponses}
-        onSelect={setSelectedDay}
-      />
-
-      {termine && (
-        <p className="mb-8 text-sm text-muted">
-          Les 30 jours sont clos. Tu peux revoir chaque journée ci-dessus — ton
-          radar reflète tout le chemin.
-        </p>
-      )}
 
       {jour && (
         <section style={{ marginBottom: 48 }}>

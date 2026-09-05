@@ -187,7 +187,7 @@ export function Orbite({ h = 150 }: { h?: number }) {
           <mpath href="#eorb" xlinkHref="#eorb" />
         </animateMotion>
       </g>
-      <text x={cx} y={cy + 4} fill={INK} fontSize="12" fontWeight="600" textAnchor="middle" fontFamily="inherit">30 jours</text>
+      <text x={cx} y={cy + 4} fill={INK} fontSize="12" fontWeight="600" textAnchor="middle" fontFamily="inherit">ta quête</text>
     </svg>
   );
 }

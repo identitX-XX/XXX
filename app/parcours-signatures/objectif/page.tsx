@@ -24,7 +24,7 @@ const PONTS = [
     amont: "Synthèse · Rapports",
     role: "recueillent ce qui ressort",
     detail:
-      "Le radar vivant et le climat émotionnel des 30 jours reviennent nourrir ta synthèse et tes rapports.",
+      "Le radar vivant et le climat émotionnel de ta quête reviennent nourrir ta synthèse et tes rapports.",
   },
 ];
 
@@ -62,10 +62,10 @@ export default function ObjectifPage() {
         <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted">
           Les 8 étapes de ta <strong className="text-ink">Quête IdentitX</strong> révèlent qui
           tu es — caractéristiques, valeurs, motifs. Le <strong className="text-ink">Parcours des 20
-          signatures</strong> les met en mouvement : 30 jours pour observer, à travers 20
-          signatures, comment ces facettes s'activent selon tes contextes. Chaque
-          soir, la matrice « respire » — ce que tu n'as pas réactivé retombe —
-          pour qu'aucune identité ne se fige.
+          signatures</strong> les met en mouvement : à ton rythme, tu observes comment ces
+          facettes s'activent selon tes contextes. À chaque passage, la matrice
+          « respire » — ce que tu n'as pas réactivé retombe — pour qu'aucune
+          identité ne se fige.
         </p>
       </Card>
 
@@ -95,7 +95,7 @@ export default function ObjectifPage() {
           <span className="text-xs uppercase tracking-wider">met en mouvement</span>
         </div>
         <div className="brand-gradient inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-[color:var(--on-brand)]">
-          Parcours des 20 signatures · 30 jours
+          Parcours des 20 signatures
         </div>
       </Card>
 
@@ -114,15 +114,15 @@ export default function ObjectifPage() {
         ))}
       </div>
 
-      {/* Les 4 phases */}
+      {/* Les 4 temps */}
       <h2 className="mb-3 font-display text-xl font-light text-ink">
-        Les 30 jours, en 4 phases
+        Le parcours, en 4 temps
       </h2>
       <div className="mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {PHASES.map((ph) => (
+        {PHASES.map((ph, i) => (
           <Card key={ph.key} className="p-5">
             <div className="text-xs uppercase tracking-wider text-muted">
-              J{ph.jours[0]}–{ph.jours[1]}
+              Temps {i + 1}
             </div>
             <div className="mt-1 font-display text-lg font-light text-ink">
               {ph.label}

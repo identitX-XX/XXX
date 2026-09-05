@@ -86,7 +86,7 @@ export default function AujourdhuiPage() {
     return (
       <Amorce
         titre="Ce que je veux faire émerger"
-        texte="Choisis une direction à observer par périmètre — perso, pro, relationnel. Elles guideront chaque journée et pourront évoluer."
+        texte="Choisis une direction à observer par pilier — relationnel & famille, love, pro, santé. Elles te guideront et pourront évoluer."
         cta="Choisir ma direction"
       />
     );
@@ -119,7 +119,7 @@ export default function AujourdhuiPage() {
           <div className="relative brand-gradient px-8 py-10 text-center text-[color:var(--on-brand)]">
             <Sparkles size={40} className="mx-auto text-[color:var(--on-brand)]" />
             <h2 className="mt-2 font-display text-3xl font-light">
-              Les 30 jours sont accomplis
+              Tu as fait un beau chemin
             </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-[color:var(--on-brand)]/80">
               Ton rapport te propose des scénarios activables sur tes 4 piliers :
@@ -144,7 +144,7 @@ export default function AujourdhuiPage() {
       <PageHead
         eyebrow={salut.eyebrow}
         title={salut.titre}
-        sub="Une seule chose compte : vivre ta journée. Le reste peut attendre."
+        sub="Une seule chose compte : vivre ta capsule. Le reste peut attendre."
       />
 
       {/* Retour de session : reprendre là où on en était, ou tout recommencer. */}
@@ -155,12 +155,11 @@ export default function AujourdhuiPage() {
             Reprendre ta quête ?
           </h2>
           <p className="mt-1 text-sm text-muted">
-            Tu en étais au <b className="text-ink">Jour {n}</b>. Continue là où tu
-            t'es arrêtée — ou recommence de zéro.
+            Continue là où tu t'es arrêtée — ou recommence de zéro.
           </p>
           <div className="mt-4 flex flex-col gap-2 sm:flex-row">
             <Button onClick={() => setMontrerReprise(false)}>
-              Reprendre · Jour {n}
+              Reprendre
             </Button>
             {!confirmReset ? (
               <Button variant="outline" onClick={() => setConfirmReset(true)}>
@@ -198,80 +197,24 @@ export default function AujourdhuiPage() {
           }}
         >
           <span className="text-ink">
-            Tu reprends là où tu t'es arrêtée — le <b>Jour {n}</b> t'attend, à ton
-            rythme. Rien ne se rattrape, rien ne se perd.
+            Tu reprends là où tu t'es arrêtée, à ton rythme. Rien ne se rattrape,
+            rien ne se perd.
           </span>
         </div>
       )}
 
-      {/* Time-to-aha : avant même d'avoir vécu un jour, une première lecture
-          sourcée sur tes réponses. Disparaît dès la première journée close. */}
+      {/* Une première lecture sourcée sur tes réponses, tant que rien n'est encore posé. */}
       {prog.faits === 0 && <PremiereLecture />}
 
-      {/* Célébration de cap : reste affichée tant qu'on est pile sur un jalon
-          (7/14/21) — la fenêtre de célébration, jusqu'à la journée suivante. */}
-      {mo.jalonAtteint && mo.jalonAtteint < 30 && (
-        <div
-          className="mb-4 flex items-center gap-3 rounded-2xl border px-5 py-3 text-sm animate-fade-up"
-          style={{
-            borderColor: "color-mix(in srgb, var(--fuchsia) 40%, transparent)",
-            background: "color-mix(in srgb, var(--fuchsia) 7%, transparent)",
-          }}
-        >
-          <Sparkles size={18} className="flex-none text-fuchsia" />
-          <span className="text-ink">
-            Cap des <b>{mo.jalonAtteint} jours</b> franchi. Tu tiens ta quête —
-            continue sur cette lancée.
-          </span>
-        </div>
-      )}
-
       <Card className="p-6 sm:p-8 animate-fade-up">
-        <div className="flex flex-col items-center gap-7 sm:flex-row sm:items-center">
-          {/* Anneau d'avancement, avec aura de la teinte du jour */}
-          <div className="relative flex-none">
-            <div
-              aria-hidden
-              className="absolute inset-0 rounded-full blur-2xl opacity-40"
-              style={{
-                background: arch
-                  ? `radial-gradient(circle, hsl(${arch.hue} 90% 60%), transparent 70%)`
-                  : "transparent",
-              }}
-            />
-            <div
-              className="relative"
-              style={{
-                width: 132,
-                height: 132,
-                borderRadius: "50%",
-                background: `conic-gradient(var(--fuchsia) ${angle}deg, var(--line) ${angle}deg)`,
-                display: "grid",
-                placeItems: "center",
-              }}
-            >
-              <div className="grid h-[108px] w-[108px] place-items-center rounded-full bg-surface text-center">
-                <div>
-                  <div className="tnum font-display text-4xl leading-none text-ink">
-                    {prog.faits}
-                  </div>
-                  <div className="mt-1 text-[12px] uppercase tracking-[0.18em] text-muted">
-                    jours accomplis
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* La capsule du jour + CTA */}
-          <div className="flex-1 text-center sm:text-left">
+        <div>
+          {/* La capsule + CTA — sans jour ni progression : à vivre quand tu veux. */}
+          <div className="text-center sm:text-left">
             <div className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
-              <span>
-                Aujourd'hui · Jour {n} / 30 · {phase.label}
-              </span>
+              <span>Ta capsule</span>
             </div>
             <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[1.7rem]">
-              {arch ? arch.name : "Ta capsule du jour"}
+              {arch ? arch.name : "Ta capsule"}
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
               {arch?.lens}
@@ -279,8 +222,8 @@ export default function AujourdhuiPage() {
             {arch && (
               <p className="mt-1.5 text-xs text-fuchsia">
                 {hierArch && hierArch.name !== arch.name
-                  ? `Hier : ${hierArch.name} — aujourd'hui, une autre facette de toi.`
-                  : "Ta signature du jour — elle change à chaque nouvelle journée."}
+                  ? `Autre facette : ${hierArch.name} — ta signature bouge selon ce que tu explores.`
+                  : "Ta signature du moment — elle évolue au fil de tes explorations."}
               </p>
             )}
 
@@ -292,7 +235,7 @@ export default function AujourdhuiPage() {
                   <Sunrise size={16} className="mt-0.5 flex-none text-fuchsia" />
                   <div>
                     <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
-                      Le geste · en journée
+                      Le geste · à vivre
                     </div>
                     <p className="mt-0.5 text-sm leading-snug text-ink">{gesteDuJour(arch, n)}</p>
                   </div>
@@ -301,7 +244,7 @@ export default function AujourdhuiPage() {
                   <Moon size={16} className="mt-0.5 flex-none text-fuchsia" />
                   <div>
                     <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
-                      Le bilan · le soir ≈ 5 min
+                      Le bilan · quand tu veux ≈ 5 min
                     </div>
                     <p className="mt-0.5 text-sm leading-snug text-ink">
                       Note ce que tu as observé — deux curseurs, quelques mots.
@@ -315,7 +258,7 @@ export default function AujourdhuiPage() {
               href="/parcours-signatures"
               className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-[13px] font-medium text-[color:var(--on-brand)] transition-transform hover:scale-[1.02]"
             >
-              {dejaFait ? "Revoir ma journée" : "Vivre ma capsule du jour"}
+              {dejaFait ? "Revoir ma capsule" : "Vivre ma capsule"}
               <ArrowRight
                 size={16}
                 className="transition-transform group-hover:translate-x-0.5"
@@ -439,7 +382,7 @@ function CheckinPacte({ jourCourant }: { jourCourant: number }) {
   return (
     <Card className="mb-4 p-5 animate-fade-up sm:p-6">
       <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-        Ton engagement du Jour {pacte.jour}
+        Ton engagement précédent
       </div>
       <p className="mt-1.5 font-display text-lg font-light leading-snug text-ink">
         « {pacte.texte} »
@@ -597,10 +540,9 @@ function TroisExercices({
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Tes exercices du <b className="text-ink">Jour {jour}</b>, teintés de ta
-        signature du moment (<b className="text-ink">{arch.name}</b>). Ils changent
-        au <b className="text-ink">Jour {jour + 1}</b> — et si tu veux un autre
-        angle tout de suite, appuie sur <b className="text-ink">« Un autre angle »</b>.
+        Tes exercices du moment, teintés de ta signature
+        (<b className="text-ink">{arch.name}</b>). Envie d'un autre angle tout de
+        suite ? Appuie sur <b className="text-ink">« Un autre angle »</b>.
         {variante > 0 && <span className="text-fuchsia"> · angle {variante + 1}</span>}
       </p>
       <div className="grid gap-3">
@@ -890,7 +832,7 @@ function PremiereLecture() {
       }}
     >
       <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
-        Ta première lecture · à vérifier sur 30 jours
+        Ta première lecture · à explorer à ton rythme
       </div>
       <h2 className="mt-1 font-display text-xl font-light text-ink">{pl.titre}</h2>
       <p className="mt-2 text-sm leading-relaxed text-muted">{pl.corps}</p>

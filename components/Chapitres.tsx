@@ -58,9 +58,8 @@ export function Chapitres() {
               {archetypeByKey[c.archetype].name}
             </span>
             <span className="text-xs text-muted">
-              Jour {c.debut}
-              {c.fin !== c.debut ? `–${c.fin}` : ""} · {c.jours} j · clarté{" "}
-              {c.coherenceMoy}
+              Passage {c.debut}
+              {c.fin !== c.debut ? `–${c.fin}` : ""} · clarté {c.coherenceMoy}
             </span>
           </div>
         ))}

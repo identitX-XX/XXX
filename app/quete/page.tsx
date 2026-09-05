@@ -215,11 +215,11 @@ function QueteMonde({
       {!mue && (
         <div className="mt-5 rounded-2xl border p-4" style={{ borderColor: m.line, background: m.panel }}>
           <div className="text-xs font-bold uppercase tracking-[0.16em]" style={{ color: m.accent }}>
-            Jour {jour} / 30
+            Ton fil
           </div>
           <p className="mt-1 text-sm leading-relaxed" style={{ color: m.muted }}>
             Le <b style={{ color: m.ink }}>lest</b> de <b style={{ color: m.ink }}>{arch.name}</b> est
-            ton fil : il te travaille sur la durée. Mais chaque jour t'apporte du neuf —
+            ton fil : il te travaille sur la durée. Mais chaque passage t'apporte du neuf —
             ton <b style={{ color: m.ink }}>pacte du jour</b> change, et l'ordre de tes
             poids à relâcher aussi. Le jour où tu <b style={{ color: m.ink }}>mues</b>, tout se renouvelle.
           </p>
