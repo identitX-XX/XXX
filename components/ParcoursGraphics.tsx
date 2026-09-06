@@ -49,7 +49,7 @@ export function Planetes({ h = 150 }: { h?: number }) {
   const cx = 160;
   const cy = 78;
   const orbites = [
-    { rx: 44, nom: "Perso", dur: 30, phase: -2 },
+    { rx: 44, nom: "Santé", dur: 30, phase: -2 },
     { rx: 78, nom: "Pro", dur: 44, phase: -18 },
     { rx: 112, nom: "Relationnel", dur: 60, phase: -40 },
   ];

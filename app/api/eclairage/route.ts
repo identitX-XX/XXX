@@ -20,9 +20,9 @@ interface EclairageInput {
 }
 
 const LABEL: Record<Perimetre, string> = {
-  perso: "Perso",
+  perso: "Santé",
   pro: "Pro",
-  relationnel: "Relationnel",
+  relationnel: "Relationnel & famille",
 };
 
 const SYSTEM_PROMPT = `Tu es un analyste identitaire chaleureux et précis, qui accompagne des femmes multipotentielles en transition. On te donne, pour trois périmètres de vie (perso, pro, relationnel), l'écart entre ce que la personne CROIT, ce qu'elle PENSE et ce qu'elle FAIT, ainsi que sa "signature du moment" (une dynamique identitaire active) et ses directions.

@@ -23,7 +23,7 @@ export default function ExplorerPage() {
       <PageHead
         eyebrow="Approfondir · optionnel"
         title="Les territoires de ton récit"
-        sub="Quatorze territoires qui nourrissent ta quête — perso, pro, relationnel. À explorer à ton rythme : rien ne se joue au chronomètre."
+        sub="Quatorze territoires qui nourrissent ta quête — relationnel & famille, love, pro, santé. À explorer à ton rythme : rien ne se joue au chronomètre."
       />
 
       {/* Barre de progression — l'utilisatrice sait exactement où elle en est. */}

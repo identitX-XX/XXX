@@ -404,12 +404,12 @@ function vampireScenario(vampires: Identity[], bilan: number | null): Scenario {
       bilan !== null ? `Bilan énergétique à ${bilan} : tes rôles te coûtent plus qu'ils ne te rendent. ` : ""
     }${vampires.length ? `En cause : ${vampires.map((v) => `« ${v.name} »`).join(", ")}.` : ""}`,
     priorite: "Traiter la fuite d'énergie à la source — aucune performance ne compense un réservoir percé.",
-    direction: "Renégocier ou redimensionner les rôles drainants dans les 30 jours.",
+    direction: "Renégocier ou redimensionner les rôles drainants, à ton rythme.",
     leviers: [
       vampires.length
         ? `Pour « ${vampires[0].name} » : décider entre renégocier, réduire, ou sortir`
         : "Identifier le rôle le plus coûteux et poser ses nouveaux termes",
-      "Refaire la cartographie dans 30 jours pour mesurer le déplacement",
+      "Refaire la cartographie plus tard pour mesurer le déplacement",
     ],
     vigilance: ["La loyauté qui maintient des rôles morts", "Renégocier dans sa tête au lieu de le faire dans le réel"],
   };
