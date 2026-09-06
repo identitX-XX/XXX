@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Flame } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { progression, momentum } from "@/parcours-archetypes/indicateurs";
-import { phaseDuJour } from "@/parcours-archetypes/archetypes";
+import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { archetypeDominant } from "@/parcours-archetypes/indicateurs";
 import { prochaineEtape } from "@/lib/prochaineEtape";
 
 // Repère d'orientation persistant (« tu es ici ») en tête de chaque page :
@@ -33,12 +33,8 @@ export function JourneyBar() {
   // signature ». On ne le répète pas ici — une seule action par écran.
   if (!diagnostic) return null;
 
-  const prog = progression(etat);
-  const mo = momentum(etat);
-  const termine = prog.jourCourant > 30;
-  const n = Math.min(prog.jourCourant, 30);
-  const phase = phaseDuJour(n);
-  const pct = Math.round((prog.faits / 30) * 100);
+  const dom = archetypeDominant(etat);
+  const nom = dom ? archetypeByKey[dom.key].name : archetypeByKey[diagnostic.dominant].name;
 
   const step = prochaineEtape(diagnostic, objectifs, etat, reponses);
   // On masque la puce d'action quand on est déjà sur sa destination (ou déjà
@@ -48,28 +44,15 @@ export function JourneyBar() {
 
   return (
     <div className="mb-6 flex items-center gap-2">
-      {/* Ancre « tu es ici » → retour au hub */}
+      {/* Ancre « tu es ici » → retour au hub. Plus de jour/progression : juste
+          ta signature du moment, comme repère. */}
       <Link
         href="/aujourdhui"
         aria-label="Revenir à Aujourd'hui"
-        className="group flex min-w-0 flex-1 items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 text-xs transition-colors hover:border-fuchsia"
+        className="group flex min-w-0 flex-1 items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-xs transition-colors hover:border-fuchsia"
       >
-        <span className="flex-none font-medium text-ink">
-          {termine ? "Quête accomplie" : `Jour ${n} / 30`}
-        </span>
-        <span className="hidden flex-none text-muted sm:inline">· {phase.label}</span>
-        <div className="h-1 min-w-[24px] flex-1 overflow-hidden rounded-full bg-line">
-          <div className="h-full rounded-full brand-gradient" style={{ width: `${pct}%` }} />
-        </div>
-        {mo.serie > 0 && (
-          <span
-            className="flex flex-none items-center gap-1 font-medium"
-            style={{ color: "var(--orange)" }}
-          >
-            <Flame size={12} />
-            {mo.serie}
-          </span>
-        )}
+        <span className="flex-none text-muted">Ta signature ·</span>
+        <span className="min-w-0 flex-1 truncate font-medium text-ink">{nom}</span>
       </Link>
 
       {/* Puce d'action = la prochaine étape, visible sans scroller */}

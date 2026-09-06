@@ -64,7 +64,7 @@ export function premiereLecture(
     : undefined;
   if (cap) {
     points.push(
-      `Sur ton cap « ${cap} », c'est ${dom.name} qui sera à l'œuvre — les 30 jours diront si c'est ton moteur ou ton piège.`
+      `Sur ton cap « ${cap} », c'est ${dom.name} qui sera à l'œuvre — l'exploration dira si c'est ton moteur ou ton piège.`
     );
   }
 
