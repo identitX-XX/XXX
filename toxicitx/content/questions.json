@@ -1,0 +1,187 @@
+[
+  {
+    "id": "a1",
+    "axis": "ascendante",
+    "theme": "Décisions",
+    "text": "Les grandes décisions tombent d'en haut comme la météo : personne ne sait vraiment d'où ça vient, on ne fait que subir."
+  },
+  {
+    "id": "a2",
+    "axis": "ascendante",
+    "theme": "Remontée d'info",
+    "text": "Quand je fais remonter un problème sérieux, il disparaît dans un trou noir : ni réponse, ni écho, ni suite."
+  },
+  {
+    "id": "a3",
+    "axis": "ascendante",
+    "theme": "Sécurité psychologique",
+    "text": "Poser une question qui dérange à la direction, c'est un peu comme lever la main au milieu d'un champ de mines."
+  },
+  {
+    "id": "a4",
+    "axis": "ascendante",
+    "theme": "Promesses",
+    "text": "La direction promet des choses (primes, moyens, recrutements) qui se volatilisent dès que la réunion est finie."
+  },
+  {
+    "id": "a5",
+    "axis": "ascendante",
+    "theme": "Participation",
+    "text": "On nous demande notre avis pour la forme : la décision était déjà prise avant qu'on ouvre la bouche."
+  },
+  {
+    "id": "a6",
+    "axis": "ascendante",
+    "theme": "Cap / vision",
+    "text": "La stratégie de la boîte est aussi limpide qu'un mode d'emploi IKEA rédigé en cyrillique."
+  },
+  {
+    "id": "a7",
+    "axis": "ascendante",
+    "theme": "Déconnexion",
+    "text": "Nos dirigeants semblent vivre dans une autre dimension : leurs chiffres n'ont plus grand rapport avec le terrain."
+  },
+  {
+    "id": "a8",
+    "axis": "ascendante",
+    "theme": "Désaccord",
+    "text": "Exprimer un désaccord avec la hiérarchie se situe quelque part entre « imprudent » et « suicidaire pour la carrière »."
+  },
+  {
+    "id": "a9",
+    "axis": "ascendante",
+    "theme": "Écoute",
+    "text": "Quand une bonne idée vient du terrain, elle a une vraie chance de remonter et d'être suivie d'effet.",
+    "reverse": true
+  },
+  {
+    "id": "a10",
+    "axis": "ascendante",
+    "theme": "Théâtre",
+    "text": "Les réunions avec la direction tiennent du théâtre : on applaudit, on ne débat de rien."
+  },
+
+  {
+    "id": "d1",
+    "axis": "descendante",
+    "theme": "Micro-management",
+    "text": "Mon manager surveille mes moindres faits et gestes, comme s'il attendait le moment où je vais me planter."
+  },
+  {
+    "id": "d2",
+    "axis": "descendante",
+    "theme": "Feedback",
+    "text": "Les remarques sur mon travail arrivent en public, façon humiliation, plutôt qu'en tête-à-tête."
+  },
+  {
+    "id": "d3",
+    "axis": "descendante",
+    "theme": "Favoritisme",
+    "text": "Il y a clairement des chouchous : à effort égal, le traitement est à géométrie très variable."
+  },
+  {
+    "id": "d4",
+    "axis": "descendante",
+    "theme": "Urgences",
+    "text": "Tout est URGENT, tout le temps, pour hier : mon manager confond allègrement priorité et panique."
+  },
+  {
+    "id": "d5",
+    "axis": "descendante",
+    "theme": "Objectifs mouvants",
+    "text": "Mes objectifs bougent en cours de route, puis on me reproche de ne pas avoir atteint la cible d'origine."
+  },
+  {
+    "id": "d6",
+    "axis": "descendante",
+    "theme": "Crédit volé",
+    "text": "Le mérite de mon travail est récupéré par la hiérarchie ; les ratés, eux, restent soigneusement à mon nom."
+  },
+  {
+    "id": "d7",
+    "axis": "descendante",
+    "theme": "Disponibilité",
+    "text": "On attend de moi que je sois joignable le soir, le week-end, en congés — le silence est très mal vu."
+  },
+  {
+    "id": "d8",
+    "axis": "descendante",
+    "theme": "Management par la peur",
+    "text": "Ici, on avance surtout pour éviter les ennuis : le management carbure à la peur plus qu'à l'envie."
+  },
+  {
+    "id": "d9",
+    "axis": "descendante",
+    "theme": "Soutien",
+    "text": "Quand je fais une erreur de bonne foi, mon manager me couvre et on règle le problème ensemble.",
+    "reverse": true
+  },
+  {
+    "id": "d10",
+    "axis": "descendante",
+    "theme": "Reconnaissance",
+    "text": "Un « merci » ou un « bravo » de mon manager relève à peu près de l'événement historique."
+  },
+
+  {
+    "id": "l1",
+    "axis": "laterale",
+    "theme": "Rétention d'info",
+    "text": "L'info circule en douce entre initiés : qui n'est pas dans la bonne boucle est tout simplement fichu."
+  },
+  {
+    "id": "l2",
+    "axis": "laterale",
+    "theme": "Ragots",
+    "text": "Le ragot est un sport d'équipe : on parle bien plus DANS le dos des gens qu'EN face."
+  },
+  {
+    "id": "l3",
+    "axis": "laterale",
+    "theme": "Clans",
+    "text": "Il y a des clans bien installés, et malheur à celui qui n'appartient à aucun."
+  },
+  {
+    "id": "l4",
+    "axis": "laterale",
+    "theme": "Entraide",
+    "text": "Entre collègues, c'est chacun pour soi : s'entraider, c'est prendre le risque de se faire doubler."
+  },
+  {
+    "id": "l5",
+    "axis": "laterale",
+    "theme": "Bouc émissaire",
+    "text": "Il y a toujours un bouc émissaire tout désigné pour porter les problèmes du service."
+  },
+  {
+    "id": "l6",
+    "axis": "laterale",
+    "theme": "Humour qui blesse",
+    "text": "Certaines « blagues » entre collègues servent surtout à rabaisser, sous couvert d'humour."
+  },
+  {
+    "id": "l7",
+    "axis": "laterale",
+    "theme": "Compétition malsaine",
+    "text": "La compétition interne est telle qu'un coup bas entre collègues ne surprend plus personne."
+  },
+  {
+    "id": "l8",
+    "axis": "laterale",
+    "theme": "Solidarité",
+    "text": "Quand un collègue coule sous la charge, l'équipe regarde ailleurs en sifflotant."
+  },
+  {
+    "id": "l9",
+    "axis": "laterale",
+    "theme": "Accueil",
+    "text": "Un nouveau qui arrive est accueilli, aidé et intégré sans arrière-pensée.",
+    "reverse": true
+  },
+  {
+    "id": "l10",
+    "axis": "laterale",
+    "theme": "Conflits non régulés",
+    "text": "Les tensions entre collègues s'enveniment tranquillement, parce que personne ne les régule jamais."
+  }
+]
