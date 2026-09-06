@@ -91,7 +91,7 @@ export default function SettingsPage() {
   const confirmRefaire = () => {
     if (
       window.confirm(
-        "Refaire ta quête efface ta signature et toute ta progression des 30 jours. Continuer ?"
+        "Refaire ta quête efface ta signature et toute ta progression. Continuer ?"
       )
     ) {
       refaireQuete();
@@ -188,7 +188,7 @@ export default function SettingsPage() {
           <p className="text-ink">Données</p>
           <p className="mb-4 text-xs text-muted">
             Local-first : tout reste sur ton appareil. Sauvegarde ta traversée
-            complète (profil + tes 30 jours) et restaure-la sur un autre appareil.
+            complète (profil + ta progression) et restaure-la sur un autre appareil.
           </p>
           <div className="flex flex-wrap gap-3">
             <Button variant="outline" onClick={exportAll}>

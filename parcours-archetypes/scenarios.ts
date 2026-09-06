@@ -19,9 +19,9 @@ export interface Scenario {
 }
 
 const LABEL_PERIMETRE: Record<Perimetre, string> = {
-  perso: "Perso",
+  perso: "Santé",
   pro: "Pro",
-  relationnel: "Relationnel",
+  relationnel: "Relationnel & famille",
 };
 
 // Sphères → périmètres (le relationnel = Relations ; le pro = Travail ;
@@ -60,7 +60,7 @@ export function genererScenarios(
       perimetre: "perso",
       mouvement: "Consolider",
       titre: `Renforce ${dom.name}`,
-      texte: `Sur ces 30 jours, ${dominantActuel} t'a le plus porté. Côté perso, appuie-toi dessus dans ta sphère « ${spherePerso.label} » : un engagement concret qui prolonge ce qui marche déjà.`,
+      texte: `Jusqu'ici, ${dominantActuel} t'a le plus porté. Côté perso, appuie-toi dessus dans ta sphère « ${spherePerso.label} » : un engagement concret qui prolonge ce qui marche déjà.`,
       appui: dom.name,
     },
     {

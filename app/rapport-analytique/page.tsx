@@ -227,11 +227,12 @@ export default function RapportAnalytiquePage() {
 
         {/* 6 — Directions */}
         {r.objectifs && (
-          <Bloc titre="Tes directions par périmètre">
-            <div className="grid gap-3 sm:grid-cols-3">
-              <Stat label="Perso" valeur={r.objectifs.perso || "—"} />
+          <Bloc titre="Tes directions par pilier">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Stat label="Relationnel & famille" valeur={r.objectifs.relationnel || "—"} />
+              <Stat label="Love" valeur={r.objectifs.love || "—"} />
               <Stat label="Pro" valeur={r.objectifs.pro || "—"} />
-              <Stat label="Relationnel" valeur={r.objectifs.relationnel || "—"} />
+              <Stat label="Santé" valeur={r.objectifs.perso || "—"} />
             </div>
           </Bloc>
         )}

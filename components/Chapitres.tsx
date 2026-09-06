@@ -75,7 +75,7 @@ export function Chapitres() {
         >
           <span className="text-lg">↳</span>
           <span className="text-ink">
-            Dernière bascule au <b>jour {bascule.jour}</b> :{" "}
+            Dernière bascule :{" "}
             {archetypeByKey[bascule.depuis].name} → {archetypeByKey[bascule.vers].name}.
           </span>
         </div>

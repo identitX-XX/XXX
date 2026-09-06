@@ -9,10 +9,10 @@ export type PerimetreQ = "perso" | "pro" | "identitaire" | "relationnel";
 export type PerimetreA = "perso" | "pro" | "relationnel";
 
 export const LABEL_PERIMETRE: Record<PerimetreQ, string> = {
-  perso: "Perso",
+  perso: "Santé",
   pro: "Pro",
   identitaire: "Identitaire",
-  relationnel: "Relationnel",
+  relationnel: "Relationnel & famille",
 };
 
 // --- Offre 3 : 10 questions par périmètre -----------------------------------

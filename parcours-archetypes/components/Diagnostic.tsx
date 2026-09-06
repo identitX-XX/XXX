@@ -58,7 +58,7 @@ export function Diagnostic() {
         <h1 className="fr-title" style={h1}>Ta signature du moment</h1>
         <p style={{ color: MUTED, fontSize: 15, margin: "0 0 22px" }}>
           Ce qui te met le plus en mouvement, d'après tes réponses. Pas un verdict :
-          un point de départ, qui respirera au fil des 30 jours.
+          un point de départ, qui respirera au fil de ta quête.
         </p>
 
         <div style={{ ...card, borderColor: "color-mix(in srgb, var(--fuchsia) 40%, rgba(255,255,255,.1))" }}>
