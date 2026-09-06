@@ -114,7 +114,7 @@ export function ExercicesVolets({
       </div>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
         Trois exercices par volet, à cocher au fil de la journée. Ils changent
-        chaque jour — reviens demain pour de nouveaux.
+        chaque jour — reviens quand tu veux pour de nouveaux.
       </p>
       <div className="mt-5 flex flex-col gap-3">
         {defs.map((d, i) => (

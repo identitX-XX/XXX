@@ -374,7 +374,7 @@ export function JournalFusion() {
           <div>
             <div style={{ fontFamily: "var(--font-fraunces),serif", fontSize: 26 }}>{mg30 ?? "—"}</div>
             <div style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(244,238,234,.45)" }}>
-              MG 30 JOURS
+              MOYENNE
             </div>
           </div>
           <div>

@@ -520,7 +520,7 @@ function ReactionClotature({
       return {
         eyebrow: "Premier relevé",
         titre: `${domB.name} émerge`,
-        sous: "Voici ton point de départ. Dès demain, chaque journée le fera bouger.",
+        sous: "Voici ton point de départ. Chaque capsule le fera bouger.",
       };
     if (deltasVisibles && deltaCoh >= 6)
       return {
@@ -551,7 +551,7 @@ function ReactionClotature({
     const emo = emoLabels.length ? `, traversée par ${emoLabels.join(", ").toLowerCase()}` : "";
     const noteStr = r.note.trim() ? ` J'ai noté : « ${r.note.trim()} ».` : "";
     setCoachSeed(
-      `Je viens de clore mon Jour ${r.jour}. Aujourd'hui j'étais sur ${archName}${emo}.${noteStr} Aide-moi à en tirer une lecture concrète pour demain.`
+      `Je viens de vivre une capsule. J'étais sur ${archName}${emo}.${noteStr} Aide-moi à en tirer une lecture concrète pour la suite.`
     );
     router.push("/coach");
   };
@@ -671,7 +671,7 @@ function ReactionClotature({
           background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
         }}
       >
-        {r.jour < 30 ? "Continuer vers demain →" : "Voir mon bilan →"}
+        Continuer →
       </button>
     </div>
   );
