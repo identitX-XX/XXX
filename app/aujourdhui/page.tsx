@@ -409,16 +409,15 @@ function CheckinPacte({ jourCourant }: { jourCourant: number }) {
 // progressif (façon Headspace) + révélation d'identité (façon Co-Star) : la
 // raison de revenir demain, sans surcharger le hub.
 function RevelationCard({ faits }: { faits: number }) {
-  const jalons = [
-    { j: 7, titre: "Ta première révélation de motif", href: "/progression" },
-    { j: 15, titre: "Ton portrait à mi-parcours", href: "/synthese" },
-    { j: 30, titre: "Ton portrait complet + tes scénarios", href: "/rapport-analytique" },
-  ];
-  const prochain = jalons.find((x) => x.j > faits) ?? jalons[jalons.length - 1];
-  const reste = Math.max(0, prochain.j - faits);
-  const pct = Math.min(100, Math.round((faits / prochain.j) * 100));
+  // Sans compteur ni jours : ce qui se révèle à mesure que tu explores. On
+  // oriente vers ta synthèse une fois qu'il y a un peu de matière, sinon vers
+  // ta progression (ta direction).
+  const cible =
+    faits >= 5
+      ? { titre: "Ton portrait se précise", href: "/synthese" }
+      : { titre: "Ta révélation de motif", href: "/progression" };
   return (
-    <Link href={prochain.href} className="mt-4 block animate-fade-up">
+    <Link href={cible.href} className="mt-4 block animate-fade-up">
       <Card className="p-5 transition-colors hover:border-fuchsia/40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
@@ -426,15 +425,10 @@ function RevelationCard({ faits }: { faits: number }) {
           </div>
           <ArrowRight size={15} className="text-muted" />
         </div>
-        <p className="mt-2 text-[15px] font-semibold text-ink">{prochain.titre}</p>
+        <p className="mt-2 text-[15px] font-semibold text-ink">{cible.titre}</p>
         <p className="mt-1 text-sm text-muted">
-          {reste === 0
-            ? "Elle se révèle aujourd'hui — appuie pour la voir."
-            : `Se dévoile dans ${reste} jour${reste > 1 ? "s" : ""}.`}
+          Se dévoile à mesure que tu explores — pas à une date, à ton rythme.
         </p>
-        <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-line">
-          <div className="h-full rounded-full brand-gradient transition-all" style={{ width: `${pct}%` }} />
-        </div>
       </Card>
     </Link>
   );

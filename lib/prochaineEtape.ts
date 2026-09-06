@@ -32,7 +32,7 @@ export function prochaineEtape(
   if (!objectifs)
     return {
       titre: "Pose ton cap",
-      pourquoi: "Un objectif par périmètre — ta boussole des 30 jours.",
+      pourquoi: "Une direction par pilier — ta boussole.",
       cta: "Poser mon cap",
       ctaCourt: "Mon cap",
       href: "/parcours-signatures",
@@ -42,7 +42,7 @@ export function prochaineEtape(
   if (prog.jourCourant > 30)
     return {
       titre: "Ton bilan t'attend",
-      pourquoi: "Tes 30 jours sont accomplis — recueille ce qui ressort.",
+      pourquoi: "Tu as fait un beau chemin — recueille ce qui ressort.",
       cta: "Voir mon bilan",
       ctaCourt: "Mon bilan",
       href: "/parcours-signatures/rapport",
@@ -51,17 +51,16 @@ export function prochaineEtape(
   const n = Math.min(prog.jourCourant, 30);
   if (!reponses[n])
     return {
-      titre: `Ta journée du jour ${n}`,
-      pourquoi:
-        "≈ 5 min : un geste, un exercice, un bilan. La terminer débloque le jour suivant.",
-      cta: "Terminer ma journée",
-      ctaCourt: "Terminer",
+      titre: "Ta capsule",
+      pourquoi: "≈ 5 min : un geste, un exercice, un bilan — quand tu veux.",
+      cta: "Vivre ma capsule",
+      ctaCourt: "Ma capsule",
       href: "/parcours-signatures",
     };
 
   return {
-    titre: `Jour ${n} terminé ✓`,
-    pourquoi: "Reviens quand tu veux pour le jour suivant — ou observe ton évolution.",
+    titre: "Ta capsule est enregistrée ✓",
+    pourquoi: "Reviens quand tu veux — ou observe ta direction.",
     cta: "Voir ma progression",
     ctaCourt: "Progression",
     href: "/progression",
