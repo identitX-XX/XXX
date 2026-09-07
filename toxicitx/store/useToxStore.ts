@@ -29,9 +29,16 @@ interface ToxState {
   sessionId: string;
   context: OnboardingContext;
   answers: Answers;
+  /** Codes opaques (version entreprise), non identifiants — pour l'agrégation. */
+  orgCode: string | null;
+  teamCode: string | null;
+  /** sessionId dont les réponses ont déjà été envoyées (anti-doublon). */
+  lastSubmittedId: string | null;
   setContext: (patch: Partial<OnboardingContext>) => void;
   setAnswer: (questionId: string, value: ScaleValue) => void;
-  /** Réinitialise tout et repart d'une nouvelle session anonyme. */
+  setOrg: (orgCode: string | null, teamCode?: string | null) => void;
+  markSubmitted: (sessionId: string) => void;
+  /** Réinitialise le parcours et repart d'une nouvelle session anonyme. */
   reset: () => void;
   answeredCount: () => number;
 }
@@ -42,15 +49,22 @@ export const useToxStore = create<ToxState>()(
       sessionId: newSessionId(),
       context: emptyContext,
       answers: {},
+      orgCode: null,
+      teamCode: null,
+      lastSubmittedId: null,
       setContext: (patch) =>
         set((s) => ({ context: { ...s.context, ...patch } })),
       setAnswer: (questionId, value) =>
         set((s) => ({ answers: { ...s.answers, [questionId]: value } })),
+      setOrg: (orgCode, teamCode = null) => set({ orgCode, teamCode }),
+      markSubmitted: (sessionId) => set({ lastSubmittedId: sessionId }),
       reset: () =>
+        // On garde orgCode/teamCode (contexte entreprise) entre deux tests.
         set({
           sessionId: newSessionId(),
           context: emptyContext,
           answers: {},
+          lastSubmittedId: null,
         }),
       answeredCount: () => Object.keys(get().answers).length,
     }),

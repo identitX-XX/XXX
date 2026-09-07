@@ -72,6 +72,8 @@ h2{font-family:var(--fd);font-weight:900;font-size:23px;line-height:1.05;margin:
 .chip{appearance:none;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;font-family:var(--fb);cursor:pointer;box-shadow:2px 2px 0 var(--shadow)}
 .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--line);color:#fff}
 .chip:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--shadow)}
+.inp{width:100%;appearance:none;border:2.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:12px 14px;font-family:var(--fb);font-size:15px;box-shadow:2px 2px 0 var(--shadow)}
+.inp:focus{outline:none;border-color:var(--accent)}
 
 /* progress */
 .progmeta{display:flex;justify-content:space-between;font-family:var(--fm);font-size:11px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-top:4px}

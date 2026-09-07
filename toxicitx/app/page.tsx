@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Monster from "@/components/Monster";
@@ -17,6 +18,14 @@ export default function LandingPage() {
   const router = useRouter();
   const setAnswer = useToxStore((s) => s.setAnswer);
   const setContext = useToxStore((s) => s.setContext);
+  const setOrg = useToxStore((s) => s.setOrg);
+
+  // Lien entreprise : ?org=CODE&team=CODE tague les réponses pour l'agrégation.
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    const org = p.get("org");
+    if (org) setOrg(org, p.get("team"));
+  }, [setOrg]);
 
   function demoFill() {
     const bias: Record<string, [number, number]> = {

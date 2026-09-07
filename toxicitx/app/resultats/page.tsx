@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Monster from "@/components/Monster";
@@ -7,6 +8,8 @@ import { QUESTIONS, PROFILES } from "@/content";
 import { AXIS_TAG, RESSOURCES } from "@/content/ui";
 import { score, levelInfo, graveTriggered } from "@/lib/scoring";
 import { LEVELS } from "@/lib/scoring.config";
+import { isSupabaseConfigured } from "@/lib/supabaseBrowser";
+import { submitResponse } from "@/lib/responses";
 import { useToxStore } from "@/store/useToxStore";
 import { useMounted } from "@/lib/useMounted";
 import { AXIS_SHORT } from "@/types";
@@ -18,6 +21,38 @@ export default function ResultatsPage() {
   const mounted = useMounted();
   const answers = useToxStore((s) => s.answers);
   const reset = useToxStore((s) => s.reset);
+  const sessionId = useToxStore((s) => s.sessionId);
+  const context = useToxStore((s) => s.context);
+  const orgCode = useToxStore((s) => s.orgCode);
+  const teamCode = useToxStore((s) => s.teamCode);
+  const lastSubmittedId = useToxStore((s) => s.lastSubmittedId);
+  const markSubmitted = useToxStore((s) => s.markSubmitted);
+  const [saved, setSaved] = useState(false);
+
+  // Envoi anonyme unique par session (si Supabase est configuré).
+  useEffect(() => {
+    if (!mounted) return;
+    if (Object.keys(answers).length === 0) return;
+    if (!isSupabaseConfigured()) return;
+    if (lastSubmittedId === sessionId) {
+      setSaved(true);
+      return;
+    }
+    let active = true;
+    submitResponse({ sessionId, answers, context, orgCode, teamCode }).then(
+      (r) => {
+        if (!active) return;
+        if (r.ok) {
+          markSubmitted(sessionId);
+          setSaved(true);
+        }
+      }
+    );
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mounted, sessionId]);
 
   if (!mounted) return null;
 
@@ -170,6 +205,12 @@ export default function ResultatsPage() {
           ↻ Refaire le test
         </button>
       </div>
+      {saved && (
+        <p className="note">
+          ✓ Réponse enregistrée anonymement pour l'agrégation — aucune donnée
+          identifiante.
+        </p>
+      )}
     </section>
   );
 }

@@ -68,6 +68,22 @@ npm run build
 
 Importer le dépôt sur Vercel avec **Root Directory = `toxicitx`** (pour ne pas déployer IDENTITX à la racine). Renseigner les variables de `.env.example`.
 
+## Version entreprise (agrégation Supabase)
+
+1. Créer un projet Supabase dédié, exécuter `supabase/schema.sql` (table `responses`
+   anonyme + RLS + fonctions d'agrégation `org_aggregate` / `team_aggregate`).
+2. Renseigner `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   (cf. `.env.example`). **Sans ces variables, l'app reste 100 % local-first** :
+   aucune donnée n'est envoyée, le parcours fonctionne quand même.
+3. Les réponses sont envoyées **anonymement** depuis la page résultats
+   (`lib/responses.ts`) : id de session aléatoire, contexte non identifiant,
+   scores. Jamais de nom, e-mail ou IP.
+4. **Lien entreprise** : partagez `…/onboarding?org=CODE` (ou `?org=CODE&team=CODE`)
+   pour taguer les réponses d'une organisation / équipe sans identifier personne.
+5. **Dashboard** (`/dashboard`) : saisir le code organisation (ou équipe) pour
+   voir l'agrégat. Rien ne s'affiche sous **5 réponses** (org) ou **10** (équipe) —
+   seuils appliqués côté base, dans les fonctions SQL.
+
 ## Personnaliser le contenu
 
 Tout le contenu est éditable sans toucher au code :
