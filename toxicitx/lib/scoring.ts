@@ -133,6 +133,15 @@ export function score(
   };
 }
 
+/**
+ * Filet de sécurité : renvoie true si au moins un item « grave » a été
+ * répondu Souvent (3) ou Toujours (4). Sert à afficher le message de
+ * ressources quel que soit le score global.
+ */
+export function graveTriggered(answers: Answers, questions: Question[]): boolean {
+  return questions.some((q) => q.grave && (answers[q.id] ?? 0) >= 3);
+}
+
 // --- utils ---
 function clamp(n: number, min: number, max: number): number {
   return Math.max(min, Math.min(max, n));

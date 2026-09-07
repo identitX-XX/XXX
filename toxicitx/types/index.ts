@@ -45,6 +45,12 @@ export interface Question {
    * la valeur est inversée au scoring. Sert aux formulations positives.
    */
   reverse?: boolean;
+  /**
+   * Item « grave » (humiliation, bouc émissaire, propos rabaissants…).
+   * Répondu Souvent/Toujours, il déclenche le message de ressources,
+   * quel que soit le score global (filet de sécurité / devoir de vigilance).
+   */
+  grave?: boolean;
 }
 
 // ---------------------------------------------------------------------------

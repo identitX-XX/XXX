@@ -1,50 +1,87 @@
+"use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Monster from "@/components/Monster";
+import { QUESTIONS } from "@/content";
+import { useToxStore } from "@/store/useToxStore";
+import type { ScaleValue } from "@/types";
+
+const FEATURES: [string, string, string][] = [
+  ["🔒", "100 % anonyme", "Aucune donnée identifiante : ni nom, ni e-mail, ni adresse IP."],
+  ["🧭", "Trois axes", "Toxicité ascendante, descendante et latérale — pour situer l'origine."],
+  ["📋", "Un plan d'action", "Des pistes pour vous, et des leviers pour l'organisation."],
+];
 
 export default function LandingPage() {
+  const router = useRouter();
+  const setAnswer = useToxStore((s) => s.setAnswer);
+  const setContext = useToxStore((s) => s.setContext);
+
+  function demoFill() {
+    const bias: Record<string, [number, number]> = {
+      ascendante: [3, 4],
+      descendante: [2, 4],
+      laterale: [1, 3],
+    };
+    for (const q of QUESTIONS) {
+      const [a, b] = bias[q.axis];
+      let v = a + Math.floor(Math.random() * (b - a + 1));
+      if (q.reverse) v = 4 - v;
+      setAnswer(q.id, Math.max(0, Math.min(4, v)) as ScaleValue);
+    }
+    setContext({
+      genre: "NSP",
+      secteur: "Tech / Numérique",
+      tailleEntreprise: "50 à 249",
+      niveauPoste: "Opérationnel / Exécution",
+      anciennete: "1 à 3 ans",
+      encadrement: false,
+    });
+    router.push("/resultats");
+  }
+
   return (
-    <main className="mx-auto max-w-3xl px-6 py-20">
-      <p className="text-acid text-sm font-semibold tracking-widest uppercase">
-        ToxicitX
-      </p>
-      <h1 className="mt-4 font-display text-4xl sm:text-5xl font-black leading-tight">
-        Votre organisation est-elle{" "}
-        <span className="text-tox-6">carrément toxique</span>, ou juste
-        stressée&nbsp;?
-      </h1>
-      <p className="mt-6 text-lg text-muted">
-        En 5–7 minutes, un diagnostic sérieux (et un peu drôle) de la toxicité
-        de votre boîte : vers le haut, vers le bas, entre collègues. Score,
-        niveau de 1 à 6, profils dominants — et une ordonnance concrète pour
-        vous en sortir.
-      </p>
-
-      <div className="mt-10 flex flex-wrap gap-4">
-        <Link
-          href="/onboarding"
-          className="rounded-full bg-acid px-8 py-4 font-semibold text-ink hover:brightness-110 transition"
-        >
-          Faire le test →
-        </Link>
-        <Link
-          href="/confidentialite"
-          className="rounded-full border border-line px-8 py-4 font-semibold text-muted hover:text-white transition"
-        >
-          Comment on protège votre anonymat
-        </Link>
+    <section className="step">
+      <div className="trio">
+        <div className="mon"><Monster id="cour-recre" /></div>
+        <div className="mon"><Monster id="volcan" /></div>
+        <div className="mon"><Monster id="petit-chef" /></div>
       </div>
+      <div className="eyebrow center" style={{ marginTop: 14, display: "block" }}>
+        Diagnostic de toxicité organisationnelle
+      </div>
+      <h1 style={{ textAlign: "center" }}>
+        Quel climat règne vraiment dans votre organisation&nbsp;?
+      </h1>
+      <p className="lead center">
+        En 5 à 7 minutes, un diagnostic sur trois axes — vers la direction, vers
+        votre manager, entre collègues — un niveau de 1 à 6, un profil dominant,
+        et des pistes d'action concrètes.
+      </p>
 
-      <div className="mt-16 grid gap-4 sm:grid-cols-3">
-        {[
-          { t: "100 % anonyme", d: "Aucun nom, email, ni IP. On ne peut pas vous identifier." },
-          { t: "3 axes de toxicité", d: "Vers le N+1, vers l'équipe, entre collègues." },
-          { t: "Une ordonnance", d: "Des remèdes drôles mais pertinents, à emporter." },
-        ].map((f) => (
-          <div key={f.t} className="card p-5">
-            <div className="font-semibold">{f.t}</div>
-            <div className="mt-1 text-sm text-muted">{f.d}</div>
+      <div className="feat">
+        {FEATURES.map((f) => (
+          <div key={f[1]} className="card">
+            <div className="fe">{f[0]}</div>
+            <div>
+              <div className="ft">{f[1]}</div>
+              <div className="fd">{f[2]}</div>
+            </div>
           </div>
         ))}
       </div>
-    </main>
+
+      <div className="row mt2">
+        <Link href="/onboarding" className="btn btn-primary btn-block">
+          Commencer le test
+        </Link>
+      </div>
+      <p className="note">
+        <button className="link" onClick={demoFill}>
+          Aperçu rapide : remplir automatiquement et voir un résultat
+        </button>
+      </p>
+    </section>
   );
 }

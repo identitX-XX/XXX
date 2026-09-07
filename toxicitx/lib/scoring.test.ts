@@ -5,6 +5,7 @@ import {
   computeAxisScore,
   computeGlobalScore,
   findDominantProfiles,
+  graveTriggered,
   score,
   scoreToLevel,
 } from "./scoring";
@@ -102,6 +103,14 @@ test("findDominantProfiles : baseline exclue si un profil spécifique matche", (
   const res = findDominantProfiles(axes, PROFILES);
   assert.equal(res[0].id, "petit-chef");
   assert.ok(!res.some((p) => p.id === "oasis"));
+});
+
+test("filet de sécurité : un item grave à Souvent/Toujours déclenche les ressources", () => {
+  const graveQ = QUESTIONS.find((q) => q.grave);
+  assert.ok(graveQ, "au moins un item grave doit exister");
+  assert.equal(graveTriggered({}, QUESTIONS), false);
+  assert.equal(graveTriggered({ [graveQ!.id]: 2 }, QUESTIONS), false);
+  assert.equal(graveTriggered({ [graveQ!.id]: 3 }, QUESTIONS), true);
 });
 
 test("chaque profil (hors baseline) a des remèdes individuels et collectifs", async () => {

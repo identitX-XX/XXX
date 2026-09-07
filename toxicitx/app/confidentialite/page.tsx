@@ -8,12 +8,12 @@ const points: { titre: string; texte: string }[] = [
   {
     titre: "Aucune donnée identifiante",
     texte:
-      "Nous ne collectons ni nom, ni email, ni adresse IP, ni aucune donnée permettant de vous identifier. Répondre au test ne crée pas de compte.",
+      "Nous ne collectons ni nom, ni e-mail, ni adresse IP, ni aucune donnée permettant de vous identifier. Répondre au test ne crée pas de compte.",
   },
   {
     titre: "Un identifiant de session anonyme",
     texte:
-      "Vos réponses sont rattachées à un identifiant technique aléatoire, généré sur votre appareil et non relié à une personne. Il sert uniquement à regrouper vos réponses entre elles.",
+      "Vos réponses sont rattachées à un identifiant technique aléatoire, généré sur votre appareil et non relié à une personne.",
   },
   {
     titre: "Seuil de 5 réponses minimum",
@@ -30,45 +30,34 @@ const points: { titre: string; texte: string }[] = [
     texte:
       "Les managers et RH n'ont accès qu'à des résultats agrégés. Personne ne peut consulter la réponse individuelle d'une personne précise.",
   },
-  {
-    titre: "Vous gardez la main",
-    texte:
-      "Tant que vous n'envoyez pas vos réponses, elles restent uniquement sur votre appareil. Vous pouvez tout réinitialiser à tout moment.",
-  },
 ];
 
 export default function ConfidentialitePage() {
   return (
-    <main className="mx-auto max-w-2xl px-6 py-16">
-      <Link href="/" className="text-sm text-muted hover:text-white">
-        ← Retour
-      </Link>
-      <h1 className="mt-6 font-display text-3xl sm:text-4xl font-black">
-        Comment nous protégeons votre anonymat
-      </h1>
-      <p className="mt-4 text-muted">
+    <section className="step">
+      <div className="eyebrow">Confiance &amp; anonymat</div>
+      <h1 style={{ fontSize: 32 }}>Comment nous protégeons votre anonymat</h1>
+      <p className="lead" style={{ marginTop: 8 }}>
         ToxicitX n'a de sens que si vous répondez honnêtement. Et vous ne serez
-        honnête que si vous êtes certain·e de ne jamais être identifié·e. Voici
-        nos garanties, en clair.
+        honnête que si vous êtes certain·e de ne jamais être identifié·e.
       </p>
 
-      <div className="mt-10 space-y-4">
+      <div className="feat">
         {points.map((p) => (
-          <div key={p.titre} className="card p-5">
-            <div className="font-semibold">{p.titre}</div>
-            <div className="mt-1 text-sm text-muted">{p.texte}</div>
+          <div key={p.titre} className="card">
+            <div>
+              <div className="ft">{p.titre}</div>
+              <div className="fd">{p.texte}</div>
+            </div>
           </div>
         ))}
       </div>
 
-      <div className="mt-10">
-        <Link
-          href="/onboarding"
-          className="rounded-full bg-acid px-8 py-4 font-semibold text-ink hover:brightness-110 transition"
-        >
+      <div className="row mt2">
+        <Link href="/onboarding" className="btn btn-primary btn-block">
           C'est clair, je fais le test →
         </Link>
       </div>
-    </main>
+    </section>
   );
 }

@@ -71,7 +71,8 @@
     "id": "d2",
     "axis": "descendante",
     "theme": "Feedback",
-    "text": "Les remarques sur mon travail arrivent en public, façon humiliation, plutôt qu'en tête-à-tête."
+    "text": "Les remarques sur mon travail arrivent en public, façon humiliation, plutôt qu'en tête-à-tête.",
+    "grave": true
   },
   {
     "id": "d3",
@@ -151,13 +152,15 @@
     "id": "l5",
     "axis": "laterale",
     "theme": "Bouc émissaire",
-    "text": "Il y a toujours un bouc émissaire tout désigné pour porter les problèmes du service."
+    "text": "Il y a toujours un bouc émissaire tout désigné pour porter les problèmes du service.",
+    "grave": true
   },
   {
     "id": "l6",
     "axis": "laterale",
     "theme": "Humour qui blesse",
-    "text": "Certaines « blagues » entre collègues servent surtout à rabaisser, sous couvert d'humour."
+    "text": "Certaines « blagues » entre collègues servent surtout à rabaisser, sous couvert d'humour.",
+    "grave": true
   },
   {
     "id": "l7",

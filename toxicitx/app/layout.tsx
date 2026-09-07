@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export const metadata: Metadata = {
-  title: "ToxicitX — Votre organisation est-elle toxique ?",
+  title: "ToxicitX — Quel climat règne dans votre organisation ?",
   description:
-    "En 5–7 minutes, sachez si votre organisation est juste stressée ou carrément toxique, et repartez avec un plan d'action concret (et drôle).",
+    "Diagnostic anonyme de la toxicité organisationnelle en 5 à 7 minutes : trois axes, un niveau de 1 à 6, un profil dominant et des pistes d'action concrètes.",
 };
 
 export default function RootLayout({
@@ -14,7 +16,30 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body className="font-sans min-h-screen antialiased">{children}</body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap"
+        />
+      </head>
+      <body>
+        <div className="wrap">
+          <div className="topbar">
+            <Link href="/" className="brand">
+              Toxicit<b>X</b>
+            </Link>
+            <ThemeToggle />
+          </div>
+          <main aria-live="polite">{children}</main>
+          <footer>Diagnostic anonyme · aucune donnée identifiante</footer>
+        </div>
+      </body>
     </html>
   );
 }
