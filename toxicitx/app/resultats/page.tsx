@@ -9,7 +9,7 @@ import { AXIS_TAG, RESSOURCES } from "@/content/ui";
 import { score, levelInfo, graveTriggered } from "@/lib/scoring";
 import { LEVELS } from "@/lib/scoring.config";
 import { isSupabaseConfigured } from "@/lib/supabaseBrowser";
-import { submitResponse } from "@/lib/responses";
+import { submitResponse, fetchSectorAggregate } from "@/lib/responses";
 import { useToxStore } from "@/store/useToxStore";
 import { useMounted } from "@/lib/useMounted";
 import { AXIS_SHORT } from "@/types";
@@ -28,6 +28,9 @@ export default function ResultatsPage() {
   const lastSubmittedId = useToxStore((s) => s.lastSubmittedId);
   const markSubmitted = useToxStore((s) => s.markSubmitted);
   const [saved, setSaved] = useState(false);
+  const [bench, setBench] = useState<{ n: number; avg_global: number } | null>(
+    null
+  );
 
   // Envoi anonyme unique par session (si Supabase est configuré).
   useEffect(() => {
@@ -53,6 +56,19 @@ export default function ResultatsPage() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted, sessionId]);
+
+  // Benchmark secteur (une fois la réponse comptée).
+  useEffect(() => {
+    if (!saved || !context.secteur || !isSupabaseConfigured()) return;
+    let active = true;
+    fetchSectorAggregate(context.secteur).then((r) => {
+      if (active && r.data) setBench(r.data);
+    });
+    return () => {
+      active = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [saved]);
 
   if (!mounted) return null;
 
@@ -175,6 +191,30 @@ export default function ResultatsPage() {
         </div>
       ))}
 
+      {bench && (
+        <>
+          <h2 style={{ marginTop: 28 }}>Face à votre secteur</h2>
+          <div className="card" style={{ padding: 16, marginTop: 14 }}>
+            <p style={{ margin: 0, fontSize: 14.5 }}>
+              Votre organisation :{" "}
+              <b style={{ color: toxVar(lvl) }}>{g}/100</b>. Moyenne du secteur{" "}
+              « {context.secteur} » :{" "}
+              <b>{bench.avg_global}/100</b>{" "}
+              <span style={{ color: "var(--muted)" }}>
+                ({bench.n} réponses).
+              </span>
+            </p>
+            <p style={{ margin: "8px 0 0", fontSize: 14, color: "var(--muted)" }}>
+              {g > bench.avg_global
+                ? `Soit ${Math.round((g - bench.avg_global) * 10) / 10} points de plus que la moyenne du secteur.`
+                : g < bench.avg_global
+                  ? `Soit ${Math.round((bench.avg_global - g) * 10) / 10} points de moins que la moyenne du secteur.`
+                  : "Pile dans la moyenne de votre secteur."}
+            </p>
+          </div>
+        </>
+      )}
+
       {profs.length > 1 && (
         <>
           <h2 style={{ marginTop: 28 }}>Aussi repérés dans les parages</h2>
@@ -198,6 +238,11 @@ export default function ResultatsPage() {
       <div className="row mt2">
         <Link href="/ordonnance" className="btn btn-primary btn-block">
           Mon ordonnance 💊 →
+        </Link>
+      </div>
+      <div className="row mt">
+        <Link href="/rapport" className="btn btn-block">
+          📄 Mon rapport imprimable (PDF)
         </Link>
       </div>
       <div className="row mt center" style={{ justifyContent: "center" }}>

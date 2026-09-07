@@ -84,6 +84,16 @@ Importer le dépôt sur Vercel avec **Root Directory = `toxicitx`** (pour ne pas
    voir l'agrégat. Rien ne s'affiche sous **5 réponses** (org) ou **10** (équipe) —
    seuils appliqués côté base, dans les fonctions SQL.
 
+## Rapport, benchmark & calibrage
+
+- **Rapport imprimable** (`/rapport`) : version PDF (via impression navigateur)
+  du diagnostic + ordonnance individuelle et collective. Bouton depuis les résultats.
+- **Benchmark secteur** : sur les résultats, comparaison « votre score vs moyenne
+  de votre secteur » (fonction SQL `sector_aggregate`, seuil de 5 réponses).
+  N'apparaît que si Supabase est configuré et le seuil atteint.
+- **Calibrage du scoring** : voir `CALIBRATION.md` et `supabase/calibration.sql`
+  pour ajuster les seuils des niveaux à partir de vraies réponses.
+
 ## Personnaliser le contenu
 
 Tout le contenu est éditable sans toucher au code :

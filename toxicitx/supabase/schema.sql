@@ -113,5 +113,25 @@ as $$
   having count(*) >= 10;  -- MIN_TEAM : rien n'est renvoyé sous 10 réponses.
 $$;
 
+-- Agrégat par secteur (benchmark « votre score vs votre secteur »), seuil de 5.
+-- Le secteur est lu dans le contexte non identifiant (context->>'secteur').
+create or replace function public.sector_aggregate(p_secteur text)
+returns table (
+  n           bigint,
+  avg_global  numeric
+)
+language sql
+security definer
+set search_path = public
+as $$
+  select
+    count(*)                    as n,
+    round(avg(score_global), 1) as avg_global
+  from public.responses
+  where context->>'secteur' = p_secteur
+  having count(*) >= 5;  -- MIN_ANY : rien sous 5 réponses.
+$$;
+
 grant execute on function public.org_aggregate(text)  to anon;
 grant execute on function public.team_aggregate(text, text) to anon;
+grant execute on function public.sector_aggregate(text) to anon;

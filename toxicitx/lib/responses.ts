@@ -77,6 +77,22 @@ export async function fetchOrgAggregate(
   return { ok: true, data: (row as Aggregate) ?? null };
 }
 
+/**
+ * Benchmark par secteur (seuil de 5). Renvoie le score moyen du secteur et
+ * le nombre de réponses, ou `null` si le seuil n'est pas atteint.
+ */
+export async function fetchSectorAggregate(
+  secteur: string
+): Promise<{ ok: boolean; data: { n: number; avg_global: number } | null }> {
+  if (!supabase) return { ok: false, data: null };
+  const { data, error } = await supabase.rpc("sector_aggregate", {
+    p_secteur: secteur,
+  });
+  if (error) return { ok: false, data: null };
+  const row = Array.isArray(data) ? data[0] : data;
+  return { ok: true, data: (row as { n: number; avg_global: number }) ?? null };
+}
+
 /** Agrégat par équipe (seuil renforcé de 10). */
 export async function fetchTeamAggregate(
   orgCode: string,
