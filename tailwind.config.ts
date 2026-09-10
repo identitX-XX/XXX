@@ -50,10 +50,15 @@ const config: Config = {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
         },
+        float: {
+          "0%,100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-7px)" },
+        },
       },
       animation: {
         "fade-up": "fade-up 0.5s cubic-bezier(0.16,1,0.3,1) forwards",
         "fade-in": "fade-in 0.6s ease forwards",
+        float: "float 6s ease-in-out infinite",
       },
     },
   },
