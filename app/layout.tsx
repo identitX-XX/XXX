@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f1ebe3",
+  themeColor: "#eceae7",
   width: "device-width",
   initialScale: 1,
   // Permet aux retraits « safe area » (encoche, barre d'accueil iOS) d'agir.

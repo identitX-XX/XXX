@@ -26,6 +26,10 @@ export function Onboarding() {
   // La section actuellement à l'écran (défilement vertical), pour le fil de
   // progression — la mesure reste discrète, le rituel garde son repère.
   const [active, setActive] = useState(0);
+  // Révélation au scroll : les cartes qui entrent dans le champ s'animent
+  // (fondu + montée + léger zoom), et se retirent quand elles sortent → un
+  // défilement vivant plutôt qu'un long bloc figé.
+  const [visible, setVisible] = useState<Set<number>>(() => new Set([0]));
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   // Le genre (dernière étape) reste requis : la dernière action est verrouillée
@@ -37,9 +41,11 @@ export function Onboarding() {
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
+          const i = Number((e.target as HTMLElement).dataset.idx);
+          if (Number.isNaN(i)) return;
           if (e.isIntersecting) {
-            const i = Number((e.target as HTMLElement).dataset.idx);
-            if (!Number.isNaN(i)) setActive(i);
+            setActive(i);
+            setVisible((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
           }
         });
       },
@@ -160,7 +166,13 @@ export function Onboarding() {
               : "pt-[calc(5rem+env(safe-area-inset-top))]"
           }`}
         >
-          <div className="mx-auto w-full max-w-lg animate-fade-up rounded-[1.75rem] border border-line bg-raised px-5 py-9 shadow-soft">
+          <div
+            className={`mx-auto w-full max-w-lg rounded-[1.75rem] border border-line bg-raised px-5 py-9 shadow-soft transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              visible.has(i)
+                ? "translate-y-0 scale-100 opacity-100"
+                : "translate-y-10 scale-[0.97] opacity-0"
+            }`}
+          >
             {content}
           </div>
 
@@ -253,7 +265,7 @@ function StageP({
       <h2 className="mx-auto mt-3 max-w-md font-display text-2xl font-bold leading-tight text-ink">
         {titre}
       </h2>
-      <div className="mx-auto mt-7 max-w-sm">{graphic}</div>
+      <div className="mx-auto mt-7 max-w-sm animate-float">{graphic}</div>
       <p className="mx-auto mt-6 max-w-sm text-[15px] leading-relaxed text-muted">{texte}</p>
     </div>
   );
