@@ -13,6 +13,7 @@ import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { useParcoursStore } from "@/parcours-archetypes/store";
+import { contenuJour } from "@/parcours-archetypes/hydration";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
 import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
@@ -60,11 +61,11 @@ function ParcoursContent() {
   // revenir sur n'importe quelle journée déjà close).
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   useEffect(() => {
-    setSelectedDay((d) => (d == null ? Math.min(jourCourant, 30) : d));
+    setSelectedDay((d) => (d == null ? jourCourant : d));
   }, [jourCourant]);
   // Ouvre le jour demandé par l'URL (s'il est atteint).
   useEffect(() => {
-    if (jourParam >= 1 && jourParam <= 30 && jourParam <= jourCourant) {
+    if (jourParam >= 1 && jourParam <= jourCourant) {
       setSelectedDay(jourParam);
     }
   }, [jourParam, jourCourant]);
@@ -78,10 +79,12 @@ function ParcoursContent() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, [phase]);
 
-  const jourN = selectedDay ?? Math.min(jourCourant, 30);
-  const jour = parcours.jours.find((j) => j.n === jourN) ?? null;
-  const reponseDuJour = reponses[jourN];
-  const termine = jourCourant > 30;
+  // Parcours sans fin : index de SESSION (compteur, non plafonné) vs CONTENU
+  // (tourne en boucle sur 30 capsules). La réponse est classée sur la session.
+  const sessionJour = selectedDay ?? jourCourant;
+  const jour = parcours.jours.find((j) => j.n === contenuJour(sessionJour)) ?? null;
+  const reponseDuJour = reponses[sessionJour];
+  const termine = false;
 
   return (
     <div>
@@ -140,7 +143,7 @@ function ParcoursContent() {
                 ) ?? ""
               : ""
           }
-          jour={Math.min(jourCourant, 30)}
+          jour={contenuJour(jourCourant)}
         />
       )}
 
@@ -178,10 +181,11 @@ function ParcoursContent() {
       {jour && (
         <section style={{ marginBottom: 48 }}>
           <JourView
-            key={jour.n}
+            key={sessionJour}
             jour={jour}
             reponse={reponseDuJour}
-            onClose={(r) => setSelectedDay(Math.min(r.jour + 1, 30))}
+            sessionJour={sessionJour}
+            onClose={(r) => setSelectedDay(r.jour + 1)}
           />
         </section>
       )}
@@ -228,7 +232,7 @@ function MaQueteApercu({
   // Vue VIVANTE (pas un instantané figé du diagnostic) : le jour courant, la
   // signature du moment (qui bouge au fil du vécu) et la direction mise en
   // chantier aujourd'hui (rotation par jour) → la carte « Ma quête » évolue.
-  const jourCourantVue = Math.min(progression(etat).jourCourant, 30);
+  const jourCourantVue = contenuJour(progression(etat).jourCourant);
   const sigMoment = archetypeDominant(etat);
   const capDuJour = caps.length ? caps[(jourCourantVue - 1) % caps.length] : "";
   // Détection de mue : blindée (un historique d'ancienne version peut avoir une

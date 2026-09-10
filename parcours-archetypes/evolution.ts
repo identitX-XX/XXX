@@ -193,7 +193,9 @@ export function clotureJour(
   return {
     matrice,
     historique: [...etat.historique, snapshot],
-    jourCourant: Math.min(31, Math.max(etat.jourCourant, r.jour + 1)),
+    // Parcours SANS FIN : plus de plafond. Chaque capsule vécue fait avancer
+    // le compteur ; le contenu, lui, tourne en boucle (voir contenuJour).
+    jourCourant: Math.max(etat.jourCourant, r.jour + 1),
   };
 }
 

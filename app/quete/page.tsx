@@ -10,6 +10,7 @@ import { ArrowRight, ArrowDown, Check, Repeat, MessageCircle, BookOpen } from "l
 import { PageHead } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { contenuJour } from "@/parcours-archetypes/hydration";
 import { queteDe, futurMoiDe } from "@/parcours-archetypes/quete";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { constancePactes } from "@/parcours-archetypes/pactes";
@@ -101,7 +102,7 @@ export default function QuetePage() {
     mue = null;
   }
   const archKeyActuel = mue?.vers ?? diagnostic.dominant;
-  const jour = Math.min(Math.max(etat.jourCourant, 1), 30);
+  const jour = contenuJour(etat.jourCourant);
 
   return <QueteMonde archKey={archKeyActuel} monde={SOBRE} mue={mue} jour={jour} />;
 }
