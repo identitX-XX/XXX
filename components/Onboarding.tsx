@@ -68,15 +68,17 @@ export function Onboarding() {
         const r = card.getBoundingClientRect();
         const center = r.top + r.height / 2;
         // d = -1 (au-dessus) … 0 (centré) … 1 (en dessous)
-        const d = Math.max(-1.4, Math.min(1.4, (center - mid) / vh));
+        const d = Math.max(-1.5, Math.min(1.5, (center - mid) / vh));
         const ad = Math.abs(d);
-        const scale = (1 - ad * 0.14).toFixed(3);
-        const opacity = Math.max(0.18, 1 - ad * 1.05).toFixed(3);
-        const ty = (d * 26).toFixed(1);
-        card.style.transform = `translate3d(0, ${ty}px, 0) scale(${scale})`;
+        // Amplitude MARQUÉE : gros zoom, fondu franc, glissé et légère bascule.
+        const scale = (1 - ad * 0.26).toFixed(3);
+        const opacity = Math.max(0.06, 1 - ad * 1.3).toFixed(3);
+        const ty = (d * 46).toFixed(1);
+        const rot = (d * 4).toFixed(2); // légère bascule 3D
+        card.style.transform = `perspective(1200px) translate3d(0, ${ty}px, 0) rotateX(${rot}deg) scale(${scale})`;
         card.style.opacity = opacity;
         const para = card.querySelector<HTMLElement>("[data-para]");
-        if (para) para.style.transform = `translate3d(0, ${(d * -34).toFixed(1)}px, 0)`;
+        if (para) para.style.transform = `translate3d(0, ${(d * -60).toFixed(1)}px, 0)`;
       });
     };
     const onScroll = () => {

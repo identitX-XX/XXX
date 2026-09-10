@@ -126,13 +126,13 @@ html.pal-lin {
   --on-brand: #1b1813;
 }
 html.pal-lin.light {
-  /* Gris chaud & prune : fond gris doux (plus le beige d'avant), cartes quasi
-     blanches nettement détachées, encre presque noire, bordures visibles,
-     accent prune profond. Sobre, contrasté, féminin. */
+  /* Gris chaud & anthracite : fond gris doux, cartes quasi blanches nettement
+     détachées, encre presque noire, accent NOIR/anthracite. Ultra sobre, mode,
+     minimaliste. */
   --noir: #e7e6e3; --surface: #f1f0ee; --raised: #ffffff;
-  --ink: #1b1a18; --muted: #5c5a57; --line: rgba(30, 28, 26, 0.22);
-  --fuchsia: #5f3247; --orange: #5f3247; --slate: #5c5a57;
-  --on-brand: #fbf3f5;
+  --ink: #17161a; --muted: #5c5a57; --line: rgba(23, 22, 26, 0.22);
+  --fuchsia: #26242a; --orange: #26242a; --slate: #5c5a57;
+  --on-brand: #f4f3f1;
 }
 
 * {

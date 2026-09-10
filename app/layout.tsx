@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter } from "next/font/google";
+import { Cormorant, Inter } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
@@ -11,10 +11,10 @@ import { VersionGuard } from "@/components/VersionGuard";
 // (Fraunces — chaleureux, un peu « haute couture ») + une sans nette et neutre
 // pour le corps (Inter). Le contraste serif/sans donne l'assise « haut de
 // gamme ». --font-fraunces = titres · --font-inter = corps.
-const fraunces = Fraunces({
+const cormorant = Cormorant({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
+  weight: ["500", "600", "700"],
   style: ["normal", "italic"],
 });
 const inter = Inter({
@@ -75,7 +75,7 @@ export default function RootLayout({
       className={inter.className + " pal-lin light"}
       style={
         {
-          "--font-fraunces": fraunces.style.fontFamily,
+          "--font-fraunces": cormorant.style.fontFamily,
           "--font-inter": inter.style.fontFamily,
         } as React.CSSProperties
       }
