@@ -26,11 +26,11 @@ export function Onboarding() {
   // La section actuellement à l'écran (défilement vertical), pour le fil de
   // progression — la mesure reste discrète, le rituel garde son repère.
   const [active, setActive] = useState(0);
-  // Révélation au scroll : les cartes qui entrent dans le champ s'animent
-  // (fondu + montée + léger zoom), et se retirent quand elles sortent → un
-  // défilement vivant plutôt qu'un long bloc figé.
-  const [visible, setVisible] = useState<Set<number>>(() => new Set([0]));
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  // Scroll DYNAMIQUE : chaque carte est transformée en direct selon sa position
+  // dans l'écran (échelle + opacité + glissé), et son illustration fait un
+  // parallaxe → effet « coverflow » vivant, façon appli premium.
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // Le genre (dernière étape) reste requis : la dernière action est verrouillée
   // tant qu'il n'est pas choisi — le gate, préservé malgré le défilement libre.
@@ -43,10 +43,7 @@ export function Onboarding() {
         entries.forEach((e) => {
           const i = Number((e.target as HTMLElement).dataset.idx);
           if (Number.isNaN(i)) return;
-          if (e.isIntersecting) {
-            setActive(i);
-            setVisible((prev) => (prev.has(i) ? prev : new Set(prev).add(i)));
-          }
+          if (e.isIntersecting) setActive(i);
         });
       },
       // Seuil bas + marge centrée : sur une étape plus haute que l'écran (ex. le
@@ -55,6 +52,44 @@ export function Onboarding() {
     );
     sectionRefs.current.forEach((el) => el && io.observe(el));
     return () => io.disconnect();
+  }, []);
+
+  // Effet scroll-lié (rAF) : transforme chaque carte selon la distance de son
+  // centre au centre de l'écran → zoom/fondu/glissé fluides, + parallaxe de
+  // l'illustration. C'est ce qui rend le défilement vraiment « dynamique ».
+  useEffect(() => {
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const vh = window.innerHeight || 1;
+      const mid = vh / 2;
+      cardRefs.current.forEach((card, i) => {
+        if (!card) return;
+        const r = card.getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        // d = -1 (au-dessus) … 0 (centré) … 1 (en dessous)
+        const d = Math.max(-1.4, Math.min(1.4, (center - mid) / vh));
+        const ad = Math.abs(d);
+        const scale = (1 - ad * 0.14).toFixed(3);
+        const opacity = Math.max(0.18, 1 - ad * 1.05).toFixed(3);
+        const ty = (d * 26).toFixed(1);
+        card.style.transform = `translate3d(0, ${ty}px, 0) scale(${scale})`;
+        card.style.opacity = opacity;
+        const para = card.querySelector<HTMLElement>("[data-para]");
+        if (para) para.style.transform = `translate3d(0, ${(d * -34).toFixed(1)}px, 0)`;
+      });
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   const scrollTo = (i: number) =>
@@ -167,11 +202,11 @@ export function Onboarding() {
           }`}
         >
           <div
-            className={`mx-auto w-full max-w-lg rounded-[1.75rem] border border-line bg-raised px-5 py-9 shadow-soft transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              visible.has(i)
-                ? "translate-y-0 scale-100 opacity-100"
-                : "translate-y-10 scale-[0.97] opacity-0"
-            }`}
+            ref={(el) => {
+              cardRefs.current[i] = el;
+            }}
+            className="mx-auto w-full max-w-lg rounded-[1.75rem] border border-line bg-raised px-5 py-9 shadow-soft will-change-transform"
+            style={{ transformOrigin: "center" }}
           >
             {content}
           </div>
@@ -265,7 +300,7 @@ function StageP({
       <h2 className="mx-auto mt-3 max-w-md font-display text-2xl font-bold leading-tight text-ink">
         {titre}
       </h2>
-      <div className="mx-auto mt-7 max-w-sm animate-float">{graphic}</div>
+      <div data-para className="mx-auto mt-7 max-w-sm animate-float will-change-transform">{graphic}</div>
       <p className="mx-auto mt-6 max-w-sm text-[15px] leading-relaxed text-muted">{texte}</p>
     </div>
   );
