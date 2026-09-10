@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Poppins } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
@@ -7,15 +7,20 @@ import { StateSync } from "@/components/StateSync";
 import { EtatSync } from "@/components/EtatSync";
 import { VersionGuard } from "@/components/VersionGuard";
 
-// Typographie « douce ronde » — Poppins partout : une sans-serif géométrique aux
-// formes rondes, chaleureuse et accueillante, pour les titres (en gras) comme
-// pour le corps. Une seule famille, deux graisses de rôle. On l'expose sur les
-// deux variables historiques (--font-fraunces = titres, --font-inter = corps)
-// via une inline-style sur <html>, sans double téléchargement.
-const poppins = Poppins({
+// Typographie ÉDITORIALE (premium) : un serif de caractère pour les titres
+// (Fraunces — chaleureux, un peu « haute couture ») + une sans nette et neutre
+// pour le corps (Inter). Le contraste serif/sans donne l'assise « haut de
+// gamme ». --font-fraunces = titres · --font-inter = corps.
+const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -67,11 +72,11 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={poppins.className + " pal-lin light"}
+      className={inter.className + " pal-lin light"}
       style={
         {
-          "--font-fraunces": poppins.style.fontFamily,
-          "--font-inter": poppins.style.fontFamily,
+          "--font-fraunces": fraunces.style.fontFamily,
+          "--font-inter": inter.style.fontFamily,
         } as React.CSSProperties
       }
     >
