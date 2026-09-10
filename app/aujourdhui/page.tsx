@@ -17,6 +17,7 @@ import { exercicesDuJour } from "@/parcours-archetypes/exercices";
 import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { pacteAVerifier, TenuPacte } from "@/parcours-archetypes/pactes";
 import { progression, momentum, radarCourant } from "@/parcours-archetypes/indicateurs";
+import { contenuJour } from "@/parcours-archetypes/hydration";
 import { track } from "@/lib/metrics";
 import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
 import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
@@ -94,17 +95,20 @@ export default function AujourdhuiPage() {
 
   const prog = progression(etat);
   const mo = momentum(etat);
-  const termine = prog.jourCourant > 30;
-  const n = Math.min(prog.jourCourant, 30);
+  // Parcours sans fin : plus de terminaison. Le compteur (sessionJour) avance
+  // sans plafond ; le CONTENU tourne en boucle (contenuJour) ; chaque capsule
+  // est fraîche (classée sur le compteur, jamais déjà répondue).
+  const termine = false;
+  const sessionJour = prog.jourCourant;
+  const n = contenuJour(sessionJour);
   const jour = parcours.jours.find((j) => j.n === n) ?? null;
   const arch = jour ? archetypeByKey[jour.archetype] : null;
-  // Signature d'hier — pour rendre le changement VISIBLE sur la capsule (« hier
-  // X, aujourd'hui Y ») : la capsule cesse de sembler figée d'un jour à l'autre.
+  // Signature « d'avant » — pour rendre le changement VISIBLE d'une capsule à
+  // l'autre (la capsule cesse de sembler figée).
   const hierJour = n > 1 ? parcours.jours.find((j) => j.n === n - 1) : null;
   const hierArch = hierJour ? archetypeByKey[hierJour.archetype] : null;
   const phase = phaseDuJour(n);
-  const angle = (prog.part / 100) * 360;
-  const dejaFait = Boolean(reponses[n]);
+  const dejaFait = Boolean(reponses[sessionJour]);
   const salut = salutation();
 
   if (termine) {

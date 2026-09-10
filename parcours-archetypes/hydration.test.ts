@@ -5,7 +5,16 @@ import {
   snapshotValide,
   diagnosticValide,
   jourCourantReconcilie,
+  contenuJour,
 } from "./hydration";
+
+test("contenuJour : le contenu tourne en boucle sur 30 (parcours sans fin)", () => {
+  assert.equal(contenuJour(1), 1);
+  assert.equal(contenuJour(30), 30);
+  assert.equal(contenuJour(31), 1);
+  assert.equal(contenuJour(60), 30);
+  assert.equal(contenuJour(61), 1);
+});
 
 // LE BUG « BLOQUÉE SUR JOUR 1 » : une journée déjà répondue mais un compteur
 // resté à 1 → repondreJour (idempotent) refuse d'avancer → coincée à vie.
@@ -22,9 +31,9 @@ test("jourCourantReconcilie : un état sain est laissé intact", () => {
   assert.equal(jourCourantReconcilie(5, [1, 2, 3, 4], 4), 5);
 });
 
-test("jourCourantReconcilie : borné à 31 (30 jours + 1)", () => {
+test("jourCourantReconcilie : sans plafond (parcours sans fin)", () => {
   assert.equal(jourCourantReconcilie(1, [30], 30), 31);
-  assert.equal(jourCourantReconcilie(99, [30], 30), 31);
+  assert.equal(jourCourantReconcilie(99, [30], 30), 99);
 });
 
 test("estObjet : objets oui, primitives/null non", () => {

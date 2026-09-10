@@ -10,6 +10,7 @@ import { ArrowRight, Loader2, Sparkles, RefreshCw, Briefcase, Users, Heart, Hear
 import { PageHead, TextArea } from "@/components/ui";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { contenuJour } from "@/parcours-archetypes/hydration";
 import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
 import {
   useGap,
@@ -55,7 +56,7 @@ export default function ExercicesPage() {
   // 0..N-1 = périmètres ; N = l'éclairage (la récompense).
   const [etape, setEtape] = useState(0);
 
-  const jour = useMemo(() => Math.min(progression(etat).jourCourant, 30), [etat]);
+  const jour = useMemo(() => contenuJour(progression(etat).jourCourant), [etat]);
   const sig = useMemo(() => {
     const dom = archetypeDominant(etat);
     return dom?.name ?? (diagnostic ? archetypeByKey[diagnostic.dominant].name : "");
@@ -128,7 +129,7 @@ export default function ExercicesPage() {
   return (
     <div>
       <PageHead
-        eyebrow={`Exercice du jour · Jour ${jour}`}
+        eyebrow="Ton exercice"
         title="L'écart entre ce que tu crois, penses et fais"
         sub={`Sur chaque pilier — relationnel & famille, love, pro, santé — observe l'écart. Il change selon ton avancement. Ta signature du moment — ${sig} — en éclaire le sens.`}
       />

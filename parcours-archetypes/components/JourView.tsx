@@ -39,10 +39,14 @@ export function JourView({
   jour,
   reponse,
   onClose,
+  sessionJour,
 }: {
   jour: Jour;
   reponse?: ReponseJour;
   onClose?: (r: ReponseJour) => void;
+  // Index de SESSION (compteur sans fin). La réponse est classée dessus, pas
+  // sur jour.n (le contenu, qui tourne en boucle) → chaque capsule reste fraîche.
+  sessionJour?: number;
 }) {
   const repondreJour = useParcoursStore((s) => s.repondreJour);
   const readOnly = Boolean(reponse);
@@ -98,7 +102,7 @@ export function JourView({
   const cloturer = () => {
     if (readOnly) return;
     const r: ReponseJour = {
-      jour: jour.n,
+      jour: sessionJour ?? jour.n,
       archetype: jour.archetype,
       sphereFocus: jour.sphereFocus,
       curseurs,

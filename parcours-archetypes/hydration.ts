@@ -16,8 +16,8 @@ export const snapshotValide = (h: unknown): boolean =>
 // Auto-réparation du jour courant : il ne peut JAMAIS être en retard sur les
 // journées déjà répondues ou vécues. Sinon une journée « déjà répondue » bloque
 // l'avancée (repondreJour est idempotent) → parcours coincé au jour 1. On prend
-// donc le max entre le compteur, (dernière journée répondue + 1) et
-// (nombre de journées vécues + 1). Borné à 31 (parcours de 30 jours + 1).
+// donc le max entre le compteur, (dernière capsule vécue + 1) et
+// (nombre de capsules vécues + 1). Parcours SANS FIN : plus de plafond.
 export function jourCourantReconcilie(
   jc: number,
   joursReponses: number[],
@@ -26,7 +26,15 @@ export function jourCourantReconcilie(
   const base = jc >= 1 ? jc : 1;
   const parReponses = joursReponses.length ? Math.max(...joursReponses) + 1 : 1;
   const parHistorique = historiqueLen + 1;
-  return Math.min(31, Math.max(base, parReponses, parHistorique));
+  return Math.max(base, parReponses, parHistorique);
+}
+
+// Le CONTENU du parcours tourne en boucle sur 30 capsules : la capsule N de
+// contenu = ((compteur - 1) mod 30) + 1. Le compteur, lui, avance sans fin →
+// chaque capsule vécue est fraîche (jamais « déjà répondue »).
+export function contenuJour(jourCourant: number): number {
+  const n = Math.max(1, Math.floor(jourCourant));
+  return ((n - 1) % 30) + 1;
 }
 
 // Un diagnostic exploitable : dominant ET secondaire sont des signatures
