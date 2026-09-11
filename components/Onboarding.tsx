@@ -177,9 +177,8 @@ export function Onboarding() {
           {steps.map((_, i) => (
             <div
               key={i}
-              className={`h-1 flex-1 rounded-full transition-all duration-500 ${
-                i <= active ? "brand-gradient" : "bg-line"
-              }`}
+              className="h-1 flex-1 rounded-full transition-all duration-500"
+              style={{ background: i <= active ? "var(--prune)" : "var(--line)" }}
             />
           ))}
         </div>
@@ -208,7 +207,7 @@ export function Onboarding() {
               cardRefs.current[i] = el;
             }}
             className="mx-auto w-full max-w-lg rounded-[1.75rem] border border-line bg-raised px-5 py-9 shadow-soft will-change-transform"
-            style={{ transformOrigin: "center" }}
+            style={{ transformOrigin: "center", borderTopWidth: 2, borderTopColor: "var(--prune)" }}
           >
             {content}
           </div>

@@ -18,6 +18,7 @@
   --gold: #ffd16b;
   --cyan: #6be3ff;
   --slate: #8e8497;
+  --prune: #7a4258; /* liseré accent (fallback, redéfini par palette) */
   /* Couleur de texte LISIBLE posée sur le dégradé brand (boutons dorés/colorés).
      Le texte blanc échouait le contraste sur l'or clair ; un texte foncé passe
      sur toutes les palettes sauf l'ardoise claire (bleu foncé), qui repasse au
@@ -133,6 +134,9 @@ html.pal-lin.light {
   --ink: #17161a; --muted: #5c5a57; --line: rgba(23, 22, 26, 0.22);
   --fuchsia: #26242a; --orange: #26242a; --slate: #5c5a57;
   --on-brand: #f4f3f1;
+  /* Prune : accent secondaire, réservé aux LISERÉS fins (contraste chaud sur
+     l'anthracite). Jamais un aplat de bouton — juste des filets. */
+  --prune: #7a4258;
 }
 
 * {

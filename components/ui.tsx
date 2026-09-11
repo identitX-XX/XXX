@@ -12,6 +12,7 @@ export function Card({
   return (
     <div
       className={`rounded-2xl border border-line bg-surface shadow-soft ${className}`}
+      style={{ borderTopWidth: 2, borderTopColor: "var(--prune)" }}
     >
       {children}
     </div>
@@ -30,7 +31,7 @@ export function PageHead({
   return (
     <div className="mb-8 animate-fade-up">
       {eyebrow && (
-        <div className="mb-2 text-[12px] font-bold uppercase tracking-[0.22em] text-fuchsia">
+        <div className="mb-2 text-[12px] font-bold uppercase tracking-[0.22em]" style={{ color: "var(--prune)" }}>
           {eyebrow}
         </div>
       )}
