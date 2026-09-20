@@ -157,7 +157,7 @@ export function JournalFusion() {
     maxWidth: 460,
     borderRadius: 18,
     border: "1px solid color-mix(in srgb, var(--orange) 14%, transparent)",
-    background: "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.5), rgba(10,9,13,0) 100%)",
+    background: "var(--surface)",
     padding: "18px 16px",
   };
 
@@ -262,7 +262,7 @@ export function JournalFusion() {
                 display: "flex",
                 justifyContent: "space-between",
                 fontSize: 12,
-                color: "rgba(244,238,234,.6)",
+                color: "var(--muted)",
               }}
             >
               <span>{d.label}</span>
@@ -286,7 +286,7 @@ export function JournalFusion() {
               display: "flex",
               justifyContent: "space-between",
               fontSize: 12,
-              color: "rgba(244,238,234,.45)",
+              color: "var(--muted)",
             }}
           >
             <span>Poids du jour</span>
@@ -367,13 +367,13 @@ export function JournalFusion() {
         <div style={{ display: "flex", justifyContent: "space-around", textAlign: "center" }}>
           <div>
             <div style={{ fontFamily: "var(--font-fraunces),serif", fontSize: 26 }}>{mg7 ?? "—"}</div>
-            <div style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(244,238,234,.45)" }}>
+            <div style={{ fontSize: 10, letterSpacing: ".2em", color: "var(--muted)" }}>
               MG 7 JOURS
             </div>
           </div>
           <div>
             <div style={{ fontFamily: "var(--font-fraunces),serif", fontSize: 26 }}>{mg30 ?? "—"}</div>
-            <div style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(244,238,234,.45)" }}>
+            <div style={{ fontSize: 10, letterSpacing: ".2em", color: "var(--muted)" }}>
               MOYENNE
             </div>
           </div>
@@ -387,7 +387,7 @@ export function JournalFusion() {
             >
               {prog ? `${prog.points > 0 ? "+" : ""}${prog.points}` : "—"}
             </div>
-            <div style={{ fontSize: 10, letterSpacing: ".2em", color: "rgba(244,238,234,.45)" }}>
+            <div style={{ fontSize: 10, letterSpacing: ".2em", color: "var(--muted)" }}>
               PROGRESSION
             </div>
           </div>
@@ -397,7 +397,7 @@ export function JournalFusion() {
           style={{
             marginTop: 14,
             fontSize: 12,
-            color: "rgba(244,238,234,.5)",
+            color: "var(--muted)",
             textAlign: "center",
             fontStyle: "italic",
             lineHeight: 1.5,
@@ -451,7 +451,7 @@ export function JournalFusion() {
                       style={{
                         background: "none",
                         border: "none",
-                        color: "rgba(244,238,234,.35)",
+                        color: "var(--muted)",
                         fontSize: 17,
                         cursor: "pointer",
                         padding: 0,
@@ -469,7 +469,7 @@ export function JournalFusion() {
                     gap: "6px 18px",
                     marginTop: 12,
                     fontSize: 12,
-                    color: "rgba(244,238,234,.6)",
+                    color: "var(--muted)",
                   }}
                 >
                   {DIM_META.map((d) => (
@@ -482,7 +482,7 @@ export function JournalFusion() {
 
                 {e.gratitude && (
                   <div style={{ marginTop: 12, fontSize: 13, lineHeight: 1.5 }}>
-                    <span style={{ color: "rgba(244,238,234,.45)" }}>Gratitude : </span>
+                    <span style={{ color: "var(--muted)" }}>Gratitude : </span>
                     <span style={{ color: "var(--muted)", fontStyle: "italic" }}>{e.gratitude}</span>
                   </div>
                 )}

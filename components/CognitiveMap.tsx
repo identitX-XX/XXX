@@ -58,7 +58,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
     fontSize: 8.5,
     letterSpacing: ".18em",
     textTransform: "uppercase" as const,
-    fill: "rgba(244,238,234,.34)",
+    fill: "var(--muted)",
     fontFamily: "var(--font-inter),sans-serif",
   });
 
@@ -165,7 +165,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           +
         </button>
       </div>
-      <div style={{ fontSize: 11, color: "rgba(244,238,234,.4)", marginTop: 8 }}>
+      <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 8 }}>
         {identities.length}/8 rôles
       </div>
 
@@ -178,8 +178,8 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
           aria-label="Quadrant énergie donnée / énergie reçue"
         >
           <rect x={PAD} y={PAD} width={plot} height={plot} fill="color-mix(in srgb, var(--orange) 3%, transparent)" rx={14} />
-          <line x1={PAD} y1={S / 2} x2={S - PAD} y2={S / 2} stroke="rgba(244,238,234,.14)" strokeDasharray="3 5" />
-          <line x1={S / 2} y1={PAD} x2={S / 2} y2={S - PAD} stroke="rgba(244,238,234,.14)" strokeDasharray="3 5" />
+          <line x1={PAD} y1={S / 2} x2={S - PAD} y2={S / 2} stroke="var(--muted)" strokeDasharray="3 5" />
+          <line x1={S / 2} y1={PAD} x2={S / 2} y2={S - PAD} stroke="var(--muted)" strokeDasharray="3 5" />
 
           <text x={PAD + 6} y={PAD + 14} {...{ style: label("") }}>Source</text>
           <text x={S - PAD - 6} y={PAD + 14} textAnchor="end" style={label("")}>Moteur</text>
@@ -226,7 +226,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             <div
               key={it.id}
               style={{
-                background: "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.5), rgba(10,9,13,0) 100%)",
+                background: "var(--surface)",
                 border: "1px solid color-mix(in srgb, var(--orange) 14%, transparent)",
                 borderRadius: 18,
                 padding: "16px 16px 14px",
@@ -254,7 +254,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
                   style={{
                     background: "none",
                     border: "none",
-                    color: "rgba(244,238,234,.35)",
+                    color: "var(--muted)",
                     fontSize: 18,
                     cursor: "pointer",
                     padding: "0 2px",
@@ -265,7 +265,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
               </div>
 
               <div style={{ marginTop: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "rgba(244,238,234,.55)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--muted)" }}>
                   <span>Énergie donnée</span>
                   <span style={{ color: "var(--orange)" }}>{it.given}</span>
                 </div>
@@ -281,7 +281,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
               </div>
 
               <div style={{ marginTop: 10 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "rgba(244,238,234,.55)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--muted)" }}>
                   <span>Énergie reçue</span>
                   <span style={{ color: "var(--fuchsia)" }}>{it.received}</span>
                 </div>
@@ -296,7 +296,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
                 />
               </div>
 
-              <div style={{ fontSize: 12, color: "rgba(244,238,234,.5)", marginTop: 10, fontStyle: "italic" }}>
+              <div style={{ fontSize: 12, color: "var(--muted)", marginTop: 10, fontStyle: "italic" }}>
                 {verdict.hint}
               </div>
             </div>
@@ -314,7 +314,7 @@ export function CognitiveMap({ onDone }: { onDone?: () => void }) {
             padding: "20px 18px",
             borderRadius: 18,
             border: "1px solid color-mix(in srgb, var(--fuchsia) 22%, transparent)",
-            background: "radial-gradient(130% 130% at 50% 0%, rgba(38,22,41,.6), rgba(10,9,13,0) 100%)",
+            background: "var(--surface)",
             textAlign: "center",
           }}
         >
