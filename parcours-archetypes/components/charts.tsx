@@ -253,25 +253,19 @@ export function HeatmapEmotions({ data }: { data: CelluleEmotion[] }) {
   );
 }
 
-// 6. Progression sur 30 jours.
+// 6. Capsules vécues — simple compteur, sans notion de jour ni de plafond
+// (parcours sans fin).
 export function BarreProgression({ progression }: { progression: Progression }) {
   return (
     <div>
-      <Titre>Progression</Titre>
-      <div style={{ display: "flex", alignItems: "baseline", gap: 8, marginBottom: 8 }}>
+      <Titre>Capsules</Titre>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
         <span style={{ fontFamily: "var(--font-fraunces), system-ui, sans-serif", fontSize: 28, color: INK }}>
           {progression.faits}
         </span>
-        <span style={{ fontSize: 12, color: MUTED }}>/ {progression.total} jours</span>
-      </div>
-      <div style={{ height: 8, borderRadius: 999, background: LINE, overflow: "hidden" }}>
-        <div
-          style={{
-            height: "100%",
-            width: `${progression.part}%`,
-            background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
-          }}
-        />
+        <span style={{ fontSize: 12, color: MUTED }}>
+          capsule{progression.faits > 1 ? "s" : ""} vécue{progression.faits > 1 ? "s" : ""}
+        </span>
       </div>
     </div>
   );

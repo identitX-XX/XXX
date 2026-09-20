@@ -575,7 +575,7 @@ export function Synthese() {
             padding: "14px 26px",
             borderRadius: 999,
             border: "1px solid color-mix(in srgb, var(--orange) 18%, transparent)",
-            background: "rgba(38,22,41,.35)",
+            background: "var(--surface)",
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
             animation: "idx-rise .7s .24s ease both",
@@ -599,7 +599,7 @@ export function Synthese() {
               >
                 {m.v ?? "—"}
               </div>
-              <div style={{ fontSize: 9.5, letterSpacing: ".22em", color: "rgba(244,238,234,.45)", textTransform: "uppercase" }}>
+              <div style={{ fontSize: 9.5, letterSpacing: ".22em", color: "var(--muted)", textTransform: "uppercase" }}>
                 {m.l}
               </div>
             </div>
@@ -624,9 +624,9 @@ export function Synthese() {
               style={{
                 borderRadius: 22,
                 padding: "24px 22px 22px",
-                background: "linear-gradient(160deg, rgba(38,22,41,.62), rgba(10,9,13,.35))",
+                background: "var(--surface)",
                 border: "1px solid color-mix(in srgb, var(--fuchsia) 16%, transparent)",
-                boxShadow: "0 24px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(244,238,234,.05)",
+                boxShadow: "0 24px 60px rgba(0,0,0,.45), inset 0 1px 0 var(--muted)",
                 backdropFilter: "blur(14px)",
                 WebkitBackdropFilter: "blur(14px)",
                 animation: `idx-rise .8s ${0.34 + i * 0.14}s ease both`,
@@ -661,7 +661,7 @@ export function Synthese() {
                 style={{
                   fontSize: 13.5,
                   lineHeight: 1.6,
-                  color: "rgba(244,238,234,.72)",
+                  color: "var(--ink)",
                   margin: "12px 0 0",
                 }}
               >
@@ -691,7 +691,7 @@ export function Synthese() {
                           flexShrink: 0,
                         }}
                       />
-                      <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "rgba(244,238,234,.85)" }}>{l}</span>
+                      <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--ink)" }}>{l}</span>
                     </div>
                   ))}
                 </div>
@@ -712,7 +712,7 @@ export function Synthese() {
                           flexShrink: 0,
                         }}
                       />
-                      <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "rgba(244,238,234,.75)" }}>{v}</span>
+                      <span style={{ fontSize: 13.5, lineHeight: 1.55, color: "var(--ink)" }}>{v}</span>
                     </div>
                   ))}
                 </div>
@@ -725,7 +725,7 @@ export function Synthese() {
           className="idx-rise"
           style={{
             fontSize: 11.5,
-            color: "rgba(244,238,234,.38)",
+            color: "var(--muted)",
             textAlign: "center",
             maxWidth: 400,
             marginTop: 30,

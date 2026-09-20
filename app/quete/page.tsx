@@ -104,7 +104,7 @@ export default function QuetePage() {
   const archKeyActuel = mue?.vers ?? diagnostic.dominant;
   const jour = contenuJour(etat.jourCourant);
 
-  return <QueteMonde archKey={archKeyActuel} monde={SOBRE} mue={mue} jour={jour} />;
+  return <QueteMonde archKey={archKeyActuel} monde={SOBRE} mue={mue} jour={jour} sessionJour={etat.jourCourant} />;
 }
 
 function QueteMonde({
@@ -112,11 +112,13 @@ function QueteMonde({
   monde: m,
   mue,
   jour,
+  sessionJour,
 }: {
   archKey: ArchetypeKey;
   monde: Monde;
   mue: Bascule | null;
   jour: number;
+  sessionJour: number;
 }) {
   const arch = archetypeByKey[archKey];
   const quete = queteDe(archKey);
@@ -293,7 +295,7 @@ function QueteMonde({
               <div className="flex min-w-0 flex-1 flex-col items-center gap-1.5 text-center">
                 <span
                   className="grid h-7 w-7 flex-none place-items-center rounded-full text-[12px] font-semibold"
-                  style={e.done ? { background: m.accent, color: "#0a0a0a" } : { border: `1px solid ${m.line}`, color: m.muted }}
+                  style={e.done ? { background: m.accent, color: "var(--on-brand)" } : { border: `1px solid ${m.line}`, color: m.muted }}
                 >
                   {e.done ? <Check size={13} /> : i + 1}
                 </span>
@@ -369,7 +371,7 @@ function QueteMonde({
             <button
               onClick={reparcourir}
               className="mt-1 inline-flex items-center justify-center gap-2 self-start rounded-full px-5 py-2.5 text-sm font-medium"
-              style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "#0a0a0a" }}
+              style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "var(--on-brand)" }}
             >
               <Repeat size={15} />
               Reparcourir la boucle, un cran plus haut
@@ -381,7 +383,7 @@ function QueteMonde({
       {/* Les exercices de la Quête */}
       <div className="mt-6 flex flex-col gap-4">
         <Carrefour key={`car-${tour}`} m={m} carrefour={quete.carrefour} id={ids.carrefour} />
-        <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={jour} archKey={archKey} />
+        <Pacte key={`pac-${tour}`} m={m} geste={gesteDuJour(arch, jour)} id={ids.pacte} jour={sessionJour} archKey={archKey} />
       </div>
 
       {/* Fléchage Coach & Ressources — présent jusque dans le monde immersif :
@@ -479,7 +481,7 @@ function Cadre({
         <div
           className="grid h-7 w-7 flex-none place-items-center rounded-full text-xs font-semibold"
           style={done
-            ? { background: m.accent, color: "#0a0a0a" }
+            ? { background: m.accent, color: "var(--on-brand)" }
             : { border: `1px solid ${m.line}`, color: m.muted }}
         >
           {done ? <Check size={14} /> : num}
@@ -555,7 +557,7 @@ function Pacte({ m, geste, id, jour, archKey }: { m: Monde; geste: string; id: s
         <div className="mt-3 flex items-center gap-2.5">
           <span
             className="grid h-7 w-7 flex-none place-items-center rounded-full text-sm font-bold"
-            style={{ background: m.accent, color: "#0a0a0a", animation: "idx-sceau .5s ease forwards" }}
+            style={{ background: m.accent, color: "var(--on-brand)", animation: "idx-sceau .5s ease forwards" }}
           >
             ✓
           </span>
@@ -565,7 +567,7 @@ function Pacte({ m, geste, id, jour, archKey }: { m: Monde; geste: string; id: s
         <button
           onClick={sengager}
           className="mt-4 rounded-full px-6 py-2.5 text-sm font-medium transition-transform hover:scale-[1.03]"
-          style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "#0a0a0a" }}
+          style={{ background: `linear-gradient(90deg, ${m.accent}, ${m.accent2})`, color: "var(--on-brand)" }}
         >
           Je m'engage
         </button>
