@@ -6,7 +6,7 @@ import type { Article } from "@/types/article";
 export function ArticleCard({ article }: { article: Omit<Article, "contenu"> }) {
   return (
     <article className="group border-t border-filet pt-8">
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 [&>*]:whitespace-nowrap">
         <RubriqueTag rubrique={article.rubrique} lien={false} />
         <span className="text-sm text-gris">
           {formatDate(article.date)} · {article.lecture} min

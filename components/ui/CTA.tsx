@@ -5,18 +5,23 @@ import Link from "next/link";
 // conversion à mesurer.
 const LIBELLE = "Réserver mon appel découverte";
 
-export function CTA({ ton = "clair" }: { ton?: "clair" | "sombre" }) {
+type Props = { ton?: "clair" | "sombre"; pleine?: boolean };
+
+export function CTA({ ton = "clair", pleine }: Props) {
   const styles =
     ton === "clair"
       ? "bg-bordeaux text-ivoire hover:bg-encre"
-      : "border border-champagne/60 text-ivoire hover:bg-ivoire hover:text-bordeaux";
+      : "border border-champagne/60 text-ivoire hover:border-ivoire hover:bg-ivoire hover:text-bordeaux";
+  const taille = pleine ? "w-full justify-center px-4 py-4 tracking-[0.12em]" : "px-8 py-4 tracking-[0.16em]";
   return (
     <Link
       href="/appel"
-      className={`inline-flex items-center gap-3 px-8 py-4 text-sm font-medium uppercase tracking-[0.14em] transition-colors ${styles}`}
+      className={`group inline-flex items-center gap-3 text-[0.8125rem] font-medium uppercase transition-colors duration-300 ${taille} ${styles}`}
     >
       {LIBELLE}
-      <span aria-hidden>→</span>
+      <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+        →
+      </span>
     </Link>
   );
 }

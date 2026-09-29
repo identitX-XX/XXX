@@ -67,3 +67,23 @@ export function valider(brut: Record<string, unknown>): Resultat {
     },
   };
 }
+
+// ── Listes d'intérêt (Journal, Programmes, Événements) ──────────────────────
+// Consentement par acte positif clair : s'inscrire à une liste nommée, avec
+// l'information affichée juste sous le champ. E-mail seul = minimisation.
+
+export const LISTES = {
+  journal: "Le Journal",
+  programmes: "Programmes",
+  evenements: "Événements",
+} as const;
+export type Liste = keyof typeof LISTES;
+
+export function validerInscription(brut: Record<string, unknown>):
+  | { ok: true; data: { email: string; liste: Liste } }
+  | { ok: false; erreur: string } {
+  const email = texte(brut.email, 120)?.toLowerCase();
+  if (!email || !EMAIL.test(email)) return { ok: false, erreur: "Indiquez une adresse e-mail valide." };
+  if (typeof brut.liste !== "string" || !(brut.liste in LISTES)) return { ok: false, erreur: "Liste inconnue." };
+  return { ok: true, data: { email, liste: brut.liste as Liste } };
+}

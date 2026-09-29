@@ -22,11 +22,13 @@ const config: Config = {
       },
       // Échelle typographique éditoriale (fluide, clamp).
       fontSize: {
-        eyebrow: ["0.75rem", { lineHeight: "1", letterSpacing: "0.18em" }],
+        eyebrow: ["0.6875rem", { lineHeight: "1", letterSpacing: "0.22em" }],
         corps: ["1.0625rem", { lineHeight: "1.75" }],
         chapo: ["clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem)", { lineHeight: "1.5" }],
-        titre: ["clamp(2rem, 1.5rem + 2.2vw, 3.25rem)", { lineHeight: "1.1" }],
-        manifeste: ["clamp(2.5rem, 1.6rem + 4vw, 5rem)", { lineHeight: "1.02" }],
+        // Corps serif du manifeste : lecture longue, grand confort.
+        lecture: ["clamp(1.3rem, 1.15rem + 0.5vw, 1.6rem)", { lineHeight: "1.6" }],
+        titre: ["clamp(2.1rem, 1.5rem + 2.4vw, 3.5rem)", { lineHeight: "1.08" }],
+        manifeste: ["clamp(2.75rem, 1.5rem + 5vw, 6rem)", { lineHeight: "0.98" }],
       },
       // Rythme vertical : une idée par écran.
       spacing: {

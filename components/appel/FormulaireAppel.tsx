@@ -39,7 +39,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
   if (etat === "envoye") {
     return (
       <div className="p-8 md:p-12">
-        <p className="text-eyebrow uppercase text-bordeaux">Demande reçue</p>
+        <p className="text-eyebrow uppercase text-bordeaux">Étape 2 / 2 · Demande reçue</p>
         <h2 className="mt-4 text-3xl">Merci. Il ne reste qu&apos;à choisir votre créneau.</h2>
         {calcomLink ? (
           calendrier ? (
@@ -79,6 +79,10 @@ export function FormulaireAppel({ calcomLink }: Props) {
 
   return (
     <form onSubmit={envoyer} noValidate className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
+      <div className="flex items-center justify-between border-b border-filet pb-6 md:col-span-2">
+        <p className="font-serif text-2xl">Parlez-nous de vous</p>
+        <p className="text-eyebrow uppercase text-gris">Étape 1 / 2</p>
+      </div>
       {/* Pot de miel : invisible et hors tabulation pour un humain. */}
       <input type="text" name="site" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden />
 
@@ -103,7 +107,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
       </div>
 
       <fieldset className="md:col-span-2" aria-describedby="err-terrain">
-        <legend className={label}>Ce qui vous amène *</legend>
+        <legend className={label}>Vous cherchez une rencontre… *</legend>
         <div className="mt-4 flex flex-wrap gap-3">
           {Object.entries(TERRAINS).map(([id, nom]) => (
             <label key={id} className="cursor-pointer">

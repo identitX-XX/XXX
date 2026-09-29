@@ -3,12 +3,15 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { CTA } from "@/components/ui/CTA";
 import { Wordmark } from "@/components/ui/Wordmark";
 import { site } from "@/lib/site";
 
 const NAV = [
-  { href: "/journal", label: "Journal" },
   { href: "/rencontrer", label: "Rencontrer" },
+  { href: "/journal", label: "Journal" },
+  { href: "/programmes", label: "Programmes" },
+  { href: "/evenements", label: "Événements" },
   { href: "/mai-diaw", label: "Maï Diaw" },
 ];
 
@@ -38,25 +41,28 @@ export function Header() {
           <Wordmark />
         </Link>
 
-        <nav aria-label="Principale" className="hidden items-center gap-10 md:flex">
+        <nav aria-label="Principale" className="hidden items-center gap-8 lg:flex">
           {NAV.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               aria-current={pathname.startsWith(l.href) ? "page" : undefined}
-              className="text-sm uppercase tracking-[0.14em] text-gris transition-colors hover:text-encre aria-[current=page]:text-encre"
+              className="relative py-2 text-xs uppercase tracking-[0.18em] text-gris transition-colors hover:text-encre aria-[current=page]:text-encre after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-bordeaux after:transition-transform hover:after:scale-x-100 aria-[current=page]:after:scale-x-100"
             >
               {l.label}
             </Link>
           ))}
-          <Link href="/appel" className="text-sm uppercase tracking-[0.14em] text-bordeaux hover:text-encre">
-            L&apos;appel
+          <Link
+            href="/appel"
+            className="border border-bordeaux px-5 py-2.5 text-xs uppercase tracking-[0.18em] text-bordeaux transition-colors hover:bg-bordeaux hover:text-ivoire"
+          >
+            L&apos;appel découverte
           </Link>
         </nav>
 
         <button
           type="button"
-          className="text-sm uppercase tracking-[0.14em] md:hidden"
+          className="text-xs uppercase tracking-[0.18em] lg:hidden"
           aria-expanded={ouvert}
           aria-controls="menu-mobile"
           onClick={() => setOuvert((o) => !o)}
@@ -70,18 +76,22 @@ export function Header() {
         <nav
           id="menu-mobile"
           aria-label="Principale"
-          className="fixed inset-0 top-16 z-40 flex flex-col justify-between bg-ivoire px-6 pb-12 pt-10 md:hidden"
+          className="fixed inset-0 top-16 z-40 flex flex-col justify-between overflow-y-auto bg-ivoire px-6 pb-10 pt-8 lg:hidden"
         >
-          <ul className="space-y-6">
-            {[...NAV, { href: "/appel", label: "L'appel" }].map((l) => (
+          <ul className="divide-y divide-filet border-y border-filet">
+            {NAV.map((l, i) => (
               <li key={l.href}>
-                <Link href={l.href} className="font-serif text-5xl">
+                <Link href={l.href} className="flex items-baseline gap-4 py-4 font-serif text-4xl">
+                  <span className="font-sans text-xs text-taupe">0{i + 1}</span>
                   {l.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <p className="font-serif text-lg italic text-gris">{site.devise}</p>
+          <div className="mt-10 space-y-6">
+            <CTA pleine />
+            <p className="text-center font-serif text-lg italic text-gris">{site.devise}</p>
+          </div>
         </nav>
       )}
     </>

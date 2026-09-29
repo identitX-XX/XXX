@@ -12,6 +12,6 @@ export default function manifest(): MetadataRoute.Manifest {
     background_color: site.og.fond,
     theme_color: site.og.fond,
     lang: "fr",
-    // TODO: ajouter icon-192.png / icon-512.png dans /public et les déclarer ici.
+    icons: [{ src: "/icon", sizes: "512x512", type: "image/png", purpose: "any" }],
   };
 }

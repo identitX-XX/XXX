@@ -13,25 +13,24 @@ export function QuatrePortes() {
           const contenu = (
             <>
               <span className="font-serif text-lg text-taupe">0{i + 1}</span>
-              <h2 className="mt-6 text-4xl">{p.nom}</h2>
+              <h3 className="mt-6 text-4xl transition-colors group-hover:text-bordeaux">{p.nom}</h3>
               {p.detail && <p className="mt-3 text-eyebrow uppercase text-bordeaux">{p.detail}</p>}
               <p className="mt-4 max-w-sm text-gris">{p.promesse}</p>
-              <span className="mt-10 block text-sm uppercase tracking-[0.14em]">
-                {p.active ? "Entrer →" : "Bientôt"}
+              <span className="mt-10 block text-xs uppercase tracking-[0.18em] text-bordeaux">
+                {p.active ? "Entrer →" : "Rejoindre la liste d'attente →"}
               </span>
             </>
           );
           return (
             <li key={id} className="bg-ivoire">
-              {p.active ? (
-                <Link href={p.href} className="block h-full p-10 transition-colors hover:bg-sable">
-                  {contenu}
-                </Link>
-              ) : (
-                <div className="h-full p-10 text-encre/60">
-                  {contenu}
-                </div>
-              )}
+              <Link href={p.href} className="group relative block h-full p-10 transition-colors hover:bg-sable">
+                {!p.active && (
+                  <span className="absolute right-10 top-10 border border-taupe px-3 py-1 text-eyebrow uppercase text-gris">
+                    Bientôt
+                  </span>
+                )}
+                {contenu}
+              </Link>
             </li>
           );
         })}

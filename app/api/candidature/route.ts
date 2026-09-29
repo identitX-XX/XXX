@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
-import { valider, VERSION_NOTICE } from "@/lib/candidature";
+import { valider } from "@/lib/candidature";
+import { transmettre } from "@/lib/webhook";
 
-// Réception d'une demande d'appel. Les données ne sont PAS stockées par le
-// site : elles sont transmises à l'outil défini par CANDIDATURE_WEBHOOK_URL
-// (CRM, Brevo, Make, Airtable EU…) — ce sous-traitant doit figurer dans
-// /confidentialite et être lié par un contrat conforme à l'art. 28 RGPD.
+// Réception d'une demande d'appel → relayée par lib/webhook.ts.
 // Aucune donnée personnelle n'est écrite dans les logs.
 
 export async function POST(req: Request) {
@@ -23,25 +21,7 @@ export async function POST(req: Request) {
   const r = valider(brut);
   if (!r.ok) return NextResponse.json({ erreurs: r.erreurs }, { status: 422 });
 
-  const cible = process.env.CANDIDATURE_WEBHOOK_URL;
-  if (!cible) {
-    if (process.env.NODE_ENV === "development") return NextResponse.json({ ok: true, dev: true });
-    return NextResponse.json({ erreur: "Les demandes ouvrent très bientôt." }, { status: 503 });
-  }
-
-  const envoi = await fetch(cible, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      ...r.data,
-      // Preuve du consentement (art. 7.1) : quand, et sur quelle notice.
-      consentement: { donne: true, le: new Date().toISOString(), notice: VERSION_NOTICE },
-      source: "celiboss.fr/appel",
-    }),
-  }).catch(() => null);
-
-  if (!envoi?.ok) {
-    return NextResponse.json({ erreur: "Envoi impossible pour le moment. Réessayez dans un instant." }, { status: 502 });
-  }
+  const relais = await transmettre("candidature", { ...r.data, source: "/appel" });
+  if (!relais.ok) return NextResponse.json({ erreur: relais.erreur }, { status: relais.statut });
   return NextResponse.json({ ok: true });
 }

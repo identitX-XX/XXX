@@ -13,7 +13,10 @@ entière dans le repo (le `tsconfig` racine l'exclut).
 - Le **Journal** (`content/journal/*.mdx`) est gratuit. Chaque article appartient
   à une **rubrique**, et chaque rubrique mène à une **porte** (`lib/rubriques.ts`).
 - 4 portes : Rencontrer et Journal (actives), Programmes (Glow Up, M.C MEN,
-  coaching) et Événements (bientôt).
+  coaching) et Événements (bientôt → page de présentation + liste d'attente,
+  jamais d'impasse).
+- Parcours affiché sur l'accueil : Lire → Se révéler → Rencontrer → S'entourer.
+- Fidélisation : inscription au Journal en fin d'article et sur /journal.
   Une porte « bientôt » renvoie vers l'appel en attendant.
 - Une seule conversion : `<CTA />` → `/appel` : court formulaire RGPD, puis
   calendrier Cal.com. Libellé verrouillé dans `components/ui/CTA.tsx`.
@@ -36,9 +39,11 @@ entière dans le repo (le `tsconfig` racine l'exclut).
 - **Consentement** explicite, case non pré-cochée ; newsletter en case séparée
   et facultative. Chaque envoi porte l'horodatage et la version de la notice
   (`VERSION_NOTICE` dans `lib/candidature.ts`) = preuve du consentement.
-- **Pas de stockage sur le site** : `/api/candidature` transmet à
-  `CANDIDATURE_WEBHOOK_URL` (variable Vercel : CRM, Brevo, Make, Airtable…
-  hébergé dans l'UE de préférence). Sans elle, le formulaire répond « bientôt ».
+- **Pas de stockage sur le site** : `/api/candidature` (demande d'appel) et
+  `/api/inscription` (listes Journal / Programmes / Événements) passent par
+  `lib/webhook.ts`, qui relaie vers `FORMULAIRES_WEBHOOK_URL` (variable Vercel :
+  CRM, Brevo, Make, Airtable… hébergé dans l'UE de préférence). Champ `type`
+  = `candidature` ou `liste`. Sans la variable, les formulaires répondent « bientôt ».
 - **Aucun cookie** de mesure ni de pub → pas de bandeau. Cal.com ne se charge
   qu'au clic, avec information préalable.
 - Pages `/confidentialite` et `/mentions-legales` : compléter les `[À compléter]`.
@@ -78,12 +83,11 @@ Un frontmatter incomplet ou une rubrique inconnue fait **échouer le build**
 ## Avant la mise en ligne
 
 - [ ] `lib/links.ts` : Cal.com, Instagram, e-mail
-- [ ] `CANDIDATURE_WEBHOOK_URL` sur Vercel (réception des demandes)
+- [ ] `FORMULAIRES_WEBHOOK_URL` sur Vercel (réception des demandes et inscriptions)
 - [ ] `app/mai-diaw/page.tsx` : parcours détaillé et presse (rien n'est inventé)
 - [ ] `[À compléter]` des pages légales (raison sociale, SIREN, adresse, e-mail RGPD)
 - [ ] Registre des traitements (obligation interne RGPD)
 - [ ] Photos dans `public/images/` (+ `HeroImage` sur l'accueil / Maï Diaw)
-- [ ] Icônes PWA 192/512 dans `public/` puis `app/manifest.ts`
 - [ ] `NEXT_PUBLIC_SITE_URL` sur Vercel (sinon `https://celiboss.fr`)
 
 ## Déployer (Vercel)
