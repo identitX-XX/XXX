@@ -159,7 +159,7 @@ export default function TurbinePage() {
       {input && (
         <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
           <div className="flex items-center justify-between">
-            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
               {reel ? "Ton vortex" : "Ton point de départ"}
             </div>
             <span

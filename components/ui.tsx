@@ -31,7 +31,7 @@ export function PageHead({
   return (
     <div className="mb-8 animate-fade-up">
       {eyebrow && (
-        <div className="mb-2 text-[12px] font-bold uppercase tracking-[0.22em]" style={{ color: "var(--prune)" }}>
+        <div className="mb-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
           {eyebrow}
         </div>
       )}
@@ -90,7 +90,7 @@ export function Tag({ children }: { children: ReactNode }) {
 
 export function Label({ children }: { children: ReactNode }) {
   return (
-    <span className="mb-1 block text-xs font-medium uppercase tracking-wider text-muted">
+    <span className="mb-1 block font-mono text-xs font-medium uppercase tracking-[0.12em] text-muted">
       {children}
     </span>
   );

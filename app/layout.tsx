@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant, Inter } from "next/font/google";
+import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
@@ -7,15 +7,21 @@ import { StateSync } from "@/components/StateSync";
 import { EtatSync } from "@/components/EtatSync";
 import { VersionGuard } from "@/components/VersionGuard";
 
-// Typographie ÉDITORIALE (premium) : un serif de caractère pour les titres
-// (Fraunces — chaleureux, un peu « haute couture ») + une sans nette et neutre
-// pour le corps (Inter). Le contraste serif/sans donne l'assise « haut de
-// gamme ». --font-fraunces = titres · --font-inter = corps.
-const cormorant = Cormorant({
+// Typographie ÉDITORIALE (premium, graphique — esprit Co-Star) : un serif de
+// caractère à fort contraste pour les titres (Fraunces — « haute couture »,
+// optical-sizing), un MONOSPACE pour les petits libellés/surtitres (la signature
+// graphique), et une sans neutre pour le corps (Inter).
+// --font-fraunces = titres · --font-mono = libellés · --font-inter = corps.
+const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
+});
+const plexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["500", "600"],
 });
 const inter = Inter({
   subsets: ["latin"],
@@ -76,7 +82,8 @@ export default function RootLayout({
       className={inter.className + " pal-lin"}
       style={
         {
-          "--font-fraunces": cormorant.style.fontFamily,
+          "--font-fraunces": fraunces.style.fontFamily,
+          "--font-mono": plexMono.style.fontFamily,
           "--font-inter": inter.style.fontFamily,
         } as React.CSSProperties
       }

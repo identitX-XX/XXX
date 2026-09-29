@@ -30,7 +30,7 @@ export function ConstellationVivante() {
 
   return (
     <section className="mt-4">
-      <div className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-2 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         <Sparkles size={13} /> Ta constellation
       </div>
 

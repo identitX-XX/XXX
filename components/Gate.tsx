@@ -340,10 +340,12 @@ export function Gate({ children }: { children: React.ReactNode }) {
                 // thème clair). État actif : plein accent + texte on-brand.
                 background:
                   loading || !email.trim()
-                    ? "color-mix(in srgb, var(--ink) 12%, transparent)"
+                    ? "color-mix(in srgb, var(--ink) 16%, transparent)"
                     : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
                 color:
-                  loading || !email.trim() ? "var(--muted)" : "var(--on-brand)",
+                  loading || !email.trim()
+                    ? "color-mix(in srgb, var(--ink) 74%, transparent)"
+                    : "var(--on-brand)",
                 border: "none",
                 borderRadius: 14,
                 padding: "0 18px",

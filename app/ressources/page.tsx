@@ -56,7 +56,7 @@ export default function RessourcesPage() {
           if (liste.length === 0) return null;
           return (
             <section key={type} className="animate-fade-up">
-              <div className="mb-2 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+              <div className="mb-2 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
                 {icon} {titre}
               </div>
               {intro && (

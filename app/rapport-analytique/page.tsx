@@ -259,7 +259,7 @@ export default function RapportAnalytiquePage() {
 function Bloc({ titre, children }: { titre: string; children: React.ReactNode }) {
   return (
     <section className="rapport-card rounded-2xl border border-line bg-surface p-6 shadow-soft">
-      <h2 className="mb-4 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">{titre}</h2>
+      <h2 className="mb-4 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">{titre}</h2>
       {children}
     </section>
   );
