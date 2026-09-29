@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { Convergences } from "@/components/ui/Convergences";
 import { CTA } from "@/components/ui/CTA";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
+import { PARCE_QUE, PROMESSE } from "@/lib/positionnement";
 
 export const metadata: Metadata = {
   title: "Maï Diaw",
   description:
-    "Maï Diaw, matchmakeuse d'exception et fondatrice de CéliBOSS™ : matchmaking pro, relationnel et sentimental, coaching, programmes et événements.",
+    "Maï Diaw, matchmakeuse d'exception, fait converger votre mindset, vos relations et votre style de vie vers leur meilleure version.",
 };
 
 // Faits issus de la bio de Maï Diaw. Parcours détaillé et presse : à fournir
@@ -43,8 +45,7 @@ export default function MaiDiaw() {
             <h1 className="mt-8 text-manifeste font-light">Maï Diaw</h1>
             <p className="mt-6 font-serif text-titre font-light italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
             <p className="mt-10 max-w-lecture text-chapo text-gris">
-              Elle met en relation celles et ceux qui ont construit — en amour, en amitié comme en
-              affaires — et les accompagne pour qu&apos;ils ne choisissent plus rien par défaut.
+              {PROMESSE} {PARCE_QUE}
             </p>
           </div>
           <Portrait
@@ -55,6 +56,17 @@ export default function MaiDiaw() {
             priority
             className="mx-auto w-full max-w-md"
           />
+        </div>
+      </Section>
+
+      <Section ton="bordeaux">
+        <p className="flex items-center gap-4 text-eyebrow font-medium uppercase text-champagne">
+          <span aria-hidden className="h-px w-8 bg-current opacity-60" />
+          Trois convergences
+        </p>
+        <h2 className="mt-6 max-w-3xl text-titre font-light">Une même méthode, trois dimensions de votre vie.</h2>
+        <div className="mt-14">
+          <Convergences surSombre />
         </div>
       </Section>
 
@@ -97,7 +109,7 @@ export default function MaiDiaw() {
         </Section>
       )}
 
-      <Section ton="bordeaux" etroit>
+      <Section ton="encre" etroit>
         <h2 className="text-titre">Parlons-en de vive voix.</h2>
         <div className="mt-10">
           <CTA ton="sombre" />
