@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     default: "IdentitX",
     template: "%s · IdentitX",
   },
-  description: "Connaissance de soi — explore qui tu es, une quête sans fin.",
+  description: "IdentitX",
   applicationName: "IdentitX",
   appleWebApp: {
     capable: true,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "IdentitX",
-    description: "Connaissance de soi — explore qui tu es, une quête sans fin.",
+    // Pas de description : aucun sous-titre sous l'aperçu du lien.
     type: "website",
     locale: "fr_FR",
     siteName: "IdentitX",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "IdentitX",
-    description: "Connaissance de soi — explore qui tu es, une quête sans fin.",
+    // Pas de description : aucun sous-titre sous l'aperçu du lien.
     // Couverture : app/twitter-image.png (même visuel que l'OpenGraph).
   },
 };
