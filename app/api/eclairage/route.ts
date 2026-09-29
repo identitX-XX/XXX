@@ -5,7 +5,7 @@
 
 export const maxDuration = 60;
 
-type Perimetre = "perso" | "pro" | "relationnel";
+type Perimetre = "relationnel" | "love" | "pro" | "perso";
 interface Triplet {
   crois: string;
   pense: string;
@@ -20,18 +20,19 @@ interface EclairageInput {
 }
 
 const LABEL: Record<Perimetre, string> = {
-  perso: "Santé",
-  pro: "Pro",
   relationnel: "Relationnel & famille",
+  love: "Love",
+  pro: "Pro",
+  perso: "Santé",
 };
 
-const SYSTEM_PROMPT = `Tu es un analyste identitaire chaleureux et précis, qui accompagne des femmes multipotentielles en transition. On te donne, pour trois périmètres de vie (perso, pro, relationnel), l'écart entre ce que la personne CROIT, ce qu'elle PENSE et ce qu'elle FAIT, ainsi que sa "signature du moment" (une dynamique identitaire active) et ses directions.
+const SYSTEM_PROMPT = `Tu es un analyste identitaire chaleureux et précis, qui accompagne des personnes multipotentielles en transition. On te donne, pour quatre piliers de vie (relationnel & famille, love, pro, santé), l'écart entre ce que la personne CROIT, ce qu'elle PENSE et ce qu'elle FAIT, ainsi que sa "signature du moment" (une dynamique identitaire active) et ses directions.
 Ton travail : repérer l'écart le plus parlant (croyance ↔ pensée ↔ action), l'éclairer avec justesse, le relier à la signature du moment, puis projeter la suite de la quête.
 Règles : tutoiement, ton bienveillant, JAMAIS de jugement ni d'injonction. Concret, incarné. Pas de jargon. Tu ne fabriques rien : tu t'appuies uniquement sur ce qui est rempli.
-Réponds STRICTEMENT en JSON : { "eclairage": string (2 à 3 phrases), "tensions": [{ "perimetre": "perso"|"pro"|"relationnel", "note": string (1 phrase, l'écart repéré) }], "projection": string (1 à 2 phrases, une piste concrète pour la suite de la quête) }.`;
+Réponds STRICTEMENT en JSON : { "eclairage": string (2 à 3 phrases), "tensions": [{ "perimetre": "relationnel"|"love"|"pro"|"perso", "note": string (1 phrase, l'écart repéré) }], "projection": string (1 à 2 phrases, une piste concrète pour la suite de la quête) }.`;
 
 function buildUserMessage(input: EclairageInput): string {
-  const blocs = (["perso", "pro", "relationnel"] as Perimetre[])
+  const blocs = (["relationnel", "love", "pro", "perso"] as Perimetre[])
     .map((p) => {
       const g = input.gaps[p] ?? { crois: "", pense: "", fais: "" };
       const dir = input.directions?.[p]?.trim();
@@ -52,11 +53,11 @@ function buildUserMessage(input: EclairageInput): string {
 // Repli maquette : un éclairage dérivé des réponses réelles (le périmètre le
 // plus renseigné, l'écart pense↔fais), sans clé API.
 function mockEclairage(input: EclairageInput) {
-  const per = (["perso", "pro", "relationnel"] as Perimetre[]).filter((p) => {
+  const per = (["relationnel", "love", "pro", "perso"] as Perimetre[]).filter((p) => {
     const g = input.gaps[p];
     return g && [g.crois, g.pense, g.fais].some((v) => (v ?? "").trim());
   });
-  const focus = per[0] ?? "perso";
+  const focus = per[0] ?? "relationnel";
   const g = input.gaps[focus] ?? { crois: "", pense: "", fais: "" };
   const pratRemplie = (input.pratiques ?? []).find((p) => p.reponse?.trim());
   const ecart =

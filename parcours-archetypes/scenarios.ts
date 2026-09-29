@@ -8,7 +8,7 @@ import { EtatEvolution, SphereKey } from "./types";
 import { archetypeByKey, sphereByKey } from "./archetypes";
 import { equilibreSpheres, archetypeDominant, topArchetypes } from "./indicateurs";
 
-export type Perimetre = "perso" | "pro" | "relationnel";
+export type Perimetre = "perso" | "pro" | "relationnel" | "love";
 
 export interface Scenario {
   perimetre: Perimetre;
@@ -22,6 +22,7 @@ const LABEL_PERIMETRE: Record<Perimetre, string> = {
   perso: "Santé",
   pro: "Pro",
   relationnel: "Relationnel & famille",
+  love: "Love",
 };
 
 // Sphères → périmètres (le relationnel = Relations ; le pro = Travail ;
@@ -78,6 +79,13 @@ export function genererScenarios(
         .map((t) => t.name)
         .join(", ")}) te donnent de quoi t'appuyer.`,
       appui: top[0]?.name ?? dom.name,
+    },
+    {
+      perimetre: "love",
+      mouvement: "Explorer",
+      titre: "Ose en amour",
+      texte: `Côté love, demande (ou offre) ce qui compte vraiment — une tendresse, une limite, une vérité tue. « ${dominantActuel} » peut aussi s'exprimer là, pas seulement au travail : laisse-la parler dans l'intime.`,
+      appui: sec.name,
     },
   ];
 }

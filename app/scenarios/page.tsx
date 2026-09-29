@@ -23,15 +23,15 @@ export default function TurbinePage() {
     useCarteTurbine();
 
   // Amorce automatique : si aucune direction n'a encore été posée ICI mais que
-  // l'utilisatrice a déjà défini ses directions (objectifs perso / pro /
-  // relationnel), on les injecte pour que les scénarios surgissent SANS
+  // l'utilisatrice a déjà défini ses directions (les 4 piliers : relationnel &
+  // famille, love, pro, santé), on les injecte pour que les scénarios surgissent SANS
   // re-saisie manuelle. Seuls les exercices restent à remplir à la main.
   const seeded = useRef(false);
   useEffect(() => {
     if (seeded.current) return;
     if (directions.length > 0) { seeded.current = true; return; }
     if (!objectifs) return;
-    const items = [objectifs.perso, objectifs.pro, objectifs.relationnel]
+    const items = [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso]
       .map((v) => v?.trim())
       .filter((v): v is string => Boolean(v));
     if (items.length === 0) return;
