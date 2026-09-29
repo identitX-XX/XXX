@@ -120,13 +120,14 @@ html.pal-aubergine.light {
 /* Lin & Prune — clair par défaut : lin chaud, accent prune profond. Féminin,
    éditorial, sobre. C'est l'identité de la marque (défaut de l'app). */
 html.pal-lin {
-  /* DÉFAUT — Fusain & blanc : fond charbon profond, cartes charbon détachées,
-     texte et traits blancs. Monochrome PUR (aucune couleur), façon Co-Star.
-     L'accent est un gris clair : boutons gris clair à texte foncé, liserés gris. */
-  --noir: #151517; --surface: #1c1c1f; --raised: #26262a;
-  --ink: #f2f2f3; --muted: #9a9aa1; --line: rgba(255, 255, 255, 0.13);
-  --fuchsia: #d0d0d4; --orange: #d0d0d4; --slate: #9a9aa1;
-  --prune: #cdcdd1; /* liseré neutralisé en gris clair (plus de prune) */
+  /* DÉFAUT — Fusain & blanc : fond charbon PROFOND, cartes en gris CLAIR nettement
+     détachées (fort contraste cadre/fond), texte et traits blancs. Monochrome PUR
+     (aucune couleur), façon Co-Star. L'accent est un gris clair : boutons gris
+     clair à texte foncé, liserés gris. */
+  --noir: #121214; --surface: #26262c; --raised: #34343c;
+  --ink: #f4f4f5; --muted: #adadb4; --line: rgba(255, 255, 255, 0.18);
+  --fuchsia: #d6d6da; --orange: #d6d6da; --slate: #adadb4;
+  --prune: #d2d2d6; /* liseré neutralisé en gris clair (plus de prune) */
   --on-brand: #16161a; /* texte foncé sur les boutons gris clair */
 }
 html.pal-lin.light {
