@@ -117,8 +117,8 @@ export function AuditEnergetique() {
                 </span>
               </div>
               <div
-                className="h-2.5 w-full overflow-hidden rounded-full"
-                style={{ background: "color-mix(in srgb, var(--ink) 8%, transparent)" }}
+                className="h-1 w-full overflow-hidden rounded-full"
+                style={{ background: "color-mix(in srgb, var(--ink) 10%, transparent)" }}
               >
                 <div
                   className="h-full rounded-full transition-[width] duration-700"

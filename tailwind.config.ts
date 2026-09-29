@@ -39,8 +39,8 @@ const config: Config = {
       boxShadow: {
         // Ombres MATES et chaudes (esprit danois) : plus de halo coloré, mais
         // assez présentes pour détacher les cartes du fond (contours nets).
-        soft: "0 10px 26px -18px rgba(60,45,35,0.42)",
-        glow: "0 6px 16px -10px rgba(60,45,35,0.4)",
+        soft: "0 8px 24px -20px rgba(0,0,0,0.55)",
+        glow: "0 6px 16px -12px rgba(0,0,0,0.4)",
       },
       keyframes: {
         "fade-up": {
