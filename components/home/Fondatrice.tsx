@@ -3,7 +3,7 @@ import { Convergences } from "@/components/ui/Convergences";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
-import { PARCE_QUE, PROMESSE } from "@/lib/positionnement";
+import { PRECISION, PROMESSE } from "@/lib/positionnement";
 
 /** Un visage derrière la marque : la confiance commence par savoir à qui l'on parle. */
 export function Fondatrice() {
@@ -21,9 +21,11 @@ export function Fondatrice() {
           <Eyebrow>La fondatrice</Eyebrow>
           <h2 className="mt-6 text-manifeste font-light">Maï Diaw</h2>
           <p className="mt-4 font-serif text-titre font-light italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
-          <p className="mt-8 max-w-lecture text-chapo text-gris">
-            {PROMESSE} {PARCE_QUE}
+          <p className="mt-8 font-serif text-titre font-medium leading-none">
+            {PROMESSE.avant}{" "}
+            <span className="italic text-bordeaux">{PROMESSE.apres}</span>
           </p>
+          <p className="mt-6 max-w-lecture text-chapo text-gris">{PRECISION}</p>
           <div className="mt-10">
             <Convergences compact />
           </div>

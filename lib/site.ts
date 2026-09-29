@@ -4,7 +4,7 @@ export const site = {
   devise: "Choisir sa vie. Choisir ses relations. Choisir son cercle.",
   baseUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://celiboss.fr",
   description:
-    "CéliBOSS™, par Maï Diaw, matchmakeuse d'exception : faire converger votre mindset, vos relations et votre style de vie vers leur meilleure version.",
+    "CéliBOSS™, par Maï Diaw, matchmakeuse d'exception. Aligner d'abord. Présenter ensuite.",
   locale: "fr_FR",
   og: {
     fond: "#F3EDE3",

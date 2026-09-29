@@ -4,12 +4,12 @@ import { CTA } from "@/components/ui/CTA";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
-import { PARCE_QUE, PROMESSE } from "@/lib/positionnement";
+import { PRECISION, PROMESSE } from "@/lib/positionnement";
 
 export const metadata: Metadata = {
   title: "Maï Diaw",
   description:
-    "Maï Diaw, matchmakeuse d'exception, fait converger votre mindset, vos relations et votre style de vie vers leur meilleure version.",
+    "Maï Diaw, matchmakeuse d'exception. Elle accorde votre mental, votre cœur et votre vie, puis provoque la rencontre qui compte.",
 };
 
 // Faits issus de la bio de Maï Diaw. Parcours détaillé et presse : à fournir
@@ -44,9 +44,11 @@ export default function MaiDiaw() {
             <Eyebrow>Fondatrice de CéliBOSS™</Eyebrow>
             <h1 className="mt-8 text-manifeste font-light">Maï Diaw</h1>
             <p className="mt-6 font-serif text-titre font-light italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
-            <p className="mt-10 max-w-lecture text-chapo text-gris">
-              {PROMESSE} {PARCE_QUE}
-            </p>
+            <p className="mt-8 font-serif text-titre font-medium leading-none">
+            {PROMESSE.avant}{" "}
+            <span className="italic text-bordeaux">{PROMESSE.apres}</span>
+          </p>
+          <p className="mt-6 max-w-lecture text-chapo text-gris">{PRECISION}</p>
           </div>
           <Portrait
             src="/images/mai-diaw-tailleur.jpg"
