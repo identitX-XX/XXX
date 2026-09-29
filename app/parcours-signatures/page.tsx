@@ -16,6 +16,7 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { contenuJour } from "@/parcours-archetypes/hydration";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
+import { auditDepuisEtat } from "@/parcours-archetypes/auditEnergetique";
 import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
 import { getEmail, pushEtatNow } from "@/lib/etatSync";
 import { anonId } from "@/lib/metrics";
@@ -211,6 +212,11 @@ function MaQueteApercu({
   etat: EtatEvolution;
 }) {
   const reinitialiser = useParcoursStore((s) => s.reinitialiser);
+  const climat = useParcoursStore((s) => s.climat);
+  // Focus ÉVOLUTIF : lu dans l'audit énergétique (automatique, robuste). Le pilier
+  // le plus bas devient le focus du moment — il change à mesure que l'énergie et
+  // les directions bougent. C'est ce qui fait « évoluer » la quête au fil du vécu.
+  const audit = auditDepuisEtat(etat, objectifs, climat, diagnostic);
   // Confirmation DANS la page (pas window.confirm : la pop-up système ne
   // s'affiche pas quand l'app est ajoutée à l'écran d'accueil sur iOS → le
   // clic restait sans effet).
@@ -288,11 +294,33 @@ function MaQueteApercu({
 
   return (
     <section className="mb-8 rounded-2xl border border-line bg-surface p-6 animate-fade-up">
-      <div className="text-xs font-semibold uppercase tracking-[0.25em] text-fuchsia">Ma quête</div>
+      <div className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-fuchsia">Ma quête</div>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
         Ta quête relie ce que tu observes, ce que tu veux faire émerger et les
         directions que tu choisis d'explorer. Chaque fil est cliquable.
       </p>
+
+      {/* Focus évolutif — piloté par l'audit énergétique : le pilier le plus bas
+          devient le focus du moment. Il change au fil du vécu → la quête évolue. */}
+      <div
+        className="mt-5 rounded-xl border border-line p-4"
+        style={{ background: "color-mix(in srgb, var(--ink) 5%, transparent)" }}
+      >
+        <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-fuchsia">
+          Ton focus qui évolue
+        </div>
+        <p className="mt-1.5 text-sm leading-relaxed text-ink">
+          En ce moment, ton énergie <b>{audit.aRecharger.label}</b> est au plus bas
+          ({audit.aRecharger.credit}/100).{" "}
+          {audit.aRecharger.direction
+            ? `Ta direction « ${audit.aRecharger.direction} » est le levier du jour.`
+            : "Pose-lui une direction pour commencer à la recharger."}
+        </p>
+        <p className="mt-1 text-xs text-muted">
+          Ta ressource : {audit.ressource.label}. Ce focus se déplace à mesure que
+          tu avances — ta quête n'est jamais deux fois la même.
+        </p>
+      </div>
       <div className="mt-5 grid gap-4 sm:grid-cols-2">
         {sections.map((s) => (
           <Link
