@@ -3,6 +3,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Section } from "@/components/ui/Section";
 import { Orbite } from "@/components/ui/Orbite";
 import { Ornement } from "@/components/ui/Ornement";
+import { PROMESSE } from "@/lib/positionnement";
 import { Wordmark } from "@/components/ui/Wordmark";
 
 // Texte de marque signé Maï Diaw — reproduit tel quel. Ne pas réécrire.
@@ -22,8 +23,7 @@ export function ManifesteOuverture() {
             <span className="italic text-champagne">Choisir son cercle.</span>
           </h1>
           <p className="mt-10 max-w-md text-lg leading-relaxed text-ivoire/75">
-            Matchmaking sentimental, relationnel et pro. Pour les femmes et les hommes qui ne veulent
-            plus choisir leurs relations par défaut.
+            {PROMESSE}
           </p>
           <div className="mt-12 flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             <CTA ton="sombre" />
