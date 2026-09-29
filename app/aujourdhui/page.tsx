@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { Reveal } from "@/components/Reveal";
+import { AuditEnergetique } from "@/components/AuditEnergetique";
 import { ConstellationVivante } from "@/components/ConstellationVivante";
 import { LeChemin } from "@/components/LeChemin";
 import type { Perimetre } from "@/parcours-gap/perimetres";
@@ -179,8 +180,15 @@ export default function AujourdhuiPage() {
         </Card>
       )}
 
+      {/* Pièce maîtresse : l'audit de crédits énergétiques, à la place de la
+          capsule. Lu automatiquement dans les données déjà connues, il rend
+          visible où l'énergie est haute/basse et induit une direction. */}
+      <AuditEnergetique />
+
       {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
-      <LeChemin />
+      <div className="mt-4">
+        <LeChemin />
+      </div>
 
       {/* Le fil des pactes : l'engagement pris dans la Quête revient te chercher
           le lendemain. C'est ce qui donne un « payoff » au jour suivant. */}

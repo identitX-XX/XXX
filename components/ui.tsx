@@ -11,8 +11,15 @@ export function Card({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-line bg-surface shadow-soft ${className}`}
-      style={{ borderTopWidth: 2, borderTopColor: "var(--prune)" }}
+      className={`rounded-2xl border border-line shadow-soft ${className}`}
+      style={{
+        // Nuance & profondeur : un dégradé subtil du haut (plus clair) vers le
+        // fond, plutôt qu'un aplat de gris — la carte « respire ».
+        background:
+          "linear-gradient(180deg, color-mix(in srgb, var(--raised) 55%, var(--surface)), var(--surface) 60%)",
+        borderTopWidth: 2,
+        borderTopColor: "var(--prune)",
+      }}
     >
       {children}
     </div>
