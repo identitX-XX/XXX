@@ -1,24 +1,37 @@
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
-// Aucun prix affiché : les formules se discutent en entretien.
+// Les trois terrains du matchmaking de Maï Diaw. Aucun prix affiché : tout se
+// discute en entretien.
 const FORMULES = [
-  { nom: "Essentielle", duree: "6 mois", texte: "Présentations sélectionnées et débrief après chaque rencontre." },
-  { nom: "Signature", duree: "12 mois", texte: "L'accompagnement complet : présentations, coaching de posture et suivi rapproché." },
-  { nom: "Privée", duree: "Sur mesure", texte: "Recherche dédiée, discrétion absolue, réseau étendu à l'international." },
+  {
+    nom: "Sentimental",
+    accroche: "Rencontrer la bonne personne",
+    texte: "Des présentations choisies à la main, pour une relation amoureuse engagée et durable.",
+  },
+  {
+    nom: "Relationnel",
+    accroche: "Choisir son cercle",
+    texte: "Élargir son entourage avec des personnes alignées : amitiés, réseau de confiance, affinités.",
+  },
+  {
+    nom: "Pro",
+    accroche: "Les bonnes connexions",
+    texte: "Associé·e, mentor, partenaire : la mise en relation professionnelle, avec le même discernement.",
+  },
 ];
 
 export function Formules() {
   return (
     <>
-      <Eyebrow>Les formules</Eyebrow>
-      <h2 className="mt-6 text-titre">Trois niveaux d&apos;engagement.</h2>
+      <Eyebrow>Trois terrains de rencontre</Eyebrow>
+      <h2 className="mt-6 max-w-3xl text-titre">Amoureuses, amicales, professionnelles. Toujours choisies.</h2>
       <ul className="mt-14 grid gap-px bg-filet md:grid-cols-3">
         {FORMULES.map((f) => (
           <li key={f.nom} className="bg-sable p-10">
-            <p className="text-eyebrow uppercase text-gris">{f.duree}</p>
-            <h3 className="mt-4 text-3xl">{f.nom}</h3>
+            <p className="text-eyebrow uppercase text-gris">{f.accroche}</p>
+            <h3 className="mt-4 text-4xl">{f.nom}</h3>
             <p className="mt-4 text-gris">{f.texte}</p>
-            <p className="mt-10 text-sm uppercase tracking-[0.14em] text-bronze">Sur entretien</p>
+            <p className="mt-10 text-sm uppercase tracking-[0.14em] text-bordeaux">Sur entretien</p>
           </li>
         ))}
       </ul>

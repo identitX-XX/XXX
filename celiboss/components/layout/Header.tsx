@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { Wordmark } from "@/components/ui/Wordmark";
 import { site } from "@/lib/site";
 
 const NAV = [
@@ -33,9 +34,8 @@ export function Header() {
     <>
     <header className="sticky top-0 z-40 border-b border-filet bg-ivoire/90 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-page items-center justify-between px-6">
-        <Link href="/" className="font-serif text-2xl tracking-tight">
-          {site.nom}
-          <span className="text-bronze">.</span>
+        <Link href="/" className="text-2xl text-encre" aria-label={`${site.nom}, accueil`}>
+          <Wordmark />
         </Link>
 
         <nav aria-label="Principale" className="hidden items-center gap-10 md:flex">
@@ -49,7 +49,7 @@ export function Header() {
               {l.label}
             </Link>
           ))}
-          <Link href="/appel" className="text-sm uppercase tracking-[0.14em] text-bronze hover:text-bronze-fonce">
+          <Link href="/appel" className="text-sm uppercase tracking-[0.14em] text-bordeaux hover:text-encre">
             L&apos;appel
           </Link>
         </nav>
@@ -81,7 +81,7 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <p className="text-sm text-gris">{site.signature}</p>
+          <p className="font-serif text-lg italic text-gris">{site.devise}</p>
         </nav>
       )}
     </>

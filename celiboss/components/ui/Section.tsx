@@ -1,8 +1,8 @@
 type Props = {
   children: React.ReactNode;
   id?: string;
-  /** "sable" pour alterner les fonds et marquer le changement d'idée. */
-  ton?: "ivoire" | "sable" | "encre";
+  /** Alterner les fonds marque le changement d'idée. */
+  ton?: "ivoire" | "sable" | "encre" | "bordeaux";
   etroit?: boolean;
   className?: string;
 };
@@ -11,6 +11,7 @@ const TONS = {
   ivoire: "bg-ivoire text-encre",
   sable: "bg-sable text-encre",
   encre: "bg-encre text-ivoire",
+  bordeaux: "bg-bordeaux text-ivoire",
 };
 
 /** Wrapper de rythme vertical : une section = une idée = un écran. */

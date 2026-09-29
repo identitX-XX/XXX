@@ -8,7 +8,7 @@ import { isRubrique, RUBRIQUE_IDS, RUBRIQUES } from "@/lib/rubriques";
 
 export const metadata: Metadata = {
   title: "Le Journal",
-  description: "Relationnel, mindset, posture & image, art de vivre. Le Journal de Celiboss.",
+  description: "Relationnel, intelligence émotionnelle, mindset, posture & image. Le Journal de CéliBOSS™.",
 };
 
 export default function Journal({ searchParams }: { searchParams: { rubrique?: string } }) {
@@ -20,7 +20,7 @@ export default function Journal({ searchParams }: { searchParams: { rubrique?: s
       key={href}
       href={href}
       aria-current={courant ? "page" : undefined}
-      className="border-b border-transparent pb-1 text-sm uppercase tracking-[0.14em] text-gris hover:text-encre aria-[current=page]:border-bronze aria-[current=page]:text-encre"
+      className="border-b border-transparent pb-1 text-sm uppercase tracking-[0.14em] text-gris hover:text-encre aria-[current=page]:border-bordeaux aria-[current=page]:text-encre"
     >
       {label}
     </Link>

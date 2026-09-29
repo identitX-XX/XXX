@@ -1,13 +1,15 @@
 export const site = {
-  nom: "Celiboss",
+  nom: "CéliBOSS",
   signature: "par Maï Diaw",
+  devise: "Choisir sa vie. Choisir ses relations. Choisir son cercle.",
   baseUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://celiboss.fr",
   description:
-    "Le média des femmes qui choisissent. Journal, méthode et matchmaking sélectif par Maï Diaw.",
+    "CéliBOSS, par Maï Diaw : matchmaking d'exception, média, coaching et événements pour celles et ceux qui ne veulent plus choisir leurs relations par défaut.",
   locale: "fr_FR",
   og: {
-    fond: "#F4EFE7",
-    encre: "#1C1A17",
-    bronze: "#9A6B3F",
+    fond: "#F3EDE3",
+    encre: "#291D1B",
+    bordeaux: "#5A1726",
+    champagne: "#B7A27A",
   },
 } as const;

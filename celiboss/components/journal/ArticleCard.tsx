@@ -13,7 +13,7 @@ export function ArticleCard({ article }: { article: Omit<Article, "contenu"> }) 
         </span>
       </div>
       <h2 className="mt-4 text-3xl leading-tight">
-        <Link href={`/journal/${article.slug}`} className="group-hover:text-bronze-fonce">
+        <Link href={`/journal/${article.slug}`} className="group-hover:text-encre">
           {article.titre}
         </Link>
       </h2>
