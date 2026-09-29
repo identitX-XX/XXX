@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
   ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
-  MessageCircle, Sunrise, Moon, Compass, Check, Route, Dumbbell,
+  MessageCircle, Compass, Check, Route, Dumbbell,
   Briefcase, Users, RefreshCw, Heart, HeartPulse,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
@@ -14,9 +14,8 @@ import { ConstellationVivante } from "@/components/ConstellationVivante";
 import { LeChemin } from "@/components/LeChemin";
 import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { archetypeByKey, phaseDuJour, emotionByKey } from "@/parcours-archetypes/archetypes";
+import { archetypeByKey, emotionByKey } from "@/parcours-archetypes/archetypes";
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
-import { gesteDuJour } from "@/parcours-archetypes/variateJour";
 import { pacteAVerifier, TenuPacte } from "@/parcours-archetypes/pactes";
 import { progression, momentum, radarCourant } from "@/parcours-archetypes/indicateurs";
 import { contenuJour } from "@/parcours-archetypes/hydration";
@@ -105,11 +104,6 @@ export default function AujourdhuiPage() {
   const n = contenuJour(sessionJour);
   const jour = parcours.jours.find((j) => j.n === n) ?? null;
   const arch = jour ? archetypeByKey[jour.archetype] : null;
-  // Signature « d'avant » — pour rendre le changement VISIBLE d'une capsule à
-  // l'autre (la capsule cesse de sembler figée).
-  const hierJour = n > 1 ? parcours.jours.find((j) => j.n === n - 1) : null;
-  const hierArch = hierJour ? archetypeByKey[hierJour.archetype] : null;
-  const phase = phaseDuJour(n);
   const dejaFait = Boolean(reponses[sessionJour]);
   const salut = salutation();
 
@@ -150,7 +144,7 @@ export default function AujourdhuiPage() {
       <PageHead
         eyebrow={salut.eyebrow}
         title={salut.titre}
-        sub="Une seule chose compte : vivre ta capsule. Le reste peut attendre."
+        sub="Explore ta signature à ton rythme. Le reste peut attendre."
       />
 
       {/* Retour de session : reprendre là où on en était, ou tout recommencer. */}
@@ -211,68 +205,6 @@ export default function AujourdhuiPage() {
 
       {/* Une première lecture sourcée sur tes réponses, tant que rien n'est encore posé. */}
       {prog.faits === 0 && <PremiereLecture />}
-
-      <Card className="p-6 sm:p-8 animate-fade-up">
-        <div>
-          {/* La capsule + CTA — sans jour ni progression : à vivre quand tu veux. */}
-          <div className="text-center sm:text-left">
-            <div className="flex items-center justify-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia sm:justify-start">
-              <span>Ta capsule</span>
-            </div>
-            <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[1.7rem]">
-              {arch ? arch.name : "Ta capsule"}
-            </h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              {arch?.lens}
-            </p>
-            {arch && (
-              <p className="mt-1.5 text-xs text-fuchsia">
-                {hierArch && hierArch.name !== arch.name
-                  ? `Autre facette : ${hierArch.name} — ta signature bouge selon ce que tu explores.`
-                  : "Ta signature du moment — elle évolue au fil de tes explorations."}
-              </p>
-            )}
-
-            {/* Les deux moments de la capsule, nommés — pour qu'ils cessent
-                d'être invisibles derrière un simple « Vivre ma journée ». */}
-            {arch && (
-              <div className="mt-4 grid gap-2 text-left">
-                <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
-                  <Sunrise size={16} className="mt-0.5 flex-none text-fuchsia" />
-                  <div>
-                    <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
-                      Le geste · à vivre
-                    </div>
-                    <p className="mt-0.5 text-sm leading-snug text-ink">{gesteDuJour(arch, n)}</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5 rounded-xl border border-line bg-noir/20 px-3.5 py-2.5">
-                  <Moon size={16} className="mt-0.5 flex-none text-fuchsia" />
-                  <div>
-                    <div className="text-[12px] font-bold uppercase tracking-[0.16em] text-fuchsia">
-                      Le bilan · quand tu veux ≈ 5 min
-                    </div>
-                    <p className="mt-0.5 text-sm leading-snug text-ink">
-                      Note ce que tu as observé — deux curseurs, quelques mots.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <Link
-              href="/parcours-signatures"
-              className="group mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-[13px] font-medium text-[color:var(--on-brand)] transition-transform hover:scale-[1.02]"
-            >
-              {dejaFait ? "Revoir ma capsule" : "Vivre ma capsule"}
-              <ArrowRight
-                size={16}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </Link>
-          </div>
-        </div>
-      </Card>
 
       {/* Ta constellation vivante — la mémoire visuelle du parcours : elle gagne
           une étoile à chaque capsule vécue. Une raison douce de revenir. */}
