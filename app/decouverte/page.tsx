@@ -84,7 +84,7 @@ export default function DecouvertePage() {
           </p>
           <button
             onClick={() => setEtape("jeu")}
-            className="mt-8 inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+            className="mt-8 inline-flex min-h-[3.25rem] items-center gap-2 rounded-lg brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] transition-transform"
           >
             Commencer — 3 min
             <ArrowRight size={17} />
@@ -153,7 +153,7 @@ export default function DecouvertePage() {
           </div>
           <button
             onClick={() => setEtape("carte")}
-            className="mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.01]"
+            className="mt-8 inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-lg brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] transition-transform hover:scale-[1.01]"
           >
             Voir ma carte s'éclairer
             <ArrowRight size={17} />
@@ -181,7 +181,7 @@ export default function DecouvertePage() {
           </p>
           <button
             onClick={() => setEtape("ouverture")}
-            className="mt-7 inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+            className="mt-7 inline-flex min-h-[3.25rem] items-center gap-2 rounded-lg brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] transition-transform"
           >
             Continuer
             <ArrowRight size={17} />
@@ -210,7 +210,7 @@ export default function DecouvertePage() {
             </Link>
             <Link
               href="/aujourdhui"
-              className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow"
+              className="inline-flex min-h-[3.25rem] w-full max-w-xs items-center justify-center gap-2 rounded-lg brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)]"
             >
               Entrer dans IdentitX
               <ArrowRight size={17} />

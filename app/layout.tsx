@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
@@ -7,16 +7,14 @@ import { StateSync } from "@/components/StateSync";
 import { EtatSync } from "@/components/EtatSync";
 import { VersionGuard } from "@/components/VersionGuard";
 
-// Typographie ÉDITORIALE (premium, graphique — esprit Co-Star) : un serif de
-// caractère à fort contraste pour les titres (Fraunces — « haute couture »,
-// optical-sizing), un MONOSPACE pour les petits libellés/surtitres (la signature
-// graphique), et une sans neutre pour le corps (Inter).
-// --font-fraunces = titres · --font-mono = libellés · --font-inter = corps.
-const fraunces = Fraunces({
+// Typographie MODERNE & épurée : un grotesque contemporain pour les titres
+// (Space Grotesk — géométrique, net, actuel), un MONOSPACE pour les petits
+// libellés/surtitres (touche graphique), et une sans neutre pour le corps (Inter).
+// La variable garde son nom historique --font-fraunces = titres.
+const fraunces = Space_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["500", "600", "700"],
 });
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],

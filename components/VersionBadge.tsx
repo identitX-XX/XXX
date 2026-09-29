@@ -45,7 +45,7 @@ export function VersionBadge() {
       <div>
         Version <span className="font-mono text-ink">{chargee}</span>
         {!aJour && (
-          <span className="ml-2 rounded-full bg-fuchsia/15 px-2 py-0.5 text-[11px] text-fuchsia">
+          <span className="ml-2 rounded-lg bg-fuchsia/15 px-2 py-0.5 text-[11px] text-fuchsia">
             maj dispo · {enLigne}
           </span>
         )}

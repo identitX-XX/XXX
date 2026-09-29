@@ -28,7 +28,7 @@ export default function LectureSignaturePage() {
           title="Révèle d'abord ta signature"
           sub="Cette lecture se compose à partir de ta signature — commence par les douze questions."
         />
-        <Link href="/parcours-signatures" className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow">
+        <Link href="/parcours-signatures" className="inline-flex items-center gap-2 rounded-lg brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)]">
           Révéler ma signature <ArrowRight size={16} />
         </Link>
       </div>

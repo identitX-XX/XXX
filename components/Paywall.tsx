@@ -108,7 +108,7 @@ export function Paywall({
         <button
           onClick={acheter}
           disabled={busy}
-          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-7 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02] disabled:opacity-60"
+          className="mt-5 inline-flex items-center gap-2 rounded-lg brand-gradient px-7 py-3 text-sm font-semibold text-[color:var(--on-brand)] transition-transform disabled:opacity-60"
         >
           <Sparkles size={16} />
           {busy ? "Redirection…" : `Débloquer à ${prix}`}

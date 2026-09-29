@@ -100,7 +100,7 @@ export default function RapportAnalytiquePage() {
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow"
+          className="inline-flex items-center gap-2 rounded-lg brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)]"
         >
           Commencer ma quête <ArrowRight size={16} />
         </Link>
@@ -145,7 +145,7 @@ export default function RapportAnalytiquePage() {
       <div className="no-print mb-8 flex flex-wrap gap-3">
         <button
           onClick={() => window.print()}
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow"
+          className="inline-flex items-center gap-2 rounded-lg brand-gradient px-5 py-2.5 text-sm font-semibold text-[color:var(--on-brand)]"
         >
           <Printer size={16} /> Imprimer / PDF
         </button>
@@ -298,7 +298,7 @@ function Barre({
         </span>
       </div>
       <div className="rapport-bar-bg h-2 overflow-hidden rounded-full bg-line">
-        <div className="h-full rounded-full brand-gradient" style={{ width: `${pct}%` }} />
+        <div className="h-full rounded-lg brand-gradient" style={{ width: `${pct}%` }} />
       </div>
     </div>
   );

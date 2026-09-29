@@ -137,7 +137,7 @@ export default function RapportPage() {
           return (
             <Card
               key={s.perimetre}
-              className={`flex flex-col p-6 transition-all ${on ? "border-fuchsia shadow-glow" : ""}`}
+              className={`flex flex-col p-6 transition-all ${on ? "border-fuchsia" : ""}`}
             >
               <div className="text-xs font-semibold uppercase tracking-wider text-fuchsia">
                 {labelPerimetre(s.perimetre)} · {s.mouvement}

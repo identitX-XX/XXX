@@ -60,7 +60,7 @@ export function JourneyBar() {
         <Link
           href={step.href}
           aria-label={step.cta}
-          className="group flex flex-none items-center gap-1.5 rounded-full brand-gradient px-3.5 py-2 text-xs font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+          className="group flex flex-none items-center gap-1.5 rounded-lg brand-gradient px-3.5 py-2 text-xs font-semibold text-[color:var(--on-brand)] transition-transform"
         >
           {step.ctaCourt}
           <ArrowRight

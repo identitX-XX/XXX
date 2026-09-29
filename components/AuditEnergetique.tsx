@@ -69,11 +69,9 @@ export function AuditEnergetique() {
         className="relative overflow-hidden rounded-2xl border border-line p-6 shadow-soft sm:p-7"
         style={{
           // Profondeur : dégradé subtil du haut (plus clair) vers le fond — de la
-          // nuance, pas un aplat.
+          // nuance, pas un aplat. Lignes épurées : un seul filet fin (pas de liseré).
           background:
-            "linear-gradient(180deg, color-mix(in srgb, var(--raised) 75%, var(--surface)), var(--surface) 58%)",
-          borderTopWidth: 2,
-          borderTopColor: "var(--prune)",
+            "linear-gradient(180deg, color-mix(in srgb, var(--raised) 70%, var(--surface)), var(--surface) 58%)",
         }}
       >
         {/* Halo diffus en haut à droite pour la profondeur. */}

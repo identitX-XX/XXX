@@ -83,7 +83,7 @@ export default function QuetePage() {
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow"
+          className="inline-flex items-center gap-2 rounded-lg brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)]"
         >
           Révéler ma signature
           <ArrowRight size={16} />
@@ -164,7 +164,7 @@ function QueteMonde({
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow"
+          className="inline-flex items-center gap-2 rounded-lg brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)]"
         >
           Retour à ma quête <ArrowRight size={16} />
         </Link>

@@ -225,10 +225,10 @@ function btnRev(primary: boolean): React.CSSProperties {
     fontFamily: sans,
     fontSize: 12.5,
     padding: "6px 13px",
-    borderRadius: 999,
+    borderRadius: 9,
     cursor: "pointer",
     color: primary ? "var(--on-brand)" : MUTED,
     border: primary ? "none" : `1px solid ${LINE}`,
-    background: primary ? "linear-gradient(90deg,var(--fuchsia),var(--orange))" : "transparent",
+    background: primary ? "var(--fuchsia)" : "transparent",
   };
 }

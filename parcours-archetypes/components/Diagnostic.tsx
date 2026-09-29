@@ -208,9 +208,9 @@ const optBtn: React.CSSProperties = {
   fontFamily: sans, fontSize: 15, cursor: "pointer", transition: "border-color .2s",
 };
 const cta: React.CSSProperties = {
-  marginTop: 22, width: "100%", padding: "17px 26px", minHeight: 52, borderRadius: 999,
+  marginTop: 22, width: "100%", padding: "17px 26px", minHeight: 52, borderRadius: 12,
   border: "none", color: "var(--on-brand)", fontSize: 16, fontWeight: 600, cursor: "pointer",
-  background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+  background: FUCHSIA,
 };
 const ghost: React.CSSProperties = {
   marginTop: 12, width: "100%", padding: "10px", borderRadius: 12,
