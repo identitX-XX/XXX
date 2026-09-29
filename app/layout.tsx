@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     default: "IdentitX",
     template: "%s · IdentitX",
   },
-  description: "IdentitX",
+  description: "Connaissance de soi — explore qui tu es, une quête sans fin.",
   applicationName: "IdentitX",
   appleWebApp: {
     capable: true,
@@ -42,17 +42,18 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "IdentitX",
-    description: "IdentitX",
+    description: "Connaissance de soi — explore qui tu es, une quête sans fin.",
     type: "website",
     locale: "fr_FR",
     siteName: "IdentitX",
-    // L'image est fournie par app/opengraph-image.tsx (génération dynamique).
+    // L'image de couverture est le fichier statique app/opengraph-image.png
+    // (masque au fusain + nom en serif Cormorant, la typo de la marque).
   },
   twitter: {
     card: "summary_large_image",
     title: "IdentitX",
-    description: "IdentitX",
-    // L'image est fournie par app/twitter-image.tsx (génération dynamique).
+    description: "Connaissance de soi — explore qui tu es, une quête sans fin.",
+    // Couverture : app/twitter-image.png (même visuel que l'OpenGraph).
   },
 };
 
