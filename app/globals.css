@@ -124,8 +124,8 @@ html.pal-lin {
      détachées (fort contraste cadre/fond), texte et traits blancs. Monochrome PUR
      (aucune couleur), façon Co-Star. L'accent est un gris clair : boutons gris
      clair à texte foncé, liserés gris. */
-  --noir: #1e1e22; --surface: #35353c; --raised: #43434c;
-  --ink: #f6f6f7; --muted: #b6b6bd; --line: rgba(255, 255, 255, 0.10);
+  --noir: #212127; --surface: #3b3b43; --raised: #494952;
+  --ink: #f7f7f8; --muted: #bcbcc3; --line: rgba(255, 255, 255, 0.09);
   --fuchsia: #dedee2; --orange: #dedee2; --slate: #b2b2b9;
   --prune: #dedee2; /* liseré neutralisé en gris clair (plus de prune) */
   --on-brand: #18181b; /* texte foncé sur les boutons gris clair */
@@ -188,6 +188,14 @@ body {
 .text-xs {
   font-size: 0.8125rem; /* 12 → 13px */
   line-height: 1.5;
+}
+
+/* Instrument Serif n'a qu'une graisse (400). On neutralise donc les font-bold /
+   font-semibold posés sur les TITRES (font-display) pour éviter le faux-gras :
+   le serif garde son élégance, à sa graisse native. Placé après @tailwind
+   utilities pour primer sur .font-semibold / .font-bold. */
+.font-display {
+  font-weight: 400;
 }
 
 /* Feedback tactile : léger enfoncement au tap sur tout élément cliquable —
