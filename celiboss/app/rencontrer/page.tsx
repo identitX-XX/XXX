@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { FAQ } from "@/components/rencontrer/FAQ";
 import { Formules } from "@/components/rencontrer/Formules";
 import { Methode } from "@/components/rencontrer/Methode";
 import { Seuil } from "@/components/rencontrer/Seuil";
@@ -16,7 +17,7 @@ export default function Rencontrer() {
     <>
       <Section>
         <Eyebrow>Matchmaking</Eyebrow>
-        <h1 className="mt-8 max-w-4xl text-manifeste">
+        <h1 className="mt-8 max-w-4xl text-manifeste font-light">
           Rencontrer, <span className="italic text-bordeaux">par choix.</span>
         </h1>
         <p className="mt-10 max-w-lecture text-chapo text-gris">
@@ -32,6 +33,9 @@ export default function Rencontrer() {
       </Section>
       <Section ton="sable">
         <Formules />
+      </Section>
+      <Section>
+        <FAQ />
       </Section>
       <Section ton="bordeaux" etroit>
         <h2 className="text-titre">Tout commence par un appel.</h2>

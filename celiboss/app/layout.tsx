@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cormorant, Hanken_Grotesk } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { StickyCTA } from "@/components/layout/StickyCTA";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -9,7 +10,7 @@ import "./globals.css";
 // côté visiteuse. Pour passer sur des fichiers maison, voir public/fonts/README.md.
 const serif = Cormorant({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500"],
   style: ["normal", "italic"],
   variable: "--font-serif",
   display: "swap",
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main id="contenu">{children}</main>
         <Footer />
+        <StickyCTA />
       </body>
     </html>
   );

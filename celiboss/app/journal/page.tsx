@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ListeAttente } from "@/components/formulaires/ListeAttente";
 import { ArticleCard } from "@/components/journal/ArticleCard";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Section } from "@/components/ui/Section";
@@ -29,7 +30,17 @@ export default function Journal({ searchParams }: { searchParams: { rubrique?: s
   return (
     <Section>
       <Eyebrow>Le Journal</Eyebrow>
-      <h1 className="mt-6 text-manifeste">Lire. Penser. Choisir.</h1>
+      <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:items-end">
+        <h1 className="mt-6 text-manifeste font-light">
+          Lire. Penser. <span className="italic text-bordeaux">Choisir.</span>
+        </h1>
+        <div className="bg-sable p-8">
+          <p className="font-serif text-xl">Un article par semaine, dans votre boîte.</p>
+          <div className="mt-5">
+            <ListeAttente liste="journal" action="Recevoir" promesse="Un e-mail par semaine avec le nouvel article du Journal." />
+          </div>
+        </div>
+      </div>
 
       <nav aria-label="Rubriques" className="mt-14 flex flex-wrap gap-x-8 gap-y-4">
         {filtre("/journal", "Tout", !active)}
