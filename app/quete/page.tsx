@@ -188,7 +188,7 @@ function QueteMonde({
 
       {/* En-tête */}
       <div className="min-w-0">
-        <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: m.accent }}>
+        <div className="text-xs font-mono font-semibold uppercase tracking-[0.14em]" style={{ color: m.accent }}>
           La Quête
         </div>
         <h1 className="mt-2 break-words font-display text-3xl font-semibold leading-tight" style={{ color: m.ink }}>
@@ -352,7 +352,7 @@ function QueteMonde({
             className="px-6 py-5 text-center"
             style={{ background: `linear-gradient(180deg, color-mix(in srgb, ${m.accent} 16%, transparent), transparent)` }}
           >
-            <div className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: m.accent }}>
+            <div className="text-xs font-mono font-semibold uppercase tracking-[0.14em]" style={{ color: m.accent }}>
               Ton futur moi · le lest posé
             </div>
             <div className="mt-1.5 font-display text-2xl font-light" style={{ color: m.ink }}>

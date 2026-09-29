@@ -209,7 +209,7 @@ export function Objectifs({
         onClick={submit}
         style={{
           marginTop: 16, width: "100%", padding: "17px 26px", minHeight: 52, borderRadius: 999,
-          border: "none", color: "#fff", fontSize: 16, fontWeight: 600,
+          border: "none", color: "var(--on-brand)", fontSize: 16, fontWeight: 600,
           cursor: "pointer", opacity: 1,
           background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
         }}

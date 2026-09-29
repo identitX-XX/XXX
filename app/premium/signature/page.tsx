@@ -71,7 +71,7 @@ function SyntheseBloc({ synthese }: { synthese: string }) {
         background: "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
       }}
     >
-      <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">La lecture d'ensemble</div>
+      <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">La lecture d'ensemble</div>
       <p className="mt-2 text-[15px] leading-relaxed text-ink">{synthese}</p>
     </div>
   );

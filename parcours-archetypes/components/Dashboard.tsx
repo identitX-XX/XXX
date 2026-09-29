@@ -227,7 +227,7 @@ function btnRev(primary: boolean): React.CSSProperties {
     padding: "6px 13px",
     borderRadius: 999,
     cursor: "pointer",
-    color: primary ? "#fff" : MUTED,
+    color: primary ? "var(--on-brand)" : MUTED,
     border: primary ? "none" : `1px solid ${LINE}`,
     background: primary ? "linear-gradient(90deg,var(--fuchsia),var(--orange))" : "transparent",
   };

@@ -9,6 +9,8 @@ import {
   Briefcase, Users, RefreshCw, Heart, HeartPulse,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
+import { Reveal } from "@/components/Reveal";
+import { ConstellationVivante } from "@/components/ConstellationVivante";
 import { LeChemin } from "@/components/LeChemin";
 import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
@@ -214,7 +216,7 @@ export default function AujourdhuiPage() {
         <div>
           {/* La capsule + CTA — sans jour ni progression : à vivre quand tu veux. */}
           <div className="text-center sm:text-left">
-            <div className="flex items-center justify-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia sm:justify-start">
+            <div className="flex items-center justify-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia sm:justify-start">
               <span>Ta capsule</span>
             </div>
             <h2 className="mt-1.5 font-display text-2xl font-semibold text-ink sm:text-[1.7rem]">
@@ -272,6 +274,12 @@ export default function AujourdhuiPage() {
         </div>
       </Card>
 
+      {/* Ta constellation vivante — la mémoire visuelle du parcours : elle gagne
+          une étoile à chaque capsule vécue. Une raison douce de revenir. */}
+      <Reveal as="div" delay={40}>
+        <ConstellationVivante />
+      </Reveal>
+
       {/* Les 3 exercices du jour — un par périmètre, pilotés par la signature du
           moment (qui varie) : la quête « évolue », les exercices avec elle. */}
       {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
@@ -285,9 +293,10 @@ export default function AujourdhuiPage() {
       <RevelationCard faits={prog.faits} />
 
       {/* Aller plus loin — explorations plus profondes, en accès libre. */}
-      <Link href="/premium" className="mt-4 block animate-fade-up">
+      <Reveal as="div" className="mt-4">
+      <Link href="/premium" className="block">
         <Card className="p-5 transition-colors hover:border-fuchsia/40">
-          <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
             <Sparkles size={13} /> Aller plus loin
           </div>
           <p className="mt-2 text-[15px] font-semibold text-ink">
@@ -301,9 +310,10 @@ export default function AujourdhuiPage() {
           </span>
         </Card>
       </Link>
+      </Reveal>
 
       {/* Accès directs aux deux pages « socle » : ta signature et ton rapport. */}
-      <div className="mt-4 grid grid-cols-2 gap-3 animate-fade-up">
+      <Reveal as="div" className="mt-4 grid grid-cols-2 gap-3" delay={60}>
         <Link
           href="/parcours-signatures"
           className="flex items-center justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm text-ink transition-colors hover:border-fuchsia/40"
@@ -318,13 +328,14 @@ export default function AujourdhuiPage() {
           Ton rapport
           <ArrowRight size={15} className="flex-none text-muted" />
         </Link>
-      </div>
+      </Reveal>
 
       {/* Un seul point de sortie : tout le reste est dans le menu. Le hub reste
           limpide — une capsule, un exercice — le secondaire est rangé. */}
+      <Reveal as="div" className="mt-4" delay={120}>
       <Link
         href="/explorer"
-        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-4 animate-fade-up transition-colors hover:border-fuchsia/40"
+        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-4 transition-colors hover:border-fuchsia/40"
       >
         <span className="text-sm leading-snug text-ink">
           Tout ton parcours est dans le menu — portrait, cartographie, scénarios,
@@ -332,6 +343,7 @@ export default function AujourdhuiPage() {
         </span>
         <ArrowRight size={16} className="flex-none text-muted" />
       </Link>
+      </Reveal>
     </div>
   );
 }
@@ -352,7 +364,7 @@ function BasculeAExplorer() {
   return (
     <Link href="/explorer" className="mt-4 block animate-fade-up">
       <Card className="p-5 transition-colors hover:border-fuchsia/40">
-        <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
           <Compass size={13} /> Une bascule à explorer
         </div>
         <p className="mt-2 text-[15px] font-semibold text-ink">
@@ -385,7 +397,7 @@ function CheckinPacte({ jourCourant }: { jourCourant: number }) {
   ];
   return (
     <Card className="mb-4 p-5 animate-fade-up sm:p-6">
-      <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         Ton engagement précédent
       </div>
       <p className="mt-1.5 font-display text-lg font-light leading-snug text-ink">
@@ -424,7 +436,7 @@ function RevelationCard({ faits }: { faits: number }) {
     <Link href={cible.href} className="mt-4 block animate-fade-up">
       <Card className="p-5 transition-colors hover:border-fuchsia/40">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+          <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
             <Sparkles size={13} /> À venir
           </div>
           <ArrowRight size={15} className="text-muted" />
@@ -534,7 +546,7 @@ function TroisExercices({
   );
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
-      <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-1 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         <Dumbbell size={13} /> Ton exercice du jour
       </div>
       <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
@@ -617,7 +629,7 @@ function ItineraireDuJour({
 
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "70ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         <Route size={13} /> Ton itinéraire du jour
       </div>
       <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
@@ -682,7 +694,7 @@ function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
 
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         <Sparkles size={13} /> Le fil du jour
       </div>
 
@@ -829,7 +841,7 @@ function PremiereLecture() {
           "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
       }}
     >
-      <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         Ta première lecture · à explorer à ton rythme
       </div>
       <h2 className="mt-1 font-display text-xl font-light text-ink">{pl.titre}</h2>
@@ -856,7 +868,7 @@ function PremiereLecture() {
 function PossiblesCard() {
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "90ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         <Compass size={13} /> Tes possibles
       </div>
       <Link
@@ -907,7 +919,7 @@ function ClimatCard({ jour }: { jour: number }) {
       <div className="mt-4 animate-fade-up">
         <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
               Climat du jour · {climatLabel(idx)}
             </div>
             <p className="mt-1 max-w-md text-sm text-muted">{climatPhrase(idx)}</p>
@@ -926,7 +938,7 @@ function ClimatCard({ jour }: { jour: number }) {
   return (
     <div className="mt-4 animate-fade-up">
       <Card className="p-5 sm:p-6">
-        <div className="text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
           Climat &amp; corps · optionnel
         </div>
         <p className="mt-1 text-sm text-muted">
@@ -967,7 +979,7 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
   ];
   return (
     <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
-      <div className="mb-3 text-[12px] font-bold uppercase tracking-[0.2em] text-muted">
+      <div className="mb-3 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-muted">
         Explorer
       </div>
       <div className="flex flex-wrap gap-3">

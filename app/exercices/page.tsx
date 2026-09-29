@@ -256,7 +256,7 @@ export default function ExercicesPage() {
                 "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
             }}
           >
-            <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+            <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
               <Sparkles size={14} /> Ton éclairage du jour
               {eclairage._mock && (
                 <span className="ml-1 rounded-full border border-line px-2 py-0.5 text-[12px] font-normal normal-case tracking-normal text-muted">
@@ -297,7 +297,7 @@ export default function ExercicesPage() {
 
       {/* Aller plus loin (optionnel) : deux pratiques du jour, en rotation. */}
       <div className="mt-8">
-        <div className="mb-1 flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <div className="mb-1 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
           <Sparkles size={13} /> Envie d'aller plus loin ?
         </div>
         <p className="mb-4 max-w-xl text-xs leading-relaxed text-muted">

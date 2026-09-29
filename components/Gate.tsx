@@ -63,9 +63,9 @@ export function Gate({ children }: { children: React.ReactNode }) {
     try {
       const raw = localStorage.getItem("identitx");
       const st = raw ? JSON.parse(raw)?.state : null;
-      // Défaut aligné sur l'app : Lin & Prune, thème clair.
+      // Défaut aligné sur l'app : Lin (fusain), thème sombre monochrome.
       const palette = st?.palette ?? "lin";
-      const theme = st?.theme ?? "light";
+      const theme = st?.theme ?? "dark";
       const root = document.documentElement;
       root.classList.toggle("light", theme === "light");
       ["pal-lin", "pal-nuit", "pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach(
@@ -340,10 +340,12 @@ export function Gate({ children }: { children: React.ReactNode }) {
                 // thème clair). État actif : plein accent + texte on-brand.
                 background:
                   loading || !email.trim()
-                    ? "color-mix(in srgb, var(--ink) 12%, transparent)"
+                    ? "color-mix(in srgb, var(--ink) 16%, transparent)"
                     : "linear-gradient(90deg,var(--fuchsia),var(--orange))",
                 color:
-                  loading || !email.trim() ? "var(--muted)" : "var(--on-brand)",
+                  loading || !email.trim()
+                    ? "color-mix(in srgb, var(--ink) 74%, transparent)"
+                    : "var(--on-brand)",
                 border: "none",
                 borderRadius: 14,
                 padding: "0 18px",

@@ -262,7 +262,7 @@ export function StepAccueil() {
           Ton identité est une signature invisible &amp; multifactorielle.
         </h1>
 
-        <p className="mt-8 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
+        <p className="mt-8 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
           Entre dans la quête pour
         </p>
         <ul className="mx-auto mt-4 flex max-w-xs flex-col gap-3 text-left">
