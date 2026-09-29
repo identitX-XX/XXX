@@ -1,16 +1,15 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/ui/Eyebrow";
-import { Ciel, LuneEtoile } from "@/components/ui/Symboles";
+import { LuneEtoile } from "@/components/ui/Symboles";
 
 /** Ouverture : ciel de nuit, les affinités électives, la lune et l'étoile. */
 export function Ouverture() {
   return (
     <section className="relative overflow-hidden bg-nuit text-ivoire">
-      <Ciel />
       <div className="relative mx-auto grid max-w-[90rem] items-center gap-14 px-6 pb-24 pt-20 md:px-10 lg:grid-cols-[1.4fr_1fr] lg:pb-32 lg:pt-28 xl:px-24">
         <div className="space-y-9">
           <Eyebrow surSombre>Média · Réseau · Rituels</Eyebrow>
-          <h1 className="font-serif text-manifeste font-extrabold">
+          <h1 className="font-serif text-manifeste font-medium">
             Les affinités
             <br />
             <span className="font-normal italic text-champagne">électives.</span>
@@ -29,9 +28,8 @@ export function Ouverture() {
           </div>
         </div>
         <figure className="flex flex-col items-center gap-6">
-          <div className="relative flex aspect-square w-full max-w-[28rem] items-center justify-center rounded-full border border-champagne/35 text-champagne">
-            <div aria-hidden className="absolute inset-10 rounded-full border border-champagne/20" />
-            <LuneEtoile taille={280} className="w-3/5" />
+          <div className="relative flex aspect-square w-full max-w-[28rem] items-center justify-center rounded-full border border-champagne/25 text-champagne">
+            <LuneEtoile taille={220} className="w-2/5" />
           </div>
           <figcaption className="text-center">
             <p className="font-serif text-xl italic text-champagne">Osram ne Nsoromma — la lune et l&apos;étoile</p>

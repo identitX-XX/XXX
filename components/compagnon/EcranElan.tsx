@@ -18,7 +18,7 @@ export function EcranElan({ className = "" }: { className?: string }) {
           <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.3em] text-champagne">Le Compagnon</p>
           <span className="border border-champagne/50 px-2 py-1 text-[0.6875rem] text-ivoire/85">Montre synchronisée</span>
         </div>
-        <p className="mt-3 font-serif text-[2.1rem] font-extrabold leading-none">
+        <p className="mt-3 font-serif text-[2.1rem] font-medium leading-none">
           Votre élan <span className="font-normal italic text-champagne">du jour.</span>
         </p>
         <Constellation elan={78} className="mx-auto mt-1 w-full" />
@@ -26,13 +26,13 @@ export function EcranElan({ className = "" }: { className?: string }) {
           {SIGNAUX.map((s) => (
             <div key={s.nom} className="space-y-1 bg-nuit p-2.5">
               <p className="text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-ivoire/60">{s.nom}</p>
-              <p className={`font-serif text-[1.2rem] leading-none ${s.italique ? "font-bold italic" : "font-extrabold"}`}>{s.valeur}</p>
+              <p className={`font-serif text-[1.2rem] leading-none ${s.italique ? "font-bold italic" : "font-medium"}`}>{s.valeur}</p>
               <p className="text-[0.5625rem] text-champagne">{s.source}</p>
             </div>
           ))}
           <div className="flex flex-col justify-between bg-bordeaux p-2.5">
             <p className="text-[0.5625rem] font-semibold uppercase tracking-[0.2em] text-champagne">Point</p>
-            <p className="font-serif text-base font-bold leading-tight">du matin →</p>
+            <p className="font-serif text-base font-semibold leading-tight">du matin →</p>
           </div>
         </div>
         <div className="mt-3 border-l-2 border-champagne bg-ivoire/5 px-4 py-3">

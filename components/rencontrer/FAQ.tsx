@@ -27,16 +27,16 @@ export function FAQ() {
     <div className="grid gap-12 lg:grid-cols-[1fr_1.8fr]">
       <div className="space-y-5">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">Questions fréquentes</p>
-        <h2 className="font-serif text-titre font-extrabold">
+        <h2 className="font-serif text-titre font-medium">
           Avant
           <br />
           <span className="font-normal italic text-bordeaux">l&apos;appel.</span>
         </h2>
       </div>
-      <div className="border-t-2 border-encre">
+      <div className="border-t border-filet">
         {QUESTIONS.map(({ q, r }, i) => (
           <details key={q} open={i === 0} className="group border-b border-filet py-6">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-2xl font-bold [&::-webkit-details-marker]:hidden">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-2xl font-semibold [&::-webkit-details-marker]:hidden">
               {q}
               <span aria-hidden className="mt-1 font-sans text-xl text-bordeaux transition-transform duration-300 group-open:rotate-45">
                 +

@@ -45,7 +45,7 @@ export function Constellation({ elan, avecLibelles = true, className = "" }: { e
             {l.t}
           </text>
         ))}
-      <text x="150" y={avecLibelles ? 160 : 170} textAnchor="middle" fill="#f3ede3" style={{ font: `800 ${avecLibelles ? 52 : 80}px var(--font-serif)` }}>
+      <text x="150" y={avecLibelles ? 160 : 170} textAnchor="middle" fill="#f3ede3" style={{ font: `500 ${avecLibelles ? 52 : 80}px var(--font-serif)` }}>
         {elan}
       </text>
       {avecLibelles && (

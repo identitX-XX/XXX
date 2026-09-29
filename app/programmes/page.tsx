@@ -27,7 +27,7 @@ export default function Programmes() {
     <>
       <Section>
         <Eyebrow>Programmes &amp; coaching</Eyebrow>
-        <h1 className="mt-8 font-serif text-manifeste font-black">
+        <h1 className="mt-8 font-serif text-manifeste font-medium">
           Devenir aligné·e,
           <br />
           <span className="font-normal italic text-bordeaux">avant de choisir.</span>
@@ -43,19 +43,18 @@ export default function Programmes() {
         </div>
         <div className="mt-16 grid md:grid-cols-3">
           {PROGRAMMES.map((p, i) => (
-            <article key={p.nom} className={`space-y-4 border-t-2 border-encre py-10 md:px-9 ${i === 0 ? "md:pl-0" : ""} ${i < 2 ? "md:border-r md:border-r-filet" : "md:pr-0"}`}>
-              <span className="block font-serif text-6xl font-black leading-none text-bordeaux">{p.n}</span>
-              <h2 className="font-serif text-5xl font-extrabold">{p.nom}</h2>
+            <article key={p.nom} className={`space-y-4 border-t border-filet py-10 md:px-9 ${i === 0 ? "md:pl-0" : ""} ${i < 2 ? "md:border-r md:border-r-filet" : "md:pr-0"}`}>
+              <h2 className="font-serif text-5xl font-medium">{p.nom}</h2>
               <p className="text-lg leading-relaxed text-gris">{p.texte}</p>
             </article>
           ))}
         </div>
       </Section>
 
-      <Section ton="nuit" id="evenements">
+      <Section ton="sable" id="evenements">
         <div className="grid items-center gap-16 lg:grid-cols-[1fr_1.2fr]">
           <figure className="relative mx-auto w-full max-w-md">
-            <div aria-hidden className="absolute -bottom-[18px] left-[18px] -right-[18px] top-[18px] border border-champagne" />
+            <div aria-hidden className="absolute -bottom-[18px] left-[18px] -right-[18px] top-[18px] border border-filet" />
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src="/images/mai-diaw-rire.jpg"
@@ -68,15 +67,15 @@ export default function Programmes() {
             </div>
           </figure>
           <div className="space-y-8">
-            <Eyebrow surSombre>Événements · sur invitation</Eyebrow>
-            <h2 className="font-serif text-titre font-extrabold">
-              Certaines rencontres changent une soirée. <span className="font-normal italic text-champagne">D&apos;autres, une trajectoire.</span>
+            <Eyebrow>Événements · sur invitation</Eyebrow>
+            <h2 className="font-serif text-titre font-medium">
+              Certaines rencontres changent une soirée. <span className="font-normal italic text-bordeaux">D&apos;autres, une trajectoire.</span>
             </h2>
-            <dl className="border-t border-champagne/50">
+            <dl className="border-t border-filet">
               {FORMATS.map((f) => (
-                <div key={f.nom} className="grid gap-2 border-b border-champagne/25 py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
-                  <dt className={`font-serif text-3xl ${f.lune ? "italic text-champagne" : "font-bold"}`}>{f.nom}</dt>
-                  <dd className="leading-relaxed text-ivoire/75">{f.texte}</dd>
+                <div key={f.nom} className="grid gap-2 border-b border-filet py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+                  <dt className={`font-serif text-3xl ${f.lune ? "italic text-bordeaux" : "font-bold"}`}>{f.nom}</dt>
+                  <dd className="leading-relaxed text-gris">{f.texte}</dd>
                 </div>
               ))}
             </dl>
@@ -84,19 +83,19 @@ export default function Programmes() {
         </div>
       </Section>
 
-      <Section ton="bordeaux">
+      <Section ton="ivoire">
         <div className="grid items-end gap-14 lg:grid-cols-2">
           <div className="space-y-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-champagne">Liste d&apos;attente</p>
-            <h2 className="font-serif text-titre font-extrabold">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">Liste d&apos;attente</p>
+            <h2 className="font-serif text-titre font-medium">
               Soyez informé·e
               <br />
-              <span className="font-normal italic text-champagne">en premier.</span>
+              <span className="font-normal italic text-bordeaux">en premier.</span>
             </h2>
           </div>
           <div className="space-y-8">
-            <ListeAttente liste="programmes" action="M'inscrire" promesse="Annonces d'ouverture des programmes et invitations aux événements." surSombre />
-            <Link href="/appel" className="inline-block text-xs font-semibold uppercase tracking-[0.2em] underline decoration-champagne underline-offset-4">
+            <ListeAttente liste="programmes" action="M'inscrire" promesse="Annonces d'ouverture des programmes et invitations aux événements." />
+            <Link href="/appel" className="inline-block text-xs font-semibold uppercase tracking-[0.2em] underline decoration-bordeaux underline-offset-4">
               Sans attendre, réserver mon appel →
             </Link>
           </div>

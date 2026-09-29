@@ -40,7 +40,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
     return (
       <div className="p-8 md:p-12">
         <p className="text-eyebrow uppercase text-bordeaux">Étape 2 / 2 · Demande reçue</p>
-        <h2 className="mt-4 font-serif text-4xl font-extrabold">Merci. <span className="font-normal italic text-bordeaux">Il ne reste qu&apos;à choisir votre créneau.</span></h2>
+        <h2 className="mt-4 font-serif text-4xl font-medium">Merci. <span className="font-normal italic text-bordeaux">Il ne reste qu&apos;à choisir votre créneau.</span></h2>
         {calcomLink ? (
           calendrier ? (
             <iframe
@@ -80,7 +80,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
   return (
     <form onSubmit={envoyer} noValidate className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
       <div className="flex items-center justify-between border-b border-filet pb-6 md:col-span-2">
-        <p className="font-serif text-3xl font-extrabold">Parlez-nous de vous</p>
+        <p className="font-serif text-3xl font-medium">Parlez-nous de vous</p>
         <p className="text-eyebrow uppercase text-gris">Étape 1 / 2</p>
       </div>
       {/* Pot de miel : invisible et hors tabulation pour un humain. */}
