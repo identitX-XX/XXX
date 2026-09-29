@@ -1,5 +1,3 @@
-import { Eyebrow } from "@/components/ui/Eyebrow";
-
 // Les objections, levées AVANT l'appel : moins de frictions, appels mieux qualifiés.
 const QUESTIONS = [
   {
@@ -16,7 +14,7 @@ const QUESTIONS = [
   },
   {
     q: "Quelle différence avec une application de rencontre ?",
-    r: "Il n'y a ni algorithme ni swipe. Maï Diaw vous rencontre, comprend vos standards, puis sélectionne à la main chaque personne qu'elle vous présente.",
+    r: "Ni algorithme ni swipe. Maï Diaw vous rencontre, comprend vos standards, puis choisit à la main chaque personne qu'elle vous présente.",
   },
   {
     q: "Le matchmaking pro, c'est quoi ?",
@@ -26,21 +24,25 @@ const QUESTIONS = [
 
 export function FAQ() {
   return (
-    <div className="grid gap-12 md:grid-cols-[1fr_1.6fr]">
-      <div>
-        <Eyebrow>Questions fréquentes</Eyebrow>
-        <h2 className="mt-6 text-titre">Avant l&apos;appel.</h2>
+    <div className="grid gap-12 lg:grid-cols-[1fr_1.8fr]">
+      <div className="space-y-5">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">Questions fréquentes</p>
+        <h2 className="font-serif text-titre font-extrabold">
+          Avant
+          <br />
+          <span className="font-normal italic text-bordeaux">l&apos;appel.</span>
+        </h2>
       </div>
-      <div className="divide-y divide-filet border-y border-filet">
-        {QUESTIONS.map(({ q, r }) => (
-          <details key={q} className="group py-6">
-            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-2xl [&::-webkit-details-marker]:hidden">
+      <div className="border-t-2 border-encre">
+        {QUESTIONS.map(({ q, r }, i) => (
+          <details key={q} open={i === 0} className="group border-b border-filet py-6">
+            <summary className="flex cursor-pointer list-none items-start justify-between gap-6 font-serif text-2xl font-bold [&::-webkit-details-marker]:hidden">
               {q}
               <span aria-hidden className="mt-1 font-sans text-xl text-bordeaux transition-transform duration-300 group-open:rotate-45">
                 +
               </span>
             </summary>
-            <p className="mt-4 max-w-lecture text-gris">{r}</p>
+            <p className="mt-4 max-w-lecture leading-relaxed text-gris">{r}</p>
           </details>
         ))}
       </div>

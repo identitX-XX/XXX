@@ -1,119 +1,144 @@
 import type { Metadata } from "next";
-import { Convergences } from "@/components/ui/Convergences";
 import { CTA } from "@/components/ui/CTA";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
-import { PRECISION, PROMESSE } from "@/lib/positionnement";
+import { Etoile } from "@/components/ui/Symboles";
+import { HISTOIRE, MEDIA } from "@/lib/histoire";
+import { CONVERGENCES, PRECISION, PROMESSE } from "@/lib/positionnement";
 
 export const metadata: Metadata = {
   title: "Maï Diaw",
-  description:
-    "Maï Diaw, matchmakeuse d'exception. Elle accorde votre mental, votre cœur et votre vie, puis provoque la rencontre qui compte.",
+  description: "Maï Diaw, matchmakeuse d'exception. Elle accorde votre mental, votre cœur et votre vie, puis provoque la rencontre qui compte.",
 };
 
-// Faits issus de la bio de Maï Diaw. Parcours détaillé et presse : à fournir
-// par elle — rien n'est inventé, les listes vides ne s'affichent pas.
-const EXPERTISES = ["Intelligence émotionnelle", "Mindset", "Posture", "Image"];
-const TERRAINS = ["Pro", "Relationnel", "Sentimental"];
-const FORMATS = ["Événements", "Coaching", "Programmes"];
-const MARQUES = ["CéliBOSS™", "Glow Up", "M.C MEN"];
-
-const PARCOURS: { annee: string; texte: string }[] = [];
-const PRESSE: { media: string; titre: string; url: string }[] = [];
-
-function Colonne({ titre, items }: { titre: string; items: string[] }) {
-  return (
-    <div className="border-t border-taupe/60 pt-6">
-      <Eyebrow>{titre}</Eyebrow>
-      <ul className="mt-6 space-y-2 font-serif text-3xl">
-        {items.map((i) => (
-          <li key={i}>{i}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+const COLONNES = [
+  { titre: "Mettre en relation", items: ["Pro", "Relationnel", "Sentimental"] },
+  { titre: "Expertises", items: ["Intelligence émotionnelle", "Mindset", "Posture", "Image"] },
+  { titre: "Formats", items: ["Événements", "Coaching", "Programmes"] },
+  { titre: "Univers", items: ["CéliBOSS™", "Glow Up", "M.C MEN"] },
+];
 
 export default function MaiDiaw() {
   return (
     <>
-      <Section>
-        <div className="grid items-center gap-16 md:grid-cols-[1.1fr_0.9fr] lg:gap-24">
-          <div>
+      <section className="bg-ivoire text-encre">
+        <div className="mx-auto grid max-w-[90rem] items-center gap-16 px-6 pb-28 pt-20 md:px-10 lg:grid-cols-[1.6fr_1fr] lg:pt-24 xl:px-24">
+          <div className="space-y-7">
             <Eyebrow>Fondatrice de CéliBOSS™</Eyebrow>
-            <h1 className="mt-8 text-manifeste font-light">Maï Diaw</h1>
-            <p className="mt-6 font-serif text-titre font-light italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
-            <p className="mt-8 font-serif text-titre font-medium leading-none">
-            {PROMESSE.avant}{" "}
-            <span className="italic text-bordeaux">{PROMESSE.apres}</span>
-          </p>
-          <p className="mt-6 max-w-lecture text-chapo text-gris">{PRECISION}</p>
+            <h1 className="font-serif text-manifeste font-black">Maï Diaw</h1>
+            <p className="font-serif text-4xl italic leading-none text-bordeaux md:text-5xl">Matchmakeuse d&apos;exception.</p>
+            <div className="space-y-4 border-t-2 border-encre pt-7">
+              <p className="font-serif text-3xl font-extrabold leading-none md:text-[2.75rem]">
+                {PROMESSE.avant} <span className="font-normal italic text-bordeaux">{PROMESSE.apres}</span>
+              </p>
+              <p className="max-w-xl text-lg leading-relaxed text-gris">{PRECISION}</p>
+            </div>
           </div>
-          <Portrait
-            src="/images/mai-diaw-tailleur.jpg"
-            alt="Portrait de Maï Diaw, souriante, en tailleur blanc"
-            focus="50% 25%"
-            priority
-            className="mx-auto w-full max-w-md"
-          />
+          <Portrait src="/images/mai-diaw-tailleur.jpg" alt="Portrait de Maï Diaw, souriante, en tailleur blanc" priority filet="gauche" className="mx-auto w-full max-w-sm" />
         </div>
+      </section>
+
+      <Section ton="nuit">
+        <Eyebrow surSombre>Trois convergences</Eyebrow>
+        <h2 className="mt-6 font-serif text-titre font-extrabold">
+          Une méthode.
+          <br />
+          <span className="font-normal italic text-champagne">Trois dimensions de votre vie.</span>
+        </h2>
+        <ol className="mt-14 grid gap-10 md:grid-cols-3">
+          {CONVERGENCES.map((c) => (
+            <li key={c.domaine} className="space-y-3.5 border-t border-champagne/50 pt-6">
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-ivoire/65">{c.domaine}</p>
+              <p className="font-serif text-4xl leading-tight">
+                <span className="italic text-champagne">{c.verbe}</span> {c.destination}
+              </p>
+              <p className="leading-relaxed text-ivoire/75">{c.detail}</p>
+            </li>
+          ))}
+        </ol>
       </Section>
 
-      <Section ton="bordeaux">
-        <p className="flex items-center gap-4 text-eyebrow font-medium uppercase text-champagne">
-          <span aria-hidden className="h-px w-8 bg-current opacity-60" />
-          Trois convergences
-        </p>
-        <h2 className="mt-6 max-w-3xl text-titre font-light">Une même méthode, trois dimensions de votre vie.</h2>
-        <div className="mt-14">
-          <Convergences surSombre />
+      <Section>
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          {COLONNES.map((c) => (
+            <div key={c.titre} className="space-y-4 border-t-2 border-encre pt-5">
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-bordeaux">{c.titre}</p>
+              <ul className="space-y-1 font-serif text-3xl font-bold leading-snug">
+                {c.items.map((i) => (
+                  <li key={i}>{i}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </Section>
 
       <Section ton="sable">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
-          <Colonne titre="Mettre en relation" items={TERRAINS} />
-          <Colonne titre="Expertises" items={EXPERTISES} />
-          <Colonne titre="Formats" items={FORMATS} />
-          <Colonne titre="Univers" items={MARQUES} />
+        <Eyebrow>Son histoire, en ses mots</Eyebrow>
+        <h2 className="mt-6 font-serif text-titre font-black">
+          {HISTOIRE.titre.avant}
+          <br />
+          <span className="font-normal italic text-bordeaux">{HISTOIRE.titre.apres}</span>
+        </h2>
+        <ol className="mt-16 grid border-t-2 border-encre md:grid-cols-2 xl:grid-cols-4">
+          {HISTOIRE.chapitres.map((c, i) => (
+            <li key={c.n} className={`space-y-3.5 border-b border-taupe py-8 xl:border-b-0 xl:px-7 ${i === 0 ? "xl:pl-0" : ""} ${i < 3 ? "xl:border-r" : "xl:pr-0"}`}>
+              <span className="block font-serif text-6xl font-black leading-none text-bordeaux">{c.n}</span>
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em]">{c.titre}</p>
+              <p className="leading-relaxed text-[#3e342e]">« {c.texte} »</p>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-16 grid items-end gap-10 lg:grid-cols-[2fr_1fr]">
+          <blockquote className="space-y-6 bg-nuit p-10 text-ivoire md:p-12">
+            <p className="text-lg text-ivoire/75">« {HISTOIRE.mission.amorce} »</p>
+            <p className="font-serif text-titre font-black">
+              {HISTOIRE.mission.phrase.avant} <span className="font-normal italic text-champagne">{HISTOIRE.mission.phrase.apres}</span>
+            </p>
+            <p className="font-serif text-2xl italic leading-snug text-ivoire/85">{HISTOIRE.mission.suite}</p>
+          </blockquote>
+          <div className="space-y-5 pb-2">
+            <p className="font-serif text-2xl leading-snug">
+              {HISTOIRE.sens.avant} <span className="italic text-bordeaux">{HISTOIRE.sens.apres}</span>
+            </p>
+            <p className="flex items-center gap-2.5 border-t-2 border-encre pt-5 text-[0.8125rem] font-semibold uppercase tracking-[0.28em] text-bordeaux">
+              <Etoile className="text-champagne" />
+              {HISTOIRE.signature}
+            </p>
+          </div>
         </div>
       </Section>
 
-      {PARCOURS.length > 0 && (
-        <Section>
-          <Eyebrow>Parcours</Eyebrow>
-          <ol className="mt-10 space-y-8">
-            {PARCOURS.map((p) => (
-              <li key={p.annee} className="grid gap-2 border-t border-filet pt-6 md:grid-cols-[8rem_1fr]">
-                <span className="font-serif text-2xl text-bordeaux">{p.annee}</span>
-                <p>{p.texte}</p>
-              </li>
-            ))}
-          </ol>
-        </Section>
-      )}
+      <Section ton="nuit">
+        <div className="grid items-center gap-10 lg:grid-cols-[1fr_2fr]">
+          <div className="space-y-4">
+            <Eyebrow surSombre>Son média</Eyebrow>
+            <p className="leading-relaxed text-ivoire/70">La parole de Maï Diaw, en conversation.</p>
+          </div>
+          <div className="space-y-6 border-champagne/50 lg:border-l lg:pl-10">
+            <p className="font-serif text-titre font-black">
+              {MEDIA.nom.avant} <span className="font-normal italic text-champagne">{MEDIA.nom.apres}</span>
+            </p>
+            <ul className="flex flex-wrap text-[0.8125rem] font-semibold uppercase tracking-[0.3em]">
+              {MEDIA.piliers.map((p, i) => (
+                <li key={p} className={`${i > 0 ? "pl-5" : ""} ${i < MEDIA.piliers.length - 1 ? "border-r border-champagne/50 pr-5" : "text-champagne"}`}>
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Section>
 
-      {PRESSE.length > 0 && (
-        <Section>
-          <Eyebrow>Presse</Eyebrow>
-          <ul className="mt-10 space-y-6">
-            {PRESSE.map((p) => (
-              <li key={p.url} className="border-t border-filet pt-6">
-                <a href={p.url} target="_blank" rel="noopener noreferrer" className="group">
-                  <span className="text-eyebrow uppercase text-gris">{p.media}</span>
-                  <span className="mt-2 block font-serif text-2xl group-hover:text-bordeaux">{p.titre}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Section>
-      )}
-
-      <Section ton="encre" etroit>
-        <h2 className="text-titre">Parlons-en de vive voix.</h2>
-        <div className="mt-10">
-          <CTA ton="sombre" />
+      <Section ton="bordeaux">
+        <div className="flex flex-col justify-between gap-10 lg:flex-row lg:items-center">
+          <h2 className="font-serif text-titre font-extrabold">
+            Parlons-en
+            <br />
+            <span className="font-normal italic text-champagne">de vive voix.</span>
+          </h2>
+          <CTA ton="ivoire" />
         </div>
       </Section>
     </>

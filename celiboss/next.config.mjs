@@ -5,6 +5,10 @@ const nextConfig = {
   // serveur par next-mdx-remote/rsc : pas besoin de @next/mdx / withMDX, qui ne
   // sert qu'aux pages .mdx placées dans app/. Même rendu, frontmatter natif.
   pageExtensions: ["ts", "tsx"],
+  // Les événements vivent désormais avec les programmes.
+  async redirects() {
+    return [{ source: "/evenements", destination: "/programmes#evenements", permanent: true }];
+  },
   images: {
     formats: ["image/avif", "image/webp"],
   },

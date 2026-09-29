@@ -1,14 +1,14 @@
 // Chaque rubrique du Journal mène à une « porte » : c'est le pont entre le
-// média (lecture gratuite) et l'offre. Une porte « bientôt » renvoie vers
-// l'appel en attendant son ouverture.
+// média (lecture gratuite) et l'offre. Une porte « bientôt » mène à sa page de
+// présentation, avec liste d'attente : jamais d'impasse.
 
-export type PorteId = "rencontrer" | "journal" | "programmes" | "evenements";
+export type PorteId = "rencontrer" | "compagnon" | "programmes" | "journal";
 
 export type Porte = {
   id: PorteId;
   nom: string;
+  accroche: string;
   promesse: string;
-  detail?: string;
   href: string;
   active: boolean;
 };
@@ -17,44 +17,44 @@ export const PORTES: Record<PorteId, Porte> = {
   rencontrer: {
     id: "rencontrer",
     nom: "Rencontrer",
+    accroche: "par choix.",
     promesse: "Un matchmaking d'exception, mené personnellement par Maï Diaw.",
-    detail: "Pro · Relationnel · Sentimental",
     href: "/rencontrer",
     active: true,
   },
-  journal: {
-    id: "journal",
-    nom: "Le Journal",
-    promesse: "Identité, confiance, standards, intelligence émotionnelle.",
-    detail: "Chaque semaine",
-    href: "/journal",
-    active: true,
+  compagnon: {
+    id: "compagnon",
+    nom: "Le Compagnon",
+    accroche: "votre élan du jour.",
+    promesse: "Sommeil, cardio, humeur, énergie, ambition : l'application qui écoute votre corps.",
+    href: "/compagnon",
+    active: false,
   },
   programmes: {
     id: "programmes",
     nom: "Programmes",
-    promesse: "Mindset, posture, image : le travail sur soi, accompagné.",
-    detail: "Glow Up · M.C MEN · Coaching",
+    accroche: "avant de choisir.",
+    promesse: "Glow Up, M.C MEN, coaching : devenir aligné·e avant de choisir.",
     href: "/programmes",
     active: false,
   },
-  evenements: {
-    id: "evenements",
-    nom: "Événements",
-    promesse: "Des rencontres choisies, en petit comité. Certaines changent une trajectoire.",
-    detail: "Sur invitation",
-    href: "/evenements",
-    active: false,
+  journal: {
+    id: "journal",
+    nom: "Le Journal",
+    accroche: "chaque semaine.",
+    promesse: "Lire. Ressentir. Choisir.",
+    href: "/journal",
+    active: true,
   },
 };
-
-export const ORDRE_PORTES: PorteId[] = ["rencontrer", "journal", "programmes", "evenements"];
 
 export const RUBRIQUES = {
   relationnel: { nom: "Relationnel", porte: "rencontrer" },
   "intelligence-emotionnelle": { nom: "Intelligence émotionnelle", porte: "programmes" },
   mindset: { nom: "Mindset", porte: "programmes" },
-  "posture-image": { nom: "Posture & Image", porte: "programmes" },
+  "posture-image": { nom: "Posture & image", porte: "programmes" },
+  corps: { nom: "Corps", porte: "compagnon" },
+  intuition: { nom: "Intuition", porte: "compagnon" },
 } as const satisfies Record<string, { nom: string; porte: PorteId }>;
 
 export type RubriqueId = keyof typeof RUBRIQUES;

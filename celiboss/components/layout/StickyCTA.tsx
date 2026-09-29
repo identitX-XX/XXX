@@ -24,12 +24,12 @@ export function StickyCTA() {
 
   return (
     <div
-      className={`fixed inset-x-0 bottom-0 z-30 border-t border-filet bg-ivoire/95 p-3 backdrop-blur transition-[transform,visibility] duration-300 md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-30 border-t border-champagne/35 bg-nuit/95 p-3 backdrop-blur transition-[transform,visibility] duration-300 md:hidden ${
         visible ? "visible translate-y-0" : "invisible translate-y-full"
       }`}
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
-      <CTA pleine />
+      <CTA ton="or" pleine />
     </div>
   );
 }

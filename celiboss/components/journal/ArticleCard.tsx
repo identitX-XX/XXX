@@ -1,23 +1,17 @@
 import Link from "next/link";
 import { RubriqueTag } from "@/components/journal/RubriqueTag";
-import { formatDate } from "@/lib/mdx";
 import type { Article } from "@/types/article";
 
-export function ArticleCard({ article }: { article: Omit<Article, "contenu"> }) {
+export function ArticleCard({ article, epais }: { article: Omit<Article, "contenu">; epais?: boolean }) {
   return (
-    <article className="group border-t border-filet pt-8">
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 [&>*]:whitespace-nowrap">
-        <RubriqueTag rubrique={article.rubrique} lien={false} />
-        <span className="text-sm text-gris">
-          {formatDate(article.date)} · {article.lecture} min
-        </span>
-      </div>
-      <h2 className="mt-4 text-3xl leading-tight">
-        <Link href={`/journal/${article.slug}`} className="group-hover:text-encre">
+    <article className={`space-y-2.5 py-6 ${epais ? "border-t-2 border-encre" : "border-t border-filet"}`}>
+      <RubriqueTag rubrique={article.rubrique} suffixe={`${article.lecture} min`} />
+      <h3 className="font-serif text-3xl font-bold leading-tight">
+        <Link href={`/journal/${article.slug}`} className="hover:text-bordeaux">
           {article.titre}
         </Link>
-      </h2>
-      <p className="mt-3 max-w-lecture text-gris">{article.chapo}</p>
+      </h3>
+      <p className="leading-relaxed text-gris">{article.chapo}</p>
     </article>
   );
 }

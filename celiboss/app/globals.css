@@ -3,18 +3,22 @@
 @tailwind utilities;
 
 :root {
-  /* Palette CéliBOSS — épurée, chaude, une signature bordeaux.
+  /* Couleurs en canaux RGB : Tailwind peut ainsi appliquer la transparence
+     (bg-nuit/95, text-ivoire/80…). Utiliser rgb(var(--x)) en CSS direct.
+     Palette CéliBOSS — nuit et or : la Nuit porte les grands aplats (le ciel),
+     l'ivoire la lecture, le bordeaux la signature, l'or les étoiles.
      Le taupe #A79A8D ne sert qu'aux filets et décors : trop clair pour du texte
      (contraste < 3:1 sur ivoire). Le texte secondaire utilise un taupe foncé.
      Le champagne est réservé aux fonds sombres et aux détails (< 10 %). */
-  --ivoire: #f3ede3;
-  --sable: #ebe3d7;
-  --encre: #291d1b;
-  --gris: #6b5f56;
-  --taupe: #a79a8d;
-  --filet: #d9cfc3;
-  --bordeaux: #5a1726;
-  --champagne: #b7a27a;
+  --nuit: 20 13 12; /* #140d0c */
+  --ivoire: 243 237 227; /* #f3ede3 */
+  --sable: 235 227 215; /* #ebe3d7 */
+  --encre: 41 29 27; /* #291d1b */
+  --gris: 94 82 74; /* #5e524a */
+  --taupe: 167 154 141; /* #a79a8d */
+  --filet: 217 207 195; /* #d9cfc3 */
+  --bordeaux: 90 23 38; /* #5a1726 */
+  --champagne: 183 162 122; /* #b7a27a */
 }
 
 @layer base {
@@ -41,14 +45,14 @@
   }
   /* Chiffres elzéviriens dans la serif : plus « livre » que « tableur ». */
   .font-serif {
-    font-variant-numeric: oldstyle-nums;
+    font-variant-numeric: lining-nums;
   }
   ::selection {
-    background: var(--bordeaux);
-    color: var(--ivoire);
+    background: rgb(var(--bordeaux));
+    color: rgb(var(--ivoire));
   }
   :focus-visible {
-    outline: 2px solid var(--bordeaux);
+    outline: 2px solid rgb(var(--bordeaux));
     outline-offset: 3px;
   }
 }
@@ -62,7 +66,7 @@
     @apply mt-6;
   }
   .prose-journal h2 {
-    @apply mt-14 text-3xl;
+    @apply mt-14 text-4xl font-extrabold;
   }
   .prose-journal h3 {
     @apply mt-10 text-2xl;
@@ -71,7 +75,7 @@
     @apply text-bordeaux underline decoration-filet underline-offset-4 hover:decoration-bordeaux;
   }
   .prose-journal blockquote {
-    @apply border-l-2 border-bordeaux pl-6 font-serif text-chapo italic;
+    @apply my-12 border-y border-champagne py-9 text-center font-serif text-3xl italic leading-snug text-bordeaux;
   }
   .prose-journal ul {
     @apply list-disc space-y-2 pl-6 marker:text-bordeaux;

@@ -73,6 +73,7 @@ export function valider(brut: Record<string, unknown>): Resultat {
 // l'information affichée juste sous le champ. E-mail seul = minimisation.
 
 export const LISTES = {
+  compagnon: "Le Compagnon",
   journal: "Le Journal",
   programmes: "Programmes",
   evenements: "Événements",

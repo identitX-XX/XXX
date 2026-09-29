@@ -40,7 +40,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
     return (
       <div className="p-8 md:p-12">
         <p className="text-eyebrow uppercase text-bordeaux">Étape 2 / 2 · Demande reçue</p>
-        <h2 className="mt-4 text-3xl">Merci. Il ne reste qu&apos;à choisir votre créneau.</h2>
+        <h2 className="mt-4 font-serif text-4xl font-extrabold">Merci. <span className="font-normal italic text-bordeaux">Il ne reste qu&apos;à choisir votre créneau.</span></h2>
         {calcomLink ? (
           calendrier ? (
             <iframe
@@ -80,7 +80,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
   return (
     <form onSubmit={envoyer} noValidate className="grid gap-8 p-8 md:grid-cols-2 md:p-12">
       <div className="flex items-center justify-between border-b border-filet pb-6 md:col-span-2">
-        <p className="font-serif text-2xl">Parlez-nous de vous</p>
+        <p className="font-serif text-3xl font-extrabold">Parlez-nous de vous</p>
         <p className="text-eyebrow uppercase text-gris">Étape 1 / 2</p>
       </div>
       {/* Pot de miel : invisible et hors tabulation pour un humain. */}
@@ -132,7 +132,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
 
       <div className="space-y-4 md:col-span-2">
         <label className="flex gap-3 text-sm">
-          <input type="checkbox" name="consentement" required className="mt-1 accent-[var(--bordeaux)]" aria-describedby="err-consentement" />
+          <input type="checkbox" name="consentement" required className="mt-1 accent-bordeaux" aria-describedby="err-consentement" />
           <span>
             J&apos;accepte que CéliBOSS™ utilise ces informations pour me recontacter au sujet de ma
             demande. *
@@ -140,7 +140,7 @@ export function FormulaireAppel({ calcomLink }: Props) {
         </label>
         {err("consentement")}
         <label className="flex gap-3 text-sm text-gris">
-          <input type="checkbox" name="newsletter" className="mt-1 accent-[var(--bordeaux)]" />
+          <input type="checkbox" name="newsletter" className="mt-1 accent-bordeaux" />
           <span>Je souhaite aussi recevoir le Journal par e-mail (désinscription en un clic).</span>
         </label>
       </div>
@@ -150,9 +150,9 @@ export function FormulaireAppel({ calcomLink }: Props) {
         <button
           type="submit"
           disabled={etat === "envoi"}
-          className="inline-flex items-center gap-3 bg-bordeaux px-8 py-4 text-sm font-medium uppercase tracking-[0.14em] text-ivoire transition-colors hover:bg-encre disabled:opacity-60"
+          className="inline-flex items-center gap-3 bg-nuit px-8 py-5 text-[0.8125rem] font-semibold uppercase tracking-[0.2em] text-ivoire transition-colors hover:bg-bordeaux disabled:opacity-60"
         >
-          {etat === "envoi" ? "Envoi…" : "Continuer vers le calendrier"} <span aria-hidden>→</span>
+          {etat === "envoi" ? "Envoi…" : "Continuer vers le calendrier"} <span aria-hidden className="text-champagne">→</span>
         </button>
 
         {/* Information 1er niveau (RGPD art. 13), au plus près de la collecte. */}
