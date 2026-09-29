@@ -49,10 +49,9 @@ export default function MaiDiaw() {
             </p>
           </div>
           <Portrait
-            src="/images/mai-diaw-portrait.jpg"
-            alt="Portrait de Maï Diaw, souriante, en robe blanche sur une terrasse ensoleillée"
-            focus="40% 32%"
-            zoom={1.32}
+            src="/images/mai-diaw-tailleur.jpg"
+            alt="Portrait de Maï Diaw, souriante, en tailleur blanc"
+            focus="50% 25%"
             priority
             className="mx-auto w-full max-w-md"
           />
