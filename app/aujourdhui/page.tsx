@@ -9,6 +9,7 @@ import {
   Briefcase, Users, RefreshCw, Heart, HeartPulse,
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
+import { Reveal } from "@/components/Reveal";
 import { LeChemin } from "@/components/LeChemin";
 import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
@@ -285,7 +286,8 @@ export default function AujourdhuiPage() {
       <RevelationCard faits={prog.faits} />
 
       {/* Aller plus loin — explorations plus profondes, en accès libre. */}
-      <Link href="/premium" className="mt-4 block animate-fade-up">
+      <Reveal as="div" className="mt-4">
+      <Link href="/premium" className="block">
         <Card className="p-5 transition-colors hover:border-fuchsia/40">
           <div className="flex items-center gap-2 text-[12px] font-bold uppercase tracking-[0.2em] text-fuchsia">
             <Sparkles size={13} /> Aller plus loin
@@ -301,9 +303,10 @@ export default function AujourdhuiPage() {
           </span>
         </Card>
       </Link>
+      </Reveal>
 
       {/* Accès directs aux deux pages « socle » : ta signature et ton rapport. */}
-      <div className="mt-4 grid grid-cols-2 gap-3 animate-fade-up">
+      <Reveal as="div" className="mt-4 grid grid-cols-2 gap-3" delay={60}>
         <Link
           href="/parcours-signatures"
           className="flex items-center justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm text-ink transition-colors hover:border-fuchsia/40"
@@ -318,13 +321,14 @@ export default function AujourdhuiPage() {
           Ton rapport
           <ArrowRight size={15} className="flex-none text-muted" />
         </Link>
-      </div>
+      </Reveal>
 
       {/* Un seul point de sortie : tout le reste est dans le menu. Le hub reste
           limpide — une capsule, un exercice — le secondaire est rangé. */}
+      <Reveal as="div" className="mt-4" delay={120}>
       <Link
         href="/explorer"
-        className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-4 animate-fade-up transition-colors hover:border-fuchsia/40"
+        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-4 transition-colors hover:border-fuchsia/40"
       >
         <span className="text-sm leading-snug text-ink">
           Tout ton parcours est dans le menu — portrait, cartographie, scénarios,
@@ -332,6 +336,7 @@ export default function AujourdhuiPage() {
         </span>
         <ArrowRight size={16} className="flex-none text-muted" />
       </Link>
+      </Reveal>
     </div>
   );
 }
