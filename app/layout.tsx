@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Space_Grotesk, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Serif, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { ClientShell } from "@/components/ClientShell";
 import { Gate } from "@/components/Gate";
@@ -7,14 +7,15 @@ import { StateSync } from "@/components/StateSync";
 import { EtatSync } from "@/components/EtatSync";
 import { VersionGuard } from "@/components/VersionGuard";
 
-// Typographie MODERNE & épurée : un grotesque contemporain pour les titres
-// (Space Grotesk — géométrique, net, actuel), un MONOSPACE pour les petits
-// libellés/surtitres (touche graphique), et une sans neutre pour le corps (Inter).
-// La variable garde son nom historique --font-fraunces = titres.
-const fraunces = Space_Grotesk({
+// Typographie MODERNE & éditoriale : un serif moderne élégant pour les titres
+// (Instrument Serif — haute lisibilité en grand, « magazine », féminin), un
+// MONOSPACE pour les petits libellés/surtitres (touche graphique), et une sans
+// neutre pour le corps (Inter). La variable garde son nom historique --font-fraunces.
+const fraunces = Instrument_Serif({
   subsets: ["latin"],
   display: "swap",
-  weight: ["500", "600", "700"],
+  weight: ["400"],
+  style: ["normal", "italic"],
 });
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
