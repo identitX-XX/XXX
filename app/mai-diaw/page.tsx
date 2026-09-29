@@ -12,13 +12,6 @@ export const metadata: Metadata = {
   description: "Maï Diaw, matchmakeuse d'exception. Elle accorde votre mental, votre cœur et votre vie, puis provoque la rencontre qui compte.",
 };
 
-const COLONNES = [
-  { titre: "Mettre en relation", items: ["Pro", "Relationnel", "Sentimental"] },
-  { titre: "Expertises", items: ["Intelligence émotionnelle", "Mindset", "Posture", "Image"] },
-  { titre: "Formats", items: ["Événements", "Coaching", "Programmes"] },
-  { titre: "Univers", items: ["CéliBOSS™", "Glow Up", "M.C MEN"] },
-];
-
 export default function MaiDiaw() {
   return (
     <>
@@ -59,21 +52,6 @@ export default function MaiDiaw() {
         </ol>
       </Section>
 
-      <Section>
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          {COLONNES.map((c) => (
-            <div key={c.titre} className="space-y-4 border-t border-filet pt-5">
-              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-bordeaux">{c.titre}</p>
-              <ul className="space-y-1 font-serif text-3xl font-semibold leading-snug">
-                {c.items.map((i) => (
-                  <li key={i}>{i}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </Section>
-
       <Section ton="sable">
         <Eyebrow>Son histoire, en ses mots</Eyebrow>
         <h2 className="mt-6 font-serif text-titre font-medium">
@@ -90,7 +68,7 @@ export default function MaiDiaw() {
           ))}
         </ol>
         <div className="mt-16 grid items-end gap-10 lg:grid-cols-[2fr_1fr]">
-          <blockquote className="space-y-6 bg-sable p-10 md:p-12">
+          <blockquote className="space-y-6 border-l-2 border-bordeaux pl-8 md:pl-12">
             <p className="text-lg text-gris">« {HISTOIRE.mission.amorce} »</p>
             <p className="font-serif text-titre font-medium">
               {HISTOIRE.mission.phrase.avant} <span className="font-normal italic text-bordeaux">{HISTOIRE.mission.phrase.apres}</span>

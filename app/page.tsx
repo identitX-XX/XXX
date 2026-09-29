@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { SectionCompagnon } from "@/components/compagnon/SectionCompagnon";
-import { ListeAttente } from "@/components/formulaires/ListeAttente";
 import { Ouverture } from "@/components/home/Ouverture";
 import { SeRelier } from "@/components/home/SeRelier";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -17,7 +16,7 @@ export default function Accueil() {
       <SectionCompagnon />
 
       {une && (
-        <section className="bg-ivoire py-rythme text-encre">
+        <section className="border-t border-filet bg-ivoire py-rythme text-encre">
           <div className="mx-auto max-w-[90rem] space-y-14 px-6 md:px-10 xl:px-24">
             <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div className="space-y-5">
@@ -59,7 +58,7 @@ export default function Accueil() {
         </section>
       )}
 
-      <section className="bg-sable py-rythme text-encre">
+      <section className="border-t border-filet bg-ivoire py-rythme text-encre">
         <div className="mx-auto max-w-[90rem] px-6 md:px-10 xl:px-24">
           <div className="mx-auto max-w-3xl space-y-8 text-center">
             <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">La promesse</p>
@@ -79,16 +78,6 @@ export default function Accueil() {
         </div>
       </section>
 
-      <section className="bg-ivoire py-rythme text-encre">
-        <div className="mx-auto grid max-w-[90rem] items-center gap-14 px-6 md:px-10 lg:grid-cols-2 xl:px-24">
-          <h2 className="font-serif text-titre font-medium">
-            Le Cercle ouvre
-            <br />
-            <span className="font-normal italic text-bordeaux">à la prochaine lune.</span>
-          </h2>
-          <ListeAttente liste="compagnon" action="Être invité·e" promesse="Une invitation à l'ouverture du Cercle et du Compagnon, rien d'autre." />
-        </div>
-      </section>
     </>
   );
 }

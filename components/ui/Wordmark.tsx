@@ -6,7 +6,7 @@ export function Wordmark({ className = "" }: { className?: string }) {
       <span aria-hidden className="ml-[0.08em] font-sans text-[0.57em] font-semibold tracking-[0.3em]">
         BOSS
       </span>
-      <sup aria-hidden className="font-sans text-[0.36em] tracking-normal text-champagne">
+      <sup aria-hidden className="font-sans text-[0.36em] tracking-normal text-bordeaux">
         ™
       </sup>
     </span>

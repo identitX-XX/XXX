@@ -16,7 +16,7 @@ const ETOILE_BERCEE =
 type Taille = { taille?: number; className?: string };
 
 /** Osram ne Nsoromma : un croissant qui berce une étoile. */
-export function LuneEtoile({ taille = 100, className = "", etoile = "rgb(var(--ivoire))" }: Taille & { etoile?: string }) {
+export function LuneEtoile({ taille = 100, className = "", etoile = "rgb(var(--nuit))" }: Taille & { etoile?: string }) {
   const id = useId().replace(/:/g, "");
   return (
     <svg aria-hidden width={taille} height={taille} viewBox="0 0 100 100" className={className}>

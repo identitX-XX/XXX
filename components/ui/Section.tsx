@@ -7,11 +7,13 @@ type Props = {
   className?: string;
 };
 
+// Esprit minimaliste : un seul fond, l'ivoire. Les « tons » ne sont plus que
+// des séparations par filet ; la hiérarchie vient du blanc et de la typographie.
 const TONS = {
   ivoire: "bg-ivoire text-encre",
-  sable: "bg-sable text-encre",
-  nuit: "bg-nuit text-ivoire",
-  bordeaux: "bg-bordeaux text-ivoire",
+  sable: "bg-ivoire text-encre border-t border-filet",
+  nuit: "bg-ivoire text-encre border-t border-filet",
+  bordeaux: "bg-ivoire text-encre border-t border-filet",
 };
 
 /** Wrapper de rythme vertical : une section = une idée = un écran. */

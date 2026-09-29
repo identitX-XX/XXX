@@ -25,7 +25,7 @@ export function Portrait({ src, alt, focus = "50% 25%", priority, filet = "droit
           <Image src={src} alt={alt} fill priority={priority} sizes="(min-width: 1024px) 34vw, 100vw" className="object-cover" style={{ objectPosition: focus }} />
         </div>
         {embleme && (
-          <div className="absolute -left-6 bottom-12 flex h-24 w-24 items-center justify-center rounded-full bg-nuit text-champagne shadow-[0_0_0_6px_rgb(var(--ivoire))] md:-left-11 md:h-[6.5rem] md:w-[6.5rem]">
+          <div className="absolute -left-6 bottom-12 flex h-24 w-24 items-center justify-center rounded-full border border-filet bg-ivoire text-bordeaux md:-left-11 md:h-[6.5rem] md:w-[6.5rem]">
             <LuneEtoile taille={64} />
           </div>
         )}

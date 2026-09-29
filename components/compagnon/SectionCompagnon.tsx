@@ -1,44 +1,30 @@
 import Link from "next/link";
 import { EcranElan } from "@/components/compagnon/EcranElan";
 import { Montres } from "@/components/compagnon/Montres";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { CONNEXIONS_COMPAGNON, SIGNAUX_COMPAGNON } from "@/lib/compagnon";
 
-/** Le Compagnon, cœur du projet : les six signaux, le téléphone, la montre. */
+/** Le Compagnon, cœur du projet : une phrase, les signaux, l'écran. */
 export function SectionCompagnon({ titreNiveau = "h2", lien = true, montres = false }: { titreNiveau?: "h1" | "h2"; lien?: boolean; montres?: boolean }) {
   const Titre = titreNiveau;
+  const captes = SIGNAUX_COMPAGNON.filter((s) => !("synthese" in s)).map((s) => s.nom);
   return (
-    <section id="compagnon" className="border-t border-champagne/35 bg-nuit py-rythme text-ivoire">
-      <div className="mx-auto grid max-w-[90rem] grid-cols-[minmax(0,1fr)] items-start gap-16 px-6 md:px-10 lg:grid-cols-[1.35fr_1fr] xl:px-24">
-        <div className="space-y-9">
-          <Eyebrow surSombre>Le Compagnon · le cœur du projet</Eyebrow>
+    <section id="compagnon" className="border-t border-filet bg-ivoire py-rythme text-encre">
+      <div className="mx-auto grid max-w-[90rem] grid-cols-[minmax(0,1fr)] items-center gap-20 px-6 md:px-10 lg:grid-cols-[1.2fr_1fr] xl:px-24">
+        <div className="space-y-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">Le Compagnon</p>
           <Titre className="font-serif text-titre font-medium">
-            Votre corps sait.
-            <br />
-            <span className="font-normal italic text-champagne">Le Compagnon écoute.</span>
+            Votre corps sait. <span className="font-normal italic text-bordeaux">Le Compagnon écoute.</span>
           </Titre>
-          <p className="max-w-xl text-lg leading-relaxed text-ivoire/80">
-            Chaque jour, il réunit ce que dit votre corps et ce que vous ressentez, puis le traduit en un seul signal : votre élan.
+          <p className="max-w-lg text-lg leading-relaxed text-gris">
+            {captes.join(", ")} : chaque jour, il réunit ce que dit votre corps et ce que vous ressentez, puis le traduit en un seul signal,
+            votre <span className="italic text-encre">élan</span>.
           </p>
-          <dl className="grid border-t border-champagne/40 sm:grid-cols-2">
-            {SIGNAUX_COMPAGNON.map((s, i) => (
-              <div key={s.nom} className={`flex items-baseline gap-4 border-b border-champagne/20 py-4 ${i % 2 === 0 ? "sm:pr-5" : "sm:pl-5"}`}>
-                <dt className={`min-w-[8.5rem] font-serif text-2xl ${"synthese" in s ? "italic text-champagne" : "font-medium"}`}>{s.nom}</dt>
-                <dd className="text-sm text-ivoire/65">{s.detail}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-champagne">{CONNEXIONS_COMPAGNON}</p>
-          {montres && <Montres className="justify-start" />}
+          <p className="text-xs uppercase tracking-[0.16em] text-gris">{CONNEXIONS_COMPAGNON}</p>
+          {montres && <Montres className="justify-start pt-4" />}
           {lien && (
-            <div className="flex flex-wrap gap-4">
-              <Link href="/compagnon" className="bg-champagne px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-nuit transition-colors hover:bg-ivoire">
-                Découvrir le Compagnon
-              </Link>
-              <Link href="/connexion" className="border border-ivoire/50 px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:border-champagne hover:text-champagne">
-                Se connecter
-              </Link>
-            </div>
+            <Link href="/compagnon" className="inline-block text-xs font-semibold uppercase tracking-[0.2em] underline decoration-filet underline-offset-8 hover:decoration-bordeaux">
+              Découvrir le Compagnon →
+            </Link>
           )}
         </div>
         <EcranElan className="mx-auto lg:ml-auto lg:mr-0" />
