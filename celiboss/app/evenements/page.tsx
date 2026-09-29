@@ -23,6 +23,12 @@ export default function Evenements() {
         { nom: "Ateliers", texte: "Mindset, posture, image : apprendre ensemble, en groupe restreint." },
         { nom: "Cercles", texte: "Des rendez-vous réguliers pour celles et ceux qui ont rejoint l'univers CéliBOSS™." },
       ]}
+      photo={{
+        src: "/images/mai-diaw-rire.jpg",
+        alt: "Maï Diaw éclate de rire, une coupe à la main, sur une terrasse ensoleillée",
+        focus: "40% 30%",
+        zoom: 1.3,
+      }}
       promesse="Vous recevrez les invitations aux prochains événements, avant leur ouverture publique."
     />
   );
