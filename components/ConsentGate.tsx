@@ -65,7 +65,7 @@ export function ConsentGate() {
           </button>
           <button
             onClick={() => decide("granted")}
-            className="rounded-full brand-gradient px-4 py-2 text-sm font-medium text-[color:var(--on-brand)]"
+            className="rounded-lg brand-gradient px-4 py-2 text-sm font-medium text-[color:var(--on-brand)]"
           >
             Accepter
           </button>

@@ -308,7 +308,7 @@ function MaQueteApercu({
               <div className="flex items-center gap-2">
                 <div className="text-sm font-semibold uppercase tracking-[0.08em] text-ink">{s.titre}</div>
                 {s.aCompleter && (
-                  <span className="rounded-full bg-fuchsia px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[color:var(--on-brand)]">
+                  <span className="rounded-lg bg-fuchsia px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-[color:var(--on-brand)]">
                     À compléter
                   </span>
                 )}
@@ -320,7 +320,7 @@ function MaQueteApercu({
               {s.valeur}
             </div>
             {s.aCompleter ? (
-              <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-full brand-gradient px-4 py-2 text-xs font-semibold text-[color:var(--on-brand)] shadow-glow">
+              <span className="mt-3 inline-flex items-center gap-1.5 self-start rounded-lg brand-gradient px-4 py-2 text-xs font-semibold text-[color:var(--on-brand)]">
                 {s.cta}
               </span>
             ) : (
@@ -352,7 +352,7 @@ function MaQueteApercu({
               <button
                 type="button"
                 onClick={refaire}
-                className="rounded-full bg-fuchsia px-4 py-2 text-sm font-semibold text-[color:var(--on-brand)] transition-opacity hover:opacity-90"
+                className="rounded-lg bg-fuchsia px-4 py-2 text-sm font-semibold text-[color:var(--on-brand)] transition-opacity hover:opacity-90"
               >
                 Oui, refaire les questions
               </button>

@@ -91,7 +91,7 @@ export function FeedbackButton() {
       <button
         onClick={() => setOpen(true)}
         aria-label="Laisser un commentaire"
-        className={`fixed right-4 z-40 flex items-center gap-2 rounded-full brand-gradient px-4 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-all duration-300 hover:scale-[1.03] lg:bottom-6 lg:right-6 ${
+        className={`fixed right-4 z-40 flex items-center gap-2 rounded-lg brand-gradient px-4 py-3 text-sm font-medium text-[color:var(--on-brand)] transition-all duration-300 hover:scale-[1.03] lg:bottom-6 lg:right-6 ${
           escamote ? "pointer-events-none translate-y-24 opacity-0" : ""
         }`}
         style={{ bottom: "calc(4.75rem + env(safe-area-inset-bottom))" }}

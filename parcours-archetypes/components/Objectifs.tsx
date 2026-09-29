@@ -11,7 +11,6 @@ import { SphereIcon } from "@/components/SphereIcon";
 import { track } from "@/lib/metrics";
 
 const FUCHSIA = "var(--fuchsia)";
-const ORANGE = "var(--orange)";
 const LINE = "var(--line)";
 const MUTED = "var(--muted)";
 const INK = "var(--ink)";
@@ -208,10 +207,10 @@ export function Objectifs({
       <button
         onClick={submit}
         style={{
-          marginTop: 16, width: "100%", padding: "17px 26px", minHeight: 52, borderRadius: 999,
+          marginTop: 16, width: "100%", padding: "17px 26px", minHeight: 52, borderRadius: 12,
           border: "none", color: "var(--on-brand)", fontSize: 16, fontWeight: 600,
           cursor: "pointer", opacity: 1,
-          background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
+          background: FUCHSIA,
         }}
       >
         {submitLabel}

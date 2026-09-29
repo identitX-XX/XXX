@@ -128,7 +128,7 @@ export default function AujourdhuiPage() {
             </p>
             <Link
               href="/parcours-signatures/rapport"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[color:var(--fuchsia)] shadow-glow transition-transform hover:scale-[1.02]"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[color:var(--fuchsia)] transition-transform"
             >
               Voir mon bilan
               <ArrowRight size={16} />
@@ -892,7 +892,7 @@ function ClimatCard({ jour }: { jour: number }) {
         </div>
         <button
           onClick={save}
-          className="mt-5 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
+          className="mt-5 inline-flex items-center gap-2 rounded-lg brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
         >
           Enregistrer mon climat
         </button>
@@ -982,7 +982,7 @@ function Amorce({
         )}
         <Link
           href="/parcours-signatures"
-          className="group mt-6 inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+          className="group mt-6 inline-flex items-center gap-2 rounded-lg brand-gradient px-6 py-3 text-sm font-medium text-[color:var(--on-brand)] transition-transform"
         >
           {cta}
           <ArrowRight

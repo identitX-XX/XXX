@@ -78,7 +78,7 @@ export default function PresentationPage() {
       <div className="flex flex-col items-center gap-2 py-10">
         <Link
           href="/aujourdhui"
-          className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.02]"
+          className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-lg brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] transition-transform"
         >
           Reprendre ma quête <ArrowRight size={17} />
         </Link>

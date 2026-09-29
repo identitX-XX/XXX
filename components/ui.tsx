@@ -13,12 +13,10 @@ export function Card({
     <div
       className={`rounded-2xl border border-line shadow-soft ${className}`}
       style={{
-        // Nuance & profondeur : un dégradé subtil du haut (plus clair) vers le
-        // fond, plutôt qu'un aplat de gris — la carte « respire ».
+        // Lignes épurées : un seul filet fin, pas de liseré coloré. Un dégradé
+        // très subtil du haut vers le fond donne juste ce qu'il faut de relief.
         background:
-          "linear-gradient(180deg, color-mix(in srgb, var(--raised) 55%, var(--surface)), var(--surface) 60%)",
-        borderTopWidth: 2,
-        borderTopColor: "var(--prune)",
+          "linear-gradient(180deg, color-mix(in srgb, var(--raised) 45%, var(--surface)), var(--surface) 62%)",
       }}
     >
       {children}
@@ -67,13 +65,15 @@ export function Button({
   className?: string;
   disabled?: boolean;
 }) {
+  // Boutons épurés : coins nets (pas de pilule), aplat (pas de dégradé ni de
+  // halo), transition sobre. Moins « gabarit IA », plus éditorial.
   const base =
-    "inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-200 active:scale-[0.98] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
+    "inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-200 active:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed";
   const styles =
     variant === "solid"
-      ? "brand-gradient text-[color:var(--on-brand)] hover:opacity-90 hover:shadow-glow"
+      ? "bg-fuchsia text-[color:var(--on-brand)] hover:opacity-90"
       : variant === "outline"
-      ? "border border-line text-ink hover:border-fuchsia hover:text-fuchsia"
+      ? "border border-line text-ink hover:border-ink"
       : "text-muted hover:text-ink";
   return (
     <button

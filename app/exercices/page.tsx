@@ -74,7 +74,7 @@ export default function ExercicesPage() {
         />
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)] shadow-glow"
+          className="inline-flex items-center gap-2 rounded-lg brand-gradient px-6 py-3 text-sm font-semibold text-[color:var(--on-brand)]"
         >
           Commencer ma quête <ArrowRight size={16} />
         </Link>
@@ -210,7 +210,7 @@ export default function ExercicesPage() {
                 )}
                 <button
                   onClick={() => setEtape(etape + 1)}
-                  className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-full brand-gradient px-7 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform hover:scale-[1.01]"
+                  className="inline-flex min-h-[3.25rem] items-center gap-2 rounded-lg brand-gradient px-7 text-base font-semibold text-[color:var(--on-brand)] transition-transform hover:scale-[1.01]"
                 >
                   {etape < PERIMETRES.length - 1 ? "Continuer" : "Vers mon éclairage"}
                   <ArrowRight size={16} />
@@ -227,7 +227,7 @@ export default function ExercicesPage() {
           <button
             onClick={demanderEclairage}
             disabled={loading || !matiere}
-            className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-full brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] shadow-glow transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
+            className="inline-flex min-h-[3.25rem] w-full items-center justify-center gap-2 rounded-lg brand-gradient px-8 text-base font-semibold text-[color:var(--on-brand)] transition-transform enabled:hover:scale-[1.01] disabled:opacity-40"
           >
             {loading ? (
               <>
@@ -270,7 +270,7 @@ export default function ExercicesPage() {
               <div className="mt-4 grid gap-2">
                 {eclairage.tensions.map((t, i) => (
                   <div key={i} className="flex items-start gap-2 text-sm text-muted">
-                    <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-fuchsia" />
+                    <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-lg bg-fuchsia" />
                     <span>{t.note}</span>
                   </div>
                 ))}

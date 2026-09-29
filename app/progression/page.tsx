@@ -54,7 +54,7 @@ export default function ProgressionPage() {
           </p>
           <Link
             href="/parcours-signatures"
-            className="mt-4 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
+            className="mt-4 inline-flex items-center gap-2 rounded-lg brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
           >
             Je révèle ma signature
             <ArrowRight size={15} />
@@ -127,7 +127,7 @@ export default function ProgressionPage() {
         )}
         <Link
           href="/quete"
-          className="mt-4 inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
+          className="mt-4 inline-flex items-center gap-2 rounded-lg brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
         >
           Actionner ce levier
           <ArrowRight size={15} />
@@ -167,7 +167,7 @@ export default function ProgressionPage() {
       <div className="mt-6 flex flex-wrap gap-3">
         <Link
           href="/parcours-signatures"
-          className="inline-flex items-center gap-2 rounded-full brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
+          className="inline-flex items-center gap-2 rounded-lg brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
         >
           Reprendre le parcours
           <ArrowRight size={15} />
