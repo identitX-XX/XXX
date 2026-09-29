@@ -6,7 +6,8 @@
 // But : rendre visible où l'énergie est HAUTE (ta ressource) et BASSE (à
 // recharger), et INDUIRE une direction. 100 % pur & déterministe → testable.
 
-import type { Objectifs, PerimetreKey } from "./types";
+import type { EtatEvolution, Objectifs, PerimetreKey } from "./types";
+import { equilibreSpheres } from "./indicateurs";
 
 export interface SpheresValeurs {
   travail: number;
@@ -114,4 +115,35 @@ export function auditEnergetique(
     : `Ta réserve la plus basse : ${aRecharger.label}. Et si tu lui posais une direction ?`;
 
   return { directions, global, ressource, aRecharger, phrase };
+}
+
+// Wrapper ROBUSTE prêt à l'emploi côté composant : dérive les sphères et l'énergie
+// de l'état + du climat, sans jamais planter (un vieil état d'une autre version
+// pouvait faire échouer equilibreSpheres → on retombe alors sur une base neutre,
+// jamais sur un écran cassé). C'est le point d'entrée à utiliser dans l'UI.
+export function auditDepuisEtat(
+  etat: EtatEvolution,
+  objectifs: Objectifs | null,
+  climat: Record<number, { energie?: number } | undefined> | null | undefined,
+  diagnostic?: { dominant?: string; secondaire?: string } | null
+): Audit {
+  const map: SpheresValeurs = { travail: 0, relations: 0, creation: 0, corps: 0, sens: 0 };
+  try {
+    const mut = map as unknown as Record<string, number>;
+    for (const s of equilibreSpheres(etat)) {
+      if (s.key in map) mut[s.key] = s.valeur;
+    }
+  } catch {
+    /* état hérité illisible → base neutre */
+  }
+  let energie: number | null = null;
+  try {
+    const vals = Object.values(climat || {})
+      .map((c) => (c && typeof c.energie === "number" ? c.energie : null))
+      .filter((n): n is number => n !== null);
+    energie = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+  } catch {
+    /* ignore */
+  }
+  return auditEnergetique(map, objectifs, energie, diagnostic);
 }

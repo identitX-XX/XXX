@@ -10,12 +10,7 @@
 import Link from "next/link";
 import { ArrowRight, Battery } from "lucide-react";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { equilibreSpheres } from "@/parcours-archetypes/indicateurs";
-import {
-  auditEnergetique,
-  SpheresValeurs,
-  CreditDirection,
-} from "@/parcours-archetypes/auditEnergetique";
+import { auditDepuisEtat, CreditDirection } from "@/parcours-archetypes/auditEnergetique";
 
 // Teinte de remplissage selon l'état — la nuance porte l'information : plus c'est
 // chargé, plus la jauge va vers la lumière (blanc) ; plus c'est bas, plus elle
@@ -40,24 +35,8 @@ export function AuditEnergetique() {
   const climat = useParcoursStore((s) => s.climat);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
 
-  // Sphères → valeurs brutes.
-  const sph = equilibreSpheres(etat);
-  const val = (k: string) => sph.find((s) => s.key === k)?.valeur ?? 0;
-  const map: SpheresValeurs = {
-    travail: val("travail"),
-    relations: val("relations"),
-    creation: val("creation"),
-    corps: val("corps"),
-    sens: val("sens"),
-  };
-
-  // Énergie du moment : moyenne des relevés de climat, sinon inconnue.
-  const vals = Object.values(climat || {})
-    .map((c) => (c && typeof c.energie === "number" ? c.energie : null))
-    .filter((n): n is number => n !== null);
-  const energie = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
-
-  const audit = auditEnergetique(map, objectifs, energie, diagnostic);
+  // Audit robuste (ne plante jamais, même sur un état hérité).
+  const audit = auditDepuisEtat(etat, objectifs, climat, diagnostic);
 
   return (
     <section className="mt-1">
