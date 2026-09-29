@@ -1,12 +1,12 @@
 // Le positionnement de Maï Diaw, en une source unique : toute page qui le
 // présente lit ces textes. Changer la promesse = changer ce fichier.
 
-/** La promesse en une phrase. */
-export const PROMESSE =
-  "Maï Diaw fait converger votre mindset, vos relations et votre style de vie vers leur meilleure version.";
+/** La promesse, en deux temps : la méthode de Maï Diaw, sans un mot de trop. */
+export const PROMESSE = { avant: "Aligner d'abord.", apres: "Présenter ensuite." } as const;
 
-/** La raison d'être, en une ligne. */
-export const PARCE_QUE = "Parce qu'on ne rencontre bien qu'en étant aligné·e.";
+/** Ce que la promesse veut dire, en une phrase. */
+export const PRECISION =
+  "Maï Diaw accorde votre mental, votre cœur et votre vie. Puis elle provoque la rencontre qui compte.";
 
 /** Les trois convergences : un domaine, un mouvement, une destination. */
 export const CONVERGENCES = [
