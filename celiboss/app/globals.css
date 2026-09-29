@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Palette — ivoire, encre, un seul accent bronze. */
+  --ivoire: #f4efe7;
+  --sable: #e9e1d4;
+  --encre: #1c1a17;
+  --gris: #6b645a;
+  --filet: #d6ccbc;
+  --bronze: #9a6b3f;
+  --bronze-fonce: #7a5230;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-ivoire text-encre font-sans text-corps;
+  }
+  h1,
+  h2,
+  h3 {
+    @apply font-serif font-medium tracking-tight;
+  }
+  ::selection {
+    background: var(--bronze);
+    color: var(--ivoire);
+  }
+  :focus-visible {
+    outline: 2px solid var(--bronze);
+    outline-offset: 3px;
+  }
+}
+
+/* Corps d'article MDX — typographie de lecture. */
+@layer components {
+  .prose-journal {
+    @apply mx-auto max-w-lecture;
+  }
+  .prose-journal > * + * {
+    @apply mt-6;
+  }
+  .prose-journal h2 {
+    @apply mt-14 text-3xl;
+  }
+  .prose-journal h3 {
+    @apply mt-10 text-2xl;
+  }
+  .prose-journal a {
+    @apply text-bronze underline decoration-filet underline-offset-4 hover:decoration-bronze;
+  }
+  .prose-journal blockquote {
+    @apply border-l-2 border-bronze pl-6 font-serif text-chapo italic;
+  }
+  .prose-journal ul {
+    @apply list-disc space-y-2 pl-6 marker:text-bronze;
+  }
+  .prose-journal strong {
+    @apply font-semibold;
+  }
+}
