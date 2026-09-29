@@ -158,7 +158,7 @@ export default function AujourdhuiPage() {
           <p className="mt-1 text-sm text-muted">
             Continue là où tu t'es arrêtée — ou recommence de zéro.
           </p>
-          <div className="mt-4 flex flex-col gap-2 sm:flex-row">
+          <div className="mt-4 flex flex-wrap gap-2.5">
             <Button onClick={() => setMontrerReprise(false)}>
               Reprendre
             </Button>

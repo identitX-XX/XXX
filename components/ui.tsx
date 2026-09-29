@@ -65,10 +65,10 @@ export function Button({
   className?: string;
   disabled?: boolean;
 }) {
-  // Boutons épurés : coins nets (pas de pilule), aplat (pas de dégradé ni de
-  // halo), transition sobre. Moins « gabarit IA », plus éditorial.
+  // Boutons fuselés & modernes : fins (hauteur réduite), coins nets, aplat, lettres
+  // légèrement espacées. Le plein est un gris très clair ; l'outline un filet fin.
   const base =
-    "inline-flex min-h-[2.75rem] items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors duration-200 active:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed";
+    "inline-flex min-h-[2.5rem] items-center justify-center gap-2 rounded-[10px] px-5 py-2 text-[13px] font-medium tracking-[0.01em] transition-colors duration-200 active:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-fuchsia disabled:opacity-40 disabled:cursor-not-allowed";
   const styles =
     variant === "solid"
       ? "bg-fuchsia text-[color:var(--on-brand)] hover:opacity-90"

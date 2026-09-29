@@ -124,11 +124,11 @@ html.pal-lin {
      détachées (fort contraste cadre/fond), texte et traits blancs. Monochrome PUR
      (aucune couleur), façon Co-Star. L'accent est un gris clair : boutons gris
      clair à texte foncé, liserés gris. */
-  --noir: #121214; --surface: #26262c; --raised: #34343c;
-  --ink: #f4f4f5; --muted: #adadb4; --line: rgba(255, 255, 255, 0.18);
-  --fuchsia: #d6d6da; --orange: #d6d6da; --slate: #adadb4;
-  --prune: #d2d2d6; /* liseré neutralisé en gris clair (plus de prune) */
-  --on-brand: #16161a; /* texte foncé sur les boutons gris clair */
+  --noir: #1e1e22; --surface: #35353c; --raised: #43434c;
+  --ink: #f6f6f7; --muted: #b6b6bd; --line: rgba(255, 255, 255, 0.10);
+  --fuchsia: #dedee2; --orange: #dedee2; --slate: #b2b2b9;
+  --prune: #dedee2; /* liseré neutralisé en gris clair (plus de prune) */
+  --on-brand: #18181b; /* texte foncé sur les boutons gris clair */
 }
 html.pal-lin.light {
   /* Variante claire (si bascule) — gris & blanc, monochrome pur : fond gris doux,
