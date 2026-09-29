@@ -10,14 +10,14 @@ export default function Inscription() {
     <CadreCompte
       titre={
         <>
-          Créer votre <span className="font-normal italic text-champagne">compte.</span>
+          Créer votre <span className="font-normal italic text-bordeaux">compte.</span>
         </>
       }
       sousTitre="Le Compagnon, le Cercle et les rituels, dans un seul espace."
       pied={
         <p>
           Déjà membre ?{" "}
-          <Link href="/connexion" className="font-semibold text-ivoire underline decoration-champagne underline-offset-4">
+          <Link href="/connexion" className="font-semibold text-encre underline decoration-bordeaux underline-offset-4">
             Se connecter
           </Link>
         </p>

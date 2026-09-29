@@ -129,7 +129,7 @@ export default function Rencontrer() {
         </h2>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {TERRAINS.map((t) => (
-            <article key={t.nom} className="space-y-3.5 border border-filet p-9">
+            <article key={t.nom} className="space-y-3.5 border-t border-filet pt-7">
               <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-bordeaux">{t.accroche}</p>
               <h3 className="font-serif text-5xl font-medium">{t.nom}</h3>
               <p className="leading-relaxed text-gris">{t.texte}</p>

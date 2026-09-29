@@ -10,7 +10,7 @@ import { site } from "@/lib/site";
 
 function IconeCompte() {
   return (
-    <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="text-champagne">
+    <svg aria-hidden width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" className="text-bordeaux">
       <circle cx="12" cy="8" r="4" />
       <path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" />
     </svg>
@@ -36,7 +36,7 @@ export function Header() {
   // bloc conteneur qui piégerait un enfant `fixed` dans ses 88px de hauteur.
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-champagne/35 bg-nuit/95 text-ivoire backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-filet bg-ivoire/95 text-encre backdrop-blur">
         <div className="mx-auto flex h-[4.5rem] max-w-[90rem] items-center justify-between px-6 md:px-10 xl:h-[5.5rem] xl:px-24">
           <Link href="/" className="text-[1.7rem] xl:text-3xl" aria-label={`${site.nom}, accueil`}>
             <Wordmark />
@@ -48,7 +48,7 @@ export function Header() {
                 key={l.href}
                 href={l.href}
                 aria-current={pathname.startsWith(l.href) ? "page" : undefined}
-                className="border-b border-transparent py-1.5 text-xs font-medium uppercase tracking-[0.22em] transition-colors hover:text-champagne aria-[current=page]:border-champagne aria-[current=page]:text-champagne"
+                className="border-b border-transparent py-1.5 text-xs font-medium uppercase tracking-[0.22em] transition-colors hover:text-bordeaux aria-[current=page]:border-filet aria-[current=page]:text-bordeaux"
               >
                 {l.label}
               </Link>
@@ -56,11 +56,11 @@ export function Header() {
           </nav>
 
           <div className="hidden items-center gap-7 xl:flex">
-            <Link href="/connexion" className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] hover:text-champagne">
+            <Link href="/connexion" className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.22em] hover:text-bordeaux">
               <IconeCompte />
               Se connecter
             </Link>
-            <CTA ton="or" court />
+            <CTA court />
           </div>
 
           <button
@@ -79,9 +79,9 @@ export function Header() {
         <nav
           id="menu-mobile"
           aria-label="Principale"
-          className="fixed inset-0 top-[4.5rem] z-40 flex flex-col justify-between overflow-y-auto bg-nuit px-6 pb-10 pt-6 text-ivoire xl:hidden"
+          className="fixed inset-0 top-[4.5rem] z-40 flex flex-col justify-between overflow-y-auto bg-ivoire px-6 pb-10 pt-6 text-encre xl:hidden"
         >
-          <ul className="divide-y divide-champagne/25 border-y border-champagne/25">
+          <ul className="divide-y divide-filet border-y border-filet">
             {NAV.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="block py-4 font-serif text-4xl font-semibold">
@@ -97,8 +97,8 @@ export function Header() {
             </li>
           </ul>
           <div className="mt-10 space-y-6">
-            <CTA ton="or" pleine />
-            <p className="text-center font-serif text-lg italic text-champagne">{site.devise}</p>
+            <CTA pleine />
+            <p className="text-center font-serif text-lg italic text-bordeaux">{site.devise}</p>
           </div>
         </nav>
       )}

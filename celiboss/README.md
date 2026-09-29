@@ -30,11 +30,15 @@ source unique : `components/home/Manifeste.tsx`, `lib/histoire.ts`,
 
 - **Typographie** : Bodoni Moda (titres, contraste plein/délié, gras 800-900
   contre italique 400) + Hanken Grotesk (texte, capitales très espacées).
+- **Esprit minimaliste** : un seul fond (ivoire), des filets fins, le blanc
+  et la typographie pour la hiérarchie. La Nuit ne sert qu'aux boutons et à
+  l'aperçu de l'appli ; le bordeaux n'est qu'un accent.
 - **Couleurs** (`app/globals.css`, en canaux RGB pour permettre `bg-nuit/95`) :
   Nuit `#140D0C`, Ivoire `#F3EDE3`, Bordeaux `#5A1726`, Or champagne
   `#B7A27A`, Taupe `#A79A8D` (filets uniquement).
-- **Symboles** (`components/ui/Symboles.tsx`) : Osram ne Nsoromma (la lune et
-  l'étoile, adinkra), étoile à huit branches, bandes bogolan, ciel étoilé.
+- **Symbole** : Osram ne Nsoromma (la lune et l'étoile, adinkra), en petit.
+  `components/ui/Symboles.tsx` garde aussi l'étoile à huit branches, les bandes
+  bogolan et le ciel étoilé, aujourd'hui inutilisés.
 
 ## Le Compagnon : ce qui reste à brancher
 

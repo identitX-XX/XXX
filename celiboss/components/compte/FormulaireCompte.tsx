@@ -12,8 +12,8 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 type Mode = "connexion" | "inscription";
 
 const champ =
-  "h-12 w-full border-0 border-b border-ivoire/45 bg-transparent px-0 text-[1.0625rem] text-ivoire placeholder:text-ivoire/40 focus:border-champagne focus:outline-none focus:ring-0";
-const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-ivoire/70";
+  "h-12 w-full border-0 border-b border-filet bg-transparent px-0 text-[1.0625rem] text-encre placeholder:text-taupe focus:border-bordeaux focus:outline-none focus:ring-0";
+const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-gris";
 
 export function FormulaireCompte({ mode }: { mode: Mode }) {
   const [voir, setVoir] = useState(false);
@@ -40,7 +40,7 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
 
   const err = (k: string) =>
     erreurs[k] && (
-      <p id={`err-${k}`} className="mt-2 text-sm text-champagne">
+      <p id={`err-${k}`} className="mt-2 text-sm text-bordeaux">
         {erreurs[k]}
       </p>
     );
@@ -69,19 +69,19 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
             Mot de passe
           </label>
           {mode === "connexion" && (
-            <Link href="/compagnon#acces" className="text-xs text-champagne hover:text-ivoire">
+            <Link href="/compagnon#acces" className="text-xs text-bordeaux hover:text-encre">
               Mot de passe oublié ?
             </Link>
           )}
         </div>
-        <div className="flex items-center border-b border-ivoire/45 focus-within:border-champagne">
+        <div className="flex items-center border-b border-filet focus-within:border-bordeaux">
           <input
             id="motdepasse"
             name="motdepasse"
             type={voir ? "text" : "password"}
             autoComplete={mode === "inscription" ? "new-password" : "current-password"}
             placeholder={mode === "inscription" ? "12 caractères minimum" : ""}
-            className="h-12 min-w-0 flex-1 border-0 bg-transparent px-0 text-[1.0625rem] text-ivoire placeholder:text-ivoire/40 focus:outline-none focus:ring-0"
+            className="h-12 min-w-0 flex-1 border-0 bg-transparent px-0 text-[1.0625rem] text-encre placeholder:text-taupe focus:outline-none focus:ring-0"
             aria-invalid={!!erreurs.motdepasse}
             aria-describedby="err-motdepasse"
           />
@@ -90,7 +90,7 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
             onClick={() => setVoir((v) => !v)}
             aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
             aria-pressed={voir}
-            className="flex h-11 w-11 items-center justify-center text-ivoire/70 hover:text-champagne"
+            className="flex h-11 w-11 items-center justify-center text-gris hover:text-bordeaux"
           >
             <svg aria-hidden width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
@@ -104,12 +104,12 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
       {mode === "inscription" && (
         <div className="space-y-3 pt-1 text-sm">
           <label className="flex items-start gap-3">
-            <input type="checkbox" name="cgu" className="mt-1 accent-champagne" aria-describedby="err-cgu" />
+            <input type="checkbox" name="cgu" className="mt-1 accent-bordeaux" aria-describedby="err-cgu" />
             <span>J&apos;accepte les conditions d&apos;utilisation.</span>
           </label>
           {err("cgu")}
-          <label className="flex items-start gap-3 border border-champagne/45 p-3 text-[0.8125rem] leading-relaxed text-ivoire/85">
-            <input type="checkbox" name="sante" className="mt-1 accent-champagne" />
+          <label className="flex items-start gap-3 border border-filet p-3 text-[0.8125rem] leading-relaxed text-gris">
+            <input type="checkbox" name="sante" className="mt-1 accent-bordeaux" />
             <span>
               J&apos;autorise le Compagnon à utiliser mes données de santé (sommeil, cardio, humeur) pour calculer mon élan. Facultatif, modifiable à tout
               moment.
@@ -120,15 +120,15 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
 
       <button
         type="submit"
-        className="flex h-14 w-full items-center justify-center gap-2.5 bg-champagne text-[0.8125rem] font-semibold uppercase tracking-[0.2em] text-nuit transition-colors hover:bg-ivoire"
+        className="flex h-14 w-full items-center justify-center gap-2.5 bg-nuit text-[0.8125rem] font-semibold uppercase tracking-[0.2em] text-ivoire transition-colors hover:bg-ivoire"
       >
         {mode === "inscription" ? "Créer mon compte" : "Se connecter"} <span aria-hidden>→</span>
       </button>
 
       {envoye && (
-        <p role="status" className="border-l-2 border-champagne bg-ivoire/5 p-4 text-sm leading-relaxed">
+        <p role="status" className="border-l-2 border-filet bg-sable p-4 text-sm leading-relaxed">
           Le Compagnon ouvre à la prochaine lune : les comptes ne sont pas encore actifs. Votre saisie n&apos;a pas été enregistrée.{" "}
-          <Link href="/compagnon#acces" className="font-semibold text-champagne underline underline-offset-2">
+          <Link href="/compagnon#acces" className="font-semibold text-bordeaux underline underline-offset-2">
             Être invité·e à l&apos;ouverture
           </Link>
         </p>

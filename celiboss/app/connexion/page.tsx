@@ -10,7 +10,7 @@ export default function Connexion() {
     <CadreCompte
       titre={
         <>
-          Le <span className="font-normal italic text-champagne">Compagnon</span>
+          Le <span className="font-normal italic text-bordeaux">Compagnon</span>
         </>
       }
       sousTitre="Retrouvez votre élan là où vous l'avez laissé."
@@ -18,11 +18,11 @@ export default function Connexion() {
         <>
           <p>
             Pas encore de compte ?{" "}
-            <Link href="/inscription" className="font-semibold text-ivoire underline decoration-champagne underline-offset-4">
+            <Link href="/inscription" className="font-semibold text-encre underline decoration-bordeaux underline-offset-4">
               Créer mon compte
             </Link>
           </p>
-          <p className="text-xs text-ivoire/55">Connexion sécurisée. Vos données de santé restent chiffrées et privées.</p>
+          <p className="text-xs text-gris">Connexion sécurisée. Vos données de santé restent chiffrées et privées.</p>
         </>
       }
     >
