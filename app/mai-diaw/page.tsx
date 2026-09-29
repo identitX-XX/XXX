@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { CTA } from "@/components/ui/CTA";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
 
 export const metadata: Metadata = {
@@ -36,13 +37,25 @@ export default function MaiDiaw() {
   return (
     <>
       <Section>
-        <Eyebrow>Fondatrice de CéliBOSS™</Eyebrow>
-        <h1 className="mt-8 text-manifeste">Maï Diaw</h1>
-        <p className="mt-6 font-serif text-titre italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
-        <p className="mt-10 max-w-lecture text-chapo text-gris">
-          Elle met en relation celles et ceux qui ont construit — en amour, en amitié comme en
-          affaires — et les accompagne pour qu&apos;ils ne choisissent plus rien par défaut.
-        </p>
+        <div className="grid items-center gap-16 md:grid-cols-[1.1fr_0.9fr] lg:gap-24">
+          <div>
+            <Eyebrow>Fondatrice de CéliBOSS™</Eyebrow>
+            <h1 className="mt-8 text-manifeste font-light">Maï Diaw</h1>
+            <p className="mt-6 font-serif text-titre font-light italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
+            <p className="mt-10 max-w-lecture text-chapo text-gris">
+              Elle met en relation celles et ceux qui ont construit — en amour, en amitié comme en
+              affaires — et les accompagne pour qu&apos;ils ne choisissent plus rien par défaut.
+            </p>
+          </div>
+          <Portrait
+            src="/images/mai-diaw-portrait.jpg"
+            alt="Portrait de Maï Diaw, souriante, en robe blanche sur une terrasse ensoleillée"
+            focus="40% 32%"
+            zoom={1.32}
+            priority
+            className="mx-auto w-full max-w-md"
+          />
+        </div>
       </Section>
 
       <Section ton="sable">

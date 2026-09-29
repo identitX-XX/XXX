@@ -1,4 +1,5 @@
 import { Manifeste, ManifesteOuverture } from "@/components/home/Manifeste";
+import { Fondatrice } from "@/components/home/Fondatrice";
 import { Parcours } from "@/components/home/Parcours";
 import { QuatrePortes } from "@/components/home/QuatrePortes";
 import { ArticleCard } from "@/components/journal/ArticleCard";
@@ -14,6 +15,7 @@ export default function Accueil() {
     <>
       <ManifesteOuverture />
       <Manifeste />
+      <Fondatrice />
 
       <Section>
         <Parcours />
