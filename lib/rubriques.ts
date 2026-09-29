@@ -2,12 +2,13 @@
 // média (lecture gratuite) et l'offre. Une porte « bientôt » renvoie vers
 // l'appel en attendant son ouverture.
 
-export type PorteId = "rencontrer" | "journal" | "cercle" | "atelier";
+export type PorteId = "rencontrer" | "journal" | "programmes" | "evenements";
 
 export type Porte = {
   id: PorteId;
   nom: string;
   promesse: string;
+  detail?: string;
   href: string;
   active: boolean;
 };
@@ -16,40 +17,44 @@ export const PORTES: Record<PorteId, Porte> = {
   rencontrer: {
     id: "rencontrer",
     nom: "Rencontrer",
-    promesse: "Un matchmaking sélectif, mené personnellement par Maï Diaw.",
+    promesse: "Un matchmaking d'exception, mené personnellement par Maï Diaw.",
+    detail: "Pro · Relationnel · Sentimental",
     href: "/rencontrer",
     active: true,
   },
   journal: {
     id: "journal",
     nom: "Le Journal",
-    promesse: "Lire, penser, se positionner. Chaque semaine.",
+    promesse: "Identité, confiance, standards, intelligence émotionnelle.",
+    detail: "Chaque semaine",
     href: "/journal",
     active: true,
   },
-  cercle: {
-    id: "cercle",
-    nom: "Le Cercle",
-    promesse: "La communauté privée, dans l'application.",
-    href: "/cercle",
+  programmes: {
+    id: "programmes",
+    nom: "Programmes",
+    promesse: "Mindset, posture, image : le travail sur soi, accompagné.",
+    detail: "Glow Up · M.C MEN · Coaching",
+    href: "/programmes",
     active: false,
   },
-  atelier: {
-    id: "atelier",
-    nom: "L'Atelier",
-    promesse: "Posture, image, présence : le travail sur soi, en petit comité.",
-    href: "/atelier",
+  evenements: {
+    id: "evenements",
+    nom: "Événements",
+    promesse: "Des rencontres choisies, en petit comité. Certaines changent une trajectoire.",
+    detail: "Sur invitation",
+    href: "/evenements",
     active: false,
   },
 };
 
-export const ORDRE_PORTES: PorteId[] = ["rencontrer", "journal", "cercle", "atelier"];
+export const ORDRE_PORTES: PorteId[] = ["rencontrer", "journal", "programmes", "evenements"];
 
 export const RUBRIQUES = {
   relationnel: { nom: "Relationnel", porte: "rencontrer" },
-  mindset: { nom: "Mindset", porte: "cercle" },
-  "posture-image": { nom: "Posture & Image", porte: "atelier" },
-  "art-de-vivre": { nom: "Art de vivre", porte: "journal" },
+  "intelligence-emotionnelle": { nom: "Intelligence émotionnelle", porte: "programmes" },
+  mindset: { nom: "Mindset", porte: "programmes" },
+  "posture-image": { nom: "Posture & Image", porte: "programmes" },
 } as const satisfies Record<string, { nom: string; porte: PorteId }>;
 
 export type RubriqueId = keyof typeof RUBRIQUES;

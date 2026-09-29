@@ -11,9 +11,10 @@ const config: Config = {
         sable: "var(--sable)",
         encre: "var(--encre)",
         gris: "var(--gris)",
+        taupe: "var(--taupe)",
         filet: "var(--filet)",
-        bronze: "var(--bronze)",
-        "bronze-fonce": "var(--bronze-fonce)",
+        bordeaux: "var(--bordeaux)",
+        champagne: "var(--champagne)",
       },
       fontFamily: {
         serif: ["var(--font-serif)", "Georgia", "serif"],

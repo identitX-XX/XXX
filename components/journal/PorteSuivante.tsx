@@ -7,13 +7,13 @@ import { porteDe, type RubriqueId } from "@/lib/rubriques";
 export function PorteSuivante({ rubrique }: { rubrique: RubriqueId }) {
   const porte = porteDe(rubrique);
   return (
-    <aside className="mx-auto mt-rythme max-w-lecture border-t border-bronze pt-10">
+    <aside className="mx-auto mt-rythme max-w-lecture border-t border-bordeaux pt-10">
       <Eyebrow>Et maintenant</Eyebrow>
       <h2 className="mt-4 text-3xl">{porte.nom}</h2>
       <p className="mt-3 text-gris">{porte.promesse}</p>
       <div className="mt-8">
         {porte.active && porte.id !== "journal" ? (
-          <Link href={porte.href} className="text-sm uppercase tracking-[0.14em] text-bronze hover:text-bronze-fonce">
+          <Link href={porte.href} className="text-sm uppercase tracking-[0.14em] text-bordeaux hover:text-encre">
             Découvrir {porte.nom} →
           </Link>
         ) : (

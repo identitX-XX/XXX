@@ -15,7 +15,7 @@ export function Methode() {
       <ol className="mt-14 grid gap-10 md:grid-cols-4">
         {ETAPES.map((e, i) => (
           <li key={e.titre}>
-            <span className="font-serif text-5xl text-bronze">{i + 1}</span>
+            <span className="font-serif text-5xl text-taupe">{i + 1}</span>
             <h3 className="mt-4 text-2xl">{e.titre}</h3>
             <p className="mt-3 text-gris">{e.texte}</p>
           </li>

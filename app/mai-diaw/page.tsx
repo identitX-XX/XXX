@@ -5,32 +5,62 @@ import { Section } from "@/components/ui/Section";
 
 export const metadata: Metadata = {
   title: "Maï Diaw",
-  description: "Fondatrice de Celiboss. Parcours, méthode et presse.",
+  description:
+    "Maï Diaw, matchmakeuse d'exception et fondatrice de CéliBOSS™ : matchmaking pro, relationnel et sentimental, coaching, programmes et événements.",
 };
 
-// ⚠️ Contenus à fournir par Maï Diaw : parcours réel et parutions presse.
-// Rien n'est inventé ici — les listes vides ne s'affichent pas.
+// Faits issus de la bio de Maï Diaw. Parcours détaillé et presse : à fournir
+// par elle — rien n'est inventé, les listes vides ne s'affichent pas.
+const EXPERTISES = ["Intelligence émotionnelle", "Mindset", "Posture", "Image"];
+const TERRAINS = ["Pro", "Relationnel", "Sentimental"];
+const FORMATS = ["Événements", "Coaching", "Programmes"];
+const MARQUES = ["CéliBOSS™", "Glow Up", "M.C MEN"];
+
 const PARCOURS: { annee: string; texte: string }[] = [];
 const PRESSE: { media: string; titre: string; url: string }[] = [];
+
+function Colonne({ titre, items }: { titre: string; items: string[] }) {
+  return (
+    <div className="border-t border-taupe/60 pt-6">
+      <Eyebrow>{titre}</Eyebrow>
+      <ul className="mt-6 space-y-2 font-serif text-3xl">
+        {items.map((i) => (
+          <li key={i}>{i}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 export default function MaiDiaw() {
   return (
     <>
       <Section>
-        <Eyebrow>La fondatrice</Eyebrow>
+        <Eyebrow>Fondatrice de CéliBOSS™</Eyebrow>
         <h1 className="mt-8 text-manifeste">Maï Diaw</h1>
+        <p className="mt-6 font-serif text-titre italic text-bordeaux">Matchmakeuse d&apos;exception.</p>
         <p className="mt-10 max-w-lecture text-chapo text-gris">
-          Fondatrice et CEO de Celiboss. {/* TODO: phrase d'autorité — qui elle est, en une ligne. */}
+          Elle met en relation celles et ceux qui ont construit — en amour, en amitié comme en
+          affaires — et les accompagne pour qu&apos;ils ne choisissent plus rien par défaut.
         </p>
       </Section>
 
+      <Section ton="sable">
+        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+          <Colonne titre="Mettre en relation" items={TERRAINS} />
+          <Colonne titre="Expertises" items={EXPERTISES} />
+          <Colonne titre="Formats" items={FORMATS} />
+          <Colonne titre="Univers" items={MARQUES} />
+        </div>
+      </Section>
+
       {PARCOURS.length > 0 && (
-        <Section ton="sable">
+        <Section>
           <Eyebrow>Parcours</Eyebrow>
           <ol className="mt-10 space-y-8">
             {PARCOURS.map((p) => (
               <li key={p.annee} className="grid gap-2 border-t border-filet pt-6 md:grid-cols-[8rem_1fr]">
-                <span className="font-serif text-2xl text-bronze">{p.annee}</span>
+                <span className="font-serif text-2xl text-bordeaux">{p.annee}</span>
                 <p>{p.texte}</p>
               </li>
             ))}
@@ -46,7 +76,7 @@ export default function MaiDiaw() {
               <li key={p.url} className="border-t border-filet pt-6">
                 <a href={p.url} target="_blank" rel="noopener noreferrer" className="group">
                   <span className="text-eyebrow uppercase text-gris">{p.media}</span>
-                  <span className="mt-2 block font-serif text-2xl group-hover:text-bronze-fonce">{p.titre}</span>
+                  <span className="mt-2 block font-serif text-2xl group-hover:text-bordeaux">{p.titre}</span>
                 </a>
               </li>
             ))}
@@ -54,10 +84,10 @@ export default function MaiDiaw() {
         </Section>
       )}
 
-      <Section ton="sable" etroit>
+      <Section ton="bordeaux" etroit>
         <h2 className="text-titre">Parlons-en de vive voix.</h2>
         <div className="mt-10">
-          <CTA />
+          <CTA ton="sombre" />
         </div>
       </Section>
     </>

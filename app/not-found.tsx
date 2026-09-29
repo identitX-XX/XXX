@@ -10,7 +10,7 @@ export default function NotFound() {
       <p className="mt-6 text-chapo text-gris">
         Certaines portes se ferment. D&apos;autres attendent qu&apos;on les pousse.
       </p>
-      <Link href="/journal" className="mt-10 inline-block text-sm uppercase tracking-[0.14em] text-bronze hover:text-bronze-fonce">
+      <Link href="/journal" className="mt-10 inline-block text-sm uppercase tracking-[0.14em] text-bordeaux hover:text-encre">
         Lire le Journal →
       </Link>
     </Section>

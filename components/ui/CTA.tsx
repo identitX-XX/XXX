@@ -8,8 +8,8 @@ const LIBELLE = "Réserver mon appel découverte";
 export function CTA({ ton = "clair" }: { ton?: "clair" | "sombre" }) {
   const styles =
     ton === "clair"
-      ? "bg-encre text-ivoire hover:bg-bronze-fonce"
-      : "bg-ivoire text-encre hover:bg-sable";
+      ? "bg-bordeaux text-ivoire hover:bg-encre"
+      : "border border-champagne/60 text-ivoire hover:bg-ivoire hover:text-bordeaux";
   return (
     <Link
       href="/appel"

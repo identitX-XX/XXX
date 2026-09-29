@@ -3,14 +3,18 @@
 @tailwind utilities;
 
 :root {
-  /* Palette — ivoire, encre, un seul accent bronze. */
-  --ivoire: #f4efe7;
-  --sable: #e9e1d4;
-  --encre: #1c1a17;
-  --gris: #6b645a;
-  --filet: #d6ccbc;
-  --bronze: #9a6b3f;
-  --bronze-fonce: #7a5230;
+  /* Palette CéliBOSS — épurée, chaude, une signature bordeaux.
+     Le taupe #A79A8D ne sert qu'aux filets et décors : trop clair pour du texte
+     (contraste < 3:1 sur ivoire). Le texte secondaire utilise un taupe foncé.
+     Le champagne est réservé aux fonds sombres et aux détails (< 10 %). */
+  --ivoire: #f3ede3;
+  --sable: #ebe3d7;
+  --encre: #291d1b;
+  --gris: #6b5f56;
+  --taupe: #a79a8d;
+  --filet: #d9cfc3;
+  --bordeaux: #5a1726;
+  --champagne: #b7a27a;
 }
 
 @layer base {
@@ -28,11 +32,11 @@
     @apply font-serif font-medium tracking-tight;
   }
   ::selection {
-    background: var(--bronze);
+    background: var(--bordeaux);
     color: var(--ivoire);
   }
   :focus-visible {
-    outline: 2px solid var(--bronze);
+    outline: 2px solid var(--bordeaux);
     outline-offset: 3px;
   }
 }
@@ -52,13 +56,13 @@
     @apply mt-10 text-2xl;
   }
   .prose-journal a {
-    @apply text-bronze underline decoration-filet underline-offset-4 hover:decoration-bronze;
+    @apply text-bordeaux underline decoration-filet underline-offset-4 hover:decoration-bordeaux;
   }
   .prose-journal blockquote {
-    @apply border-l-2 border-bronze pl-6 font-serif text-chapo italic;
+    @apply border-l-2 border-bordeaux pl-6 font-serif text-chapo italic;
   }
   .prose-journal ul {
-    @apply list-disc space-y-2 pl-6 marker:text-bronze;
+    @apply list-disc space-y-2 pl-6 marker:text-bordeaux;
   }
   .prose-journal strong {
     @apply font-semibold;

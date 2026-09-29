@@ -16,17 +16,17 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: 96,
-          backgroundColor: site.og.fond,
-          color: site.og.encre,
+          backgroundColor: site.og.bordeaux,
+          color: site.og.fond,
           fontFamily: "serif",
         }}
       >
         <div style={{ display: "flex", fontSize: 150, letterSpacing: -4 }}>
           {site.nom}
-          <span style={{ color: site.og.bronze }}>.</span>
+          <span style={{ color: site.og.bordeaux }}>.</span>
         </div>
-        <div style={{ width: 120, height: 4, backgroundColor: site.og.bronze, margin: "32px 0" }} />
-        <div style={{ fontSize: 40, color: site.og.bronze, fontStyle: "italic" }}>{site.signature}</div>
+        <div style={{ width: 120, height: 4, backgroundColor: site.og.bordeaux, margin: "32px 0" }} />
+        <div style={{ fontSize: 40, color: site.og.bordeaux, fontStyle: "italic" }}>{site.signature}</div>
       </div>
     ),
     size,

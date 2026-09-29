@@ -1,4 +1,4 @@
-import { Manifeste } from "@/components/home/Manifeste";
+import { Manifeste, ManifesteOuverture } from "@/components/home/Manifeste";
 import { QuatrePortes } from "@/components/home/QuatrePortes";
 import { ArticleCard } from "@/components/journal/ArticleCard";
 import { CTA } from "@/components/ui/CTA";
@@ -10,12 +10,8 @@ export default function Accueil() {
   const derniers = getArticles().slice(0, 3);
   return (
     <>
-      <Section>
-        <Manifeste />
-        <div className="mt-14">
-          <CTA />
-        </div>
-      </Section>
+      <ManifesteOuverture />
+      <Manifeste />
 
       <Section ton="sable">
         <QuatrePortes />
@@ -31,6 +27,15 @@ export default function Accueil() {
           </div>
         </Section>
       )}
+
+      <Section ton="bordeaux" etroit>
+        <h2 className="text-titre">
+          Choisir son cercle commence <span className="italic text-champagne">par une conversation.</span>
+        </h2>
+        <div className="mt-10">
+          <CTA ton="sombre" />
+        </div>
+      </Section>
     </>
   );
 }

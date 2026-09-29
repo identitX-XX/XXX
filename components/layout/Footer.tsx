@@ -1,25 +1,18 @@
-import { CTA } from "@/components/ui/CTA";
+import Link from "next/link";
+import { Wordmark } from "@/components/ui/Wordmark";
 import { CONTACT_EMAIL, INSTAGRAM } from "@/lib/links";
 import { site } from "@/lib/site";
 
 export function Footer() {
   return (
     <footer className="bg-encre text-ivoire">
-      <div className="mx-auto max-w-page px-6 py-rythme">
-        <p className="max-w-2xl font-serif text-titre">
-          Vous ne cherchez pas. <span className="italic text-bronze">Vous choisissez.</span>
-        </p>
-        <div className="mt-10">
-          <CTA ton="sombre" />
-        </div>
-      </div>
-
-      <div className="border-t border-ivoire/15">
-        <div className="mx-auto flex max-w-page flex-col gap-6 px-6 py-8 text-sm text-ivoire/60 md:flex-row md:items-center md:justify-between">
-          <p>
-            © {new Date().getFullYear()} {site.nom} — {site.signature}
-          </p>
-          <ul className="flex flex-wrap gap-6">
+      <div>
+        <div className="mx-auto grid max-w-page gap-8 px-6 pb-10 pt-16 text-sm text-ivoire/60 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <Wordmark className="text-3xl text-ivoire" />
+            <p className="mt-3 font-serif text-base italic text-ivoire/70">{site.devise}</p>
+          </div>
+          <ul className="flex flex-wrap gap-x-6 gap-y-3">
             {INSTAGRAM && (
               <li>
                 <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="hover:text-ivoire">
@@ -34,9 +27,21 @@ export function Footer() {
                 </a>
               </li>
             )}
-            {/* ⚠️ Mentions légales + confidentialité (obligatoires, LCEN/RGPD) : à ajouter avant la mise en ligne. */}
+            <li>
+              <Link href="/mentions-legales" className="hover:text-ivoire">
+                Mentions légales
+              </Link>
+            </li>
+            <li>
+              <Link href="/confidentialite" className="hover:text-ivoire">
+                Confidentialité
+              </Link>
+            </li>
           </ul>
         </div>
+        <p className="mx-auto max-w-page px-6 pb-8 text-xs text-ivoire/40">
+          © {new Date().getFullYear()} CéliBOSS™ — {site.signature}. Ce site n&apos;utilise aucun cookie de mesure ni de publicité.
+        </p>
       </div>
     </footer>
   );
