@@ -15,6 +15,6 @@ export function Progression() {
     return () => window.removeEventListener("scroll", maj);
   }, []);
   return (
-    <div aria-hidden className="fixed inset-x-0 top-16 z-30 h-0.5 origin-left bg-bordeaux" style={{ transform: `scaleX(${p})` }} />
+    <div aria-hidden className="fixed inset-x-0 top-[4.5rem] z-30 xl:top-[5.5rem] h-0.5 origin-left bg-bordeaux" style={{ transform: `scaleX(${p})` }} />
   );
 }

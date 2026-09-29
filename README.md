@@ -8,45 +8,46 @@ entière dans le repo (le `tsconfig` racine l'exclut).
 
 ## Principe
 
-**Le média attire, les portes convertissent, un seul bouton.**
+**Le média attire, le Compagnon relie, Maï Diaw présente.**
 
-- Le **Journal** (`content/journal/*.mdx`) est gratuit. Chaque article appartient
-  à une **rubrique**, et chaque rubrique mène à une **porte** (`lib/rubriques.ts`).
-- 4 portes : Rencontrer et Journal (actives), Programmes (Glow Up, M.C MEN,
-  coaching) et Événements (bientôt → page de présentation + liste d'attente,
-  jamais d'impasse).
-- Parcours affiché sur l'accueil : Lire → Se révéler → Rencontrer → S'entourer.
-- Fidélisation : inscription au Journal en fin d'article et sur /journal.
-  Une porte « bientôt » renvoie vers l'appel en attendant.
-- Une seule conversion : `<CTA />` → `/appel` : court formulaire RGPD, puis
-  calendrier Cal.com. Libellé verrouillé dans `components/ui/CTA.tsx`.
-- Le manifeste de Maï Diaw (`components/home/Manifeste.tsx`) est reproduit tel quel.
+| Page | Rôle |
+|---|---|
+| `/` | Les affinités électives : se relier aux autres, à son corps, à son intuition |
+| `/compagnon` | Le Compagnon, cœur du projet : sommeil, cardio, humeur, énergie, ambition → élan |
+| `/connexion`, `/inscription` | Accès au Compagnon par e-mail et mot de passe (voir plus bas) |
+| `/rencontrer` | Matchmaking : seuil, méthode, trois terrains, FAQ |
+| `/mai-diaw` | Portrait, trois convergences, son histoire en ses mots, son média |
+| `/journal`, `/journal/[slug]` | Le média (MDX) ; chaque article mène à une porte |
+| `/programmes` | Glow Up, M.C MEN, coaching + événements (`/evenements` y redirige) |
+| `/appel` | La conversion : formulaire RGPD puis calendrier |
+| `/manifeste` | Le manifeste de Maï Diaw, reproduit tel quel |
 
-## Palette
+Les textes de Maï Diaw (manifeste, histoire, promesse) vivent chacun dans une
+source unique : `components/home/Manifeste.tsx`, `lib/histoire.ts`,
+`lib/positionnement.ts`. Ne pas les réécrire sans son accord.
 
-| Rôle | Couleur | Usage |
-|---|---|---|
-| Signature | Bordeaux `#5A1726` | titres en italique, CTA, sections fortes |
-| Fond | Ivoire chaud `#F3EDE3` | fond principal |
-| Sophistication | Taupe minéral `#A79A8D` | filets, numéros, décors — jamais du texte courant (contraste trop faible) |
-| Texte | Espresso `#291D1B` | texte, pied de page |
-| Détail | Champagne mat `#B7A27A` | < 10 %, uniquement sur fonds sombres |
+## Design
 
-## Données personnelles (RGPD)
+- **Typographie** : Bodoni Moda (titres, contraste plein/délié, gras 800-900
+  contre italique 400) + Hanken Grotesk (texte, capitales très espacées).
+- **Couleurs** (`app/globals.css`, en canaux RGB pour permettre `bg-nuit/95`) :
+  Nuit `#140D0C`, Ivoire `#F3EDE3`, Bordeaux `#5A1726`, Or champagne
+  `#B7A27A`, Taupe `#A79A8D` (filets uniquement).
+- **Symboles** (`components/ui/Symboles.tsx`) : Osram ne Nsoromma (la lune et
+  l'étoile, adinkra), étoile à huit branches, bandes bogolan, ciel étoilé.
 
-- **Minimisation** : prénom, e-mail, (téléphone, ville), terrain, message. Aucune
-  donnée sensible (art. 9) collectée en ligne.
-- **Consentement** explicite, case non pré-cochée ; newsletter en case séparée
-  et facultative. Chaque envoi porte l'horodatage et la version de la notice
-  (`VERSION_NOTICE` dans `lib/candidature.ts`) = preuve du consentement.
-- **Pas de stockage sur le site** : `/api/candidature` (demande d'appel) et
-  `/api/inscription` (listes Journal / Programmes / Événements) passent par
-  `lib/webhook.ts`, qui relaie vers `FORMULAIRES_WEBHOOK_URL` (variable Vercel :
-  CRM, Brevo, Make, Airtable… hébergé dans l'UE de préférence). Champ `type`
-  = `candidature` ou `liste`. Sans la variable, les formulaires répondent « bientôt ».
-- **Aucun cookie** de mesure ni de pub → pas de bandeau. Cal.com ne se charge
-  qu'au clic, avec information préalable.
-- Pages `/confidentialite` et `/mentions-legales` : compléter les `[À compléter]`.
+## Le Compagnon : ce qui reste à brancher
+
+Les écrans (téléphone, montre, connexion, inscription) sont en place, **pas
+l'authentification ni la collecte de données de santé**. Les formulaires de
+compte valident la saisie puis indiquent honnêtement que l'accès ouvre
+bientôt. Avant d'ouvrir :
+
+- un fournisseur d'authentification (e-mail + mot de passe, vérification
+  d'e-mail, réinitialisation, idéalement double authentification) ;
+- un hébergeur certifié HDS pour les données de santé, et une analyse
+  d'impact (AIPD) : données sensibles au sens de l'article 9 du RGPD ;
+- les connexions Apple Santé / Health Connect (application mobile native).
 
 ## Déclinaison en application
 
@@ -92,7 +93,13 @@ Un frontmatter incomplet ou une rubrique inconnue fait **échouer le build**
 
 ## Déployer (Vercel)
 
-Nouveau projet Vercel sur ce repo, **Root Directory = `celiboss`**.
+1. Sur vercel.com : **Add New → Project**, importer le dépôt GitHub `celiboss`.
+2. Framework détecté : Next.js. Rien d'autre à régler.
+3. Variables d'environnement (facultatives au premier déploiement) :
+   `NEXT_PUBLIC_SITE_URL` (l'adresse du site) et `FORMULAIRES_WEBHOOK_URL`
+   (réception des demandes et inscriptions ; sans elle, les formulaires
+   répondent « bientôt »).
+4. **Deploy**. Chaque `git push` sur `main` redéploie ensuite le site.
 
 ```bash
 npm install

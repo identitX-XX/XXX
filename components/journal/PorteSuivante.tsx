@@ -1,33 +1,27 @@
 import Link from "next/link";
 import { ListeAttente } from "@/components/formulaires/ListeAttente";
-import { CTA } from "@/components/ui/CTA";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { porteDe, type RubriqueId } from "@/lib/rubriques";
 
 /** Fin d'article : la lecture mène à la porte de sa rubrique, puis fidélise. */
 export function PorteSuivante({ rubrique }: { rubrique: RubriqueId }) {
   const porte = porteDe(rubrique);
   return (
-    <aside className="mx-auto mt-rythme max-w-lecture space-y-16">
-      <div className="border-t border-bordeaux pt-10">
-        <Eyebrow>Et maintenant</Eyebrow>
-        <h2 className="mt-4 text-4xl">{porte.nom}</h2>
-        <p className="mt-3 text-gris">{porte.promesse}</p>
-        <div className="mt-8 flex flex-col items-start gap-5">
-          {porte.id === "rencontrer" ? (
-            <CTA />
-          ) : (
-            <Link href={porte.href} className="text-xs uppercase tracking-[0.18em] text-bordeaux hover:text-encre">
-              {porte.active ? `Découvrir ${porte.nom}` : "Être informé·e de l'ouverture"} →
-            </Link>
-          )}
-        </div>
+    <aside className="mx-auto mt-rythme grid max-w-[55rem] gap-6 md:grid-cols-[1.2fr_1fr]">
+      <div className="space-y-4 bg-nuit p-10 text-ivoire">
+        <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.28em] text-champagne">Et maintenant</p>
+        <p className="font-serif text-4xl font-extrabold leading-none">
+          {porte.nom}, <span className="font-normal italic text-champagne">{porte.accroche}</span>
+        </p>
+        <p className="leading-relaxed text-ivoire/80">{porte.promesse}</p>
+        <Link href={porte.href} className="inline-block bg-champagne px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-nuit hover:bg-ivoire">
+          {porte.active ? "Découvrir" : "Être informé·e de l'ouverture"} →
+        </Link>
       </div>
-      <div className="bg-sable p-8 md:p-10">
-        <p className="font-serif text-2xl">Le prochain article, dans votre boîte.</p>
-        <div className="mt-6">
-          <ListeAttente liste="journal" action="Recevoir" promesse="Un e-mail par semaine avec le nouvel article du Journal." />
-        </div>
+      <div className="space-y-4 bg-sable p-10">
+        <p className="font-serif text-2xl leading-tight">
+          Le prochain article, <span className="italic text-bordeaux">dans votre boîte.</span>
+        </p>
+        <ListeAttente liste="journal" action="Recevoir" promesse="Un e-mail par semaine avec le nouvel article du Journal." />
       </div>
     </aside>
   );

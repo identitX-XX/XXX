@@ -7,17 +7,19 @@ const COLONNES = [
   {
     titre: "L'univers",
     liens: [
-      { href: "/rencontrer", label: "Rencontrer" },
       { href: "/journal", label: "Le Journal" },
-      { href: "/programmes", label: "Programmes" },
-      { href: "/evenements", label: "Événements" },
+      { href: "/compagnon", label: "Le Compagnon" },
+      { href: "/rencontrer", label: "Rencontrer" },
+      { href: "/programmes", label: "Programmes & événements" },
     ],
   },
   {
     titre: "La maison",
     liens: [
       { href: "/mai-diaw", label: "Maï Diaw" },
+      { href: "/manifeste", label: "Le manifeste" },
       { href: "/appel", label: "L'appel découverte" },
+      { href: "/connexion", label: "Se connecter" },
     ],
   },
   {
@@ -31,12 +33,12 @@ const COLONNES = [
 
 export function Footer() {
   return (
-    <footer className="bg-encre text-ivoire">
-      <div className="mx-auto grid max-w-page gap-14 px-6 pb-10 pt-20 md:grid-cols-[1.4fr_repeat(3,1fr)]">
-        <div>
+    <footer className="border-t border-champagne/35 bg-nuit text-ivoire/70">
+      <div className="mx-auto grid max-w-[90rem] gap-12 px-6 pb-10 pt-16 md:px-10 lg:grid-cols-[1.6fr_repeat(3,1fr)] xl:px-24">
+        <div className="space-y-3">
           <Wordmark className="text-4xl text-ivoire" />
-          <p className="mt-4 max-w-xs font-serif text-lg italic leading-snug text-ivoire/70">{site.devise}</p>
-          <ul className="mt-8 flex gap-6 text-sm text-ivoire/60">
+          <p className="font-serif text-lg italic text-champagne">{site.devise}</p>
+          <ul className="flex flex-wrap gap-6 pt-4 text-sm">
             {INSTAGRAM && (
               <li>
                 <a href={INSTAGRAM} target="_blank" rel="noopener noreferrer" className="hover:text-ivoire">
@@ -54,27 +56,21 @@ export function Footer() {
           </ul>
         </div>
         {COLONNES.map((c) => (
-          <nav key={c.titre} aria-label={c.titre}>
-            <p className="text-eyebrow uppercase text-champagne">{c.titre}</p>
-            <ul className="mt-6 space-y-3 text-sm text-ivoire/70">
-              {c.liens.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className="transition-colors hover:text-ivoire">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          <nav key={c.titre} aria-label={c.titre} className="flex flex-col gap-2.5 text-sm">
+            <p className="mb-1.5 text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-champagne">{c.titre}</p>
+            {c.liens.map((l) => (
+              <Link key={l.href} href={l.href} className="text-ivoire/75 transition-colors hover:text-ivoire">
+                {l.label}
+              </Link>
+            ))}
           </nav>
         ))}
       </div>
-      <div className="mx-auto max-w-page px-6">
-      <div className="flex flex-col gap-2 border-t border-ivoire/10 py-6 text-xs text-ivoire/40 md:flex-row md:justify-between">
-        <p>
-          © {new Date().getFullYear()} CéliBOSS™ — {site.signature}
-        </p>
-        <p>Aucun cookie de mesure ni de publicité.</p>
-      </div>
+      <div className="mx-auto max-w-[90rem] px-6 md:px-10 xl:px-24">
+        <div className="flex flex-col gap-2 border-t border-ivoire/10 py-6 text-xs text-ivoire/45 md:flex-row md:justify-between">
+          <p>© {new Date().getFullYear()} CéliBOSS™ · {site.signature}</p>
+          <p>Aucun cookie de mesure ni de publicité.</p>
+        </div>
       </div>
     </footer>
   );
