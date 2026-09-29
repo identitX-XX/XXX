@@ -393,6 +393,21 @@ textarea {
   }
 }
 
+/* Anneau de « nouvelle étoile allumée » — la dernière capsule vécue pulse une
+   fois de plus dans la Constellation vivante. transform-box: fill-box pour que
+   le scale d'un cercle SVG parte de son propre centre. */
+@keyframes idx-pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.6;
+  }
+  70%,
+  100% {
+    transform: scale(2.1);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Card, PageHead, Slider, Button } from "@/components/ui";
 import { Reveal } from "@/components/Reveal";
+import { ConstellationVivante } from "@/components/ConstellationVivante";
 import { LeChemin } from "@/components/LeChemin";
 import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
@@ -272,6 +273,12 @@ export default function AujourdhuiPage() {
           </div>
         </div>
       </Card>
+
+      {/* Ta constellation vivante — la mémoire visuelle du parcours : elle gagne
+          une étoile à chaque capsule vécue. Une raison douce de revenir. */}
+      <Reveal as="div" delay={40}>
+        <ConstellationVivante />
+      </Reveal>
 
       {/* Les 3 exercices du jour — un par périmètre, pilotés par la signature du
           moment (qui varie) : la quête « évolue », les exercices avec elle. */}
