@@ -68,7 +68,7 @@ export function Brand() {
   return (
     <Link href="/aujourdhui" className="mb-8 flex items-center gap-2">
       <div className="brand-gradient flex h-8 w-8 items-center justify-center rounded-lg">
-        <Sparkles size={16} className="text-white" />
+        <Sparkles size={16} style={{ color: "var(--on-brand)" }} />
       </div>
       <span className="font-display text-lg tracking-tight text-ink">
         IDENTITX

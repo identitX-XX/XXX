@@ -209,7 +209,7 @@ const optBtn: React.CSSProperties = {
 };
 const cta: React.CSSProperties = {
   marginTop: 22, width: "100%", padding: "17px 26px", minHeight: 52, borderRadius: 999,
-  border: "none", color: "#fff", fontSize: 16, fontWeight: 600, cursor: "pointer",
+  border: "none", color: "var(--on-brand)", fontSize: 16, fontWeight: 600, cursor: "pointer",
   background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
 };
 const ghost: React.CSSProperties = {

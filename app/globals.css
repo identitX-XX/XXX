@@ -120,23 +120,23 @@ html.pal-aubergine.light {
 /* Lin & Prune — clair par défaut : lin chaud, accent prune profond. Féminin,
    éditorial, sobre. C'est l'identité de la marque (défaut de l'app). */
 html.pal-lin {
-  /* Variante sombre (si bascule) — bois brûlé + prune clair. */
-  --noir: #1b1813; --surface: #26221a; --raised: #302b21;
-  --ink: #ece5d9; --muted: #a79e8f; --line: rgba(255, 255, 255, 0.08);
-  --fuchsia: #c294a8; --orange: #c294a8; --slate: #a79e8f;
-  --on-brand: #1b1813;
+  /* DÉFAUT — Fusain & blanc : fond charbon profond, cartes charbon détachées,
+     texte et traits blancs. Monochrome PUR (aucune couleur), façon Co-Star.
+     L'accent est un gris clair : boutons gris clair à texte foncé, liserés gris. */
+  --noir: #151517; --surface: #1c1c1f; --raised: #26262a;
+  --ink: #f2f2f3; --muted: #9a9aa1; --line: rgba(255, 255, 255, 0.13);
+  --fuchsia: #d0d0d4; --orange: #d0d0d4; --slate: #9a9aa1;
+  --prune: #cdcdd1; /* liseré neutralisé en gris clair (plus de prune) */
+  --on-brand: #16161a; /* texte foncé sur les boutons gris clair */
 }
 html.pal-lin.light {
-  /* Gris chaud & anthracite : fond gris doux, cartes quasi blanches nettement
-     détachées, encre presque noire, accent NOIR/anthracite. Ultra sobre, mode,
-     minimaliste. */
-  --noir: #e7e6e3; --surface: #f1f0ee; --raised: #ffffff;
-  --ink: #17161a; --muted: #5c5a57; --line: rgba(23, 22, 26, 0.22);
-  --fuchsia: #26242a; --orange: #26242a; --slate: #5c5a57;
-  --on-brand: #f4f3f1;
-  /* Prune : accent secondaire, réservé aux LISERÉS fins (contraste chaud sur
-     l'anthracite). Jamais un aplat de bouton — juste des filets. */
-  --prune: #7a4258;
+  /* Variante claire (si bascule) — gris & blanc, monochrome pur : fond gris doux,
+     cartes blanches, encre fusain, accent gris foncé. Aucune couleur. */
+  --noir: #ececed; --surface: #f5f5f6; --raised: #ffffff;
+  --ink: #1a1a1d; --muted: #64646a; --line: rgba(20, 20, 26, 0.16);
+  --fuchsia: #26262a; --orange: #26262a; --slate: #64646a;
+  --prune: #26262a; /* liseré neutralisé en gris fusain foncé */
+  --on-brand: #f5f5f6;
 }
 
 * {
@@ -279,7 +279,7 @@ button:not(:disabled):active,
 
 ::selection {
   background: var(--fuchsia);
-  color: #fff;
+  color: var(--on-brand);
 }
 
 /* Placeholders lisibles : couleur explicite (le défaut navigateur descend trop

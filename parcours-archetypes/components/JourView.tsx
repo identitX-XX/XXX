@@ -277,7 +277,7 @@ export function JourView({
                     cursor: readOnly ? "default" : "pointer",
                     border: `1px solid ${on ? "transparent" : LINE}`,
                     background: on ? `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})` : "transparent",
-                    color: on ? "#fff" : MUTED,
+                    color: on ? "var(--on-brand)" : MUTED,
                     opacity: readOnly && !on ? 0.35 : 1,
                   }}
                 >
@@ -565,7 +565,7 @@ function ReactionClotature({
       <div
         style={{
           width: 54, height: 54, borderRadius: "50%", margin: "0 auto 16px",
-          display: "grid", placeItems: "center", color: "#fff", fontSize: 24,
+          display: "grid", placeItems: "center", color: "var(--on-brand)", fontSize: 24,
           background: `linear-gradient(135deg, ${FUCHSIA}, ${ORANGE})`,
         }}
       >
@@ -626,7 +626,7 @@ function ReactionClotature({
                     fontSize: 12,
                     padding: "5px 11px",
                     borderRadius: 999,
-                    color: "#fff",
+                    color: "var(--on-brand)",
                     background: `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
                   }}
                 >
@@ -668,7 +668,7 @@ function ReactionClotature({
           padding: "14px 28px",
           borderRadius: 999,
           border: "none",
-          color: "#fff",
+          color: "var(--on-brand)",
           fontSize: 14,
           fontWeight: 600,
           cursor: "pointer",

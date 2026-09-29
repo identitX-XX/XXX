@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#eceae7",
+  themeColor: "#151517",
   width: "device-width",
   initialScale: 1,
   // Permet aux retraits « safe area » (encoche, barre d'accueil iOS) d'agir.
@@ -73,7 +73,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={inter.className + " pal-lin light"}
+      className={inter.className + " pal-lin"}
       style={
         {
           "--font-fraunces": cormorant.style.fontFamily,
