@@ -22,17 +22,17 @@ export default function Appel() {
       <div className="mx-auto grid max-w-[90rem] items-start gap-14 px-6 pb-rythme pt-20 md:px-10 lg:grid-cols-[1fr_1.25fr] lg:pt-24 xl:px-24">
         <aside className="space-y-10 lg:sticky lg:top-32">
           <Eyebrow>L&apos;appel découverte</Eyebrow>
-          <h1 className="font-serif text-titre font-black">
+          <h1 className="font-serif text-titre font-medium">
             Trente minutes.
             <br />
             <span className="font-normal italic text-bordeaux">Sans engagement.</span>
           </h1>
-          <ol className="border-t-2 border-encre">
+          <ol className="border-t border-filet">
             {ENSUITE.map((e, i) => (
               <li key={e.t} className="grid grid-cols-[3.5rem_1fr] gap-3 border-b border-filet py-5">
-                <span className={`font-serif text-4xl font-black ${i === 0 ? "text-bordeaux" : "text-taupe"}`}>{i + 1}</span>
+                <span className={`font-serif text-4xl font-medium ${i === 0 ? "text-bordeaux" : "text-taupe"}`}>{i + 1}</span>
                 <div>
-                  <p className="font-serif text-2xl font-bold">{e.t}</p>
+                  <p className="font-serif text-2xl font-semibold">{e.t}</p>
                   <p className="mt-1 text-sm text-gris">{e.d}</p>
                 </div>
               </li>

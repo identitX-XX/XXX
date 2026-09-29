@@ -18,43 +18,43 @@ const GARANTIES = [
 export default function Compagnon() {
   return (
     <>
-      <SectionCompagnon titreNiveau="h1" lien={false} />
+      <SectionCompagnon titreNiveau="h1" lien={false} montres />
 
       <Section>
-        <h2 className="font-serif text-titre font-extrabold">
+        <h2 className="font-serif text-titre font-medium">
           Vos données de santé,
           <br />
           <span className="font-normal italic text-bordeaux">sous votre seule garde.</span>
         </h2>
-        <div className="mt-14 grid border-t-2 border-encre md:grid-cols-3">
+        <div className="mt-14 grid border-t border-filet md:grid-cols-3">
           {GARANTIES.map((g, i) => (
             <div key={g.titre} className={`space-y-3 border-b border-filet py-8 md:border-b-0 md:px-8 ${i === 0 ? "md:pl-0" : ""} ${i < 2 ? "md:border-r" : "md:pr-0"}`}>
-              <p className="font-serif text-2xl font-bold">{g.titre}</p>
+              <p className="font-serif text-2xl font-semibold">{g.titre}</p>
               <p className="leading-relaxed text-gris">{g.texte}</p>
             </div>
           ))}
         </div>
       </Section>
 
-      <Section ton="bordeaux" id="acces">
+      <Section ton="ivoire" id="acces">
         <div className="grid items-end gap-14 lg:grid-cols-2">
           <div className="space-y-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-champagne">Accès par e-mail et mot de passe</p>
-            <h2 className="font-serif text-titre font-extrabold">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">Accès par e-mail et mot de passe</p>
+            <h2 className="font-serif text-titre font-medium">
               Le Compagnon ouvre
               <br />
-              <span className="font-normal italic text-champagne">à la prochaine lune.</span>
+              <span className="font-normal italic text-bordeaux">à la prochaine lune.</span>
             </h2>
             <div className="flex flex-wrap gap-4 pt-2">
-              <Link href="/inscription" className="bg-ivoire px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-nuit hover:bg-champagne">
+              <Link href="/inscription" className="bg-nuit px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-ivoire hover:bg-bordeaux">
                 Créer mon compte
               </Link>
-              <Link href="/connexion" className="border border-ivoire/60 px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] hover:border-champagne hover:text-champagne">
+              <Link href="/connexion" className="border border-filet px-7 py-4 text-xs font-semibold uppercase tracking-[0.2em] hover:border-filet hover:text-bordeaux">
                 Se connecter
               </Link>
             </div>
           </div>
-          <ListeAttente liste="compagnon" action="Être invité·e" promesse="Une invitation à l'ouverture du Compagnon, rien d'autre." surSombre />
+          <ListeAttente liste="compagnon" action="Être invité·e" promesse="Une invitation à l'ouverture du Compagnon, rien d'autre." />
         </div>
       </Section>
     </>

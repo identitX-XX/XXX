@@ -29,8 +29,8 @@ const config: Config = {
         chapo: ["clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem)", { lineHeight: "1.5" }],
         // Corps serif du manifeste : lecture longue, grand confort.
         lecture: ["clamp(1.3rem, 1.15rem + 0.5vw, 1.6rem)", { lineHeight: "1.6" }],
-        titre: ["clamp(2.25rem, 1.4rem + 3.4vw, 5.25rem)", { lineHeight: "0.95", letterSpacing: "-0.025em" }],
-        manifeste: ["clamp(3rem, 1.2rem + 7.2vw, 8.75rem)", { lineHeight: "0.88", letterSpacing: "-0.04em" }],
+        titre: ["clamp(2rem, 1.4rem + 2.4vw, 3.75rem)", { lineHeight: "1.02", letterSpacing: "-0.02em" }],
+        manifeste: ["clamp(2.75rem, 1.3rem + 5vw, 6.25rem)", { lineHeight: "0.95", letterSpacing: "-0.03em" }],
       },
       // Rythme vertical : une idée par écran.
       spacing: {

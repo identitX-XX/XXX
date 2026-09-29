@@ -55,9 +55,9 @@ export default function ArticlePage({ params }: Props) {
         <Link href={`/journal?rubrique=${a.rubrique}`} className="text-xs font-semibold uppercase tracking-[0.28em] text-bordeaux hover:text-encre">
           ← {RUBRIQUES[a.rubrique].nom}
         </Link>
-        <h1 className="font-serif text-manifeste font-black">{a.titre}</h1>
+        <h1 className="font-serif text-manifeste font-medium">{a.titre}</h1>
         <p className="font-serif text-2xl leading-snug text-gris md:text-3xl">{a.chapo}</p>
-        <p className="border-t-2 border-encre pt-4 text-sm text-gris">
+        <p className="border-t border-filet pt-4 text-sm text-gris">
           Maï Diaw · {formatDate(a.date)} · {a.lecture} min de lecture
         </p>
       </header>

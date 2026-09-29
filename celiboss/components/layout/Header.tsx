@@ -84,7 +84,7 @@ export function Header() {
           <ul className="divide-y divide-champagne/25 border-y border-champagne/25">
             {NAV.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="block py-4 font-serif text-4xl font-bold">
+                <Link href={l.href} className="block py-4 font-serif text-4xl font-semibold">
                   {l.label}
                 </Link>
               </li>

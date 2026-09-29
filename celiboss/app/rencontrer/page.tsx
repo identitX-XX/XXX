@@ -45,19 +45,19 @@ export default function Rencontrer() {
         <div className="mx-auto grid max-w-[90rem] gap-16 px-6 pb-28 pt-20 md:px-10 lg:grid-cols-[2fr_1fr] lg:pt-24 xl:px-24">
           <div className="space-y-10">
             <p className="flex items-center gap-3.5 text-xs font-semibold uppercase tracking-[0.32em] text-bordeaux">
-              Matchmaking <Etoile taille={12} className="text-champagne" /> Sur entretien
+              Matchmaking <Etoile taille={12} className="text-bordeaux" /> Sur entretien
             </p>
             <h1 className="font-serif text-manifeste">
-              <span className="block font-black">Rencontrer,</span>
+              <span className="block font-medium">Rencontrer,</span>
               <span className="block font-normal italic text-bordeaux">par choix.</span>
             </h1>
             <p className="font-serif text-3xl leading-tight">
               {PROMESSE.avant} <span className="italic text-bordeaux">{PROMESSE.apres}</span>
             </p>
-            <div className="grid border-t-2 border-encre sm:grid-cols-3">
+            <div className="grid border-t border-filet sm:grid-cols-3">
               {CHIFFRES.map((c, i) => (
                 <div key={c.titre} className={`space-y-1.5 pt-5 sm:px-5 ${i === 0 ? "sm:pl-0" : ""} ${i < 2 ? "sm:border-r sm:border-filet" : "sm:pr-0"}`}>
-                  <span className="block font-serif text-6xl font-black leading-none">{c.n}</span>
+                  <span className="block font-serif text-6xl font-medium leading-none">{c.n}</span>
                   <p className="text-xs font-semibold uppercase tracking-[0.2em]">{c.titre}</p>
                   <p className="text-sm text-gris">{c.texte}</p>
                 </div>
@@ -76,7 +76,7 @@ export default function Rencontrer() {
             className="mx-auto w-full max-w-sm lg:mt-4"
             legende={
               <>
-                <span className="font-serif text-xl font-bold">Maï Diaw</span>
+                <span className="font-serif text-xl font-semibold">Maï Diaw</span>
                 <span className="text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-bordeaux">Matchmakeuse d&apos;exception</span>
               </>
             }
@@ -84,20 +84,19 @@ export default function Rencontrer() {
         </div>
       </section>
 
-      <Section ton="nuit">
-        <Eyebrow surSombre>Le seuil</Eyebrow>
-        <h2 className="mt-6 font-serif text-titre font-extrabold">
+      <Section ton="sable">
+        <Eyebrow>Le seuil</Eyebrow>
+        <h2 className="mt-6 font-serif text-titre font-medium">
           Ce n&apos;est pas pour tout le monde.
           <br />
-          <span className="font-normal italic text-champagne">C&apos;est voulu.</span>
+          <span className="font-normal italic text-bordeaux">C&apos;est voulu.</span>
         </h2>
         <div className="mt-16 grid gap-x-16 gap-y-10 md:grid-cols-2">
           {SEUIL.map((s) => (
-            <div key={s.n} className="grid grid-cols-[4rem_1fr] gap-4 border-t border-champagne/40 pt-6">
-              <span className="font-serif text-4xl font-extrabold text-champagne">{s.n}</span>
+            <div key={s.n} className="border-t border-filet pt-6">
               <div className="space-y-2">
-                <p className="font-serif text-3xl font-bold">{s.titre}</p>
-                <p className="leading-relaxed text-ivoire/75">{s.texte}</p>
+                <p className="font-serif text-3xl font-semibold">{s.titre}</p>
+                <p className="leading-relaxed text-gris">{s.texte}</p>
               </div>
             </div>
           ))}
@@ -105,35 +104,35 @@ export default function Rencontrer() {
       </Section>
 
       <Section>
-        <h2 className="font-serif text-titre font-extrabold">
+        <h2 className="font-serif text-titre font-medium">
           Quatre étapes.
           <br />
           <span className="font-normal italic text-bordeaux">Aucune automatisée.</span>
         </h2>
-        <ol className="mt-16 grid border-t-2 border-encre md:grid-cols-4">
+        <ol className="mt-16 grid border-t border-filet md:grid-cols-4">
           {ETAPES.map((e, i) => (
             <li key={e.titre} className={`space-y-3 border-b border-filet py-7 md:border-b-0 md:px-7 ${i === 0 ? "md:pl-0" : ""} ${i < 3 ? "md:border-r" : "md:pr-0"}`}>
-              <span className="block font-serif text-6xl font-black leading-none text-bordeaux">0{i + 1}</span>
-              <p className="font-serif text-3xl font-bold">{e.titre}</p>
+              <span className="text-xs font-semibold tracking-[0.2em] text-bordeaux">0{i + 1}</span>
+              <p className="font-serif text-3xl font-semibold">{e.titre}</p>
               <p className="leading-relaxed text-gris">{e.texte}</p>
             </li>
           ))}
         </ol>
       </Section>
 
-      <Section ton="bordeaux">
-        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-champagne">Trois terrains de rencontre</p>
-        <h2 className="mt-6 font-serif text-titre font-extrabold">
+      <Section ton="ivoire">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-bordeaux">Trois terrains de rencontre</p>
+        <h2 className="mt-6 font-serif text-titre font-medium">
           Amoureuses, amicales, professionnelles.
           <br />
-          <span className="font-normal italic text-champagne">Toujours choisies.</span>
+          <span className="font-normal italic text-bordeaux">Toujours choisies.</span>
         </h2>
         <div className="mt-16 grid gap-6 md:grid-cols-3">
           {TERRAINS.map((t) => (
-            <article key={t.nom} className="space-y-3.5 border border-champagne/50 p-9">
-              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-champagne">{t.accroche}</p>
-              <h3 className="font-serif text-5xl font-extrabold">{t.nom}</h3>
-              <p className="leading-relaxed text-ivoire/80">{t.texte}</p>
+            <article key={t.nom} className="space-y-3.5 border border-filet p-9">
+              <p className="text-[0.6875rem] font-semibold uppercase tracking-[0.26em] text-bordeaux">{t.accroche}</p>
+              <h3 className="font-serif text-5xl font-medium">{t.nom}</h3>
+              <p className="leading-relaxed text-gris">{t.texte}</p>
               <p className="pt-3 text-xs font-semibold uppercase tracking-[0.22em]">Sur entretien</p>
             </article>
           ))}
@@ -144,14 +143,14 @@ export default function Rencontrer() {
         <FAQ />
       </Section>
 
-      <Section ton="nuit">
+      <Section ton="sable">
         <div className="flex flex-col justify-between gap-10 lg:flex-row lg:items-center">
-          <h2 className="font-serif text-titre font-extrabold">
+          <h2 className="font-serif text-titre font-medium">
             Tout commence
             <br />
-            <span className="font-normal italic text-champagne">par un appel.</span>
+            <span className="font-normal italic text-bordeaux">par un appel.</span>
           </h2>
-          <CTA ton="or" />
+          <CTA />
         </div>
       </Section>
     </>
