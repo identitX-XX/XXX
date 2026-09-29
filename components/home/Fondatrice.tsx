@@ -11,10 +11,9 @@ export function Fondatrice() {
     <Section ton="sable">
       <div className="grid items-center gap-16 md:grid-cols-[0.9fr_1.1fr] lg:gap-24">
         <Portrait
-          src="/images/mai-diaw-accueil.jpg"
-          alt="Maï Diaw, en robe blanche, salue d'un geste de la main sur une terrasse ensoleillée"
-          focus="52% 28%"
-          zoom={1.12}
+          src="/images/mai-diaw-tailleur.jpg"
+          alt="Portrait de Maï Diaw, souriante, en tailleur blanc"
+          focus="50% 25%"
           filet="gauche"
           className="mx-auto w-full max-w-md"
         />

@@ -5,6 +5,7 @@ import { Methode } from "@/components/rencontrer/Methode";
 import { Seuil } from "@/components/rencontrer/Seuil";
 import { CTA } from "@/components/ui/CTA";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Portrait } from "@/components/ui/Portrait";
 import { Section } from "@/components/ui/Section";
 
 export const metadata: Metadata = {
@@ -16,14 +17,26 @@ export default function Rencontrer() {
   return (
     <>
       <Section>
-        <Eyebrow>Matchmaking</Eyebrow>
-        <h1 className="mt-8 max-w-4xl text-manifeste font-light">
-          Rencontrer, <span className="italic text-bordeaux">par choix.</span>
-        </h1>
-        <p className="mt-10 max-w-lecture text-chapo text-gris">
-          Pas d&apos;algorithme, pas de swipe. La sélection plutôt que l&apos;accumulation :
-          chaque présentation est choisie à la main par Maï Diaw.
-        </p>
+        <div className="grid items-center gap-16 md:grid-cols-[1.1fr_0.9fr] lg:gap-24">
+          <div>
+            <Eyebrow>Matchmaking</Eyebrow>
+            <h1 className="mt-8 max-w-4xl text-manifeste font-light">
+              Rencontrer, <span className="italic text-bordeaux">par choix.</span>
+            </h1>
+            <p className="mt-10 max-w-lecture text-chapo text-gris">
+              Pas d&apos;algorithme, pas de swipe. La sélection plutôt que l&apos;accumulation :
+              chaque présentation est choisie à la main par Maï Diaw.
+            </p>
+          </div>
+          <Portrait
+            src="/images/mai-diaw-podcast.jpg"
+            alt="Maï Diaw en conversation, assise dans un fauteuil, face à un micro"
+            focus="45% 25%"
+            priority
+            legende="Chaque accompagnement commence par une conversation."
+            className="mx-auto w-full max-w-md"
+          />
+        </div>
       </Section>
       <Section ton="sable">
         <Seuil />
