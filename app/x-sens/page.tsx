@@ -1,7 +1,7 @@
 "use client";
 
 // « X-sens » — agent séparé qui POSE des questions pour accompagner une transition
-// de vie : état des lieux → boussole → scénarios → plan 30 jours → résumé
+// de vie : état des lieux → boussole → scénarios → plan (à son rythme) → résumé
 // exportable. Guidé, une question à la fois. IA (Mistral) avec repli maquette.
 
 import { useEffect, useState } from "react";
@@ -91,7 +91,7 @@ export default function XSensPage() {
         <PageHead
           eyebrow="X-sens · transition"
           title="Faisons le point sur ta transition"
-          sub="Je te pose quelques questions — situation, valeurs, envies — puis je te propose plusieurs scénarios réalistes et un plan sur 30 jours. Rien n'est figé, tout est réutilisable."
+          sub="Je te pose quelques questions — situation, valeurs, envies — puis je te propose plusieurs scénarios réalistes et un plan que tu suis à ton rythme, quand tu t'y mets. Rien n'est figé, tout est réutilisable."
         />
         <Card className="p-6 sm:p-7">
           <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-fuchsia">
@@ -102,7 +102,7 @@ export default function XSensPage() {
               "État des lieux — où tu en es vraiment",
               "Boussole — tes valeurs, tes envies, tes freins",
               "Scénarios — plusieurs chemins possibles",
-              "Plan 30 jours — les premiers pas concrets",
+              "Un plan — les premiers pas, à ton rythme",
               "Résumé exportable — à garder ou à partager",
             ].map((t, i) => (
               <li key={i} className="flex items-start gap-3">
@@ -230,11 +230,11 @@ export default function XSensPage() {
           </div>
 
           <div className="mt-4 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-fuchsia">
-            Plan 30 jours
+            Ton plan · à ton rythme
           </div>
           <Card className="mt-2 p-5">
-            <PlanBloc titre="Dans les 7 jours" items={bilan.plan.sept} coche />
-            <PlanBloc titre="Dans les 30 jours" items={bilan.plan.trente} coche />
+            <PlanBloc titre="Tes premiers pas" items={bilan.plan.premiers} coche />
+            <PlanBloc titre="La suite, une fois ceux-là faits" items={bilan.plan.ensuite} coche />
             <PlanBloc titre="Indicateurs d'avancée" items={bilan.plan.indicateurs} />
           </Card>
 

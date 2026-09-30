@@ -132,8 +132,8 @@ export interface Scenario {
 }
 
 export interface Plan {
-  sept: string[]; // 7 jours
-  trente: string[]; // 30 jours
+  premiers: string[]; // les tout premiers pas — quand tu t'y mets
+  ensuite: string[]; // la suite, une fois les premiers faits (aucune date, ton rythme)
   indicateurs: string[];
 }
 
@@ -193,12 +193,12 @@ export function mockBilan(r: Reponses): Bilan {
       },
     ],
     plan: {
-      sept: [
+      premiers: [
         `Écrire noir sur blanc « ${envie} » et pourquoi ça compte`,
         "Parler à 1 personne qui a fait une transition proche",
-        "Bloquer 2 créneaux de 30 min pour explorer une piste",
+        "Te réserver un moment au calme pour explorer une piste",
       ],
-      trente: [
+      ensuite: [
         "Tester une première action concrète, même minuscule",
         `Chiffrer grossièrement ${contrainte} (ce que ça implique vraiment)`,
         "Faire un point : qu'est-ce qui a bougé, qu'est-ce qui t'a nourri ?",
@@ -245,11 +245,11 @@ export function resumeMarkdown(r: Reponses, bilan: Bilan): string {
     if (s.ressources.length) l.push(`- **Ressources** : ${s.ressources.join(" · ")}`);
     l.push("");
   }
-  l.push("## Plan 30 jours");
-  l.push("**Dans les 7 jours**");
-  for (const a of bilan.plan.sept) l.push(`- [ ] ${a}`);
-  l.push("", "**Dans les 30 jours**");
-  for (const a of bilan.plan.trente) l.push(`- [ ] ${a}`);
+  l.push("## Mon plan (à mon rythme)");
+  l.push("**Mes premiers pas**");
+  for (const a of bilan.plan.premiers) l.push(`- [ ] ${a}`);
+  l.push("", "**La suite, une fois ceux-là faits**");
+  for (const a of bilan.plan.ensuite) l.push(`- [ ] ${a}`);
   l.push("", "**Indicateurs d'avancée**");
   for (const a of bilan.plan.indicateurs) l.push(`- ${a}`);
   l.push("");

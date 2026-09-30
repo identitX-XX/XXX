@@ -35,7 +35,7 @@ test("mockBilan : 3 scénarios + plan complet, dérivés des réponses", () => {
     assert.ok(s.titre && s.description && s.horizon);
     assert.ok(s.avantages.length && s.vigilance.length && s.ressources.length);
   }
-  assert.ok(b.plan.sept.length >= 3 && b.plan.trente.length >= 3 && b.plan.indicateurs.length >= 3);
+  assert.ok(b.plan.premiers.length >= 3 && b.plan.ensuite.length >= 3 && b.plan.indicateurs.length >= 3);
   assert.match(b.scenarios[0].description, /atelier/);
 });
 
@@ -45,7 +45,8 @@ test("resumeMarkdown : contient les sections clés et les réponses", () => {
   assert.match(md, /## Situation actuelle/);
   assert.match(md, /## Boussole intérieure/);
   assert.match(md, /## Scénarios/);
-  assert.match(md, /## Plan 30 jours/);
+  assert.match(md, /## Mon plan/);
+  assert.doesNotMatch(md, /30 jours|7 jours/); // aucune unité de temps imposée
   assert.match(md, /marketing/);
   assert.match(md, /- \[ \] /); // cases à cocher du plan
 });
