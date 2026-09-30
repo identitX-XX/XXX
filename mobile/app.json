@@ -1,0 +1,63 @@
+{
+  "expo": {
+    "name": "CéliBOSS Compagnon",
+    "slug": "celiboss-compagnon",
+    "scheme": "celiboss",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F3EDE3",
+    "ios": {
+      "bundleIdentifier": "com.celiboss.compagnon",
+      "supportsTablet": false,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "com.celiboss.compagnon",
+      "adaptiveIcon": {
+        "backgroundColor": "#F3EDE3",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "permissions": [
+        "android.permission.health.READ_SLEEP",
+        "android.permission.health.READ_RESTING_HEART_RATE"
+      ],
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      [
+        "expo-build-properties",
+        {
+          "android": { "compileSdkVersion": 36, "targetSdkVersion": 36, "minSdkVersion": 26 }
+        }
+      ],
+      [
+        "@kingstinct/react-native-healthkit",
+        {
+          "NSHealthShareUsageDescription": "Le Compagnon lit votre sommeil et votre fréquence cardiaque au repos (Apple Santé, Apple Watch) pour calculer votre élan du jour. Rien n'est lu sans votre accord, rien n'est revendu.",
+          "NSHealthUpdateUsageDescription": false,
+          "background": false
+        }
+      ],
+      "react-native-health-connect"
+    ],
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "siteUrl": "https://celiboss.vercel.app",
+      "supabaseUrl": "",
+      "supabaseAnonKey": ""
+    }
+  }
+}

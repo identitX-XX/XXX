@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { validerPoint, versLigne } from "@/lib/compagnon/point";
+import { lectureElan, referenceCardio } from "@/lib/compagnon/elan";
+import { elanDe } from "@/lib/compagnon/donnees";
+import { aujourdhui, validerPoint, versLigne, type LignePoint } from "@/lib/compagnon/point";
 import { supabaseConfigure } from "@/lib/supabase/config";
 import { supabaseJeton } from "@/lib/supabase/serveur";
 
@@ -7,7 +9,8 @@ import { supabaseJeton } from "@/lib/supabase/serveur";
 // Apple Santé / Health Connect). Authentification : « Authorization: Bearer
 // <jeton d'accès Supabase> ». Les règles RLS s'appliquent comme sur le web.
 //
-//   GET  /api/v1/compagnon/points?depuis=AAAA-MM-JJ  → { points: [...] }
+//   GET  /api/v1/compagnon/points?depuis=AAAA-MM-JJ
+//        → { jour, points: [{ …, elan }], profil: { prenom, santeConsentie } }
 //   POST /api/v1/compagnon/points  { jour, sommeilMinutes, cardioRepos, humeur, …, source }
 
 export const dynamic = "force-dynamic";
@@ -35,9 +38,23 @@ export async function GET(req: Request) {
     .order("jour", { ascending: false })
     .limit(90);
   if (depuis && /^\d{4}-\d{2}-\d{2}$/.test(depuis)) requete = requete.gte("jour", depuis);
-  const { data, error } = await requete;
+  const [{ data, error }, { data: profil }] = await Promise.all([
+    requete.returns<(LignePoint & { modifie_le: string })[]>(),
+    a.supabase.from("profils").select("prenom, sante_consentie_le").eq("id", a.user.id).single(),
+  ]);
   if (error) return NextResponse.json({ erreur: "Lecture impossible." }, { status: 500 });
-  return NextResponse.json({ points: data });
+  // L'élan est calculé ici, avec la même formule que le web : un seul moteur.
+  const liste = data ?? [];
+  const ref = referenceCardio(liste.slice(0, 14).map((p) => p.cardio_repos));
+  const points = liste.map((p) => {
+    const elan = elanDe(p, ref);
+    return { ...p, elan: { ...elan, lecture: lectureElan(elan) } };
+  });
+  return NextResponse.json({
+    jour: aujourdhui(),
+    points,
+    profil: { prenom: profil?.prenom ?? null, santeConsentie: Boolean(profil?.sante_consentie_le) },
+  });
 }
 
 export async function POST(req: Request) {
