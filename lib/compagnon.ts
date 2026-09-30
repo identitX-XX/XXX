@@ -10,3 +10,8 @@ export const SIGNAUX_COMPAGNON = [
 ] as const;
 
 export const CONNEXIONS_COMPAGNON = "Téléphone et montre connectée · Apple Santé · Health Connect";
+
+import { calculerElan } from "@/lib/compagnon/elan";
+
+/** Le jour d'exemple des aperçus : calculé par la même fonction que l'appli. */
+export const EXEMPLE_ELAN = calculerElan({ humeur: 4, energie: 4, ambition: 5, sommeilMinutes: 432, cardioRepos: 58 });

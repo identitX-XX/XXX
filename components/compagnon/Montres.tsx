@@ -1,4 +1,5 @@
 import { Constellation } from "@/components/compagnon/Constellation";
+import { EXEMPLE_ELAN } from "@/lib/compagnon";
 
 function Boitier({ children }: { children: React.ReactNode }) {
   return (
@@ -20,7 +21,7 @@ export function Montres({ className = "" }: { className?: string }) {
       <Boitier>
         <div className="flex flex-col items-center gap-1.5">
           <p className="text-[0.625rem] font-semibold tracking-[0.3em] text-champagne">ÉLAN</p>
-          <Constellation elan={78} avecLibelles={false} className="h-[84px] w-[120px]" />
+          <Constellation elan={EXEMPLE_ELAN.valeur} scores={EXEMPLE_ELAN.detail} avecLibelles={false} className="h-[84px] w-[120px]" />
           <p className="text-xs text-ivoire/85">Sommeil 7 h 12</p>
           <p className="text-xs text-ivoire/85">Cardio 58 bpm</p>
         </div>

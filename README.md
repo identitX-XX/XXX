@@ -40,18 +40,66 @@ source unique : `components/home/Manifeste.tsx`, `lib/histoire.ts`,
   `components/ui/Symboles.tsx` garde aussi l'étoile à huit branches, les bandes
   bogolan et le ciel étoilé, aujourd'hui inutilisés.
 
-## Le Compagnon : ce qui reste à brancher
+## Le Compagnon (v1)
 
-Les écrans (téléphone, montre, connexion, inscription) sont en place, **pas
-l'authentification ni la collecte de données de santé**. Les formulaires de
-compte valident la saisie puis indiquent honnêtement que l'accès ouvre
-bientôt. Avant d'ouvrir :
+Comptes e-mail + mot de passe, point du matin, élan, historique, profil.
 
-- un fournisseur d'authentification (e-mail + mot de passe, vérification
-  d'e-mail, réinitialisation, idéalement double authentification) ;
-- un hébergeur certifié HDS pour les données de santé, et une analyse
-  d'impact (AIPD) : données sensibles au sens de l'article 9 du RGPD ;
-- les connexions Apple Santé / Health Connect (application mobile native).
+| Route | Rôle |
+|---|---|
+| `/inscription`, `/connexion` | Compte (confirmation par e-mail obligatoire) |
+| `/mot-de-passe-oublie` → `/nouveau-mot-de-passe` | Réinitialisation par lien |
+| `/espace` | Élan du jour (constellation), lecture, 14 derniers jours |
+| `/espace/point` | Point du matin : humeur, énergie, ambition, état d'esprit, sommeil, cardio |
+| `/espace/profil` | Prénom, cap du mois, consentement santé, export JSON, suppression |
+| `/api/v1/compagnon/points` | API des autres appareils (voir plus bas) |
+
+- **Élan** (`lib/compagnon/elan.ts`, testé) : moyenne pondérée des signaux
+  présents, ramenés sur 0–100. Pondérations à valider avec Maï Diaw.
+- **Sécurité** (`supabase/migrations/0001_compagnon.sql`) : règles RLS (chacun
+  ne voit que ses lignes) ; la base refuse sommeil et cardio sans consentement
+  santé ; retirer ce consentement efface ces données ; suppression de compte
+  en cascade.
+- **Plusieurs appareils** : l'appli s'installe depuis le navigateur (iPhone :
+  Partager → Sur l'écran d'accueil ; Android : Installer) et s'ouvre sur
+  `/espace`. L'application mobile native, qui lira la montre (Apple Santé,
+  Health Connect), enverra ses mesures à l'API :
+
+```http
+POST /api/v1/compagnon/points
+Authorization: Bearer <jeton d'accès Supabase>
+{ "jour": "2026-09-30", "sommeilMinutes": 432, "cardioRepos": 58, "source": "montre" }
+```
+
+  Les mesures de la montre fusionnent avec le point du matin (elles ne
+  l'écrasent pas). `GET` sur la même route renvoie l'historique.
+
+### Brancher Supabase (15 minutes)
+
+1. supabase.com → **New project**, région **Europe (Paris ou Francfort)**.
+2. **SQL Editor** → coller `supabase/migrations/0001_compagnon.sql` → **Run**.
+3. **Authentication → URL Configuration** : *Site URL* = l'adresse du site ;
+   ajouter `https://<site>/auth/confirmer` aux *Redirect URLs*.
+4. **Authentication → Email Templates** : dans « Confirm signup » et « Reset
+   password », remplacer le lien par
+   `{{ .SiteURL }}/auth/confirmer?token_hash={{ .TokenHash }}&type=signup`
+   (et `type=recovery` pour la réinitialisation).
+5. **Project Settings → API** : copier *Project URL* et *anon public key* dans
+   `NEXT_PUBLIC_SUPABASE_URL` et `NEXT_PUBLIC_SUPABASE_ANON_KEY` (Vercel →
+   Settings → Environment Variables), puis redéployer.
+
+Sans ces deux variables, le site fonctionne et les écrans de compte annoncent
+honnêtement que l'accès ouvre bientôt.
+
+### ⚠️ Avant d'ouvrir au public
+
+- **Hébergement des données de santé** : en France, héberger des données de
+  santé pour le compte d'autrui exige un hébergeur certifié **HDS**. Supabase
+  ne l'est pas : la v1 convient à une bêta privée ; pour l'ouverture, prévoir
+  un hébergement HDS (ou un avis juridique) et une **analyse d'impact (AIPD)**.
+- Le Compagnon est un outil de bien-être, **pas un dispositif médical** : ne
+  jamais présenter l'élan comme un diagnostic.
+- Double authentification et limitation des tentatives : réglages Supabase
+  (Authentication → Providers / Rate limits).
 
 ## Déclinaison en application
 
@@ -109,4 +157,5 @@ Un frontmatter incomplet ou une rubrique inconnue fait **échouer le build**
 npm install
 npm run dev        # http://localhost:3000
 npm run build
+npm test           # calcul de l'élan et validation des points
 ```
