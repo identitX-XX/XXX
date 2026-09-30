@@ -110,10 +110,10 @@ Le contenu n'existe qu'à un endroit (MDX). Deux sorties :
    - `GET /api/v1/journal` → liste + rubrique + porte
    - `GET /api/v1/journal/:slug` → article complet (MDX brut)
 
-   Une future app native (Expo / React Native) lit cette API : même contenu,
-   aucune double saisie. Les fonctions app-only (Le Cercle, messagerie,
-   comptes) viendront avec un backend dédié (auth + base de données) le moment
-   venu — le site média n'en dépend pas.
+3. **Application mobile** (`mobile/`, Expo) — iPhone et Android. Lit la nuit
+   de la montre connectée (Apple Santé / Health Connect) et l'envoie à
+   `/api/v1/compagnon/points`, qui renvoie aussi l'élan calculé côté serveur.
+   Voir [`mobile/README.md`](mobile/README.md).
 
 ## Publier un article
 
