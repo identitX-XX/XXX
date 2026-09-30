@@ -264,7 +264,7 @@ function MaQueteApercu({
       titre: "Ce que je construis",
       hint: caps.length
         ? `Ta direction en chantier aujourd'hui${caps.length > 1 ? ` · ${caps.length} en tout` : ""}.`
-        : "Choisis une direction par périmètre — c'est ce qui guide chaque journée.",
+        : "Choisis une direction par périmètre — c'est ce qui guide ton exploration.",
       valeur: caps.length ? capDuJour : "À toi d'ajouter ta direction",
       href: caps.length ? "/scenarios" : "/progression",
       cta: caps.length ? "Voir ce que ça ouvre" : "＋ Ajouter une direction",

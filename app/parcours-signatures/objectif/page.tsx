@@ -12,13 +12,13 @@ const PONTS = [
     amont: "Explorer · ADN personnel",
     role: "alimentent ta quête",
     detail:
-      "Ce que la Quête révèle de toi ouvre le parcours : ta signature ouvre le J1, ta secondaire la charnière (J15).",
+      "Ce que la Quête révèle de toi ouvre le parcours : ta signature l'ouvre, ta secondaire en marque la charnière.",
   },
   {
     amont: "Journal · Coach IdentitX",
-    role: "prolongent chaque journée",
+    role: "prolongent ton exploration",
     detail:
-      "Ce que tu notes et ce que tu explores en dialogue nourrissent l'observation quotidienne, jour après jour.",
+      "Ce que tu notes et ce que tu explores en dialogue nourrissent l'observation, au fil de tes passages.",
   },
   {
     amont: "Synthèse · Rapports",
