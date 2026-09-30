@@ -58,6 +58,7 @@ export const NAV_GROUPS: {
   {
     section: "Orchestrer",
     items: [
+      { href: "/x-sens", label: "X-sens — ma transition" },
       { href: "/quete", label: "La Quête" },
       { href: "/progression", label: "Progression" },
       { href: "/rapport-analytique", label: "Rapport analytique" },
