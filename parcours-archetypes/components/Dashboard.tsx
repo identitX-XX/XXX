@@ -79,7 +79,7 @@ export function Dashboard() {
         <Carte>
           <p style={{ fontSize: 14, color: MUTED, lineHeight: 1.6, margin: 0 }}>
             Vis ta première journée pour éveiller le radar. Rien n'est encore
-            écrit : chaque jour ajoute une nuance, et rien ne se fige.
+            écrit : chaque passage ajoute une nuance, et rien ne se fige.
           </p>
         </Carte>
       ) : (

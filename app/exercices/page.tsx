@@ -70,7 +70,7 @@ export default function ExercicesPage() {
         <PageHead
           eyebrow="Exercices du jour"
           title="Ils s'ouvrent avec ta signature"
-          sub="Révèle d'abord ta signature — les exercices se calent ensuite sur elle, chaque jour."
+          sub="Révèle d'abord ta signature — les exercices se calent ensuite sur elle, à ton rythme."
         />
         <Link
           href="/parcours-signatures"
@@ -301,8 +301,8 @@ export default function ExercicesPage() {
           <Sparkles size={13} /> Envie d'aller plus loin ?
         </div>
         <p className="mb-4 max-w-xl text-xs leading-relaxed text-muted">
-          Deux pratiques facultatives qui changent chaque jour — pour explorer ton
-          identité sous d'autres angles.
+          Deux pratiques facultatives qui se renouvellent à chaque passage — pour
+          explorer ton identité sous d'autres angles.
         </p>
         <div className="grid gap-4">
           {prats.map((t) => (

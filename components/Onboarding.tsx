@@ -338,7 +338,7 @@ export function StepExercices() {
       eyebrow="Tes exercices"
       titre="Des exercices qui te mettent en mouvement"
       graphic={<EcartVisu />}
-      texte="L'écart entre ce que tu crois, penses et fais — sur chaque pilier. Et d'autres pratiques qui tournent chaque jour : expérimentation, recadrage, projection, ancrage… Chacune nourrit ton éclairage."
+      texte="L'écart entre ce que tu crois, penses et fais — sur chaque pilier. Et d'autres pratiques qui se renouvellent à chaque passage : expérimentation, recadrage, projection, ancrage… Chacune nourrit ton éclairage."
     />
   );
 }

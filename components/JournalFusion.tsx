@@ -404,7 +404,7 @@ export function JournalFusion() {
           }}
         >
           {mg30 === null
-            ? "La trajectoire apparaîtra au fil des entrées — chaque jour compte."
+            ? "La trajectoire apparaîtra au fil des entrées — chaque passage compte."
             : mom === "acceleration"
             ? "Ta semaine dépasse ta tendance de fond : accélération en cours."
             : mom === "deceleration"

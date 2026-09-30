@@ -83,7 +83,7 @@ function Volet({ def, jour, defaultOpen }: { def: VoletDef; jour: number; defaul
               );
             })}
           </ul>
-          <p className="mt-2.5 px-1 text-[11.5px] text-muted">Ces trois exercices se renouvellent chaque jour.</p>
+          <p className="mt-2.5 px-1 text-[11.5px] text-muted">Ces trois exercices se renouvellent à chaque passage.</p>
         </div>
       )}
     </div>
@@ -113,8 +113,8 @@ export function ExercicesVolets({
         Tes exercices du jour
       </div>
       <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-        Trois exercices par volet, à cocher au fil de la journée. Ils changent
-        chaque jour — reviens quand tu veux pour de nouveaux.
+        Trois exercices par volet, à cocher quand tu veux. Ils se renouvellent à
+        chaque passage — reviens quand ça te parle pour de nouveaux.
       </p>
       <div className="mt-5 flex flex-col gap-3">
         {defs.map((d, i) => (
