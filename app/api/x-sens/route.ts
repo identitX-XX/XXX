@@ -1,4 +1,4 @@
-// X-sens — génère le bilan de transition (boussole + scénarios + plan 30 jours) à
+// X-sens — génère le bilan de transition (boussole + scénarios + plan à son rythme) à
 // partir des réponses. Intégration Mistral avec repli maquette (sans clé) dérivé
 // des vraies réponses. Le prompt suit la méthode X-sens : plusieurs options,
 // jamais une seule vérité, ton bienveillant, aucun conseil médical/juridique.
@@ -9,10 +9,11 @@ export const maxDuration = 60;
 
 const SYSTEM_PROMPT = `Tu es X-sens, un agent spécialisé dans les transitions de vie et d'identité, pour une personne francophone adulte en réflexion (reconversion, changement de vie, projet, déménagement…).
 Ton : clair, bienveillant, concret, non-jugeant. Tu proposes TOUJOURS plusieurs options, jamais une seule vérité. Tu NE donnes PAS de conseils médicaux, juridiques ou financiers précis ; reste sur des pistes générales.
-On te donne l'état des lieux et la boussole intérieure de la personne. Tu produis : une courte synthèse de sa boussole, 3 scénarios de transition réalistes (horizons différents : ~6 mois, ~2 ans, ~5 ans), et un plan sur 30 jours.
+On te donne l'état des lieux et la boussole intérieure de la personne. Tu produis : une courte synthèse de sa boussole, 3 scénarios de transition réalistes (horizons différents : ~6 mois, ~2 ans, ~5 ans), et un plan d'action SANS AUCUNE unité de temps imposée (jamais « 7 jours », « 30 jours », ni dates) — la personne avance À SON RYTHME, quand elle s'y met.
+Le plan se décline en deux temps : "premiers" (les tout premiers pas, quand elle s'y met) et "ensuite" (la suite, une fois les premiers faits). Formule les actions sans calendrier.
 Chaque scénario : titre court, horizon, description (2–4 phrases), avantages, points de vigilance (inconvénients/risques + comment les réduire), ressources nécessaires (temps, argent, compétences, réseau).
 Tu t'appuies UNIQUEMENT sur ce qui est rempli, sans rien inventer sur la personne.
-Réponds STRICTEMENT en JSON : { "boussole": string, "scenarios": [{ "titre": string, "horizon": string, "description": string, "avantages": string[], "vigilance": string[], "ressources": string[] }], "plan": { "sept": string[], "trente": string[], "indicateurs": string[] } }.`;
+Réponds STRICTEMENT en JSON : { "boussole": string, "scenarios": [{ "titre": string, "horizon": string, "description": string, "avantages": string[], "vigilance": string[], "ressources": string[] }], "plan": { "premiers": string[], "ensuite": string[], "indicateurs": string[] } }.`;
 
 function buildUserMessage(r: Reponses): string {
   const ligne = (label: string, val?: string) =>
@@ -38,7 +39,7 @@ function buildUserMessage(r: Reponses): string {
 function estBilan(x: unknown): x is Bilan {
   const b = x as Bilan;
   return Boolean(
-    b && typeof b.boussole === "string" && Array.isArray(b.scenarios) && b.plan && Array.isArray(b.plan.sept)
+    b && typeof b.boussole === "string" && Array.isArray(b.scenarios) && b.plan && Array.isArray(b.plan.premiers)
   );
 }
 
