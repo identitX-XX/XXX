@@ -1,4 +1,5 @@
 import { Constellation } from "@/components/compagnon/Constellation";
+import { EXEMPLE_ELAN } from "@/lib/compagnon";
 
 // Aperçu de l'écran « Votre élan du jour », dans un cadre de téléphone.
 // Valeurs d'exemple : le calcul réel de l'élan reste à définir avec Maï Diaw.
@@ -21,7 +22,7 @@ export function EcranElan({ className = "" }: { className?: string }) {
         <p className="mt-3 font-serif text-[2.1rem] font-medium leading-none">
           Votre élan <span className="font-normal italic text-champagne">du jour.</span>
         </p>
-        <Constellation elan={78} className="mx-auto mt-1 w-full" />
+        <Constellation elan={EXEMPLE_ELAN.valeur} scores={EXEMPLE_ELAN.detail} className="mx-auto mt-1 w-full" />
         <div className="grid grid-cols-3 gap-px border border-champagne/30 bg-champagne/30">
           {SIGNAUX.map((s) => (
             <div key={s.nom} className="space-y-1 bg-nuit p-2.5">

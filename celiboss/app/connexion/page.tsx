@@ -5,7 +5,7 @@ import { FormulaireCompte } from "@/components/compte/FormulaireCompte";
 
 export const metadata: Metadata = { title: "Se connecter", description: "Accédez au Compagnon avec votre e-mail et votre mot de passe.", robots: { index: false } };
 
-export default function Connexion() {
+export default function Connexion({ searchParams }: { searchParams: { suite?: string; erreur?: string } }) {
   return (
     <CadreCompte
       titre={
@@ -26,7 +26,12 @@ export default function Connexion() {
         </>
       }
     >
-      <FormulaireCompte mode="connexion" />
+      {searchParams.erreur === "lien" && (
+        <p role="alert" className="border-l-2 border-bordeaux bg-sable p-4 text-sm text-bordeaux">
+          Ce lien a expiré ou a déjà servi. Connectez-vous, ou demandez un nouveau lien.
+        </p>
+      )}
+      <FormulaireCompte mode="connexion" suite={searchParams.suite} />
     </CadreCompte>
   );
 }

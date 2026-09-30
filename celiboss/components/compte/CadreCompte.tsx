@@ -1,6 +1,6 @@
 import { LuneEtoile } from "@/components/ui/Symboles";
 
-/** Écran d'accès au Compagnon : ciel de nuit, emblème, une colonne étroite. */
+/** Écran d'accès au Compagnon : emblème, une colonne étroite. */
 export function CadreCompte({ titre, sousTitre, children, pied }: { titre: React.ReactNode; sousTitre: string; children: React.ReactNode; pied: React.ReactNode }) {
   return (
     <section className="relative overflow-hidden bg-ivoire px-6 pb-20 pt-16 text-encre">

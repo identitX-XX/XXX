@@ -2,74 +2,45 @@
 
 import Link from "next/link";
 import { useState } from "react";
-
-// Accès au Compagnon par e-mail et mot de passe.
-// L'authentification n'est pas encore branchée : le formulaire valide la
-// saisie, puis dit clairement que l'accès ouvre bientôt. Jamais de faux succès.
-
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+import { useFormState } from "react-dom";
+import { connecter, inscrire, type EtatFormulaire } from "@/app/espace/actions";
+import { BoutonEnvoi, champClasse, Erreur, labelClasse, Message } from "@/components/compte/ui";
 
 type Mode = "connexion" | "inscription";
 
-const champ =
-  "h-12 w-full border-0 border-b border-filet bg-transparent px-0 text-[1.0625rem] text-encre placeholder:text-taupe focus:border-bordeaux focus:outline-none focus:ring-0";
-const label = "text-[0.6875rem] font-semibold uppercase tracking-[0.24em] text-gris";
-
-export function FormulaireCompte({ mode }: { mode: Mode }) {
+/** Accès au Compagnon par e-mail et mot de passe (Supabase Auth). */
+export function FormulaireCompte({ mode, suite }: { mode: Mode; suite?: string }) {
+  const [etat, action] = useFormState<EtatFormulaire, FormData>(mode === "inscription" ? inscrire : connecter, {});
   const [voir, setVoir] = useState(false);
-  const [erreurs, setErreurs] = useState<Record<string, string>>({});
-  const [envoye, setEnvoye] = useState(false);
 
-  function valider(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const d = new FormData(e.currentTarget);
-    const err: Record<string, string> = {};
-    const email = String(d.get("email") ?? "").trim();
-    const mdp = String(d.get("motdepasse") ?? "");
-    if (!EMAIL.test(email)) err.email = "Indiquez une adresse e-mail valide.";
-    if (mode === "inscription") {
-      if (!String(d.get("prenom") ?? "").trim()) err.prenom = "Indiquez votre prénom.";
-      if (mdp.length < 12 || !/\d/.test(mdp)) err.motdepasse = "12 caractères minimum, dont un chiffre.";
-      if (d.get("cgu") !== "on") err.cgu = "Votre accord est nécessaire pour créer un compte.";
-    } else if (!mdp) {
-      err.motdepasse = "Indiquez votre mot de passe.";
-    }
-    setErreurs(err);
-    setEnvoye(Object.keys(err).length === 0);
-  }
-
-  const err = (k: string) =>
-    erreurs[k] && (
-      <p id={`err-${k}`} className="mt-2 text-sm text-bordeaux">
-        {erreurs[k]}
-      </p>
-    );
+  if (mode === "inscription" && etat.ok) return <Message etat={etat} />;
 
   return (
-    <form onSubmit={valider} noValidate className="space-y-6">
+    <form action={action} noValidate className="space-y-6">
+      {suite && <input type="hidden" name="suite" value={suite} />}
       {mode === "inscription" && (
         <div>
-          <label htmlFor="prenom" className={label}>
+          <label htmlFor="prenom" className={labelClasse}>
             Prénom
           </label>
-          <input id="prenom" name="prenom" autoComplete="given-name" placeholder="Votre prénom" className={champ} aria-invalid={!!erreurs.prenom} aria-describedby="err-prenom" />
-          {err("prenom")}
+          <input id="prenom" name="prenom" autoComplete="given-name" placeholder="Votre prénom" className={champClasse} aria-invalid={!!etat.erreurs?.prenom} aria-describedby="err-prenom" />
+          <Erreur etat={etat} nom="prenom" />
         </div>
       )}
       <div>
-        <label htmlFor="email" className={label}>
+        <label htmlFor="email" className={labelClasse}>
           E-mail
         </label>
-        <input id="email" name="email" type="email" autoComplete="email" placeholder="prenom@exemple.fr" className={champ} aria-invalid={!!erreurs.email} aria-describedby="err-email" />
-        {err("email")}
+        <input id="email" name="email" type="email" autoComplete="email" placeholder="prenom@exemple.fr" className={champClasse} aria-invalid={!!etat.erreurs?.email} aria-describedby="err-email" />
+        <Erreur etat={etat} nom="email" />
       </div>
       <div>
         <div className="flex items-baseline justify-between">
-          <label htmlFor="motdepasse" className={label}>
+          <label htmlFor="motdepasse" className={labelClasse}>
             Mot de passe
           </label>
           {mode === "connexion" && (
-            <Link href="/compagnon#acces" className="text-xs text-bordeaux hover:text-encre">
+            <Link href="/mot-de-passe-oublie" className="text-xs text-bordeaux hover:text-encre">
               Mot de passe oublié ?
             </Link>
           )}
@@ -82,7 +53,7 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
             autoComplete={mode === "inscription" ? "new-password" : "current-password"}
             placeholder={mode === "inscription" ? "12 caractères minimum" : ""}
             className="h-12 min-w-0 flex-1 border-0 bg-transparent px-0 text-[1.0625rem] text-encre placeholder:text-taupe focus:outline-none focus:ring-0"
-            aria-invalid={!!erreurs.motdepasse}
+            aria-invalid={!!etat.erreurs?.motdepasse}
             aria-describedby="err-motdepasse"
           />
           <button
@@ -98,41 +69,36 @@ export function FormulaireCompte({ mode }: { mode: Mode }) {
             </svg>
           </button>
         </div>
-        {err("motdepasse")}
+        <Erreur etat={etat} nom="motdepasse" />
       </div>
 
       {mode === "inscription" && (
         <div className="space-y-3 pt-1 text-sm">
           <label className="flex items-start gap-3">
             <input type="checkbox" name="cgu" className="mt-1 accent-bordeaux" aria-describedby="err-cgu" />
-            <span>J&apos;accepte les conditions d&apos;utilisation.</span>
+            <span>
+              J&apos;accepte les conditions d&apos;utilisation et la{" "}
+              <Link href="/confidentialite" className="underline decoration-filet underline-offset-4">
+                politique de confidentialité
+              </Link>
+              .
+            </span>
           </label>
-          {err("cgu")}
+          <Erreur etat={etat} nom="cgu" />
           <label className="flex items-start gap-3 border border-filet p-3 text-[0.8125rem] leading-relaxed text-gris">
             <input type="checkbox" name="sante" className="mt-1 accent-bordeaux" />
             <span>
-              J&apos;autorise le Compagnon à utiliser mes données de santé (sommeil, cardio, humeur) pour calculer mon élan. Facultatif, modifiable à tout
-              moment.
+              J&apos;autorise le Compagnon à utiliser mes données de santé (sommeil, cardio) pour calculer mon élan. Facultatif, modifiable à tout
+              moment dans mon profil ; le retrait efface ces données.
             </span>
           </label>
         </div>
       )}
 
-      <button
-        type="submit"
-        className="flex h-14 w-full items-center justify-center gap-2.5 bg-nuit text-[0.8125rem] font-semibold uppercase tracking-[0.2em] text-ivoire transition-colors hover:bg-ivoire"
-      >
+      <BoutonEnvoi>
         {mode === "inscription" ? "Créer mon compte" : "Se connecter"} <span aria-hidden>→</span>
-      </button>
-
-      {envoye && (
-        <p role="status" className="border-l-2 border-filet bg-sable p-4 text-sm leading-relaxed">
-          Le Compagnon ouvre à la prochaine lune : les comptes ne sont pas encore actifs. Votre saisie n&apos;a pas été enregistrée.{" "}
-          <Link href="/compagnon#acces" className="font-semibold text-bordeaux underline underline-offset-2">
-            Être invité·e à l&apos;ouverture
-          </Link>
-        </p>
-      )}
+      </BoutonEnvoi>
+      <Message etat={etat} />
     </form>
   );
 }
