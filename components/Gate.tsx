@@ -63,9 +63,9 @@ export function Gate({ children }: { children: React.ReactNode }) {
     try {
       const raw = localStorage.getItem("identitx");
       const st = raw ? JSON.parse(raw)?.state : null;
-      // Défaut aligné sur l'app : Lin (fusain), thème sombre monochrome.
+      // Défaut aligné sur l'app : Lin, thème clair éditorial (papier).
       const palette = st?.palette ?? "lin";
-      const theme = st?.theme ?? "dark";
+      const theme = st?.theme ?? "light";
       const root = document.documentElement;
       root.classList.toggle("light", theme === "light");
       ["pal-lin", "pal-nuit", "pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach(

@@ -24,6 +24,19 @@
      sur toutes les palettes sauf l'ardoise claire (bleu foncé), qui repasse au
      blanc plus bas. */
   --on-brand: #0e0d14;
+
+  /* Palette éditoriale nommée (source unique). ink/navy/midnight = profonds ;
+     paper/ivory = clairs ; red/red-deep = accent ; muted/stone = neutres. Les
+     palettes commutables (pal-lin…) les référencent. */
+  --color-ink: #1b1b22;
+  --color-navy: #23314f;
+  --color-midnight: #141a2c;
+  --color-paper: #f3efe7;
+  --color-ivory: #fbf9f4;
+  --color-red: #b43a2e;
+  --color-red-deep: #8a2a21;
+  --color-muted: #6c6a64;
+  --color-stone: #d8d2c6;
 }
 
 .light {
@@ -120,24 +133,22 @@ html.pal-aubergine.light {
 /* Lin & Prune — clair par défaut : lin chaud, accent prune profond. Féminin,
    éditorial, sobre. C'est l'identité de la marque (défaut de l'app). */
 html.pal-lin {
-  /* DÉFAUT — Fusain & blanc : fond charbon PROFOND, cartes en gris CLAIR nettement
-     détachées (fort contraste cadre/fond), texte et traits blancs. Monochrome PUR
-     (aucune couleur), façon Co-Star. L'accent est un gris clair : boutons gris
-     clair à texte foncé, liserés gris. */
-  --noir: #212127; --surface: #3b3b43; --raised: #494952;
-  --ink: #f7f7f8; --muted: #bcbcc3; --line: rgba(255, 255, 255, 0.09);
-  --fuchsia: #dedee2; --orange: #dedee2; --slate: #b2b2b9;
-  --prune: #dedee2; /* liseré neutralisé en gris clair (plus de prune) */
-  --on-brand: #18181b; /* texte foncé sur les boutons gris clair */
+  /* Variante SOMBRE (si bascule) — éditorial « midnight » : fond nuit bleutée,
+     cartes navy, encre ivoire, accent ROUGE. */
+  --noir: var(--color-midnight); --surface: var(--color-navy); --raised: #2a3858;
+  --ink: var(--color-ivory); --muted: #a7adc0; --line: rgba(255, 255, 255, 0.10);
+  --fuchsia: var(--color-red); --orange: var(--color-red); --slate: #a7adc0;
+  --prune: #c7cedd; /* filet clair sur le navy */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons rouges */
 }
 html.pal-lin.light {
-  /* Variante claire (si bascule) — gris & blanc, monochrome pur : fond gris doux,
-     cartes blanches, encre fusain, accent gris foncé. Aucune couleur. */
-  --noir: #ececed; --surface: #f5f5f6; --raised: #ffffff;
-  --ink: #1a1a1d; --muted: #64646a; --line: rgba(20, 20, 26, 0.16);
-  --fuchsia: #26262a; --orange: #26262a; --slate: #64646a;
-  --prune: #26262a; /* liseré neutralisé en gris fusain foncé */
-  --on-brand: #f5f5f6;
+  /* DÉFAUT — éditorial « papier » : fond papier chaud, cartes ivoire, encre
+     profonde, accent ROUGE, navy en structurel (filets, étoiles). */
+  --noir: var(--color-paper); --surface: var(--color-ivory); --raised: #ffffff;
+  --ink: var(--color-ink); --muted: var(--color-muted); --line: rgba(27, 27, 34, 0.14);
+  --fuchsia: var(--color-red); --orange: var(--color-red); --slate: var(--color-muted);
+  --prune: var(--color-navy); /* accent secondaire (filets, constellation) */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons rouges */
 }
 
 * {
