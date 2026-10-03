@@ -24,6 +24,8 @@ import { useStore } from "@/store/useStore";
 import { gesteDuJour, questionDuJour } from "../variateJour";
 import { track } from "@/lib/metrics";
 import { CapsulePulse } from "@/components/CapsulePulse";
+import { SignatureJoin } from "@/components/SignatureJoin";
+import { compositionSignature } from "../constellationSignature";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -580,6 +582,23 @@ function ReactionClotature({
 }) {
   const router = useRouter();
   const setCoachSeed = useStore((s) => s.setCoachSeed);
+  const diagnostic = useParcoursStore((s) => s.diagnostic);
+
+  // La capsule nourrit la signature : on construit la composition générative
+  // (empreinte unique) et un point déterministe du jour qui vient s'y ancrer.
+  const composition = useMemo(
+    () => (diagnostic ? compositionSignature(diagnostic) : null),
+    [diagnostic]
+  );
+  const joinSeed = useMemo(() => {
+    let h = 2166136261;
+    const src = `${r.jour}|${r.archetype}|${r.sphereFocus}|${r.emotions.join(",")}`;
+    for (let i = 0; i < src.length; i++) {
+      h ^= src.charCodeAt(i);
+      h = Math.imul(h, 16777619);
+    }
+    return (h >>> 0) % 360;
+  }, [r]);
 
   // Ce qui a bougé, dérivé de l'état avant → après.
   const domA = archetypeDominant(avant);
@@ -655,17 +674,22 @@ function ReactionClotature({
 
   return (
     <div style={{ maxWidth: 520, margin: "0 auto", fontFamily: sans, color: INK, textAlign: "center", paddingTop: 20 }}>
-      <div
-        style={{
-          width: 54, height: 54, borderRadius: "50%", margin: "0 auto 16px",
-          display: "grid", placeItems: "center", color: "var(--on-brand)", fontSize: 24,
-          background: `linear-gradient(135deg, ${FUCHSIA}, ${ORANGE})`,
-        }}
-      >
-        {bascule ? "⇄" : "✓"}
-      </div>
-      <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-        Capsule enregistrée ✓
+      {composition ? (
+        // La récompense : le point du jour REJOINT la constellation‑signature.
+        <SignatureJoin composition={composition} seed={joinSeed} size={220} />
+      ) : (
+        <div
+          style={{
+            width: 54, height: 54, borderRadius: "50%", margin: "0 auto 16px",
+            display: "grid", placeItems: "center", color: "var(--on-brand)", fontSize: 24,
+            background: `linear-gradient(135deg, ${FUCHSIA}, ${ORANGE})`,
+          }}
+        >
+          {bascule ? "⇄" : "✓"}
+        </div>
+      )}
+      <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA, marginTop: composition ? 4 : 0 }}>
+        {composition ? "Ta capsule rejoint ta signature" : "Capsule enregistrée ✓"}
       </div>
       <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 28, margin: "8px 0 8px", color: INK, lineHeight: 1.15 }}>
         {entete.titre}
