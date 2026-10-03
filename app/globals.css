@@ -25,18 +25,31 @@
      blanc plus bas. */
   --on-brand: #0e0d14;
 
-  /* Palette éditoriale nommée (source unique). ink/navy/midnight = profonds ;
-     paper/ivory = clairs ; red/red-deep = accent ; muted/stone = neutres. Les
-     palettes commutables (pal-lin…) les référencent. */
-  --color-ink: #1b1b22;
-  --color-navy: #23314f;
-  --color-midnight: #141a2c;
-  --color-paper: #f3efe7;
-  --color-ivory: #fbf9f4;
-  --color-red: #b43a2e;
-  --color-red-deep: #8a2a21;
-  --color-muted: #6c6a64;
-  --color-stone: #d8d2c6;
+  /* ── Design system IdentitX — palette éditoriale minérale (source unique) ──
+     Fondations profondes, papiers clairs, rouge SIGNATURE (parcimonie), minéraux
+     désaturés pour l'art génératif. Les palettes commutables (pal-lin…) mappent
+     ces tokens sur les variables sémantiques (--noir, --ink, --fuchsia…). */
+  --color-ink: #111318;
+  --color-graphite: #343840;
+  --color-navy: #07111f; /* deep navy */
+  --color-midnight: #0d1b2a;
+  --color-paper: #efece5; /* warm paper */
+  --color-ivory: #f7f5f0;
+  --color-white: #ffffff;
+  --color-red: #d92d3f; /* IdentitX Red — signature, jamais décoratif */
+  --color-red-deep: #a91f32;
+  --color-muted: #565a62; /* texte secondaire lisible (graphite doux) */
+  --color-muted-blue: #60758c; /* minéral */
+  --color-dust-blue: #a9b8c5; /* minéral clair */
+  --color-stone: #b8b3a9;
+
+  /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
+  --dur-fast: 180ms;
+  --dur: 320ms;
+  --dur-slow: 640ms;
+  --dur-reveal: 1200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .light {
@@ -133,22 +146,23 @@ html.pal-aubergine.light {
 /* Lin & Prune — clair par défaut : lin chaud, accent prune profond. Féminin,
    éditorial, sobre. C'est l'identité de la marque (défaut de l'app). */
 html.pal-lin {
-  /* Variante SOMBRE (si bascule) — éditorial « midnight » : fond nuit bleutée,
-     cartes navy, encre ivoire, accent ROUGE. */
-  --noir: var(--color-midnight); --surface: var(--color-navy); --raised: #2a3858;
-  --ink: var(--color-ivory); --muted: #a7adc0; --line: rgba(255, 255, 255, 0.10);
-  --fuchsia: var(--color-red); --orange: var(--color-red); --slate: #a7adc0;
-  --prune: #c7cedd; /* filet clair sur le navy */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons rouges */
+  /* Variante SOMBRE (si bascule) — « midnight » : nuit bleutée profonde, cartes
+     midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
+  --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
+  --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.10);
+  --fuchsia: var(--color-ivory); --orange: var(--color-ivory); --slate: var(--color-dust-blue);
+  --prune: var(--color-red); /* SIGNAL rouge : actif, révélation, tension */
+  --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
-  /* DÉFAUT — éditorial « papier » : fond papier chaud, cartes ivoire, encre
-     profonde, accent ROUGE, navy en structurel (filets, étoiles). */
-  --noir: var(--color-paper); --surface: var(--color-ivory); --raised: #ffffff;
-  --ink: var(--color-ink); --muted: var(--color-muted); --line: rgba(27, 27, 34, 0.14);
-  --fuchsia: var(--color-red); --orange: var(--color-red); --slate: var(--color-muted);
-  --prune: var(--color-navy); /* accent secondaire (filets, constellation) */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons rouges */
+  /* DÉFAUT — « papier » éditorial : fond papier chaud, cartes ivoire/blanc, encre
+     profonde. UI en ENCRE (boutons, libellés) ; le ROUGE est réservé au SIGNAL
+     (élément actif, révélation, détail important) via --prune. */
+  --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
+  --ink: var(--color-ink); --muted: var(--color-muted); --line: rgba(17, 19, 24, 0.12);
+  --fuchsia: var(--color-ink); --orange: var(--color-ink); --slate: var(--color-muted);
+  --prune: var(--color-red); /* SIGNAL rouge : actif, révélation, tension */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons encre */
 }
 
 * {
@@ -300,6 +314,26 @@ button:not(:disabled):active,
 ::selection {
   background: var(--fuchsia);
   color: var(--on-brand);
+}
+
+/* Matière numérique — grain minéral très subtil (papier/encre), posé en overlay
+   fixe, non interactif. « Digital materiality » : le numérique semble presque
+   physique, sans jamais virer rétro. Désaturé, ~3 % d'opacité. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+/* Sur fond sombre, le multiply masque le grain → on l'éclaircit légèrement. */
+html.pal-lin:not(.light) body::after {
+  mix-blend-mode: screen;
+  opacity: 0.045;
 }
 
 /* Placeholders lisibles : couleur explicite (le défaut navigateur descend trop
