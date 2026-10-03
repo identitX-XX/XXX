@@ -5,8 +5,12 @@
 //   · la RÉVÉLATION : gérée ailleurs (genererRevelations, sourcée) ;
 //   · la RESSOURCE  : une pratique / lecture / réflexion courte, choisie de
 //                      façon déterministe selon le jour et l'archétype.
-// Pur et déterministe : mêmes entrées → mêmes sorties. Le texte des ressources
-// est un premier jet, à réécrire.
+// Pur et déterministe : mêmes entrées → mêmes sorties.
+//
+// La bibliothèque est désormais organisée par THÈMES DE VIE (le `theme` ci-
+// dessous), pas seulement par type : Relationnel · Parentalité · Santé · Corps ·
+// Style & présence · Soi & esprit. Le `type` (pratique/lecture/réflexion) reste,
+// car il pilote la « ressource du jour » (le climat corporel l'oriente).
 
 import { Archetype } from "./types";
 import { defiDuJour } from "./defis";
@@ -19,9 +23,19 @@ export interface Nouveaute {
   texte: string;
 }
 
+// Thèmes de vie — l'axe de lecture principal de la bibliothèque.
+export type RessourceTheme =
+  | "relationnel"
+  | "parentalite"
+  | "sante"
+  | "corps"
+  | "style"
+  | "soi";
+
 export interface Ressource {
   id: string;
   type: "pratique" | "lecture" | "reflexion";
+  theme: RessourceTheme;
   titre: string;
   duree: string;
   corps: string;
@@ -55,11 +69,13 @@ export function nouveauteDuJour(n: number, arch: Archetype, phaseKey?: string): 
   return { kind, label: "La question du jour", texte: arch.question };
 }
 
-// La bibliothèque de ressources — premier jet, registre premium et chaleureux.
+// La bibliothèque de ressources — registre premium et chaleureux, chaque fiche
+// adossée à une source et rattachée à un thème de vie.
 export const RESSOURCES: Ressource[] = [
   {
     id: "trois-souffles",
     type: "pratique",
+    theme: "sante",
     titre: "Le scan des trois souffles",
     duree: "2 min",
     corps:
@@ -69,6 +85,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "question-du-soir",
     type: "reflexion",
+    theme: "soi",
     titre: "La question du soir",
     duree: "3 min",
     corps:
@@ -78,6 +95,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "identite-non-fixe",
     type: "lecture",
+    theme: "soi",
     titre: "Pourquoi tu n'as pas une identité fixe",
     duree: "4 min",
     corps:
@@ -87,6 +105,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "cinq-appuis",
     type: "pratique",
+    theme: "corps",
     titre: "Ancrage : cinq appuis",
     duree: "2 min",
     corps:
@@ -96,6 +115,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "ce-que-tu-repetes",
     type: "reflexion",
+    theme: "soi",
     titre: "Ce que tu répètes",
     duree: "3 min",
     corps:
@@ -105,6 +125,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "version-finale",
     type: "lecture",
+    theme: "soi",
     titre: "Le mythe de la version finale de toi",
     duree: "4 min",
     corps:
@@ -114,6 +135,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "besoin-non-nomme",
     type: "reflexion",
+    theme: "relationnel",
     titre: "Ton besoin non nommé",
     duree: "3 min",
     corps:
@@ -123,6 +145,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "frontiere-une-phrase",
     type: "pratique",
+    theme: "relationnel",
     titre: "Poser une frontière, en une phrase",
     duree: "2 min",
     corps:
@@ -132,6 +155,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "valeurs-journees",
     type: "lecture",
+    theme: "soi",
     titre: "L'écart entre tes valeurs et tes journées",
     duree: "4 min",
     corps:
@@ -141,6 +165,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "a-qui-ce-cap",
     type: "reflexion",
+    theme: "soi",
     titre: "À qui appartient ce cap ?",
     duree: "3 min",
     corps:
@@ -152,6 +177,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "multi-vrai-but",
     type: "lecture",
+    theme: "soi",
     titre: "Tu n'as pas « un seul vrai but »",
     duree: "4 min",
     corps:
@@ -161,6 +187,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "multi-scanner",
     type: "lecture",
+    theme: "soi",
     titre: "Scanner, pas dispersé",
     duree: "4 min",
     corps:
@@ -170,6 +197,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "multi-range",
     type: "lecture",
+    theme: "soi",
     titre: "Pourquoi les généralistes gagnent",
     duree: "5 min",
     corps:
@@ -179,6 +207,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "multi-intelligences",
     type: "lecture",
+    theme: "soi",
     titre: "Plusieurs intelligences, pas un seul QI",
     duree: "4 min",
     corps:
@@ -192,6 +221,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "neuro-plasticite",
     type: "lecture",
+    theme: "soi",
     titre: "Ton cerveau n'est pas figé",
     duree: "5 min",
     corps:
@@ -201,6 +231,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "neuro-possibles",
     type: "lecture",
+    theme: "soi",
     titre: "Les « moi possibles » tirent l'action",
     duree: "4 min",
     corps:
@@ -210,6 +241,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "neuro-narratif",
     type: "lecture",
+    theme: "soi",
     titre: "Tu deviens l'histoire que tu te racontes",
     duree: "5 min",
     corps:
@@ -219,6 +251,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "neuro-habitudes",
     type: "lecture",
+    theme: "soi",
     titre: "Le changement passe par le contexte, pas la volonté",
     duree: "5 min",
     corps:
@@ -228,6 +261,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "neuro-mindset",
     type: "lecture",
+    theme: "soi",
     titre: "Croire que ça peut bouger change tout",
     duree: "4 min",
     corps:
@@ -235,11 +269,11 @@ export const RESSOURCES: Ressource[] = [
     source: "Carol Dweck, « Mindset » (2006)",
   },
 
-  // --- Renouvellement de la bibliothèque : pratiques, réflexions et savoirs
-  // neufs, dont les piliers Love & Santé. Même registre premium et sourcé. ---
+  // — Santé : souffle, sommeil, repos, apaisement émotionnel —
   {
     id: "coherence-cardiaque",
     type: "pratique",
+    theme: "sante",
     titre: "La cohérence cardiaque",
     duree: "5 min",
     corps:
@@ -249,6 +283,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "plus-petit-pas",
     type: "pratique",
+    theme: "soi",
     titre: "Le plus petit pas possible",
     duree: "2 min",
     corps:
@@ -258,6 +293,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "main-sur-le-coeur",
     type: "pratique",
+    theme: "sante",
     titre: "La main sur le cœur",
     duree: "2 min",
     corps:
@@ -267,6 +303,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "marche-debloque",
     type: "pratique",
+    theme: "corps",
     titre: "La marche qui débloque",
     duree: "10 min",
     corps:
@@ -276,6 +313,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "se-parler-amie",
     type: "reflexion",
+    theme: "sante",
     titre: "Se parler à la troisième personne",
     duree: "3 min",
     corps:
@@ -285,6 +323,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "oui-trop-vite",
     type: "reflexion",
+    theme: "relationnel",
     titre: "À qui tu dis oui trop vite",
     duree: "3 min",
     corps:
@@ -294,6 +333,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "comparaison-vole",
     type: "reflexion",
+    theme: "style",
     titre: "Ce que la comparaison te vole",
     duree: "3 min",
     corps:
@@ -303,6 +343,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "meilleure-version-demain",
     type: "reflexion",
+    theme: "soi",
     titre: "Ta meilleure version, demain",
     duree: "4 min",
     corps:
@@ -312,6 +353,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "amour-securise",
     type: "lecture",
+    theme: "relationnel",
     titre: "L'amour sécurise, il ne teste pas",
     duree: "4 min",
     corps:
@@ -321,6 +363,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "petits-gestes-couple",
     type: "lecture",
+    theme: "relationnel",
     titre: "Les petits gestes font les grands couples",
     duree: "4 min",
     corps:
@@ -330,6 +373,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "sommeil-repare",
     type: "lecture",
+    theme: "sante",
     titre: "Le sommeil répare ton identité",
     duree: "4 min",
     corps:
@@ -339,6 +383,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "repos-pas-recompense",
     type: "lecture",
+    theme: "sante",
     titre: "Le repos n'est pas une récompense",
     duree: "3 min",
     corps:
@@ -348,6 +393,7 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "sens-plutot-bonheur",
     type: "lecture",
+    theme: "soi",
     titre: "Chercher le sens, pas le bonheur",
     duree: "4 min",
     corps:
@@ -357,11 +403,178 @@ export const RESSOURCES: Ressource[] = [
   {
     id: "lien-qui-compte",
     type: "reflexion",
+    theme: "relationnel",
     titre: "Le lien qui te manque",
     duree: "3 min",
     corps:
       "La plus longue étude sur une vie d'adulte tient en une phrase : ce sont la qualité de nos relations qui nous gardent en bonne santé et heureux, bien plus que l'argent ou la réussite. Demande-toi quel lien tu laisses se distendre — et envoie, aujourd'hui, un signe à cette personne.",
     source: "Robert Waldinger, étude de Harvard sur le développement adulte (2015)",
+  },
+
+  // — Parentalité : accompagner un enfant sans se perdre —
+  {
+    id: "connecter-avant-corriger",
+    type: "reflexion",
+    theme: "parentalite",
+    titre: "Relier avant de corriger",
+    duree: "3 min",
+    corps:
+      "Face à un enfant débordé, l'apaisement précède l'explication : on ne raisonne pas un cerveau en crise. Se relier d'abord — se mettre à sa hauteur, nommer ce qu'il ressent — avant de poser la limite. Le lien ouvre la porte que la leçon, seule, trouve fermée.",
+    source: "Daniel Siegel & Tina Payne Bryson, « Le cerveau de votre enfant » (2011)",
+  },
+  {
+    id: "parent-suffisamment-bon",
+    type: "lecture",
+    theme: "parentalite",
+    titre: "Le parent « suffisamment bon »",
+    duree: "4 min",
+    corps:
+      "Un enfant n'a pas besoin d'un parent parfait, mais d'un parent fiable qui répare ses ratés. Les micro-déceptions, réparées, lui apprennent justement que le lien résiste à l'imperfection. Viser la perfection épuise le parent et prive l'enfant de cet apprentissage essentiel.",
+    source: "Donald Winnicott, « La mère suffisamment bonne » (1953)",
+  },
+  {
+    id: "decrire-pas-juger-enfant",
+    type: "pratique",
+    theme: "parentalite",
+    titre: "Décrire plutôt que juger",
+    duree: "2 min",
+    corps:
+      "Au lieu de « bravo, tu es génial », décris ce que tu vois : « tu as rangé tes cubes tout seul ». L'enfant intègre alors un fait sur lui-même, pas un verdict à défendre. Même principe pour reprendre : décrire le problème — « je vois des manteaux par terre » — invite à agir mieux qu'un reproche.",
+    source: "Adele Faber & Elaine Mazlish, « Parler pour que les enfants écoutent » (1980)",
+  },
+  {
+    id: "accueillir-emotion-enfant",
+    type: "lecture",
+    theme: "parentalite",
+    titre: "Consoler ne rend pas capricieux",
+    duree: "4 min",
+    corps:
+      "On a longtemps cru qu'accueillir « trop » les pleurs rendait l'enfant tyrannique. Les neurosciences affectives montrent l'inverse : accueillir une émotion aide le cerveau immature à la réguler et à mûrir les circuits qui, plus tard, permettront de se calmer seul. La sécurité donnée tôt rend l'autonomie possible.",
+    source: "Catherine Gueguen, « Pour une enfance heureuse » (2014)",
+  },
+  {
+    id: "feliciter-effort-enfant",
+    type: "pratique",
+    theme: "parentalite",
+    titre: "Féliciter l'effort, pas le don",
+    duree: "2 min",
+    corps:
+      "Dire à un enfant « tu es intelligent » le rend prudent : il évite ensuite ce qui pourrait démentir l'étiquette. Féliciter la démarche — « tu as cherché plusieurs façons » — nourrit au contraire le goût de l'effort et la capacité à encaisser un échec. On renforce ce qu'on nomme.",
+    source: "Mueller & Dweck, Columbia University (1998)",
+  },
+  {
+    id: "rester-la-boussole",
+    type: "reflexion",
+    theme: "parentalite",
+    titre: "Rester le point d'ancrage",
+    duree: "3 min",
+    corps:
+      "Quand les pairs deviennent la référence principale, l'enfant perd sa boussole. Le lien d'attachement au parent n'est pas un acquis : il s'entretient par la présence et par l'invitation à exister tel qu'il est. Rester accueillant, même devant le rejet, garde la porte ouverte pour quand il en aura besoin.",
+    source: "Gordon Neufeld & Gabor Maté, « Retrouver son rôle de parent » (2004)",
+  },
+
+  // — Corps : bouger, ressentir, habiter —
+  {
+    id: "corps-garde-score",
+    type: "lecture",
+    theme: "corps",
+    titre: "Le corps retient ce que la tête oublie",
+    duree: "5 min",
+    corps:
+      "Les émotions fortes ne restent pas que dans les pensées : elles s'inscrivent dans le corps — tensions, souffle court, gorge serrée. Prendre soin de soi passe donc aussi par le corps : bouger, respirer, être touché avec sécurité. On ne raisonne pas toujours une détresse ; parfois, il faut la laisser se décharger par le corps.",
+    source: "Bessel van der Kolk, « Le corps n'oublie rien » (2014)",
+  },
+  {
+    id: "relacher-par-etages",
+    type: "pratique",
+    theme: "corps",
+    titre: "Relâcher, muscle par muscle",
+    duree: "5 min",
+    corps:
+      "Contracte un groupe de muscles cinq secondes — poings, épaules, visage — puis relâche d'un coup, et observe la différence. Parcourir le corps ainsi apprend à reconnaître la tension pour mieux la dénouer. Le relâchement n'est pas l'absence d'effort : c'est une compétence qui s'exerce.",
+    source: "Edmund Jacobson, relaxation musculaire progressive (1938)",
+  },
+  {
+    id: "bouger-humeur",
+    type: "lecture",
+    theme: "corps",
+    titre: "Bouger change l'humeur avant la silhouette",
+    duree: "4 min",
+    corps:
+      "L'activité physique agit comme un régulateur d'humeur immédiat : elle libère les facteurs qui apaisent l'anxiété et nourrissent la concentration, bien avant tout effet esthétique. Certains jours, vingt minutes de marche vive valent mieux qu'une heure à ruminer.",
+    source: "John Ratey, « Spark » (2008)",
+  },
+  {
+    id: "souffle-nerf-vague",
+    type: "pratique",
+    theme: "corps",
+    titre: "Le double soupir qui calme",
+    duree: "2 min",
+    corps:
+      "Inspire par le nez, ajoute une petite inspiration par-dessus, puis expire longuement par la bouche. Ce « double soupir » stimule le nerf vague et fait retomber l'alerte en quelques cycles. Le corps possède un frein intégré — ce geste l'actionne.",
+    source: "Stephen Porges, théorie polyvagale (2011)",
+  },
+
+  // — Style & présence : image de soi et art de vivre —
+  {
+    id: "congruence-rogers",
+    type: "lecture",
+    theme: "style",
+    titre: "Être soi, ça se voit",
+    duree: "4 min",
+    corps:
+      "La congruence, c'est l'accord entre ce que tu ressens, ce que tu montres et ce que tu dis. Les autres la perçoivent sans pouvoir la nommer : une présence « vraie » met en confiance, une façade fatigue. Se présenter au monde aligné sur soi n'est pas un style — c'est une cohérence qui, elle, en devient un.",
+    source: "Carl Rogers, « Le développement de la personne » (1961)",
+  },
+  {
+    id: "tenue-qui-change",
+    type: "lecture",
+    theme: "style",
+    titre: "Ce que tu portes te change",
+    duree: "3 min",
+    corps:
+      "Les vêtements n'agissent pas que sur le regard des autres : ils modifient ta propre posture mentale. Endosser une tenue associée à un rôle améliore mesurablement l'attention et l'assurance — c'est la « cognition vestimentaire ». S'habiller devient alors un levier, pas une simple surface.",
+    source: "Adam & Galinsky, « Enclothed Cognition » (2012)",
+  },
+  {
+    id: "presence-posture",
+    type: "pratique",
+    theme: "style",
+    titre: "Prendre sa place, deux minutes",
+    duree: "2 min",
+    corps:
+      "Avant un moment qui compte, tiens-toi deux minutes en position ouverte : dos droit, épaules déployées, pieds ancrés. Occuper l'espace avec son corps aide à se sentir plus présent et moins sur la défensive. La présence ne se décrète pas dans la tête — elle s'installe d'abord dans la posture.",
+    source: "Amy Cuddy, « Présence » (2015)",
+  },
+  {
+    id: "garder-ce-qui-compte",
+    type: "pratique",
+    theme: "style",
+    titre: "Ne garder que ce qui te parle",
+    duree: "5 min",
+    corps:
+      "Prends une catégorie d'objets et tiens chaque chose en main : te met-elle en joie, ou la gardes-tu par habitude ou culpabilité ? Ne conserver que ce qui résonne allège l'espace et clarifie le regard — ton environnement finit par ressembler à qui tu veux être.",
+    source: "Marie Kondo, « La magie du rangement » (2011)",
+  },
+  {
+    id: "art-simplicite",
+    type: "reflexion",
+    theme: "style",
+    titre: "L'élégance du peu",
+    duree: "3 min",
+    corps:
+      "L'art de vivre ne tient pas à l'accumulation mais au choix : moins d'objets, mais justes ; moins d'engagements, mais tenus. Épurer son cadre et son emploi du temps n'est pas se priver — c'est faire de la place à ce qui a du goût. Le raffinement commence où s'arrête le superflu.",
+    source: "Dominique Loreau, « L'art de la simplicité » (2005)",
+  },
+  {
+    id: "presentation-de-soi",
+    type: "lecture",
+    theme: "style",
+    titre: "Tu joues un rôle — autant le choisir",
+    duree: "4 min",
+    corps:
+      "En société, nous nous présentons toujours un peu en scène : nous ajustons notre image selon le public. Loin d'être de l'hypocrisie, c'est le fonctionnement normal du lien social. En avoir conscience permet de choisir ce qu'on met en avant, au lieu de le subir.",
+    source: "Erving Goffman, « La mise en scène de la vie quotidienne » (1959)",
   },
 ];
 
@@ -392,3 +605,55 @@ export const TYPE_LABEL: Record<Ressource["type"], string> = {
   lecture: "Lecture",
   reflexion: "Réflexion",
 };
+
+// Métadonnées des thèmes de vie — l'ordre et le texte d'accroche de la
+// bibliothèque. Les icônes (JSX) vivent dans la page, par clé.
+export interface ThemeMeta {
+  key: RessourceTheme;
+  label: string;
+  intro: string;
+}
+
+export const THEME_META: ThemeMeta[] = [
+  {
+    key: "relationnel",
+    label: "Relationnel",
+    intro:
+      "Les liens, le couple, les limites : ce qui se joue entre toi et les autres, et comment le rendre vivable dans la durée.",
+  },
+  {
+    key: "parentalite",
+    label: "Parentalité",
+    intro:
+      "Accompagner un enfant sans se perdre — présence, limites justes, réparation. Des appuis, pas des recettes de perfection.",
+  },
+  {
+    key: "sante",
+    label: "Santé",
+    intro:
+      "Le souffle, le sommeil, le repos, l'apaisement : les gestes simples qui tiennent ton équilibre debout.",
+  },
+  {
+    key: "corps",
+    label: "Corps",
+    intro:
+      "Bouger, ressentir, habiter ton corps — il pense et se souvient avec toi, bien avant les mots.",
+  },
+  {
+    key: "style",
+    label: "Style & présence",
+    intro:
+      "Comment tu te présentes au monde et composes ton quotidien : image de soi, congruence, art de vivre.",
+  },
+  {
+    key: "soi",
+    label: "Soi & esprit",
+    intro:
+      "Identité, récit, changement : ce que la recherche dit de qui tu deviens — et de ta liberté d'y travailler.",
+  },
+];
+
+export const THEME_LABEL: Record<RessourceTheme, string> = THEME_META.reduce(
+  (acc, t) => ((acc[t.key] = t.label), acc),
+  {} as Record<RessourceTheme, string>
+);
