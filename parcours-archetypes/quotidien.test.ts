@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { nouveauteDuJour, ressourceDuJour, RESSOURCES } from "./quotidien";
+import { nouveauteDuJour, ressourceDuJour, RESSOURCES, THEME_META } from "./quotidien";
 import { ARCHETYPES, archetypeByKey } from "./archetypes";
 
 const arch = archetypeByKey["visionnaire"] ?? ARCHETYPES[0];
@@ -46,4 +46,21 @@ test("ressource : varie selon le jour et l'archétype", () => {
   const ids = new Set<string>();
   for (let n = 1; n <= 12; n++) ids.add(ressourceDuJour(n, "creatrice").id);
   assert.ok(ids.size >= 4, "assez de diversité sur douze jours");
+});
+
+test("bibliothèque : chaque fiche porte un thème connu et un id unique", () => {
+  const themes = new Set(THEME_META.map((t) => t.key));
+  const ids = new Set<string>();
+  for (const r of RESSOURCES) {
+    assert.ok(themes.has(r.theme), `thème inconnu : ${r.theme} (${r.id})`);
+    assert.ok(!ids.has(r.id), `id dupliqué : ${r.id}`);
+    ids.add(r.id);
+  }
+});
+
+test("bibliothèque : chaque thème de vie a au moins deux fiches", () => {
+  for (const t of THEME_META) {
+    const n = RESSOURCES.filter((r) => r.theme === t.key).length;
+    assert.ok(n >= 2, `le thème « ${t.label} » n'a que ${n} fiche(s)`);
+  }
 });
