@@ -102,7 +102,7 @@ export const useStore = create<AppState>()(
   persist(
     (set, get) => ({
       onboarded: false,
-      theme: "dark",
+      theme: "light",
       palette: "lin",
       profile: emptyProfile,
       cards: [],
@@ -209,7 +209,7 @@ export const useStore = create<AppState>()(
     }),
     {
       name: "identitx",
-      version: 4,
+      version: 5,
       storage: createJSONStorage(() => localStorage),
       // One-shot migrations: absorb the pre-Bloc-3 standalone localStorage keys
       // into the unified store, then drop them. Cumulative and version-gated so
@@ -266,6 +266,12 @@ export const useStore = create<AppState>()(
           // On bascule tout le monde une fois ; réversible via les réglages.
           s.palette = "lin";
           s.theme = "dark";
+        }
+        if (version < 5) {
+          // Palette éditoriale « papier » : clair par défaut (fond papier, accent
+          // rouge). On bascule tout le monde une fois ; réversible via les réglages.
+          s.palette = "lin";
+          s.theme = "light";
         }
         return s as AppState;
       },
