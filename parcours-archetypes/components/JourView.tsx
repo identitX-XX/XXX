@@ -23,6 +23,7 @@ import {
 import { useStore } from "@/store/useStore";
 import { gesteDuJour, questionDuJour } from "../variateJour";
 import { track } from "@/lib/metrics";
+import { CapsulePulse } from "@/components/CapsulePulse";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -213,6 +214,13 @@ export function JourView({
           <div style={{ fontSize: 13.5, color: INK, marginBottom: 16, lineHeight: 1.5, fontFamily: serif }}>
             Dans cette situation, quelle dimension de toi était la plus présente ?
           </div>
+          {/* Retour visuel en direct : la forme réagit aux curseurs et aux émotions
+              → le bilan devient un instrument, pas un formulaire. */}
+          <CapsulePulse
+            focus={curseurs[jour.sphereFocus]}
+            relations={curseurs["relations"]}
+            emotions={emotions}
+          />
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             <div>
               <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12.5, marginBottom: 4 }}>
@@ -272,13 +280,17 @@ export function JourView({
                   disabled={readOnly && !on}
                   style={{
                     borderRadius: 999,
-                    padding: "7px 14px",
+                    padding: "7px 15px",
                     fontSize: 12,
+                    fontWeight: on ? 600 : 400,
                     cursor: readOnly ? "default" : "pointer",
-                    border: `1px solid ${on ? "transparent" : LINE}`,
-                    background: on ? `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})` : "transparent",
+                    border: `1px solid ${on ? "var(--ink)" : LINE}`,
+                    background: on ? "var(--ink)" : "transparent",
                     color: on ? "var(--on-brand)" : MUTED,
                     opacity: readOnly && !on ? 0.35 : 1,
+                    transform: on ? "translateY(-1px)" : "none",
+                    transition:
+                      "transform .18s var(--ease-out), background .2s, border-color .2s, color .2s",
                   }}
                 >
                   {e.label}
