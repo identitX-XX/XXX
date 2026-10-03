@@ -10,6 +10,7 @@ import { useParcoursStore } from "../store";
 import { track } from "@/lib/metrics";
 import { ADN } from "@/components/ParcoursGraphics";
 import { SignatureReveal } from "@/components/SignatureReveal";
+import { ConstellationProgress } from "@/components/ConstellationProgress";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -17,8 +18,11 @@ const LINE = "var(--line)";
 const MUTED = "var(--muted)";
 const INK = "var(--ink)";
 const SURFACE = "var(--surface)";
+const RAISED = "var(--raised)";
+const PRUNE = "var(--prune)";
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
+const mono = "var(--font-mono), ui-monospace, monospace";
 
 export function Diagnostic() {
   const initialiserParcours = useParcoursStore((s) => s.initialiserParcours);
@@ -85,35 +89,45 @@ export function Diagnostic() {
     );
   }
 
+  const repondu = Object.keys(answers).length;
   return (
-    <div style={wrap}>
-      <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-        Ta signature
+    <div
+      style={{
+        maxWidth: 580,
+        margin: "0 auto",
+        fontFamily: sans,
+        color: INK,
+        minHeight: "72vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      {/* La constellation se compose à chaque réponse — silence & espace. */}
+      <div style={{ display: "flex", justifyContent: "center", paddingTop: 8 }}>
+        <ConstellationProgress count={repondu} total={total} />
       </div>
 
-      {/* Ça respire, puis on démarre directement sur les questions. */}
-      <div style={{ display: "flex", gap: 5, margin: "34px 0 28px" }}>
-        {QUESTIONS.map((_, i) => (
-          <div
-            key={i}
-            style={{
-              height: 4, flex: 1, borderRadius: 999,
-              background: i <= step ? `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})` : LINE,
-              transition: "background .4s",
-            }}
-          />
-        ))}
-      </div>
-
-      <div key={step} className="animate-fade-up">
-        <div style={{ fontSize: 13, color: MUTED, marginBottom: 6 }}>
-          Question {step + 1} / {total}
+      {/* La question, posée seule, avec beaucoup d'air (le vide fait partie du design). */}
+      <div key={step} className="animate-fade-up" style={{ marginTop: "auto", paddingTop: 22 }}>
+        <div style={{ fontFamily: mono, fontSize: 13, letterSpacing: "0.22em", color: MUTED }}>
+          {String(step + 1).padStart(2, "0")}
+          <span style={{ opacity: 0.5 }}> / {String(total).padStart(2, "0")}</span>
         </div>
-        <h2 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 24, color: INK, margin: "0 0 18px", lineHeight: 1.2 }}>
+        <h2
+          className="fr-title"
+          style={{
+            fontFamily: serif,
+            fontWeight: 400,
+            fontSize: 34,
+            color: INK,
+            margin: "16px 0 26px",
+            lineHeight: 1.12,
+          }}
+        >
           {q.question}
         </h2>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
           {q.options.map((o) => {
             // Au retour sur une question, la réponse déjà donnée est pré-sélectionnée.
             const sel = answers[q.id] === o.archetype;
@@ -123,24 +137,28 @@ export function Diagnostic() {
                 onClick={() => choisir(o.archetype)}
                 style={{
                   ...optBtn,
-                  borderColor: sel ? FUCHSIA : LINE,
-                  background: sel
-                    ? "color-mix(in srgb, var(--fuchsia) 10%, var(--surface))"
-                    : SURFACE,
+                  borderColor: sel ? PRUNE : LINE,
+                  background: sel ? "color-mix(in srgb, var(--prune) 7%, var(--raised))" : RAISED,
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = FUCHSIA; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = sel ? FUCHSIA : LINE; }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = PRUNE;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = sel ? PRUNE : LINE;
+                }}
               >
                 {o.label}
               </button>
             );
           })}
         </div>
-      </div>
 
-      {step > 0 && (
-        <button style={ghost} onClick={() => setStep(step - 1)}>← Question précédente</button>
-      )}
+        {step > 0 && (
+          <button style={ghost} onClick={() => setStep(step - 1)}>
+            ← Précédent
+          </button>
+        )}
+      </div>
     </div>
   );
 }
