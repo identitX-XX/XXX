@@ -35,6 +35,7 @@ const SURFACE = "var(--surface)";
 
 const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
+const mono = "var(--font-mono), ui-monospace, monospace";
 
 export function JourView({
   jour,
@@ -74,6 +75,11 @@ export function JourView({
     avant: EtatEvolution;
     apres: EtatEvolution;
   } | null>(null);
+  // Expérience en deux temps : d'abord LE GESTE (à vivre), puis LE BILAN
+  // (l'instrument). En relecture, tout est montré d'un bloc.
+  const [stage, setStage] = useState<"geste" | "bilan">("geste");
+  const enGeste = readOnly || stage === "geste";
+  const enBilan = readOnly || stage === "bilan";
 
   const sectionsByKind = useMemo(
     () => Object.fromEntries(jour.sections.map((s) => [s.kind, s])),
@@ -152,6 +158,32 @@ export function JourView({
         )}
       </div>
 
+      {/* Deux temps de l'expérience — repère discret, éditorial. */}
+      {!readOnly && (
+        <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0 22px" }}>
+          {(["geste", "bilan"] as const).map((s, i) => {
+            const actif = stage === s;
+            return (
+              <div key={s} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                {i > 0 && <span style={{ width: 16, height: 1, background: LINE }} />}
+                <span
+                  style={{
+                    fontFamily: mono,
+                    fontSize: 11,
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    color: actif ? "var(--prune)" : MUTED,
+                    opacity: actif ? 1 : 0.6,
+                  }}
+                >
+                  {s === "geste" ? "Le geste" : "Le bilan"}
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       {/* Bandeau relecture */}
       {readOnly && (
         <div
@@ -174,7 +206,9 @@ export function JourView({
           jour devient le héros ; le cadre (intention) tient en une ligne ; les
           narratifs qui retardaient la récompense (observation, écho, clôture)
           sont retirés — la clôture, désormais, c'est l'écran de réaction. */}
-      <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <div key={stage} className="animate-fade-up" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        {enGeste && (
+        <>
         <Separateur label="Ton geste du jour" sous="À porter et vivre dans ta journée." />
         {/* La question à porter — le cœur réflexif de la journée, mis en avant */}
         <div
@@ -203,7 +237,11 @@ export function JourView({
         <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
           {gesteDuJour(a, jour.n)}
         </Bloc>
+        </>
+        )}
 
+        {enBilan && (
+        <>
         <Separateur label="Ton bilan du soir" sous="Une fois la journée terminée, observe ce qui s'est exprimé." />
 
         {/* Deux curseurs, pas cinq : on garde l'essentiel du bilan du soir —
@@ -323,42 +361,85 @@ export function JourView({
             }}
           />
         </Bloc>
+        </>
+        )}
 
       </div>
 
-      {/* Action */}
+      {/* Action — selon le temps de l'expérience. */}
+      {/* Temps 1 : vivre le geste → passer au bilan (pleine largeur, invitant). */}
+      {!readOnly && stage === "geste" && (
+        <button
+          onClick={() => {
+            setStage("bilan");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          style={{
+            marginTop: 28,
+            width: "100%",
+            minHeight: 50,
+            borderRadius: 12,
+            border: "none",
+            background: "var(--fuchsia)",
+            color: "var(--on-brand)",
+            fontFamily: sans,
+            fontSize: 14,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          J'ai vécu mon geste — faire mon bilan →
+        </button>
+      )}
+
+      {/* Temps 2 (ou relecture) : enregistrer. */}
+      {(readOnly || stage === "bilan") && (
       <div style={{ marginTop: 24, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
         {!readOnly && !engage && (
           <div style={{ fontSize: 12.5, color: MUTED, textAlign: "right", maxWidth: 340 }}>
-            Vis ta capsule d'abord — bouge un curseur, choisis une émotion ou
-            écris un mot — puis tu pourras l'enregistrer.
+            Note ce que tu as observé — bouge un curseur, choisis une émotion ou
+            écris un mot — puis enregistre ta capsule.
           </div>
         )}
-        <button
-          onClick={cloturer}
-          disabled={readOnly || !engage}
-          style={{
-            borderRadius: 999,
-            padding: "11px 22px",
-            minHeight: 44,
-            fontSize: 14,
-            fontWeight: 500,
-            letterSpacing: "0.01em",
-            cursor: readOnly || !engage ? "default" : "pointer",
-            border: "none",
-            // Inactif tant que la journée n'est pas vécue : fond discret + texte
-            // lisible (jamais du texte clair sur translucide → illisible).
-            color: readOnly || !engage ? "var(--muted)" : "var(--on-brand)",
-            background:
-              readOnly || !engage
-                ? "color-mix(in srgb, var(--ink) 12%, transparent)"
-                : `linear-gradient(90deg, ${FUCHSIA}, ${ORANGE})`,
-            opacity: readOnly ? 0.6 : 1,
-          }}
-        >
-          {readOnly ? "Capsule enregistrée ✓" : "Enregistrer ma capsule →"}
-        </button>
+        <div style={{ display: "flex", alignItems: "center", gap: 14, alignSelf: "stretch", justifyContent: "space-between" }}>
+          {!readOnly ? (
+            <button
+              onClick={() => {
+                setStage("geste");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              style={{ background: "none", border: "none", color: MUTED, fontFamily: sans, fontSize: 13, cursor: "pointer" }}
+            >
+              ← Le geste
+            </button>
+          ) : (
+            <span />
+          )}
+          <button
+            onClick={cloturer}
+            disabled={readOnly || !engage}
+            style={{
+              borderRadius: 12,
+              padding: "11px 22px",
+              minHeight: 46,
+              fontSize: 14,
+              fontWeight: 600,
+              letterSpacing: "0.01em",
+              cursor: readOnly || !engage ? "default" : "pointer",
+              border: "none",
+              color: readOnly || !engage ? "var(--muted)" : "var(--on-brand)",
+              background:
+                readOnly || !engage
+                  ? "color-mix(in srgb, var(--ink) 12%, transparent)"
+                  : "var(--fuchsia)",
+              opacity: readOnly ? 0.6 : 1,
+            }}
+          >
+            {readOnly ? "Capsule enregistrée ✓" : "Enregistrer ma capsule →"}
+          </button>
+        </div>
       </div>
+      )}
     </div>
   );
 }
