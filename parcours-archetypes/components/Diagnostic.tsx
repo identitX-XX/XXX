@@ -9,6 +9,7 @@ import { ArchetypeKey, Diagnostic as Diag } from "../types";
 import { useParcoursStore } from "../store";
 import { track } from "@/lib/metrics";
 import { ADN } from "@/components/ParcoursGraphics";
+import { SignatureReveal } from "@/components/SignatureReveal";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -48,45 +49,11 @@ export function Diagnostic() {
   };
 
   if (result) {
-    const dom = archetypeByKey[result.dominant];
-    const sec = archetypeByKey[result.secondaire];
+    // Écran de révélation : la constellation générative se construit, puis la
+    // signature émerge. La logique métier (initialiserParcours) est préservée.
     return (
       <div style={wrap}>
-        <div style={{ fontSize: 12, letterSpacing: ".22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-          Ton miroir
-        </div>
-        <h1 className="fr-title" style={h1}>Ta signature du moment</h1>
-        <p style={{ color: MUTED, fontSize: 15, margin: "0 0 22px" }}>
-          Ce qui te met le plus en mouvement, d'après tes réponses. Pas un verdict :
-          un point de départ, qui respirera au fil de ta quête.
-        </p>
-
-        <div style={{ ...card, borderColor: "color-mix(in srgb, var(--fuchsia) 40%, rgba(255,255,255,.1))" }}>
-          <div style={{ fontSize: 12, letterSpacing: ".18em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-            Signature
-          </div>
-          <div className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 26, color: INK, margin: "4px 0 6px" }}>{dom.name}</div>
-          <p style={{ margin: 0, color: MUTED, fontSize: 14.5, lineHeight: 1.55 }}>{dom.lens}</p>
-          <AObserver question={dom.question} />
-        </div>
-
-        <div style={{ ...card, marginTop: 12 }}>
-          <div style={{ fontSize: 12, letterSpacing: ".18em", fontWeight: 700, textTransform: "uppercase", color: MUTED }}>
-            Signature secondaire
-          </div>
-          <div className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 20, color: INK, margin: "4px 0 6px" }}>{sec.name}</div>
-          <p style={{ margin: 0, color: MUTED, fontSize: 14, lineHeight: 1.5 }}>{sec.lens}</p>
-          <AObserver question={sec.question} />
-        </div>
-
-        <p style={{ color: MUTED, fontSize: 13.5, lineHeight: 1.55, margin: "18px 2px 0", fontStyle: "italic" }}>
-          Ces signatures ne te définissent pas. Elles rendent visibles des
-          dynamiques qui s'expriment aujourd'hui.
-        </p>
-
-        <button style={cta} onClick={() => initialiserParcours(result)}>
-          Explorer mes signatures →
-        </button>
+        <SignatureReveal result={result} onExplore={() => initialiserParcours(result)} />
       </div>
     );
   }
@@ -178,30 +145,8 @@ export function Diagnostic() {
   );
 }
 
-// Zone d'exploration : une question de coaching à garder en tête, jamais un
-// diagnostic figé. On la pose, on ne la referme pas.
-function AObserver({ question }: { question: string }) {
-  return (
-    <div
-      style={{
-        marginTop: 14,
-        paddingTop: 14,
-        borderTop: `1px solid ${LINE}`,
-      }}
-    >
-      <div style={{ fontSize: 12, letterSpacing: ".16em", fontWeight: 700, textTransform: "uppercase", color: ORANGE, marginBottom: 5 }}>
-        À observer
-      </div>
-      <p style={{ margin: 0, color: INK, fontSize: 14, lineHeight: 1.5, fontFamily: serif }}>
-        {question}
-      </p>
-    </div>
-  );
-}
-
 const wrap: React.CSSProperties = { maxWidth: 560, margin: "0 auto", fontFamily: sans, color: INK };
 const h1: React.CSSProperties = { fontFamily: serif, fontWeight: 600, fontSize: 32, margin: "8px 0 0", color: INK };
-const card: React.CSSProperties = { background: SURFACE, border: `1px solid ${LINE}`, borderRadius: 16, padding: "18px 20px" };
 const optBtn: React.CSSProperties = {
   textAlign: "left", padding: "15px 18px", borderRadius: 14,
   border: `1px solid ${LINE}`, background: SURFACE, color: INK,
