@@ -24,15 +24,43 @@ const serif = "var(--font-fraunces), Georgia, serif";
 const sans = "var(--font-inter), system-ui, sans-serif";
 const mono = "var(--font-mono), ui-monospace, monospace";
 
-export function Diagnostic() {
+export function Diagnostic({
+  mode = "initial",
+  onDone,
+}: {
+  // "initial" : premier passage (lance le parcours). "ajuster" : on MODIFIE une
+  // signature existante, pré-remplie, sans rien détruire.
+  mode?: "initial" | "ajuster";
+  onDone?: () => void;
+} = {}) {
   const initialiserParcours = useParcoursStore((s) => s.initialiserParcours);
-  const [started, setStarted] = useState(false);
+  const ajusterSignature = useParcoursStore((s) => s.ajusterSignature);
+  const memoriserSignatureReponses = useParcoursStore((s) => s.memoriserSignatureReponses);
+  const signatureReponses = useParcoursStore((s) => s.signatureReponses);
+  const ajuster = mode === "ajuster";
+  const [started, setStarted] = useState(ajuster);
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<Record<string, ArchetypeKey>>({});
+  const [answers, setAnswers] = useState<Record<string, ArchetypeKey>>(
+    ajuster && signatureReponses ? signatureReponses : {}
+  );
   const [result, setResult] = useState<Diag | null>(null);
 
   const total = QUESTIONS.length;
   const q = QUESTIONS[step];
+
+  // Calcule et applique la signature depuis les réponses courantes (pour le mode
+  // « ajuster » : recalcul possible dès que les réponses sont complètes).
+  const finaliser = (reps: Record<string, ArchetypeKey>) => {
+    const diag = calculerDiagnostic(reps);
+    if (ajuster) {
+      track("quiz_adjusted", { dominant: diag.dominant });
+      ajusterSignature(diag, reps);
+    } else {
+      track("quiz_completed", { dominant: diag.dominant });
+      memoriserSignatureReponses(reps);
+    }
+    setResult(diag);
+  };
 
   // Chaque nouvelle question (ou l'écran-résultat) repart du haut : on ne laisse
   // jamais l'utilisatrice « accrochée » en bas après avoir tapé une réponse.
@@ -46,18 +74,20 @@ export function Diagnostic() {
     if (step < total - 1) {
       setStep(step + 1);
     } else {
-      const diag = calculerDiagnostic(next);
-      track("quiz_completed", { dominant: diag.dominant });
-      setResult(diag);
+      finaliser(next);
     }
   };
 
   if (result) {
     // Écran de révélation : la constellation générative se construit, puis la
-    // signature émerge. La logique métier (initialiserParcours) est préservée.
+    // signature émerge. En mode « ajuster », la nouvelle signature est DÉJÀ
+    // appliquée (non destructif) → la porte renvoie simplement à la quête.
     return (
       <div style={wrap}>
-        <SignatureReveal result={result} onExplore={() => initialiserParcours(result)} />
+        <SignatureReveal
+          result={result}
+          onExplore={() => (ajuster ? onDone?.() : initialiserParcours(result))}
+        />
       </div>
     );
   }
@@ -102,6 +132,23 @@ export function Diagnostic() {
         flexDirection: "column",
       }}
     >
+      {/* En mode « ajuster » : on nomme l'intention et on peut annuler. */}
+      {ajuster && (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: 2 }}>
+          <span style={{ fontFamily: mono, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: PRUNE }}>
+            Ajuster ma signature
+          </span>
+          {onDone && (
+            <button
+              onClick={onDone}
+              style={{ background: "none", border: "none", color: MUTED, fontFamily: sans, fontSize: 13, cursor: "pointer" }}
+            >
+              Annuler
+            </button>
+          )}
+        </div>
+      )}
+
       {/* La constellation se compose à chaque réponse — silence & espace. */}
       <div style={{ display: "flex", justifyContent: "center", paddingTop: 8 }}>
         <ConstellationProgress count={repondu} total={total} />
@@ -152,6 +199,22 @@ export function Diagnostic() {
             );
           })}
         </div>
+
+        {/* En mode « ajuster », les réponses sont pré-remplies : si celle-ci est
+            déjà choisie, on peut avancer SANS re-répondre (on garde le choix),
+            et recalculer une fois tout renseigné. */}
+        {ajuster && answers[q.id] && (
+          <button
+            style={{ ...cta, marginTop: 14 }}
+            disabled={step === total - 1 && repondu < total}
+            onClick={() => {
+              if (step < total - 1) setStep(step + 1);
+              else finaliser(answers);
+            }}
+          >
+            {step < total - 1 ? "Suivant — garder cette réponse →" : "Recalculer ma signature →"}
+          </button>
+        )}
 
         {step > 0 && (
           <button style={ghost} onClick={() => setStep(step - 1)}>

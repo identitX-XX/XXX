@@ -6,17 +6,19 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import parcoursData from "./parcours.json";
 import {
+  ArchetypeKey,
   ClimatJour,
   Diagnostic,
   EtatEvolution,
   Objectifs,
   Parcours,
   ReponseJour,
+  SphereKey,
 } from "./types";
-import { clotureJour, initialiser, matriceVide } from "./evolution";
+import { ajusterSpheresMatrice, clotureJour, cloneMatrice, initialiser, matriceVide } from "./evolution";
 import { estObjet, snapshotValide, diagnosticValide, jourCourantReconcilie } from "./hydration";
 import { generateParcours, DIAGNOSTIC_DEFAUT } from "./generateParcours";
-import { ARCHETYPE_KEYS } from "./archetypes";
+import { ARCHETYPE_KEYS, SPHERE_KEYS } from "./archetypes";
 import type { PacteJour, TenuPacte } from "./pactes";
 import { track } from "@/lib/metrics";
 
@@ -72,6 +74,9 @@ function assainir(
     etat,
     objectifs: estObjet(p.objectifs) ? (p.objectifs as unknown as Objectifs) : null,
     reponses: obj(p.reponses, {} as StoreParcours["reponses"]),
+    signatureReponses: estObjet(p.signatureReponses)
+      ? (p.signatureReponses as Record<string, ArchetypeKey>)
+      : null,
     revelationsFeedback: obj(p.revelationsFeedback, {} as StoreParcours["revelationsFeedback"]),
     climat: obj(p.climat, {} as StoreParcours["climat"]),
     queteExercices: obj(p.queteExercices, {} as StoreParcours["queteExercices"]),
@@ -84,7 +89,7 @@ function assainir(
   // Diagnostic invalidé → on nettoie ce qui en dépend (parcours + progression),
   // pour ne pas rester avec un historique orphelin.
   if (!diagnostic) {
-    return { ...base, parcours: current.parcours, etat: etatDepart(), reponses: {}, objectifs: null };
+    return { ...base, parcours: current.parcours, etat: etatDepart(), reponses: {}, objectifs: null, signatureReponses: null };
   }
 
   // Auto-réparation : le jour courant ne peut pas être en retard sur les
@@ -106,6 +111,10 @@ interface StoreParcours {
   objectifs: Objectifs | null;
   reponses: Record<number, ReponseJour>;
   etat: EtatEvolution;
+  // Réponses brutes au questionnaire signature (q.id → archétype), mémorisées
+  // pour pouvoir RÉOUVRIR et MODIFIER le questionnaire, pré-rempli, sans tout
+  // refaire. `null` tant qu'aucune signature n'a été passée.
+  signatureReponses: Record<string, ArchetypeKey> | null;
   // Retour de l'utilisatrice sur les révélations (anti-Barnum) : « oui, ça me
   // parle » ou « non » → une révélation infirmée est écartée et pénalisée.
   revelationsFeedback: Record<string, "oui" | "non">;
@@ -133,6 +142,19 @@ interface StoreParcours {
 
   // Pose les objectifs de départ (un par périmètre : perso / pro / relationnel).
   definirObjectifs: (o: Objectifs) => void;
+
+  // Ajuste DIRECTEMENT l'énergie d'une ou plusieurs sphères (0..100) : la
+  // cartographie (équilibre des sphères + radar) bouge EN DIRECT. C'est la fin
+  // du « figé » — on peut sculpter sa carte sans attendre une capsule.
+  ajusterSpheres: (cibles: Partial<Record<SphereKey, number>>) => void;
+
+  // Modifie la SIGNATURE (nouveau diagnostic) sans rien détruire : on conserve
+  // les capsules vécues et la cartographie, on régénère le parcours et on
+  // ré-amorce doucement les lignes de la nouvelle signature. Non destructif.
+  ajusterSignature: (diag: Diagnostic, reponses?: Record<string, ArchetypeKey>) => void;
+
+  // Mémorise les réponses brutes du questionnaire (pour un futur ajustement).
+  memoriserSignatureReponses: (reponses: Record<string, ArchetypeKey>) => void;
 
   // Clôt une journée : enregistre la réponse et fait avancer le moteur.
   repondreJour: (r: ReponseJour) => void;
@@ -168,6 +190,7 @@ export const useParcoursStore = create<StoreParcours>()(
       objectifs: null,
       reponses: {},
       etat: etatDepart(),
+      signatureReponses: null,
       revelationsFeedback: {},
       climat: {},
       filVu: 0,
@@ -192,6 +215,33 @@ export const useParcoursStore = create<StoreParcours>()(
         track("objectifs_set");
         set({ objectifs: o });
       },
+
+      ajusterSpheres: (cibles) => {
+        const etat = get().etat;
+        set({ etat: { ...etat, matrice: ajusterSpheresMatrice(etat.matrice, cibles) } });
+      },
+
+      ajusterSignature: (diag, reponses) => {
+        track("signature_adjusted", { dominant: diag.dominant });
+        const etat = get().etat;
+        // Non destructif : on garde l'historique vécu et la carte. On ré-amorce
+        // seulement, en douceur, les lignes de la nouvelle signature pour que le
+        // changement se LISE sur la carte sans effacer ce qui a été vécu.
+        const m = cloneMatrice(etat.matrice);
+        const clamp = (v: number) => Math.max(0, Math.min(100, v));
+        for (const s of SPHERE_KEYS) {
+          m[diag.dominant][s] = clamp(m[diag.dominant][s] + 14);
+          m[diag.secondaire][s] = clamp(m[diag.secondaire][s] + 8);
+        }
+        set({
+          diagnostic: diag,
+          parcours: generateParcours(diag),
+          etat: { ...etat, matrice: m },
+          ...(reponses ? { signatureReponses: reponses } : {}),
+        });
+      },
+
+      memoriserSignatureReponses: (reponses) => set({ signatureReponses: reponses }),
 
       repondreJour: (r) => {
         const { etat, reponses } = get();
@@ -251,6 +301,7 @@ export const useParcoursStore = create<StoreParcours>()(
             : parcoursBase,
           reponses: {},
           etat: etatDepart(),
+          signatureReponses: null,
           revelationsFeedback: {},
           climat: {},
           filVu: 0,

@@ -8,6 +8,8 @@ import {
   dominant,
   coherence,
   radarDepuisMatrice,
+  spheresDepuisMatrice,
+  ajusterSpheresMatrice,
 } from "./evolution";
 import { ARCHETYPE_KEYS, SPHERE_KEYS } from "./archetypes";
 import { ReponseJour } from "./types";
@@ -82,4 +84,22 @@ test("coherence : toujours dans [0,100]", () => {
   const etat = clotureJour(initialiser({ dominant: "creatrice", secondaire: "sage" }), rep(1));
   const c = coherence(radarDepuisMatrice(etat.matrice), etat.historique);
   assert.ok(c >= 0 && c <= 100);
+});
+
+test("ajusterSpheresMatrice : une sphère ciblée voit sa moyenne rejoindre la cible", () => {
+  const m = matriceVide(); // toutes les sphères à 18
+  const m2 = ajusterSpheresMatrice(m, { travail: 80 });
+  const sp = spheresDepuisMatrice(m2);
+  assert.ok(Math.abs(sp.travail - 80) < 1, `travail ≈ 80 (obtenu ${sp.travail})`);
+  // Les autres sphères ne bougent pas.
+  assert.ok(Math.abs(sp.relations - 18) < 1, "relations inchangée");
+});
+
+test("ajusterSpheresMatrice : borné à [0,100] et plusieurs sphères à la fois", () => {
+  const m = matriceVide();
+  const m2 = ajusterSpheresMatrice(m, { travail: 100, corps: 0, sens: 55 });
+  const sp = spheresDepuisMatrice(m2);
+  assert.ok(sp.travail <= 100 && sp.corps >= 0);
+  assert.ok(Math.abs(sp.travail - 100) < 1 && Math.abs(sp.corps - 0) < 1);
+  assert.ok(Math.abs(sp.sens - 55) < 1);
 });
