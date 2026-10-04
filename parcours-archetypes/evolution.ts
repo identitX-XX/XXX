@@ -131,6 +131,24 @@ export function spheresDepuisMatrice(m: Matrice): Record<SphereKey, number> {
   return out;
 }
 
+// --- Ajustement direct des sphères (curseurs « cartographie vivante ») --------
+// Décale chaque colonne de sphère ciblée pour amener sa moyenne (ce que lit la
+// cartographie) vers la cible 0..100. Pur : utilisé par le store ET testable.
+export function ajusterSpheresMatrice(
+  matrice: Matrice,
+  cibles: Partial<Record<SphereKey, number>>
+): Matrice {
+  const m = cloneMatrice(matrice);
+  const actuelles = spheresDepuisMatrice(m);
+  for (const s of SPHERE_KEYS) {
+    const cible = cibles[s];
+    if (cible == null) continue;
+    const delta = clamp(cible) - actuelles[s];
+    for (const a of ARCHETYPE_KEYS) m[a][s] = clamp(m[a][s] + delta);
+  }
+  return m;
+}
+
 // --- Cohérence = clarté + stabilité (jamais uniformité) ---------------------
 // clarté   : à quel point une (ou deux) capsule identitaire(s) se détache(nt) du fond.
 // stabilité: à quel point le dominant reste le même d'un jour à l'autre.

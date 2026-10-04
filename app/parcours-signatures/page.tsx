@@ -12,6 +12,7 @@ import { Dashboard } from "@/parcours-archetypes/components/Dashboard";
 import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
+import { AjusterParcours } from "@/parcours-archetypes/components/AjusterParcours";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { contenuJour } from "@/parcours-archetypes/hydration";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -130,6 +131,10 @@ function ParcoursContent() {
       {diagnostic && (
         <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
       )}
+
+      {/* Poste de pilotage toujours accessible : curseurs qui déplacent la
+          cartographie en direct + modification non destructive de la signature. */}
+      {diagnostic && <AjusterParcours />}
 
       {/* Trois exercices du jour adossés à chaque volet (capsule · explore ·
           construis), cochables et renouvelés chaque jour. */}
