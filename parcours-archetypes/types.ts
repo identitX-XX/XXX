@@ -105,6 +105,12 @@ export interface ReponseJour {
   intensiteDefi: number; // 0..100
   note: string;
   date: string; // ISO
+  // Texte RÉELLEMENT vécu ce jour-là (geste + question). La capsule s'adaptant à
+  // l'état, on mémorise ce qui a été montré pour une relecture fidèle. Optionnel
+  // (absent des capsules closes avant cette version → on retombe sur le texte
+  // déterministe du jour).
+  question?: string;
+  geste?: string;
 }
 
 // --- État d'évolution -------------------------------------------------------

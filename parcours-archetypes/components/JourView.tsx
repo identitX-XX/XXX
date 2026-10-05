@@ -22,6 +22,7 @@ import {
 } from "../indicateurs";
 import { useStore } from "@/store/useStore";
 import { gesteDuJour, questionDuJour } from "../variateJour";
+import { signalCapsule, gesteCapsule, questionCapsule } from "../capsuleAdaptive";
 import { track } from "@/lib/metrics";
 import { CapsulePulse } from "@/components/CapsulePulse";
 import { SignatureJoin } from "@/components/SignatureJoin";
@@ -53,9 +54,21 @@ export function JourView({
   sessionJour?: number;
 }) {
   const repondreJour = useParcoursStore((s) => s.repondreJour);
+  const etatCourant = useParcoursStore((s) => s.etat);
   const readOnly = Boolean(reponse);
   const a = archetypeByKey[jour.archetype];
   const phase = phaseDuJour(jour.n);
+
+  // La capsule RÉAGIT à l'état : le signal du moment (bascule / émotion / élan /
+  // sphère en retrait) oriente le geste et la question. En relecture, on montre
+  // le texte RÉELLEMENT vécu (mémorisé), sinon le texte déterministe du jour.
+  const signal = useMemo(() => signalCapsule(etatCourant), [etatCourant]);
+  const questionAffichee = readOnly
+    ? reponse?.question ?? questionDuJour(a, jour.n)
+    : questionCapsule(a, jour.n, signal);
+  const gesteAffiche = readOnly
+    ? reponse?.geste ?? gesteDuJour(a, jour.n)
+    : gesteCapsule(a, jour.n, signal);
 
   const [curseurs, setCurseurs] = useState<Record<SphereKey, number>>(() => {
     if (reponse) return reponse.curseurs;
@@ -119,6 +132,9 @@ export function JourView({
       intensiteDefi,
       note,
       date: new Date().toISOString(),
+      // On fige ce qui a été vécu (la capsule était adaptée à l'état du jour).
+      question: questionAffichee,
+      geste: gesteAffiche,
     };
     const avant = useParcoursStore.getState().etat;
     repondreJour(r); // historise la journée (reponses + snapshot d'évolution)
@@ -211,6 +227,27 @@ export function JourView({
       <div key={stage} className="animate-fade-up" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {enGeste && (
         <>
+        {/* « Pourquoi cette capsule » : elle réagit à ton état réel — on le dit. */}
+        {!readOnly && signal.type !== "neutre" && (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              gap: 8,
+              flexWrap: "wrap",
+              fontFamily: mono,
+              fontSize: 11,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: MUTED,
+            }}
+          >
+            <span>Capsule du moment</span>
+            <span style={{ color: "var(--prune)", letterSpacing: "0.04em", textTransform: "none", fontSize: 12.5 }}>
+              {signal.label}
+            </span>
+          </div>
+        )}
         <Separateur label="Ton geste du jour" sous="À porter et vivre dans ta journée." />
         {/* La question à porter — le cœur réflexif de la journée, mis en avant */}
         <div
@@ -230,14 +267,14 @@ export function JourView({
             {sectionsByKind["question"]?.titre ?? "La question à porter"}
           </div>
           <div style={{ fontFamily: serif, fontWeight: 300, fontSize: 18, lineHeight: 1.45, color: INK }}>
-            {questionDuJour(a, jour.n)}
+            {questionAffichee}
           </div>
         </div>
 
         {/* Le geste concret à poser dans la journée (texte seul ; son intensité
             se note le soir, dans le bilan). */}
         <Bloc titre={sectionsByKind["defi"]?.titre ?? "Le micro-défi"}>
-          {gesteDuJour(a, jour.n)}
+          {gesteAffiche}
         </Bloc>
         </>
         )}
