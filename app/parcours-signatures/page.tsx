@@ -19,8 +19,6 @@ import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { archetypeDominant, progression } from "@/parcours-archetypes/indicateurs";
 import { auditDepuisEtat } from "@/parcours-archetypes/auditEnergetique";
 import { detecterChapitres, derniereBascule } from "@/parcours-archetypes/bascules";
-import { getEmail, pushEtatNow } from "@/lib/etatSync";
-import { anonId } from "@/lib/metrics";
 import type { Diagnostic as Diag, Objectifs as ObjectifsT, EtatEvolution } from "@/parcours-archetypes/types";
 
 // Route du module. Tant que le dominant n'est pas déterminé, on présente le
@@ -216,25 +214,11 @@ function MaQueteApercu({
   objectifs: ObjectifsT | null;
   etat: EtatEvolution;
 }) {
-  const reinitialiser = useParcoursStore((s) => s.reinitialiser);
   const climat = useParcoursStore((s) => s.climat);
   // Focus ÉVOLUTIF : lu dans l'audit énergétique (automatique, robuste). Le pilier
   // le plus bas devient le focus du moment — il change à mesure que l'énergie et
   // les directions bougent. C'est ce qui fait « évoluer » la quête au fil du vécu.
   const audit = auditDepuisEtat(etat, objectifs, climat, diagnostic);
-  // Confirmation DANS la page (pas window.confirm : la pop-up système ne
-  // s'affiche pas quand l'app est ajoutée à l'écran d'accueil sur iOS → le
-  // clic restait sans effet).
-  const [confirmer, setConfirmer] = useState(false);
-  const refaire = async () => {
-    reinitialiser();
-    // On efface AUSSI la sauvegarde serveur (indexée par email) tout de suite,
-    // sinon elle restaurerait la signature au prochain chargement et on
-    // n'atteindrait jamais les 12 questions.
-    const email = getEmail();
-    if (email) await pushEtatNow(email, anonId());
-    window.scrollTo({ top: 0, behavior: "auto" });
-  };
   const dom = archetypeByKey[diagnostic.dominant];
   const sec = archetypeByKey[diagnostic.secondaire];
   const caps = objectifs
@@ -364,41 +348,20 @@ function MaQueteApercu({
           </Link>
         ))}
       </div>
-      {/* Refaire le diagnostic — pour repasser les 12 questions à tout moment
-          (nouvelle utilisatrice sur un appareil déjà utilisé, ou envie de
-          réévaluer sa signature). Confirmation en deux temps, dans la page. */}
+      {/* Revoir sa signature — NON destructif : l'ajustement vit dans le panneau
+          « Ajuster » (ci-dessus), qui conserve capsules et cartographie. Pour
+          tout recommencer de zéro, c'est dans les Réglages (destructif, assumé). */}
       <div className="mt-5 border-t border-line pt-4">
-        {!confirmer ? (
-          <button
-            type="button"
-            onClick={() => setConfirmer(true)}
-            className="text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-fuchsia"
-          >
-            Refaire mon diagnostic (12 questions) →
-          </button>
-        ) : (
-          <div className="animate-fade-in">
-            <p className="mb-3 text-sm text-muted">
-              Ça efface ta signature et ta progression, puis relance les 12 questions. Continuer&nbsp;?
-            </p>
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={refaire}
-                className="rounded-lg bg-fuchsia px-4 py-2 text-sm font-semibold text-[color:var(--on-brand)] transition-opacity hover:opacity-90"
-              >
-                Oui, refaire les questions
-              </button>
-              <button
-                type="button"
-                onClick={() => setConfirmer(false)}
-                className="text-sm text-muted transition-colors hover:text-ink"
-              >
-                Annuler
-              </button>
-            </div>
-          </div>
-        )}
+        <p className="text-sm text-muted">
+          Envie de revoir ta signature ? Ouvre{" "}
+          <span className="text-ink">« Ajuster → Ajuster ma signature »</span> ci-dessus : tu
+          modifies tes réponses <span className="text-ink">sans perdre tes capsules ni ta carte</span>.
+          Pour tout recommencer de zéro, c'est dans les{" "}
+          <Link href="/settings" className="text-fuchsia hover:underline">
+            Réglages
+          </Link>
+          .
+        </p>
       </div>
     </section>
   );
