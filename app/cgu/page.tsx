@@ -19,6 +19,7 @@ export default function CGUPage() {
         eyebrow="Conditions d'utilisation"
         title="Les règles du jeu"
         sub="Ce qu'IdentitX te propose, ce qu'on attend de toi, et ce que l'app n'est pas. En clair, sans jargon."
+        esprit={false}
       />
 
       <div className="flex flex-col gap-6">

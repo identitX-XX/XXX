@@ -120,7 +120,7 @@ export default function AdminPage() {
   if (!saved || err) {
     return (
       <div>
-        <PageHead eyebrow="Pilotage" title="Tableau de bord" sub="Accès réservé. Entre ta clé d'administration." />
+        <PageHead eyebrow="Pilotage" title="Tableau de bord" sub="Accès réservé. Entre ta clé d'administration." esprit={false} />
         <div className="flex max-w-sm gap-2">
           <input
             type="password" value={key} onChange={(e) => setKey(e.target.value)}
@@ -154,6 +154,7 @@ export default function AdminPage() {
         eyebrow="Pilotage"
         title="Traction — phase de test"
         sub="Métriques réelles, anonymes et agrégées. De l'acquisition au scénario généré."
+        esprit={false}
       />
       {loading && <p className="text-sm text-muted">Chargement…</p>}
       {data?.configured === false && (

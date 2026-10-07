@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode } from "react";
+import { EspritParcours } from "@/components/bd/EspritParcours";
 
 export function Card({
   children,
@@ -29,13 +30,20 @@ export function PageHead({
   title,
   sub,
   accessory,
+  esprit = true,
 }: {
   eyebrow?: string;
   title: string;
   sub?: string;
-  // Accessoire optionnel aligné en haut à droite (ex. un esprit du parcours).
+  // Accessoire explicite aligné en haut à droite (prioritaire sur l'esprit).
   accessory?: ReactNode;
+  // Esprit du parcours par défaut (déterministe par page). false pour désactiver
+  // sur les pages où il n'a pas sa place (mentions légales, admin…).
+  esprit?: boolean;
 }) {
+  const acc =
+    accessory ??
+    (esprit ? <EspritParcours seed={`page-${title || eyebrow || ""}`} size={36} /> : null);
   return (
     <div className="mb-8 animate-fade-up">
       <div className="flex items-start justify-between gap-3">
@@ -51,7 +59,7 @@ export function PageHead({
             </h1>
           )}
         </div>
-        {accessory && <div className="flex-none pt-1">{accessory}</div>}
+        {acc && <div className="flex-none pt-1">{acc}</div>}
       </div>
       {sub && <p className="mt-2.5 max-w-xl text-[15px] leading-relaxed text-muted">{sub}</p>}
     </div>
