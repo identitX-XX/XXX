@@ -228,15 +228,16 @@ export function Fee({ size, className }: P) {
 export function Oracle({ size, className }: P) {
   return (
     <Svg size={size} className={className} title="L'oracle">
-      {/* grande capuche */}
-      <path d="M13 24c0-10 22-10 22 0" />
-      <path d="M13 24c0 3 2 5 4 6M35 24c0 3-2 5-4 6" />
-      {/* visage masqué, un seul œil visible */}
-      <path d="M20 23h3M26 23h2" />
-      {/* boule de cristal à lueur rouge */}
-      <circle cx="24" cy="35" r="5" />
-      <circle cx="24" cy="35" r="1.6" fill={PRUNE} stroke="none" />
-      <path d="M20 40h8" />
+      {/* capuche haute (tête nettement au-dessus) */}
+      <path d="M17 21c0-11 14-11 14 0" />
+      {/* regard dans l'ombre : deux lueurs */}
+      <path d="M21 18v2.5M27 18v2.5" />
+      {/* épaules de la robe */}
+      <path d="M17 21c-1 2-2 4-2 6M31 21c1 2 2 4 2 6" />
+      {/* boule de cristal détachée, sur socle, lueur rouge */}
+      <circle cx="24" cy="35" r="4.5" />
+      <circle cx="24" cy="35" r="1.5" fill={PRUNE} stroke="none" />
+      <path d="M20.5 40h7" />
     </Svg>
   );
 }
@@ -282,16 +283,18 @@ export function Chouette({ size, className }: P) {
 export function Gnome({ size, className }: P) {
   return (
     <Svg size={size} className={className} title="Le gnome">
-      {/* long bonnet tombant */}
-      <path d="M16 20c0-9 16-9 16 0z" />
-      <path d="M24 6c-4 3-6 9-8 14" />
-      <circle cx="16" cy="20.5" r="2" fill={PRUNE} stroke="none" />
-      {/* sourcils froncés + nez */}
-      <path d="M19 21l3 1M29 21l-3 1" />
-      <circle cx="24" cy="24" r="2.2" />
-      {/* barbe en pointe */}
-      <path d="M18 23c0 8 3 13 6 15 3-2 6-7 6-15" />
-      <path d="M22 27h4" />
+      {/* bonnet long et tombant + pompon rouge au bout */}
+      <path d="M15 21c0-11 18-11 18 0" />
+      <path d="M33 21c3-1 6-5 6-11-6 0-9 4-10 8" />
+      <circle cx="38" cy="10" r="1.8" fill={PRUNE} stroke="none" />
+      {/* sourcils broussailleux + deux yeux */}
+      <path d="M19 22l3 1M29 22l-3 1" />
+      <circle cx="21.5" cy="24" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="26.5" cy="24" r="0.8" fill="currentColor" stroke="none" />
+      {/* nez rond */}
+      <circle cx="24" cy="26" r="1.6" />
+      {/* grande barbe triangulaire */}
+      <path d="M18 25c0 8 3 13 6 15 3-2 6-7 6-15" />
     </Svg>
   );
 }
@@ -317,18 +320,17 @@ export function Farfadet({ size, className }: P) {
 export function Sirene({ size, className }: P) {
   return (
     <Svg size={size} className={className} title="La sirène">
-      {/* tête + cheveux longs */}
-      <circle cx="24" cy="12" r="3.4" />
-      <path d="M20 12c-3 3-4 8-3 13M28 12c3 3 4 8 3 13" />
-      <path d="M21 13h2M25 13h2" />
-      {/* buste */}
-      <path d="M24 16v8" />
-      <path d="M20 20h8" />
-      {/* queue de poisson sinueuse */}
-      <path d="M24 24c-4 3-4 8-2 11" />
-      <path d="M22 35l-5 2 3-4M22 35l4 3-1-5" />
+      {/* tête + longue chevelure */}
+      <circle cx="22" cy="12" r="3.4" />
+      <path d="M18 12c-3 4-3 9-1 14M26 12c2 2 3 5 3 8" />
+      <path d="M20.5 12h1.4M23 12h1.4" />
+      {/* buste courbé */}
+      <path d="M22 15c0 5-2 8-2 12" />
+      {/* queue qui s'enroule + nageoire */}
+      <path d="M20 27c-1 4 1 7 4 9" />
+      <path d="M24 36l5 1-2-4M24 36l-4 3 1-5" />
       {/* écaille rouge */}
-      <EtoileRouge cx={27} cy={28} r={2.2} />
+      <EtoileRouge cx={26} cy={24} r={2.2} />
     </Svg>
   );
 }

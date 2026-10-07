@@ -18,6 +18,7 @@ export default function ConfidentialitePage() {
         eyebrow="Confidentialité"
         title="Ce qu'on sait de toi, et pourquoi"
         sub="IdentitX est local-first : l'essentiel de ta quête vit sur ton appareil. Voici, sans jargon, ce qui existe côté serveur, qui le traite — et tes droits."
+        esprit={false}
       />
 
       <div className="flex flex-col gap-6">
