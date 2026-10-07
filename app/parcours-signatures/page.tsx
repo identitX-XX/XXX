@@ -13,6 +13,7 @@ import { Diagnostic } from "@/parcours-archetypes/components/Diagnostic";
 import { Objectifs } from "@/parcours-archetypes/components/Objectifs";
 import { JourView } from "@/parcours-archetypes/components/JourView";
 import { AjusterParcours } from "@/parcours-archetypes/components/AjusterParcours";
+import { EspritParcours } from "@/components/bd/EspritParcours";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { contenuJour } from "@/parcours-archetypes/hydration";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -105,13 +106,19 @@ function ParcoursContent() {
           eyebrow="Module"
           title="Parcours des 20 signatures"
           sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
+          accessory={<EspritParcours seed="ma-quete" size={38} />}
         />
       ) : (
         <div className="mb-8 animate-fade-up">
-          <div className="mb-2 text-xs uppercase tracking-[0.25em] text-fuchsia">Module</div>
-          <h1 className="font-display text-xl font-light leading-tight text-ink">
-            Parcours des 20 signatures
-          </h1>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <div className="mb-2 text-xs uppercase tracking-[0.25em] text-fuchsia">Module</div>
+              <h1 className="font-display text-xl font-light leading-tight text-ink">
+                Parcours des 20 signatures
+              </h1>
+            </div>
+            <EspritParcours seed="ma-quete" size={34} />
+          </div>
           <details className="group mt-1">
             <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs text-fuchsia [&::-webkit-details-marker]:hidden">
               En savoir plus

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, Loader2, Plus, RefreshCw, Sparkles, X } from "lucide-react";
 import { PageHead } from "@/components/ui";
+import { EspritParcours } from "@/components/bd/EspritParcours";
 import { useStore } from "@/store/useStore";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
@@ -200,6 +201,7 @@ export default function TurbinePage() {
         eyebrow="Tes possibles"
         title="Ce que tes directions rendent possible"
         sub="Des expériences à tenter, nées de ce que tu explores — ce qui construit ta réalité, pas un portrait à contempler."
+        accessory={<EspritParcours seed="possibles" size={38} />}
       />
 
       {/* La mue en cours — seulement quand une entrée réelle existe */}
