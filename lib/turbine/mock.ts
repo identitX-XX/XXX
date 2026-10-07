@@ -17,6 +17,7 @@ export function mockOutput(input: TurbineInput): TurbineOutput {
   const tension = input.tensions.filter(Boolean)[0];
   const seed = Number.isFinite(input.seed) ? (input.seed as number) : 0;
   const precedents = new Set((input.scenariosPrecedents ?? []).filter(Boolean));
+  const aRecharger = input.moment?.aRecharger;
 
   // L'éventail d'angles. Chaque angle est un scénario complet, ancré sur les
   // directions réelles. L'ordre place le dialogue en tête quand il est possible.
@@ -30,6 +31,19 @@ export function mockOutput(input: TurbineInput): TurbineOutput {
       pourquoi_maintenant: `Tu explores ${dirs.join(", ")} en même temps : c'est le moment de tester leur combinaison plutôt que d'en amputer une.`,
       premier_pas: `Aujourd'hui, note une seule action qui emprunte à ${d0} ET à ${d1} — même minuscule.`,
       risque_ou_lest: `L'idée qu'il faut choisir une seule voie pour être prise au sérieux.`,
+    });
+  }
+
+  // Angle « du moment » : branché sur l'énergie la plus basse de l'instant. Il
+  // fait que les possibles BOUGENT quand ton énergie bouge (placé en tête).
+  if (aRecharger) {
+    pool.push({
+      titre: `Recharge « ${aRecharger} » en t'appuyant sur ${d0}`,
+      multiples_en_dialogue: [d0, aRecharger],
+      mouvement: `Ton énergie « ${aRecharger} » est au plus bas en ce moment. Plutôt que de forcer ailleurs, sers-toi de ${d0} comme d'un levier pour la relever — un petit geste orienté là où ça manque.`,
+      pourquoi_maintenant: `C'est « ${aRecharger} » qui te coûte le plus là, maintenant : agir dessus via ${d0} remet de l'élan au bon endroit.`,
+      premier_pas: `Note un geste de 10 minutes qui relie ${d0} à « ${aRecharger} », à faire aujourd'hui.`,
+      risque_ou_lest: `Continuer à alimenter ce qui est déjà plein en laissant la réserve basse se vider.`,
     });
   }
 

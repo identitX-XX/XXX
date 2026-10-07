@@ -24,6 +24,14 @@ export interface TurbineInput {
   // Graine de variation : change à chaque « faire surgir d'autres possibles »
   // pour que l'écran ne redise jamais la même chose (maquette ET IA).
   seed?: number;
+  // « Le moment » : l'état vivant de la personne (sa signature, une bascule
+  // récente, l'énergie la plus basse). Fait BOUGER les possibles quand sa vie
+  // bouge — ils ne sont plus figés sur les seules directions saisies.
+  moment?: {
+    signature?: string;
+    bascule?: string;
+    aRecharger?: string;
+  };
 }
 
 export interface TurbineScenario {

@@ -52,6 +52,7 @@ export function buildUserMessage(input: TurbineInput): string {
         tensions: input.tensions,
       },
       signal_recent: input.signalRecent,
+      moment: input.moment,
       contexte: {
         scenarios_precedents: input.scenariosPrecedents,
         // Quand on relance (graine non nulle), on demande explicitement des
