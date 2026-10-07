@@ -28,6 +28,7 @@ import {
   ressourceDuJour, TYPE_LABEL, Ressource,
 } from "@/parcours-archetypes/quotidien";
 import { Archetype, Objectifs } from "@/parcours-archetypes/types";
+import { EspritParcours } from "@/components/bd/EspritParcours";
 
 // Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
 // jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
@@ -146,6 +147,7 @@ export default function AujourdhuiPage() {
         eyebrow={salut.eyebrow}
         title={salut.titre}
         sub="Explore ta signature à ton rythme. Le reste peut attendre."
+        accessory={<EspritParcours seed="accueil" size={38} />}
       />
 
       {/* Retour de session : reprendre là où on en était, ou tout recommencer. */}

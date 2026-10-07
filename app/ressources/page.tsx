@@ -9,6 +9,7 @@
 import { useMemo, useState } from "react";
 import { Users, Baby, HeartPulse, Footprints, Sparkles, Compass } from "lucide-react";
 import { Card, PageHead } from "@/components/ui";
+import { EspritParcours } from "@/components/bd/EspritParcours";
 import {
   RESSOURCES,
   THEME_META,
@@ -49,6 +50,7 @@ export default function RessourcesPage() {
         eyebrow="Bibliothèque"
         title="Ta bibliothèque"
         sub="Des pratiques, des réflexions et des savoirs — classés par thème de vie, chacun adossé à une source. Choisis un fil, reprends-le quand tu veux."
+        accessory={<EspritParcours seed="bibliotheque" size={38} />}
       />
 
       {/* Filtres par thème — on navigue, la page n'est plus un mur figé. */}

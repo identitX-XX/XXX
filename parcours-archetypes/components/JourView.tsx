@@ -28,6 +28,7 @@ import { CapsulePulse } from "@/components/CapsulePulse";
 import { SignatureJoin } from "@/components/SignatureJoin";
 import { compositionSignature } from "../constellationSignature";
 import { AjusterParcours } from "./AjusterParcours";
+import { EspritParcours } from "@/components/bd/EspritParcours";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -160,10 +161,13 @@ export function JourView({
 
   return (
     <div style={{ maxWidth: 640, margin: "0 auto", fontFamily: sans, color: INK }}>
-      {/* En-tête */}
+      {/* En-tête — un esprit du parcours accompagne la capsule (rotation par jour). */}
       <div style={{ marginBottom: 20 }}>
-        <div style={{ fontSize: 12, letterSpacing: "0.22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
-          Ta capsule
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+          <div style={{ fontSize: 12, letterSpacing: "0.22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
+            Ta capsule
+          </div>
+          <EspritParcours seed={`capsule-${jour.n}`} size={36} />
         </div>
         <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 34, margin: "8px 0 4px", color: INK }}>
           {a.name}

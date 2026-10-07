@@ -28,23 +28,31 @@ export function PageHead({
   eyebrow,
   title,
   sub,
+  accessory,
 }: {
   eyebrow?: string;
   title: string;
   sub?: string;
+  // Accessoire optionnel aligné en haut à droite (ex. un esprit du parcours).
+  accessory?: ReactNode;
 }) {
   return (
     <div className="mb-8 animate-fade-up">
-      {eyebrow && (
-        <div className="mb-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
-          {eyebrow}
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          {eyebrow && (
+            <div className="mb-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
+              {eyebrow}
+            </div>
+          )}
+          {title && (
+            <h1 className="font-display text-[2rem] font-semibold leading-tight text-ink md:text-[2.6rem]">
+              {title}
+            </h1>
+          )}
         </div>
-      )}
-      {title && (
-        <h1 className="font-display text-[2rem] font-semibold leading-tight text-ink md:text-[2.6rem]">
-          {title}
-        </h1>
-      )}
+        {accessory && <div className="flex-none pt-1">{accessory}</div>}
+      </div>
       {sub && <p className="mt-2.5 max-w-xl text-[15px] leading-relaxed text-muted">{sub}</p>}
     </div>
   );
