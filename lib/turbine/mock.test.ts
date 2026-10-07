@@ -43,6 +43,18 @@ test("mock : la graine fait varier la sélection (plus « toujours la même chos
   assert.notEqual(titres(a), titres(b), "deux graines → sélections différentes");
 });
 
+test("mock : le MOMENT (énergie basse) fait apparaître un angle dédié → les possibles bougent avec l'état", () => {
+  const base = input(["Entreprendre", "Écrire"]);
+  const sans = mockOutput({ ...base, seed: 0 });
+  const avec = mockOutput({ ...base, seed: 0, moment: { aRecharger: "Love" } });
+  const titres = (o: typeof sans) => o.scenarios.map((s) => s.titre).join(" | ");
+  assert.notEqual(titres(sans), titres(avec), "le moment change la sélection");
+  assert.ok(
+    avec.scenarios.some((s) => s.titre.includes("Love")),
+    "un scénario cible l'énergie la plus basse du moment"
+  );
+});
+
 test("mock : les titres déjà vus sont écartés", () => {
   const base = input(["Entreprendre", "Écrire"], ["doute"]);
   const premier = mockOutput({ ...base, seed: 0 });

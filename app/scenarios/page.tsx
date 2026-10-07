@@ -6,6 +6,8 @@ import { PageHead } from "@/components/ui";
 import { useStore } from "@/store/useStore";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { archetypeByKey } from "@/parcours-archetypes/archetypes";
+import { archetypeDominant } from "@/parcours-archetypes/indicateurs";
+import { auditDepuisEtat } from "@/parcours-archetypes/auditEnergetique";
 import { TurbineDirection, TurbineInput, TurbineOutput } from "@/lib/turbine/types";
 import { basculeDepuisHistorique } from "@/lib/turbine/fromParcours";
 import { useCarteTurbine } from "@/lib/turbine/carteStore";
@@ -16,11 +18,34 @@ const ETATS: TurbineDirection["etat"][] = ["actif", "émergent", "en veille"];
 
 export default function TurbinePage() {
   const profile = useStore((s) => s.profile);
+  const etat = useParcoursStore((s) => s.etat);
   const historique = useParcoursStore((s) => s.etat.historique);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const objectifs = useParcoursStore((s) => s.objectifs);
+  const climat = useParcoursStore((s) => s.climat);
   const { directions, tensions, ajouterDirection, retirerDirection, setTensions } =
     useCarteTurbine();
+
+  // « Le moment » : l'état VIVANT de la personne. C'est lui qui fait bouger les
+  // possibles quand sa vie bouge (nouvelle signature, bascule, énergie basse) —
+  // au lieu de rester collés aux seules directions saisies une fois.
+  const moment = useMemo(() => {
+    const bascule = basculeDepuisHistorique(historique);
+    const signature = diagnostic
+      ? archetypeByKey[diagnostic.dominant].name
+      : archetypeDominant(etat)?.name ?? undefined;
+    let aRecharger: string | undefined;
+    try {
+      aRecharger = auditDepuisEtat(etat, objectifs, climat, diagnostic).aRecharger.label;
+    } catch {
+      /* état hérité illisible → on s'en passe */
+    }
+    return {
+      signature,
+      bascule: bascule ? bascule.actuel : undefined,
+      aRecharger,
+    };
+  }, [etat, historique, diagnostic, objectifs, climat]);
 
   // Amorce automatique : si aucune direction n'a encore été posée ICI mais que
   // l'utilisatrice a déjà défini ses directions (les 4 piliers : relationnel &
@@ -71,25 +96,41 @@ export default function TurbinePage() {
         forces,
         directions,
         tensions,
-        signalRecent: bascule
-          ? [`Bascule récente vers ${bascule.actuel}`]
-          : [`Directions en dialogue : ${directions.map((d) => d.nom).join(", ")}`],
+        // Le signal récent porte le MOMENT : la signature active, une bascule,
+        // et l'énergie la plus basse → les scénarios collent à l'instant présent.
+        signalRecent: [
+          moment.bascule
+            ? `Bascule récente vers ${moment.bascule}`
+            : moment.signature
+              ? `Signature du moment : ${moment.signature}`
+              : `Directions en dialogue : ${directions.map((d) => d.nom).join(", ")}`,
+          moment.aRecharger ? `Énergie la plus basse en ce moment : ${moment.aRecharger}` : null,
+        ].filter((s): s is string => Boolean(s)),
         scenariosPrecedents: [],
+        moment,
       } satisfies TurbineInput,
       reel: Boolean(bascule),
     };
-  }, [historique, profile, directions, tensions, diagnostic]);
+  }, [historique, profile, directions, tensions, diagnostic, moment]);
 
   // Clé de cache dérivée des directions posées : on génère UNE fois, puis on
   // ressert instantanément (fini le « ça tourne » à chaque visite + on épargne
   // des appels IA). On ne régénère que sur demande explicite (« d'autres
   // possibles ») ou si les directions changent.
+  // La clé de cache inclut le MOMENT : quand ta signature, une bascule ou ton
+  // énergie la plus basse changent, la clé change → les possibles se régénèrent
+  // tout seuls (ils « bougent » avec ta vie), sans attendre un clic.
   const cacheKey = useMemo(
     () =>
       input
-        ? "idx-scenarios-" + input.directions.map((d) => d.nom).join("|") + "::" + input.tensions.join("|")
+        ? "idx-scenarios-" +
+          input.directions.map((d) => d.nom).join("|") +
+          "::" +
+          input.tensions.join("|") +
+          "::" +
+          `${moment.signature ?? ""}|${moment.bascule ?? ""}|${moment.aRecharger ?? ""}`
         : null,
-    [input]
+    [input, moment]
   );
 
   const generer = useCallback(
@@ -189,6 +230,15 @@ export default function TurbinePage() {
             <span className="font-display text-base">{input.archetype.actuel}</span>
           </p>
           <p className="mt-1 text-sm text-muted">{input.archetype.bascule}</p>
+          {/* Ancrage au MOMENT : rend visible que les possibles suivent ton état
+              (ils se renouvellent quand ta signature ou ton énergie bougent). */}
+          {moment.aRecharger && (
+            <p className="mt-3 border-t border-line pt-3 text-[12px] text-muted">
+              Ancré sur ton moment · énergie la plus basse :{" "}
+              <span className="text-ink">{moment.aRecharger}</span>. Tes possibles se
+              renouvellent quand ta signature ou ton énergie bougent.
+            </p>
+          )}
         </div>
       )}
 
