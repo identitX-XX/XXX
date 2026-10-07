@@ -105,7 +105,13 @@ export default function TurbinePage() {
         const res = await fetch("/api/turbine", {
           method: "POST",
           headers: { "content-type": "application/json" },
-          body: JSON.stringify({ ...input, scenariosPrecedents: precedents }),
+          // Graine de variation : non nulle sur une relance → « d'autres
+          // possibles » en sont vraiment (maquette ET IA), jamais un copier-collé.
+          body: JSON.stringify({
+            ...input,
+            scenariosPrecedents: precedents,
+            seed: force ? Date.now() % 100000 : 0,
+          }),
         });
         const data = (await res.json()) as TurbineOutput & { error?: string };
         if (!res.ok || data.error) {

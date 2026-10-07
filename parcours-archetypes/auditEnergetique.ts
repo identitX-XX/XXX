@@ -136,12 +136,16 @@ export function auditDepuisEtat(
   } catch {
     /* état hérité illisible → base neutre */
   }
+  // « Énergie du moment » : on prend le relevé LE PLUS RÉCENT (plus haute clé de
+  // jour), pas la moyenne de tout l'historique — sinon régler son énergie du jour
+  // ne bougeait presque rien. Ainsi, chaque passage peut la modifier et ça se voit.
   let energie: number | null = null;
   try {
-    const vals = Object.values(climat || {})
-      .map((c) => (c && typeof c.energie === "number" ? c.energie : null))
-      .filter((n): n is number => n !== null);
-    energie = vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+    const entries = Object.entries(climat || {})
+      .map(([k, c]) => ({ jour: Number(k), e: c && typeof c.energie === "number" ? c.energie : null }))
+      .filter((x) => x.e !== null && Number.isFinite(x.jour))
+      .sort((a, b) => b.jour - a.jour);
+    energie = entries.length ? (entries[0].e as number) : null;
   } catch {
     /* ignore */
   }
