@@ -1,7 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { auditEnergetique, SpheresValeurs } from "./auditEnergetique";
-import type { Objectifs } from "./types";
+import { auditEnergetique, auditDepuisEtat, SpheresValeurs } from "./auditEnergetique";
+import { matriceVide } from "./evolution";
+import type { ClimatJour, EtatEvolution, Objectifs } from "./types";
 
 const vide: SpheresValeurs = { travail: 0, relations: 0, creation: 0, corps: 0, sens: 0 };
 const obj = (o: Partial<Objectifs>): Objectifs =>
@@ -43,4 +44,15 @@ test("audit : l'énergie globale basse fait baisser l'ensemble", () => {
 test("audit : la phrase induit une direction (mentionne le pilier bas)", () => {
   const a = auditEnergetique({ ...vide, travail: 95 }, obj({ love: "Oser" }), 40);
   assert.match(a.phrase, new RegExp(a.aRecharger.label));
+});
+
+test("auditDepuisEtat : l'énergie du moment suit le relevé LE PLUS RÉCENT", () => {
+  const etat: EtatEvolution = { matrice: matriceVide(), historique: [], jourCourant: 3 };
+  const cj = (jour: number, energie: number): ClimatJour => ({ jour, date: "", sommeil: 50, energie, vagues: 20 });
+  // Jour 1 = haute énergie, jour 2 = basse → c'est la plus RÉCENTE qui compte.
+  const bas = auditDepuisEtat(etat, null, { 1: cj(1, 90), 2: cj(2, 20) }, null);
+  assert.ok(bas.global <= 25, `attendu bas (~20), obtenu ${bas.global}`);
+  // Inverse : dernier relevé haut → global haut, même avec un ancien bas.
+  const haut = auditDepuisEtat(etat, null, { 1: cj(1, 20), 2: cj(2, 88) }, null);
+  assert.ok(haut.global >= 80, `attendu haut (~88), obtenu ${haut.global}`);
 });

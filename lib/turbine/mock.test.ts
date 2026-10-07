@@ -29,10 +29,28 @@ test("mock : une seule direction produit au moins un scénario complet", () => {
   );
 });
 
-test("mock : deux directions les font dialoguer (2 scénarios)", () => {
+test("mock : deux directions produisent un scénario de dialogue (en tête)", () => {
   const out = mockOutput(input(["Entreprendre", "Écrire"]));
-  assert.equal(out.scenarios.length, 2);
+  assert.ok(out.scenarios.length >= 2 && out.scenarios.length <= 3);
   assert.deepEqual(out.scenarios[0].multiples_en_dialogue, ["Entreprendre", "Écrire"]);
+});
+
+test("mock : la graine fait varier la sélection (plus « toujours la même chose »)", () => {
+  const base = input(["Entreprendre", "Écrire"], ["doute"]);
+  const a = mockOutput({ ...base, seed: 0 });
+  const b = mockOutput({ ...base, seed: 3 });
+  const titres = (o: typeof a) => o.scenarios.map((s) => s.titre).join(" | ");
+  assert.notEqual(titres(a), titres(b), "deux graines → sélections différentes");
+});
+
+test("mock : les titres déjà vus sont écartés", () => {
+  const base = input(["Entreprendre", "Écrire"], ["doute"]);
+  const premier = mockOutput({ ...base, seed: 0 });
+  const vus = premier.scenarios.map((s) => s.titre);
+  const suite = mockOutput({ ...base, seed: 0, scenariosPrecedents: vus });
+  for (const s of suite.scenarios) {
+    assert.ok(!vus.includes(s.titre), `« ${s.titre} » ne devrait pas réapparaître`);
+  }
 });
 
 // Le message envoyé au modèle porte bien les directions de l'utilisatrice.

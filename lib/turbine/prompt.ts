@@ -52,7 +52,18 @@ export function buildUserMessage(input: TurbineInput): string {
         tensions: input.tensions,
       },
       signal_recent: input.signalRecent,
-      contexte: { scenarios_precedents: input.scenariosPrecedents },
+      contexte: {
+        scenarios_precedents: input.scenariosPrecedents,
+        // Quand on relance (graine non nulle), on demande explicitement des
+        // ANGLES nouveaux : dialogue, contrainte, retrait, horizon, preuve
+        // publique… — pour ne jamais redire la même chose.
+        ...(input.seed
+          ? {
+              consigne_variation:
+                "Propose des angles DIFFÉRENTS des scénarios précédents (ex. imposer une contrainte, retirer une direction, interroger ton toi futur, exposer à un tiers). Varie les mécanismes, pas seulement les mots.",
+            }
+          : {}),
+      },
     },
     null,
     2

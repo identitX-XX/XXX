@@ -21,6 +21,9 @@ export interface TurbineInput {
   signalRecent: string[];
   // Scénarios déjà proposés — pour interdire la répétition.
   scenariosPrecedents: string[];
+  // Graine de variation : change à chaque « faire surgir d'autres possibles »
+  // pour que l'écran ne redise jamais la même chose (maquette ET IA).
+  seed?: number;
 }
 
 export interface TurbineScenario {

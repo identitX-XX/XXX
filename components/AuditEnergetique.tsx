@@ -8,9 +8,11 @@
 // profondeur, tout en fusain & blanc.
 
 import Link from "next/link";
+import { useState } from "react";
 import { ArrowRight, Battery } from "lucide-react";
 import { useParcoursStore } from "@/parcours-archetypes/store";
 import { auditDepuisEtat, CreditDirection } from "@/parcours-archetypes/auditEnergetique";
+import { progression } from "@/parcours-archetypes/indicateurs";
 
 // Teinte de remplissage selon l'état — la nuance porte l'information : plus c'est
 // chargé, plus la jauge va vers la lumière (blanc) ; plus c'est bas, plus elle
@@ -35,8 +37,27 @@ export function AuditEnergetique() {
   const climat = useParcoursStore((s) => s.climat);
   const diagnostic = useParcoursStore((s) => s.diagnostic);
 
+  const noterClimat = useParcoursStore((s) => s.noterClimat);
+
   // Audit robuste (ne plante jamais, même sur un état hérité).
   const audit = auditDepuisEtat(etat, objectifs, climat, diagnostic);
+
+  // « Énergie du moment » — MODIFIABLE à chaque passage. On l'écrit sur le jour
+  // courant (en préservant le reste du climat) ; l'audit lit le relevé le plus
+  // récent → le chiffre et les jauges bougent aussitôt.
+  const jourCourant = progression(etat).jourCourant;
+  const climatJour = climat[jourCourant];
+  const [energie, setEnergie] = useState<number>(climatJour?.energie ?? audit.global);
+  const reglerEnergie = (v: number) => {
+    setEnergie(v);
+    noterClimat({
+      jour: jourCourant,
+      date: new Date().toISOString(),
+      sommeil: climatJour?.sommeil ?? 60,
+      energie: v,
+      vagues: climatJour?.vagues ?? 20,
+    });
+  };
 
   return (
     <section className="mt-1">
@@ -106,6 +127,29 @@ export function AuditEnergetique() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Énergie du moment — modifiable à chaque passage (curseur). */}
+        <div className="relative mt-5 border-t border-line pt-4">
+          <div className="mb-1 flex items-baseline justify-between gap-3">
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+              Mon énergie, là maintenant
+            </span>
+            <span className="font-display text-base text-ink tnum">{energie}</span>
+          </div>
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={energie}
+            aria-label="Mon énergie, là maintenant"
+            onChange={(e) => reglerEnergie(Number(e.target.value))}
+            className="w-full cursor-pointer"
+            style={{ accentColor: "var(--fuchsia)" }}
+          />
+          <p className="mt-1 text-[12px] text-muted">
+            Déplace le curseur — l'audit s'ajuste. Tu peux le revoir à chaque passage.
+          </p>
         </div>
 
         {/* Lecture : ressource + à recharger → induit une direction */}

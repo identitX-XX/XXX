@@ -29,7 +29,9 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "mistral-large-latest",
-        temperature: 0.7,
+        // Plus de variété sur une relance (graine non nulle) : on monte la
+        // température pour que « d'autres possibles » en soient vraiment.
+        temperature: input.seed ? 0.95 : 0.7,
         response_format: { type: "json_object" },
         messages: [
           { role: "system", content: SYSTEM_PROMPT },
