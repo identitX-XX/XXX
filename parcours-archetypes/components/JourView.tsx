@@ -27,6 +27,7 @@ import { track } from "@/lib/metrics";
 import { CapsulePulse } from "@/components/CapsulePulse";
 import { SignatureJoin } from "@/components/SignatureJoin";
 import { compositionSignature } from "../constellationSignature";
+import { AjusterParcours } from "./AjusterParcours";
 
 const FUCHSIA = "var(--fuchsia)";
 const ORANGE = "var(--orange)";
@@ -655,6 +656,20 @@ function ReactionClotature({
   const deltasVisibles = r.jour >= 3;
 
   const focus = equilibreSpheres(apres).find((s) => s.key === r.sphereFocus);
+
+  // Avant → après SUR LA CARTE : ce que cette capsule a déplacé dans l'équilibre
+  // des sphères (la boucle « je vis → je vois l'effet »). On garde les mouvements
+  // réels (≥ 1 point de part), les plus marqués d'abord.
+  const spheresAvant = equilibreSpheres(avant);
+  const mouvements = equilibreSpheres(apres)
+    .map((sp) => {
+      const av = spheresAvant.find((s) => s.key === sp.key)?.part ?? 0;
+      return { key: sp.key, label: sp.label, avant: av, apres: sp.part, delta: sp.part - av };
+    })
+    .filter((m) => Math.abs(m.delta) >= 1)
+    .sort((a, b) => Math.abs(b.delta) - Math.abs(a.delta))
+    .slice(0, 3);
+
   const emoLabels = EMOTIONS.filter((e) => r.emotions.includes(e.key)).map((e) => e.label);
   const heatA = heatmapEmotions(avant);
   const nouvelleEmo = EMOTIONS.find(
@@ -790,6 +805,50 @@ function ReactionClotature({
             </div>
           </div>
         )}
+      </div>
+
+      {/* Ta carte, avant → après : l'effet concret de cette capsule sur
+          l'équilibre de tes sphères. C'est le « je vois l'effet » de la boucle. */}
+      {mouvements.length > 0 && (
+        <div
+          style={{
+            textAlign: "left",
+            marginTop: 14,
+            borderRadius: 18,
+            border: `1px solid ${LINE}`,
+            background: SURFACE,
+            padding: "16px 18px",
+          }}
+        >
+          <div style={{ fontSize: 12, letterSpacing: ".18em", fontWeight: 700, textTransform: "uppercase", color: MUTED, marginBottom: 12 }}>
+            Ta carte, avant → après
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {mouvements.map((m) => (
+              <div key={m.key} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                <span style={{ fontSize: 13.5, color: INK }}>{m.label}</span>
+                <span style={{ display: "flex", alignItems: "baseline", gap: 8, fontFamily: mono, fontSize: 12.5, color: MUTED }}>
+                  <span>{m.avant}%</span>
+                  <span style={{ opacity: 0.5 }}>→</span>
+                  <span style={{ color: INK, fontSize: 14 }}>{m.apres}%</span>
+                  <span style={{ color: m.delta > 0 ? "var(--prune)" : MUTED, fontWeight: 600, minWidth: 30, textAlign: "right" }}>
+                    {m.delta > 0 ? "+" : ""}
+                    {m.delta}
+                  </span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Ancrer / ajuster TOUT DE SUITE : on vient de voir l'effet, on peut
+          re-régler sa carte ou corriger sa signature, sans quitter l'écran. */}
+      <div style={{ marginTop: 14, textAlign: "left" }}>
+        <div style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.5, margin: "0 2px 6px" }}>
+          Envie d'ajuster tout de suite, pendant que c'est frais ?
+        </div>
+        <AjusterParcours />
       </div>
 
       {/* Le Coach embraie tout seul sur cette journée */}
