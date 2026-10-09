@@ -125,10 +125,13 @@ function Chip({
 function FicheRessource({ r }: { r: Ressource }) {
   return (
     <Card className="flex flex-col p-5 sm:p-6">
-      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
-        <span>{TYPE_LABEL[r.type]}</span>
-        <span className="opacity-40">·</span>
-        <span>{r.duree}</span>
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+          <span>{TYPE_LABEL[r.type]}</span>
+          <span className="opacity-40">·</span>
+          <span>{r.duree}</span>
+        </div>
+        <EspritParcours seed={`fiche-${r.id}`} size={30} />
       </div>
       <h3 className="mt-2 font-display text-lg font-light leading-snug text-ink">{r.titre}</h3>
       <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted">{r.corps}</p>

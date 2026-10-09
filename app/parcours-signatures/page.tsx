@@ -337,7 +337,10 @@ function MaQueteApercu({
                   </span>
                 )}
               </div>
-              <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+              <div className="flex flex-none items-center gap-1.5">
+                <EspritParcours seed={`fil-${s.titre}`} size={28} />
+                <ArrowUpRight size={15} className="text-muted transition-colors group-hover:text-fuchsia" />
+              </div>
             </div>
             <div className="mt-0.5 text-xs text-muted">{s.hint}</div>
             <div className={`mt-2 font-display text-base font-semibold leading-snug ${s.aCompleter ? "text-fuchsia" : "text-ink"}`}>
