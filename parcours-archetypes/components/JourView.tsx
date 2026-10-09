@@ -500,6 +500,7 @@ function Separateur({ label, sous }: { label: string; sous?: string }) {
         {sous && <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{sous}</div>}
       </div>
       <div style={{ flex: 1, height: 1, background: LINE }} />
+      <EspritParcours seed={`sep-${label}`} size={34} />
     </div>
   );
 }

@@ -74,10 +74,13 @@ export default function RessourcesPage() {
           if (liste.length === 0) return null;
           return (
             <section key={key}>
-              {/* En-tête de thème — éditorial, filet fin. */}
-              <div className="mb-1.5 flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
-                {THEME_ICON[key]} {label}
-                <span className="opacity-50">· {liste.length}</span>
+              {/* En-tête de thème — éditorial, filet fin, + un esprit par thème. */}
+              <div className="mb-1.5 flex items-center gap-3">
+                <div className="flex flex-1 items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
+                  {THEME_ICON[key]} {label}
+                  <span className="opacity-50">· {liste.length}</span>
+                </div>
+                <EspritParcours seed={`theme-${key}`} size={40} />
               </div>
               <p className="mb-5 max-w-xl text-sm leading-relaxed text-muted">{intro}</p>
 
