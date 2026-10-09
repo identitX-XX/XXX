@@ -43,6 +43,17 @@
   --color-dust-blue: #a9b8c5; /* minéral clair */
   --color-stone: #b8b3a9;
 
+  /* ── Riso pop (palette « ado ») : papier/encre conservés, accents punchy type
+     sérigraphie/riso — bleu électrique (accent principal), magenta (second ton
+     des dégradés), rouge vermillon (signal). Versions « soft » pour le mode
+     sombre (boutons clairs → texte sombre lisible). ── */
+  --color-riso-blue: #2b4cff;
+  --color-riso-magenta: #ff2fb0;
+  --color-riso-red: #e8402c;
+  --color-riso-blue-soft: #8198ff;
+  --color-riso-magenta-soft: #ff85c8;
+  --color-riso-red-soft: #ff5a4a;
+
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
   --dur: 320ms;
@@ -150,8 +161,9 @@ html.pal-lin {
      midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
   --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
   --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.10);
-  --fuchsia: var(--color-ivory); --orange: var(--color-ivory); --slate: var(--color-dust-blue);
-  --prune: var(--color-red); /* SIGNAL rouge : actif, révélation, tension */
+  /* Riso pop (mode sombre) : accents clairs → le texte sombre des boutons reste lisible. */
+  --fuchsia: var(--color-riso-blue-soft); --orange: var(--color-riso-magenta-soft); --slate: var(--color-dust-blue);
+  --prune: var(--color-riso-red-soft); /* SIGNAL rouge vermillon */
   --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
@@ -160,9 +172,11 @@ html.pal-lin.light {
      (élément actif, révélation, détail important) via --prune. */
   --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
   --ink: var(--color-ink); --muted: var(--color-muted); --line: rgba(17, 19, 24, 0.12);
-  --fuchsia: var(--color-ink); --orange: var(--color-ink); --slate: var(--color-muted);
-  --prune: var(--color-red); /* SIGNAL rouge : actif, révélation, tension */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons encre */
+  /* Riso pop (papier) : l'accent passe en BLEU électrique, le second ton des
+     dégradés en magenta, le signal en rouge vermillon. */
+  --fuchsia: var(--color-riso-blue); --orange: var(--color-riso-magenta); --slate: var(--color-muted);
+  --prune: var(--color-riso-red); /* SIGNAL rouge vermillon */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons accent/encre */
 }
 
 * {
