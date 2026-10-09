@@ -60,6 +60,9 @@
   --color-vermillon: #ff2d1f;
   --color-vermillon-soft: #ff7a6a; /* mode sombre : clair → texte sombre lisible */
   --color-vermillon-signal: #ff5a4a;
+  /* Variante « prune » (essai) : accent prune/bordeaux profond, plus éditorial. */
+  --color-prune-ado: #7c2d4a;
+  --color-prune-ado-soft: #d08aa6; /* mode sombre : prune clair → texte sombre lisible */
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
@@ -168,9 +171,9 @@ html.pal-lin {
      midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
   --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
   --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.12);
-  /* Noir & vermillon (mode sombre) : accent corail clair → texte sombre des boutons lisible. */
-  --fuchsia: var(--color-vermillon-soft); --orange: var(--color-vermillon-soft); --slate: var(--color-dust-blue);
-  --prune: var(--color-vermillon-signal); /* SIGNAL rouge vermillon */
+  /* Noir & prune (mode sombre) : accent prune clair → texte sombre des boutons lisible. */
+  --fuchsia: var(--color-prune-ado-soft); --orange: var(--color-prune-ado-soft); --slate: var(--color-dust-blue);
+  --prune: var(--color-prune-ado-soft); /* accent = signal (prune) */
   --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
@@ -180,12 +183,12 @@ html.pal-lin.light {
   --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
   /* Noir franc pour un contraste maximal, filets un peu plus marqués. */
   --ink: #0d0d0f; --muted: var(--color-muted); --line: rgba(13, 13, 15, 0.16);
-  /* Noir & vermillon (papier) : UN seul accent, le rouge vermillon — à la fois
+  /* Noir & prune (papier) : UN seul accent, le prune/bordeaux profond — à la fois
      accent (boutons, intertitres) ET signal. Les dégradés fuchsia→orange
-     deviennent du vermillon plein. */
-  --fuchsia: var(--color-vermillon); --orange: var(--color-vermillon); --slate: var(--color-muted);
-  --prune: var(--color-vermillon); /* accent = signal : le rouge est le héros */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons vermillon/encre */
+     deviennent du prune plein. */
+  --fuchsia: var(--color-prune-ado); --orange: var(--color-prune-ado); --slate: var(--color-muted);
+  --prune: var(--color-prune-ado); /* accent = signal : le prune est le héros */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons prune/encre */
 }
 
 * {
