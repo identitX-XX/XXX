@@ -106,7 +106,7 @@ function ParcoursContent() {
           eyebrow="Module"
           title="Parcours des 20 signatures"
           sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
-          accessory={<EspritParcours seed="ma-quete" size={38} />}
+          accessory={<EspritParcours seed="ma-quete" size={48} />}
         />
       ) : (
         <div className="mb-8 animate-fade-up">
@@ -117,7 +117,7 @@ function ParcoursContent() {
                 Parcours des 20 signatures
               </h1>
             </div>
-            <EspritParcours seed="ma-quete" size={34} />
+            <EspritParcours seed="ma-quete" size={44} />
           </div>
           <details className="group mt-1">
             <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs text-fuchsia [&::-webkit-details-marker]:hidden">

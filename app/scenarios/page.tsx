@@ -201,7 +201,7 @@ export default function TurbinePage() {
         eyebrow="Tes possibles"
         title="Ce que tes directions rendent possible"
         sub="Des expériences à tenter, nées de ce que tu explores — ce qui construit ta réalité, pas un portrait à contempler."
-        accessory={<EspritParcours seed="possibles" size={38} />}
+        accessory={<EspritParcours seed="possibles" size={48} />}
       />
 
       {/* La mue en cours — seulement quand une entrée réelle existe */}

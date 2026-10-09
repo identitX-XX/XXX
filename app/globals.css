@@ -63,6 +63,10 @@
   /* Variante « prune » (essai) : accent prune/bordeaux profond, plus éditorial. */
   --color-prune-ado: #7c2d4a;
   --color-prune-ado-soft: #d08aa6; /* mode sombre : prune clair → texte sombre lisible */
+  /* Variante « bleu nuit » (essai) : navy profond et feutré (pas le bleu
+     électrique « AI »). Accent/signal sur papier ; version claire pour le sombre. */
+  --color-nuit: #233c68;
+  --color-nuit-soft: #9fb4df;
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
@@ -171,9 +175,9 @@ html.pal-lin {
      midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
   --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
   --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.12);
-  /* Noir & prune (mode sombre) : accent prune clair → texte sombre des boutons lisible. */
-  --fuchsia: var(--color-prune-ado-soft); --orange: var(--color-prune-ado-soft); --slate: var(--color-dust-blue);
-  --prune: var(--color-prune-ado-soft); /* accent = signal (prune) */
+  /* Noir & bleu nuit (mode sombre) : accent bleu clair → texte sombre des boutons lisible. */
+  --fuchsia: var(--color-nuit-soft); --orange: var(--color-nuit-soft); --slate: var(--color-dust-blue);
+  --prune: var(--color-nuit-soft); /* accent = signal (bleu nuit) */
   --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
@@ -183,12 +187,12 @@ html.pal-lin.light {
   --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
   /* Noir franc pour un contraste maximal, filets un peu plus marqués. */
   --ink: #0d0d0f; --muted: var(--color-muted); --line: rgba(13, 13, 15, 0.16);
-  /* Noir & prune (papier) : UN seul accent, le prune/bordeaux profond — à la fois
+  /* Noir & bleu nuit (papier) : UN seul accent, le navy profond — à la fois
      accent (boutons, intertitres) ET signal. Les dégradés fuchsia→orange
-     deviennent du prune plein. */
-  --fuchsia: var(--color-prune-ado); --orange: var(--color-prune-ado); --slate: var(--color-muted);
-  --prune: var(--color-prune-ado); /* accent = signal : le prune est le héros */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons prune/encre */
+     deviennent du bleu nuit plein. */
+  --fuchsia: var(--color-nuit); --orange: var(--color-nuit); --slate: var(--color-muted);
+  --prune: var(--color-nuit); /* accent = signal : le bleu nuit est le héros */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons bleu nuit/encre */
 }
 
 * {

@@ -147,7 +147,7 @@ export default function AujourdhuiPage() {
         eyebrow={salut.eyebrow}
         title={salut.titre}
         sub="Explore ta signature à ton rythme. Le reste peut attendre."
-        accessory={<EspritParcours seed="accueil" size={38} />}
+        accessory={<EspritParcours seed="accueil" size={48} />}
       />
 
       {/* Retour de session : reprendre là où on en était, ou tout recommencer. */}
