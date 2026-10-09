@@ -1,8 +1,33 @@
 import { SYSTEM_PROMPT, buildUserMessage } from "@/lib/turbine/prompt";
 import { mockOutput } from "@/lib/turbine/mock";
-import { TurbineInput, TurbineOutput } from "@/lib/turbine/types";
+import { TurbineInput, TurbineOutput, TurbineScenario } from "@/lib/turbine/types";
 
 export const maxDuration = 60;
+
+// IdentitX propose TOUJOURS 3 scénarios : on dédoublonne, on coupe à 3, et si la
+// génération en rend moins, on complète à partir des pistes dérivées des
+// directions (jamais d'écran avec 1 ou 2 cartes).
+function exactement3(scenarios: TurbineScenario[] | undefined, input: TurbineInput): TurbineScenario[] {
+  const vus = new Set<string>();
+  const out: TurbineScenario[] = [];
+  for (const s of scenarios ?? []) {
+    if (s?.titre && !vus.has(s.titre)) {
+      vus.add(s.titre);
+      out.push(s);
+    }
+    if (out.length === 3) break;
+  }
+  if (out.length < 3) {
+    for (const s of mockOutput(input).scenarios) {
+      if (!vus.has(s.titre)) {
+        vus.add(s.titre);
+        out.push(s);
+      }
+      if (out.length === 3) break;
+    }
+  }
+  return out.slice(0, 3);
+}
 
 export async function POST(req: Request) {
   let input: TurbineInput;
@@ -68,7 +93,8 @@ export async function POST(req: Request) {
       return Response.json({ ...mockOutput(input), _mock: true });
     }
 
-    return Response.json(parsed);
+    // IdentitX propose exactement 3 scénarios (ni 1, ni 2, ni 4).
+    return Response.json({ ...parsed, scenarios: exactement3(parsed.scenarios, input) });
   } catch {
     console.error("[turbine] injoignable");
     return Response.json({ ...mockOutput(input), _mock: true });

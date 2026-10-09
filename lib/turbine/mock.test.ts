@@ -19,9 +19,9 @@ const complet = (s: { titre: string; mouvement: string; premier_pas: string }) =
 
 // Une seule direction suffit à générer — c'est le correctif du « signal
 // insuffisant » : plus jamais d'écran vide dès qu'une direction est posée.
-test("mock : une seule direction produit au moins un scénario complet", () => {
+test("mock : IdentitX propose TOUJOURS 3 scénarios complets (même une seule direction)", () => {
   const out = mockOutput(input(["Entreprendre"], ["doute"]));
-  assert.ok(out.scenarios.length >= 1);
+  assert.equal(out.scenarios.length, 3);
   assert.ok(out.scenarios.every(complet), "chaque scénario doit être complet");
   assert.ok(
     out.scenarios.some((s) => s.mouvement.includes("Entreprendre")),
@@ -29,9 +29,18 @@ test("mock : une seule direction produit au moins un scénario complet", () => {
   );
 });
 
+test("mock : 3 scénarios même sur une relance qui écarte les précédents", () => {
+  const base = input(["Entreprendre", "Écrire"], ["doute"]);
+  const premier = mockOutput({ ...base, seed: 0 });
+  const vus = premier.scenarios.map((s) => s.titre);
+  // On en a déjà vu 3 ; une relance doit quand même en rendre 3 (complétés au besoin).
+  const suite = mockOutput({ ...base, seed: 9, scenariosPrecedents: [...vus, "x", "y"] });
+  assert.equal(suite.scenarios.length, 3);
+});
+
 test("mock : deux directions produisent un scénario de dialogue (en tête)", () => {
   const out = mockOutput(input(["Entreprendre", "Écrire"]));
-  assert.ok(out.scenarios.length >= 2 && out.scenarios.length <= 3);
+  assert.equal(out.scenarios.length, 3);
   assert.deepEqual(out.scenarios[0].multiples_en_dialogue, ["Entreprendre", "Écrire"]);
 });
 
