@@ -103,9 +103,13 @@ export function mockOutput(input: TurbineInput): TurbineOutput {
     risque_ou_lest: `Attendre que ce soit parfait avant d'oser le montrer.`,
   });
 
-  // On écarte les angles déjà vus ; si tout a été vu, on repart de l'éventail.
+  // On écarte les angles déjà vus. IdentitX propose TOUJOURS 3 pistes : si le
+  // filtre anti-répétition en laisse moins de 3, on complète avec les écartés.
   let dispo = pool.filter((s) => !precedents.has(s.titre));
-  if (dispo.length === 0) dispo = pool;
+  if (dispo.length < 3) {
+    const reste = pool.filter((s) => !dispo.includes(s));
+    dispo = [...dispo, ...reste];
+  }
 
   // Rotation par graine → une sélection différente à chaque relance.
   const start = ((seed % dispo.length) + dispo.length) % dispo.length;

@@ -274,7 +274,7 @@ export default function TurbinePage() {
         <div className="mt-6 flex items-center gap-3 rounded-2xl border border-line bg-surface p-6 text-muted">
           <Loader2 size={18} className="animate-spin text-fuchsia" />
           <span>
-            L'IA compose 3 scénarios sur mesure… <span className="text-faint">≈ 15 s</span>
+            IdentitX compose tes 3 scénarios… <span className="text-faint">≈ 15 s</span>
           </span>
         </div>
       )}
@@ -301,10 +301,10 @@ export default function TurbinePage() {
               Je cherche d'autres possibles…
             </div>
           )}
-          {output._mock && (
+          {output.scenarios.length > 0 && (
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line px-3 py-1 text-[12px] text-muted">
               <Sparkles size={12} className="text-fuchsia" />
-              Aperçu généré à partir de tes directions — la lecture approfondie revient bientôt.
+              IdentitX te propose 3 scénarios, nés de tes directions.
             </div>
           )}
 
