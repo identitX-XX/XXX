@@ -65,8 +65,8 @@
   --color-prune-ado-soft: #d08aa6; /* mode sombre : prune clair → texte sombre lisible */
   /* Variante « bleu nuit » (essai) : navy profond et feutré (pas le bleu
      électrique « AI »). Accent/signal sur papier ; version claire pour le sombre. */
-  --color-nuit: #1b3a7a; /* bleu nuit accentué : navy profond & plus franc */
-  --color-nuit-soft: #93afe0;
+  --color-nuit: #1a2a46; /* bleu nuit : sombre & désaturé (pas électrique) */
+  --color-nuit-soft: #8ea2c2;
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
@@ -184,11 +184,10 @@ html.pal-lin.light {
   /* DÉFAUT — « papier » éditorial : fond papier chaud, cartes ivoire/blanc, encre
      profonde. UI en ENCRE (boutons, libellés) ; le ROUGE est réservé au SIGNAL
      (élément actif, révélation, détail important) via --prune. */
-  /* Bleu nuit ACCENTUÉ : le papier et les cartes prennent une fraîcheur
-     nocturne (blancs légèrement bleutés), l'encre tire vers un noir-navy, et les
-     filets se teintent de bleu nuit → le navy imprègne toute l'interface. */
-  --noir: #eceef4; --surface: #f3f5fb; --raised: #fbfcff;
-  --ink: #0c1020; --muted: #4e5668; --line: rgba(27, 58, 122, 0.18);
+  /* Papier chaud/neutre (fini le voile froid « électrique »), encre noir franc
+     pour le contraste. L'accent bleu nuit — sombre et désaturé — reste le héros. */
+  --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
+  --ink: #0d0d0f; --muted: var(--color-muted); --line: rgba(13, 13, 15, 0.15);
   /* Noir & bleu nuit (papier) : UN seul accent, le navy profond — à la fois
      accent (boutons, intertitres) ET signal. Les dégradés fuchsia→orange
      deviennent du bleu nuit plein. */
