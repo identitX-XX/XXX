@@ -106,7 +106,7 @@ function ParcoursContent() {
           eyebrow="Module"
           title="Parcours des 20 signatures"
           sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
-          accessory={<EspritParcours seed="ma-quete" size={38} />}
+          accessory={<EspritParcours seed="ma-quete" size={48} />}
         />
       ) : (
         <div className="mb-8 animate-fade-up">
@@ -117,7 +117,7 @@ function ParcoursContent() {
                 Parcours des 20 signatures
               </h1>
             </div>
-            <EspritParcours seed="ma-quete" size={34} />
+            <EspritParcours seed="ma-quete" size={44} />
           </div>
           <details className="group mt-1">
             <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs text-fuchsia [&::-webkit-details-marker]:hidden">
@@ -337,7 +337,10 @@ function MaQueteApercu({
                   </span>
                 )}
               </div>
-              <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+              <div className="flex flex-none items-center gap-1.5">
+                <EspritParcours seed={`fil-${s.titre}`} size={28} />
+                <ArrowUpRight size={15} className="text-muted transition-colors group-hover:text-fuchsia" />
+              </div>
             </div>
             <div className="mt-0.5 text-xs text-muted">{s.hint}</div>
             <div className={`mt-2 font-display text-base font-semibold leading-snug ${s.aCompleter ? "text-fuchsia" : "text-ink"}`}>

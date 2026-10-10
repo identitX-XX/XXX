@@ -167,7 +167,7 @@ export function JourView({
           <div style={{ fontSize: 12, letterSpacing: "0.22em", fontWeight: 700, textTransform: "uppercase", color: FUCHSIA }}>
             Ta capsule
           </div>
-          <EspritParcours seed={`capsule-${jour.n}`} size={36} />
+          <EspritParcours seed={`capsule-${jour.n}`} size={44} />
         </div>
         <h1 className="fr-title" style={{ fontFamily: serif, fontWeight: 600, fontSize: 34, margin: "8px 0 4px", color: INK }}>
           {a.name}
@@ -500,6 +500,7 @@ function Separateur({ label, sous }: { label: string; sous?: string }) {
         {sous && <div style={{ fontSize: 12, color: MUTED, marginTop: 2 }}>{sous}</div>}
       </div>
       <div style={{ flex: 1, height: 1, background: LINE }} />
+      <EspritParcours seed={`sep-${label}`} size={34} />
     </div>
   );
 }

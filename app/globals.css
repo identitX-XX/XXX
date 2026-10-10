@@ -54,6 +54,20 @@
   --color-riso-magenta-soft: #ff85c8;
   --color-riso-red-soft: #ff5a4a;
 
+  /* ── « Noir & vermillon » (palette ado retenue) : noir franc + papier, UN seul
+     accent — le rouge vermillon, à la fois accent (boutons) ET signal. Contraste
+     maximal, esprit affiche/punk, aucun bleu. Variantes pour le mode sombre. ── */
+  --color-vermillon: #ff2d1f;
+  --color-vermillon-soft: #ff7a6a; /* mode sombre : clair → texte sombre lisible */
+  --color-vermillon-signal: #ff5a4a;
+  /* Variante « prune » (essai) : accent prune/bordeaux profond, plus éditorial. */
+  --color-prune-ado: #7c2d4a;
+  --color-prune-ado-soft: #d08aa6; /* mode sombre : prune clair → texte sombre lisible */
+  /* Variante « bleu nuit » (essai) : navy profond et feutré (pas le bleu
+     électrique « AI »). Accent/signal sur papier ; version claire pour le sombre. */
+  --color-nuit: #1b3a7a; /* bleu nuit accentué : navy profond & plus franc */
+  --color-nuit-soft: #93afe0;
+
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
   --dur: 320ms;
@@ -160,23 +174,27 @@ html.pal-lin {
   /* Variante SOMBRE (si bascule) — « midnight » : nuit bleutée profonde, cartes
      midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
   --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
-  --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.10);
-  /* Riso pop (mode sombre) : accents clairs → le texte sombre des boutons reste lisible. */
-  --fuchsia: var(--color-riso-blue-soft); --orange: var(--color-riso-magenta-soft); --slate: var(--color-dust-blue);
-  --prune: var(--color-riso-red-soft); /* SIGNAL rouge vermillon */
+  --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.12);
+  /* Noir & bleu nuit (mode sombre) : accent bleu clair → texte sombre des boutons lisible. */
+  --fuchsia: var(--color-nuit-soft); --orange: var(--color-nuit-soft); --slate: var(--color-dust-blue);
+  --prune: var(--color-nuit-soft); /* accent = signal (bleu nuit) */
   --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
   /* DÉFAUT — « papier » éditorial : fond papier chaud, cartes ivoire/blanc, encre
      profonde. UI en ENCRE (boutons, libellés) ; le ROUGE est réservé au SIGNAL
      (élément actif, révélation, détail important) via --prune. */
-  --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
-  --ink: var(--color-ink); --muted: var(--color-muted); --line: rgba(17, 19, 24, 0.12);
-  /* Riso pop (papier) : l'accent passe en BLEU électrique, le second ton des
-     dégradés en magenta, le signal en rouge vermillon. */
-  --fuchsia: var(--color-riso-blue); --orange: var(--color-riso-magenta); --slate: var(--color-muted);
-  --prune: var(--color-riso-red); /* SIGNAL rouge vermillon */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons accent/encre */
+  /* Bleu nuit ACCENTUÉ : le papier et les cartes prennent une fraîcheur
+     nocturne (blancs légèrement bleutés), l'encre tire vers un noir-navy, et les
+     filets se teintent de bleu nuit → le navy imprègne toute l'interface. */
+  --noir: #eceef4; --surface: #f3f5fb; --raised: #fbfcff;
+  --ink: #0c1020; --muted: #4e5668; --line: rgba(27, 58, 122, 0.18);
+  /* Noir & bleu nuit (papier) : UN seul accent, le navy profond — à la fois
+     accent (boutons, intertitres) ET signal. Les dégradés fuchsia→orange
+     deviennent du bleu nuit plein. */
+  --fuchsia: var(--color-nuit); --orange: var(--color-nuit); --slate: var(--color-muted);
+  --prune: var(--color-nuit); /* accent = signal : le bleu nuit est le héros */
+  --on-brand: var(--color-ivory); /* texte clair sur les boutons bleu nuit/encre */
 }
 
 * {

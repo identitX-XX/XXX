@@ -43,7 +43,7 @@ export function PageHead({
 }) {
   const acc =
     accessory ??
-    (esprit ? <EspritParcours seed={`page-${title || eyebrow || ""}`} size={36} /> : null);
+    (esprit ? <EspritParcours seed={`page-${title || eyebrow || ""}`} size={48} /> : null);
   return (
     <div className="mb-8 animate-fade-up">
       <div className="flex items-start justify-between gap-3">

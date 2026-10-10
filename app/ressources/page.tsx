@@ -50,7 +50,7 @@ export default function RessourcesPage() {
         eyebrow="Bibliothèque"
         title="Ta bibliothèque"
         sub="Des pratiques, des réflexions et des savoirs — classés par thème de vie, chacun adossé à une source. Choisis un fil, reprends-le quand tu veux."
-        accessory={<EspritParcours seed="bibliotheque" size={38} />}
+        accessory={<EspritParcours seed="bibliotheque" size={48} />}
       />
 
       {/* Filtres par thème — on navigue, la page n'est plus un mur figé. */}
@@ -74,10 +74,13 @@ export default function RessourcesPage() {
           if (liste.length === 0) return null;
           return (
             <section key={key}>
-              {/* En-tête de thème — éditorial, filet fin. */}
-              <div className="mb-1.5 flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
-                {THEME_ICON[key]} {label}
-                <span className="opacity-50">· {liste.length}</span>
+              {/* En-tête de thème — éditorial, filet fin, + un esprit par thème. */}
+              <div className="mb-1.5 flex items-center gap-3">
+                <div className="flex flex-1 items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
+                  {THEME_ICON[key]} {label}
+                  <span className="opacity-50">· {liste.length}</span>
+                </div>
+                <EspritParcours seed={`theme-${key}`} size={40} />
               </div>
               <p className="mb-5 max-w-xl text-sm leading-relaxed text-muted">{intro}</p>
 
@@ -122,10 +125,13 @@ function Chip({
 function FicheRessource({ r }: { r: Ressource }) {
   return (
     <Card className="flex flex-col p-5 sm:p-6">
-      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
-        <span>{TYPE_LABEL[r.type]}</span>
-        <span className="opacity-40">·</span>
-        <span>{r.duree}</span>
+      <div className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">
+          <span>{TYPE_LABEL[r.type]}</span>
+          <span className="opacity-40">·</span>
+          <span>{r.duree}</span>
+        </div>
+        <EspritParcours seed={`fiche-${r.id}`} size={30} />
       </div>
       <h3 className="mt-2 font-display text-lg font-light leading-snug text-ink">{r.titre}</h3>
       <p className="mt-1.5 flex-1 text-sm leading-relaxed text-muted">{r.corps}</p>

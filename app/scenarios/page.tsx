@@ -201,7 +201,7 @@ export default function TurbinePage() {
         eyebrow="Tes possibles"
         title="Ce que tes directions rendent possible"
         sub="Des expériences à tenter, nées de ce que tu explores — ce qui construit ta réalité, pas un portrait à contempler."
-        accessory={<EspritParcours seed="possibles" size={38} />}
+        accessory={<EspritParcours seed="possibles" size={48} />}
       />
 
       {/* La mue en cours — seulement quand une entrée réelle existe */}
@@ -330,15 +330,18 @@ export default function TurbinePage() {
                   key={i}
                   className="rounded-2xl border border-line bg-surface p-6 shadow-soft"
                 >
-                  <div className="flex flex-wrap items-center gap-2">
-                    {s.multiples_en_dialogue.map((m, j) => (
-                      <span
-                        key={j}
-                        className="rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2.5 py-0.5 text-[12px] font-medium text-fuchsia"
-                      >
-                        {m}
-                      </span>
-                    ))}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {s.multiples_en_dialogue.map((m, j) => (
+                        <span
+                          key={j}
+                          className="rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2.5 py-0.5 text-[12px] font-medium text-fuchsia"
+                        >
+                          {m}
+                        </span>
+                      ))}
+                    </div>
+                    <EspritParcours seed={`scenario-${s.titre}`} size={30} />
                   </div>
 
                   <h3 className="mt-3 font-display text-xl font-light leading-snug text-ink">
