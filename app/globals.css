@@ -67,6 +67,12 @@
      électrique « AI »). Accent/signal sur papier ; version claire pour le sombre. */
   --color-nuit: #1a2a46; /* bleu nuit : sombre & désaturé (pas électrique) */
   --color-nuit-soft: #8ea2c2;
+  /* ── « Bleu de Prusse » (direction artistique retenue) : bleu historique
+     profond & MAT + laiton chaud en second ton, sur crème. Éditorial/musée. ── */
+  --color-prusse: #17323f;
+  --color-prusse-soft: #7fa4b4; /* mode sombre : bleu clair → texte sombre lisible */
+  --color-laiton: #b08a3e;
+  --color-laiton-soft: #cbad6a;
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
@@ -175,25 +181,22 @@ html.pal-lin {
      midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
   --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
   --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.12);
-  /* Noir & bleu nuit (mode sombre) : accent bleu clair → texte sombre des boutons lisible. */
-  --fuchsia: var(--color-nuit-soft); --orange: var(--color-nuit-soft); --slate: var(--color-dust-blue);
-  --prune: var(--color-nuit-soft); /* accent = signal (bleu nuit) */
+  /* Bleu de Prusse (mode sombre) : bleu clair + laiton clair → texte sombre lisible. */
+  --fuchsia: var(--color-prusse-soft); --orange: var(--color-laiton-soft); --slate: var(--color-dust-blue);
+  --prune: var(--color-prusse-soft); /* accent/signal : bleu de Prusse */
   --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
   /* DÉFAUT — « papier » éditorial : fond papier chaud, cartes ivoire/blanc, encre
      profonde. UI en ENCRE (boutons, libellés) ; le ROUGE est réservé au SIGNAL
      (élément actif, révélation, détail important) via --prune. */
-  /* Papier chaud/neutre (fini le voile froid « électrique »), encre noir franc
-     pour le contraste. L'accent bleu nuit — sombre et désaturé — reste le héros. */
-  --noir: var(--color-paper); --surface: var(--color-ivory); --raised: var(--color-white);
-  --ink: #0d0d0f; --muted: var(--color-muted); --line: rgba(13, 13, 15, 0.15);
-  /* Noir & bleu nuit (papier) : UN seul accent, le navy profond — à la fois
-     accent (boutons, intertitres) ET signal. Les dégradés fuchsia→orange
-     deviennent du bleu nuit plein. */
-  --fuchsia: var(--color-nuit); --orange: var(--color-nuit); --slate: var(--color-muted);
-  --prune: var(--color-nuit); /* accent = signal : le bleu nuit est le héros */
-  --on-brand: var(--color-ivory); /* texte clair sur les boutons bleu nuit/encre */
+  /* « Bleu de Prusse » — crème chaude, encre profonde ; accent bleu de Prusse
+     mat (héros), laiton chaud en second ton des dégradés. Éditorial/musée. */
+  --noir: #efece3; --surface: #f8f5ee; --raised: #ffffff;
+  --ink: #1a1a17; --muted: #6d6a60; --line: rgba(26, 26, 23, 0.14);
+  --fuchsia: var(--color-prusse); --orange: var(--color-laiton); --slate: var(--color-muted);
+  --prune: var(--color-prusse); /* accent = signal : le bleu de Prusse est le héros */
+  --on-brand: #f8f5ee; /* texte clair sur les boutons bleu de Prusse/encre */
 }
 
 * {
