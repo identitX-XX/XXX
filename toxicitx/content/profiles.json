@@ -1,0 +1,75 @@
+[
+  {
+    "id": "volcan",
+    "name": "Le Volcan",
+    "emoji": "🌋",
+    "tagline": "Toxicité systémique, sur tous les fronts.",
+    "description": "Vers le haut, vers le bas, entre collègues : ça brûle partout. Ce n'est plus une équipe ni un service, c'est un système qui abîme les gens à chaque étage. Ici, tenir bon n'est pas une preuve de résilience, c'est un signal d'alarme.",
+    "criteria": [
+      { "axis": "ascendante", "minLevel": 5 },
+      { "axis": "descendante", "minLevel": 5 },
+      { "axis": "laterale", "minLevel": 5 }
+    ],
+    "specificity": 6
+  },
+  {
+    "id": "tour-ivoire",
+    "name": "La Tour d'Ivoire",
+    "emoji": "🏰",
+    "tagline": "Direction hors-sol + management sous pression.",
+    "description": "Une gouvernance déconnectée qui décide dans les nuages, et un management qui répercute la pression vers le bas faute de pouvoir la faire remonter. Le terrain encaisse deux couches de toxicité qui n'ont, en réalité, jamais réussi à se parler.",
+    "criteria": [
+      { "axis": "ascendante", "minLevel": 4 },
+      { "axis": "descendante", "minLevel": 4 }
+    ],
+    "specificity": 4
+  },
+  {
+    "id": "panier-crabes",
+    "name": "Le Panier de Crabes",
+    "emoji": "🦀",
+    "tagline": "Management qui divise + guerre entre collègues.",
+    "description": "Un management qui souffle sur les braises (favoritisme, mise en concurrence) et une équipe qui se déchire à l'horizontale. Résultat : plus d'énergie dépensée à se surveiller les uns les autres qu'à faire le travail.",
+    "criteria": [
+      { "axis": "descendante", "minLevel": 4 },
+      { "axis": "laterale", "minLevel": 4 }
+    ],
+    "specificity": 4
+  },
+  {
+    "id": "forteresse",
+    "name": "La Forteresse",
+    "emoji": "🏯",
+    "tagline": "Gouvernance opaque, direction injoignable.",
+    "description": "Les décisions viennent d'en haut sans explication, l'info ne remonte jamais, et poser la mauvaise question peut coûter cher. On travaille au pied d'un donjon dont on ne voit ni les fenêtres ni les habitants.",
+    "criteria": [{ "axis": "ascendante", "minLevel": 4 }],
+    "specificity": 2
+  },
+  {
+    "id": "petit-chef",
+    "name": "Le Petit Chef Cosmique",
+    "emoji": "👑",
+    "tagline": "Management par la peur et le micro-contrôle.",
+    "description": "Micro-management, urgences permanentes, feedback qui humilie et « merci » aux abonnés absents. Le pouvoir tient moins au poste qu'à la capacité de faire baisser les yeux. On avance surtout pour éviter les ennuis.",
+    "criteria": [{ "axis": "descendante", "minLevel": 4 }],
+    "specificity": 2
+  },
+  {
+    "id": "cour-recre",
+    "name": "La Cour de Récré",
+    "emoji": "🎭",
+    "tagline": "Clans, ragots et coups bas entre collègues.",
+    "description": "Des clans, des boucles WhatsApp parallèles, un bouc émissaire de service et des « blagues » qui piquent. La toxicité ne descend pas de la hiérarchie : elle circule à l'horizontale, de bureau en bureau, de couloir en couloir.",
+    "criteria": [{ "axis": "laterale", "minLevel": 4 }],
+    "specificity": 2
+  },
+  {
+    "id": "oasis",
+    "name": "L'Oasis",
+    "emoji": "🌿",
+    "tagline": "Franchement sain — profitez-en (en restant lucide).",
+    "description": "Aucun axe ne vire au rouge : la gouvernance est lisible, le management soutient, les collègues coopèrent. Ce n'est pas parfait (rien ne l'est), mais c'est un environnement où l'on peut faire son travail sans laisser sa santé à la porte. Gardez juste un œil ouvert : la toxicité adore les endroits qui se croient à l'abri.",
+    "criteria": [],
+    "specificity": 0
+  }
+]
