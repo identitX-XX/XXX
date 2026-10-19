@@ -111,11 +111,25 @@ export function mockOutput(input: TurbineInput): TurbineOutput {
     dispo = [...dispo, ...reste];
   }
 
-  // Rotation par graine → une sélection différente à chaque relance.
-  const start = ((seed % dispo.length) + dispo.length) % dispo.length;
-  const n = Math.min(3, dispo.length);
-  const scenarios: TurbineScenario[] = [];
-  for (let i = 0; i < n; i++) scenarios.push(dispo[(start + i) % dispo.length]);
+  // Sélection par la graine. Graine nulle (génération par défaut) : on garde
+  // l'ordre du pool — l'angle de dialogue reste en tête, l'angle « du moment »
+  // juste après. Graine non nulle (ta relance, ou l'empreinte chiffrée de ton
+  // état : énergie, piliers) : on BRASSE le pool avec un PRNG ensemencé par
+  // TOUTE la graine. Deux états différents → deux sélections différentes, SANS
+  // les collisions d'une simple rotation « graine modulo taille » (qui
+  // ressortait « toujours la même chose » quand deux graines tombaient sur le
+  // même reste — exactement le bug « ça me dit toujours la même chose »).
+  let ordre = dispo;
+  if (seed) {
+    const rnd = mulberry32(seed >>> 0);
+    ordre = [...dispo];
+    for (let i = ordre.length - 1; i > 0; i--) {
+      const j = Math.floor(rnd() * (i + 1));
+      [ordre[i], ordre[j]] = [ordre[j], ordre[i]];
+    }
+  }
+  const n = Math.min(3, ordre.length);
+  const scenarios: TurbineScenario[] = ordre.slice(0, n);
 
   const notes = [
     "Ces pistes partent de tes directions — à toi de repérer celle qui te met en mouvement.",
@@ -123,5 +137,18 @@ export function mockOutput(input: TurbineInput): TurbineOutput {
     "Trois angles pour la même matière : choisis celui qui te dérange un peu, c'est souvent le vivant.",
   ];
 
-  return { scenarios, note_de_bascule: notes[start % notes.length] };
+  return { scenarios, note_de_bascule: notes[seed % notes.length] };
+}
+
+// PRNG déterministe ensemencé (mulberry32) : même graine → même brassage, à la
+// fois côté serveur et pour les tests. Il consomme l'ENTIÈRETÉ de la graine, pas
+// seulement un reste — c'est ce qui supprime les collisions de l'ancienne rotation.
+function mulberry32(a: number): () => number {
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
 }
