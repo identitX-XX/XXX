@@ -17,6 +17,15 @@ import { track } from "@/lib/metrics";
 const ENERGIES: TurbineDirection["energie"][] = ["haute", "moyenne", "basse"];
 const ETATS: TurbineDirection["etat"][] = ["actif", "émergent", "en veille"];
 
+// Hash déterministe (djb2) d'une chaîne → entier positif. Sert à transformer
+// l'empreinte de ton moment en une graine stable : même état → même tirage,
+// état différent → tirage différent. (Pas de crypto, juste de la variation.)
+function hashChaine(s: string): number {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
 export default function TurbinePage() {
   const profile = useStore((s) => s.profile);
   const etat = useParcoursStore((s) => s.etat);
@@ -36,8 +45,20 @@ export default function TurbinePage() {
       ? archetypeByKey[diagnostic.dominant].name
       : archetypeDominant(etat)?.name ?? undefined;
     let aRecharger: string | undefined;
+    // « Empreinte » : un relevé CHIFFRÉ de ton état — ton énergie globale et le
+    // crédit de chacun de tes 4 piliers, par paliers. C'est elle qui fait
+    // vraiment bouger les possibles : régler ton énergie (santé, love, pro…)
+    // change l'empreinte → la clé de cache change → de nouveaux scénarios. Sans
+    // ça, seul le pilier le plus BAS comptait, et tout ajustement qui ne le
+    // renversait pas te ressortait « toujours la même chose ».
+    let empreinte = "";
     try {
-      aRecharger = auditDepuisEtat(etat, objectifs, climat, diagnostic).aRecharger.label;
+      const audit = auditDepuisEtat(etat, objectifs, climat, diagnostic);
+      aRecharger = audit.aRecharger.label;
+      const palier = (n: number) => Math.round(n / 8); // paliers de ~8 pts
+      empreinte =
+        `g${palier(audit.global)}|` +
+        audit.directions.map((d) => `${d.key}${palier(d.credit)}`).join(",");
     } catch {
       /* état hérité illisible → on s'en passe */
     }
@@ -45,6 +66,7 @@ export default function TurbinePage() {
       signature,
       bascule: bascule ? bascule.actuel : undefined,
       aRecharger,
+      empreinte,
     };
   }, [etat, historique, diagnostic, objectifs, climat]);
 
@@ -129,9 +151,20 @@ export default function TurbinePage() {
           "::" +
           input.tensions.join("|") +
           "::" +
-          `${moment.signature ?? ""}|${moment.bascule ?? ""}|${moment.aRecharger ?? ""}`
+          `${moment.signature ?? ""}|${moment.bascule ?? ""}|${moment.aRecharger ?? ""}` +
+          "::" +
+          moment.empreinte
         : null,
     [input, moment]
+  );
+
+  // Graine du moment : dérivée de l'empreinte chiffrée de ton état. Elle pilote
+  // le tirage des angles (maquette ET IA) même SANS clic « d'autres possibles »
+  // → quand tu règles ton énergie ou un pilier, la génération automatique
+  // choisit d'autres scénarios, pas les mêmes à l'identique.
+  const momentSeed = useMemo(
+    () => (moment.empreinte ? (hashChaine(moment.empreinte) % 99000) + 1 : 0),
+    [moment.empreinte]
   );
 
   const generer = useCallback(
@@ -152,7 +185,7 @@ export default function TurbinePage() {
           body: JSON.stringify({
             ...input,
             scenariosPrecedents: precedents,
-            seed: force ? Date.now() % 100000 : 0,
+            seed: force ? Date.now() % 100000 : momentSeed,
           }),
         });
         const data = (await res.json()) as TurbineOutput & { error?: string };
@@ -175,7 +208,7 @@ export default function TurbinePage() {
         setLoading(false);
       }
     },
-    [input, cacheKey, output, reel]
+    [input, cacheKey, output, reel, momentSeed]
   );
 
   // Au montage / changement de directions : on charge le cache s'il existe,
