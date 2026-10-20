@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap } from "lucide-react";
+import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap, SlidersHorizontal } from "lucide-react";
 import { PageHead } from "@/components/ui";
 import { ApprofondirUnivers } from "@/components/ApprofondirUnivers";
 import { ExercicesVolets } from "@/components/ExercicesVolets";
@@ -131,64 +131,13 @@ function ParcoursContent() {
         </div>
       )}
 
-      {/* « Ma quête » : la vue qui relie ce qui l'anime, ce qu'elle construit,
-          ce qu'elle explore et ce qui évolue — les quatre fils du parcours. */}
+      {/* 1 — Ta quête : la vue qui relie ce qui l'anime, ce qu'elle construit,
+          ce qu'elle explore et ce qui évolue — les quatre fils + ton focus. */}
       {diagnostic && (
         <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
       )}
 
-      {/* Poste de pilotage toujours accessible : curseurs qui déplacent la
-          cartographie en direct + modification non destructive de la signature. */}
-      {diagnostic && <AjusterParcours />}
-
-      {/* Trois exercices du jour adossés à chaque volet (capsule · explore ·
-          construis), cochables et renouvelés chaque jour. */}
-      {diagnostic && (
-        <ExercicesVolets
-          signature={archetypeByKey[diagnostic.dominant].name}
-          emergente={archetypeByKey[diagnostic.secondaire].name}
-          direction={
-            objectifs
-              ? [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso].find(
-                  (d) => d && d.trim()
-                ) ?? ""
-              : ""
-          }
-          jour={contenuJour(jourCourant)}
-        />
-      )}
-
-      {/* Quiz d'auto-évaluation : où en es-tu sur un pilier, quand tu veux. */}
-      {diagnostic && <QuizAuto />}
-
-      {/* Les 4 univers, revenus comme ENTRÉES pour approfondir la signature
-          (et non plus comme peaux de jeu de la Quête). */}
-      {diagnostic && (
-        <ApprofondirUnivers archName={archetypeByKey[diagnostic.dominant].name} />
-      )}
-
-      {/* Adossé au module, une fois le parcours lancé : les exercices (Quête) et
-          les savoirs. Ils n'encombrent plus l'entrée du diagnostic. */}
-      <div className="mb-8 grid gap-3 sm:grid-cols-2">
-        <Link
-          href="/quete"
-          className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-fuchsia"
-        >
-          <Dumbbell size={18} className="flex-none text-fuchsia" />
-          <span className="flex-1 text-sm text-ink">Les exercices de ta Quête — se délester, choisir, s'engager</span>
-          <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
-        </Link>
-        <Link
-          href="/ressources"
-          className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-fuchsia"
-        >
-          <GraduationCap size={18} className="flex-none text-fuchsia" />
-          <span className="flex-1 text-sm text-ink">Les savoirs — neurosciences & psychologie de l'identité</span>
-          <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
-        </Link>
-      </div>
-
-
+      {/* 2 — La capsule du jour : le geste à vivre, le cœur de la quête. */}
       {jour && (
         <section style={{ marginBottom: 48 }}>
           <JourView
@@ -201,7 +150,66 @@ function ParcoursContent() {
         </section>
       )}
 
-      <Dashboard />
+      {/* Réglages & outils de ma quête — TOUT le pilotage, rangé dans un seul
+          repli : ajuster sa carte/signature, les volets d'exercices, le quiz,
+          les univers, les liens, le tableau de bord. Rien n'est perdu ; la quête
+          reste limpide (les deux blocs essentiels au-dessus). */}
+      {diagnostic && (
+        <details className="mb-12 rounded-2xl border border-line bg-surface p-5 [&_summary]:cursor-pointer">
+          <summary className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-muted">
+            <SlidersHorizontal size={13} /> Réglages &amp; outils de ma quête
+          </summary>
+          <div className="mt-6 flex flex-col gap-6">
+            {/* Poste de pilotage : curseurs qui déplacent la cartographie en
+                direct + modification non destructive de la signature. */}
+            <AjusterParcours />
+
+            {/* Trois exercices adossés à chaque volet (capsule · explore ·
+                construis), cochables et renouvelés chaque jour. */}
+            <ExercicesVolets
+              signature={archetypeByKey[diagnostic.dominant].name}
+              emergente={archetypeByKey[diagnostic.secondaire].name}
+              direction={
+                objectifs
+                  ? [objectifs.relationnel, objectifs.love, objectifs.pro, objectifs.perso].find(
+                      (d) => d && d.trim()
+                    ) ?? ""
+                  : ""
+              }
+              jour={contenuJour(jourCourant)}
+            />
+
+            {/* Quiz d'auto-évaluation : où en es-tu sur un pilier, quand tu veux. */}
+            <QuizAuto />
+
+            {/* Les 4 univers, comme entrées pour approfondir la signature. */}
+            <ApprofondirUnivers archName={archetypeByKey[diagnostic.dominant].name} />
+
+            {/* Les exercices de la Quête et les savoirs. */}
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Link
+                href="/quete"
+                className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-fuchsia"
+              >
+                <Dumbbell size={18} className="flex-none text-fuchsia" />
+                <span className="flex-1 text-sm text-ink">Les exercices de ta Quête — se délester, choisir, s'engager</span>
+                <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+              </Link>
+              <Link
+                href="/ressources"
+                className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-fuchsia"
+              >
+                <GraduationCap size={18} className="flex-none text-fuchsia" />
+                <span className="flex-1 text-sm text-ink">Les savoirs — neurosciences & psychologie de l'identité</span>
+                <ArrowUpRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
+              </Link>
+            </div>
+
+            {/* Le tableau de bord complet. */}
+            <Dashboard />
+          </div>
+        </details>
+      )}
       </>
       )}
     </div>
