@@ -34,47 +34,43 @@ export const RADAR_AXES = [
 // l'aide. Les surfaces contemplatives et annexes (Traversée, ADN, Cartographie,
 // Le parcours, Journal, Tableau de bord, Synthèse, Rapport) existent toujours
 // comme pages mais sortent du cœur : elles ne dispersent plus.
+// La navigation, RADICALEMENT simplifiée : TROIS destinations qui portent tout.
+// « Aujourd'hui » (le présent : fil, énergie, acte, possibles), « Ma quête »
+// (le parcours : signature, avancer, se comprendre) et « Coach ». Tout le reste
+// n'est pas supprimé — les pages et leurs moteurs vivent toujours — mais devient
+// SECONDAIRE : on y accède depuis les sections des deux hubs, ou depuis ce repli
+// discret du menu. Fini le mur de quinze entrées sur quatre sections.
 export const NAV_GROUPS: {
   section: string | null;
   items: { href: string; label: string }[];
 }[] = [
   {
-    section: "Au quotidien",
+    section: null,
     items: [
       { href: "/aujourdhui", label: "Aujourd'hui" },
+      { href: "/parcours-signatures", label: "Ma quête" },
+      { href: "/coach", label: "Coach" },
+    ],
+  },
+  {
+    section: "Aller plus loin",
+    items: [
+      { href: "/scenarios", label: "Mes possibles" },
+      { href: "/synthese", label: "Mon portrait" },
       { href: "/exercices", label: "Mes exercices" },
-      { href: "/scenarios", label: "Scénarios" },
-    ],
-  },
-  {
-    section: "Comprendre",
-    items: [
-      { href: "/parcours-signatures", label: "Ta signature" },
-      { href: "/synthese", label: "Ton portrait — valeurs, forces, compétences" },
-      { href: "/explorer", label: "Explorer" },
-      { href: "/cartographie", label: "Cartographie" },
-    ],
-  },
-  {
-    section: "Orchestrer",
-    items: [
-      { href: "/x-sens", label: "X-sens — ma transition" },
       { href: "/quete", label: "La Quête" },
       { href: "/progression", label: "Progression" },
-      { href: "/rapport-analytique", label: "Rapport analytique" },
-    ],
-  },
-  {
-    section: "Aide",
-    items: [
-      { href: "/coach", label: "Coach identitX" },
+      { href: "/x-sens", label: "Ma transition" },
+      { href: "/explorer", label: "Explorer" },
       { href: "/ressources", label: "Ressources" },
-      { href: "/presentation", label: "Revoir la présentation" },
     ],
   },
   {
     section: null,
-    items: [{ href: "/settings", label: "Paramètres" }],
+    items: [
+      { href: "/presentation", label: "Revoir la présentation" },
+      { href: "/settings", label: "Paramètres" },
+    ],
   },
 ];
 
