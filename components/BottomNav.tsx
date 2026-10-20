@@ -5,12 +5,13 @@
 // cachées dans le menu burger. Le 5e onglet ouvre le menu complet pour le reste.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Compass, Sparkles, MessageCircle, Menu } from "lucide-react";
+import { Home, Compass, MessageCircle, Menu } from "lucide-react";
 
+// Trois destinations, pas davantage : le présent, le parcours, l'accompagnement.
+// Le reste (possibles, portrait, exercices…) s'atteint depuis les hubs ou le menu.
 const TABS = [
   { href: "/aujourdhui", label: "Aujourd'hui", icon: Home },
   { href: "/parcours-signatures", label: "Ma quête", icon: Compass },
-  { href: "/scenarios", label: "Scénarios", icon: Sparkles },
   { href: "/coach", label: "Coach", icon: MessageCircle },
 ];
 

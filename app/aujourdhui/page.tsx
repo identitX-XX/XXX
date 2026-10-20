@@ -4,35 +4,28 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
-  ArrowRight, Flame, Sparkles, HelpCircle, BookOpen, Wind, PenLine, Lock, History,
-  MessageCircle, Compass, Check, Route, Dumbbell,
+  ArrowRight, Flame, Sparkles, Compass, Dumbbell,
   Briefcase, Users, RefreshCw, Heart, HeartPulse,
 } from "lucide-react";
-import { Card, PageHead, Slider, Button } from "@/components/ui";
-import { Reveal } from "@/components/Reveal";
+import { Card, PageHead, Button } from "@/components/ui";
 import { AuditEnergetique } from "@/components/AuditEnergetique";
 import { ConstellationVivante } from "@/components/ConstellationVivante";
 import { LeChemin } from "@/components/LeChemin";
 import type { Perimetre } from "@/parcours-gap/perimetres";
 import { useParcoursStore } from "@/parcours-archetypes/store";
-import { archetypeByKey, emotionByKey } from "@/parcours-archetypes/archetypes";
+import { archetypeByKey } from "@/parcours-archetypes/archetypes";
 import { exercicesDuJour } from "@/parcours-archetypes/exercices";
 import { pacteAVerifier, TenuPacte } from "@/parcours-archetypes/pactes";
 import { progression, momentum, radarCourant } from "@/parcours-archetypes/indicateurs";
 import { contenuJour } from "@/parcours-archetypes/hydration";
 import { track } from "@/lib/metrics";
-import { climatIndex, climatLabel, climatPhrase } from "@/parcours-archetypes/climat";
-import { premiereLecture } from "@/parcours-archetypes/premiereLecture";
-import { genererRevelations } from "@/parcours-archetypes/revelations";
-import {
-  ressourceDuJour, TYPE_LABEL, Ressource,
-} from "@/parcours-archetypes/quotidien";
 import { Archetype, Objectifs } from "@/parcours-archetypes/types";
 import { EspritParcours } from "@/components/bd/EspritParcours";
 
-// Home « Aujourd'hui » : le hub quotidien. L'app s'ouvre sur la seule chose du
-// jour — ta capsule identitaire, ton avancement, ton élan — au lieu d'un menu.
-// C'est la surface de rétention : momentum visible, cap à viser, un seul CTA.
+// Home « Aujourd'hui » : le hub quotidien, RADICALEMENT resserré. Cinq blocs,
+// pas davantage — ton énergie, le geste du jour, tes exercices, tes possibles —
+// et un seul repli « Aller plus loin » qui range tout le secondaire (le chemin,
+// les éclats du parcours, les pages contemplatives). Fini le mur de dix modules.
 export default function AujourdhuiPage() {
   const diagnostic = useParcoursStore((s) => s.diagnostic);
   const objectifs = useParcoursStore((s) => s.objectifs);
@@ -101,45 +94,12 @@ export default function AujourdhuiPage() {
   // Parcours sans fin : plus de terminaison. Le compteur (sessionJour) avance
   // sans plafond ; le CONTENU tourne en boucle (contenuJour) ; chaque capsule
   // est fraîche (classée sur le compteur, jamais déjà répondue).
-  const termine = false;
   const sessionJour = prog.jourCourant;
   const n = contenuJour(sessionJour);
   const jour = parcours.jours.find((j) => j.n === n) ?? null;
   const arch = jour ? archetypeByKey[jour.archetype] : null;
   const dejaFait = Boolean(reponses[sessionJour]);
   const salut = salutation();
-
-  if (termine) {
-    return (
-      <div>
-        <PageHead
-          eyebrow="Aujourd'hui"
-          title="Ta traversée est accomplie"
-          sub="Le temps de recueillir ce qui a surgi."
-        />
-        <Card className="overflow-hidden p-0 animate-fade-up">
-          <div className="relative brand-gradient px-8 py-10 text-center text-[color:var(--on-brand)]">
-            <Sparkles size={40} className="mx-auto text-[color:var(--on-brand)]" />
-            <h2 className="mt-2 font-display text-3xl font-light">
-              Tu as fait un beau chemin
-            </h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-[color:var(--on-brand)]/80">
-              Ton rapport te propose des scénarios activables sur tes 4 piliers :
-              relationnel & famille, love, pro, santé.
-            </p>
-            <Link
-              href="/parcours-signatures/rapport"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[color:var(--fuchsia)] transition-transform"
-            >
-              Voir mon bilan
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-        </Card>
-        <SecondPlan prog={prog} />
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -150,7 +110,7 @@ export default function AujourdhuiPage() {
         accessory={<EspritParcours seed="accueil" size={48} />}
       />
 
-      {/* Retour de session : reprendre là où on en était, ou tout recommencer. */}
+      {/* Retour de session (intermittent) : reprendre, ou tout recommencer. */}
       {montrerReprise && (
         <Card className="mb-4 p-5 animate-fade-up sm:p-6">
           <div className="text-xs uppercase tracking-[0.18em] text-fuchsia">Bon retour</div>
@@ -182,22 +142,10 @@ export default function AujourdhuiPage() {
         </Card>
       )}
 
-      {/* Pièce maîtresse : l'audit de crédits énergétiques, à la place de la
-          capsule. Lu automatiquement dans les données déjà connues, il rend
-          visible où l'énergie est haute/basse et induit une direction. */}
-      <AuditEnergetique />
-
-      {/* La colonne vertébrale : où tu en es sur le chemin Archétype → Mue → Choix. */}
-      <div className="mt-4">
-        <LeChemin />
-      </div>
-
-      {/* Le fil des pactes : l'engagement pris dans la Quête revient te chercher
-          le lendemain. C'est ce qui donne un « payoff » au jour suivant. */}
+      {/* Le fil des pactes (intermittent) : l'engagement de la veille revient. */}
       <CheckinPacte jourCourant={prog.jourCourant} />
 
-      {/* Retour bienveillant après une absence : pas de rattrapage, pas de
-          pénalité — le parcours suit les jours vécus, jamais le calendrier. */}
+      {/* Retour bienveillant après une absence (intermittent). */}
       {mo.absence >= 2 && prog.faits > 0 && !dejaFait && (
         <div
           className="mb-4 rounded-2xl border px-5 py-3.5 text-sm animate-fade-up"
@@ -213,80 +161,55 @@ export default function AujourdhuiPage() {
         </div>
       )}
 
-      {/* Une première lecture sourcée sur tes réponses, tant que rien n'est encore posé. */}
-      {prog.faits === 0 && <PremiereLecture />}
+      {/* 1 — Ton énergie, aujourd'hui. La pièce maîtresse : où elle est haute ou
+          basse, ce qu'elle appelle — et elle fait aussi bouger tes possibles. */}
+      <AuditEnergetique />
 
-      {/* Ta constellation vivante — la mémoire visuelle du parcours : elle gagne
-          une étoile à chaque capsule vécue. Une raison douce de revenir. */}
-      <Reveal as="div" delay={40}>
-        <ConstellationVivante />
-      </Reveal>
+      {/* 2 — Le geste du jour : l'unique action à porter aujourd'hui. */}
+      <GesteDuJour dejaFait={dejaFait} />
 
-      {/* Les 3 exercices du jour — un par périmètre, pilotés par la signature du
-          moment (qui varie) : la quête « évolue », les exercices avec elle. */}
+      {/* 3 — Tes trois exercices du jour, teintés de ta signature du moment. */}
       {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
 
-      {/* Une bascule à explorer — dès qu'une journée est vécue, on invite à
-          essayer la facette qui monte (pas juste attendre la mue). */}
-      <BasculeAExplorer />
+      {/* 4 — Mes possibles : ce que tes directions rendent possible. */}
+      <PossiblesCard />
 
-      {/* Prochaine révélation — le rebondissement qui donne envie de revenir
-          (déblocage progressif façon Headspace, révélation façon Co-Star). */}
-      <RevelationCard faits={prog.faits} />
-
-      {/* Aller plus loin — explorations plus profondes, en accès libre. */}
-      <Reveal as="div" className="mt-4">
-      <Link href="/premium" className="block">
-        <Card className="p-5 transition-colors hover:border-fuchsia/40">
-          <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-            <Sparkles size={13} /> Aller plus loin
-          </div>
-          <p className="mt-2 text-[15px] font-semibold text-ink">
-            Envie de creuser davantage ?
-          </p>
-          <p className="mt-1 text-sm text-muted">
-            Ta signature en profondeur, l'approfondissement par périmètre, tes panels de questions.
-          </p>
-          <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
-            Explorer <ArrowRight size={13} />
-          </span>
-        </Card>
-      </Link>
-      </Reveal>
-
-      {/* Accès directs aux deux pages « socle » : ta signature et ton rapport. */}
-      <Reveal as="div" className="mt-4 grid grid-cols-2 gap-3" delay={60}>
-        <Link
-          href="/parcours-signatures"
-          className="flex items-center justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm text-ink transition-colors hover:border-fuchsia/40"
-        >
-          Ta signature
-          <ArrowRight size={15} className="flex-none text-muted" />
-        </Link>
-        <Link
-          href="/rapport-analytique"
-          className="flex items-center justify-between gap-2 rounded-2xl border border-line bg-surface px-4 py-3.5 text-sm text-ink transition-colors hover:border-fuchsia/40"
-        >
-          Ton rapport
-          <ArrowRight size={15} className="flex-none text-muted" />
-        </Link>
-      </Reveal>
-
-      {/* Un seul point de sortie : tout le reste est dans le menu. Le hub reste
-          limpide — une capsule, un exercice — le secondaire est rangé. */}
-      <Reveal as="div" className="mt-4" delay={120}>
-      <Link
-        href="/explorer"
-        className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-surface px-5 py-4 transition-colors hover:border-fuchsia/40"
-      >
-        <span className="text-sm leading-snug text-ink">
-          Tout ton parcours est dans le menu — portrait, cartographie, scénarios,
-          coach, ressources.
-        </span>
-        <ArrowRight size={16} className="flex-none text-muted" />
-      </Link>
-      </Reveal>
+      {/* 5 — Aller plus loin : tout le secondaire rangé dans un seul repli. */}
+      <AllerPlusLoin faits={prog.faits} />
     </div>
+  );
+}
+
+// « Le geste du jour » : l'unique action à porter aujourd'hui — la capsule,
+// taillée pour la signature du moment. Un seul bloc clair, un seul appel.
+function GesteDuJour({ dejaFait }: { dejaFait: boolean }) {
+  return (
+    <section className="mt-4 animate-fade-up">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
+        <Flame size={13} /> Le geste du jour
+      </div>
+      <Link
+        href="/parcours-signatures"
+        className="group block overflow-hidden rounded-2xl border border-line p-6 shadow-soft transition-colors hover:border-fuchsia"
+        style={{
+          background:
+            "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 8%, transparent), transparent 60%)",
+        }}
+      >
+        <h3 className="font-display text-xl font-semibold leading-snug text-ink">
+          {dejaFait ? "Ta capsule du jour est vécue" : "Vis ta capsule du jour"}
+        </h3>
+        <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+          {dejaFait
+            ? "Tu peux la revisiter, ou revenir demain pour la suivante — rien ne se force."
+            : "Un seul geste à porter aujourd'hui, taillé pour ta signature du moment. Quelques minutes, à ton rythme."}
+        </p>
+        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-fuchsia">
+          {dejaFait ? "Revisiter ma capsule" : "Vivre ma capsule"}
+          <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+        </span>
+      </Link>
+    </section>
   );
 }
 
@@ -304,7 +227,7 @@ function BasculeAExplorer() {
   if (!dom || !emerg || emerg.key === dom.key || emerg.valeur <= 0) return null;
 
   return (
-    <Link href="/explorer" className="mt-4 block animate-fade-up">
+    <Link href="/explorer" className="block">
       <Card className="p-5 transition-colors hover:border-fuchsia/40">
         <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
           <Compass size={13} /> Une bascule à explorer
@@ -364,18 +287,14 @@ function CheckinPacte({ jourCourant }: { jourCourant: number }) {
 }
 
 // Prochaine révélation — un seul « à venir », clair et désirable. Déblocage
-// progressif (façon Headspace) + révélation d'identité (façon Co-Star) : la
-// raison de revenir demain, sans surcharger le hub.
+// progressif (façon Headspace) + révélation d'identité (façon Co-Star).
 function RevelationCard({ faits }: { faits: number }) {
-  // Sans compteur ni jours : ce qui se révèle à mesure que tu explores. On
-  // oriente vers ta synthèse une fois qu'il y a un peu de matière, sinon vers
-  // ta progression (ta direction).
   const cible =
     faits >= 5
       ? { titre: "Ton portrait se précise", href: "/synthese" }
       : { titre: "Ta révélation de motif", href: "/progression" };
   return (
-    <Link href={cible.href} className="mt-4 block animate-fade-up">
+    <Link href={cible.href} className="block">
       <Card className="p-5 transition-colors hover:border-fuchsia/40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
@@ -413,9 +332,6 @@ function TroisExercices({
 }) {
   // « variante » : levier de RENOUVELLEMENT à la demande. La quête n'avance
   // d'un jour qu'en fin de journée ; entre-temps, on peut vouloir un autre angle.
-  // Chaque appui sur « Un autre angle » change la graine → nouveaux cadrages
-  // déterministes + nouvelle génération IA. Persisté par jour pour ne pas
-  // revenir en arrière au rechargement.
   const [variante, setVariante] = useState(0);
   useEffect(() => {
     try {
@@ -426,14 +342,10 @@ function TroisExercices({
   const seed = jour + variante;
   // Exercice « modèle » affiché INSTANTANÉMENT (aucun spinner). En arrière-plan,
   // l'IA génère une version unique ; quand elle arrive, on la substitue.
-  // Mise en cache par (graine + signature) → un seul appel Mistral par variante
-  // et par appareil. Repli silencieux sur le modèle si l'IA tarde ou échoue.
   const base = exercicesDuJour(arch, objectifs, seed);
   const [ia, setIa] = useState<Record<string, string> | null>(null);
   useEffect(() => {
     setIa(null);
-    // v3 : filtre anti-corvée côté serveur (fini les exercices « cuisine » hors
-    // sujet) → on repart d'un cache neuf pour ne pas resservir les anciens.
     const cle = `idx-exos-v3-${seed}-${arch.key}`;
     try {
       const cache = localStorage.getItem(cle);
@@ -545,268 +457,7 @@ function TroisExercices({
   );
 }
 
-// « Ton itinéraire du jour » : la journée de quête déroulée en étapes ordonnées,
-// chacune reliée à SA page. Le fil conducteur qui fluidifie l'enchaînement et
-// fait traverser toutes les pages — du matin (le geste) au soir (le bilan), puis
-// la relecture (progression) et l'ouverture (possibles). Chaque ligne est un lien.
-function ItineraireDuJour({
-  diagnostic,
-  objectifs,
-  dejaFait,
-}: {
-  diagnostic: boolean;
-  objectifs: boolean;
-  dejaFait: boolean;
-}) {
-  const etapes: { label: string; hint: string; href: string; done: boolean }[] = [
-    { label: "Ta signature", hint: "Ton point de départ, ton portrait.", href: "/synthese", done: diagnostic },
-    { label: "Tes directions", hint: "Ce que tu veux faire émerger.", href: "/progression", done: objectifs },
-    { label: "Le geste du jour", hint: "Une action à porter dans ta journée.", href: "/parcours-signatures", done: dejaFait },
-    { label: "La question", hint: "À déposer dans ton journal.", href: "/journal", done: false },
-    { label: "Une ressource", hint: "Un appui court, à faire pas qu'à lire.", href: "/ressources", done: false },
-    { label: "Le bilan du soir", hint: "≈ 5 min pour observer ta journée.", href: "/parcours-signatures", done: dejaFait },
-    { label: "Ta progression", hint: "Relis le chemin parcouru.", href: "/progression", done: false },
-    { label: "Tes possibles", hint: "Ce que tes directions rendent possible.", href: "/scenarios", done: false },
-  ];
-
-  return (
-    <section className="mt-4 animate-fade-up" style={{ animationDelay: "70ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        <Route size={13} /> Ton itinéraire du jour
-      </div>
-      <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-soft">
-        {etapes.map((e, i) => (
-          <Link
-            key={e.label}
-            href={e.href}
-            className="group flex items-center gap-3.5 border-b border-line px-4 py-3.5 transition-colors last:border-b-0 hover:bg-noir/20"
-          >
-            <span
-              className={`grid h-7 w-7 flex-none place-items-center rounded-full text-[12px] font-bold ${
-                e.done ? "text-[color:var(--on-brand)]" : "border border-line text-muted"
-              }`}
-              style={e.done ? { background: "linear-gradient(120deg,var(--fuchsia),var(--orange))" } : undefined}
-            >
-              {e.done ? <Check size={14} /> : i + 1}
-            </span>
-            <span className="flex-1">
-              <span className="block text-sm font-semibold uppercase tracking-[0.06em] text-ink">
-                {e.label}
-              </span>
-              <span className="block text-xs text-muted">{e.hint}</span>
-            </span>
-            <ArrowRight size={15} className="flex-none text-muted transition-colors group-hover:text-fuchsia" />
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-// « Le fil du jour » : les raisons de revenir aujourd'hui.
-//   · deux matières à réflexion — la question ET le micro-défi de l'archétype ;
-//   · la révélation — l'insight le plus fort du moteur sourcé (se débloque) ;
-//   · la ressource — une pratique / lecture / réflexion courte.
-const RESSOURCE_ICON: Record<Ressource["type"], React.ReactNode> = {
-  pratique: <Wind size={16} />,
-  lecture: <BookOpen size={16} />,
-  reflexion: <PenLine size={16} />,
-};
-
-function FilDuJour({ n, arch }: { n: number; arch: Archetype | null }) {
-  const etat = useParcoursStore((s) => s.etat);
-  const reponses = useParcoursStore((s) => s.reponses);
-  const climat = useParcoursStore((s) => s.climat);
-  const marquerFilVu = useParcoursStore((s) => s.marquerFilVu);
-
-  // Voir la home = voir le fil → on éteint le badge « nouveau » du menu.
-  useEffect(() => {
-    marquerFilVu(n);
-  }, [n, marquerFilVu]);
-
-  if (!arch) return null;
-
-  const turbulence = climat[n] ? climatIndex(climat[n]) : undefined;
-  const ress = ressourceDuJour(n, arch.key, turbulence);
-  const rev = genererRevelations(etat, reponses, climat)[0] ?? null;
-
-  // Retour d'hier : le dernier jour vécu, pour tisser la continuité.
-  const hier = [...etat.historique].sort((a, b) => b.jour - a.jour)[0] ?? null;
-  const hierEmo = hier?.emotions?.[0];
-
-  return (
-    <section className="mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        <Sparkles size={13} /> Le fil du jour
-      </div>
-
-      <div className="grid gap-4">
-        {/* Retour d'hier */}
-        {hier && (
-          <Card className="flex items-start gap-3 p-5">
-            <div
-              className="mt-0.5 grid h-8 w-8 flex-none place-items-center rounded-full"
-              style={{ background: "color-mix(in srgb, var(--orange) 12%, transparent)", color: "var(--orange)" }}
-            >
-              <History size={15} />
-            </div>
-            <div>
-              <div className="text-xs uppercase tracking-[0.14em] text-muted">Retour d'hier</div>
-              <p className="mt-1 text-sm leading-relaxed text-ink">
-                Jour {hier.jour} : ta clarté était à <b>{Math.round(hier.coherence)}</b>
-                {hierEmo ? (
-                  <>, portée par « {emotionByKey[hierEmo].label.toLowerCase()} »</>
-                ) : null}
-                . Aujourd'hui reprend le fil.
-              </p>
-            </div>
-          </Card>
-        )}
-
-        {/* La question à porter — le micro-défi vit désormais dans la capsule
-            (« le geste »), on ne le répète donc plus ici. */}
-        <Card className="p-5 sm:p-6">
-          <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted">
-            <HelpCircle size={13} /> La question du jour
-          </div>
-          <p className="mt-2 text-sm leading-relaxed text-ink">{arch.question}</p>
-          <Link
-            href="/journal"
-            className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
-          >
-            L'écrire dans mon journal
-            <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-          </Link>
-        </Card>
-
-        {/* Révélation — sourcée, ou teaser tant qu'il manque de matière */}
-        {rev ? (
-          <div
-            className="rounded-2xl border p-5 sm:p-6"
-            style={{
-              borderColor: "color-mix(in srgb, var(--fuchsia) 34%, transparent)",
-              background:
-                "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 8%, transparent), transparent 60%)",
-            }}
-          >
-            <div className="text-xs uppercase tracking-[0.14em] text-fuchsia">
-              La révélation du jour
-            </div>
-            <h3 className="mt-1.5 font-display text-lg font-light leading-snug text-ink">
-              {rev.titre}
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-muted">{rev.preuve}</p>
-            <Link
-              href="/synthese"
-              className="group mt-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia"
-            >
-              Voir ce que ça révèle
-              <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-        ) : (
-          <Card className="flex items-center gap-3 p-5 text-sm text-muted">
-            <Lock size={15} className="flex-none opacity-70" />
-            <span>
-              Ta première révélation apparaîtra ici après quelques jours vécus —
-              elle se lit dans tes propres données.
-            </span>
-          </Card>
-        )}
-
-        {/* Ressource — cliquable vers la bibliothèque */}
-        <Link
-          href="/ressources"
-          className="group block rounded-2xl border border-line bg-surface p-5 shadow-soft transition-colors hover:border-fuchsia sm:p-6"
-        >
-          <div className="flex items-center gap-3">
-            <div
-              className="grid h-9 w-9 flex-none place-items-center rounded-full"
-              style={{
-                background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)",
-                color: "var(--fuchsia)",
-              }}
-            >
-              {RESSOURCE_ICON[ress.type]}
-            </div>
-            <div className="text-xs uppercase tracking-[0.14em] text-muted">
-              {TYPE_LABEL[ress.type]} · {ress.duree}
-            </div>
-          </div>
-          <h3 className="mt-3 font-display text-lg font-light text-ink">{ress.titre}</h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-muted">{ress.corps}</p>
-          {ress.source && (
-            <p className="mt-2 text-xs italic text-muted">{ress.source}</p>
-          )}
-          <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-fuchsia">
-            Toute la bibliothèque
-            <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
-          </span>
-        </Link>
-
-        {/* Fléchage vers le Coach : une porte contextuelle au moment où l'on
-            veut en parler — pas seulement un onglet dans la barre. */}
-        <Link
-          href="/coach"
-          className="group flex items-center gap-3 rounded-2xl border border-line bg-surface p-5 shadow-soft transition-colors hover:border-fuchsia"
-        >
-          <div
-            className="grid h-9 w-9 flex-none place-items-center rounded-full"
-            style={{ background: "color-mix(in srgb, var(--fuchsia) 12%, transparent)", color: "var(--fuchsia)" }}
-          >
-            <MessageCircle size={16} />
-          </div>
-          <div className="flex-1">
-            <div className="text-sm text-ink">Une question sur ta journée ?</div>
-            <div className="text-xs text-muted">Parle-en à IdentitX — il connaît ton parcours.</div>
-          </div>
-          <ArrowRight size={15} className="flex-none text-fuchsia transition-transform group-hover:translate-x-0.5" />
-        </Link>
-      </div>
-    </section>
-  );
-}
-
-// « Ta première lecture » : l'aha du jour 1, sourcé sur ses vraies réponses.
-function PremiereLecture() {
-  const diagnostic = useParcoursStore((s) => s.diagnostic);
-  const objectifs = useParcoursStore((s) => s.objectifs);
-  if (!diagnostic) return null;
-
-  const pl = premiereLecture(diagnostic, objectifs);
-  return (
-    <div
-      className="mb-4 rounded-2xl border p-6 animate-fade-up"
-      style={{
-        borderColor: "color-mix(in srgb, var(--fuchsia) 32%, transparent)",
-        background:
-          "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 60%)",
-      }}
-    >
-      <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        Ta première lecture · à explorer à ton rythme
-      </div>
-      <h2 className="mt-1 font-display text-xl font-light text-ink">{pl.titre}</h2>
-      <p className="mt-2 text-sm leading-relaxed text-muted">{pl.corps}</p>
-      <div className="mt-4 flex flex-col gap-2.5">
-        {pl.points.map((p, i) => (
-          <div key={i} className="flex gap-2.5 text-sm text-ink">
-            <span
-              className="mt-1.5 h-1.5 w-1.5 flex-none rounded-sm"
-              style={{ background: "linear-gradient(180deg,var(--fuchsia),var(--orange))" }}
-            />
-            <span className="leading-relaxed">{p}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// « Ce que tes directions rendent possible » — le pont vers les scénarios. Il
-// vivait caché derrière la 3ᵉ station du chemin ; ici c'est un bloc à part
-// entière, toujours visible une fois la quête lancée : on voit qu'un ailleurs
-// se construit à partir de ce qu'on explore.
+// « Ce que tes directions rendent possible » — le pont vers les scénarios.
 function PossiblesCard() {
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "90ms" }}>
@@ -837,94 +488,26 @@ function PossiblesCard() {
   );
 }
 
-// Couche « climat & corps » (optionnelle, locale) : un relevé rapide qui, une
-// fois quelques jours notés, nourrit la ré-attribution (« c'est le contexte,
-// pas un échec »). Trois curseurs, aucune injonction, rien de médical.
-function ClimatCard({ jour }: { jour: number }) {
-  const climat = useParcoursStore((s) => s.climat);
-  const noter = useParcoursStore((s) => s.noterClimat);
-  const existing = climat[jour];
-
-  const [edit, setEdit] = useState(false);
-  const [sommeil, setSommeil] = useState(existing?.sommeil ?? 60);
-  const [energie, setEnergie] = useState(existing?.energie ?? 55);
-  const [vagues, setVagues] = useState(existing?.vagues ?? 20);
-
-  const save = () => {
-    noter({ jour, date: new Date().toISOString(), sommeil, energie, vagues });
-    setEdit(false);
-  };
-
-  if (existing && !edit) {
-    const idx = climatIndex(existing);
-    return (
-      <div className="mt-4 animate-fade-up">
-        <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-              Climat du jour · {climatLabel(idx)}
-            </div>
-            <p className="mt-1 max-w-md text-sm text-muted">{climatPhrase(idx)}</p>
-          </div>
-          <button
-            onClick={() => setEdit(true)}
-            className="flex-none self-start rounded-full border border-line px-4 py-2 text-xs text-muted transition-colors hover:border-fuchsia hover:text-fuchsia sm:self-auto"
-          >
-            Réajuster
-          </button>
-        </Card>
-      </div>
-    );
-  }
-
-  return (
-    <div className="mt-4 animate-fade-up">
-      <Card className="p-5 sm:p-6">
-        <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-          Climat &amp; corps · optionnel
-        </div>
-        <p className="mt-1 text-sm text-muted">
-          Un relevé rapide de ton terrain du jour. Il reste sur ton appareil et
-          sert à remettre tes journées en contexte — jamais un diagnostic.
-        </p>
-        <div className="mt-5 grid gap-4 sm:grid-cols-3">
-          <Slider label="Sommeil" value={sommeil} onChange={setSommeil} />
-          <Slider label="Énergie" value={energie} onChange={setEnergie} />
-          <Slider label="Vagues / bouffées" value={vagues} onChange={setVagues} />
-        </div>
-        <button
-          onClick={save}
-          className="mt-5 inline-flex items-center gap-2 rounded-lg brand-gradient px-5 py-2.5 text-sm font-medium text-[color:var(--on-brand)]"
-        >
-          Enregistrer mon climat
-        </button>
-      </Card>
-    </div>
-  );
-}
-
-// Le reste des modules, volontairement en second plan (un tiroir, pas un menu).
-function SecondPlan({ prog }: { prog: { faits: number } }) {
-  // Modules hérités fusionnés dans « Ton portrait » (/synthese) : une seule
-  // entrée au lieu de cinq. Le reste (progression, rapport) reste accessible.
+// « Aller plus loin » — le SEUL repli du bas. Il range tout le secondaire : les
+// pages contemplatives (portrait, progression, quête, rapport, ressources) ET
+// les éclats du parcours (le chemin, la bascule, la révélation, la
+// constellation). Replié par défaut : la home reste limpide, rien n'est perdu.
+function AllerPlusLoin({ faits }: { faits: number }) {
   const liens = [
-    { href: "/presentation", label: "La présentation d'IdentitX" },
-    { href: "/synthese", label: "Ton portrait" },
+    { href: "/synthese", label: "Mon portrait" },
     { href: "/progression", label: "Ma progression" },
-    ...(prog.faits >= 1
-      ? [{ href: "/rapport-analytique", label: "Rapport analytique" }]
-      : []),
-    ...(prog.faits >= 5
-      ? [{ href: "/parcours-signatures/rapport", label: "Mon rapport" }]
-      : []),
+    { href: "/quete", label: "La Quête" },
+    { href: "/exercices", label: "Mes exercices" },
+    ...(faits >= 1 ? [{ href: "/rapport-analytique", label: "Rapport analytique" }] : []),
     { href: "/ressources", label: "Ressources" },
+    { href: "/presentation", label: "Revoir la présentation" },
   ];
   return (
-    <div className="mt-8 animate-fade-up" style={{ animationDelay: "120ms" }}>
-      <div className="mb-3 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-muted">
-        Explorer
-      </div>
-      <div className="flex flex-wrap gap-3">
+    <details className="mt-6 rounded-2xl border border-line bg-surface p-5 [&_summary]:cursor-pointer">
+      <summary className="flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-muted">
+        <Compass size={13} /> Aller plus loin
+      </summary>
+      <div className="mt-4 flex flex-wrap gap-2.5">
         {liens.map((l) => (
           <Link
             key={l.href}
@@ -935,7 +518,14 @@ function SecondPlan({ prog }: { prog: { faits: number } }) {
           </Link>
         ))}
       </div>
-    </div>
+      {/* Les repères d'avancement et les éclats du parcours, rangés ici. */}
+      <div className="mt-5 flex flex-col gap-4">
+        <LeChemin />
+        <BasculeAExplorer />
+        <RevelationCard faits={faits} />
+        <ConstellationVivante />
+      </div>
+    </details>
   );
 }
 
@@ -967,12 +557,9 @@ function Amorce({
         title=""
         sub="Poser ton intention, révéler ton schéma dominant — quelques minutes, une seule fois."
       />
-      {/* Le chemin complet, montré dès l'amorce : « voici la route, tu es ici ».
-          Carte seule ici — la carte d'étape ci-dessous porte déjà le message + l'action. */}
+      {/* Le chemin complet, montré dès l'amorce : « voici la route, tu es ici ». */}
       <LeChemin mapOnly />
       <Card className="p-8 text-center animate-fade-up">
-        {/* Indicateur de progression unique : « Ton chemin » (LeChemin) au-dessus
-            porte déjà le repère — on ne double pas avec « Étape X sur 2 ». */}
         <h2 className="mt-2 font-display text-2xl font-light text-ink">
           {titre}
         </h2>
