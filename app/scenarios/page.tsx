@@ -233,7 +233,6 @@ export default function TurbinePage() {
       <PageHead
         eyebrow="Tes possibles"
         title="Ce que tes directions rendent possible"
-        sub="Des expériences à tenter, nées de ce que tu explores — ce qui construit ta réalité, pas un portrait à contempler."
         accessory={<EspritParcours seed="possibles" size={48} />}
       />
 
@@ -270,8 +269,7 @@ export default function TurbinePage() {
           {moment.aRecharger && (
             <p className="mt-3 border-t border-line pt-3 text-[12px] text-muted">
               Ancré sur ton moment · énergie la plus basse :{" "}
-              <span className="text-ink">{moment.aRecharger}</span>. Tes possibles se
-              renouvellent quand ta signature ou ton énergie bougent.
+              <span className="text-ink">{moment.aRecharger}</span>.
             </p>
           )}
         </div>
@@ -292,10 +290,7 @@ export default function TurbinePage() {
         <div className="mt-6 rounded-2xl border border-dashed border-line p-8 text-center">
           <p className="font-display text-lg text-ink">Pose tes directions</p>
           <p className="mx-auto mt-1 max-w-md text-sm text-muted">
-            Ajoute au moins une direction ci-dessus — un métier, un projet, une
-            envie (ex.&nbsp;«&nbsp;Pâtisserie&nbsp;», «&nbsp;Soin&nbsp;»). Tes
-            scénarios surgiront de <span className="text-ink">ce que tu explores</span>,
-            jamais d'un exemple tout fait.
+            Ajoute une direction ci-dessus — un métier, un projet, une envie.
           </p>
         </div>
       )}
@@ -345,9 +340,7 @@ export default function TurbinePage() {
             <div className="rounded-2xl border border-dashed border-line p-8 text-center">
               <p className="font-display text-lg text-ink">Ajoute un peu de matière</p>
               <p className="mx-auto mt-2 max-w-sm text-sm text-muted">
-                Écris au moins une direction ci-dessus — un projet, une envie,
-                une casquette — puis relance. Tes scénarios naîtront de ce que tu
-                explores.
+                Écris une direction ci-dessus, puis relance.
               </p>
               <button
                 onClick={() => generer(true)}
