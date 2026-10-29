@@ -37,10 +37,11 @@ const config: Config = {
         "3xl": "2rem",
       },
       boxShadow: {
-        // Ombres MATES et chaudes (esprit danois) : plus de halo coloré, mais
-        // assez présentes pour détacher les cartes du fond (contours nets).
-        soft: "0 8px 24px -20px rgba(0,0,0,0.55)",
-        glow: "0 6px 16px -12px rgba(0,0,0,0.4)",
+        // Parti « calme radical » : quasi plat. Les cartes ne flottent plus sur
+        // un halo — elles se détachent par un simple filet. On garde un soupçon
+        // d'ombre (1px) pour éviter qu'elles ne disparaissent tout à fait.
+        soft: "0 1px 1px rgba(0,0,0,0.04)",
+        glow: "0 1px 1px rgba(0,0,0,0.04)",
       },
       keyframes: {
         "fade-up": {

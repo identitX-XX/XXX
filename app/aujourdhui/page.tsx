@@ -190,11 +190,7 @@ function GesteDuJour({ dejaFait }: { dejaFait: boolean }) {
       </div>
       <Link
         href="/parcours-signatures"
-        className="group block overflow-hidden rounded-2xl border border-line p-6 shadow-soft transition-colors hover:border-fuchsia"
-        style={{
-          background:
-            "radial-gradient(130% 130% at 0% 0%, color-mix(in srgb, var(--fuchsia) 8%, transparent), transparent 60%)",
-        }}
+        className="group block overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-fuchsia"
       >
         <h3 className="font-display text-xl font-semibold leading-snug text-ink">
           {dejaFait ? "Ta capsule du jour est vécue" : "Vis ta capsule du jour"}
@@ -466,11 +462,7 @@ function PossiblesCard() {
       </div>
       <Link
         href="/scenarios"
-        className="group block overflow-hidden rounded-2xl border border-line p-6 shadow-soft transition-colors hover:border-fuchsia"
-        style={{
-          background:
-            "radial-gradient(130% 130% at 100% 0%, color-mix(in srgb, var(--fuchsia) 9%, transparent), transparent 55%)",
-        }}
+        className="group block overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-fuchsia"
       >
         <h3 className="font-display text-xl font-semibold leading-snug text-ink">
           Ce que tes directions rendent possible
