@@ -239,7 +239,7 @@ export default function TurbinePage() {
 
       {/* La mue en cours — seulement quand une entrée réelle existe */}
       {input && (
-        <div className="mb-6 rounded-2xl border border-line bg-surface p-5 shadow-soft">
+        <div className="mb-6 rounded-2xl border border-line bg-surface p-5">
           <div className="flex items-center justify-between">
             <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
               {reel ? "Ton vortex" : "Ton point de départ"}
@@ -247,7 +247,7 @@ export default function TurbinePage() {
             <span
               className={`rounded-full border px-2 py-0.5 text-[12px] font-medium uppercase tracking-wider ${
                 reel
-                  ? "border-fuchsia/40 bg-fuchsia/10 text-fuchsia"
+                  ? "border-fuchsia/40 text-fuchsia"
                   : "border-line text-muted"
               }`}
             >
@@ -361,14 +361,14 @@ export default function TurbinePage() {
               {output.scenarios.map((s, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl border border-line bg-surface p-6 shadow-soft"
+                  className="rounded-2xl border border-line bg-surface p-6"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex flex-wrap items-center gap-2">
                       {s.multiples_en_dialogue.map((m, j) => (
                         <span
                           key={j}
-                          className="rounded-full border border-fuchsia/40 bg-fuchsia/10 px-2.5 py-0.5 text-[12px] font-medium text-fuchsia"
+                          className="rounded-full border border-line px-2.5 py-0.5 text-[12px] font-medium text-muted"
                         >
                           {m}
                         </span>

@@ -11,15 +11,7 @@ export function Card({
   className?: string;
 }) {
   return (
-    <div
-      className={`rounded-2xl border border-line shadow-soft ${className}`}
-      style={{
-        // Lignes épurées : un seul filet fin, pas de liseré coloré. Un dégradé
-        // très subtil du haut vers le fond donne juste ce qu'il faut de relief.
-        background:
-          "linear-gradient(180deg, color-mix(in srgb, var(--raised) 45%, var(--surface)), var(--surface) 62%)",
-      }}
-    >
+    <div className={`rounded-2xl border border-line bg-surface ${className}`}>
       {children}
     </div>
   );
