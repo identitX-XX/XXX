@@ -106,7 +106,6 @@ export default function AujourdhuiPage() {
       <PageHead
         eyebrow={salut.eyebrow}
         title={salut.titre}
-        sub="Explore ta signature à ton rythme. Le reste peut attendre."
         accessory={<EspritParcours seed="accueil" size={48} />}
       />
 
@@ -197,8 +196,8 @@ function GesteDuJour({ dejaFait }: { dejaFait: boolean }) {
         </h3>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
           {dejaFait
-            ? "Tu peux la revisiter, ou revenir demain pour la suivante — rien ne se force."
-            : "Un seul geste à porter aujourd'hui, taillé pour ta signature du moment. Quelques minutes, à ton rythme."}
+            ? "Tu peux la revisiter, ou revenir demain."
+            : "Un seul geste, taillé pour ta signature du moment."}
         </p>
         <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-fuchsia">
           {dejaFait ? "Revisiter ma capsule" : "Vivre ma capsule"}
@@ -396,15 +395,10 @@ function TroisExercices({
   );
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
-      <div className="mb-1 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
+      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
         <Dumbbell size={13} /> Ton exercice du jour
+        {variante > 0 && <span className="text-muted">· angle {variante + 1}</span>}
       </div>
-      <p className="mb-3 max-w-xl text-xs leading-relaxed text-muted">
-        Tes exercices du moment, teintés de ta signature
-        (<b className="text-ink">{arch.name}</b>). Envie d'un autre angle tout de
-        suite ? Appuie sur <b className="text-ink">« Un autre angle »</b>.
-        {variante > 0 && <span className="text-fuchsia"> · angle {variante + 1}</span>}
-      </p>
       <div className="grid gap-3">
         {ex.map((e) => {
           const Icone = ICONE_PERIMETRE[e.perimetre];
@@ -468,8 +462,7 @@ function PossiblesCard() {
           Ce que tes directions rendent possible
         </h3>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-          Des expériences concrètes à tenter, nées de ce que tu explores — pas un
-          portrait à contempler, mais ce qui construit ta réalité.
+          Des expériences à tenter, nées de ce que tu explores.
         </p>
         <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-fuchsia">
           Faire surgir mes possibles

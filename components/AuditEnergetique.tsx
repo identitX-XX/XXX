@@ -65,33 +65,12 @@ export function AuditEnergetique() {
         <Battery size={13} /> Ton audit énergétique
       </div>
 
-      <div
-        className="relative overflow-hidden rounded-2xl border border-line p-6 shadow-soft sm:p-7"
-        style={{
-          // Profondeur : dégradé subtil du haut (plus clair) vers le fond — de la
-          // nuance, pas un aplat. Lignes épurées : un seul filet fin (pas de liseré).
-          background:
-            "linear-gradient(180deg, color-mix(in srgb, var(--raised) 70%, var(--surface)), var(--surface) 58%)",
-        }}
-      >
-        {/* Halo diffus en haut à droite pour la profondeur. */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full"
-          style={{
-            background:
-              "radial-gradient(closest-side, color-mix(in srgb, var(--ink) 8%, transparent), transparent)",
-          }}
-        />
-
+      <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-7">
         <div className="relative flex items-end justify-between">
           <div>
             <div className="font-display text-[1.5rem] font-semibold leading-tight text-ink">
               Ton énergie, aujourd'hui
             </div>
-            <p className="mt-1 text-sm text-muted">
-              Lu automatiquement dans ce que tu as déjà déposé.
-            </p>
           </div>
           <div className="text-right">
             <div className="font-display text-3xl font-semibold leading-none text-ink tnum">
@@ -147,9 +126,6 @@ export function AuditEnergetique() {
             className="w-full cursor-pointer"
             style={{ accentColor: "var(--fuchsia)" }}
           />
-          <p className="mt-1 text-[12px] text-muted">
-            Déplace le curseur — l'audit s'ajuste. Tu peux le revoir à chaque passage.
-          </p>
         </div>
 
         {/* Lecture : ressource + à recharger → induit une direction */}
@@ -168,7 +144,6 @@ export function AuditEnergetique() {
               <div className="text-sm font-semibold text-ink">{audit.aRecharger.label}</div>
             </div>
           </div>
-          <p className="mt-3 text-sm leading-relaxed text-muted">{audit.phrase}</p>
           <Link
             href="/progression"
             className="group mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-ink"

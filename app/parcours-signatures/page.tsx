@@ -105,7 +105,7 @@ function ParcoursContent() {
         <PageHead
           eyebrow="Module"
           title="Parcours des 20 signatures"
-          sub="Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus."
+          sub="Ta signature n'est pas figée — elle bouge."
           accessory={<EspritParcours seed="ma-quete" size={48} />}
         />
       ) : (
@@ -125,7 +125,7 @@ function ParcoursContent() {
               <ChevronDown size={13} className="transition-transform group-open:rotate-180" />
             </summary>
             <p className="mt-2 max-w-xl text-sm text-muted">
-              Ta signature n'est pas figée, elle oscille dans un mouvement permanent — qui soutient ta mécanique d'expansion ou celle de tes schémas connus.
+              Ta signature n'est pas figée — elle bouge.
             </p>
           </details>
         </div>
@@ -299,15 +299,11 @@ function MaQueteApercu({
   return (
     <section className="mb-8 rounded-2xl border border-line bg-surface p-6 animate-fade-up">
       <div className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-fuchsia">Ma quête</div>
-      <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-        Ta quête relie ce que tu observes, ce que tu veux faire émerger et les
-        directions que tu choisis d'explorer. Chaque fil est cliquable.
-      </p>
 
       {/* Focus évolutif — piloté par l'audit énergétique : le pilier le plus bas
           devient le focus du moment. En lead, séparé par un simple filet : plus
           d'encadré teinté dans l'encadré. */}
-      <div className="mt-5 border-t border-line pt-5">
+      <div className="mt-4">
         <div className="font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-fuchsia">
           Ton focus qui évolue
         </div>
@@ -315,12 +311,8 @@ function MaQueteApercu({
           En ce moment, ton énergie <b>{audit.aRecharger.label}</b> est au plus bas
           ({audit.aRecharger.credit}/100).{" "}
           {audit.aRecharger.direction
-            ? `Ta direction « ${audit.aRecharger.direction} » est le levier du jour.`
-            : "Pose-lui une direction pour commencer à la recharger."}
-        </p>
-        <p className="mt-1 text-xs text-muted">
-          Ta ressource : {audit.ressource.label}. Ce focus se déplace à mesure que
-          tu avances — ta quête n'est jamais deux fois la même.
+            ? `Ta direction « ${audit.aRecharger.direction} » est le levier.`
+            : "Pose-lui une direction."}
         </p>
       </div>
 
@@ -348,8 +340,7 @@ function MaQueteApercu({
                 <ArrowUpRight size={15} className="text-muted transition-colors group-hover:text-fuchsia" />
               </div>
             </div>
-            <div className="mt-0.5 text-xs text-muted">{s.hint}</div>
-            <div className={`mt-2 font-display text-base font-semibold leading-snug ${s.aCompleter ? "text-fuchsia" : "text-ink"}`}>
+            <div className={`mt-1.5 font-display text-base font-semibold leading-snug ${s.aCompleter ? "text-fuchsia" : "text-ink"}`}>
               {s.valeur}
             </div>
             <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-fuchsia">
@@ -363,10 +354,8 @@ function MaQueteApercu({
           tout recommencer de zéro, c'est dans les Réglages (destructif, assumé). */}
       <div className="mt-5 border-t border-line pt-4">
         <p className="text-sm text-muted">
-          Envie de revoir ta signature ? Ouvre{" "}
-          <span className="text-ink">« Ajuster → Ajuster ma signature »</span> ci-dessus : tu
-          modifies tes réponses <span className="text-ink">sans perdre tes capsules ni ta carte</span>.
-          Pour tout recommencer de zéro, c'est dans les{" "}
+          Revoir ta signature : <span className="text-ink">Ajuster</span> ci-dessous.
+          Tout recommencer :{" "}
           <Link href="/settings" className="text-fuchsia hover:underline">
             Réglages
           </Link>
