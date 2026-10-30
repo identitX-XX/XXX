@@ -14,19 +14,18 @@ import { useParcoursStore } from "@/parcours-archetypes/store";
 import { auditDepuisEtat, CreditDirection } from "@/parcours-archetypes/auditEnergetique";
 import { progression } from "@/parcours-archetypes/indicateurs";
 
-// Teinte de remplissage selon l'état — la nuance porte l'information : plus c'est
-// chargé, plus la jauge va vers la lumière (blanc) ; plus c'est bas, plus elle
-// reste dans l'ombre (gris).
-function fillDe(etat: CreditDirection["etat"]): string {
-  if (etat === "haute")
-    return "linear-gradient(90deg, color-mix(in srgb, var(--ink) 55%, var(--muted)), var(--ink))";
-  if (etat === "stable")
-    return "linear-gradient(90deg, color-mix(in srgb, var(--muted) 70%, var(--noir)), color-mix(in srgb, var(--ink) 82%, var(--muted)))";
-  return "linear-gradient(90deg, color-mix(in srgb, var(--muted) 45%, var(--noir)), var(--muted))";
+// Couleur de l'état — PAS de barre de jauge (ça faisait tableau de bord). La
+// nuance passe par la COULEUR de notre palette, chaude et incarnée : le pilier
+// chargé en Bleu de Prusse, celui à recharger en laiton (il appelle le soin),
+// le stable en encre sourde. De la DA, pas de l'analytics.
+function etatColor(etat: CreditDirection["etat"]): string {
+  if (etat === "haute") return "var(--fuchsia)"; // Bleu de Prusse
+  if (etat === "basse") return "var(--orange)"; // laiton — ce qui demande du soin
+  return "var(--muted)";
 }
 
 const ETAT_LABEL: Record<CreditDirection["etat"], string> = {
-  haute: "chargé",
+  haute: "chargée",
   stable: "stable",
   basse: "à recharger",
 };
@@ -66,44 +65,25 @@ export function AuditEnergetique() {
       </div>
 
       <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-7">
-        <div className="relative flex items-end justify-between">
-          <div>
-            <div className="font-display text-[1.5rem] font-semibold leading-tight text-ink">
-              Ton énergie, aujourd'hui
-            </div>
-          </div>
-          <div className="text-right">
-            <div className="font-display text-3xl font-semibold leading-none text-ink tnum">
-              {audit.global}
-            </div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-              /100
-            </div>
+        <div className="relative">
+          <div className="font-display text-[1.5rem] font-semibold leading-tight text-ink">
+            Ton énergie, aujourd'hui
           </div>
         </div>
 
-        {/* Les 4 jauges */}
-        <div className="relative mt-5 grid gap-3.5">
+        {/* Les 4 piliers — en LECTURE éditoriale, plus en jauges. Le pilier et
+            son état, l'état porté par la couleur de notre palette : une page de
+            carnet, pas un tableau de bord. */}
+        <div className="relative mt-5 divide-y divide-line">
           {audit.directions.map((d) => (
-            <div key={d.key}>
-              <div className="mb-1 flex items-baseline justify-between gap-3">
-                <span className="text-sm font-semibold text-ink">{d.label}</span>
-                <span className="flex items-baseline gap-2">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-muted">
-                    {ETAT_LABEL[d.etat]}
-                  </span>
-                  <span className="text-sm text-ink tnum">{d.credit}</span>
-                </span>
-              </div>
-              <div
-                className="h-1 w-full overflow-hidden rounded-full"
-                style={{ background: "color-mix(in srgb, var(--ink) 10%, transparent)" }}
+            <div key={d.key} className="flex items-baseline justify-between gap-3 py-2.5 first:pt-0">
+              <span className="font-display text-base text-ink">{d.label}</span>
+              <span
+                className="font-mono text-[11px] font-semibold uppercase tracking-[0.12em]"
+                style={{ color: etatColor(d.etat) }}
               >
-                <div
-                  className="h-full rounded-full transition-[width] duration-700"
-                  style={{ width: `${d.credit}%`, background: fillDe(d.etat) }}
-                />
-              </div>
+                {ETAT_LABEL[d.etat]}
+              </span>
             </div>
           ))}
         </div>
