@@ -361,7 +361,8 @@ export default function TurbinePage() {
                       {s.multiples_en_dialogue.map((m, j) => (
                         <span
                           key={j}
-                          className="rounded-full border border-line px-2.5 py-0.5 text-[12px] font-medium text-muted"
+                          className="rounded-full border px-2.5 py-0.5 text-[12px] font-medium text-fuchsia"
+                          style={{ borderColor: "color-mix(in srgb, var(--fuchsia) 35%, transparent)" }}
                         >
                           {m}
                         </span>
