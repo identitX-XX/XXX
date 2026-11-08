@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="author" content="Marina Bignon">
+<meta name="description" content="Arbre d’action interactif du plan de transformation organisationnelle du logement social : 6 leviers, feuille de route à 90 jours et 5 indicateurs de pilotage.">
+<title>Arbre d’action — Transformation organisationnelle</title>
+<style>
+  :root {
+    --nuit: #0f1e3a;
+    --nuit-2: #18294b;
+    --bleu: #2f5d8a;
+    --bleu-clair: #e6edf5;
+    --canard: #12666a;
+    --canard-clair: #e3f0ef;
+    --encre: #1b2433;
+    --texte: #2c3646;
+    --discret: #5b6577;
+    --filet: #d8dde5;
+    --filet-2: #e8ebf0;
+    --fond: #f4f5f7;
+    --papier: #ffffff;
+    --ombre: 0 1px 2px rgba(15, 30, 58, .06), 0 4px 16px rgba(15, 30, 58, .06);
+    --rayon: 10px;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, Arial, sans-serif;
+    --nav-h: 60px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+  body { margin: 0; background: var(--fond); color: var(--texte); font-family: var(--sans); font-size: 16px; line-height: 1.6; }
+  h1, h2, h3, h4 { color: var(--nuit); font-family: var(--serif); font-weight: 600; line-height: 1.25; margin: 0; }
+  p { margin: 0 0 .8em; }
+  ul, ol { margin: 0; padding-left: 1.2em; }
+  a { color: var(--bleu); }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--bleu); outline-offset: 3px; border-radius: 4px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 600px) { .wrap { padding: 0 16px; } }
+
+  /* ---------- Navigation ---------- */
+  .nav { position: sticky; top: 0; z-index: 50; background: rgba(15, 30, 58, .97); color: #fff; height: var(--nav-h); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 100%; gap: 16px; }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-size: 14px; letter-spacing: .02em; color: #fff; text-decoration: none; white-space: nowrap; }
+  .nav-brand svg { flex: none; }
+  .nav-links { display: flex; gap: 4px; list-style: none; padding: 0; margin: 0; overflow-x: auto; scrollbar-width: none; }
+  .nav-links::-webkit-scrollbar { display: none; }
+  .nav-links a { display: block; padding: 8px 12px; border-radius: 6px; color: rgba(255,255,255,.78); text-decoration: none; font-size: 14px; white-space: nowrap; transition: background .2s, color .2s; }
+  .nav-links a:hover, .nav-links a.actif { color: #fff; background: rgba(255,255,255,.1); }
+  @media (max-width: 760px) { .nav-brand span { display: none; } .nav-links a { padding: 8px 9px; font-size: 13px; } }
+
+  /* ---------- En-tête ---------- */
+  .hero { background: linear-gradient(160deg, var(--nuit) 0%, var(--nuit-2) 60%, #1d3a5c 100%); color: #dfe6ef; padding: 64px 0 56px; }
+  .surtitre { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #9fc3c0; margin-bottom: 14px; }
+  .hero h1 { color: #fff; font-size: clamp(28px, 4.2vw, 44px); max-width: 820px; }
+  .hero .chapo { font-size: 17px; max-width: 760px; margin: 18px 0 0; color: #c9d4e2; }
+  .reperes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 40px; background: rgba(255,255,255,.12); border-radius: var(--rayon); overflow: hidden; }
+  .repere { background: rgba(15, 30, 58, .55); padding: 18px 20px; }
+  .repere strong { display: block; font-family: var(--serif); font-size: 26px; color: #fff; font-weight: 600; }
+  .repere span { font-size: 14px; color: #b9c6d6; }
+  @media (max-width: 600px) { .hero { padding: 44px 0 40px; } .reperes { grid-template-columns: 1fr; } }
+
+  /* ---------- Sections ---------- */
+  section.bloc { padding: 64px 0 24px; }
+  .bloc-tete { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 28px; }
+  .bloc-tete .num { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--canard); font-weight: 600; margin-bottom: 6px; }
+  .bloc-tete h2 { font-size: clamp(24px, 3vw, 32px); }
+  .bloc-tete p { margin: 8px 0 0; color: var(--discret); max-width: 680px; }
+
+  /* ---------- Lecture par public ---------- */
+  .publics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .public { background: var(--papier); border: 1px solid var(--filet); border-radius: var(--rayon); padding: 20px 22px; }
+  .public h3 { font-size: 18px; margin-bottom: 6px; }
+  .public .role { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--canard); font-weight: 600; margin-bottom: 8px; }
+  .public p { font-size: 15px; margin: 0; }
+  @media (max-width: 860px) { .publics { grid-template-columns: 1fr; } }
+
+  /* ---------- Vue d'ensemble (arbre) ---------- */
+  .arbre { background: var(--papier); border: 1px solid var(--filet); border-radius: 14px; padding: 36px 28px 32px; box-shadow: var(--ombre); }
+  .racine { display: block; margin: 0 auto; max-width: 440px; text-align: center; background: var(--nuit); color: #fff; border-radius: var(--rayon); padding: 18px 22px; position: relative; }
+  .racine .etiq { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #9fc3c0; }
+  .racine strong { display: block; font-family: var(--serif); font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .tronc { width: 2px; height: 28px; background: var(--filet); margin: 0 auto; }
+  .branches { list-style: none; margin: 0; padding: 28px 0 0; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; position: relative; }
+  .branches::before { content: ""; position: absolute; top: 0; left: calc(100% / 12); right: calc(100% / 12); height: 2px; background: var(--filet); }
+  .branches > li { position: relative; display: flex; }
+  .branches > li::before { content: ""; position: absolute; top: -28px; left: 50%; width: 2px; height: 28px; background: var(--filet); transform: translateX(-1px); }
+  .noeud { width: 100%; text-align: left; background: var(--papier); border: 1px solid var(--filet); border-top: 3px solid var(--bleu); border-radius: var(--rayon); padding: 16px 14px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; transition: border-color .2s, box-shadow .2s, transform .2s; }
+  .branches > li:nth-child(even) .noeud { border-top-color: var(--canard); }
+  .noeud:hover { box-shadow: var(--ombre); transform: translateY(-2px); border-color: #b9c3d1; }
+  .noeud .n { font-family: var(--serif); font-size: 26px; color: var(--bleu); line-height: 1; }
+  .branches > li:nth-child(even) .noeud .n { color: var(--canard); }
+  .noeud .t { font-weight: 600; color: var(--nuit); font-size: 15px; line-height: 1.35; }
+  .noeud .r { font-size: 13px; color: var(--discret); line-height: 1.45; flex: 1; }
+  .noeud .voir { font-size: 13px; color: var(--bleu); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
+  .noeud .voir svg { transition: transform .2s; }
+  .noeud:hover .voir svg { transform: translateY(2px); }
+  .arbre-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+  @media (max-width: 1040px) {
+    .branches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .branches::before, .branches > li::before { display: none; }
+    .branches { padding-top: 18px; border-top: 2px solid var(--filet); }
+  }
+  @media (max-width: 640px) {
+    .arbre { padding: 24px 16px; }
+    .tronc { height: 20px; }
+    .branches { grid-template-columns: 1fr; padding: 0 0 0 22px; border-top: 0; gap: 10px; }
+    .branches::before { display: block; top: 0; bottom: 28px; left: 0; right: auto; width: 2px; height: auto; }
+    .branches > li::before { display: block; top: 28px; left: -22px; width: 22px; height: 2px; transform: none; }
+    .noeud { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+    .noeud .t { flex: 1; min-width: 0; }
+    .noeud .r { flex-basis: 100%; }
+  }
+
+  /* ---------- Boutons ---------- */
+  .btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--filet); background: var(--papier); color: var(--nuit); border-radius: 999px; padding: 8px 16px; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; transition: background .2s, border-color .2s; }
+  .btn:hover { background: var(--bleu-clair); border-color: #b9c8da; }
+  .btn.plein { background: var(--nuit); color: #fff; border-color: var(--nuit); }
+  .btn.plein:hover { background: var(--bleu); border-color: var(--bleu); }
+
+  /* ---------- Leviers détaillés ---------- */
+  .leviers { display: flex; flex-direction: column; gap: 14px; }
+  .levier { background: var(--papier); border: 1px solid var(--filet); border-radius: 12px; overflow: hidden; scroll-margin-top: calc(var(--nav-h) + 16px); transition: box-shadow .25s; }
+  .levier.ouvert { box-shadow: var(--ombre); }
+  .levier-tete { width: 100%; display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 18px; padding: 20px 22px; background: none; border: 0; text-align: left; cursor: pointer; }
+  .levier-tete:hover { background: #fafbfc; }
+  .pastille { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-family: var(--serif); font-size: 24px; color: #fff; background: var(--bleu); }
+  .levier:nth-child(even) .pastille { background: var(--canard); }
+  .levier-h { margin: 0; font: inherit; color: inherit; }
+  .titre-lev { display: block; font-family: var(--serif); font-weight: 600; color: var(--nuit); font-size: 21px; line-height: 1.25; }
+  .levier-tete .resume { display: block; margin: 4px 0 0; font-size: 15px; color: var(--discret); line-height: 1.5; }
+  .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .puce { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--fond); color: var(--texte); border: 1px solid var(--filet-2); }
+  .puce.canard { background: var(--canard-clair); color: var(--canard); border-color: #cfe3e1; }
+  .puce.bleu { background: var(--bleu-clair); color: var(--bleu); border-color: #d2deeb; }
+  .chevron { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--filet); display: grid; place-items: center; transition: transform .3s, background .2s; color: var(--nuit); }
+  .levier.ouvert .chevron { transform: rotate(180deg); background: var(--nuit); color: #fff; border-color: var(--nuit); }
+  @media (max-width: 640px) {
+    .levier-tete { grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; padding: 16px; }
+    .pastille { width: 40px; height: 40px; font-size: 18px; }
+    .titre-lev { font-size: 18px; }
+    .chevron { width: 30px; height: 30px; }
+  }
+
+  .levier-corps { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }
+  .levier.ouvert .levier-corps { grid-template-rows: 1fr; }
+  .levier-corps > div { overflow: hidden; }
+  .levier-int { padding: 4px 22px 26px 96px; }
+  @media (max-width: 640px) { .levier-int { padding: 4px 16px 20px 16px; } }
+
+  .rameaux { list-style: none; margin: 0; padding: 0 0 0 26px; position: relative; }
+  .rameaux::before { content: ""; position: absolute; left: 6px; top: 10px; bottom: 28px; width: 2px; background: var(--filet); }
+  .rameau { position: relative; padding: 0 0 22px; }
+  .rameau::before { content: ""; position: absolute; left: -26px; top: 13px; width: 20px; height: 2px; background: var(--filet); }
+  .rameau::after { content: ""; position: absolute; left: -24px; top: 9px; width: 10px; height: 10px; border-radius: 50%; background: var(--papier); border: 2px solid var(--bleu); }
+  .rameau.r-diag::after { border-color: var(--discret); }
+  .rameau.r-act::after { border-color: var(--bleu); background: var(--bleu); }
+  .rameau.r-pil::after { border-color: var(--nuit); }
+  .rameau.r-ech::after { border-color: var(--canard); }
+  .rameau.r-eff::after { border-color: var(--canard); background: var(--canard); }
+  .rameau h4 { font-family: var(--sans); font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--nuit); font-weight: 700; margin-bottom: 10px; }
+  .rameau-boite { background: var(--fond); border: 1px solid var(--filet-2); border-radius: var(--rayon); padding: 16px 18px; }
+  .rameau-boite p:last-child { margin-bottom: 0; }
+  .constats { list-style: none; padding: 0; display: grid; gap: 8px; }
+  .constats li { position: relative; padding-left: 18px; font-size: 15px; }
+  .constats li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 7px; height: 2px; background: var(--discret); }
+
+  .actions { list-style: none; padding: 0; counter-reset: a; display: grid; gap: 10px; }
+  .actions li { counter-increment: a; display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; background: var(--papier); border: 1px solid var(--filet-2); border-radius: 8px; padding: 12px 14px; font-size: 15px; }
+  .actions li::before { content: counter(a); width: 26px; height: 26px; border-radius: 50%; background: var(--bleu-clair); color: var(--bleu); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+  .actions strong { color: var(--nuit); }
+
+  .pilotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .pilote { background: var(--papier); border: 1px solid var(--filet-2); border-radius: 8px; padding: 12px 14px; }
+  .pilote .qui { font-weight: 600; color: var(--nuit); font-size: 15px; }
+  .pilote .quoi { font-size: 13.5px; color: var(--discret); }
+  .pilote .badge { display: inline-block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--canard); font-weight: 700; margin-bottom: 2px; }
+
+  .jalons { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+  .jalon { background: var(--papier); border: 1px solid var(--filet-2); border-left: 3px solid var(--canard); border-radius: 8px; padding: 10px 14px; }
+  .jalon .j { font-family: var(--serif); font-size: 20px; color: var(--canard); font-weight: 600; }
+  .jalon .l { font-size: 14px; }
+
+  .effets { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .effet { background: var(--canard-clair); border: 1px solid #cfe3e1; border-radius: 8px; padding: 12px 14px; font-size: 14.5px; }
+  .effet .pour { display: block; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--canard); font-weight: 700; margin-bottom: 4px; }
+
+  .levier-pied { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; border-top: 1px solid var(--filet-2); padding-top: 16px; margin-top: 4px; }
+  .levier-pied .nav-lev { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* ---------- Feuille de route ---------- */
+  .phases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; position: relative; }
+  .frise { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-bottom: 16px; border-radius: 999px; overflow: hidden; height: 10px; }
+  .frise span:nth-child(1) { background: var(--nuit); }
+  .frise span:nth-child(2) { background: var(--bleu); }
+  .frise span:nth-child(3) { background: var(--canard); }
+  .phase { background: var(--papier); border: 1px solid var(--filet); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; }
+  .phase-tete { border-bottom: 1px solid var(--filet-2); padding-bottom: 14px; margin-bottom: 14px; }
+  .phase .periode { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; font-weight: 700; }
+  .phase:nth-child(1) .periode { color: var(--nuit); }
+  .phase:nth-child(2) .periode { color: var(--bleu); }
+  .phase:nth-child(3) .periode { color: var(--canard); }
+  .phase h3 { font-size: 21px; margin-top: 4px; }
+  .phase .objectif { font-size: 14.5px; color: var(--discret); margin: 6px 0 0; }
+  .etapes { list-style: none; padding: 0; display: grid; gap: 10px; flex: 1; }
+  .etape { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 10px; font-size: 14.5px; align-items: start; }
+  .etape .quand { font-weight: 700; color: var(--nuit); font-size: 13px; padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .etape .lev { display: inline-block; margin-left: 4px; font-size: 11.5px; font-weight: 700; color: var(--bleu); background: var(--bleu-clair); border-radius: 4px; padding: 0 6px; text-decoration: none; cursor: pointer; border: 0; }
+  .etape .lev:hover { background: #d4e0ee; }
+  .livrable { margin-top: 16px; background: var(--fond); border-radius: 8px; padding: 12px 14px; font-size: 14px; }
+  .livrable strong { color: var(--nuit); }
+  .gouvernance { margin-top: 18px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .instance { background: var(--papier); border: 1px solid var(--filet); border-radius: var(--rayon); padding: 14px 16px; font-size: 14.5px; }
+  .instance strong { display: block; color: var(--nuit); }
+  .instance span { color: var(--discret); font-size: 13.5px; }
+  @media (max-width: 900px) { .phases, .gouvernance { grid-template-columns: 1fr; } .frise { display: none; } .phase { border-top: 4px solid var(--nuit); } .phase:nth-child(2) { border-top-color: var(--bleu); } .phase:nth-child(3) { border-top-color: var(--canard); } }
+
+  /* ---------- Indicateurs ---------- */
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .kpi { background: var(--papier); border: 1px solid var(--filet); border-radius: 12px; padding: 22px; display: flex; flex-direction: column; gap: 12px; }
+  .kpi-tete { display: flex; gap: 14px; align-items: flex-start; }
+  .kpi-num { flex: none; width: 36px; height: 36px; border-radius: 8px; background: var(--nuit); color: #fff; font-family: var(--serif); display: grid; place-items: center; font-size: 18px; }
+  .kpi h3 { font-size: 18px; }
+  .kpi .def { font-size: 14.5px; color: var(--discret); margin: 0; }
+  .cible { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; background: var(--canard-clair); border-radius: 8px; padding: 10px 14px; }
+  .cible .v { font-family: var(--serif); font-size: 24px; color: var(--canard); font-weight: 600; }
+  .cible .c { font-size: 13.5px; color: var(--texte); }
+  .fiche { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 6px 12px; font-size: 14px; margin: 0; }
+  .fiche dt { color: var(--discret); }
+  .fiche dd { margin: 0; color: var(--texte); }
+  .alerte { font-size: 13.5px; border-left: 3px solid var(--bleu); padding: 2px 0 2px 10px; color: var(--texte); }
+  .kpi .liens { display: flex; gap: 6px; flex-wrap: wrap; margin-top: auto; }
+  .kpi .liens button { border: 1px solid #d2deeb; background: var(--bleu-clair); color: var(--bleu); border-radius: 999px; font-size: 12.5px; font-weight: 600; padding: 3px 10px; cursor: pointer; }
+  .kpi .liens button:hover { background: #d4e0ee; }
+  .note { font-size: 14px; color: var(--discret); margin-top: 18px; }
+
+  /* ---------- Pied de page ---------- */
+  footer { margin-top: 72px; background: var(--nuit); color: #b9c6d6; padding: 36px 0 40px; font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  footer .doc { max-width: 560px; }
+  .signature { text-align: right; }
+  .signature .lbl { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #9fc3c0; }
+  .signature .nom { font-family: var(--serif); font-size: 22px; color: #fff; margin-top: 4px; }
+  @media (max-width: 600px) { .signature { text-align: left; } }
+
+  /* ---------- Bouton flottant ---------- */
+  .retour-flottant { position: fixed; right: 20px; bottom: 20px; z-index: 40; box-shadow: 0 6px 20px rgba(15, 30, 58, .25); opacity: 0; transform: translateY(12px); pointer-events: none; transition: opacity .25s, transform .25s; }
+  .retour-flottant.visible { opacity: 1; transform: none; pointer-events: auto; }
+  @media (max-width: 600px) { .retour-flottant { right: 16px; bottom: 16px; } }
+
+  /* ---------- Impression ---------- */
+  @media print {
+    @page { margin: 14mm; }
+    body { background: #fff; font-size: 11pt; }
+    .nav, .retour-flottant, .arbre-actions, .levier-pied, .chevron, .outils-impr { display: none !important; }
+    .hero { background: #fff !important; color: var(--texte); padding: 0 0 16px; border-bottom: 2px solid var(--nuit); }
+    .hero h1 { color: var(--nuit); }
+    .hero .chapo, .repere span { color: var(--texte); }
+    .reperes { background: var(--filet); }
+    .repere { background: #fff; }
+    .repere strong { color: var(--nuit); }
+    section.bloc { padding-top: 28px; }
+    .levier-corps { grid-template-rows: 1fr !important; }
+    .levier, .phase, .kpi, .public { break-inside: avoid; box-shadow: none !important; }
+    .levier-int { padding-left: 22px; }
+    footer { background: #fff; color: var(--texte); border-top: 2px solid var(--nuit); margin-top: 24px; }
+    .signature .nom { color: var(--nuit); }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Navigation principale">
+  <div class="wrap">
+    <a class="nav-brand" href="#haut">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="4.5" r="2.5" fill="#9fc3c0"/><circle cx="5" cy="19" r="2.5" fill="#fff"/><circle cx="12" cy="19" r="2.5" fill="#fff"/><circle cx="19" cy="19" r="2.5" fill="#fff"/><path d="M12 7v5M5 16.5V12h14v4.5M12 12v4.5" stroke="#9fc3c0" stroke-width="1.6"/></svg>
+      <span>Plan de transformation organisationnelle</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#arbre" data-nav>Arbre</a></li>
+      <li><a href="#leviers" data-nav>Leviers</a></li>
+      <li><a href="#feuille-de-route" data-nav>90 jours</a></li>
+      <li><a href="#indicateurs" data-nav>Indicateurs</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero" id="haut">
+  <div class="wrap">
+    <div class="surtitre">Logement social · Arbre d’action</div>
+    <h1>Plan de transformation organisationnelle : six leviers pour mieux servir les locataires et préserver les équipes</h1>
+    <p class="chapo">Ce document traduit le plan de transformation en décisions, en actions et en responsabilités. Chaque levier se déplie pour présenter le diagnostic, les actions concrètes, les pilotes, les échéances et les effets attendus.</p>
+    <div class="reperes">
+      <div class="repere"><strong>6 leviers</strong><span>d’action complémentaires</span></div>
+      <div class="repere"><strong>90 jours</strong><span>pour cadrer, expérimenter et décider</span></div>
+      <div class="repere"><strong>5 indicateurs</strong><span>pour piloter et rendre compte</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="bloc" aria-labelledby="t-lecture">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <div class="num">Mode d’emploi</div>
+          <h2 id="t-lecture">Une lecture adaptée à chaque niveau de responsabilité</h2>
+        </div>
+      </div>
+      <div class="publics">
+        <article class="public">
+          <div class="role">Direction générale</div>
+          <h3>Arbitrer et soutenir</h3>
+          <p>Valider les priorités, les ressources et les règles du jeu. Lire en priorité la vue d’ensemble, la feuille de route et les indicateurs.</p>
+        </article>
+        <article class="public">
+          <div class="role">Directeurs métiers</div>
+          <h3>Piloter les leviers</h3>
+          <p>Porter les actions dont ils sont pilotes, organiser les coopérations entre directions et rendre compte de l’avancement chaque mois.</p>
+        </article>
+        <article class="public">
+          <div class="role">Managers de proximité</div>
+          <h3>Mettre en œuvre et faire remonter</h3>
+          <p>Déployer les actions sur le terrain, protéger leurs équipes et signaler ce qui bloque. Chaque levier précise ce qui change pour eux.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="arbre" aria-labelledby="t-arbre">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <div class="num">Vue d’ensemble</div>
+          <h2 id="t-arbre">L’arbre d’action</h2>
+          <p>Un objectif, six leviers. Cliquez sur un levier pour ouvrir sa branche détaillée.</p>
+        </div>
+      </div>
+      <div class="arbre">
+        <div class="racine">
+          <span class="etiq">Objectif</span>
+          <strong>Une organisation plus lisible, plus coopérative et soutenable, au service des locataires</strong>
+        </div>
+        <div class="tronc" aria-hidden="true"></div>
+        <ul class="branches" id="branches"></ul>
+        <div class="arbre-actions">
+          <button class="btn plein" type="button" id="toutOuvrir">Déplier tous les leviers</button>
+          <button class="btn" type="button" id="toutFermer">Tout replier</button>
+          <button class="btn outils-impr" type="button" id="imprimer">Imprimer / PDF</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="leviers" aria-labelledby="t-leviers">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <div class="num">Les branches</div>
+          <h2 id="t-leviers">Les six leviers en détail</h2>
+          <p>Chaque branche suit la même structure : diagnostic, actions concrètes, pilotes, échéances, effets attendus.</p>
+        </div>
+      </div>
+      <div class="leviers" id="listeLeviers"></div>
+    </div>
+  </section>
+
+  <section class="bloc" id="feuille-de-route" aria-labelledby="t-fdr">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <div class="num">Calendrier</div>
+          <h2 id="t-fdr">Feuille de route à 90 jours</h2>
+          <p>Trois temps : cadrer, expérimenter, puis stabiliser et décider. Les étiquettes renvoient au levier concerné.</p>
+        </div>
+      </div>
+      <div class="frise" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="phases" id="phases"></div>
+      <div class="gouvernance">
+        <div class="instance"><strong>Comité de direction · mensuel</strong><span>Arbitrages, ressources, levée des blocages. Revue des 5 indicateurs.</span></div>
+        <div class="instance"><strong>Comité de pilotage · tous les 15 jours</strong><span>Pilotes des 6 leviers. Avancement, risques, interdépendances.</span></div>
+        <div class="instance"><strong>Points d’équipe · hebdomadaires</strong><span>Managers de proximité. Déploiement terrain et remontée des irritants.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bloc" id="indicateurs" aria-labelledby="t-kpi">
+    <div class="wrap">
+      <div class="bloc-tete">
+        <div>
+          <div class="num">Pilotage</div>
+          <h2 id="t-kpi">Cinq indicateurs de pilotage</h2>
+          <p>Un nombre volontairement réduit d’indicateurs, suivis en comité de direction, qui couvrent les six leviers.</p>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <p class="note">Les valeurs de référence sont mesurées au cours des 30 premiers jours ; les cibles sont confirmées par le comité de direction à J30 au regard de ces mesures.</p>
+    </div>
+  </section>
+
+</main>
+
+<button class="btn plein retour-flottant" type="button" id="retourFlottant" aria-label="Retour à l’arbre">
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Retour à l’arbre
+</button>
+
+<footer>
+  <div class="wrap">
+    <div class="doc">
+      Arbre d’action · Plan de transformation organisationnelle du logement social.<br>
+      Document de travail à destination de la direction générale, des directeurs métiers et des managers de proximité.
+    </div>
+    <div class="signature">
+      <div class="lbl">Document réalisé par</div>
+      <div class="nom">Marina Bignon</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* =========================================================
+     Contenu du plan
+     ========================================================= */
+  var LEVIERS = [
+    {
+      id: "levier-1",
+      titre: "Réguler les flux et les sollicitations",
+      court: "Réguler les flux",
+      resume: "Qualifier, orienter et prioriser les demandes pour que chacun puisse traiter son travail sans interruption permanente.",
+      piloteCle: "Direction de la clientèle",
+      horizon: "J90",
+      diagnostic: [
+        "Les sollicitations des locataires arrivent par de multiples canaux (téléphone, courriel, accueil, gardiens, élus, associations) sans qualification commune.",
+        "Les chargés de clientèle, gestionnaires et gardiens sont interrompus en continu ; le travail de fond est repoussé.",
+        "Une même demande est souvent adressée plusieurs fois, à plusieurs interlocuteurs, faute de réponse lisible.",
+        "Il n’existe pas de règle partagée pour distinguer l’urgent de l’important ; les délais de réponse ne sont pas maîtrisés."
+      ],
+      actions: [
+        ["Cartographier les flux entrants", "volumes, canaux, motifs et temps de traitement, mesurés sur quatre semaines dans chaque agence."],
+        ["Instaurer un premier niveau de réponse unique", "accueil téléphonique et numérique avec une grille de qualification et de routage commune à toutes les agences."],
+        ["Définir une matrice d’urgence partagée", "sécurité des personnes, technique, social, administratif : un délai cible par catégorie, connu des équipes et des locataires."],
+        ["Protéger des plages de travail sans sollicitation", "demi-journées réservées au traitement des dossiers pour les équipes de gestion."],
+        ["Organiser un circuit dédié aux élus et partenaires", "un interlocuteur identifié par territoire et un suivi des réponses apportées."]
+      ],
+      pilotes: [
+        ["Pilote", "Direction de la clientèle", "Conçoit le dispositif et en rend compte."],
+        ["Contributeurs", "Responsables d’agence", "Déploient le routage et les plages protégées."],
+        ["Appui", "Direction des systèmes d’information", "Paramètre la gestion de la relation client."]
+      ],
+      jalons: [["J30", "Cartographie des flux restituée"], ["J60", "Matrice d’urgence et règles de routage validées"], ["J90", "Premier niveau unique opérationnel sur l’agence pilote"]],
+      effets: [
+        ["Locataires", "Une réponse plus rapide et un interlocuteur clairement identifié."],
+        ["Équipes", "Moins d’interruptions, davantage de temps pour traiter les dossiers en profondeur."],
+        ["Managers de proximité", "Des règles de priorité claires pour arbitrer au quotidien."],
+        ["Direction", "Une vision objective de la demande pour dimensionner les moyens."]
+      ]
+    },
+    {
+      id: "levier-2",
+      titre: "Décloisonner les équipes",
+      court: "Décloisonner",
+      resume: "Faire travailler ensemble gestion locative, technique, social et proximité autour des situations des locataires.",
+      piloteCle: "Direction des opérations",
+      horizon: "J90",
+      diagnostic: [
+        "Les métiers (gestion locative, maintenance et patrimoine, recouvrement, accompagnement social, proximité) fonctionnent en filières séparées.",
+        "Les passages de relais entre services n’ont pas de responsable : certains dossiers restent sans suite.",
+        "Les situations complexes (troubles de voisinage, impayés associés à des désordres techniques, fragilités sociales) sont traitées en morceaux.",
+        "Le siège et les agences se perçoivent mutuellement comme des contraintes plutôt que comme des appuis."
+      ],
+      actions: [
+        ["Rédiger une charte des interfaces", "qui fait quoi, qui décide, dans quel délai le relais est pris entre deux services."],
+        ["Tenir une revue hebdomadaire des dossiers complexes", "par territoire, réunissant gestion locative, technique, social et proximité."],
+        ["Désigner un référent unique par dossier transverse", "il suit le dossier de bout en bout et tient le locataire informé."],
+        ["Constituer des binômes gestion locative et technique par secteur", "mêmes patrimoines, mêmes interlocuteurs, objectifs partagés."],
+        ["Organiser des immersions croisées", "une demi-journée par mois dans un autre service, siège et agences compris."]
+      ],
+      pilotes: [
+        ["Pilote", "Direction des opérations", "Garantit la cohérence entre directions."],
+        ["Contributeurs", "Directeurs métiers", "Désignent les référents et participent aux revues."],
+        ["Mise en œuvre", "Managers de proximité", "Animent les binômes et les revues de territoire."]
+      ],
+      jalons: [["J30", "Charte des interfaces rédigée et partagée"], ["J45", "Première revue de dossiers complexes"], ["J90", "Binômes installés sur tous les secteurs pilotes"]],
+      effets: [
+        ["Locataires", "Des situations complexes résolues plus vite, sans avoir à répéter leur demande."],
+        ["Équipes", "Moins de doubles traitements et une meilleure compréhension du travail des autres."],
+        ["Managers de proximité", "Des interlocuteurs identifiés dans les autres services."],
+        ["Direction", "Une organisation qui fonctionne par territoire et non par silo."]
+      ]
+    },
+    {
+      id: "levier-3",
+      titre: "Arbitrer les ressources et les budgets",
+      court: "Arbitrer",
+      resume: "Allouer les moyens selon la charge réelle et rendre les arbitrages explicites, réguliers et traçables.",
+      piloteCle: "Direction générale",
+      horizon: "J90",
+      diagnostic: [
+        "Les effectifs et budgets sont répartis selon l’historique plutôt que selon la charge réelle (nombre de logements, rotation, fragilité sociale, vétusté).",
+        "Les arbitrages interviennent tard, de manière implicite, souvent en situation de crise.",
+        "Les postes vacants ne sont pas compensés ; la charge se reporte sur les équipes en place.",
+        "Les responsables d’agence disposent de peu de visibilité et de marges de manœuvre budgétaires."
+      ],
+      actions: [
+        ["Établir une grille d’allocation fondée sur la charge", "nombre de logements, taux de rotation, volume de réclamations, part du patrimoine en quartier prioritaire."],
+        ["Instituer un comité d’arbitrage mensuel", "comité de direction restreint, règles écrites, décisions consignées et communiquées."],
+        ["Créer une réserve de capacité", "équipe de renfort mobilisable pour les remplacements et les pics d’activité."],
+        ["Déléguer un budget encadré aux responsables d’agence", "enveloppe et seuils définis pour les petites interventions et les dépenses courantes."],
+        ["Suivre la vacance des postes", "tableau de bord mensuel des postes vacants et de leur durée, avec plan de remplacement."]
+      ],
+      pilotes: [
+        ["Pilote", "Direction générale", "Arbitre et garantit le respect des règles."],
+        ["Contributeurs", "Direction financière et direction des ressources humaines", "Construisent la grille et les tableaux de bord."],
+        ["Contributeur", "Direction du patrimoine", "Articule entretien courant et gros entretien."]
+      ],
+      jalons: [["J30", "État des lieux des moyens par agence"], ["J60", "Règles d’arbitrage validées en comité de direction"], ["J90", "Premier cycle d’arbitrage et réserve de renfort en place"]],
+      effets: [
+        ["Locataires", "Une qualité de service plus homogène d’un territoire à l’autre."],
+        ["Équipes", "Une charge mieux répartie et des absences compensées."],
+        ["Managers de proximité", "De la visibilité et des marges de décision sur leur budget."],
+        ["Direction", "Des décisions traçables, justifiables auprès du conseil d’administration."]
+      ]
+    },
+    {
+      id: "levier-4",
+      titre: "Simplifier les processus et les outils",
+      court: "Simplifier",
+      resume: "Supprimer les étapes, validations et ressaisies sans valeur pour rendre du temps aux équipes.",
+      piloteCle: "Direction de l’organisation",
+      horizon: "J90",
+      diagnostic: [
+        "Les mêmes informations sont saisies deux ou trois fois (progiciel métier, gestion de la relation client, tableurs).",
+        "Les procédures se sont empilées ; les circuits de validation sont longs, notamment pour les commandes de travaux.",
+        "Les personnels de terrain, notamment les gardiens, disposent rarement d’outils mobiles adaptés.",
+        "La documentation des procédures est dispersée et souvent obsolète."
+      ],
+      actions: [
+        ["Identifier les dix processus les plus irritants", "par exemple : état des lieux, attribution, réclamation technique, commande de travaux, régularisation des charges."],
+        ["Conduire un atelier de simplification par processus", "avec les utilisateurs, pour supprimer étapes et validations sans valeur ajoutée."],
+        ["Relever les seuils de délégation", "réduire le nombre de signatures nécessaires selon le montant et le risque."],
+        ["Élaborer un plan de convergence des outils", "supprimer les tableurs parallèles et équiper le terrain d’outils mobiles."],
+        ["Créer un référentiel unique des procédures", "à jour, accessible à tous, avec un responsable par processus."]
+      ],
+      pilotes: [
+        ["Pilote", "Direction de l’organisation et de la performance", "Anime les ateliers et suit les gains."],
+        ["Contributeurs", "Directeurs métiers propriétaires des processus", "Valident les nouvelles règles."],
+        ["Appui", "Direction des systèmes d’information", "Porte le plan de convergence des outils."]
+      ],
+      jalons: [["J30", "Liste des dix processus prioritaires"], ["J60", "Trois processus simplifiés et appliqués"], ["J90", "Plan de convergence des outils validé"]],
+      effets: [
+        ["Locataires", "Des délais réduits pour les états des lieux, travaux et régularisations."],
+        ["Équipes", "Moins de ressaisies, moins d’erreurs, du temps rendu au service."],
+        ["Managers de proximité", "Moins de validations à faire, davantage de temps pour l’animation d’équipe."],
+        ["Direction", "Des processus maîtrisés et documentés."]
+      ]
+    },
+    {
+      id: "levier-5",
+      titre: "Prévenir l’épuisement professionnel",
+      court: "Prévenir l’épuisement",
+      resume: "Reconnaître la charge physique et émotionnelle des métiers et organiser le soutien des équipes.",
+      piloteCle: "Direction des ressources humaines",
+      horizon: "J90",
+      diagnostic: [
+        "Les équipes de proximité et d’accueil sont exposées aux incivilités et parfois aux agressions.",
+        "La charge émotionnelle est forte : situations sociales difficiles, détresse de certains locataires.",
+        "L’absentéisme et le renouvellement des équipes progressent ; la surcharge devient chronique.",
+        "Les managers de proximité sont souvent isolés ; les risques psychosociaux sont peu intégrés au document unique d’évaluation des risques."
+      ],
+      actions: [
+        ["Mettre en place un protocole post-incident", "échange avec le manager sous 48 heures, soutien psychologique proposé, accompagnement au dépôt de plainte."],
+        ["Actualiser le volet risques psychosociaux du document unique", "avec les équipes, la médecine du travail et la commission santé, sécurité et conditions de travail."],
+        ["Ouvrir des espaces de discussion sur le travail", "une fois par mois par équipe, pour parler des difficultés concrètes et des solutions."],
+        ["Former les managers aux signaux faibles", "repérer, écouter, orienter ; connaître les relais internes et externes."],
+        ["Réguler la charge individuelle", "taille maximale de portefeuille, droit à la déconnexion, entretien de charge annuel."]
+      ],
+      pilotes: [
+        ["Pilote", "Direction des ressources humaines", "Construit et suit le dispositif."],
+        ["Partenaires", "CSE, commission santé et médecine du travail", "Associés à chaque étape."],
+        ["Mise en œuvre", "Managers de proximité", "Premiers relais de vigilance et de soutien."]
+      ],
+      jalons: [["J30", "Protocole post-incident diffusé"], ["J60", "Espaces de discussion lancés dans les équipes pilotes"], ["J90", "Document unique actualisé et formation des managers engagée"]],
+      effets: [
+        ["Locataires", "Des interlocuteurs stables et disponibles."],
+        ["Équipes", "Un soutien réel en cas d’incident et une charge reconnue."],
+        ["Managers de proximité", "Des outils et des relais pour ne plus être seuls face aux difficultés."],
+        ["Direction", "Une baisse de l’absentéisme et une meilleure fidélisation."]
+      ]
+    },
+    {
+      id: "levier-6",
+      titre: "Installer une cellule des irritants",
+      court: "Cellule des irritants",
+      resume: "Recueillir et traiter rapidement les dysfonctionnements du quotidien, et montrer ce qui a changé.",
+      piloteCle: "Sponsor : direction générale",
+      horizon: "J15 à J90",
+      diagnostic: [
+        "Les irritants du quotidien sont connus et remontés, mais rarement traités.",
+        "Il n’existe pas de circuit identifié pour les signaler ni pour suivre leur traitement.",
+        "Le sentiment que « rien ne change » nourrit la démobilisation.",
+        "Les irritants subis par les locataires et ceux subis par les salariés ne sont pas distingués."
+      ],
+      actions: [
+        ["Constituer une cellule restreinte et pluridisciplinaire", "cinq à sept membres, dont des personnels de terrain ; réunion tous les quinze jours."],
+        ["Ouvrir un canal de remontée simple", "formulaire court, référents dans chaque agence, remontées en réunion d’équipe."],
+        ["Fixer une règle de traitement", "qualification sous dix jours ; solution ou réponse argumentée sous trente jours."],
+        ["Tenir un registre partagé", "chaque irritant classé selon son impact et l’effort nécessaire ; traitement immédiat des solutions simples."],
+        ["Rendre visible chaque résolution", "un irritant résolu est un irritant communiqué, auprès de ceux qui l’ont signalé."]
+      ],
+      pilotes: [
+        ["Sponsor", "Direction générale", "Donne mandat et lève les blocages."],
+        ["Animation", "Direction de la transformation", "Anime la cellule et tient le registre."],
+        ["Relais", "Référents d’agence", "Recueillent les irritants et diffusent les réponses."]
+      ],
+      jalons: [["J15", "Cellule constituée et canal ouvert"], ["J30", "Premier registre qualifié"], ["J90", "Premier bilan présenté à l’ensemble des équipes"]],
+      effets: [
+        ["Locataires", "Des irritants récurrents qui disparaissent du parcours."],
+        ["Équipes", "La preuve que leurs signalements sont entendus et suivis."],
+        ["Managers de proximité", "Un débouché concret pour les problèmes qui les dépassent."],
+        ["Direction", "Une culture d’amélioration continue et un baromètre du terrain."]
+      ]
+    }
+  ];
+
+  var PHASES = [
+    {
+      periode: "J1 à J30",
+      titre: "Cadrer et écouter",
+      objectif: "Poser la gouvernance, mesurer la situation de départ, ouvrir les canaux d’écoute.",
+      etapes: [
+        ["J1", "Lancement en comité de direction ; désignation des pilotes et du sponsor", null],
+        ["J7", "Présentation du plan aux managers de proximité", null],
+        ["J15", "Constitution de la cellule des irritants et ouverture du canal", 6],
+        ["J30", "Cartographie des flux entrants restituée", 1],
+        ["J30", "Charte des interfaces partagée", 2],
+        ["J30", "État des lieux des moyens par agence", 3],
+        ["J30", "Liste des dix processus prioritaires", 4],
+        ["J30", "Protocole post-incident diffusé", 5]
+      ],
+      livrable: "Valeurs de référence des cinq indicateurs et cibles confirmées."
+    },
+    {
+      periode: "J31 à J60",
+      titre: "Expérimenter",
+      objectif: "Tester les premières solutions sur des périmètres pilotes et obtenir des résultats visibles.",
+      etapes: [
+        ["J40", "Premiers irritants simples résolus et communiqués", 6],
+        ["J45", "Première revue des dossiers complexes par territoire", 2],
+        ["J50", "Ateliers de simplification sur trois processus", 4],
+        ["J60", "Matrice d’urgence et règles de routage validées", 1],
+        ["J60", "Règles d’arbitrage validées en comité de direction", 3],
+        ["J60", "Espaces de discussion sur le travail lancés", 5]
+      ],
+      livrable: "Bilan intermédiaire en comité de direction ; ajustements décidés."
+    },
+    {
+      periode: "J61 à J90",
+      titre: "Stabiliser et décider",
+      objectif: "Consolider ce qui fonctionne et décider de la généralisation.",
+      etapes: [
+        ["J75", "Premier cycle d’arbitrage et réserve de renfort opérationnelle", 3],
+        ["J80", "Binômes installés sur les secteurs pilotes", 2],
+        ["J85", "Plan de convergence des outils validé", 4],
+        ["J90", "Premier niveau de réponse unique en service sur l’agence pilote", 1],
+        ["J90", "Document unique actualisé ; formation des managers engagée", 5],
+        ["J90", "Bilan de la cellule des irritants présenté aux équipes", 6]
+      ],
+      livrable: "Bilan à 90 jours et décision de généralisation à l’ensemble des agences."
+    }
+  ];
+
+  var KPIS = [
+    {
+      titre: "Taux de résolution au premier contact",
+      def: "Part des sollicitations de locataires traitées sans transfert ni relance.",
+      cible: "≥ 70 %", cibleTxt: "à 6 mois",
+      formule: "Demandes clôturées au premier contact / demandes reçues",
+      frequence: "Mensuelle",
+      source: "Outil de gestion de la relation client",
+      responsable: "Direction de la clientèle",
+      alerte: "Moins de 60 % deux mois consécutifs",
+      leviers: [1, 4]
+    },
+    {
+      titre: "Délai moyen de traitement des réclamations techniques",
+      def: "Nombre moyen de jours entre l’enregistrement d’une réclamation technique et sa clôture.",
+      cible: "− 25 %", cibleTxt: "par rapport à la référence, à 6 mois",
+      formule: "Somme des délais de traitement / nombre de réclamations clôturées",
+      frequence: "Mensuelle",
+      source: "Progiciel de gestion technique",
+      responsable: "Direction des opérations",
+      alerte: "Hausse de plus de 10 % sur un mois",
+      leviers: [2, 4]
+    },
+    {
+      titre: "Taux d’absentéisme de courte durée",
+      def: "Heures d’absence pour maladie de moins de 30 jours rapportées aux heures théoriques travaillées.",
+      cible: "− 1 point", cibleTxt: "à 12 mois",
+      formule: "Heures d’absence de courte durée / heures théoriques",
+      frequence: "Mensuelle, lue sur trois mois glissants",
+      source: "Système d’information des ressources humaines",
+      responsable: "Direction des ressources humaines",
+      alerte: "Hausse marquée dans une équipe ou une agence",
+      leviers: [5]
+    },
+    {
+      titre: "Irritants traités dans les 30 jours",
+      def: "Part des irritants signalés ayant reçu une solution ou une réponse argumentée sous 30 jours.",
+      cible: "≥ 80 %", cibleTxt: "dès J90",
+      formule: "Irritants clos sous 30 jours / irritants signalés",
+      frequence: "Bimensuelle",
+      source: "Registre de la cellule des irritants",
+      responsable: "Direction de la transformation",
+      alerte: "Stock d’irritants non qualifiés supérieur à 10 jours",
+      leviers: [6]
+    },
+    {
+      titre: "Durée moyenne de vacance des postes",
+      def: "Nombre moyen de jours entre le départ d’un salarié et la prise de poste de son remplaçant.",
+      cible: "< 60 jours", cibleTxt: "à 6 mois",
+      formule: "Somme des durées de vacance / postes pourvus sur la période",
+      frequence: "Mensuelle",
+      source: "Tableau de bord des effectifs",
+      responsable: "Direction générale, avec la direction des ressources humaines",
+      alerte: "Poste de proximité vacant depuis plus de 45 jours",
+      leviers: [3, 5]
+    }
+  ];
+
+  /* =========================================================
+     Rendu
+     ========================================================= */
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; });
+  }
+  var fleche = '<svg width="12" height="12" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var chevron = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 6 8 10.5 12.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var haut = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // Vue d'ensemble
+  document.getElementById("branches").innerHTML = LEVIERS.map(function (l, i) {
+    return '<li><button type="button" class="noeud" data-ouvrir="' + l.id + '" aria-label="Ouvrir le levier ' + (i + 1) + ' : ' + esc(l.titre) + '">' +
+      '<span class="n">' + (i + 1) + '</span>' +
+      '<span class="t">' + esc(l.titre) + '</span>' +
+      '<span class="r">' + esc(l.resume) + '</span>' +
+      '<span class="voir">Voir la branche ' + fleche + '</span>' +
+      '</button></li>';
+  }).join("");
+
+  // Leviers détaillés
+  document.getElementById("listeLeviers").innerHTML = LEVIERS.map(function (l, i) {
+    var n = i + 1;
+    var prec = i > 0 ? '<button type="button" class="btn" data-ouvrir="' + LEVIERS[i - 1].id + '">← Levier ' + i + '</button>' : "";
+    var suiv = i < LEVIERS.length - 1 ? '<button type="button" class="btn" data-ouvrir="' + LEVIERS[i + 1].id + '">Levier ' + (n + 1) + ' →</button>' : "";
+    return '<article class="levier" id="' + l.id + '">' +
+      '<h3 class="levier-h"><button type="button" class="levier-tete" aria-expanded="false" aria-controls="' + l.id + '-corps" data-bascule="' + l.id + '">' +
+        '<span class="pastille" aria-hidden="true">' + n + '</span>' +
+        '<span><span class="titre-lev">' + esc(l.titre) + '</span>' +
+          '<span class="resume">' + esc(l.resume) + '</span>' +
+          '<span class="meta"><span class="puce bleu">Pilote : ' + esc(l.piloteCle) + '</span>' +
+          '<span class="puce canard">Échéance : ' + esc(l.horizon) + '</span>' +
+          '<span class="puce">' + l.actions.length + ' actions</span></span>' +
+        '</span>' +
+        '<span class="chevron" aria-hidden="true">' + chevron + '</span>' +
+      '</button></h3>' +
+      '<div class="levier-corps" id="' + l.id + '-corps" role="region" aria-label="Détail du levier ' + n + '"><div><div class="levier-int">' +
+        '<ul class="rameaux">' +
+          '<li class="rameau r-diag"><h4>Diagnostic</h4><div class="rameau-boite"><ul class="constats">' +
+            l.diagnostic.map(function (d) { return "<li>" + esc(d) + "</li>"; }).join("") +
+          '</ul></div></li>' +
+          '<li class="rameau r-act"><h4>Actions concrètes</h4><ol class="actions">' +
+            l.actions.map(function (a) { return "<li><span><strong>" + esc(a[0]) + "</strong> : " + esc(a[1]) + "</span></li>"; }).join("") +
+          '</ol></li>' +
+          '<li class="rameau r-pil"><h4>Pilotes</h4><div class="pilotes">' +
+            l.pilotes.map(function (p) { return '<div class="pilote"><span class="badge">' + esc(p[0]) + '</span><div class="qui">' + esc(p[1]) + '</div><div class="quoi">' + esc(p[2]) + '</div></div>'; }).join("") +
+          '</div></li>' +
+          '<li class="rameau r-ech"><h4>Échéances</h4><ol class="jalons">' +
+            l.jalons.map(function (j) { return '<li class="jalon"><div class="j">' + esc(j[0]) + '</div><div class="l">' + esc(j[1]) + '</div></li>'; }).join("") +
+          '</ol></li>' +
+          '<li class="rameau r-eff"><h4>Effets attendus</h4><div class="effets">' +
+            l.effets.map(function (e) { return '<div class="effet"><span class="pour">' + esc(e[0]) + '</span>' + esc(e[1]) + '</div>'; }).join("") +
+          '</div></li>' +
+        '</ul>' +
+        '<div class="levier-pied">' +
+          '<button type="button" class="btn plein" data-retour>' + haut + ' Retour à l’arbre</button>' +
+          '<span class="nav-lev">' + prec + suiv + '</span>' +
+        '</div>' +
+      '</div></div></div>' +
+    '</article>';
+  }).join("");
+
+  // Feuille de route
+  document.getElementById("phases").innerHTML = PHASES.map(function (p) {
+    return '<article class="phase"><div class="phase-tete"><div class="periode">' + esc(p.periode) + '</div><h3>' + esc(p.titre) + '</h3><p class="objectif">' + esc(p.objectif) + '</p></div>' +
+      '<ul class="etapes">' + p.etapes.map(function (e) {
+        var tag = e[2] ? '<button type="button" class="lev" data-ouvrir="levier-' + e[2] + '" title="' + esc(LEVIERS[e[2] - 1].titre) + '">L' + e[2] + '</button>' : "";
+        return '<li class="etape"><span class="quand">' + esc(e[0]) + '</span><span>' + esc(e[1]) + tag + '</span></li>';
+      }).join("") + '</ul>' +
+      '<div class="livrable"><strong>Rendez-vous :</strong> ' + esc(p.livrable) + '</div></article>';
+  }).join("");
+
+  // Indicateurs
+  document.getElementById("kpis").innerHTML = KPIS.map(function (k, i) {
+    return '<article class="kpi"><div class="kpi-tete"><span class="kpi-num">' + (i + 1) + '</span><div><h3>' + esc(k.titre) + '</h3></div></div>' +
+      '<p class="def">' + esc(k.def) + '</p>' +
+      '<div class="cible"><span class="v">' + esc(k.cible) + '</span><span class="c">Cible ' + esc(k.cibleTxt) + '</span></div>' +
+      '<dl class="fiche">' +
+        '<dt>Calcul</dt><dd>' + esc(k.formule) + '</dd>' +
+        '<dt>Fréquence</dt><dd>' + esc(k.frequence) + '</dd>' +
+        '<dt>Source</dt><dd>' + esc(k.source) + '</dd>' +
+        '<dt>Responsable</dt><dd>' + esc(k.responsable) + '</dd>' +
+      '</dl>' +
+      '<div class="alerte"><strong>Seuil d’alerte :</strong> ' + esc(k.alerte) + '</div>' +
+      '<div class="liens">' + k.leviers.map(function (n) {
+        return '<button type="button" data-ouvrir="levier-' + n + '">Levier ' + n + ' · ' + esc(LEVIERS[n - 1].court) + '</button>';
+      }).join("") + '</div></article>';
+  }).join("");
+
+  /* =========================================================
+     Interactions
+     ========================================================= */
+  function basculer(id, etat) {
+    var art = document.getElementById(id);
+    if (!art) return;
+    var ouvrir = typeof etat === "boolean" ? etat : !art.classList.contains("ouvert");
+    art.classList.toggle("ouvert", ouvrir);
+    art.querySelector(".levier-tete").setAttribute("aria-expanded", String(ouvrir));
+  }
+
+  function ouvrirEtAller(id) {
+    basculer(id, true);
+    var art = document.getElementById(id);
+    if (!art) return;
+    if (history.replaceState) history.replaceState(null, "", "#" + id);
+    // Laisser le navigateur prendre en compte l'ouverture avant de défiler
+    requestAnimationFrame(function () {
+      art.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+      var tete = art.querySelector(".levier-tete");
+      if (tete) tete.focus({ preventScroll: true });
+    });
+  }
+
+  function retourArbre() {
+    if (history.replaceState) history.replaceState(null, "", "#arbre");
+    var arbre = document.getElementById("arbre");
+    arbre.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    var premier = arbre.querySelector(".noeud");
+    if (premier) premier.focus({ preventScroll: true });
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-bascule],[data-ouvrir],[data-retour]");
+    if (!t) return;
+    if (t.hasAttribute("data-bascule")) basculer(t.getAttribute("data-bascule"));
+    else if (t.hasAttribute("data-ouvrir")) ouvrirEtAller(t.getAttribute("data-ouvrir"));
+    else if (t.hasAttribute("data-retour")) retourArbre();
+  });
+
+  document.getElementById("retourFlottant").addEventListener("click", retourArbre);
+  document.getElementById("toutOuvrir").addEventListener("click", function () {
+    LEVIERS.forEach(function (l) { basculer(l.id, true); });
+    document.getElementById("leviers").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  document.getElementById("toutFermer").addEventListener("click", function () {
+    LEVIERS.forEach(function (l) { basculer(l.id, false); });
+  });
+  document.getElementById("imprimer").addEventListener("click", function () { window.print(); });
+
+  // Impression : tout déplier puis restaurer l'état
+  var etatAvantImpression = [];
+  window.addEventListener("beforeprint", function () {
+    etatAvantImpression = LEVIERS.map(function (l) { return document.getElementById(l.id).classList.contains("ouvert"); });
+    LEVIERS.forEach(function (l) { basculer(l.id, true); });
+  });
+  window.addEventListener("afterprint", function () {
+    LEVIERS.forEach(function (l, i) { basculer(l.id, !!etatAvantImpression[i]); });
+  });
+
+  // Bouton flottant et lien actif de la navigation
+  var flottant = document.getElementById("retourFlottant");
+  var arbreEl = document.getElementById("arbre");
+  var liens = Array.prototype.slice.call(document.querySelectorAll("[data-nav]"));
+  var sections = liens.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+  var enAttente = false;
+  function majDefilement() {
+    enAttente = false;
+    var basArbre = arbreEl.getBoundingClientRect().bottom;
+    flottant.classList.toggle("visible", basArbre < 0);
+    var repere = 120, actif = -1;
+    sections.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= repere) actif = i; });
+    liens.forEach(function (a, i) { a.classList.toggle("actif", i === actif); });
+  }
+  window.addEventListener("scroll", function () {
+    if (!enAttente) { enAttente = true; requestAnimationFrame(majDefilement); }
+  }, { passive: true });
+  majDefilement();
+
+  // Ouverture directe via l'adresse (ex. …#levier-3)
+  function depuisAncre() {
+    var h = location.hash.replace("#", "");
+    if (/^levier-[1-6]$/.test(h)) ouvrirEtAller(h);
+  }
+  window.addEventListener("hashchange", depuisAncre);
+  depuisAncre();
+})();
+</script>
+</body>
+</html>
