@@ -178,8 +178,8 @@
   .signature b { color: var(--nuit); font-weight: 700; }
 
   /* Barre d'onglets */
-  .tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--bas); padding-bottom: env(safe-area-inset-bottom); background: var(--fond); border-top: 1px solid var(--bord); display: grid; grid-template-columns: repeat(3, 1fr); z-index: 10; }
-  .tab { text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11.5px; font-weight: 600; color: var(--discret); text-align: center; }
+  .tabbar { position: absolute; left: 0; right: 0; bottom: 0; height: var(--bas); padding-bottom: env(safe-area-inset-bottom); background: var(--fond); border-top: 1px solid var(--bord); display: grid; grid-template-columns: repeat(5, 1fr); z-index: 10; }
+  .tab { text-decoration: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10.5px; font-weight: 600; color: var(--discret); text-align: center; }
   .tab svg { width: 22px; height: 22px; }
   .tab[aria-current="page"] { color: var(--nuit); box-shadow: inset 0 3px 0 var(--bleu); }
 
@@ -190,6 +190,74 @@
     body { padding: 24px 0; }
     .app { height: calc(100% - 48px); max-height: 900px; box-shadow: 0 0 0 1px var(--bord); }
   }
+
+  /* Accès rapides */
+  .outils { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 22px; }
+  .outil { display: block; background: var(--nuit); color: #fff; padding: 12px; min-height: 84px; }
+  .outil:nth-child(2) { background: var(--canard); }
+  .outil b { display: block; font-size: 15px; line-height: 1.3; }
+  .outil span { display: block; font-size: 12.5px; color: #d6dee6; margin-top: 4px; }
+  .h2 { font-size: 18px; margin: 26px 0 10px; }
+
+  /* Fiches réflexes */
+  .fiches { display: grid; gap: 8px; margin-top: 16px; }
+  .fiche { background: var(--surface); }
+  .fiche-tete { display: grid; grid-template-columns: 30px 1fr 18px; gap: 10px; align-items: center; width: 100%; padding: 12px; }
+  .fn { width: 30px; height: 30px; display: grid; place-items: center; background: var(--nuit); color: #fff; font-weight: 700; font-size: 14px; }
+  .ft { font-weight: 700; color: var(--nuit); font-size: 15px; line-height: 1.3; }
+  .ft small { display: block; font-weight: 600; font-size: 12px; color: var(--canard); margin-top: 2px; }
+  .fs { font-size: 22px; line-height: 1; color: var(--bleu); text-align: center; }
+  .fiche-corps { padding: 0 12px 14px; display: grid; gap: 10px; }
+  .fiche-corps[hidden] { display: none; }
+  .fex { margin: 0; font-size: 14px; color: var(--discret); }
+  .fdelai, .feviter { font-size: 14px; padding: 9px 12px; background: var(--fond); border-left: 4px solid var(--canard); }
+  .feviter { border-left-color: #9a3b2e; }
+  .fdelai b, .feviter b { display: block; font-size: 12.5px; color: var(--nuit); }
+  .fetapes { counter-reset: e; display: grid; gap: 6px; }
+  .fetapes li { counter-increment: e; position: relative; padding: 9px 12px 9px 40px; background: var(--fond); font-size: 14px; }
+  .fetapes li::before { content: counter(e); position: absolute; left: 10px; top: 9px; width: 20px; height: 20px; display: grid; place-items: center; background: var(--bleu); color: #fff; font-size: 12px; font-weight: 700; }
+  .fetapes b { display: block; color: var(--nuit); font-size: 13.5px; }
+
+  /* IKOS */
+  .niv { flex: none; width: 30px; height: 30px; display: grid; place-items: center; color: #fff; font-weight: 700; font-size: 15px; }
+  .niv-1 { background: #8a94a0; } .niv-2 { background: #5d7896; } .niv-3 { background: var(--bleu); } .niv-4 { background: var(--canard); }
+  .echelle { display: grid; gap: 6px; }
+  .echelle li { display: flex; gap: 12px; align-items: flex-start; background: var(--surface); padding: 10px 12px; }
+  .echelle b { display: block; color: var(--nuit); font-size: 15px; }
+  .echelle span { display: block; font-size: 13.5px; color: var(--discret); line-height: 1.4; }
+  .lbl { display: block; font-size: 13.5px; font-weight: 700; color: var(--nuit); margin-bottom: 6px; }
+  .select { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; border: 2px solid var(--bord); background: var(--fond); color: var(--texte); border-radius: 0; }
+  .questions { display: grid; gap: 8px; margin-top: 14px; counter-reset: q; }
+  .questions li { background: var(--surface); padding: 10px 12px 12px; counter-increment: q; }
+  .questions p { margin: 0 0 8px; font-size: 14.5px; color: var(--nuit); font-weight: 600; }
+  .questions p::before { content: counter(q) ". "; color: var(--bleu); }
+  .choix { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .choix button, .m-choix button { padding: 8px 2px; font-size: 12.5px; font-weight: 600; text-align: center; background: var(--fond); border: 1px solid var(--bord); color: var(--discret); }
+  .choix button[aria-checked="true"] { background: var(--bleu); border-color: var(--bleu); color: #fff; }
+  .resultat { margin-top: 12px; padding: 14px; background: var(--surface); border-left: 5px solid var(--bleu); font-size: 14.5px; }
+  .resultat.vide { border-left-color: var(--bord); color: var(--discret); }
+  .niv-fond-1 { border-left-color: #8a94a0; } .niv-fond-2 { border-left-color: #5d7896; } .niv-fond-4 { border-left-color: var(--canard); }
+  .r-tete { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+  .r-tete .niv { width: 44px; height: 44px; font-size: 22px; }
+  .r-tete > div > span { display: block; font-size: 12.5px; color: var(--discret); }
+  .r-tete b { font-size: 20px; color: var(--nuit); }
+  .r-ecart { font-weight: 600; color: var(--nuit); }
+  .r-conseil b { color: var(--canard); }
+  .matrice { display: grid; gap: 6px; margin-top: 4px; }
+  .m-ligne { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; background: var(--surface); padding: 10px 12px; }
+  .m-role b { display: block; font-size: 14px; color: var(--nuit); line-height: 1.3; }
+  .m-role span { font-size: 12px; color: var(--discret); margin-right: 6px; }
+  .m-role .ok, .m-role .ko { display: inline-block; font-size: 11.5px; font-weight: 700; color: #fff; padding: 0 6px; }
+  .m-role .ok { background: var(--canard); } .m-role .ko { background: #9a3b2e; }
+  .m-choix { display: grid; grid-template-columns: repeat(4, 32px); gap: 3px; }
+  .m-choix button { padding: 6px 0; font-size: 14px; }
+  .m-choix .mv-1[aria-checked="true"] { background: #8a94a0; border-color: #8a94a0; color: #fff; }
+  .m-choix .mv-2[aria-checked="true"] { background: #5d7896; border-color: #5d7896; color: #fff; }
+  .m-choix .mv-3[aria-checked="true"] { background: var(--bleu); border-color: var(--bleu); color: #fff; }
+  .m-choix .mv-4[aria-checked="true"] { background: var(--canard); border-color: var(--canard); color: #fff; }
+  .m-synthese { font-size: 13.5px; font-weight: 600; color: var(--nuit); margin-top: 10px; }
+  .pil-titre { font-size: 13px; font-weight: 700; color: var(--nuit); margin: 4px 0 8px; }
+  .pil + .pil-titre { margin-top: 18px; }
 </style>
 </head>
 <body>
@@ -208,6 +276,8 @@
     <section class="ecran" id="e-levier" aria-label="Levier"></section>
     <section class="ecran" id="e-feuille" aria-label="Feuille de route à 90 jours"></section>
     <section class="ecran" id="e-kpi" aria-label="Indicateurs de pilotage"></section>
+    <section class="ecran" id="e-fiches" aria-label="Fiches réflexes"></section>
+    <section class="ecran" id="e-ikos" aria-label="Prise en main d’IKOS"></section>
   </main>
 
   <nav class="tabbar" aria-label="Navigation">
@@ -218,6 +288,14 @@
     <a class="tab" href="#/feuille" data-tab="feuille" role="button">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 9.5h17M8 3v4M16 3v4M7 13.5h3M7 16.5h6" stroke="currentColor" stroke-width="1.6"/></svg>
       90 jours
+    </a>
+    <a class="tab" href="#/fiches" data-tab="fiches" role="button">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" stroke="currentColor" stroke-width="1.6"/><path d="M12.8 6.5 9.5 12.5h3l-1.3 5 3.6-6.5h-3l1-4.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      Fiches
+    </a>
+    <a class="tab" href="#/ikos" data-tab="ikos" role="button">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 17a8 8 0 1 1 16 0" stroke="currentColor" stroke-width="1.6"/><path d="m12 17 4-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M4 20h16" stroke="currentColor" stroke-width="1.6"/></svg>
+      IKOS
     </a>
     <a class="tab" href="#/indicateurs" data-tab="indicateurs" role="button">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20h16M6.5 16v-4M11 16V8M15.5 16v-6M20 16V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -538,6 +616,138 @@
 
 
 
+  /* ---------- Rôles en agence (par levier) ---------- */
+  var AGENCE = {
+    1: [["Directeur d’agence", "Valide la matrice d’urgence et les plages protégées de l’agence."],
+        ["Responsables de secteur", "Organisent le premier niveau de réponse sur leur secteur."],
+        ["Responsables de secteur adjoints", "Appliquent les règles d’orientation des demandes au quotidien."],
+        ["Responsable de la gestion locative", "Protège les plages de traitement des CGLc."],
+        ["CGLc", "Qualifient et orientent les demandes avec la matrice d’urgence."],
+        ["Responsable du pôle technique", "Fixe les délais techniques de la matrice d’urgence."]],
+    2: [["Directeur adjoint", "Anime la revue hebdomadaire des dossiers complexes."],
+        ["Responsables de secteur et responsable du pôle technique", "Constituent les binômes secteur et technique."],
+        ["Responsable de la gestion locative", "Désigne le référent des dossiers mêlant impayé et désordre technique."],
+        ["Techniciens et CGLc", "Partagent les situations communes et se tiennent informés."],
+        ["Responsables de secteur adjoints", "Organisent les immersions croisées."]],
+    3: [["Directeur d’agence", "Porte les demandes de moyens et gère l’enveloppe déléguée."],
+        ["Directeur adjoint", "Suit la vacance des postes et mobilise les renforts."],
+        ["Responsables de secteur", "Font remonter la charge réelle de leur secteur."],
+        ["Responsable du pôle technique", "Priorise le budget d’entretien courant."],
+        ["Responsable de la gestion locative", "Répartit les portefeuilles des CGLc selon la charge."]],
+    4: [["Directeur adjoint", "Référent simplification de l’agence."],
+        ["Responsable de la gestion locative", "Porte les processus de gestion locative dans IKOS."],
+        ["Responsable du pôle technique", "Simplifie le circuit de commande de travaux."],
+        ["CGLc et techniciens", "Participent aux ateliers utilisateurs et signalent les ressaisies."],
+        ["Responsables de secteur adjoints", "Recensent les tableurs parallèles à supprimer."]],
+    5: [["Directeur d’agence", "Garantit l’application du protocole post-incident."],
+        ["Responsables de secteur et adjoints", "Premiers relais : échange avec le collaborateur sous 48 heures après un incident."],
+        ["Responsable du pôle technique", "Suit l’exposition des techniciens sur le terrain."],
+        ["Responsable de la gestion locative", "Veille à la charge émotionnelle des CGLc."],
+        ["Toute l’équipe", "Participe aux espaces de discussion sur le travail."]],
+    6: [["Directeur adjoint", "Référent de l’agence auprès de la cellule des irritants."],
+        ["Responsables de secteur adjoints", "Recueillent les irritants du terrain."],
+        ["CGLc et techniciens", "Signalent les irritants rencontrés."],
+        ["Directeur d’agence", "Communique les résolutions à l’équipe."]]
+  };
+
+  /* ---------- Fiches réflexes ---------- */
+  var FICHES = [
+    { titre: "Un locataire signale une urgence", levier: 1,
+      exemple: "Fuite importante, panne d’ascenseur, risque pour la sécurité des personnes.",
+      delai: "Prise en charge immédiate si la sécurité des personnes est en jeu",
+      etapes: [["CGLc ou premier interlocuteur", "Qualifie la demande avec la matrice d’urgence."],
+               ["Technicien", "Est prévenu sans délai si la sécurité est en jeu ; se déplace ou missionne l’entreprise."],
+               ["CGLc", "Enregistre la demande dans IKOS et annonce au locataire le délai de traitement."],
+               ["Responsable de secteur", "Est informé et s’assure du suivi jusqu’à la clôture."]],
+      eviter: "Laisser le locataire sans délai annoncé, ou enregistrer la demande hors d’IKOS." },
+    { titre: "Un collaborateur est agressé ou subit une incivilité", levier: 5,
+      exemple: "Menaces à l’accueil, agression d’un technicien ou d’un responsable de secteur sur site.",
+      delai: "Échange avec le responsable sous 48 heures",
+      etapes: [["Collaborateur", "Se met en sécurité et prévient son responsable."],
+               ["Responsable de secteur ou du pôle technique", "Échange avec le collaborateur sous 48 heures et propose un soutien psychologique."],
+               ["Directeur d’agence", "Est informé ; accompagne le dépôt de plainte et la déclaration si nécessaire."],
+               ["Directeur adjoint", "Consigne l’événement pour le suivi des risques de l’agence."]],
+      eviter: "Banaliser l’incident, ou renvoyer le collaborateur seul sur le même site sans en parler." },
+    { titre: "Un dossier est bloqué entre deux services", levier: 2,
+      exemple: "Impayé lié à un désordre technique, trouble de voisinage.",
+      delai: "Référent désigné sous 5 jours",
+      etapes: [["CGLc ou technicien", "Signale le blocage à son responsable."],
+               ["Directeur adjoint", "Inscrit le dossier à la revue hebdomadaire des dossiers complexes."],
+               ["Revue des dossiers complexes", "Désigne un référent unique qui suit le dossier jusqu’au bout."],
+               ["Référent", "Informe le locataire de son interlocuteur et des prochaines étapes."]],
+      eviter: "Se renvoyer le dossier par courriel sans décision." },
+    { titre: "Un élu ou un partenaire sollicite l’agence", levier: 1,
+      exemple: "Signalement d’un élu, demande d’une association de locataires.",
+      delai: "Accusé de réception sous 48 heures",
+      etapes: [["Collaborateur sollicité", "Transmet au directeur d’agence ou au directeur adjoint, sans répondre sur le fond."],
+               ["Directeur adjoint", "Accuse réception et désigne qui instruit."],
+               ["Service concerné", "Instruit et prépare les éléments de réponse."],
+               ["Directeur d’agence", "Répond et garde trace de la réponse."]],
+      eviter: "Multiplier les réponses partielles de plusieurs interlocuteurs." },
+    { titre: "Une absence imprévue désorganise l’équipe", levier: 3,
+      exemple: "Arrêt d’un CGLc, poste de technicien vacant, pic d’activité.",
+      delai: "Plan de continuité le jour même",
+      etapes: [["Responsable concerné", "Repère les urgences du portefeuille avec la matrice d’urgence."],
+               ["Responsable de la gestion locative ou du pôle technique", "Répartit les urgences, reporte le non urgent et le dit à l’équipe."],
+               ["Directeur adjoint", "Sollicite la réserve de renfort si l’absence dure."],
+               ["Directeur d’agence", "Porte la situation au comité d’arbitrage si elle se prolonge."]],
+      eviter: "Répartir tout le portefeuille sur les présents sans priorisation." },
+    { titre: "Un irritant revient sans cesse", levier: 6,
+      exemple: "Une étape inutile, un document introuvable, une règle incomprise.",
+      delai: "Qualification sous 10 jours, réponse sous 30 jours",
+      etapes: [["Tout collaborateur", "Décrit l’irritant en deux lignes : où, quand, avec quel effet."],
+               ["Responsable de secteur adjoint", "Le transmet au référent de l’agence."],
+               ["Directeur adjoint", "Le porte à la cellule des irritants."],
+               ["Cellule des irritants", "Répond sous 30 jours et informe la personne qui l’a signalé."]],
+      eviter: "Garder l’irritant pour soi ou le contourner sans le signaler." },
+    { titre: "IKOS bloque ou impose une ressaisie", levier: 4,
+      exemple: "Anomalie, écran incompris, information à saisir deux fois.",
+      delai: "Signalement dans la journée",
+      etapes: [["Utilisateur", "Note l’écran, l’action et le message affiché, avec une capture si possible."],
+               ["Collègue de niveau 4 (expert)", "Aide à trouver une solution immédiate."],
+               ["Responsable de la gestion locative ou du pôle technique", "Signale l’anomalie au support et à la cellule des irritants."],
+               ["Directeur adjoint", "Partage la solution retenue avec toute l’agence."]],
+      eviter: "Créer un tableur parallèle qui devient durable." }
+  ];
+
+  /* ---------- Prise en main d’IKOS ---------- */
+  var NIVEAUX = [
+    ["Faible", "Utilise IKOS avec de l’aide pour les opérations de base ; recourt souvent à des fichiers parallèles."],
+    ["Modéré", "Réalise seul les opérations courantes de son métier ; bloque sur les cas moins fréquents."],
+    ["Opérationnel", "Traite toute son activité dans IKOS, suit ses dossiers et utilise les éditions et tableaux de bord."],
+    ["Expert", "Maîtrise les fonctions avancées, aide ses collègues et contribue à l’amélioration des usages."]
+  ];
+  var CONSEILS = [
+    "Formation de base sur les écrans de votre métier, puis un binôme avec un collègue de niveau 4 pendant un mois.",
+    "Ateliers courts sur les cas moins fréquents de votre activité et fiche mémo des opérations clés.",
+    "Approfondir les éditions et tableaux de bord ; repérer les fichiers parallèles que vous pouvez abandonner.",
+    "Devenir relais IKOS de l’agence : aider vos collègues et faire remonter les irritants à la cellule."
+  ];
+  var QUESTIONS = [
+    "Je retrouve un dossier (locataire, logement, intervention) et son historique.",
+    "Je saisis mon activité directement dans IKOS, sans fichier parallèle.",
+    "Je suis une demande ou un dossier jusqu’à sa clôture dans IKOS.",
+    "J’utilise les éditions, requêtes ou tableaux de bord pour suivre mon activité.",
+    "Je résous les blocages courants sans solliciter le support.",
+    "J’explique les usages d’IKOS à un collègue."
+  ];
+  var REPONSES = ["Pas encore", "Avec de l’aide", "Seul", "Avec aisance"];
+  var ROLES = [
+    ["Directeur d’agence", 3], ["Directeur adjoint", 3], ["Responsable de secteur", 3], ["Responsable de secteur adjoint", 3],
+    ["Responsable du pôle technique", 3], ["Technicien", 3], ["Responsable de la gestion locative", 4], ["CGLc", 3]
+  ];
+  var CLE_IKOS = "plan-transfo-ikos-v1";
+  var ikos = { role: "", rep: [], mat: [] };
+  try { var lu = JSON.parse(localStorage.getItem(CLE_IKOS) || "null"); if (lu && typeof lu === "object") ikos = { role: lu.role || "", rep: lu.rep || [], mat: lu.mat || [] }; } catch (e) {}
+  function sauverIkos() { try { localStorage.setItem(CLE_IKOS, JSON.stringify(ikos)); } catch (e) {} }
+  function niveauDe(rep) {
+    var s = 0; for (var q = 0; q < QUESTIONS.length; q++) { if (!rep[q]) return 0; s += rep[q]; }
+    var m = s / QUESTIONS.length;
+    return m < 1.75 ? 1 : m < 2.5 ? 2 : m < 3.25 ? 3 : 4;
+  }
+  function badgeNiv(n) { return '<span class="niv niv-' + n + '">' + n + '</span>'; }
+
+
   var SIGNATURE = '<div class="signature"><span>Document réalisé par</span><b>Marina Bignon</b></div>';
   var CLE = "plan-transfo-actions-v1";
   var faites = {};
@@ -570,6 +780,7 @@
           '<span class="p"><span class="jauge"><i style="width:' + (100 * n / t) + '%"></i></span>' + n + ' / ' + t + ' actions</span></span>' +
           '<span class="fleche">' + chev + '</span></button>';
       }).join("") + '</div>' +
+      '<div class="outils"><button class="outil" data-aller="#/fiches"><b>Fiches réflexes</b><span>' + FICHES.length + ' situations : qui fait quoi</span></button><button class="outil" data-aller="#/ikos"><b>Prise en main d’IKOS</b><span>Autodiagnostic en 4 niveaux</span></button></div>' +
       '<div class="synthese"><div><strong>6</strong><span>leviers d’action</span></div><div><strong>90 j</strong><span>pour cadrer, expérimenter, décider</span></div><div><strong>5</strong><span>indicateurs de pilotage</span></div></div>' +
       '<div class="publics">' +
         '<details><summary><span><em>Direction générale</em><b>Arbitrer et soutenir</b></span></summary><p>Valider les priorités, les ressources et les règles du jeu. Lever les blocages.</p></details>' +
@@ -579,7 +790,7 @@
   }
 
   /* ---------- Écran Levier ---------- */
-  var ONGLETS = [["diag", "Diagnostic"], ["act", "Actions"], ["pil", "Pilotes"], ["ech", "Échéances"], ["eff", "Effets"]];
+  var ONGLETS = [["diag", "Diagnostic"], ["act", "Actions"], ["pil", "Rôles"], ["ech", "Échéances"], ["eff", "Effets"]];
   var ongletCourant = "diag";
   function rendreLevier(i, onglet) {
     var l = LEVIERS[i];
@@ -597,7 +808,8 @@
         var k = i + "-" + j;
         return '<li><button class="case" role="checkbox" aria-checked="' + !!faites[k] + '" data-cle="' + k + '"><span class="box">' + coche + '</span><span><strong>' + esc(a[0]) + '</strong><span class="d">' + esc(a[1]) + '</span></span></button></li>';
       }).join("") + '</ul><p class="astuce">Cochez les actions engagées : l’avancement est conservé sur cet appareil.</p></div>' +
-      '<div class="panneau" role="tabpanel" id="p-pil" aria-labelledby="t-pil"><ul class="pil">' + l.pilotes.map(function (p) { return '<li><em>' + esc(p[0]) + '</em><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + '</span></li>'; }).join("") + '</ul></div>' +
+      '<div class="panneau" role="tabpanel" id="p-pil" aria-labelledby="t-pil"><h3 class="pil-titre">Au siège</h3><ul class="pil">' + l.pilotes.map(function (p) { return '<li><em>' + esc(p[0]) + '</em><b>' + esc(p[1]) + '</b><span>' + esc(p[2]) + '</span></li>'; }).join("") + '</ul>' +
+        '<h3 class="pil-titre">En agence</h3><ul class="pil">' + AGENCE[i + 1].map(function (p) { return '<li><b>' + esc(p[0]) + '</b><span>' + esc(p[1]) + '</span></li>'; }).join("") + '</ul></div>' +
       '<div class="panneau" role="tabpanel" id="p-ech" aria-labelledby="t-ech"><ol class="jal">' + l.jalons.map(function (j) { return '<li><b>' + esc(j[0]) + '</b><span>' + esc(j[1]) + '</span></li>'; }).join("") + '</ol></div>' +
       '<div class="panneau" role="tabpanel" id="p-eff" aria-labelledby="t-eff"><ul class="eff">' + l.effets.map(function (f) { return '<li><em>' + esc(f[0]) + '</em>' + esc(f[1]) + '</li>'; }).join("") + '</ul></div>' +
       '<div class="lev-nav">' +
@@ -652,6 +864,84 @@
       '<p class="note">Valeurs de référence mesurées dans les 30 premiers jours ; cibles confirmées en comité de direction à J30.</p>' + SIGNATURE;
   }
 
+
+  /* ---------- Écran Fiches réflexes ---------- */
+  var ficheOuverte = 0;
+  function rendreFiches() {
+    $("e-fiches").innerHTML =
+      '<div class="surtitre">En agence</div><h1>Fiches réflexes</h1>' +
+      '<p class="chapo">Les bons gestes face aux situations les plus fréquentes : qui fait quoi, dans quel délai. Touchez une situation pour l’ouvrir.</p>' +
+      '<div class="fiches">' + FICHES.map(function (f, i) {
+        var ouv = i === ficheOuverte;
+        return '<article class="fiche">' +
+          '<button class="fiche-tete" aria-expanded="' + ouv + '" data-fiche="' + i + '"><span class="fn">' + (i + 1) + '</span><span class="ft">' + esc(f.titre) + '<small>Levier ' + f.levier + ' · ' + esc(LEVIERS[f.levier - 1].court) + '</small></span><span class="fs">' + (ouv ? "−" : "+") + '</span></button>' +
+          '<div class="fiche-corps"' + (ouv ? "" : " hidden") + '>' +
+            '<p class="fex">' + esc(f.exemple) + '</p>' +
+            '<div class="fdelai"><b>Délai</b>' + esc(f.delai) + '</div>' +
+            '<ol class="fetapes">' + f.etapes.map(function (e) { return '<li><b>' + esc(e[0]) + '</b>' + esc(e[1]) + '</li>'; }).join("") + '</ol>' +
+            '<div class="feviter"><b>À éviter</b>' + esc(f.eviter) + '</div>' +
+            '<button class="btn" data-aller="#/levier/' + f.levier + '">Voir le levier ' + f.levier + '</button>' +
+          '</div></article>';
+      }).join("") + '</div>' +
+      '<p class="note">Les délais sont des propositions à valider en comité de direction et à adapter à chaque agence.</p>' + SIGNATURE;
+  }
+
+  /* ---------- Écran IKOS ---------- */
+  function rendreIkos() {
+    var niv = niveauDe(ikos.rep);
+    var roleIdx = ikos.role === "" ? -1 : +ikos.role;
+    var cible = roleIdx >= 0 ? ROLES[roleIdx][1] : 0;
+    var resultat = "";
+    if (niv) {
+      var ecart = cible ? niv - cible : null;
+      var msg = ecart === null ? "Choisissez votre fonction pour comparer avec le niveau cible."
+        : ecart >= 0 ? "Vous atteignez le niveau cible de votre fonction (" + cible + " · " + NIVEAUX[cible - 1][0] + ")."
+        : "Le niveau cible de votre fonction est " + cible + " · " + NIVEAUX[cible - 1][0] + " : écart de " + (-ecart) + " niveau" + (ecart < -1 ? "x" : "") + ".";
+      resultat = '<div class="resultat niv-fond-' + niv + '"><div class="r-tete">' + badgeNiv(niv) + '<div><span>Votre niveau</span><b>' + NIVEAUX[niv - 1][0] + '</b></div></div>' +
+        '<p>' + esc(NIVEAUX[niv - 1][1]) + '</p><p class="r-ecart">' + esc(msg) + '</p>' +
+        '<p class="r-conseil"><b>Prochaine étape :</b> ' + esc(CONSEILS[niv - 1]) + '</p>' +
+        '<button class="btn" data-ikos-reset="1">Refaire l’autodiagnostic</button></div>';
+    } else {
+      var nb = 0; for (var q = 0; q < QUESTIONS.length; q++) if (ikos.rep[q]) nb++;
+      resultat = '<div class="resultat vide">Répondez aux ' + QUESTIONS.length + ' affirmations pour obtenir votre niveau (' + nb + ' / ' + QUESTIONS.length + ').</div>';
+    }
+    var nbMat = 0, sousCible = 0;
+    ROLES.forEach(function (r, i) { if (ikos.mat[i]) { nbMat++; if (ikos.mat[i] < r[1]) sousCible++; } });
+
+    $("e-ikos").innerHTML =
+      '<div class="surtitre">Outil métier · Levier 4</div><h1>Prise en main d’IKOS</h1>' +
+      '<p class="chapo">Une échelle commune en quatre niveaux pour situer chaque collaborateur et chaque fonction, puis cibler l’accompagnement.</p>' +
+
+      '<h2 class="h2">L’échelle</h2><ol class="echelle">' + NIVEAUX.map(function (n, i) {
+        return '<li>' + badgeNiv(i + 1) + '<div><b>' + n[0] + '</b><span>' + esc(n[1]) + '</span></div></li>';
+      }).join("") + '</ol>' +
+
+      '<h2 class="h2">Mon autodiagnostic</h2>' +
+      '<label class="lbl" for="ikosRole">Ma fonction</label>' +
+      '<select id="ikosRole" class="select"><option value="">Choisir…</option>' + ROLES.map(function (r, i) {
+        return '<option value="' + i + '"' + (String(i) === String(ikos.role) ? " selected" : "") + '>' + esc(r[0]) + '</option>';
+      }).join("") + '</select>' +
+      '<ol class="questions">' + QUESTIONS.map(function (q, i) {
+        return '<li><p>' + esc(q) + '</p><div class="choix" role="radiogroup" aria-label="' + esc(q) + '">' + REPONSES.map(function (r, v) {
+          return '<button role="radio" aria-checked="' + (ikos.rep[i] === v + 1) + '" data-q="' + i + '" data-v="' + (v + 1) + '">' + esc(r) + '</button>';
+        }).join("") + '</div></li>';
+      }).join("") + '</ol>' + resultat +
+
+      '<h2 class="h2">Matrice de l’agence</h2>' +
+      '<p class="chapo">Pour le directeur d’agence ou son adjoint : indiquez le niveau observé pour chaque fonction. Le niveau cible est une proposition à valider.</p>' +
+      '<div class="matrice">' + ROLES.map(function (r, i) {
+        var n = ikos.mat[i] || 0, etat = !n ? "" : n >= r[1] ? '<span class="ok">Atteint</span>' : '<span class="ko">Écart ' + (r[1] - n) + '</span>';
+        return '<div class="m-ligne"><div class="m-role"><b>' + esc(r[0]) + '</b><span>Cible ' + r[1] + ' · ' + NIVEAUX[r[1] - 1][0] + '</span>' + etat + '</div>' +
+          '<div class="m-choix" role="radiogroup" aria-label="Niveau observé : ' + esc(r[0]) + '">' + [1, 2, 3, 4].map(function (v) {
+            return '<button role="radio" class="mv-' + v + '" aria-checked="' + (n === v) + '" data-mat="' + i + '" data-v="' + v + '">' + v + '</button>';
+          }).join("") + '</div></div>';
+      }).join("") + '</div>' +
+      '<p class="m-synthese">' + (nbMat ? nbMat + ' fonction' + (nbMat > 1 ? 's' : '') + ' renseignée' + (nbMat > 1 ? 's' : '') + ' sur ' + ROLES.length + ' · ' + sousCible + ' sous le niveau cible' : 'Aucune fonction renseignée pour l’instant.') + '</p>' +
+      '<p class="note">Vos réponses restent sur cet appareil : elles ne sont ni transmises ni visibles par d’autres personnes.</p>' +
+      '<div class="lev-nav"><button class="btn" data-ouvrir-fiche="6" data-aller="#/fiches">Fiche réflexe IKOS</button><button class="btn" data-aller="#/levier/4">Levier 4</button></div>' +
+      SIGNATURE;
+  }
+
   /* ---------- Routage ---------- */
   var position = {};
   function majProgression() { var t = total(); $("progGlobale").textContent = t[0] + " / " + t[1] + " actions"; }
@@ -667,6 +957,8 @@
       ecran = "e-levier"; titre = "Levier " + (i + 1) + " · " + LEVIERS[i].court; tab = "arbre"; retour = true;
       $("e-levier").scrollTop = 0;
     } else if (h === "#/feuille") { rendreFeuille(); ecran = "e-feuille"; titre = "Feuille de route · 90 jours"; tab = "feuille"; }
+    else if (h === "#/fiches") { rendreFiches(); ecran = "e-fiches"; titre = "Fiches réflexes"; tab = "fiches"; }
+    else if (h === "#/ikos") { rendreIkos(); ecran = "e-ikos"; titre = "Prise en main d’IKOS"; tab = "ikos"; }
     else if (h === "#/indicateurs") { rendreKpi(); ecran = "e-kpi"; titre = "Indicateurs de pilotage"; tab = "indicateurs"; }
     else { rendreArbre(); ecran = "e-arbre"; titre = "Plan de transformation"; tab = "arbre"; }
     document.querySelectorAll(".ecran").forEach(function (s) { s.classList.toggle("actif", s.id === ecran); s.setAttribute("aria-hidden", String(s.id !== ecran)); });
@@ -682,8 +974,9 @@
 
   /* ---------- Interactions ---------- */
   document.addEventListener("click", function (ev) {
-    var t = ev.target.closest("[data-aller],[data-onglet],[data-cle],[data-phase],[data-kpi]");
+    var t = ev.target.closest("[data-aller],[data-onglet],[data-cle],[data-phase],[data-kpi],[data-fiche],[data-q],[data-mat],[data-ikos-reset]");
     if (!t || t.disabled) return;
+    if (t.dataset.ouvrirFiche) ficheOuverte = +t.dataset.ouvrirFiche;
     if (t.dataset.aller) { ev.preventDefault(); if (t.dataset.aller === "#/arbre") position["e-arbre"] = 0; aller(t.dataset.aller); }
     else if (t.dataset.onglet) montrerOnglet(t.dataset.onglet);
     else if (t.dataset.cle) {
@@ -697,6 +990,10 @@
       toast(v ? "Action marquée comme engagée" : "Action décochée");
     }
     else if (t.dataset.phase) { phaseCourante = +t.dataset.phase; rendreFeuille(); }
+    else if (t.dataset.fiche) { var f = +t.dataset.fiche; ficheOuverte = ficheOuverte === f ? -1 : f; var yf = $("e-fiches").scrollTop; rendreFiches(); $("e-fiches").scrollTop = yf; }
+    else if (t.dataset.q) { ikos.rep[+t.dataset.q] = +t.dataset.v; sauverIkos(); var yq = $("e-ikos").scrollTop; rendreIkos(); $("e-ikos").scrollTop = yq; if (niveauDe(ikos.rep) && +t.dataset.q === QUESTIONS.length - 1) toast("Niveau calculé"); }
+    else if (t.dataset.mat) { var mi = +t.dataset.mat, mv = +t.dataset.v; ikos.mat[mi] = ikos.mat[mi] === mv ? 0 : mv; sauverIkos(); var ym = $("e-ikos").scrollTop; rendreIkos(); $("e-ikos").scrollTop = ym; }
+    else if (t.dataset.ikosReset) { ikos.rep = []; sauverIkos(); rendreIkos(); }
     else if (t.dataset.kpi) { var n = +t.dataset.kpi; kpiOuvert = kpiOuvert === n ? -1 : n; var y = $("e-kpi").scrollTop; rendreKpi(); $("e-kpi").scrollTop = y; }
   });
   $("btnRetour").addEventListener("click", function () { position["e-arbre"] = 0; aller("#/arbre"); });
@@ -713,6 +1010,9 @@
     else if (dx > 0 && k > 0) montrerOnglet(ids[k - 1]);
   }, { passive: true });
 
+  document.addEventListener("change", function (ev) {
+    if (ev.target.id === "ikosRole") { ikos.role = ev.target.value; sauverIkos(); var y = $("e-ikos").scrollTop; rendreIkos(); $("e-ikos").scrollTop = y; }
+  });
   window.addEventListener("hashchange", route);
   route();
 })();
