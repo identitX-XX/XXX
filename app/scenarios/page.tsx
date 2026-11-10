@@ -238,7 +238,7 @@ export default function TurbinePage() {
 
       {/* La mue en cours — seulement quand une entrée réelle existe */}
       {input && (
-        <div className="mb-6 rounded-2xl border border-line bg-surface p-5">
+        <div className="mb-8 border-b border-line pb-6">
           <div className="flex items-center justify-between">
             <div className="text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
               {reel ? "Ton vortex" : "Ton point de départ"}
@@ -350,11 +350,11 @@ export default function TurbinePage() {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 gap-4">
+            <div className="flex flex-col">
               {output.scenarios.map((s, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl border border-line bg-surface p-6"
+                  className="border-b border-line py-8 first:pt-0"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex flex-wrap items-center gap-2">
@@ -371,7 +371,7 @@ export default function TurbinePage() {
                     <EspritParcours seed={`scenario-${s.titre}`} size={30} />
                   </div>
 
-                  <h3 className="mt-3 font-display text-xl font-light leading-snug text-ink">
+                  <h3 className="mt-3 font-display text-[1.6rem] leading-[1.12] text-ink">
                     {s.titre}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-muted">{s.mouvement}</p>

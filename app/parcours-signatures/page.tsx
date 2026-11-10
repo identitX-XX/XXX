@@ -5,6 +5,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ArrowUpRight, ChevronDown, Dumbbell, GraduationCap, SlidersHorizontal } from "lucide-react";
 import { PageHead } from "@/components/ui";
+import { Reveal } from "@/components/Reveal";
 import { ApprofondirUnivers } from "@/components/ApprofondirUnivers";
 import { ExercicesVolets } from "@/components/ExercicesVolets";
 import { QuizAuto } from "@/components/QuizAuto";
@@ -131,23 +132,14 @@ function ParcoursContent() {
         </div>
       )}
 
-      {/* 1 — Ta quête : la vue qui relie ce qui l'anime, ce qu'elle construit,
-          ce qu'elle explore et ce qui évolue — les quatre fils + ton focus. */}
+      {/* Ta quête : la vue qui relie ce qui l'anime, ce qu'elle construit, ce
+          qu'elle explore et ce qui évolue — les quatre fils + ton focus. La
+          capsule du jour (« vivre la capsule ») a été retirée : elle n'apportait
+          rien ; le geste quotidien vit désormais dans « Tes exercices ». */}
       {diagnostic && (
-        <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
-      )}
-
-      {/* 2 — La capsule du jour : le geste à vivre, le cœur de la quête. */}
-      {jour && (
-        <section style={{ marginBottom: 48 }}>
-          <JourView
-            key={sessionJour}
-            jour={jour}
-            reponse={reponseDuJour}
-            sessionJour={sessionJour}
-            onClose={(r) => setSelectedDay(r.jour + 1)}
-          />
-        </section>
+        <Reveal>
+          <MaQueteApercu diagnostic={diagnostic} objectifs={objectifs} etat={etat} />
+        </Reveal>
       )}
 
       {/* Réglages & outils de ma quête — TOUT le pilotage, rangé dans un seul
@@ -297,8 +289,8 @@ function MaQueteApercu({
   ];
 
   return (
-    <section className="mb-8 rounded-2xl border border-line bg-surface p-6 animate-fade-up">
-      <div className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-fuchsia">Ma quête</div>
+    <section className="mb-10">
+      <div className="font-display italic text-[16px] text-fuchsia">Ma quête</div>
 
       {/* Focus évolutif — piloté par l'audit énergétique : le pilier le plus bas
           devient le focus du moment. En lead, séparé par un simple filet : plus
