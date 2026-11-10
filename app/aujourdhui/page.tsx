@@ -8,6 +8,7 @@ import {
   Briefcase, Users, RefreshCw, Heart, HeartPulse,
 } from "lucide-react";
 import { Card, PageHead, Button } from "@/components/ui";
+import { Reveal } from "@/components/Reveal";
 import { AuditEnergetique } from "@/components/AuditEnergetique";
 import { ConstellationVivante } from "@/components/ConstellationVivante";
 import { LeChemin } from "@/components/LeChemin";
@@ -111,7 +112,9 @@ export default function AujourdhuiPage() {
 
       {/* Le fil du parcours — six étapes cohérentes, numérotées, sobres sur le
           noir (plus de capsule). La colonne vertébrale, lisible d'un regard. */}
-      <TonParcours diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} faits={prog.faits} />
+      <Reveal>
+        <TonParcours diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} faits={prog.faits} />
+      </Reveal>
 
       {/* Retour de session (intermittent) : reprendre, ou tout recommencer. */}
       {montrerReprise && (
@@ -164,18 +167,28 @@ export default function AujourdhuiPage() {
         </div>
       )}
 
-      {/* 1 — Ton énergie, aujourd'hui. La pièce maîtresse : où elle est haute ou
-          basse, ce qu'elle appelle — et elle fait aussi bouger tes possibles. */}
-      <AuditEnergetique />
+      {/* Ton énergie, aujourd'hui — où elle est haute ou basse, ce qu'elle
+          appelle ; elle fait aussi bouger tes possibles. */}
+      <Reveal delay={40}>
+        <AuditEnergetique />
+      </Reveal>
 
       {/* Les trois exercices du jour, teintés de ta signature du moment. */}
-      {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
+      {arch && (
+        <Reveal delay={40}>
+          <TroisExercices arch={arch} objectifs={objectifs} jour={n} />
+        </Reveal>
+      )}
 
-      {/* 4 — Mes possibles : ce que tes directions rendent possible. */}
-      <PossiblesCard />
+      {/* Mes possibles : ce que tes directions rendent possible. */}
+      <Reveal delay={40}>
+        <PossiblesCard />
+      </Reveal>
 
-      {/* 5 — Aller plus loin : tout le secondaire rangé dans un seul repli. */}
-      <AllerPlusLoin faits={prog.faits} />
+      {/* Aller plus loin : tout le secondaire rangé dans un seul repli. */}
+      <Reveal delay={40}>
+        <AllerPlusLoin faits={prog.faits} />
+      </Reveal>
     </div>
   );
 }
@@ -208,12 +221,20 @@ function TonParcours({
           <Link
             key={e.href + i}
             href={e.href}
-            className="group flex items-baseline gap-4 border-b border-line py-4"
+            className="group flex items-center gap-3.5 border-b border-line py-4"
           >
-            <span className="w-7 flex-none font-sans text-[12px] tabular-nums text-muted">
+            <span className="w-6 flex-none font-sans text-[12px] tabular-nums text-muted">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <span className="flex-1 font-display text-[1.7rem] leading-[1.1] text-ink transition-colors group-hover:text-fuchsia">
+            {/* Le bestiaire : un esprit de la troupe accompagne chaque étape,
+                en halo, flottant doucement — vivant, jamais gadget. */}
+            <EspritParcours
+              seed={`etape-${e.label}`}
+              size={34}
+              halo
+              className="animate-float"
+            />
+            <span className="min-w-0 flex-1 font-display text-[1.55rem] leading-[1.1] text-ink transition-colors group-hover:text-fuchsia">
               {e.label}
             </span>
             <span className="flex-none font-sans text-[10px] uppercase tracking-[0.2em] text-muted">
