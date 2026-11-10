@@ -104,14 +104,34 @@ export default function AujourdhuiPage() {
 
   return (
     <div>
-      <PageHead
-        eyebrow={salut.eyebrow}
-        title={salut.titre}
-        accessory={<EspritParcours seed="accueil" size={48} />}
-      />
+      {/* Hero éditorial : le visage sculptural (déjà dans le projet) PORTE
+          l'écran — fusion « screen » (son noir disparaît, seul le tracé
+          émerge), puis le titre surdimensionné EN DESSOUS, pleinement lisible.
+          De la matière et une vraie direction artistique, pas un gabarit. */}
+      <header className="mb-10">
+        <div className="relative -mx-5 h-[320px] overflow-hidden lg:-mx-12">
+          <img
+            src="/visage-dense.png"
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-[-26px] w-[92%] max-w-[460px] -translate-x-1/2 select-none"
+            style={{
+              mixBlendMode: "screen",
+              WebkitMaskImage: "linear-gradient(to bottom, #000 60%, transparent 99%)",
+              maskImage: "linear-gradient(to bottom, #000 60%, transparent 99%)",
+            }}
+          />
+        </div>
+        <div className="mt-2">
+          <div className="font-display italic text-[17px] text-fuchsia">{salut.eyebrow}</div>
+          <h1 className="mt-1.5 font-display text-[3rem] leading-[0.95] tracking-[-0.02em] text-ink sm:text-[3.4rem]">
+            {salut.titre}
+          </h1>
+        </div>
+      </header>
 
-      {/* Le fil du parcours — six étapes cohérentes, numérotées, sobres sur le
-          noir (plus de capsule). La colonne vertébrale, lisible d'un regard. */}
+      {/* Le fil du parcours — un SOMMAIRE de magazine : numéro, titre serif,
+          filet, état. Six étapes cohérentes (plus de capsule). */}
       <Reveal>
         <TonParcours diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} faits={prog.faits} />
       </Reveal>
@@ -221,23 +241,15 @@ function TonParcours({
           <Link
             key={e.href + i}
             href={e.href}
-            className="group flex items-center gap-3.5 border-b border-line py-4"
+            className="group grid grid-cols-[1.4rem_1fr_auto] items-baseline gap-4 border-b border-line py-[18px]"
           >
-            <span className="w-6 flex-none font-sans text-[12px] tabular-nums text-muted">
+            <span className="font-sans text-[12px] tabular-nums text-muted">
               {String(i + 1).padStart(2, "0")}
             </span>
-            {/* Le bestiaire : un esprit de la troupe accompagne chaque étape,
-                en halo, flottant doucement — vivant, jamais gadget. */}
-            <EspritParcours
-              seed={`etape-${e.label}`}
-              size={34}
-              halo
-              className="animate-float"
-            />
-            <span className="min-w-0 flex-1 font-display text-[1.55rem] leading-[1.1] text-ink transition-colors group-hover:text-fuchsia">
+            <span className="font-display text-[1.7rem] leading-none text-ink transition-colors group-hover:text-fuchsia">
               {e.label}
             </span>
-            <span className="flex-none font-sans text-[10px] uppercase tracking-[0.2em] text-muted">
+            <span className="font-sans text-[10px] uppercase tracking-[0.22em] text-muted">
               {e.done ? "fait" : "à faire"}
             </span>
           </Link>
