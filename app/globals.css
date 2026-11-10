@@ -76,10 +76,13 @@
   /* ── « Rose poudré & craie » (féminin épuré suédois) : rose poudré GRISÉ en
      signature (jamais bonbon), or doux en second ton, encre taupe sur craie
      chaude. Scandinave, éditorial, féminin sophistiqué. ── */
-  --color-rose: #9a615f;       /* rose poudré grisé, assez profond pour rester lisible */
-  --color-rose-soft: #cf9d9b;  /* mode sombre : rose clair → texte sombre lisible */
-  --color-sauge: #6d7a5c;      /* sauge scandinave en second ton : « à recharger / repos » */
-  --color-sauge-soft: #a6b48f; /* mode sombre */
+  /* Teintes MATES (désaturées, éteintes) : les accents étaient trop
+     « électriques ». On baisse la saturation vers un rendu pigment/mat, sans
+     éclat — rose argile sourd + sauge grisée. */
+  --color-rose: #8c6a67;       /* rose argile mat, sourd mais lisible */
+  --color-rose-soft: #bda09e;  /* mode sombre : rose poussière mat (plus rose vif) */
+  --color-sauge: #6c7162;      /* sauge grisée mate (second ton) */
+  --color-sauge-soft: #a3a996; /* mode sombre : sauge-gris mat */
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
