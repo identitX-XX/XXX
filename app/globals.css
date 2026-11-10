@@ -186,11 +186,13 @@ html.pal-aubergine.light {
 html.pal-lin {
   /* Variante SOMBRE (si bascule) — « espresso tendre » : brun chaud profond,
      cartes taupe, encre ivoire chaude ; accent rose poudré + or doux. */
-  --noir: #22221f; --surface: #2a2a26; --raised: #33332e;
-  --ink: #ecebe4; --muted: #a8a69d; --line: rgba(255, 255, 255, 0.10);
+  /* « Co-Star » : noir profond, blanc cassé, extrêmement sobre. Fort contraste,
+     beaucoup de vide, accents rares (rose/sauge réservés au signal). */
+  --noir: #060608; --surface: #0e0e10; --raised: #171719;
+  --ink: #efeee9; --muted: #838078; --line: rgba(255, 255, 255, 0.11);
   --fuchsia: var(--color-rose-soft); --orange: var(--color-sauge-soft); --slate: var(--color-muted);
   --prune: var(--color-rose-soft); /* accent/signal : rose poudré */
-  --on-brand: #2a2a26; /* texte sombre sur les boutons clairs */
+  --on-brand: #0b0b0c; /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
   /* DÉFAUT — « craie » éditoriale, féminin épuré suédois : fond craie chaud,

@@ -74,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={inter.className + " pal-lin light"}
+      className={inter.className + " pal-lin"}
       style={
         {
           "--font-fraunces": fraunces.style.fontFamily,

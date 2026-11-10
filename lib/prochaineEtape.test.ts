@@ -23,11 +23,11 @@ test("prochaineEtape : diagnostic mais pas d'objectifs → poser le cap", () => 
   assert.match(e.ctaCourt, /cap/i);
 });
 
-test("prochaineEtape : jour courant non terminé → terminer la journée", () => {
+test("prochaineEtape : jour courant non terminé → l'exercice du jour (plus de capsule)", () => {
   const e = prochaineEtape({ dominant: "multiple" }, { perso: "x" }, etat(3), {});
-  assert.equal(e.href, "/parcours-signatures");
-  assert.equal(e.ctaCourt, "Ma capsule");
-  assert.match(e.titre, /capsule/i);
+  assert.equal(e.href, "/exercices");
+  assert.equal(e.ctaCourt, "Mon exercice");
+  assert.match(e.titre, /exercice/i);
 });
 
 test("prochaineEtape : jour courant déjà répondu → aller à la progression", () => {

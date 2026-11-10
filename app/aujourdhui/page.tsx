@@ -109,6 +109,10 @@ export default function AujourdhuiPage() {
         accessory={<EspritParcours seed="accueil" size={48} />}
       />
 
+      {/* Le fil du parcours — six étapes cohérentes, numérotées, sobres sur le
+          noir (plus de capsule). La colonne vertébrale, lisible d'un regard. */}
+      <TonParcours diagnostic={Boolean(diagnostic)} objectifs={Boolean(objectifs)} faits={prog.faits} />
+
       {/* Retour de session (intermittent) : reprendre, ou tout recommencer. */}
       {montrerReprise && (
         <Card className="mb-4 p-5 animate-fade-up sm:p-6">
@@ -164,10 +168,7 @@ export default function AujourdhuiPage() {
           basse, ce qu'elle appelle — et elle fait aussi bouger tes possibles. */}
       <AuditEnergetique />
 
-      {/* 2 — Le geste du jour : l'unique action à porter aujourd'hui. */}
-      <GesteDuJour dejaFait={dejaFait} />
-
-      {/* 3 — Tes trois exercices du jour, teintés de ta signature du moment. */}
+      {/* Les trois exercices du jour, teintés de ta signature du moment. */}
       {arch && <TroisExercices arch={arch} objectifs={objectifs} jour={n} />}
 
       {/* 4 — Mes possibles : ce que tes directions rendent possible. */}
@@ -176,6 +177,52 @@ export default function AujourdhuiPage() {
       {/* 5 — Aller plus loin : tout le secondaire rangé dans un seul repli. */}
       <AllerPlusLoin faits={prog.faits} />
     </div>
+  );
+}
+
+// « Ton parcours » : les six étapes cohérentes du chemin, numérotées (01–06),
+// grand serif sur le noir, filets fins — sobriété éditoriale « Co-Star ». Chaque
+// étape mène à sa destination ; la capsule n'y figure plus (elle n'apportait rien).
+function TonParcours({
+  diagnostic,
+  objectifs,
+  faits,
+}: {
+  diagnostic: boolean;
+  objectifs: boolean;
+  faits: number;
+}) {
+  const etapes = [
+    { href: "/parcours-signatures", label: "Ta signature", done: diagnostic },
+    { href: "/parcours-signatures/objectif", label: "Tes directions", done: objectifs },
+    { href: "/aujourdhui", label: "Ton énergie", done: true },
+    { href: "/exercices", label: "Tes exercices", done: faits >= 1 },
+    { href: "/scenarios", label: "Tes possibles", done: faits >= 1 },
+    { href: "/progression", label: "Ta progression", done: faits >= 3 },
+  ];
+  return (
+    <section className="mb-12 mt-2 animate-fade-up">
+      <div className="mb-3 font-display italic text-[16px] text-fuchsia">Ton parcours</div>
+      <div className="border-t border-line">
+        {etapes.map((e, i) => (
+          <Link
+            key={e.href + i}
+            href={e.href}
+            className="group flex items-baseline gap-4 border-b border-line py-4"
+          >
+            <span className="w-7 flex-none font-sans text-[12px] tabular-nums text-muted">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <span className="flex-1 font-display text-[1.7rem] leading-[1.1] text-ink transition-colors group-hover:text-fuchsia">
+              {e.label}
+            </span>
+            <span className="flex-none font-sans text-[10px] uppercase tracking-[0.2em] text-muted">
+              {e.done ? "fait" : "à faire"}
+            </span>
+          </Link>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -399,11 +446,11 @@ function TroisExercices({
         Ton exercice du jour
         {variante > 0 && <span className="ml-1 font-sans text-[12px] not-italic text-muted">· angle {variante + 1}</span>}
       </div>
-      <div className="grid gap-3">
+      <div className="border-t border-line">
         {ex.map((e) => {
           const Icone = ICONE_PERIMETRE[e.perimetre];
           return (
-          <div key={e.perimetre} className="rounded-2xl border border-line bg-surface p-4 shadow-soft">
+          <div key={e.perimetre} className="border-b border-line py-5">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span
@@ -454,11 +501,8 @@ function PossiblesCard() {
       <div className="mb-3 font-display italic text-[16px] text-fuchsia">
         Tes possibles
       </div>
-      <Link
-        href="/scenarios"
-        className="group block overflow-hidden rounded-2xl border border-line bg-surface p-6 transition-colors hover:border-fuchsia"
-      >
-        <h3 className="font-display text-xl font-semibold leading-snug text-ink">
+      <Link href="/scenarios" className="group block">
+        <h3 className="font-display text-[1.9rem] leading-[1.08] text-ink transition-colors group-hover:text-fuchsia">
           Ce que tes directions rendent possible
         </h3>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">

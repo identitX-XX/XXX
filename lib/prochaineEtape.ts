@@ -51,15 +51,15 @@ export function prochaineEtape(
   const n = Math.min(prog.jourCourant, 30);
   if (!reponses[n])
     return {
-      titre: "Ta capsule",
-      pourquoi: "≈ 5 min : un geste, un exercice, un bilan — quand tu veux.",
-      cta: "Vivre ma capsule",
-      ctaCourt: "Ma capsule",
-      href: "/parcours-signatures",
+      titre: "Ton exercice du jour",
+      pourquoi: "Un geste taillé pour ta signature — quand tu veux.",
+      cta: "Faire mon exercice",
+      ctaCourt: "Mon exercice",
+      href: "/exercices",
     };
 
   return {
-    titre: "Ta capsule est enregistrée ✓",
+    titre: "Observe ta progression",
     pourquoi: "Reviens quand tu veux — ou observe ta direction.",
     cta: "Voir ma progression",
     ctaCourt: "Progression",

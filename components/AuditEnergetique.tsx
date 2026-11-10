@@ -64,7 +64,7 @@ export function AuditEnergetique() {
         Ton audit énergétique
       </div>
 
-      <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-7">
+      <div className="relative">
         <div className="relative">
           <div className="font-display text-[1.9rem] leading-[1.05] tracking-[-0.01em] text-ink">
             Ton énergie, aujourd'hui
