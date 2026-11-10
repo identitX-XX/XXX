@@ -41,12 +41,12 @@ export function PageHead({
       <div className="flex items-start justify-between gap-3">
         <div>
           {eyebrow && (
-            <div className="mb-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--prune)" }}>
+            <div className="mb-2.5 font-display italic text-[16px] leading-none" style={{ color: "var(--prune)" }}>
               {eyebrow}
             </div>
           )}
           {title && (
-            <h1 className="font-display text-[2rem] font-semibold leading-tight text-ink md:text-[2.6rem]">
+            <h1 className="font-display text-[2.6rem] leading-[1.02] tracking-[-0.015em] text-ink md:text-[3.5rem]">
               {title}
             </h1>
           )}
