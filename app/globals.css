@@ -79,10 +79,14 @@
   /* Teintes MATES (désaturées, éteintes) : les accents étaient trop
      « électriques ». On baisse la saturation vers un rendu pigment/mat, sans
      éclat — rose argile sourd + sauge grisée. */
-  --color-rose: #8c6a67;       /* rose argile mat, sourd mais lisible */
-  --color-rose-soft: #bda09e;  /* mode sombre : rose poussière mat (plus rose vif) */
-  --color-sauge: #6c7162;      /* sauge grisée mate (second ton) */
-  --color-sauge-soft: #a3a996; /* mode sombre : sauge-gris mat */
+  --color-rose: #8c6a67;       /* (hérité, plus utilisé — accent sans rose) */
+  --color-rose-soft: #bda09e;  /* (hérité) */
+  --color-sauge: #6c7162;      /* sauge grisée mate (état « à recharger ») */
+  --color-sauge-soft: #a3a996; /* mode sombre */
+  /* SANS ROSE : accent MONOCHROME chaud et mat — un os/crème (mode sombre),
+     un taupe (mode clair). Pas de couleur « électrique », pas de rose. */
+  --color-os: #cbc2b3;         /* os/crème mat — accent du mode sombre */
+  --color-taupe: #6d6154;      /* taupe mat — accent du mode clair */
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
@@ -196,9 +200,9 @@ html.pal-lin {
      nuance et de la chaleur, pas un négatif tranchant. */
   --noir: #18151b; --surface: #211d25; --raised: #2b2631;
   --ink: #e9e3d8; --muted: #958e86; --line: rgba(255, 255, 255, 0.08);
-  --fuchsia: var(--color-rose-soft); --orange: var(--color-sauge-soft); --slate: var(--color-muted);
-  --prune: var(--color-rose-soft); /* accent/signal : rose poudré */
-  --on-brand: #0b0b0c; /* texte sombre sur les boutons clairs */
+  --fuchsia: var(--color-os); --orange: var(--color-sauge-soft); --slate: var(--color-muted);
+  --prune: var(--color-os); /* accent monochrome : os/crème mat (plus de rose) */
+  --on-brand: #18151b; /* texte sombre sur les boutons os */
 }
 html.pal-lin.light {
   /* DÉFAUT — « craie » éditoriale, féminin épuré suédois : fond craie chaud,
@@ -206,9 +210,9 @@ html.pal-lin.light {
      grisé (héros), or doux en second ton. Scandinave, incarné, jamais clinique. */
   --noir: #edece6; --surface: #f6f5ef; --raised: #fdfcf9;
   --ink: #2d2d2b; --muted: #827f78; --line: rgba(45, 45, 43, 0.13);
-  --fuchsia: var(--color-rose); --orange: var(--color-sauge); --slate: var(--color-muted);
-  --prune: var(--color-rose); /* accent = signal : le rose poudré est le héros */
-  --on-brand: #faf6ef; /* texte clair sur les boutons rose/craie */
+  --fuchsia: var(--color-taupe); --orange: var(--color-sauge); --slate: var(--color-muted);
+  --prune: var(--color-taupe); /* accent monochrome : taupe mat (plus de rose) */
+  --on-brand: #faf6ef; /* texte clair sur les boutons taupe */
 }
 
 * {
