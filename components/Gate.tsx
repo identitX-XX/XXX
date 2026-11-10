@@ -65,7 +65,7 @@ export function Gate({ children }: { children: React.ReactNode }) {
       const st = raw ? JSON.parse(raw)?.state : null;
       // Défaut aligné sur l'app : Lin, thème clair éditorial (papier).
       const palette = st?.palette ?? "lin";
-      const theme = st?.theme ?? "light";
+      const theme = st?.theme ?? "dark";
       const root = document.documentElement;
       root.classList.toggle("light", theme === "light");
       ["pal-lin", "pal-nuit", "pal-ardoise", "pal-or", "pal-aubergine", "pal-parme"].forEach(
