@@ -188,8 +188,11 @@ html.pal-lin {
      cartes taupe, encre ivoire chaude ; accent rose poudré + or doux. */
   /* « Co-Star » : noir profond, blanc cassé, extrêmement sobre. Fort contraste,
      beaucoup de vide, accents rares (rose/sauge réservés au signal). */
-  --noir: #060608; --surface: #0e0e10; --raised: #171719;
-  --ink: #efeee9; --muted: #838078; --line: rgba(255, 255, 255, 0.11);
+  /* Contraste ADOUCI (le noir pur + blanc franc faisait « AI » / clinique) :
+     noir CHAUD légèrement prune, encre crème (pas blanche), filets doux. De la
+     nuance et de la chaleur, pas un négatif tranchant. */
+  --noir: #18151b; --surface: #211d25; --raised: #2b2631;
+  --ink: #e9e3d8; --muted: #958e86; --line: rgba(255, 255, 255, 0.08);
   --fuchsia: var(--color-rose-soft); --orange: var(--color-sauge-soft); --slate: var(--color-muted);
   --prune: var(--color-rose-soft); /* accent/signal : rose poudré */
   --on-brand: #0b0b0c; /* texte sombre sur les boutons clairs */
