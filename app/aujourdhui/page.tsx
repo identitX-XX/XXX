@@ -184,8 +184,8 @@ export default function AujourdhuiPage() {
 function GesteDuJour({ dejaFait }: { dejaFait: boolean }) {
   return (
     <section className="mt-4 animate-fade-up">
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        <Flame size={13} /> Le geste du jour
+      <div className="mb-3 font-display italic text-[16px] text-fuchsia">
+        Le geste du jour
       </div>
       <Link
         href="/parcours-signatures"
@@ -395,9 +395,9 @@ function TroisExercices({
   );
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "50ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        <Dumbbell size={13} /> Ton exercice du jour
-        {variante > 0 && <span className="text-muted">· angle {variante + 1}</span>}
+      <div className="mb-3 font-display italic text-[16px] text-fuchsia">
+        Ton exercice du jour
+        {variante > 0 && <span className="ml-1 font-sans text-[12px] not-italic text-muted">· angle {variante + 1}</span>}
       </div>
       <div className="grid gap-3">
         {ex.map((e) => {
@@ -451,8 +451,8 @@ function TroisExercices({
 function PossiblesCard() {
   return (
     <section className="mt-4 animate-fade-up" style={{ animationDelay: "90ms" }}>
-      <div className="mb-3 flex items-center gap-2 text-[12px] font-mono font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        <Compass size={13} /> Tes possibles
+      <div className="mb-3 font-display italic text-[16px] text-fuchsia">
+        Tes possibles
       </div>
       <Link
         href="/scenarios"

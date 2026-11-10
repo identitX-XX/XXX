@@ -60,13 +60,13 @@ export function AuditEnergetique() {
 
   return (
     <section className="mt-1">
-      <div className="mb-2 flex items-center gap-2 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] text-fuchsia">
-        <Battery size={13} /> Ton audit énergétique
+      <div className="mb-2 font-display italic text-[16px] text-fuchsia">
+        Ton audit énergétique
       </div>
 
       <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-6 sm:p-7">
         <div className="relative">
-          <div className="font-display text-[1.5rem] font-semibold leading-tight text-ink">
+          <div className="font-display text-[1.9rem] leading-[1.05] tracking-[-0.01em] text-ink">
             Ton énergie, aujourd'hui
           </div>
         </div>

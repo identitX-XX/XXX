@@ -73,6 +73,13 @@
   --color-prusse-soft: #7fa4b4; /* mode sombre : bleu clair → texte sombre lisible */
   --color-laiton: #b08a3e;
   --color-laiton-soft: #cbad6a;
+  /* ── « Rose poudré & craie » (féminin épuré suédois) : rose poudré GRISÉ en
+     signature (jamais bonbon), or doux en second ton, encre taupe sur craie
+     chaude. Scandinave, éditorial, féminin sophistiqué. ── */
+  --color-rose: #9a615f;       /* rose poudré grisé, assez profond pour rester lisible */
+  --color-rose-soft: #cf9d9b;  /* mode sombre : rose clair → texte sombre lisible */
+  --color-sauge: #6d7a5c;      /* sauge scandinave en second ton : « à recharger / repos » */
+  --color-sauge-soft: #a6b48f; /* mode sombre */
 
   /* ── Motion tokens (durées + courbes) — pas de valeurs dispersées ── */
   --dur-fast: 180ms;
@@ -177,26 +184,23 @@ html.pal-aubergine.light {
 /* Lin & Prune — clair par défaut : lin chaud, accent prune profond. Féminin,
    éditorial, sobre. C'est l'identité de la marque (défaut de l'app). */
 html.pal-lin {
-  /* Variante SOMBRE (si bascule) — « midnight » : nuit bleutée profonde, cartes
-     midnight, encre ivoire, UI minérale. Le ROUGE reste un signal (--prune). */
-  --noir: var(--color-navy); --surface: var(--color-midnight); --raised: #16283c;
-  --ink: var(--color-ivory); --muted: var(--color-dust-blue); --line: rgba(255, 255, 255, 0.12);
-  /* Bleu de Prusse (mode sombre) : bleu clair + laiton clair → texte sombre lisible. */
-  --fuchsia: var(--color-prusse-soft); --orange: var(--color-laiton-soft); --slate: var(--color-dust-blue);
-  --prune: var(--color-prusse-soft); /* accent/signal : bleu de Prusse */
-  --on-brand: var(--color-midnight); /* texte sombre sur les boutons clairs */
+  /* Variante SOMBRE (si bascule) — « espresso tendre » : brun chaud profond,
+     cartes taupe, encre ivoire chaude ; accent rose poudré + or doux. */
+  --noir: #22221f; --surface: #2a2a26; --raised: #33332e;
+  --ink: #ecebe4; --muted: #a8a69d; --line: rgba(255, 255, 255, 0.10);
+  --fuchsia: var(--color-rose-soft); --orange: var(--color-sauge-soft); --slate: var(--color-muted);
+  --prune: var(--color-rose-soft); /* accent/signal : rose poudré */
+  --on-brand: #2a2a26; /* texte sombre sur les boutons clairs */
 }
 html.pal-lin.light {
-  /* DÉFAUT — « papier » éditorial : fond papier chaud, cartes ivoire/blanc, encre
-     profonde. UI en ENCRE (boutons, libellés) ; le ROUGE est réservé au SIGNAL
-     (élément actif, révélation, détail important) via --prune. */
-  /* « Bleu de Prusse » — crème chaude, encre profonde ; accent bleu de Prusse
-     mat (héros), laiton chaud en second ton des dégradés. Éditorial/musée. */
-  --noir: #efece3; --surface: #f8f5ee; --raised: #ffffff;
-  --ink: #1a1a17; --muted: #6d6a60; --line: rgba(26, 26, 23, 0.14);
-  --fuchsia: var(--color-prusse); --orange: var(--color-laiton); --slate: var(--color-muted);
-  --prune: var(--color-prusse); /* accent = signal : le bleu de Prusse est le héros */
-  --on-brand: #f8f5ee; /* texte clair sur les boutons bleu de Prusse/encre */
+  /* DÉFAUT — « craie » éditoriale, féminin épuré suédois : fond craie chaud,
+     cartes ivoire, encre TAUPE (plus douce qu'un noir) ; accent rose poudré
+     grisé (héros), or doux en second ton. Scandinave, incarné, jamais clinique. */
+  --noir: #edece6; --surface: #f6f5ef; --raised: #fdfcf9;
+  --ink: #2d2d2b; --muted: #827f78; --line: rgba(45, 45, 43, 0.13);
+  --fuchsia: var(--color-rose); --orange: var(--color-sauge); --slate: var(--color-muted);
+  --prune: var(--color-rose); /* accent = signal : le rose poudré est le héros */
+  --on-brand: #faf6ef; /* texte clair sur les boutons rose/craie */
 }
 
 * {
