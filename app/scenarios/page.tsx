@@ -230,11 +230,30 @@ export default function TurbinePage() {
 
   return (
     <div>
-      <PageHead
-        eyebrow="Tes possibles"
-        title="Ce que tes directions rendent possible"
-        accessory={<EspritParcours seed="possibles" size={48} />}
-      />
+      {/* Hero éditorial — matière différente : un dessin au trait (figure), en
+          lignes claires sur le noir (inversé), puis le titre fin en dessous. */}
+      <header className="mb-10">
+        <div className="relative -mx-5 h-[300px] overflow-hidden lg:-mx-12">
+          <img
+            src="/hero-portrait.png"
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute left-1/2 top-[-6px] w-[62%] max-w-[290px] -translate-x-1/2 select-none"
+            style={{
+              filter: "invert(1) grayscale(1)",
+              opacity: 0.62,
+              WebkitMaskImage: "linear-gradient(to bottom, #000 64%, transparent 99%)",
+              maskImage: "linear-gradient(to bottom, #000 64%, transparent 99%)",
+            }}
+          />
+        </div>
+        <div className="mt-2">
+          <div className="font-display italic text-[17px] text-fuchsia">Tes possibles</div>
+          <h1 className="mt-1.5 font-display text-[2.7rem] leading-[0.97] tracking-[-0.02em] text-ink sm:text-[3.1rem]">
+            Ce que tes directions rendent possible
+          </h1>
+        </div>
+      </header>
 
       {/* La mue en cours — seulement quand une entrée réelle existe */}
       {input && (

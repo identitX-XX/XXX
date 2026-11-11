@@ -97,40 +97,30 @@ function ParcoursContent() {
       ) : (
       <>
 
-      {/* En-tête du module — seulement une fois le parcours lancé, pour ne pas
-          écraser l'écran des questions (il respire : juste « Ma quête »). */}
-      {/* J1 : en-tête complet (contexte utile). J2+ : version compacte, le
-          paragraphe se replie derrière « En savoir plus » pour rendre l'écran
-          au quotidien (il occupait ~40 % de la hauteur, répété chaque jour). */}
-      {jourCourant <= 1 ? (
-        <PageHead
-          eyebrow="Module"
-          title="Parcours des 20 signatures"
-          sub="Ta signature n'est pas figée — elle bouge."
-          accessory={<EspritParcours seed="ma-quete" size={48} />}
-        />
-      ) : (
-        <div className="mb-8 animate-fade-up">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <div className="mb-2 text-xs uppercase tracking-[0.25em] text-fuchsia">Module</div>
-              <h1 className="font-display text-xl font-light leading-tight text-ink">
-                Parcours des 20 signatures
-              </h1>
-            </div>
-            <EspritParcours seed="ma-quete" size={44} />
-          </div>
-          <details className="group mt-1">
-            <summary className="inline-flex cursor-pointer list-none items-center gap-1 text-xs text-fuchsia [&::-webkit-details-marker]:hidden">
-              En savoir plus
-              <ChevronDown size={13} className="transition-transform group-open:rotate-180" />
-            </summary>
-            <p className="mt-2 max-w-xl text-sm text-muted">
-              Ta signature n'est pas figée — elle bouge.
-            </p>
-          </details>
+      {/* Hero éditorial — même langage que la home : le visage (signature de la
+          marque) en matière, cadré À DROITE ici pour varier, puis le titre fin
+          en dessous. Le titre « Parcours des 20 signatures » est conservé. */}
+      <header className="mb-10">
+        <div className="relative -mx-5 h-[280px] overflow-hidden lg:-mx-12">
+          <img
+            src="/visage-dense.png"
+            alt=""
+            aria-hidden
+            className="pointer-events-none absolute right-[-16%] top-[-18px] w-[84%] max-w-[420px] select-none"
+            style={{
+              mixBlendMode: "screen",
+              WebkitMaskImage: "linear-gradient(to bottom, #000 56%, transparent 99%)",
+              maskImage: "linear-gradient(to bottom, #000 56%, transparent 99%)",
+            }}
+          />
         </div>
-      )}
+        <div className="mt-2">
+          <div className="font-display italic text-[17px] text-fuchsia">Module</div>
+          <h1 className="mt-1.5 font-display text-[2.7rem] leading-[0.97] tracking-[-0.02em] text-ink sm:text-[3.1rem]">
+            Parcours des 20 signatures
+          </h1>
+        </div>
+      </header>
 
       {/* Ta quête : la vue qui relie ce qui l'anime, ce qu'elle construit, ce
           qu'elle explore et ce qui évolue — les quatre fils + ton focus. La
