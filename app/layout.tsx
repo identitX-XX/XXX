@@ -15,7 +15,7 @@ import { VersionGuard } from "@/components/VersionGuard";
 const fraunces = Fraunces({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500"],
+  weight: ["300", "400"],
   style: ["normal", "italic"],
 });
 const inter = Inter({

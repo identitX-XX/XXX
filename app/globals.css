@@ -265,12 +265,12 @@ body {
   line-height: 1.5;
 }
 
-/* Instrument Serif n'a qu'une graisse (400). On neutralise donc les font-bold /
-   font-semibold posés sur les TITRES (font-display) pour éviter le faux-gras :
-   le serif garde son élégance, à sa graisse native. Placé après @tailwind
-   utilities pour primer sur .font-semibold / .font-bold. */
+/* Fraunces en graisse LÉGÈRE (300) par défaut sur les titres : la typo était
+   « trop épaisse ». On force le léger partout sur font-display (en neutralisant
+   les font-semibold / font-bold hérités) → serif fin, aéré, « main de
+   designer ». Placé après @tailwind utilities pour primer. */
 .font-display {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 /* Feedback tactile : léger enfoncement au tap sur tout élément cliquable —
