@@ -27,9 +27,14 @@ export function progressionNiveau(points: number): { suivant: NiveauCarte | null
 
 export const MEDAILLES = ["", "Bronze", "Argent", "Or"] as const;
 
-/** Un défi est jouable si son rang ≤ nombre de cases tamponnées + 3 (déblocage progressif). */
-export function defiDebloque(ordre: number, casesValidees: number): boolean {
-  return ordre <= casesValidees + 3;
+/**
+ * Déblocage progressif : les défis d'ouverture sont jouables tout de suite ;
+ * les autres se débloquent un par un, dans l'ordre, à chaque case tamponnée.
+ */
+export function defiDebloque(id: string, casesValidees: number, ordreDefis: string[], ouverture: string[]): boolean {
+  if (ouverture.includes(id)) return true;
+  const rang = ordreDefis.filter((d) => !ouverture.includes(d)).indexOf(id);
+  return rang >= 0 && rang < casesValidees;
 }
 
 /** Carte complète (10 cases au moins en bronze) = statut Green Card Gold. */

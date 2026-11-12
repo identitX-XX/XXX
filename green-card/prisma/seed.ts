@@ -6,7 +6,8 @@
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
-import { DEFIS } from "../lib/defis";
+import { DEFIS, pointsPourNiveau } from "../lib/defis";
+import { MEDAILLES } from "../lib/carte";
 import { genererCodeActivation, hacherCode, hacherPin, VALIDITE_CODE_JOURS } from "../lib/securite";
 
 const db = new PrismaClient();
@@ -30,9 +31,55 @@ const RESIDENCES = [
 
 export const CARTE_DEMO = { ug: "TIL-A-102", pin: "246810", pseudo: "Foyer Martin" };
 
+const VOISINS = [
+  { ug: "TIL-A-103", pseudo: "Mme Diallo", pin: "135790" },
+  { ug: "TIL-A-104", pseudo: "Les Nguyen", pin: "135790" },
+  { ug: "TIL-B-101", pseudo: "Famille Rossi", pin: "135790" },
+  { ug: "TIL-B-102", pseudo: "Karim B.", pin: "135790" },
+  { ug: "TIL-B-103", pseudo: "Les Lefèvre", pin: "135790" },
+];
+
+const ASTUCES_DEMO = [
+  {
+    ug: "TIL-A-102", univers: "cuisine", titre: "Le couvercle sur la casserole",
+    texte: "Faire bouillir l'eau avec un couvercle, c'est jusqu'à 4 fois moins d'énergie. Et on coupe la plaque 2 minutes avant la fin : la chaleur suffit.",
+    votes: ["TIL-A-103", "TIL-A-104", "TIL-B-101", "TIL-B-102"],
+  },
+  {
+    ug: "TIL-A-103", univers: "energie", titre: "Dégivrer le congélateur",
+    texte: "Au-delà de 3 mm de givre, le congélateur consomme jusqu'à 30 % de plus. Je le dégivre à chaque changement de saison.",
+    votes: ["TIL-A-102", "TIL-B-101", "TIL-B-103"],
+  },
+  {
+    ug: "TIL-A-104", univers: "dechets", titre: "Mes bocaux pour le vrac",
+    texte: "Je garde les bocaux de confiture et de cornichons pour acheter en vrac au marché du samedi. Zéro emballage, et c'est moins cher.",
+    votes: ["TIL-A-102", "TIL-B-102"],
+  },
+  {
+    ug: "TIL-B-101", univers: "seconde-main", titre: "Vêtements de bébé en seconde main",
+    texte: "Les bébés grandissent trop vite ! On trouve des lots presque neufs pour quelques euros dans les vide-greniers et les ressourceries.",
+    votes: ["TIL-A-103"],
+  },
+  {
+    ug: "TIL-B-102", univers: "mobilite", titre: "Le vélo pour aller au marché",
+    texte: "Avec deux sacoches, je fais toutes mes courses de la semaine à vélo. 15 minutes, pas de bouchons, et du sport en prime.",
+    votes: [],
+  },
+  {
+    ug: "TIL-B-103", univers: "energie", titre: "Couper la box internet la nuit",
+    texte: "Une multiprise à interrupteur pour la box et la télé : on éteint tout en allant se coucher. Environ 30 euros d'économie par an.",
+    votes: ["TIL-A-104", "TIL-B-101"],
+  },
+];
+
 async function main() {
   const alea = mulberry32(2026);
 
+  await db.signalementAstuce.deleteMany();
+  await db.voteAstuce.deleteMany();
+  await db.astuce.deleteMany();
+  await db.partieTri.deleteMany();
+  await db.releve.deleteMany();
   await db.mouvementPoints.deleteMany();
   await db.progression.deleteMany();
   await db.session.deleteMany();
@@ -47,6 +94,7 @@ async function main() {
   const lignes = ["residence;ug;batiment;code_activation"];
   const expireLe = new Date(Date.now() + VALIDITE_CODE_JOURS * 86_400_000);
 
+  const logements = new Map<string, { id: string; residenceId: string }>();
   for (const r of RESIDENCES) {
     const { prefixe, ...donnees } = r;
     const residence = await db.residence.create({ data: donnees });
@@ -59,27 +107,64 @@ async function main() {
       });
       lignes.push(`${r.nom};${ug};${batiment};${code}`);
 
-      if (ug === CARTE_DEMO.ug) {
-        await db.codeActivation.update({ where: { logementId: logement.id }, data: { utiliseLe: new Date() } });
-        const carte = await db.carte.create({
-          data: {
-            logementId: logement.id,
-            pseudo: CARTE_DEMO.pseudo,
-            pinHash: hacherPin(CARTE_DEMO.pin),
-            consentCGU: new Date(),
-            consentConsommation: new Date(),
-          },
-        });
-        const faits: [string, number][] = [["compteur-malin", 2], ["chasse-au-gaspi", 3], ["douche-chrono", 1], ["tri-master", 1]];
-        for (const [defiId, niveau] of faits) {
-          await db.progression.create({ data: { carteId: carte.id, defiId, niveau } });
-          const d = DEFIS.find((x) => x.id === defiId)!;
-          const pts = [0, d.pointsBronze, d.pointsArgent, d.pointsOr][niveau];
-          await db.mouvementPoints.create({ data: { carteId: carte.id, defiId, points: pts, motif: `${d.titre} : niveau ${niveau}` } });
-        }
-        await db.mouvementPoints.create({ data: { carteId: carte.id, points: 20, motif: "Bienvenue dans Green Card" } });
-      }
+      logements.set(ug, { id: logement.id, residenceId: residence.id });
     }
+  }
+
+  // --- Cartes de démo de la résidence Les Tilleuls -------------------------------
+  const cartes = new Map<string, string>();
+  for (const v of [{ ug: CARTE_DEMO.ug, pseudo: CARTE_DEMO.pseudo, pin: CARTE_DEMO.pin }, ...VOISINS]) {
+    const l = logements.get(v.ug)!;
+    await db.codeActivation.update({ where: { logementId: l.id }, data: { utiliseLe: new Date() } });
+    const carte = await db.carte.create({
+      data: {
+        logementId: l.id,
+        pseudo: v.pseudo,
+        pinHash: hacherPin(v.pin),
+        consentCGU: new Date(),
+        consentConsommation: new Date(),
+        mouvements: { create: { points: 20, motif: "Bienvenue dans Green Card" } },
+      },
+    });
+    cartes.set(v.ug, carte.id);
+  }
+
+  async function medaille(ug: string, defiId: string, niveau: number) {
+    const carteId = cartes.get(ug)!;
+    const d = DEFIS.find((x) => x.id === defiId)!;
+    await db.progression.create({ data: { carteId, defiId, niveau } });
+    await db.mouvementPoints.create({ data: { carteId, defiId, points: pointsPourNiveau(d, niveau), motif: `${d.titre} : médaille ${MEDAILLES[niveau]}` } });
+  }
+
+  // Foyer Martin : Compteur Malin en argent (2 relevés à 7 jours d'écart), Tri Master en bronze.
+  const martin = cartes.get(CARTE_DEMO.ug)!;
+  const ilYa = (jours: number) => new Date(Date.now() - jours * 86_400_000);
+  await db.releve.createMany({
+    data: [
+      { carteId: martin, type: "elec", index: 12000, date: ilYa(14) },
+      { carteId: martin, type: "elec", index: 12056, date: ilYa(7) },
+      { carteId: martin, type: "eau", index: 312.4, date: ilYa(14) },
+      { carteId: martin, type: "eau", index: 315.2, date: ilYa(7) },
+    ],
+  });
+  await medaille(CARTE_DEMO.ug, "compteur-malin", 2);
+  await medaille(CARTE_DEMO.ug, "tri-master", 1);
+
+  // Astuces de la résidence et votes entre voisins.
+  const tilleuls = logements.get(CARTE_DEMO.ug)!.residenceId;
+  for (const [i, a] of ASTUCES_DEMO.entries()) {
+    const astuce = await db.astuce.create({
+      data: {
+        carteId: cartes.get(a.ug)!,
+        residenceId: tilleuls,
+        univers: a.univers,
+        titre: a.titre,
+        texte: a.texte,
+        createdAt: ilYa(10 - i),
+      },
+    });
+    for (const votant of a.votes) await db.voteAstuce.create({ data: { astuceId: astuce.id, carteId: cartes.get(votant)! } });
+    await medaille(a.ug, "boite-a-astuces", 1);
   }
 
   const fichier = join(__dirname, "codes-demo.csv");
@@ -87,6 +172,7 @@ async function main() {
   console.log(`✔ ${RESIDENCES.length} résidences, ${lignes.length - 1} logements, ${DEFIS.length} défis`);
   console.log(`✔ Codes d'activation : ${fichier}`);
   console.log(`✔ Carte de démo déjà activée : UG ${CARTE_DEMO.ug}, PIN ${CARTE_DEMO.pin}`);
+  console.log(`✔ ${VOISINS.length} voisins et ${ASTUCES_DEMO.length} astuces à la résidence Les Tilleuls`);
 }
 
 main()

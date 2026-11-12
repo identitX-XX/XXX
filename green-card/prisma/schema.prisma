@@ -61,6 +61,11 @@ model Carte {
   sessions            Session[]
   progressions        Progression[]
   mouvements          MouvementPoints[]
+  releves             Releve[]
+  partiesTri          PartieTri[]
+  astuces             Astuce[]
+  votes               VoteAstuce[]
+  signalements        SignalementAstuce[]
 }
 
 model Session {
@@ -110,4 +115,72 @@ model MouvementPoints {
   createdAt DateTime @default(now())
 
   @@index([carteId])
+}
+
+// ---------------------------------------------------------------------------
+// Étape 2 : les jeux 1 (Compteur Malin), 6 (Tri Master) et 9 (Boîte à Astuces)
+// ---------------------------------------------------------------------------
+
+/// Relevé d'un compteur (eau en m³, gaz en m³, électricité en kWh). Daté par le serveur.
+model Releve {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  type      String   /// eau | gaz | elec
+  index     Float
+  date      DateTime @default(now())
+
+  @@index([carteId, type, date])
+}
+
+/// Une partie de Tri Master : les déchets tirés et les réponses sont gardés côté serveur.
+model PartieTri {
+  id        String    @id @default(cuid())
+  carteId   String
+  carte     Carte     @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  dechets   String    /// JSON : liste des identifiants de déchets
+  reponses  String    @default("{}") /// JSON : { idDechet: bac }
+  debut     DateTime  @default(now())
+  fin       DateTime?
+  score     Int?
+  dureeMs   Int?
+
+  @@index([carteId, debut])
+}
+
+/// Une astuce partagée avec les voisins de la résidence.
+model Astuce {
+  id           String              @id @default(cuid())
+  carteId      String
+  carte        Carte               @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  residenceId  String
+  univers      String
+  titre        String
+  texte        String
+  statut       String              @default("publiee") /// publiee | masquee
+  createdAt    DateTime            @default(now())
+  votes        VoteAstuce[]
+  signalements SignalementAstuce[]
+
+  @@index([residenceId, statut])
+}
+
+model VoteAstuce {
+  astuceId  String
+  astuce    Astuce   @relation(fields: [astuceId], references: [id], onDelete: Cascade)
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([astuceId, carteId])
+}
+
+model SignalementAstuce {
+  astuceId  String
+  astuce    Astuce   @relation(fields: [astuceId], references: [id], onDelete: Cascade)
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([astuceId, carteId])
 }

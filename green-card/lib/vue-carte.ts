@@ -1,11 +1,12 @@
 import "server-only";
 import { db } from "./db";
-import { DEFIS, type DefiDef } from "./defis";
+import { DEFIS, DEFIS_OUVERTURE, JEUX_DISPONIBLES, type DefiDef } from "./defis";
 import { defiDebloque, estGold, niveauCarte, progressionNiveau } from "./carte";
 
 export interface CaseCarte extends DefiDef {
   niveau: number; // 0 non commencé, 1 bronze, 2 argent, 3 or
   debloque: boolean;
+  disponible: boolean;
 }
 
 export interface VueCarte {
@@ -20,6 +21,8 @@ export interface VueCarte {
   casesValidees: number;
   gold: boolean;
 }
+
+const ORDRE = DEFIS.map((d) => d.id);
 
 export async function chargerVueCarte(carteId: string): Promise<VueCarte | null> {
   const carte = await db.carte.findUnique({
@@ -36,7 +39,8 @@ export async function chargerVueCarte(carteId: string): Promise<VueCarte | null>
   const cases = DEFIS.map((d) => ({
     ...d,
     niveau: niveaux.get(d.id) ?? 0,
-    debloque: defiDebloque(d.ordre, casesValidees),
+    debloque: defiDebloque(d.id, casesValidees, ORDRE, DEFIS_OUVERTURE),
+    disponible: JEUX_DISPONIBLES.has(d.id),
   }));
 
   return {

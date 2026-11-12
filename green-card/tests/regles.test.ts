@@ -84,9 +84,14 @@ describe("règles de la carte", () => {
     expect(progressionNiveau(9999)).toEqual({ suivant: null, ratio: 1, reste: 0 });
   });
   it("débloque les défis progressivement", () => {
-    expect(defiDebloque(3, 0)).toBe(true);
-    expect(defiDebloque(4, 0)).toBe(false);
-    expect(defiDebloque(10, 7)).toBe(true);
+    const ordre = DEFIS.map((d) => d.id);
+    const ouv = ["compteur-malin", "tri-master", "boite-a-astuces"];
+    expect(defiDebloque("tri-master", 0, ordre, ouv)).toBe(true);
+    expect(defiDebloque("chasse-au-gaspi", 0, ordre, ouv)).toBe(false);
+    expect(defiDebloque("chasse-au-gaspi", 1, ordre, ouv)).toBe(true);
+    expect(defiDebloque("douche-chrono", 1, ordre, ouv)).toBe(false);
+    expect(defiDebloque("defi-immeuble", 7, ordre, ouv)).toBe(true);
+    expect(defiDebloque("inconnu", 10, ordre, ouv)).toBe(false);
   });
   it("passe Gold avec les 10 cases", () => {
     expect(estGold(Array(10).fill(1))).toBe(true);

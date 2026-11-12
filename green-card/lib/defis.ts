@@ -34,3 +34,16 @@ export const DEFIS: DefiDef[] = [
   { id: "boite-a-astuces", ordre: 9, titre: "La Boîte à Astuces", univers: "astuces", emoji: "💡", accroche: "Partagez vos astuces, votez pour celles des voisins.", pointsBronze: 20, pointsArgent: 50, pointsOr: 100 },
   { id: "defi-immeuble", ordre: 10, titre: "Le Défi Immeuble", univers: "collectif", emoji: "🏢", accroche: "Tous ensemble contre les autres résidences !", pointsBronze: 60, pointsArgent: 140, pointsOr: 300 },
 ];
+
+/** Défis jouables dès l'activation de la carte (un par grand univers). */
+export const DEFIS_OUVERTURE = ["compteur-malin", "tri-master", "boite-a-astuces"];
+
+/** Défis dont le jeu est déjà développé (les autres s'affichent « Bientôt »). */
+export const JEUX_DISPONIBLES = new Set(["compteur-malin", "tri-master", "boite-a-astuces"]);
+
+export const defiParId = (id: string) => DEFIS.find((d) => d.id === id);
+
+/** Points cumulés correspondant à une médaille (0 = aucune). */
+export function pointsPourNiveau(d: DefiDef, niveau: number): number {
+  return [0, d.pointsBronze, d.pointsArgent, d.pointsOr][niveau] ?? 0;
+}
