@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   Tokens Green Card — charte CDC Habitat
+   ROUGE = identité CDC Habitat (marque, bouton principal)
+   VERT  = progression écologique (carte, succès, GreenPoints)
+   Le rouge ne signifie jamais « mauvais » : les alertes sont en ambre.
+   ============================================================ */
+:root {
+  --cdc-red: #e2071b;
+  --cdc-red-hover: #c00516;
+  --ink: #1d1d1b;
+  --muted: #5c5c58;
+  --bg: #f6f7f5;
+  --surface: #ffffff;
+  --line: #e4e6e2;
+  --green-50: #f1faf4;
+  --green-100: #e8f6ee;
+  --green-400: #2dbe6c;
+  --green-600: #0b8a42;
+  --green-700: #08713a;
+  --green-text: #0b7a3b; /* vert texte : contraste AA sur fond blanc */
+  --alert: #8a4b00;
+  --alert-bg: #fff4e0;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --cdc-red: #e2071b;
+    --cdc-red-hover: #f0283a;
+    --ink: #f2f3f0;
+    --muted: #b4b7b0;
+    --bg: #111412;
+    --surface: #1b1f1c;
+    --line: #2d332e;
+    --green-50: #13261a;
+    --green-100: #173020;
+    --green-400: #3fd17f;
+    --green-600: #1fa65a;
+    --green-700: #0b8a42;
+    --green-text: #5fdc95;
+    --alert: #ffcf8a;
+    --alert-bg: #3a2a10;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --cdc-red-hover: #f0283a;
+  --ink: #f2f3f0;
+  --muted: #b4b7b0;
+  --bg: #111412;
+  --surface: #1b1f1c;
+  --line: #2d332e;
+  --green-50: #13261a;
+  --green-100: #173020;
+  --green-400: #3fd17f;
+  --green-600: #1fa65a;
+  --green-700: #0b8a42;
+  --green-text: #5fdc95;
+  --alert: #ffcf8a;
+  --alert-bg: #3a2a10;
+  color-scheme: dark;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--green-600);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-2xl px-5 text-base font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primaire {
+    @apply btn bg-cdc-red text-white hover:bg-cdc-red-hover;
+  }
+  .btn-secondaire {
+    @apply btn border-2 border-line bg-surface text-ink hover:border-green-600;
+  }
+  .champ {
+    @apply block min-h-[52px] w-full rounded-2xl border-2 border-line bg-surface px-4 text-lg text-ink placeholder:text-muted focus:border-green-600 focus:outline-none;
+  }
+  .etiquette {
+    @apply mb-2 block text-sm font-semibold text-ink;
+  }
+  .aide {
+    @apply mt-1.5 text-sm text-muted;
+  }
+  .panneau {
+    @apply rounded-carte border border-line bg-surface p-5;
+  }
+}

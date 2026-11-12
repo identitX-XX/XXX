@@ -1,0 +1,113 @@
+// Green Card — modèle de données (étape 1 : socle)
+// En dev : SQLite. En production : passer provider = "postgresql" et DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Une résidence (immeuble) gérée par CDC Habitat
+model Residence {
+  id        String     @id @default(cuid())
+  nom       String
+  adresse   String
+  codePostal String
+  ville     String
+  logements Logement[]
+  createdAt DateTime   @default(now())
+
+  @@index([nom])
+}
+
+/// Un logement, identifié par son numéro d'UG (codification CDC Habitat)
+model Logement {
+  id          String          @id @default(cuid())
+  ug          String          @unique /// normalisé : majuscules, sans espace
+  batiment    String?
+  residenceId String
+  residence   Residence       @relation(fields: [residenceId], references: [id], onDelete: Cascade)
+  activation  CodeActivation?
+  carte       Carte?
+}
+
+/// Code d'activation remis au locataire (courrier ou SMS). Stocké haché, usage unique.
+model CodeActivation {
+  id         String    @id @default(cuid())
+  logementId String    @unique
+  logement   Logement  @relation(fields: [logementId], references: [id], onDelete: Cascade)
+  codeHash   String
+  expireLe   DateTime
+  utiliseLe  DateTime?
+  tentatives Int       @default(0)
+  createdAt  DateTime  @default(now())
+}
+
+/// La Green Card du foyer : une par logement
+model Carte {
+  id                  String        @id @default(cuid())
+  logementId          String        @unique
+  logement            Logement      @relation(fields: [logementId], references: [id], onDelete: Cascade)
+  pseudo              String
+  pinHash             String
+  tentativesPin       Int           @default(0)
+  bloqueeJusquA       DateTime?
+  consentCGU          DateTime
+  consentConsommation DateTime?     /// consentement optionnel au traitement des relevés de consommation
+  activeeLe           DateTime      @default(now())
+  sessions            Session[]
+  progressions        Progression[]
+  mouvements          MouvementPoints[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  expireLe  DateTime
+  createdAt DateTime @default(now())
+}
+
+/// Les 10 défis du parcours = les 10 cases de la carte
+model Defi {
+  id           String        @id /// slug, ex. "compteur-malin"
+  ordre        Int           @unique
+  titre        String
+  univers      String        /// energie | mode-de-vie | dechets | astuces | circulaire | collectif
+  emoji        String
+  accroche     String
+  pointsBronze Int
+  pointsArgent Int
+  pointsOr     Int
+  progressions Progression[]
+}
+
+/// Avancement d'une carte sur un défi (niveau atteint : 0 = non commencé, 1 bronze, 2 argent, 3 or)
+model Progression {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  defiId    String
+  defi      Defi     @relation(fields: [defiId], references: [id])
+  niveau    Int      @default(0)
+  majLe     DateTime @updatedAt
+
+  @@unique([carteId, defiId])
+}
+
+/// Journal des GreenPoints (le solde = somme des mouvements)
+model MouvementPoints {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  points    Int
+  motif     String
+  defiId    String?
+  createdAt DateTime @default(now())
+
+  @@index([carteId])
+}
