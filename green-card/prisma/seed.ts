@@ -8,6 +8,9 @@ import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import { DEFIS, pointsPourNiveau } from "../lib/defis";
 import { MEDAILLES } from "../lib/carte";
+import { co2Evite } from "../lib/jeux/trajets";
+import { co2Action } from "../lib/jeux/circulaire";
+import { jourParis } from "../lib/temps";
 import { genererCodeActivation, hacherCode, hacherPin, VALIDITE_CODE_JOURS } from "../lib/securite";
 
 const db = new PrismaClient();
@@ -75,6 +78,10 @@ const ASTUCES_DEMO = [
 async function main() {
   const alea = mulberry32(2026);
 
+  await db.interetAnnonce.deleteMany();
+  await db.annonce.deleteMany();
+  await db.actionCirculaire.deleteMany();
+  await db.trajet.deleteMany();
   await db.signalementAstuce.deleteMany();
   await db.voteAstuce.deleteMany();
   await db.astuce.deleteMany();
@@ -167,12 +174,41 @@ async function main() {
     await medaille(a.ug, "boite-a-astuces", 1);
   }
 
+  // Foyer Martin : trajets verts sur 4 jours (bronze), 2 achats d'occasion (bronze).
+  const trajetsMartin: [number, "velo" | "transports" | "marche", number, string][] = [
+    [5, "velo", 4.2, "travail"],
+    [4, "transports", 12, "travail"],
+    [3, "marche", 1.5, "courses"],
+    [2, "velo", 4.2, "travail"],
+  ];
+  for (const [jours, mode, km, motif] of trajetsMartin) {
+    await db.trajet.create({ data: { carteId: martin, mode, km, motif, jour: jourParis(ilYa(jours)), co2Evite: co2Evite(mode, km), createdAt: ilYa(jours) } });
+  }
+  await medaille(CARTE_DEMO.ug, "trajets-verts", 1);
+  await db.actionCirculaire.createMany({
+    data: [
+      { carteId: martin, type: "occasion", categorie: "vetements", description: "Manteau d'hiver en friperie", prixPaye: 12, prixNeuf: 60, co2Evite: co2Action("occasion", "vetements"), createdAt: ilYa(9) },
+      { carteId: martin, type: "reparation", categorie: "electromenager", description: "Lave-linge réparé au repair café", co2Evite: co2Action("reparation", "electromenager"), createdAt: ilYa(4) },
+    ],
+  });
+  await medaille(CARTE_DEMO.ug, "seconde-vie", 1);
+
+  // Le mur des voisins.
+  const annonces: [string, "don" | "troc" | "pret", string, string, string][] = [
+    ["TIL-A-103", "don", "culture", "Lot de livres pour enfants", "Une vingtaine d'albums, de 3 à 8 ans. Très bon état."],
+    ["TIL-B-102", "pret", "maison", "Perceuse-visseuse", "Je la prête volontiers le week-end, avec les forets."],
+    ["TIL-A-104", "troc", "enfants", "Chaise haute contre une trottinette", "Notre petit a grandi ! Chaise haute pliable, propre."],
+  ];
+  for (const [i, [ug, type, categorie, titre, description]] of annonces.entries()) {
+    await db.annonce.create({ data: { carteId: cartes.get(ug)!, residenceId: tilleuls, type, categorie, titre, description, createdAt: ilYa(3 - i) } });
+  }
+
   const fichier = join(__dirname, "codes-demo.csv");
   writeFileSync(fichier, lignes.join("\n") + "\n");
   console.log(`✔ ${RESIDENCES.length} résidences, ${lignes.length - 1} logements, ${DEFIS.length} défis`);
   console.log(`✔ Codes d'activation : ${fichier}`);
   console.log(`✔ Carte de démo déjà activée : UG ${CARTE_DEMO.ug}, PIN ${CARTE_DEMO.pin}`);
-  console.log(`✔ ${VOISINS.length} voisins et ${ASTUCES_DEMO.length} astuces à la résidence Les Tilleuls`);
+  console.log(`✔ ${VOISINS.length} voisins, ${ASTUCES_DEMO.length} astuces et ${annonces.length} annonces à la résidence Les Tilleuls`);
 }
 
 main()

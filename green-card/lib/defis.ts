@@ -35,11 +35,11 @@ export const DEFIS: DefiDef[] = [
   { id: "defi-immeuble", ordre: 10, titre: "Le Défi Immeuble", univers: "collectif", emoji: "🏢", accroche: "Tous ensemble contre les autres résidences !", pointsBronze: 60, pointsArgent: 140, pointsOr: 300 },
 ];
 
-/** Défis jouables dès l'activation de la carte (un par grand univers). */
-export const DEFIS_OUVERTURE = ["compteur-malin", "tri-master", "boite-a-astuces"];
+/** Défis jouables dès l'activation de la carte : un par univers (énergie, mobilité, déchets, seconde main, astuces). */
+export const DEFIS_OUVERTURE = ["compteur-malin", "trajets-verts", "tri-master", "seconde-vie", "boite-a-astuces"];
 
 /** Défis dont le jeu est déjà développé (les autres s'affichent « Bientôt »). */
-export const JEUX_DISPONIBLES = new Set(["compteur-malin", "tri-master", "boite-a-astuces"]);
+export const JEUX_DISPONIBLES = new Set(["compteur-malin", "trajets-verts", "tri-master", "seconde-vie", "boite-a-astuces"]);
 
 export const defiParId = (id: string) => DEFIS.find((d) => d.id === id);
 

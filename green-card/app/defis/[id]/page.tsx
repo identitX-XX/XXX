@@ -9,6 +9,8 @@ import { REGLES_MEDAILLES } from "@/lib/jeux/regles";
 import { SectionCompteur } from "./SectionCompteur";
 import { SectionTri } from "./SectionTri";
 import { SectionAstuces } from "./SectionAstuces";
+import { SectionTrajets } from "./SectionTrajets";
+import { SectionSecondeVie } from "./SectionSecondeVie";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +82,8 @@ export default async function PageDefi({ params }: { params: { id: string } }) {
 
         {defi.id === "compteur-malin" && <SectionCompteur carteId={carte.id} consentement={!!carte.consentConsommation} />}
         {defi.id === "tri-master" && <SectionTri carteId={carte.id} />}
+        {defi.id === "trajets-verts" && <SectionTrajets carteId={carte.id} />}
+        {defi.id === "seconde-vie" && <SectionSecondeVie carteId={carte.id} residenceId={carte.logement.residenceId} />}
         {defi.id === "boite-a-astuces" && <SectionAstuces carteId={carte.id} residenceId={carte.logement.residenceId} />}
       </main>
     </>

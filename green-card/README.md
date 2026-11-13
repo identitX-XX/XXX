@@ -11,7 +11,8 @@ un parcours de **10 défis**, des **GreenPoints**, une **Green Card** qui se rem
 |---|---|---|
 | **1. Socle** | Activation et connexion, modèle de données, design system CDC, composant Green Card, RGPD | ✅ |
 | **2. Premiers jeux** | Compteur Malin (1), Tri Master (6), Boîte à Astuces (9), moteur de médailles et de GreenPoints | ✅ |
-| 3 | Les 7 autres jeux, classements, cadeaux | à faire |
+| **2 bis. Mobilité et seconde vie** | Mes Trajets Verts (5), Seconde Vie (8) avec le mur des voisins | ✅ |
+| 3 | Les 5 autres jeux (2, 3, 4, 7, 10), classements, cadeaux | à faire |
 | 4 | Agents IA (coach, vérificateur, modérateur, animateur, analyste) | à faire |
 | 5 | Back-office et tableau de bord d'impact | à faire |
 | 6 | Tests, accessibilité, déploiement | en continu |
@@ -30,6 +31,7 @@ npm run dev                     # http://localhost:3000
 
 - **Carte déjà activée** : résidence *Les Tilleuls*, UG `TIL-A-102`, PIN `246810` (Foyer Martin : historique de relevés,
   une astuce avec 4 votes).
+- Le Foyer Martin a aussi des trajets sur 4 jours et 2 actions seconde vie. Trois annonces de voisins sont sur le mur.
 - **Voisins** (même résidence, PIN `135790`) : `TIL-A-103`, `TIL-A-104`, `TIL-B-101`, `TIL-B-102`, `TIL-B-103`.
 - **Cartes à activer** : les 29 autres logements. Leurs codes d'activation sont dans `prisma/codes-demo.csv`
   (généré par le seed, non versionné). Les codes dépendent de `AUTH_SECRET` : relancez `npm run db:seed` si vous la changez.
@@ -55,17 +57,22 @@ npm run build && npm run e2e    # parcours complet et les 3 jeux dans Chromium +
 
 Chaque défi a 3 médailles. La carte crédite **seulement la différence** quand on monte de médaille
 (`lib/points.ts`) : rejouer ne rapporte rien de plus, et on ne perd jamais une médaille.
-Les défis d'ouverture (1, 6, 9) sont jouables tout de suite. Les autres se débloquent un par un, à chaque case tamponnée.
+Les défis d'ouverture, un par univers (1, 5, 6, 8, 9), sont jouables tout de suite. Les autres se débloquent un par un, à chaque case tamponnée.
 
 | Jeu | 🥉 Bronze | 🥈 Argent | 🥇 Or | Garde-fous |
 |---|---|---|---|---|
 | **1. Compteur Malin** | 1ᵉʳ relevé | 2ᵉ relevé ≥ 6 jours plus tard | −5 % de consommation par jour par rapport au départ | consentement requis, date fixée par le serveur, 1 relevé par jour et par compteur, index jamais en baisse, plafond de vraisemblance |
 | **6. Tri Master** | 8/12 | 10/12 | 12/12 en moins de 60 s | les bonnes réponses ne quittent jamais le serveur, chrono côté serveur, 10 parties par jour |
+| **5. Mes Trajets Verts** | 1ᵉʳ trajet | trajets sur 5 jours différents | trajets sur 15 jours différents | jour fixé par le serveur (aujourd'hui ou hier), distance maximale par mode, 8 trajets par jour |
+| **8. Seconde Vie** | 1ʳᵉ action (occasion, réparation, don, revente) | 5 actions | un objet donné, échangé ou prêté à un voisin via le mur | 3 actions par jour ; l'échange est vérifié par les deux voisins (le receveur se dit intéressé, le donneur confirme) |
 | **9. Boîte à Astuces** | publier une astuce | + 5 votes donnés | une astuce reçoit 5 votes | 3 astuces par jour, ni lien, ni e-mail, ni téléphone, ni insulte, pas de vote pour soi, masquage après 3 signalements |
 
 - Les consignes de tri sont les **consignes nationales** (2023 : tous les emballages au bac jaune ; 2024 : biodéchets).
   Les consignes par commune viendront ensuite.
-- Les prix et facteurs CO₂ du Compteur Malin (`lib/jeux/compteur.ts`) sont **indicatifs** et à faire valider.
+- Les prix et facteurs CO₂ sont **indicatifs** et à faire valider : `lib/jeux/compteur.ts`, `lib/jeux/trajets.ts`
+  (comparaison avec une voiture thermique seule) et `lib/jeux/circulaire.ts` (CO₂ moyen évité par catégorie d'objet).
+- Le mur des voisins ne montre que le pseudo et le bâtiment : pas de messagerie, ni de téléphone, ni d'e-mail.
+  Les voisins se retrouvent dans la résidence.
 - À l'étape 4, la lecture des compteurs par photo et la modération des astuces passeront aux agents IA.
 
 ## Sécurité
@@ -110,7 +117,7 @@ Les tokens sont dans `app/globals.css` et `tailwind.config.ts`.
 app/            pages (accueil, activer, connexion, carte, profil, cgu) + actions serveur + API d'export
 components/     Logo, EnTete, CarteVerte, formulaires, choix de résidence ; components/jeux/ = jeux et célébration
 lib/            règles pures (carte, ug, defis), sécurité, session, points, accès aux données
-lib/jeux/       règles pures des jeux (compteur, tri, astuces) et textes des médailles
+lib/jeux/       règles pures des jeux (compteur, trajets, tri, circulaire, astuces), modération, textes des médailles
 app/defis/[id]  page commune des défis + une section par jeu ; app/jeux/actions.ts = actions serveur des jeux
 prisma/         schéma + seed de démo
 tests/          tests unitaires (Vitest)

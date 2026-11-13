@@ -137,6 +137,7 @@ try {
   // Étape 2 : les jeux (carte « Les Dupont », activée plus haut)
   // =========================================================================
   const points = async () => Number((await page.locator("section[aria-label^='Green Card'] p.text-\\[2rem\\]").textContent()).replace(/\D/g, ""));
+  const choisir = (texte) => page.locator("label:visible", { hasText: texte }).first().click();
   const seConnecter = async (residence, ug, pin) => {
     await page.goto(BASE + "/connexion");
     await page.getByText(residence).click();
@@ -243,10 +244,66 @@ try {
   await capture("13-carte-3-cases");
   ok("la carte affiche 3 cases tamponnées et 220 GreenPoints");
 
+  // --- Jeu 5 : Mes Trajets Verts (Les Dupont) ------------------------------------
+  await page.goto(BASE + "/defis/trajets-verts");
+  await choisir("À pied");
+  await page.getByLabel("Distance (km)").fill("80");
+  await page.getByRole("button", { name: "Enregistrer le trajet" }).click();
+  await page.getByRole("alert").getByText("30 km maximum").waitFor();
+  ok("Trajets Verts : distance invraisemblable refusée");
+
+  await choisir("Vélo");
+  await page.getByRole("button", { name: "5 km" }).click();
+  await choisir("Courses");
+  await page.getByRole("button", { name: "Enregistrer le trajet" }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("+40 GreenPoints").isVisible());
+  await page.getByText("1,1 kg de CO₂ évité par rapport à la voiture").waitFor();
+  await page.getByRole("button", { name: "Continuer" }).click();
+  ok("Trajets Verts : 5 km à vélo → 1,1 kg de CO₂ évité, bronze, +40");
+
+  await choisir("Bus, tram, métro");
+  await page.getByLabel("Distance (km)").fill("12");
+  await choisir("Hier");
+  await page.getByRole("button", { name: "Enregistrer le trajet" }).click();
+  await page.getByText("2 jours actifs").waitFor();
+  await page.getByText("2 jours d'affilée").waitFor();
+  await page.waitForTimeout(400);
+  await capture("15-trajets");
+  ok("Trajets Verts : trajet d'hier en bus → 2 jours actifs, série de 2 jours");
+
+  // --- Jeu 8 : Seconde Vie (Les Dupont) ---------------------------------------
+  await page.goto(BASE + "/defis/seconde-vie");
+  await page.getByLabel("Quoi exactement ?").fill("Jean pour mon fils");
+  await page.getByLabel("Prix payé (€)").fill("8");
+  await page.getByLabel("Prix neuf (€)").fill("35");
+  await page.getByRole("button", { name: "Enregistrer", exact: true }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("+40 GreenPoints").isVisible());
+  await page.getByText("27 €").first().waitFor();
+  await page.getByRole("button", { name: "Continuer" }).click();
+  ok("Seconde Vie : achat d'occasion (8 € au lieu de 35 €) → bronze, +40, 27 € économisés");
+
+  await page.getByRole("tab", { name: /Mur des voisins/ }).click();
+  const livres = page.locator("article", { hasText: "Lot de livres pour enfants" });
+  await livres.getByRole("button", { name: "Ça m'intéresse" }).click();
+  await livres.getByRole("button", { name: "✓ Intéressé·e" }).waitFor();
+  ok("Seconde Vie : « Ça m'intéresse » sur l'annonce d'une voisine");
+
+  await page.getByRole("button", { name: "Proposer un objet" }).click();
+  await choisir("Jouets et puériculture");
+  await page.getByLabel("Titre").fill("Poussette en bon état");
+  await page.getByLabel(/Description/).fill("Pliable, avec habillage pluie.");
+  await page.getByRole("button", { name: "Publier sur le mur" }).click();
+  await page.getByText("Votre annonce est visible").waitFor();
+  await page.getByText("Personne pour l'instant").waitFor();
+  await capture("16-mur-voisins");
+  ok("Seconde Vie : annonce « Poussette » publiée sur le mur");
+
   // --- Le vote des voisins fait gagner l'or à l'auteur ; relevé en baisse → or -----
   await seDeconnecter();
   await seConnecter("Résidence Les Tilleuls", "TIL-A-102", "246810");
-  assert.equal(await points(), 190 + 80, "Foyer Martin : l'or de la Boîte à Astuces grâce au 5ᵉ vote");
+  assert.equal(await points(), 270 + 80, "Foyer Martin : l'or de la Boîte à Astuces grâce au 5ᵉ vote");
   ok("Foyer Martin : 5ᵉ vote reçu → or à la Boîte à Astuces, +80");
 
   await page.goto(BASE + "/defis/compteur-malin");
@@ -259,6 +316,48 @@ try {
   await page.waitForTimeout(900);
   await capture("14-compteur-or");
   ok("Foyer Martin : consommation en baisse → or au Compteur Malin, +130");
+
+  await page.goto(BASE + "/defis/trajets-verts");
+  await page.getByText("4 jours actifs").waitFor();
+  await page.getByRole("button", { name: "2 km" }).click();
+  await page.getByRole("button", { name: "Enregistrer le trajet" }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("Médaille Argent").isVisible());
+  assert.ok(await page.getByText("+60 GreenPoints").isVisible());
+  ok("Foyer Martin : 5ᵉ jour actif → argent aux Trajets Verts, +60");
+
+  await page.goto(BASE + "/defis/seconde-vie");
+  await page.getByRole("tab", { name: /Mur des voisins/ }).click();
+  const poussette = page.locator("article", { hasText: "Poussette en bon état" });
+  await poussette.getByRole("button", { name: "Ça m'intéresse" }).click();
+  await poussette.getByRole("button", { name: "✓ Intéressé·e" }).waitFor();
+  ok("Foyer Martin : intéressé par la poussette des Dupont");
+
+  // Les Dupont confirment le don : les deux voisins décrochent l'or.
+  await seDeconnecter();
+  await seConnecter("Résidence Les Tilleuls", "TIL-A-101", "482913");
+  await page.goto(BASE + "/defis/seconde-vie");
+  await page.getByRole("tab", { name: /Mur des voisins/ }).click();
+  await page.getByText("1 voisin intéressé").waitFor();
+  await page.getByRole("button", { name: "Donné à Foyer Martin" }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("Médaille Or").isVisible());
+  assert.ok(await page.getByText("+140 GreenPoints").isVisible());
+  await page.getByText("Objets qui ont trouvé preneur").waitFor();
+  await page.waitForTimeout(900);
+  await capture("17-echange-or");
+  ok("Les Dupont : poussette donnée à Foyer Martin → or à Seconde Vie, +140");
+
+  await page.goto(BASE + "/carte");
+  assert.equal(await points(), 220 + 40 + 180);
+  await page.waitForTimeout(300);
+  await capture("18-carte-5-cases");
+  ok("Les Dupont : 5 cases tamponnées, 440 GreenPoints");
+
+  await seDeconnecter();
+  await seConnecter("Résidence Les Tilleuls", "TIL-A-102", "246810");
+  assert.equal(await points(), 350 + 130 + 60 + 140, "Foyer Martin : l'or de Seconde Vie aussi, confirmé par le donneur");
+  ok("Foyer Martin : l'échange confirmé lui donne aussi l'or, +140");
 
   // Les défis non développés ne sont pas accessibles par URL.
   await page.goto(BASE + "/defis/douche-chrono");

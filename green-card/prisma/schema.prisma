@@ -66,6 +66,11 @@ model Carte {
   astuces             Astuce[]
   votes               VoteAstuce[]
   signalements        SignalementAstuce[]
+  trajets             Trajet[]
+  actionsCirculaires  ActionCirculaire[]
+  annonces            Annonce[]         @relation("AnnoncesPubliees")
+  annoncesRecues      Annonce[]         @relation("AnnoncesRecues")
+  interets            InteretAnnonce[]
 }
 
 model Session {
@@ -183,4 +188,70 @@ model SignalementAstuce {
   createdAt DateTime @default(now())
 
   @@id([astuceId, carteId])
+}
+
+// ---------------------------------------------------------------------------
+// Jeux 5 (Mes Trajets Verts) et 8 (Seconde Vie)
+// ---------------------------------------------------------------------------
+
+/// Un trajet en mobilité douce ou partagée. Le jour (AAAA-MM-JJ, heure de Paris) est aujourd'hui ou hier.
+model Trajet {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  mode      String
+  km        Float
+  motif     String
+  jour      String
+  co2Evite  Float
+  createdAt DateTime @default(now())
+
+  @@index([carteId, jour])
+}
+
+/// Une action « seconde vie » : achat d'occasion, réparation, don, revente, ou échange entre voisins.
+model ActionCirculaire {
+  id          String   @id @default(cuid())
+  carteId     String
+  carte       Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  type        String   /// occasion | reparation | don | revente | echange
+  categorie   String
+  description String?
+  prixPaye    Float?
+  prixNeuf    Float?
+  co2Evite    Float
+  annonceId   String?  /// renseigné pour un échange confirmé via le mur des voisins
+  createdAt   DateTime @default(now())
+
+  @@index([carteId, createdAt])
+}
+
+/// Une annonce du mur des voisins (don, troc ou prêt), visible dans la résidence.
+model Annonce {
+  id             String           @id @default(cuid())
+  carteId        String
+  carte          Carte            @relation("AnnoncesPubliees", fields: [carteId], references: [id], onDelete: Cascade)
+  residenceId    String
+  type           String           /// don | troc | pret
+  categorie      String
+  titre          String
+  description    String           @default("")
+  statut         String           @default("ouverte") /// ouverte | conclue | retiree
+  beneficiaireId String?
+  beneficiaire   Carte?           @relation("AnnoncesRecues", fields: [beneficiaireId], references: [id], onDelete: SetNull)
+  concluLe       DateTime?
+  createdAt      DateTime         @default(now())
+  interets       InteretAnnonce[]
+
+  @@index([residenceId, statut])
+}
+
+model InteretAnnonce {
+  annonceId String
+  annonce   Annonce  @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([annonceId, carteId])
 }
