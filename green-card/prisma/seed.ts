@@ -7,6 +7,7 @@ import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { PrismaClient } from "@prisma/client";
 import { DEFIS, pointsPourNiveau } from "../lib/defis";
+import { CATALOGUE, TIRAGE_SAISON } from "../lib/cadeaux";
 import { MEDAILLES } from "../lib/carte";
 import { co2Evite } from "../lib/jeux/trajets";
 import { co2Action } from "../lib/jeux/circulaire";
@@ -78,6 +79,10 @@ const ASTUCES_DEMO = [
 async function main() {
   const alea = mulberry32(2026);
 
+  await db.participationTirage.deleteMany();
+  await db.tirage.deleteMany();
+  await db.commande.deleteMany();
+  await db.cadeau.deleteMany();
   await db.membreDefiImmeuble.deleteMany();
   await db.quizFrigo.deleteMany();
   await db.actionAntiGaspi.deleteMany();
@@ -104,6 +109,8 @@ async function main() {
   await db.defi.deleteMany();
 
   for (const d of DEFIS) await db.defi.create({ data: d });
+  for (const c of CATALOGUE) await db.cadeau.create({ data: { ...c, tailles: c.tailles ? JSON.stringify(c.tailles) : null } });
+  await db.tirage.create({ data: { ...TIRAGE_SAISON, clotureLe: new Date(TIRAGE_SAISON.clotureLe) } });
 
   const lignes = ["residence;ug;batiment;code_activation"];
   const expireLe = new Date(Date.now() + VALIDITE_CODE_JOURS * 86_400_000);

@@ -3,7 +3,7 @@
  * Prérequis : `npm run db:reset && npm run build`, puis : `npm run e2e`
  * Les captures d'écran sont écrites dans ./captures.
  */
-import { spawn } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { mkdirSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import assert from "node:assert/strict";
@@ -487,6 +487,50 @@ try {
   await capture("22-carte-gold");
   ok("Les Dupont : les 10 cases tamponnées → Green Card Gold, 710 GreenPoints");
 
+  // =========================================================================
+  // Les cadeaux (Les Dupont : 710 GreenPoints, carte Gold)
+  // =========================================================================
+  const disponibles = async () => Number((await page.locator("section[aria-label='Mes GreenPoints'] p.text-\\[2rem\\]").textContent()).replace(/\D/g, ""));
+  const fiche = (nom) => page.locator("article", { hasText: nom });
+
+  await page.getByRole("link", { name: "Les cadeaux" }).first().click();
+  await page.waitForURL("**/cadeaux");
+  assert.equal(await disponibles(), 710);
+  await fiche("Mug Green Card").getByRole("button", { name: "Échanger mes points" }).click();
+  await fiche("Mug Green Card").getByRole("button", { name: "Oui, je confirme" }).click();
+  await fiche("Mug Green Card").getByText("C'est commandé !").waitFor();
+  const codeMug = (await fiche("Mug Green Card").locator("strong.font-mono").textContent()).trim();
+  assert.match(codeMug, /^GC-[A-Z0-9]{6}$/);
+  await page.reload();
+  assert.equal(await disponibles(), 410);
+  await fiche("Tee-shirt Green Card").getByText("Encore 290 GreenPoints à gagner").waitFor();
+  await fiche("Mug Green Card").getByText("Déjà commandé").waitFor();
+  ok(`Cadeaux : mug échangé contre 300 points, code de retrait ${codeMug} ; tee-shirt hors de portée (manque 290)`);
+
+  await page.getByRole("button", { name: "Annuler et récupérer mes points" }).click();
+  await page.getByText("Annulée").waitFor();
+  assert.equal(await disponibles(), 710);
+  ok("Cadeaux : commande annulée, les 300 points reviennent");
+
+  await fiche("Tee-shirt Green Card").getByRole("button", { name: "Échanger mes points" }).click();
+  await fiche("Tee-shirt Green Card").getByText("Choisissez une taille").waitFor();
+  await fiche("Tee-shirt Green Card").locator("label", { hasText: /^M$/ }).click();
+  await fiche("Tee-shirt Green Card").getByRole("button", { name: "Échanger mes points" }).click();
+  await fiche("Tee-shirt Green Card").getByText("(taille M)").waitFor();
+  await fiche("Tee-shirt Green Card").getByRole("button", { name: "Oui, je confirme" }).click();
+  await fiche("Tee-shirt Green Card").getByText("C'est commandé !").waitFor();
+  ok("Cadeaux : tee-shirt taille M échangé contre 700 points");
+
+  await page.getByRole("button", { name: "Je participe au tirage" }).click();
+  await page.getByText("Vous participez au tirage").waitFor();
+  await page.reload();
+  assert.equal(await disponibles(), 10);
+  await page.waitForTimeout(400);
+  await capture("24-cadeaux");
+  await page.goto(BASE + "/carte");
+  assert.equal(await points(), 710, "échanger des points ne fait pas baisser la carte");
+  ok("Cadeaux : inscrit au grand tirage (carte Gold) ; la carte garde ses 710 points gagnés");
+
   await seDeconnecter();
   await seConnecter("Résidence Les Tilleuls", "TIL-A-102", "246810");
   assert.equal(await points(), 460 + 130 + 60 + 140, "Foyer Martin : l'or de Seconde Vie aussi, confirmé par le donneur");
@@ -555,6 +599,28 @@ try {
     300,
   );
   ok("Foyer Martin : résidence 1ʳᵉ le mois dernier avec 5 gestes de sa part → or au Défi Immeuble, +300");
+
+  // --- Le grand tirage -------------------------------------------------------
+  await page.goto(BASE + "/cadeaux");
+  assert.ok(await page.getByRole("button", { name: "Réservé aux cartes Gold" }).isDisabled());
+  ok("Cadeaux : le grand tirage est fermé aux cartes qui ne sont pas Gold");
+
+  const sortie = execFileSync("node_modules/.bin/tsx", ["--env-file=.env", "scripts/tirage.ts", "saison-2026-2027", "--avant-cloture"], { encoding: "utf8" });
+  assert.match(sortie, /Gagnant : Les Dupont/);
+  await page.reload();
+  await page.getByText("Bravo à Les Dupont (Résidence Les Tilleuls)").waitFor();
+  await page.waitForTimeout(300);
+  await capture("25-tirage");
+  ok("Grand tirage : Les Dupont gagnent la semaine dans un appartement CDC Habitat");
+
+  let refus = "";
+  try {
+    execFileSync("node_modules/.bin/tsx", ["--env-file=.env", "scripts/tirage.ts", "saison-2026-2027", "--avant-cloture"], { encoding: "utf8", stdio: "pipe" });
+  } catch (e) {
+    refus = String(e.stderr);
+  }
+  assert.match(refus, /déjà eu lieu/);
+  ok("Grand tirage : impossible de le relancer une seconde fois");
 
   // 8. Mode sombre
   const sombre = await navigateur.newContext({ ...devices["iPhone 13"], colorScheme: "dark" });

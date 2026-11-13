@@ -78,6 +78,9 @@ model Carte {
   actionsAntiGaspi    ActionAntiGaspi[]
   quizFrigo           QuizFrigo[]
   defisImmeuble       MembreDefiImmeuble[]
+  commandes           Commande[]
+  participations      ParticipationTirage[]
+  tiragesGagnes       Tirage[]          @relation("TiragesGagnes")
 }
 
 model Session {
@@ -351,4 +354,62 @@ model MembreDefiImmeuble {
   createdAt DateTime @default(now())
 
   @@id([carteId, mois])
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue de cadeaux
+// ---------------------------------------------------------------------------
+
+/// Un cadeau : échangeable contre des GreenPoints (boutique) ou à gagner par tirage (grand prix).
+model Cadeau {
+  id          String     @id /// slug, ex. "mug"
+  ordre       Int
+  type        String     /// boutique | grand-prix
+  nom         String
+  description String
+  prix        Int?       /// en GreenPoints (boutique)
+  stock       Int?       /// exemplaires restants (boutique)
+  tailles     String?    /// JSON : tailles proposées (tee-shirt)
+  actif       Boolean    @default(true)
+  commandes   Commande[]
+  tirages     Tirage[]
+}
+
+/// Un cadeau commandé avec des GreenPoints. Retrait au bureau du gardien ou à l'agence avec le code.
+model Commande {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  cadeauId  String
+  cadeau    Cadeau   @relation(fields: [cadeauId], references: [id])
+  taille    String?
+  points    Int
+  code      String   @unique
+  statut    String   @default("a-preparer") /// a-preparer | prete | remise | annulee
+  createdAt DateTime @default(now())
+
+  @@index([carteId, statut])
+}
+
+/// Le grand tirage d'une saison.
+model Tirage {
+  id             String                @id /// ex. "saison-2026-2027"
+  cadeauId       String
+  cadeau         Cadeau                @relation(fields: [cadeauId], references: [id])
+  libelle        String
+  clotureLe      DateTime              /// fin des inscriptions et date du tirage
+  gagnantId      String?
+  gagnant        Carte?                @relation("TiragesGagnes", fields: [gagnantId], references: [id], onDelete: SetNull)
+  effectueLe     DateTime?
+  participations ParticipationTirage[]
+}
+
+model ParticipationTirage {
+  tirageId  String
+  tirage    Tirage   @relation(fields: [tirageId], references: [id], onDelete: Cascade)
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([tirageId, carteId])
 }

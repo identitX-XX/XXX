@@ -28,9 +28,14 @@ export default async function PageCarte({ searchParams }: { searchParams: { bien
       <EnTete
         lienAccueil="/carte"
         droite={
+          <>
+          <Link href="/cadeaux" aria-label="Les cadeaux" className="grid h-10 w-10 place-items-center rounded-full border border-line text-lg">
+            <span aria-hidden>🎁</span>
+          </Link>
           <Link href="/profil" aria-label="Mon profil" className="grid h-10 w-10 place-items-center rounded-full border border-line text-lg">
             <span aria-hidden>👤</span>
           </Link>
+          </>
         }
       />
       <RemonterEnHaut />
@@ -73,6 +78,21 @@ export default async function PageCarte({ searchParams }: { searchParams: { bien
             {vue.gold ? " · Green Card Gold 🏆" : " · Remplissez les 10 cases pour passer Gold 🏆"}
           </p>
         </div>
+
+        <Link href="/cadeaux" className="flex items-center gap-4 rounded-carte border-2 border-cdc-red bg-surface p-4 transition-colors hover:bg-bg">
+          <span aria-hidden className="text-3xl">
+            🎁
+          </span>
+          <span className="flex-1">
+            <span className="block font-semibold">Les cadeaux</span>
+            <span className="block text-sm text-muted">
+              Mug, tee-shirt, jeu de cartes… et {vue.gold ? "le grand tirage : une semaine de vacances !" : "une semaine de vacances pour les cartes Gold !"}
+            </span>
+          </span>
+          <span aria-hidden className="text-lg">
+            ›
+          </span>
+        </Link>
 
         {prochaine && (
           <div className="flex items-center justify-between gap-4 rounded-carte border border-line bg-surface p-4">

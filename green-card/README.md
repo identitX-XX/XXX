@@ -13,7 +13,8 @@ un parcours de **10 défis**, des **GreenPoints**, une **Green Card** qui se rem
 | **2. Premiers jeux** | Compteur Malin (1), Tri Master (6), Boîte à Astuces (9), moteur de médailles et de GreenPoints | ✅ |
 | **2 bis. Mobilité et seconde vie** | Mes Trajets Verts (5), Seconde Vie (8) avec le mur des voisins | ✅ |
 | **3. Les 10 défis** | Chasse au Gaspi (2), Douche Chrono (3), Opération 19 °C (4), Zéro Gaspi Frigo (7), Défi Immeuble (10) | ✅ |
-| 3 bis | Classements individuels, catalogue de cadeaux | à faire |
+| **3 bis. Cadeaux** | Boutique (mug, jeu de cartes, tee-shirt) et grand tirage (une semaine dans un appartement CDC Habitat) | ✅ |
+| 3 ter | Classements individuels | à faire |
 | 4 | Agents IA (coach, vérificateur, modérateur, animateur, analyste) | à faire |
 | 5 | Back-office et tableau de bord d'impact | à faire |
 | 6 | Tests, accessibilité, déploiement | en continu |
@@ -84,6 +85,24 @@ se débloquent un par un, à chaque case tamponnée. Les 10 cases tamponnées fo
 - Le mur des voisins ne montre que le pseudo et le bâtiment : pas de messagerie, ni de téléphone, ni d'e-mail.
   Les voisins se retrouvent dans la résidence.
 - À l'étape 4, la lecture des compteurs par photo et la modération des astuces passeront aux agents IA.
+
+## Les cadeaux
+
+| Cadeau | Comment | Règle |
+|---|---|---|
+| ☕ Mug Green Card | 300 GreenPoints | 1 par foyer, stock limité |
+| 🃏 Jeu de cartes « 52 éco-gestes » | 450 GreenPoints | 1 par foyer, stock limité |
+| 👕 Tee-shirt Green Card (S à XXL) | 700 GreenPoints | 1 par foyer, stock limité |
+| 🏖️ Une semaine dans un appartement CDC Habitat | grand tirage de fin de saison | cartes Gold inscrites, même chance pour tous |
+
+- **Solde disponible** = points gagnés − points échangés. Le niveau de la carte et les médailles gardent les points gagnés :
+  échanger ne fait jamais régresser.
+- **Retrait** au bureau du gardien ou à l'agence avec un code (`GC-XXXXXX`) : aucune adresse postale n'est collectée.
+  Annulation possible tant que la commande est « en préparation ». Les statuts « prête » et « remise » seront gérés dans le back-office.
+- **Grand tirage** : `npm run tirage -- saison-2026-2027` à la date de clôture. Le script revérifie l'éligibilité,
+  tire au hasard avec `crypto.randomInt` et refuse de tirer deux fois. Le pseudo du gagnant s'affiche dans l'appli.
+- Le stock baisse dans une transaction, sans pouvoir passer sous zéro. Le règlement (`/cadeaux/reglement`) est **provisoire**
+  et doit être validé par le juridique.
 
 ## Sécurité
 
