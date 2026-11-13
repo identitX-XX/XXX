@@ -11,7 +11,9 @@
     "db:reset": "prisma db push --force-reset && tsx --env-file=.env prisma/seed.ts",
     "test": "vitest run",
     "e2e": "tsx scripts/e2e.mjs",
-    "tirage": "tsx --env-file=.env scripts/tirage.ts"
+    "tirage": "tsx --env-file=.env scripts/tirage.ts",
+    "postinstall": "prisma generate",
+    "vercel-build": "node scripts/vercel-build.mjs"
   },
   "dependencies": {
     "@prisma/client": "5.22.0",

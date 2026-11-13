@@ -77,6 +77,11 @@ const ASTUCES_DEMO = [
 ];
 
 async function main() {
+  // Sur Vercel, le seed tourne à chaque déploiement : il ne remplit la base que si elle est vide.
+  if (process.env.SEED_SI_VIDE === "1" && (await db.residence.count()) > 0) {
+    console.log("Base déjà remplie : seed ignoré.");
+    return;
+  }
   const alea = mulberry32(2026);
 
   await db.participationTirage.deleteMany();

@@ -104,6 +104,16 @@ se débloquent un par un, à chaque case tamponnée. Les 10 cases tamponnées fo
 - Le stock baisse dans une transaction, sans pouvoir passer sous zéro. Le règlement (`/cadeaux/reglement`) est **provisoire**
   et doit être validé par le juridique.
 
+## Mettre en ligne sur Vercel
+
+1. Sur vercel.com, **Add New → Project**, importer le dépôt GitHub.
+2. **Root Directory : `green-card`** (le framework Next.js est détecté tout seul).
+3. Onglet **Storage** du projet : créer une base **Neon (Postgres)** et la relier au projet. Vercel ajoute `DATABASE_URL`.
+4. **Settings → Environment Variables** : ajouter `AUTH_SECRET` (une longue chaîne aléatoire, par ex. `openssl rand -base64 32`).
+5. Déployer. Le script `vercel-build` bascule Prisma sur PostgreSQL, crée les tables, remplit la base de démo **uniquement si elle est vide**, puis compile l'appli. Les redéploiements ne touchent pas aux données.
+
+En ligne, se connecter avec un compte de démo : résidence « Les Tilleuls », logement `TIL-A-102`, code `246810`.
+
 ## Sécurité
 
 - Le n° d'UG seul ne suffit pas, car il est devinable : il faut aussi le **code d'activation** à usage unique.
