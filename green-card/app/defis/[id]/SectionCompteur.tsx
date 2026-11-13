@@ -102,9 +102,12 @@ export async function SectionCompteur({ carteId, consentement }: { carteId: stri
                 </dl>
               )}
 
-              {eco && bilan.variation !== null && (
-                <p className={`mt-3 rounded-xl p-3 text-sm ${bilan.variation <= 0 ? "bg-green-50 text-green-text" : "bg-alert-bg text-alert"}`}>
-                  {bilan.variation <= 0 ? (
+              {eco && bilan.variation !== null && Math.abs(bilan.variation) < 0.005 && (
+                <p className="mt-3 rounded-xl bg-bg p-3 text-sm">Consommation stable par rapport au départ. Un petit geste de plus pour la faire baisser ?</p>
+              )}
+              {eco && bilan.variation !== null && Math.abs(bilan.variation) >= 0.005 && (
+                <p className={`mt-3 rounded-xl p-3 text-sm ${bilan.variation < 0 ? "bg-green-50 text-green-text" : "bg-alert-bg text-alert"}`}>
+                  {bilan.variation < 0 ? (
                     <>
                       <strong>{nombre(-bilan.variation * 100, 0)} % de moins</strong> qu&apos;au départ : environ{" "}
                       <strong>{nombre(eco.euros, 0)} €</strong> et {nombre(eco.co2, 0)} kg de CO₂ économisés par mois.

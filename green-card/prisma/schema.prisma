@@ -71,6 +71,13 @@ model Carte {
   annonces            Annonce[]         @relation("AnnoncesPubliees")
   annoncesRecues      Annonce[]         @relation("AnnoncesRecues")
   interets            InteretAnnonce[]
+  partiesGaspi        PartieGaspi[]
+  douches             Douche[]
+  engagement19        Engagement19?
+  checkIns19          CheckIn19[]
+  actionsAntiGaspi    ActionAntiGaspi[]
+  quizFrigo           QuizFrigo[]
+  defisImmeuble       MembreDefiImmeuble[]
 }
 
 model Session {
@@ -254,4 +261,94 @@ model InteretAnnonce {
   createdAt DateTime @default(now())
 
   @@id([annonceId, carteId])
+}
+
+// ---------------------------------------------------------------------------
+// Jeux 2 (Chasse au Gaspi), 3 (Douche Chrono), 4 (Opération 19 °C), 7 (Zéro Gaspi Frigo), 10 (Défi Immeuble)
+// ---------------------------------------------------------------------------
+
+/// Une partie de Chasse au Gaspi : l'ordre des objets et la solution restent côté serveur.
+model PartieGaspi {
+  id       String    @id @default(cuid())
+  carteId  String
+  carte    Carte     @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  objets   String    /// JSON : identifiants des objets, dans l'ordre affiché
+  clics    String    @default("[]") /// JSON : objets déjà touchés
+  trouves  Int       @default(0)
+  erreurs  Int       @default(0)
+  debut    DateTime  @default(now())
+  fin      DateTime?
+  dureeMs  Int?
+
+  @@index([carteId, debut])
+}
+
+/// Une douche chronométrée : début et fin horodatés par le serveur.
+model Douche {
+  id      String    @id @default(cuid())
+  carteId String
+  carte   Carte     @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  debut   DateTime  @default(now())
+  fin     DateTime?
+  dureeS  Int?
+  jour    String
+  reussie Boolean   @default(false)
+
+  @@index([carteId, jour])
+}
+
+/// Les engagements chauffage choisis par le foyer (Opération 19 °C).
+model Engagement19 {
+  carteId      String   @id
+  carte        Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  engagements  String   /// JSON : identifiants des engagements
+  majLe        DateTime @updatedAt
+}
+
+/// Le point du jour : engagements tenus ce jour-là.
+model CheckIn19 {
+  id      String   @id @default(cuid())
+  carteId String
+  carte   Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  jour    String
+  faits   String   /// JSON : engagements tenus
+  tenue   Boolean
+  majLe   DateTime @updatedAt
+
+  @@unique([carteId, jour])
+}
+
+/// Une action anti-gaspillage alimentaire (Zéro Gaspi Frigo).
+model ActionAntiGaspi {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  type      String   /// recette | congele | partage | liste | compost
+  recetteId String?
+  jour      String
+  createdAt DateTime @default(now())
+
+  @@index([carteId, jour])
+}
+
+/// Une tentative au quiz « DLC ou DDM ? ».
+model QuizFrigo {
+  id        String   @id @default(cuid())
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  score     Int
+  total     Int
+  createdAt DateTime @default(now())
+
+  @@index([carteId])
+}
+
+/// Inscription d'un foyer au Défi Immeuble d'un mois donné (AAAA-MM).
+model MembreDefiImmeuble {
+  carteId   String
+  carte     Carte    @relation(fields: [carteId], references: [id], onDelete: Cascade)
+  mois      String
+  createdAt DateTime @default(now())
+
+  @@id([carteId, mois])
 }

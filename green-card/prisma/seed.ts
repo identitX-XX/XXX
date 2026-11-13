@@ -10,7 +10,7 @@ import { DEFIS, pointsPourNiveau } from "../lib/defis";
 import { MEDAILLES } from "../lib/carte";
 import { co2Evite } from "../lib/jeux/trajets";
 import { co2Action } from "../lib/jeux/circulaire";
-import { jourParis } from "../lib/temps";
+import { jourParis, moisParis, moisPrecedent } from "../lib/temps";
 import { genererCodeActivation, hacherCode, hacherPin, VALIDITE_CODE_JOURS } from "../lib/securite";
 
 const db = new PrismaClient();
@@ -78,6 +78,13 @@ const ASTUCES_DEMO = [
 async function main() {
   const alea = mulberry32(2026);
 
+  await db.membreDefiImmeuble.deleteMany();
+  await db.quizFrigo.deleteMany();
+  await db.actionAntiGaspi.deleteMany();
+  await db.checkIn19.deleteMany();
+  await db.engagement19.deleteMany();
+  await db.douche.deleteMany();
+  await db.partieGaspi.deleteMany();
   await db.interetAnnonce.deleteMany();
   await db.annonce.deleteMany();
   await db.actionCirculaire.deleteMany();
@@ -202,6 +209,35 @@ async function main() {
   for (const [i, [ug, type, categorie, titre, description]] of annonces.entries()) {
     await db.annonce.create({ data: { carteId: cartes.get(ug)!, residenceId: tilleuls, type, categorie, titre, description, createdAt: ilYa(3 - i) } });
   }
+
+  // Foyer Martin : douches réussies sur 2 jours, 5 journées 19 °C tenues, actions anti-gaspi sur 6 jours (3 bronzes).
+  for (const j of [3, 2]) {
+    const debutDouche = ilYa(j);
+    await db.douche.create({ data: { carteId: martin, debut: debutDouche, fin: new Date(debutDouche.getTime() + 270_000), dureeS: 270, jour: jourParis(debutDouche), reussie: true } });
+  }
+  await medaille(CARTE_DEMO.ug, "douche-chrono", 1);
+  const engagementsMartin = ["thermostat-19", "nuit-17", "volets", "pull"];
+  await db.engagement19.create({ data: { carteId: martin, engagements: JSON.stringify(engagementsMartin) } });
+  for (const j of [6, 5, 4, 3, 2]) {
+    await db.checkIn19.create({ data: { carteId: martin, jour: jourParis(ilYa(j)), faits: JSON.stringify(engagementsMartin.slice(0, 3)), tenue: true } });
+  }
+  await medaille(CARTE_DEMO.ug, "operation-19", 1);
+  const typesAntiGaspi = ["recette", "congele", "liste", "recette", "compost", "partage"];
+  for (const [i, j] of [7, 6, 5, 4, 3, 2].entries()) {
+    await db.actionAntiGaspi.create({ data: { carteId: martin, type: typesAntiGaspi[i], recetteId: typesAntiGaspi[i] === "recette" ? "soupe" : null, jour: jourParis(ilYa(j)), createdAt: ilYa(j) } });
+  }
+  await medaille(CARTE_DEMO.ug, "zero-gaspi-frigo", 1);
+
+  // Défi Immeuble : le mois dernier, la résidence Les Tilleuls a été la plus active, Foyer Martin en tête
+  // (5 relevés de gaz ; un compteur à part pour ne pas changer le niveau du Compteur Malin).
+  const [annee, moisNum] = moisPrecedent(moisParis()).split("-").map(Number);
+  for (const [i, jourDuMois] of [3, 10, 17, 24, 28].entries()) {
+    await db.releve.create({ data: { carteId: martin, type: "gaz", index: 4210 + i * 14, date: new Date(Date.UTC(annee, moisNum - 1, jourDuMois, 11)) } });
+  }
+  for (const ug of ["TIL-A-103", "TIL-B-101"]) {
+    await db.membreDefiImmeuble.create({ data: { carteId: cartes.get(ug)!, mois: moisParis() } });
+  }
+  await db.membreDefiImmeuble.create({ data: { carteId: martin, mois: moisPrecedent(moisParis()) } });
 
   const fichier = join(__dirname, "codes-demo.csv");
   writeFileSync(fichier, lignes.join("\n") + "\n");

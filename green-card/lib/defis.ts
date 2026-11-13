@@ -38,8 +38,8 @@ export const DEFIS: DefiDef[] = [
 /** Défis jouables dès l'activation de la carte : un par univers (énergie, mobilité, déchets, seconde main, astuces). */
 export const DEFIS_OUVERTURE = ["compteur-malin", "trajets-verts", "tri-master", "seconde-vie", "boite-a-astuces"];
 
-/** Défis dont le jeu est déjà développé (les autres s'affichent « Bientôt »). */
-export const JEUX_DISPONIBLES = new Set(["compteur-malin", "trajets-verts", "tri-master", "seconde-vie", "boite-a-astuces"]);
+/** Défis dont le jeu est développé (les autres s'afficheraient « Bientôt ») : les 10 cases. */
+export const JEUX_DISPONIBLES = new Set(DEFIS.map((d) => d.id));
 
 export const defiParId = (id: string) => DEFIS.find((d) => d.id === id);
 

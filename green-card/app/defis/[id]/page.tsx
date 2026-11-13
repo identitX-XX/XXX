@@ -11,6 +11,8 @@ import { SectionTri } from "./SectionTri";
 import { SectionAstuces } from "./SectionAstuces";
 import { SectionTrajets } from "./SectionTrajets";
 import { SectionSecondeVie } from "./SectionSecondeVie";
+import { SectionDouche, SectionFrigo, SectionGaspi, SectionOperation19 } from "./SectionsMaison";
+import { SectionImmeuble } from "./SectionImmeuble";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +82,11 @@ export default async function PageDefi({ params }: { params: { id: string } }) {
           </ol>
         </section>
 
+        {defi.id === "chasse-au-gaspi" && <SectionGaspi carteId={carte.id} />}
+        {defi.id === "douche-chrono" && <SectionDouche carteId={carte.id} />}
+        {defi.id === "operation-19" && <SectionOperation19 carteId={carte.id} />}
+        {defi.id === "zero-gaspi-frigo" && <SectionFrigo carteId={carte.id} />}
+        {defi.id === "defi-immeuble" && <SectionImmeuble carteId={carte.id} residenceId={carte.logement.residenceId} />}
         {defi.id === "compteur-malin" && <SectionCompteur carteId={carte.id} consentement={!!carte.consentConsommation} />}
         {defi.id === "tri-master" && <SectionTri carteId={carte.id} />}
         {defi.id === "trajets-verts" && <SectionTrajets carteId={carte.id} />}

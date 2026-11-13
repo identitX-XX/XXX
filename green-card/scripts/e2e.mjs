@@ -9,6 +9,19 @@ import { createRequire } from "node:module";
 import assert from "node:assert/strict";
 import tri from "../lib/jeux/tri.ts";
 const { BACS, DECHETS } = tri;
+import gaspiMod from "../lib/jeux/gaspi.ts";
+import frigoMod from "../lib/jeux/frigo.ts";
+import prismaPkg from "@prisma/client";
+const { OBJETS } = gaspiMod;
+const { QUIZ } = frigoMod;
+const prisma = new prismaPkg.PrismaClient();
+
+/** Recule le début de la douche en cours (pour ne pas attendre 4 minutes pendant le test). */
+async function reculerDouche(ug, secondes) {
+  const l = await prisma.logement.findUnique({ where: { ug }, include: { carte: true } });
+  const { count } = await prisma.douche.updateMany({ where: { carteId: l.carte.id, fin: null }, data: { debut: new Date(Date.now() - secondes * 1000) } });
+  assert.equal(count, 1, "une douche en cours");
+}
 
 const require = createRequire(import.meta.url);
 const { chromium, devices } = require("playwright");
@@ -155,6 +168,9 @@ try {
   await seDeconnecter();
   await seConnecter("Résidence Les Tilleuls", "TIL-A-101", "482913");
   assert.equal(await points(), 20);
+  await page.goto(BASE + "/defis/chasse-au-gaspi");
+  await page.waitForURL("**/carte");
+  ok("un défi encore verrouillé renvoie vers la carte");
   await page.getByRole("link", { name: "Jouer" }).click();
   await page.waitForURL("**/defis/compteur-malin");
   ok("carte → bouton Jouer → Compteur Malin");
@@ -303,7 +319,7 @@ try {
   // --- Le vote des voisins fait gagner l'or à l'auteur ; relevé en baisse → or -----
   await seDeconnecter();
   await seConnecter("Résidence Les Tilleuls", "TIL-A-102", "246810");
-  assert.equal(await points(), 270 + 80, "Foyer Martin : l'or de la Boîte à Astuces grâce au 5ᵉ vote");
+  assert.equal(await points(), 380 + 80, "Foyer Martin : l'or de la Boîte à Astuces grâce au 5ᵉ vote");
   ok("Foyer Martin : 5ᵉ vote reçu → or à la Boîte à Astuces, +80");
 
   await page.goto(BASE + "/defis/compteur-malin");
@@ -312,7 +328,8 @@ try {
   await page.getByText("Case tamponnée !").waitFor();
   assert.ok(await page.getByText("Médaille Or").isVisible());
   assert.ok(await page.getByText("+130 GreenPoints").isVisible());
-  await page.getByText(/de moins.*économisés par mois/).waitFor();
+  await page.getByText(/21 % de moins.*économisés par mois/).waitFor();
+  await page.getByText("Consommation stable").waitFor(); // gaz : même consommation qu'au départ
   await page.waitForTimeout(900);
   await capture("14-compteur-or");
   ok("Foyer Martin : consommation en baisse → or au Compteur Malin, +130");
@@ -354,15 +371,190 @@ try {
   await capture("18-carte-5-cases");
   ok("Les Dupont : 5 cases tamponnées, 440 GreenPoints");
 
+  // =========================================================================
+  // Les 5 derniers défis (Les Dupont, qui ont débloqué toutes les cases)
+  // =========================================================================
+  const delta = async (action) => {
+    await page.goto(BASE + "/carte");
+    const avant = await points();
+    await action();
+    await page.goto(BASE + "/carte");
+    return (await points()) - avant;
+  };
+
+  // --- Jeu 2 : Chasse au Gaspi ---------------------------------------------
+  const gaspis = OBJETS.filter((o) => o.gaspi);
+  const pieges = OBJETS.filter((o) => !o.gaspi);
+  async function visite(erreurs) {
+    await page.getByRole("button", { name: /Entrer dans l'appartement|Rejouer/ }).click();
+    for (const o of pieges.slice(0, erreurs)) {
+      await page.getByRole("button", { name: o.description, exact: true }).click();
+      await page.getByText("Raté, c'est un bon geste").waitFor();
+    }
+    for (const o of gaspis) {
+      await page.getByRole("button", { name: o.description, exact: true }).click();
+      await page.getByRole("button", { name: `${o.description} : gaspillage trouvé` }).or(page.getByText("Visite terminée")).first().waitFor();
+    }
+    await page.getByText("Visite terminée").waitFor();
+  }
+  await page.goto(BASE + "/defis/chasse-au-gaspi");
+  await visite(3);
+  assert.ok(await page.getByText("+60 GreenPoints").isVisible(), "10/10 avec 3 erreurs → argent");
+  ok("Chasse au Gaspi : 10/10 avec 3 erreurs → argent, +60");
+  await visite(0);
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("Médaille Or").isVisible());
+  assert.ok(await page.getByText("+40 GreenPoints").isVisible());
+  await page.waitForTimeout(900);
+  await capture("19-gaspi-or");
+  ok("Chasse au Gaspi : sans-faute rapide → or, +40");
+
+  // --- Jeu 3 : Douche Chrono -------------------------------------------------
+  await page.goto(BASE + "/defis/douche-chrono");
+  await page.getByRole("button", { name: "Je commence ma douche" }).click();
+  await page.getByRole("button", { name: "J'ai fini" }).waitFor();
+  await page.waitForTimeout(1200);
+  await capture("20-douche-en-cours");
+  await reculerDouche("TIL-A-101", 240);
+  await page.getByRole("button", { name: "J'ai fini" }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("+40 GreenPoints").isVisible());
+  await page.getByText("Environ 72 litres").waitFor();
+  ok("Douche Chrono : 4 minutes mesurées par le serveur → bronze, +40, 72 litres économisés");
+
+  await page.getByRole("button", { name: "Continuer" }).click();
+  await page.getByRole("button", { name: "Je commence ma douche" }).click();
+  await page.getByRole("button", { name: "J'ai fini" }).click();
+  await page.getByText("Moins d'une minute").waitFor();
+  ok("Douche Chrono : un minuteur arrêté trop vite n'est pas compté");
+
+  // --- Jeu 4 : Opération 19 °C -----------------------------------------------
+  await page.goto(BASE + "/defis/operation-19");
+  await choisir("19 °C dans les pièces de vie");
+  await choisir("Volets et rideaux fermés le soir");
+  await page.getByRole("button", { name: "Je m'engage" }).click();
+  await page.getByRole("alert").getByText("au moins 3").waitFor();
+  await choisir("Un pull plutôt qu'un degré de plus");
+  await page.getByRole("button", { name: "Je m'engage" }).click();
+  await page.getByRole("button", { name: "Valider ma journée" }).waitFor();
+  ok("Opération 19 °C : au moins 3 engagements demandés, puis enregistrés");
+
+  await choisir("19 °C dans les pièces de vie");
+  await choisir("Un pull plutôt qu'un degré de plus");
+  await page.getByRole("button", { name: "Valider ma journée" }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("+40 GreenPoints").isVisible());
+  await page.getByText("1 journée tenue").waitFor();
+  ok("Opération 19 °C : 2 engagements sur 3 tenus → journée tenue, bronze, +40");
+
+  // --- Jeu 7 : Zéro Gaspi Frigo ----------------------------------------------
+  await page.goto(BASE + "/defis/zero-gaspi-frigo");
+  for (const i of ["Pain rassis", "Œufs", "Lait"]) await page.getByRole("button", { name: i, exact: true }).click();
+  await page.getByRole("button", { name: /Pain perdu/ }).click();
+  await page.getByText("Trempez les tranches de pain rassis").waitFor();
+  await capture("21-frigo-recette");
+  await page.getByRole("button", { name: "Je l'ai cuisiné !" }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("+30 GreenPoints").isVisible());
+  ok("Zéro Gaspi Frigo : pain rassis + œufs + lait → pain perdu cuisiné, bronze, +30");
+
+  async function quiz(fautes) {
+    await page.getByRole("tab", { name: /Mes actions/ }).click();
+    for (const [n, q] of QUIZ.entries()) {
+      const choix = n < fautes ? q.choix[1 - q.bonne] : q.choix[q.bonne];
+      await page.locator("label:visible", { hasText: choix }).click();
+    }
+    await page.getByRole("button", { name: "Voir mes résultats" }).click();
+    await page.getByText(`${QUIZ.length - fautes}/${QUIZ.length}`).waitFor();
+  }
+  await quiz(1);
+  assert.equal(await page.locator("p:visible", { hasText: "Case tamponnée !" }).count(), 0);
+  ok("Zéro Gaspi Frigo : quiz à 5/6 → corrections affichées, pas de médaille");
+
+  // --- Jeu 10 : Le Défi Immeuble ---------------------------------------------
+  await page.goto(BASE + "/defis/defi-immeuble");
+  await page.getByText("Classement des résidences").waitFor();
+  await page.getByRole("button", { name: /Je rejoins l'équipe/ }).click();
+  await page.getByText("Case tamponnée !").waitFor();
+  assert.ok(await page.getByText("+60 GreenPoints").isVisible());
+  await page.getByText("Vous faites partie de l'équipe").waitFor();
+  ok("Défi Immeuble : rejoindre l'équipe → bronze, +60");
+
+  await page.goto(BASE + "/carte");
+  assert.equal(await points(), 440 + 100 + 40 + 40 + 30 + 60);
+  await page.getByText("Niveau Pousse · Gold").waitFor();
+  await page.waitForTimeout(300);
+  await capture("22-carte-gold");
+  ok("Les Dupont : les 10 cases tamponnées → Green Card Gold, 710 GreenPoints");
+
   await seDeconnecter();
   await seConnecter("Résidence Les Tilleuls", "TIL-A-102", "246810");
-  assert.equal(await points(), 350 + 130 + 60 + 140, "Foyer Martin : l'or de Seconde Vie aussi, confirmé par le donneur");
+  assert.equal(await points(), 460 + 130 + 60 + 140, "Foyer Martin : l'or de Seconde Vie aussi, confirmé par le donneur");
   ok("Foyer Martin : l'échange confirmé lui donne aussi l'or, +140");
 
-  // Les défis non développés ne sont pas accessibles par URL.
-  await page.goto(BASE + "/defis/douche-chrono");
-  await page.waitForURL("**/carte");
-  ok("un défi « Bientôt » renvoie vers la carte");
+  // --- Foyer Martin et les 5 derniers défis ------------------------------------
+  assert.equal(
+    await delta(async () => {
+      await page.goto(BASE + "/defis/douche-chrono");
+      await page.getByRole("button", { name: "Je commence ma douche" }).click();
+      await page.getByRole("button", { name: "J'ai fini" }).waitFor();
+      await reculerDouche("TIL-A-102", 270);
+      await page.getByRole("button", { name: "J'ai fini" }).click();
+      await page.getByText("Médaille Argent").waitFor();
+    }),
+    50,
+  );
+  ok("Foyer Martin : 3ᵉ jour de douche ≤ 5 min → argent, +50");
+
+  assert.equal(
+    await delta(async () => {
+      await page.goto(BASE + "/defis/operation-19");
+      await page.getByText("5 journées tenues").waitFor();
+      for (const e of ["19 °C dans les pièces de vie", "16 à 17 °C la nuit", "Volets et rideaux"]) await choisir(e);
+      await page.getByRole("button", { name: "Valider ma journée" }).click();
+      await page.getByText("6 journées tenues").waitFor();
+      await choisir("Hier");
+      await page.getByRole("button", { name: "Valider ma journée" }).click();
+      await page.getByText("Médaille Argent").waitFor();
+    }),
+    50,
+  );
+  ok("Foyer Martin : aujourd'hui + hier → 7 journées à 19 °C, argent, +50");
+
+  assert.equal(
+    await delta(async () => {
+      await page.goto(BASE + "/defis/zero-gaspi-frigo");
+      await quiz(0);
+      await page.getByText("Médaille Argent").waitFor();
+    }),
+    40,
+  );
+  ok("Foyer Martin : quiz « DLC ou DDM ? » sans faute → argent, +40");
+
+  assert.equal(
+    await delta(async () => {
+      await page.goto(BASE + "/defis/zero-gaspi-frigo");
+      await page.getByRole("tab", { name: /Mes actions/ }).click();
+      await choisir("congelé avant la date");
+      await page.getByRole("button", { name: "Enregistrer", exact: true }).click();
+      await page.getByText("Médaille Or").waitFor();
+    }),
+    60,
+  );
+  ok("Foyer Martin : 7ᵉ jour d'action anti-gaspi → or, +60");
+
+  assert.equal(
+    await delta(async () => {
+      await page.goto(BASE + "/defis/defi-immeuble");
+      await page.getByText("Case tamponnée !").waitFor();
+      await page.getByText("Médaille Or").waitFor();
+      await page.getByText("1ʳᵉ place 🥇").waitFor();
+      await page.waitForTimeout(900);
+      await capture("23-immeuble-or");
+    }),
+    300,
+  );
+  ok("Foyer Martin : résidence 1ʳᵉ le mois dernier avec 5 gestes de sa part → or au Défi Immeuble, +300");
 
   // 8. Mode sombre
   const sombre = await navigateur.newContext({ ...devices["iPhone 13"], colorScheme: "dark" });
@@ -373,6 +565,7 @@ try {
   ok("mode sombre");
 
   await navigateur.close();
+  await prisma.$disconnect();
   console.log(`\nParcours OK — captures dans ${CAPTURES}`);
 } catch (e) {
   console.error("\n✗ Échec :", e.message);
