@@ -6,9 +6,9 @@
 /* Layout : poste de pilotage — bandeau d'indicateurs clés, puis une carte par dimension, puis les leviers. */
 :root{
   --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa; --ink:#15202b; --muted:#5a6773; --line:#d6dce2;
-  --accent:#2550c4; --accent-soft:#e3eafb;
+  --accent:var(--brand,#2550c4); --accent-soft:color-mix(in srgb,var(--accent) 12%,#ffffff);
   --good:#0f7a3d; --good-soft:#e2f3e8; --warn:#9a6200; --warn-soft:#fbf0d9; --crit:#b4282a; --crit-soft:#fbe5e4;
-  --s1:#2a78d6; --s2:#eb6834; --grid:#e4e8ec;
+  --s1:var(--brand,#2a78d6); --s2:var(--brand2,#eb6834); --grid:#e4e8ec;
   --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
   --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
@@ -16,14 +16,14 @@
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#0e1319; --surface:#161d25; --surface-2:#1c242d; --ink:#e5eaef; --muted:#97a3ae; --line:#2b3540;
-  --accent:#86a6ff; --accent-soft:#1f2a44;
+  --accent:color-mix(in srgb,var(--brand,#2550c4) 45%,#ffffff); --accent-soft:color-mix(in srgb,var(--brand,#2550c4) 30%,#161d25);
   --good:#4cc47e; --good-soft:#15301f; --warn:#e5b04a; --warn-soft:#33280f; --crit:#f07474; --crit-soft:#3a1a1a;
-  --s1:#3987e5; --s2:#d95926; --grid:#232c35; color-scheme:dark}}
+  --s1:color-mix(in srgb,var(--brand,#2a78d6) 65%,#ffffff); --s2:color-mix(in srgb,var(--brand2,#d95926) 80%,#ffffff); --grid:#232c35; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0e1319; --surface:#161d25; --surface-2:#1c242d; --ink:#e5eaef; --muted:#97a3ae; --line:#2b3540;
-  --accent:#86a6ff; --accent-soft:#1f2a44;
+  --accent:color-mix(in srgb,var(--brand,#2550c4) 45%,#ffffff); --accent-soft:color-mix(in srgb,var(--brand,#2550c4) 30%,#161d25);
   --good:#4cc47e; --good-soft:#15301f; --warn:#e5b04a; --warn-soft:#33280f; --crit:#f07474; --crit-soft:#3a1a1a;
-  --s1:#3987e5; --s2:#d95926; --grid:#232c35; color-scheme:dark}
+  --s1:color-mix(in srgb,var(--brand,#2a78d6) 65%,#ffffff); --s2:color-mix(in srgb,var(--brand2,#d95926) 80%,#ffffff); --grid:#232c35; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -34,7 +34,7 @@ h3{font-size:.98rem;font-weight:600}
 .eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .muted{color:var(--muted)}
 .mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
-header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+header.top{border-top:4px solid var(--accent);padding-top:14px;display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
 header.top p{margin:4px 0 0;max-width:62ch;color:var(--muted)}
 nav.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:20px}
 nav.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;font:500 .92rem var(--f-body);color:var(--muted);cursor:pointer;margin-bottom:-1px}
@@ -66,7 +66,7 @@ label.f span{font-weight:500}
 .kpi .v{font-family:var(--f-display);font-size:1.9rem;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
 .kpi .v small{font-size:.9rem;color:var(--muted);font-weight:500;margin-left:3px}
 .kpi .row{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;font-size:.8rem}
-.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:16px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
 @media (max-width:420px){.grid2{grid-template-columns:1fr}}
 .dim{display:flex;flex-direction:column;gap:12px}
@@ -129,7 +129,7 @@ tr:last-child td{border-bottom:0}
 <div class="wrap">
   <header class="top">
     <div>
-      <div class="eyebrow">Pôle technique · mesure de performance</div>
+      <div class="eyebrow" id="entite">Pôle technique · mesure de performance</div>
       <h1>Pilotage du pôle technique</h1>
       <p>Charge, efficacité, efficience, qualité, flux, goulots et équilibrage, calculés à partir de vos demandes. Les leviers de progression sont proposés automatiquement.</p>
     </div>
@@ -188,13 +188,14 @@ const DEFAULT_CONFIG = {
   kpis:["tauxCharge","respectDelais","leadTime","tauxReprise","cvCharge"],
   cibles:{},
   perimetre:{raison:"", entrees:"", transformation:"", sorties:""},
+  identite:{entite:"", primaire:"", secondaire:""},
 };
 
 /* ---------- état & stockage ---------- */
 const S = {demandes:[], retours:[], baselines:[], config:null, loaded:{d:false,c:false}};
 let db=null, mode="loading", tab="pilotage";
 let filt={statut:"ouvertes", resp:"", q:""};
-const cfg = () => Object.assign({}, DEFAULT_CONFIG, S.config||{}, {perimetre:Object.assign({},DEFAULT_CONFIG.perimetre,(S.config||{}).perimetre||{}), cibles:Object.assign({},(S.config||{}).cibles||{})});
+const cfg = () => Object.assign({}, DEFAULT_CONFIG, S.config||{}, {identite:Object.assign({},DEFAULT_CONFIG.identite,(S.config||{}).identite||{}), perimetre:Object.assign({},DEFAULT_CONFIG.perimetre,(S.config||{}).perimetre||{}), cibles:Object.assign({},(S.config||{}).cibles||{})});
 const cible = k => { const c=cfg().cibles; return (k in c) ? c[k] : KPI[k].cible; };
 
 const LS="pilotage-pole-technique-v1";
@@ -345,6 +346,7 @@ function render(){
   const ae=document.activeElement;
   if(ae && $("#view").contains(ae) && /INPUT|TEXTAREA|SELECT/.test(ae.tagName) && tab==="reglages"){ pending=true; return; }
   pending=false;
+  applyIdentite();
   $("#tabs").innerHTML=TABS.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-tab="${k}">${l}${k==="demandes"&&S.demandes.length?` <span class="muted mono">${S.demandes.length}</span>`:""}</button>`).join("");
   const st=$("#status");
   const sm={loading:["","Connexion…"],db:["ok","Données partagées"],local:["warn","Mode local (ce navigateur)"],slow:["warn","Données injoignables pour l'instant"],error:["crit","Accès aux données refusé"]}[mode];
@@ -357,6 +359,13 @@ function render(){
   else if(tab==="retours") v.innerHTML=viewRetours();
   else if(tab==="reglages") v.innerHTML=viewReglages();
   else v.innerHTML=viewMethode();
+}
+const HEX=/^#[0-9a-fA-F]{6}$/;
+function applyIdentite(){
+  const id=cfg().identite, r=document.documentElement.style;
+  HEX.test(id.primaire||"") ? r.setProperty("--brand",id.primaire) : r.removeProperty("--brand");
+  HEX.test(id.secondaire||"") ? r.setProperty("--brand2",id.secondaire) : r.removeProperty("--brand2");
+  $("#entite").textContent=(id.entite?id.entite+" · ":"")+"Pôle technique · mesure de performance";
 }
 document.addEventListener("focusout",()=>setTimeout(()=>{ if(pending) render(); },0));
 
@@ -646,7 +655,17 @@ function viewRetours(){
 /* ---------- vue Réglages ---------- */
 function viewReglages(){
   const c=cfg();
+  const id=c.identite, col=(k,lab,def)=>`<div class="f" style="font-size:.85rem;color:var(--muted)"><span style="font-weight:500">${lab}</span><div style="display:flex;gap:6px"><input type="color" id="col-${k}" data-col="${k}" value="${HEX.test(id[k]||"")?id[k]:def}" style="width:44px;padding:2px;height:36px"><input id="hex-${k}" data-hex="${k}" value="${esc(id[k]||"")}" placeholder="${def}" maxlength="7" class="mono"></div></div>`;
   return `<div class="stack" style="gap:20px">
+  <section class="panel stack">
+    <div><h2>Identité</h2><p class="muted" style="margin:4px 0 0">Nom de l'entité affiché en tête et couleurs de votre charte (codes hexadécimaux, ex. #1D3F8F). Laissez vide pour les couleurs par défaut.</p></div>
+    <div class="fgrid">
+      <label class="f"><span>Entité</span><input id="id-entite" value="${esc(id.entite)}" placeholder="Ex. : Agence de Nice"></label>
+      ${col("primaire","Couleur principale","#2550c4")}
+      ${col("secondaire","Couleur secondaire","#eb6834")}
+    </div>
+    <div><button class="btn small" data-act="resetcol">Revenir aux couleurs par défaut</button></div>
+  </section>
   <section class="panel stack">
     <div><div class="eyebrow">Étape 1</div><h2>Périmètre et raison d'être du pôle</h2></div>
     <div class="fgrid">
@@ -794,6 +813,7 @@ document.addEventListener("click",async e=>{
   }
   else if(a==="delb"){ try{ await del("baselines",t.dataset.id); }catch(x){ err(x); } }
   else if(a==="delr"){ try{ await del("retours",t.dataset.id); }catch(x){ err(x); } }
+  else if(a==="resetcol"){ c.identite={...c.identite,primaire:"",secondaire:""}; saveConfig(c); }
   else if(a==="addm"){ c.membres=[...c.membres,{nom:"",role:"",capacite:30}]; saveConfig(c); }
   else if(a==="delm"){ c.membres=c.membres.filter((_,i)=>i!==+t.dataset.i); saveConfig(c); }
 });
@@ -804,12 +824,16 @@ document.addEventListener("change",e=>{
   else if(el.id==="f-resp"){ filt.resp=el.value; render(); }
   else if(el.dataset.p){ c.perimetre[el.dataset.p]=el.value; saveConfig(c); }
   else if(el.dataset.m!=null && el.dataset.k){ const m=c.membres.map(x=>({...x})); m[+el.dataset.m][el.dataset.k]= el.dataset.k==="capacite"? num(el.value) : el.value; c.membres=m; saveConfig(c); }
+  else if(el.id==="id-entite"){ c.identite={...c.identite,entite:el.value.trim()}; saveConfig(c); }
+  else if(el.dataset.col||el.dataset.hex){ const k=el.dataset.col||el.dataset.hex, v=el.value.trim();
+    if(v && !HEX.test(v)){ toast("Code couleur attendu au format #RRGGBB."); return; }
+    c.identite={...c.identite,[k]:v.toLowerCase()}; saveConfig(c); }
   else if(el.id==="c-hj"){ c.heuresJour=num(el.value)||7; saveConfig(c); }
   else if(el.dataset.kpi){ const k=el.dataset.kpi; c.kpis = el.checked ? [...c.kpis.filter(x=>x!==k),k].slice(0,5) : c.kpis.filter(x=>x!==k); saveConfig(c); if(db){ S.config=c; } el.blur(); }
   else if(el.dataset.cible){ c.cibles[el.dataset.cible]= el.value.trim()===""? "" : num(el.value); saveConfig(c); }
 });
 let qT;
-document.addEventListener("input",e=>{ if(e.target.id==="f-q"){ clearTimeout(qT); qT=setTimeout(()=>{ filt.q=e.target.value; render(); const i=$("#f-q"); if(i){ i.focus(); i.setSelectionRange(i.value.length,i.value.length); } },250); } });
+document.addEventListener("input",e=>{ const k=e.target.dataset&&e.target.dataset.col; if(k){ document.documentElement.style.setProperty(k==="primaire"?"--brand":"--brand2",e.target.value); const h=$("#hex-"+k); if(h) h.value=e.target.value; return; } if(e.target.id==="f-q"){ clearTimeout(qT); qT=setTimeout(()=>{ filt.q=e.target.value; render(); const i=$("#f-q"); if(i){ i.focus(); i.setSelectionRange(i.value.length,i.value.length); } },250); } });
 document.addEventListener("submit",async e=>{
   if(e.target.id!=="rform") return; e.preventDefault();
   const g=id=>$("#"+id).value.trim();
