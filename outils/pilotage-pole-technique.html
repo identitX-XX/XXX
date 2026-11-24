@@ -1,0 +1,832 @@
+<title>Pilotage du pôle technique</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout : poste de pilotage — bandeau d'indicateurs clés, puis une carte par dimension, puis les leviers. */
+:root{
+  --bg:#eef1f4; --surface:#ffffff; --surface-2:#f6f8fa; --ink:#15202b; --muted:#5a6773; --line:#d6dce2;
+  --accent:#2550c4; --accent-soft:#e3eafb;
+  --good:#0f7a3d; --good-soft:#e2f3e8; --warn:#9a6200; --warn-soft:#fbf0d9; --crit:#b4282a; --crit-soft:#fbe5e4;
+  --s1:#2a78d6; --s2:#eb6834; --grid:#e4e8ec;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --r:8px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0e1319; --surface:#161d25; --surface-2:#1c242d; --ink:#e5eaef; --muted:#97a3ae; --line:#2b3540;
+  --accent:#86a6ff; --accent-soft:#1f2a44;
+  --good:#4cc47e; --good-soft:#15301f; --warn:#e5b04a; --warn-soft:#33280f; --crit:#f07474; --crit-soft:#3a1a1a;
+  --s1:#3987e5; --s2:#d95926; --grid:#232c35; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1319; --surface:#161d25; --surface-2:#1c242d; --ink:#e5eaef; --muted:#97a3ae; --line:#2b3540;
+  --accent:#86a6ff; --accent-soft:#1f2a44;
+  --good:#4cc47e; --good-soft:#15301f; --warn:#e5b04a; --warn-soft:#33280f; --crit:#f07474; --crit-soft:#3a1a1a;
+  --s1:#3987e5; --s2:#d95926; --grid:#232c35; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-block:20px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1{font-size:1.7rem;font-weight:700}
+h2{font-size:1.15rem;font-weight:600}
+h3{font-size:.98rem;font-weight:600}
+.eyebrow{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.muted{color:var(--muted)}
+.mono,.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+header.top p{margin:4px 0 0;max-width:62ch;color:var(--muted)}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav.tabs button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;font:500 .92rem var(--f-body);color:var(--muted);cursor:pointer;margin-bottom:-1px}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--surface)}
+.btn.danger{color:var(--crit)}
+.btn.small{padding:4px 8px;font-size:.85rem}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input,select,textarea{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%;min-width:0}
+textarea{resize:vertical}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:.85rem;color:var(--muted);min-width:0}
+label.f span{font-weight:500}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:16px}
+.toolbar .grow{flex:1}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:2px 8px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted);white-space:nowrap}
+.chip.ok{color:var(--good);background:var(--good-soft);border-color:transparent}
+.chip.warn{color:var(--warn);background:var(--warn-soft);border-color:transparent}
+.chip.crit{color:var(--crit);background:var(--crit-soft);border-color:transparent}
+.chip.info{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:24px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line)}
+.kpi.ok::before{background:var(--good)} .kpi.warn::before{background:var(--warn)} .kpi.crit::before{background:var(--crit)}
+.kpi .v{font-family:var(--f-display);font-size:1.9rem;font-weight:600;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:.9rem;color:var(--muted);font-weight:500;margin-left:3px}
+.kpi .row{display:flex;justify-content:space-between;gap:8px;align-items:center;flex-wrap:wrap;font-size:.8rem}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px}
+@media (max-width:420px){.grid2{grid-template-columns:1fr}}
+.dim{display:flex;flex-direction:column;gap:12px}
+.dim header{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.dim .q{font-size:.82rem;color:var(--muted);margin:2px 0 0}
+dl.m{display:grid;grid-template-columns:1fr auto;gap:6px 12px;margin:0}
+dl.m dt{color:var(--muted);font-size:.88rem}
+dl.m dd{margin:0;text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.9rem;white-space:nowrap}
+dl.m dd .chip{margin-left:6px;font-family:var(--f-body)}
+.sec{margin-top:28px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+svg text{fill:var(--muted);font-family:var(--f-mono);font-size:10px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.hbar{display:grid;grid-template-columns:minmax(90px,140px) 1fr auto;gap:8px;align-items:center;font-size:.85rem}
+.hbar .track{height:10px;background:var(--surface-2);border-radius:3px;position:relative;overflow:visible}
+.hbar .fill{height:100%;border-radius:0 3px 3px 0;background:var(--s1)}
+.hbar .fill.over{background:var(--crit)} .hbar .fill.under{background:var(--muted);opacity:.55}
+.hbar .mark{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.6}
+.hbars{display:flex;flex-direction:column;gap:8px}
+.levers{display:flex;flex-direction:column;gap:10px}
+.lever{display:grid;grid-template-columns:4px 1fr;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px 12px 0;overflow:hidden}
+.lever .bar{background:var(--muted)} .lever.crit .bar{background:var(--crit)} .lever.warn .bar{background:var(--warn)} .lever.info .bar{background:var(--accent)}
+.lever h3{font-size:.95rem}
+.lever p{margin:4px 0 0;color:var(--muted);font-size:.88rem;max-width:80ch}
+.lever .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;color:var(--muted);font-size:.76rem;text-transform:uppercase;letter-spacing:.05em;background:var(--surface-2)}
+td.t{white-space:normal;min-width:180px}
+td.n,th.n{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+.empty{text-align:center;padding:40px 16px;color:var(--muted)}
+.empty h2{color:var(--ink);margin-bottom:6px}
+.overlay{position:fixed;inset:0;background:rgba(10,15,20,.45);display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) 12px 24px;overflow-y:auto;z-index:50}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:10px;width:100%;max-width:720px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.fgrid .wide{grid-column:1/-1}
+.actions{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.notice{background:var(--accent-soft);color:var(--ink);border-radius:var(--r);padding:10px 14px;font-size:.88rem;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.notice.warn{background:var(--warn-soft)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:8px 14px;border-radius:6px;font-size:.88rem;z-index:60}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:.78rem;padding:6px 8px;border-radius:5px;z-index:70;max-width:240px;font-family:var(--f-body)}
+.prose{max-width:72ch}
+.prose p,.prose li{color:var(--ink)}
+.prose h2{margin-top:24px;margin-bottom:6px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.steps .panel b{font-family:var(--f-mono);color:var(--accent);margin-right:6px}
+.member{display:grid;grid-template-columns:1.3fr 1fr 110px auto;gap:8px;align-items:end}
+@media (max-width:560px){.member{grid-template-columns:1fr 1fr}}
+.kpipick{display:grid;grid-template-columns:auto 1fr 110px;gap:8px 10px;align-items:center;font-size:.88rem}
+.kpipick .dimtag{font-size:.72rem}
+.stack{display:flex;flex-direction:column;gap:12px}
+.oldest li{display:flex;justify-content:space-between;gap:10px;padding:5px 0;border-bottom:1px dashed var(--line);font-size:.86rem}
+.oldest{list-style:none;margin:0;padding:0}
+.oldest li span:first-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (prefers-reduced-motion:no-preference){.kpi,.panel,.lever{transition:border-color .15s}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow">Pôle technique · mesure de performance</div>
+      <h1>Pilotage du pôle technique</h1>
+      <p>Charge, efficacité, efficience, qualité, flux, goulots et équilibrage, calculés à partir de vos demandes. Les leviers de progression sont proposés automatiquement.</p>
+    </div>
+    <div id="status" class="chip">Chargement…</div>
+  </header>
+  <nav class="tabs" role="tablist" id="tabs"></nav>
+  <div id="notice"></div>
+  <main id="view"></main>
+</div>
+<div id="modal"></div>
+<div id="tip" hidden></div>
+
+<script>
+"use strict";
+/* ---------- utilitaires ---------- */
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const DAY = 86400000;
+const pd = s => { if(!s) return null; const m=/^(\d{4})-(\d{2})-(\d{2})/.exec(String(s)); return m? Date.UTC(+m[1],+m[2]-1,+m[3]) : null; };
+const fd = t => { const d=new Date(t); return d.toISOString().slice(0,10); };
+const todayT = () => { const n=new Date(); return Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()); };
+const frDate = s => { const t=pd(s); if(t==null) return "—"; const d=new Date(t); return d.toLocaleDateString("fr-FR",{day:"2-digit",month:"short",timeZone:"UTC"}); };
+const median = a => { const b=a.filter(x=>x!=null&&isFinite(x)).sort((x,y)=>x-y); if(!b.length) return null; const m=b.length>>1; return b.length%2?b[m]:(b[m-1]+b[m])/2; };
+const mean = a => { const b=a.filter(x=>x!=null&&isFinite(x)); return b.length? b.reduce((s,x)=>s+x,0)/b.length : null; };
+const sum = a => a.reduce((s,x)=>s+(+x||0),0);
+const fmt = (v,d=0) => v==null||!isFinite(v) ? "—" : v.toLocaleString("fr-FR",{maximumFractionDigits:d,minimumFractionDigits:d});
+const num = v => { if(v===""||v==null) return null; const n=parseFloat(String(v).replace(",",".")); return isFinite(n)?n:null; };
+const uid = () => Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+
+/* ---------- référentiels ---------- */
+const TYPES = ["Incident","Demande de service","Évolution","Projet","Maintenance préventive"];
+const STATUTS = {backlog:"À faire", encours:"En cours", bloque:"Bloqué / en attente", livre:"Livré"};
+const BLOCAGES = ["","Attente demandeur","Attente validation","Attente fournisseur / pièce","Attente autre équipe","Manque de compétence","Environnement / outil indisponible","Priorité changée"];
+const DIMS = {charge:"Charge", efficacite:"Efficacité", efficience:"Efficience", qualite:"Qualité", flux:"Flux", equilibrage:"Équilibrage"};
+
+/* Catalogue d'indicateurs : sens = "haut" (plus c'est haut mieux c'est) ou "bas". */
+const KPI = {
+  tauxCharge:   {dim:"charge", label:"Taux de charge entrant", unit:"%", d:0, sens:"bas", cible:85, help:"Heures demandées par semaine ÷ capacité hebdo de l'équipe."},
+  stockSemaines:{dim:"charge", label:"Stock de travail", unit:"sem.", d:1, sens:"bas", cible:2, help:"Heures restantes sur les demandes ouvertes ÷ capacité hebdo."},
+  wipParPersonne:{dim:"charge", label:"En-cours par personne", unit:"", d:1, sens:"bas", cible:2, help:"Demandes en cours ou bloquées ÷ nombre de personnes."},
+  respectDelais:{dim:"efficacite", label:"Respect des délais", unit:"%", d:0, sens:"haut", cible:85, help:"Part des demandes livrées au plus tard à l'échéance."},
+  debit:        {dim:"efficacite", label:"Débit", unit:"/sem.", d:1, sens:"haut", cible:null, help:"Demandes livrées par semaine sur la période."},
+  ecartEstimation:{dim:"efficience", label:"Temps passé vs estimé", unit:"%", d:0, sens:"bas", cible:110, help:"Heures passées ÷ heures estimées sur les demandes livrées."},
+  efficienceFlux:{dim:"efficience", label:"Efficience du flux", unit:"%", d:0, sens:"haut", cible:30, help:"Temps de travail réel ÷ durée totale (lead time en heures ouvrées)."},
+  tempsMoyen:   {dim:"efficience", label:"Temps passé par demande", unit:"h", d:1, sens:"bas", cible:null, help:"Médiane des heures passées par demande livrée."},
+  tauxReprise:  {dim:"qualite", label:"Taux de reprise", unit:"%", d:0, sens:"bas", cible:10, help:"Part des livraisons qui ont dû être reprises (erreur, retour, non-conformité)."},
+  satisfaction: {dim:"qualite", label:"Satisfaction demandeurs", unit:"/5", d:1, sens:"haut", cible:4, help:"Moyenne des notes données à la livraison."},
+  leadTime:     {dim:"flux", label:"Lead time médian", unit:"j", d:1, sens:"bas", cible:10, help:"Durée médiane entre la demande et la livraison."},
+  cycleTime:    {dim:"flux", label:"Temps de cycle médian", unit:"j", d:1, sens:"bas", cible:null, help:"Durée médiane entre le démarrage et la livraison."},
+  attenteDemarrage:{dim:"flux", label:"Attente avant démarrage", unit:"j", d:1, sens:"bas", cible:3, help:"Durée médiane entre la demande et le démarrage."},
+  backlog:      {dim:"flux", label:"Demandes en attente", unit:"", d:0, sens:"bas", cible:null, help:"Demandes « À faire » non démarrées."},
+  cvCharge:     {dim:"equilibrage", label:"Déséquilibre de charge", unit:"%", d:0, sens:"bas", cible:25, help:"Coefficient de variation de l'occupation entre personnes. 0 % = parfaitement réparti."},
+};
+const DEFAULT_CONFIG = {
+  membres:[], heuresJour:7, periode:8,
+  kpis:["tauxCharge","respectDelais","leadTime","tauxReprise","cvCharge"],
+  cibles:{},
+  perimetre:{raison:"", entrees:"", transformation:"", sorties:""},
+};
+
+/* ---------- état & stockage ---------- */
+const S = {demandes:[], retours:[], baselines:[], config:null, loaded:{d:false,c:false}};
+let db=null, mode="loading", tab="pilotage";
+let filt={statut:"ouvertes", resp:"", q:""};
+const cfg = () => Object.assign({}, DEFAULT_CONFIG, S.config||{}, {perimetre:Object.assign({},DEFAULT_CONFIG.perimetre,(S.config||{}).perimetre||{}), cibles:Object.assign({},(S.config||{}).cibles||{})});
+const cible = k => { const c=cfg().cibles; return (k in c) ? c[k] : KPI[k].cible; };
+
+const LS="pilotage-pole-technique-v1";
+let mem=null;
+function loadLocal(){ try{ mem=JSON.parse(localStorage.getItem(LS)||"null"); }catch(e){} mem = mem||{demandes:{},retours:{},baselines:{},config:null}; syncLocal(); }
+function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify(mem)); }catch(e){} }
+function syncLocal(){ S.demandes=Object.entries(mem.demandes).map(([id,v])=>({id,...v})); S.retours=Object.entries(mem.retours).map(([id,v])=>({id,...v})); S.baselines=Object.entries(mem.baselines).map(([id,v])=>({id,...v})); S.config=mem.config; S.loaded={d:true,c:true}; }
+
+async function put(coll,id,data){
+  if(db){ await db.collection(coll).doc(id).set(data); }
+  else { if(coll==="config") mem.config=data; else mem[coll][id]=data; saveLocal(); syncLocal(); render(); }
+}
+async function del(coll,id){
+  if(db){ await db.collection(coll).doc(id).delete(); }
+  else { delete mem[coll][id]; saveLocal(); syncLocal(); render(); }
+}
+const saveConfig = c => put("config","main",c).catch(err);
+function err(e){ console.error(e); toast(e&&e.code==="invalid_argument" ? "Enregistrement refusé : vous n'avez peut-être que l'accès en lecture." : e&&e.code==="quota_exceeded" ? "Base pleine : supprimez d'anciennes demandes." : "Enregistrement impossible pour l'instant. Réessayez."); }
+
+async function init(){
+  render();
+  try{ db = window.claude && window.claude.use ? await window.claude.use("db") : null; }catch(e){ db=null; }
+  if(!db){ mode="local"; loadLocal(); render(); return; }
+  mode="db";
+  const timer=setTimeout(()=>{ if(!S.loaded.d){ mode="slow"; render(); } },10000);
+  const on = (coll,key) => db.collection(coll).onSnapshot(snap=>{
+      S[key]=snap.docs.map(d=>({id:d.id,...d.data()}));
+      if(coll==="demandes"&&!snap.metadata.fromCache){ S.loaded.d=true; clearTimeout(timer); if(mode==="slow") mode="db"; }
+      render();
+    }, e=>{ console.error(e); clearTimeout(timer); mode="error"; render(); });
+  on("demandes","demandes"); on("retours","retours"); on("baselines","baselines");
+  db.doc("config/main").onSnapshot(s=>{ S.config=s.exists?s.data():null; S.loaded.c=true; render(); }, e=>console.error(e));
+}
+
+/* ---------- calcul des indicateurs ---------- */
+function compute(weeks){
+  const c=cfg(), T=todayT(), from=T-weeks*7*DAY, H=c.heuresJour||7;
+  const all=S.demandes;
+  const est = d => num(d.estime_h) ?? num(d.passe_h) ?? 4;
+  const done=all.filter(d=>d.statut==="livre" && pd(d.livree_le)!=null && pd(d.livree_le)>from);
+  const open=all.filter(d=>d.statut!=="livre");
+  const arrived=all.filter(d=>pd(d.creee_le)!=null && pd(d.creee_le)>from);
+  const membres=c.membres.filter(m=>m.nom);
+  const capa=sum(membres.map(m=>num(m.capacite)||0));
+  const lead=d=> (pd(d.livree_le)-pd(d.creee_le))/DAY;
+  const cyc=d=> pd(d.demarree_le)!=null ? (pd(d.livree_le)-pd(d.demarree_le))/DAY : null;
+  const waitStart=d=> pd(d.demarree_le)!=null ? (pd(d.demarree_le)-pd(d.creee_le))/DAY : null;
+  const withDue=done.filter(d=>pd(d.echeance)!=null);
+  const remaining = d => Math.max(0, est(d) - (num(d.passe_h)||0));
+  const m={};
+  m.tauxCharge = capa? (sum(arrived.map(est))/weeks)/capa*100 : null;
+  m.stockSemaines = capa? sum(open.map(remaining))/capa : null;
+  const wip=open.filter(d=>d.statut==="encours"||d.statut==="bloque");
+  m.wipParPersonne = membres.length? wip.length/membres.length : null;
+  m.respectDelais = withDue.length? withDue.filter(d=>pd(d.livree_le)<=pd(d.echeance)).length/withDue.length*100 : null;
+  m.debit = done.length/weeks;
+  const doneEst=done.filter(d=>num(d.estime_h)!=null&&num(d.passe_h)!=null);
+  m.ecartEstimation = sum(doneEst.map(d=>num(d.estime_h)))? sum(doneEst.map(d=>num(d.passe_h)))/sum(doneEst.map(d=>num(d.estime_h)))*100 : null;
+  const fe=done.filter(d=>num(d.passe_h)!=null).map(d=>{ const wd=Math.max(1,Math.round(lead(d)*5/7)); return Math.min(1,num(d.passe_h)/(wd*H)); });
+  m.efficienceFlux = fe.length? mean(fe)*100 : null;
+  m.tempsMoyen = median(done.map(d=>num(d.passe_h)));
+  m.tauxReprise = done.length? done.filter(d=>d.reprise===true||d.reprise==="oui").length/done.length*100 : null;
+  m.satisfaction = mean(done.map(d=>num(d.satisfaction)).filter(x=>x!=null&&x>0));
+  m.leadTime = median(done.map(lead));
+  m.cycleTime = median(done.map(cyc));
+  m.attenteDemarrage = median(done.map(waitStart));
+  m.backlog = open.filter(d=>d.statut==="backlog").length;
+
+  /* par personne */
+  const people = membres.map(p=>{
+    const mine=all.filter(d=>d.responsable===p.nom);
+    const spent=sum(mine.filter(d=>(d.statut!=="livre")||pd(d.livree_le)>from).map(d=>num(d.passe_h)||0));
+    const cap=(num(p.capacite)||0);
+    const rem=sum(mine.filter(d=>d.statut!=="livre").map(remaining));
+    return {nom:p.nom, role:p.role, cap, occupation: cap? spent/(cap*weeks)*100 : null, stock: cap? rem/cap : null,
+      wip: mine.filter(d=>d.statut==="encours"||d.statut==="bloque").length, livrees: mine.filter(d=>d.statut==="livre"&&pd(d.livree_le)>from).length};
+  });
+  const unassigned=open.filter(d=>!d.responsable || !membres.some(p=>p.nom===d.responsable)).length;
+  const occ=people.map(p=>p.stock).filter(x=>x!=null);
+  const mu=mean(occ);
+  m.cvCharge = occ.length>1 && mu>0 ? Math.sqrt(mean(occ.map(x=>(x-mu)**2)))/mu*100 : null;
+
+  /* goulots : causes d'attente */
+  const blk={};
+  all.filter(d=>d.blocage && (d.statut!=="livre" || pd(d.livree_le)>from)).forEach(d=>{
+    const k=d.blocage; blk[k]=blk[k]||{cause:k,n:0,jours:0,ouverts:0};
+    blk[k].n++; blk[k].jours+=num(d.attente_j)||0; if(d.statut!=="livre") blk[k].ouverts++;
+  });
+  const goulots=Object.values(blk).sort((a,b)=>b.jours-a.jours||b.n-a.n);
+  /* par type : où ça traîne */
+  const parType=TYPES.map(t=>{ const x=done.filter(d=>d.type===t); return {type:t,n:x.length,lead:median(x.map(lead)), ouvertes:open.filter(d=>d.type===t).length}; }).filter(x=>x.n||x.ouvertes);
+  const oldest=open.slice().sort((a,b)=>pd(a.creee_le)-pd(b.creee_le)).slice(0,6).map(d=>({...d,age:(T-pd(d.creee_le))/DAY}));
+
+  /* séries hebdo */
+  const serie=[];
+  for(let i=weeks-1;i>=0;i--){
+    const a=T-(i+1)*7*DAY, b=T-i*7*DAY;
+    const dn=all.filter(d=>d.statut==="livre"&&pd(d.livree_le)>a&&pd(d.livree_le)<=b);
+    serie.push({debut:a, livrees:dn.length, arrivees:all.filter(d=>pd(d.creee_le)>a&&pd(d.creee_le)<=b).length, lead:median(dn.map(lead))});
+  }
+  return {m, people, goulots, parType, oldest, serie, capa, nbDone:done.length, nbOpen:open.length, nbArr:arrived.length, unassigned, weeks, membres};
+}
+function statusOf(k,v){
+  const t=cible(k); if(v==null||t==null||t==="") return null;
+  const tt=+t, ok = KPI[k].sens==="haut" ? v>=tt : v<=tt;
+  if(ok) return "ok";
+  const gap = KPI[k].sens==="haut" ? (tt-v)/Math.max(Math.abs(tt),1e-9) : (v-tt)/Math.max(Math.abs(tt),1e-9);
+  return gap<=.15 ? "warn" : "crit";
+}
+const lastBaseline = () => S.baselines.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
+
+/* ---------- leviers de progression ---------- */
+function levers(R){
+  const m=R.m, L=[], c=cfg();
+  const add=(sev,dim,titre,texte)=>L.push({sev,dim,titre,texte});
+  if(!R.membres.length) add("info","charge","Décrire l'équipe et sa capacité","Sans capacité hebdomadaire par personne, la charge et l'équilibrage ne peuvent pas être calculés. Renseignez l'équipe dans Réglages.");
+  if(m.tauxCharge!=null && m.tauxCharge>100) add("crit","charge","La demande dépasse la capacité",`Il arrive ${fmt(m.tauxCharge)} % de la capacité chaque semaine. Le stock va grossir quoi qu'on fasse en interne : arbitrer les priorités avec les demandeurs, refuser ou reporter, ou renforcer l'équipe.`);
+  else if(m.tauxCharge!=null && m.tauxCharge>85) add("warn","charge","Charge proche de la saturation",`Au-delà de 85 % de charge, les délais s'allongent fortement (effet file d'attente). Gardez une marge pour les urgences et les imprévus.`);
+  const arr=R.nbArr/R.weeks, out=m.debit;
+  if(arr>out*1.15 && R.nbArr>=4) add("warn","flux","Il entre plus de demandes qu'il n'en sort",`${fmt(arr,1)} arrivées contre ${fmt(out,1)} livraisons par semaine. Le stock en attente grossit ; le lead time suivra.`);
+  if(m.wipParPersonne!=null && m.wipParPersonne>2.5) add("warn","flux","Trop de demandes menées en parallèle",`${fmt(m.wipParPersonne,1)} demandes en cours par personne. Limiter l'en-cours (2 par personne, par exemple) réduit le temps de cycle et les changements de contexte.`);
+  const g=R.goulots[0], totJ=sum(R.goulots.map(x=>x.jours));
+  if(g && totJ>0 && g.jours/totJ>=.35) add("crit","flux",`Goulot principal : ${g.cause}`,`${fmt(g.jours/totJ*100)} % des jours d'attente viennent de cette cause (${g.n} demandes, ${g.ouverts} encore ouvertes). C'est là qu'une action rapporte le plus : règle de relance, délai de réponse convenu, circuit de validation raccourci.`);
+  if(m.efficienceFlux!=null && m.efficienceFlux<25) add("warn","efficience","Les demandes attendent plus qu'elles ne sont traitées",`Seulement ${fmt(m.efficienceFlux)} % du lead time est du travail effectif. Gagner du temps passe par la réduction des attentes, pas par travailler plus vite.`);
+  if(m.attenteDemarrage!=null && m.leadTime && m.attenteDemarrage/m.leadTime>.5) add("warn","flux","L'attente avant prise en charge domine",`La moitié du lead time se passe avant le démarrage. Un tri hebdomadaire des entrées et une règle de priorisation claire aident.`);
+  if(m.respectDelais!=null && m.respectDelais<(+cible("respectDelais")||85)) add(m.respectDelais<70?"crit":"warn","efficacite","Délais non tenus",`${fmt(m.respectDelais)} % des livraisons à l'heure. Vérifiez si les échéances sont fixées avec une estimation réaliste et si les demandes en retard partagent une cause commune (type, personne, blocage).`);
+  if(m.ecartEstimation!=null && m.ecartEstimation>130) add("warn","efficience","Les estimations sont trop optimistes",`On passe ${fmt(m.ecartEstimation)} % du temps estimé. Comparez par type de demande et ajoutez une marge sur les types les plus sous-estimés.`);
+  if(m.tauxReprise!=null && m.tauxReprise>(+cible("tauxReprise")||10)) add(m.tauxReprise>20?"crit":"warn","qualite","Trop de reprises",`${fmt(m.tauxReprise)} % des livraisons ont dû être reprises. Une check-list de recette ou une relecture croisée avant livraison coûte moins que la reprise.`);
+  if(m.satisfaction!=null && m.satisfaction<3.5) add("warn","qualite","Satisfaction faible",`Note moyenne ${fmt(m.satisfaction,1)}/5. Lisez les commentaires et interrogez 2 ou 3 demandeurs : les chiffres disent où, eux disent pourquoi.`);
+  if(m.cvCharge!=null && m.cvCharge>(+cible("cvCharge")||25)){
+    const s=R.people.filter(p=>p.stock!=null).sort((a,b)=>b.stock-a.stock);
+    add(m.cvCharge>50?"crit":"warn","equilibrage","Charge mal répartie",`${esc(s[0].nom)} : ${fmt(s[0].stock,1)} semaines de travail en attente, contre ${fmt(s[s.length-1].stock,1)} pour ${esc(s[s.length-1].nom)}. Réaffecter ou faire monter en compétence pour que les demandes ne dépendent pas d'une seule personne.`);
+  }
+  if(R.unassigned>0) add("info","equilibrage","Demandes sans responsable",`${R.unassigned} demande(s) ouverte(s) n'ont pas de responsable dans l'équipe. Elles n'entrent pas dans le calcul de l'équilibrage.`);
+  const lent=R.parType.filter(t=>t.lead!=null&&t.n>=2).sort((a,b)=>b.lead-a.lead)[0];
+  if(lent && m.leadTime && lent.lead>m.leadTime*1.5) add("info","flux",`Le type « ${lent.type} » est le plus lent`,`Lead time médian ${fmt(lent.lead,1)} j contre ${fmt(m.leadTime,1)} j tous types confondus. Un circuit dédié ou un découpage plus fin peut aider.`);
+  if(!S.baselines.length) add("info","methode","Figer une ligne de base","Mesurez quelques semaines sans rien changer, puis cliquez « Figer la ligne de base ». Vous pourrez ensuite juger objectivement l'effet de chaque action.");
+  const recent=S.retours.filter(r=>pd(r.date)>todayT()-R.weeks*7*DAY);
+  if(recent.length<2) add("info","methode","Recueillir le retour des personnes","Peu de retours qualitatifs sur la période. Les indicateurs montrent où ça bloque ; seuls l'équipe et les demandeurs expliquent pourquoi.");
+  const order={crit:0,warn:1,info:2};
+  return L.sort((a,b)=>order[a.sev]-order[b.sev]);
+}
+
+/* ---------- rendu ---------- */
+const TABS=[["pilotage","Tableau de bord"],["demandes","Demandes"],["retours","Retours humains"],["reglages","Réglages"],["methode","Méthode"]];
+let pending=false;
+function render(){
+  const ae=document.activeElement;
+  if(ae && $("#view").contains(ae) && /INPUT|TEXTAREA|SELECT/.test(ae.tagName) && tab==="reglages"){ pending=true; return; }
+  pending=false;
+  $("#tabs").innerHTML=TABS.map(([k,l])=>`<button role="tab" aria-selected="${k===tab}" data-tab="${k}">${l}${k==="demandes"&&S.demandes.length?` <span class="muted mono">${S.demandes.length}</span>`:""}</button>`).join("");
+  const st=$("#status");
+  const sm={loading:["","Connexion…"],db:["ok","Données partagées"],local:["warn","Mode local (ce navigateur)"],slow:["warn","Données injoignables pour l'instant"],error:["crit","Accès aux données refusé"]}[mode];
+  st.className="chip "+sm[0]; st.innerHTML=`<span class="dot"></span>${sm[1]}`;
+  const ex=S.demandes.some(d=>d.exemple);
+  $("#notice").innerHTML = ex ? `<div class="notice"><span><b>Données d'exemple.</b> Ces demandes illustrent l'outil ; elles ne sont pas les vôtres. Supprimez-les quand vous saisissez ou importez vos propres données.</span><button class="btn small" data-act="purge">Supprimer les exemples</button></div>` : "";
+  const v=$("#view");
+  if(tab==="pilotage") v.innerHTML=viewPilotage();
+  else if(tab==="demandes") v.innerHTML=viewDemandes();
+  else if(tab==="retours") v.innerHTML=viewRetours();
+  else if(tab==="reglages") v.innerHTML=viewReglages();
+  else v.innerHTML=viewMethode();
+}
+document.addEventListener("focusout",()=>setTimeout(()=>{ if(pending) render(); },0));
+
+function kpiValue(k,v){ return v==null? "—" : fmt(v,KPI[k].d); }
+function deltaChip(k,v,base){
+  if(!base||!base.valeurs||base.valeurs[k]==null||v==null) return "";
+  const b=base.valeurs[k], diff=v-b; if(Math.abs(diff)<1e-9) return `<span class="chip">= ligne de base</span>`;
+  const better = KPI[k].sens==="haut"? diff>0 : diff<0;
+  return `<span class="chip ${better?"ok":"crit"}" data-tip="Ligne de base du ${esc(frDate(base.date))} : ${esc(fmt(b,KPI[k].d))} ${esc(KPI[k].unit)}">${diff>0?"▲":"▼"} ${fmt(Math.abs(diff),KPI[k].d)}</span>`;
+}
+function statusChip(k,v){
+  const s=statusOf(k,v); if(!s) return "";
+  const lab={ok:"Cible atteinte",warn:"Proche de la cible",crit:"Hors cible"}[s];
+  return `<span class="chip ${s}"><span class="dot"></span>${lab}</span>`;
+}
+
+function viewPilotage(){
+  if(mode==="loading") return `<div class="empty"><h2>Chargement des données…</h2></div>`;
+  if(!S.demandes.length) return emptyState();
+  const c=cfg(), R=compute(c.periode), base=lastBaseline();
+  const tiles=c.kpis.slice(0,5).filter(k=>KPI[k]).map(k=>{
+    const v=R.m[k], s=statusOf(k,v)||"", t=cible(k);
+    return `<div class="kpi ${s}" data-tip="${esc(KPI[k].help)}">
+      <div class="eyebrow">${DIMS[KPI[k].dim]}</div>
+      <div style="font-weight:600">${KPI[k].label}</div>
+      <div class="v">${kpiValue(k,v)}<small>${esc(KPI[k].unit)}</small></div>
+      <div class="row"><span class="muted">${t!=null&&t!==""?`Cible ${KPI[k].sens==="haut"?"≥":"≤"} ${fmt(+t,KPI[k].d)} ${esc(KPI[k].unit)}`:"Sans cible"}</span>${deltaChip(k,v,base)}</div>
+      ${statusChip(k,v)?`<div>${statusChip(k,v)}</div>`:""}
+    </div>`;}).join("");
+  const row=(k)=>`<dt data-tip="${esc(KPI[k].help)}">${KPI[k].label}</dt><dd>${kpiValue(k,R.m[k])} ${esc(KPI[k].unit)}${statusChip(k,R.m[k])}</dd>`;
+  const L=levers(R);
+  return `
+  <div class="toolbar">
+    <label class="f" style="flex-direction:row;align-items:center;gap:8px"><span>Période</span>
+      <select id="periode" style="width:auto">${[4,8,12,26].map(w=>`<option value="${w}" ${w===c.periode?"selected":""}>${w} dernières semaines</option>`).join("")}</select></label>
+    <span class="chip">${R.nbDone} livrées · ${R.nbOpen} ouvertes · ${R.membres.length} pers. · ${fmt(R.capa)} h/sem.</span>
+    <span class="grow"></span>
+    ${base?`<span class="chip info">Ligne de base du ${esc(frDate(base.date))}</span>`:`<span class="chip warn">Pas encore de ligne de base</span>`}
+    <button class="btn" data-act="baseline">Figer la ligne de base</button>
+  </div>
+  <div class="sec" style="margin-top:0"><h2>Mes indicateurs clés</h2><span class="muted">${c.kpis.length} indicateurs choisis dans Réglages (5 maximum)</span></div>
+  <div class="kpis">${tiles}</div>
+
+  <div class="grid4">
+    <section class="panel dim">
+      <header><div><h2>Charge</h2><p class="q">Combien de travail pèse sur le pôle ?</p></div></header>
+      <dl class="m">${row("tauxCharge")}${row("stockSemaines")}${row("wipParPersonne")}<dt>Arrivées par semaine</dt><dd>${fmt(R.nbArr/R.weeks,1)}</dd></dl>
+    </section>
+    <section class="panel dim">
+      <header><div><h2>Efficacité</h2><p class="q">Atteint-on l'objectif ?</p></div></header>
+      <dl class="m">${row("respectDelais")}${row("debit")}<dt>Livrées sur la période</dt><dd>${R.nbDone}</dd></dl>
+    </section>
+    <section class="panel dim">
+      <header><div><h2>Efficience</h2><p class="q">À quel coût en temps ?</p></div></header>
+      <dl class="m">${row("ecartEstimation")}${row("efficienceFlux")}${row("tempsMoyen")}</dl>
+    </section>
+    <section class="panel dim">
+      <header><div><h2>Qualité et fiabilité</h2><p class="q">Le résultat est-il bon ?</p></div></header>
+      <dl class="m">${row("tauxReprise")}${row("satisfaction")}<dt>Notes recueillies</dt><dd>${S.demandes.filter(d=>num(d.satisfaction)>0&&d.statut==="livre"&&pd(d.livree_le)>todayT()-R.weeks*7*DAY).length} / ${R.nbDone}</dd></dl>
+    </section>
+  </div>
+
+  <div class="sec"><h2>Vélocité et flux</h2><span class="muted">À quelle vitesse ça circule ?</span></div>
+  <div class="grid2">
+    <section class="panel dim">
+      <header><h3>Arrivées et livraisons par semaine</h3><div class="legend"><span><i style="background:var(--s1)"></i>Livrées</span><span><i style="background:var(--s2);height:2px;vertical-align:3px"></i>Arrivées</span></div></header>
+      ${chartFlux(R.serie)}
+      <dl class="m">${row("leadTime")}${row("cycleTime")}${row("attenteDemarrage")}${row("backlog")}</dl>
+    </section>
+    <section class="panel dim">
+      <header><div><h3>Goulots d'étranglement</h3><p class="q">Jours d'attente cumulés par cause, période + demandes ouvertes</p></div></header>
+      ${goulotsBars(R.goulots)}
+      <div><div class="eyebrow" style="margin-bottom:4px">Demandes ouvertes les plus anciennes</div>
+      <ul class="oldest">${R.oldest.map(d=>`<li><span>${esc(d.titre)} <span class="muted">· ${esc(STATUTS[d.statut]||"")}</span></span><span class="mono">${fmt(d.age)} j</span></li>`).join("")||`<li class="muted">Aucune</li>`}</ul></div>
+      ${R.parType.length?`<div class="tablewrap"><table><thead><tr><th>Type</th><th class="n">Livrées</th><th class="n">Lead time méd.</th><th class="n">Ouvertes</th></tr></thead><tbody>${R.parType.map(t=>`<tr><td>${esc(t.type)}</td><td class="n">${t.n}</td><td class="n">${t.lead==null?"—":fmt(t.lead,1)+" j"}</td><td class="n">${t.ouvertes}</td></tr>`).join("")}</tbody></table></div>`:""}
+    </section>
+  </div>
+
+  <div class="sec"><h2>Équilibrage de l'équipe</h2><span class="muted">La charge est-elle bien répartie ?</span></div>
+  <section class="panel dim">${peopleView(R)}</section>
+
+  <div class="sec"><h2>Leviers de progression</h2><span class="muted">Classés par urgence, déduits des chiffres ci-dessus</span></div>
+  <div class="levers">${L.map(l=>`<div class="lever ${l.sev}"><div class="bar"></div><div><h3>${esc(l.titre)}</h3><p>${l.texte}</p><div class="meta"><span class="chip ${l.sev}">${{crit:"Prioritaire",warn:"À traiter",info:"À noter"}[l.sev]}</span><span class="chip">${l.dim==="methode"?"Méthode":DIMS[l.dim]}</span></div></div></div>`).join("")||`<div class="panel muted">Aucun signal d'alerte sur la période. Confrontez quand même ces chiffres aux retours de l'équipe.</div>`}</div>
+  <p class="muted" style="margin-top:20px;font-size:.84rem">Rappel (loi de Goodhart) : ces indicateurs servent à comprendre le système, pas à noter les personnes. Une mesure devenue objectif cesse d'être une bonne mesure.</p>`;
+}
+
+function chartFlux(serie){
+  const W=520,H=170,pl=28,pr=8,pt=10,pb=22, iw=W-pl-pr, ih=H-pt-pb;
+  const max=Math.max(1,...serie.map(s=>Math.max(s.livrees,s.arrivees)));
+  const step=max<=5?1:max<=10?2:max<=25?5:10, top=Math.ceil(max/step)*step;
+  const y=v=>pt+ih-(v/top)*ih, bw=iw/serie.length;
+  let g="";
+  for(let v=0;v<=top;v+=step) g+=`<line x1="${pl}" x2="${W-pr}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${pl-6}" y="${y(v)+3}" text-anchor="end">${v}</text>`;
+  const bars=serie.map((s,i)=>{ const x=pl+i*bw+bw*.2, w=Math.max(2,bw*.6-2), h=y(0)-y(s.livrees);
+    const lab=new Date(s.debut).toLocaleDateString("fr-FR",{day:"2-digit",month:"2-digit",timeZone:"UTC"});
+    return `<g data-tip="Semaine du ${lab} · ${s.livrees} livrées · ${s.arrivees} arrivées${s.lead!=null?` · lead time méd. ${fmt(s.lead,1)} j`:""}"><rect x="${pl+i*bw}" y="${pt}" width="${bw}" height="${ih}" fill="transparent"/>${s.livrees?`<path d="M${x},${y(0)} v${-Math.max(0,h-4)} q0,-4 4,-4 h${w-8} q4,0 4,4 v${Math.max(0,h-4)} z" fill="var(--s1)"/>`:""}</g>
+      ${(i%Math.ceil(serie.length/8)===0)?`<text x="${pl+i*bw+bw/2}" y="${H-6}" text-anchor="middle">${lab}</text>`:""}`; }).join("");
+  const pts=serie.map((s,i)=>`${pl+i*bw+bw/2},${y(s.arrivees)}`);
+  const line=`<polyline points="${pts.join(" ")}" fill="none" stroke="var(--s2)" stroke-width="2" stroke-linejoin="round"/>`+serie.map((s,i)=>`<circle cx="${pl+i*bw+bw/2}" cy="${y(s.arrivees)}" r="3.5" fill="var(--s2)" stroke="var(--surface)" stroke-width="2" pointer-events="none"/>`).join("");
+  return `<div style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Demandes arrivées et livrées par semaine">${g}${bars}${line}</svg></div>`;
+}
+function goulotsBars(G){
+  if(!G.length) return `<p class="muted">Aucune cause d'attente renseignée. Indiquez la cause et la durée d'attente sur les demandes bloquées pour voir apparaître les goulots.</p>`;
+  const max=Math.max(1,...G.map(g=>g.jours));
+  return `<div class="hbars">${G.slice(0,6).map(g=>`<div class="hbar" data-tip="${esc(g.cause)} · ${g.n} demandes · ${g.ouverts} ouvertes · ${fmt(g.jours)} j d'attente"><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(g.cause)}</span><div class="track"><div class="fill" style="width:${g.jours/max*100}%"></div></div><span class="mono">${fmt(g.jours)} j</span></div>`).join("")}</div>`;
+}
+function peopleView(R){
+  if(!R.people.length) return `<p class="muted">Ajoutez les membres de l'équipe et leur capacité hebdomadaire dans <button class="btn small" data-tab="reglages">Réglages</button> pour mesurer l'équilibrage.</p>`;
+  const maxS=Math.max(2,...R.people.map(p=>p.stock||0));
+  const tgt=+cible("stockSemaines")||2;
+  return `<div class="grid2" style="gap:20px">
+   <div class="stack"><div class="eyebrow">Stock de travail par personne (semaines) · trait = ${fmt(tgt,1)} sem.</div>
+    <div class="hbars">${R.people.map(p=>`<div class="hbar" data-tip="${esc(p.nom)} · ${fmt(p.stock,1)} sem. de travail restant · ${p.wip} en cours · ${p.livrees} livrées"><span>${esc(p.nom)}</span><div class="track"><div class="fill ${p.stock>tgt*1.5?"over":""}" style="width:${Math.min(100,(p.stock||0)/maxS*100)}%"></div><div class="mark" style="left:${tgt/maxS*100}%"></div></div><span class="mono">${fmt(p.stock,1)}</span></div>`).join("")}</div></div>
+   <div class="tablewrap"><table><thead><tr><th>Personne</th><th class="n">Capacité</th><th class="n">Occupation</th><th class="n">En cours</th><th class="n">Livrées</th></tr></thead><tbody>
+   ${R.people.map(p=>`<tr><td>${esc(p.nom)}<div class="muted" style="font-size:.78rem">${esc(p.role||"")}</div></td><td class="n">${fmt(p.cap)} h</td><td class="n">${p.occupation==null?"—":fmt(p.occupation)+" %"}</td><td class="n">${p.wip}</td><td class="n">${p.livrees}</td></tr>`).join("")}
+   </tbody></table></div></div>
+   <p class="muted" style="font-size:.84rem;margin:0">Déséquilibre de charge : <b class="mono">${kpiValue("cvCharge",R.m.cvCharge)} %</b> ${statusChip("cvCharge",R.m.cvCharge)}. Occupation = heures saisies sur la période ÷ capacité. Une occupation très basse signale souvent un temps passé non saisi plutôt qu'une personne disponible.</p>`;
+}
+function emptyState(){
+  return `<div class="panel empty"><h2>Aucune demande enregistrée</h2>
+  <p style="max-width:56ch;margin:0 auto 16px">Chaque demande traitée par le pôle (incident, évolution, projet…) alimente les indicateurs. Saisissez-les une à une, importez un export CSV de votre outil de tickets, ou chargez un jeu d'exemple pour découvrir l'outil.</p>
+  <div class="actions" style="justify-content:center"><button class="btn primary" data-act="new">Ajouter une demande</button><button class="btn" data-act="import">Importer un CSV</button><button class="btn" data-act="seed">Charger un exemple</button></div></div>`;
+}
+
+/* ---------- vue Demandes ---------- */
+function viewDemandes(){
+  const c=cfg();
+  let list=S.demandes.slice();
+  if(filt.statut==="ouvertes") list=list.filter(d=>d.statut!=="livre"); else if(filt.statut) list=list.filter(d=>d.statut===filt.statut);
+  if(filt.resp) list=list.filter(d=>d.responsable===filt.resp);
+  if(filt.q){ const q=filt.q.toLowerCase(); list=list.filter(d=>(d.titre+" "+(d.demandeur||"")).toLowerCase().includes(q)); }
+  list.sort((a,b)=>String(b.creee_le).localeCompare(String(a.creee_le)));
+  const T=todayT();
+  const pill=d=>{ const k={backlog:"",encours:"info",bloque:"warn",livre:"ok"}[d.statut]; return `<span class="chip ${k}">${esc(STATUTS[d.statut]||d.statut)}</span>`; };
+  const late=d=> d.statut!=="livre" && pd(d.echeance)!=null && pd(d.echeance)<T;
+  const people=[...new Set([...c.membres.map(m=>m.nom).filter(Boolean),...S.demandes.map(d=>d.responsable).filter(Boolean)])];
+  return `<div class="toolbar">
+    <button class="btn primary" data-act="new">Ajouter une demande</button>
+    <select id="f-statut" style="width:auto"><option value="ouvertes" ${filt.statut==="ouvertes"?"selected":""}>Ouvertes</option><option value="" ${!filt.statut?"selected":""}>Toutes</option>${Object.entries(STATUTS).map(([k,l])=>`<option value="${k}" ${filt.statut===k?"selected":""}>${l}</option>`).join("")}</select>
+    <select id="f-resp" style="width:auto"><option value="">Tous responsables</option>${people.map(p=>`<option ${filt.resp===p?"selected":""}>${esc(p)}</option>`).join("")}</select>
+    <input id="f-q" type="search" placeholder="Rechercher" value="${esc(filt.q)}" style="width:180px">
+    <span class="grow"></span>
+    <button class="btn" data-act="import">Importer CSV</button><button class="btn" data-act="export">Exporter CSV</button>
+  </div>
+  ${!S.demandes.length? emptyState() : `<div class="tablewrap"><table><thead><tr><th>Demande</th><th>Type</th><th>Responsable</th><th>Statut</th><th>Créée</th><th>Échéance</th><th class="n">Âge / durée</th><th class="n">Estimé / passé</th><th></th></tr></thead><tbody>
+  ${list.map(d=>{ const end=d.statut==="livre"?pd(d.livree_le):T; const age=pd(d.creee_le)!=null&&end!=null?(end-pd(d.creee_le))/DAY:null;
+    return `<tr><td class="t"><b style="font-weight:500">${esc(d.titre)}</b>${d.demandeur?`<div class="muted" style="font-size:.78rem">${esc(d.demandeur)}${d.blocage?` · ${esc(d.blocage)}`:""}</div>`:""}</td>
+    <td>${esc(d.type||"")}</td><td>${esc(d.responsable||"—")}</td><td>${pill(d)}${d.reprise===true?` <span class="chip crit">Reprise</span>`:""}</td>
+    <td class="mono">${frDate(d.creee_le)}</td><td class="mono">${frDate(d.echeance)}${late(d)?` <span class="chip crit">Retard</span>`:""}</td>
+    <td class="n">${age==null?"—":fmt(age)+" j"}</td><td class="n">${fmt(num(d.estime_h),1)} / ${fmt(num(d.passe_h),1)} h</td>
+    <td><button class="btn small" data-act="edit" data-id="${esc(d.id)}">Modifier</button></td></tr>`;}).join("") || `<tr><td colspan="9" class="muted">Aucune demande pour ce filtre.</td></tr>`}
+  </tbody></table></div><p class="muted" style="font-size:.82rem">${list.length} demande(s) affichée(s) sur ${S.demandes.length}.</p>`}`;
+}
+
+function openForm(d){
+  const c=cfg(), isNew=!d; d=d||{statut:"backlog",creee_le:fd(todayT()),type:TYPES[1]};
+  const people=c.membres.map(m=>m.nom).filter(Boolean);
+  if(d.responsable && !people.includes(d.responsable)) people.push(d.responsable);
+  const opt=(arr,v)=>arr.map(x=>`<option ${x===v?"selected":""}>${esc(x)}</option>`).join("");
+  $("#modal").innerHTML=`<div class="overlay" data-close="1"><form class="modal" id="dform" novalidate>
+    <div style="display:flex;justify-content:space-between;gap:8px"><h2>${isNew?"Nouvelle demande":"Modifier la demande"}</h2><button type="button" class="btn small" data-close="1">Fermer</button></div>
+    <div class="fgrid">
+      <label class="f wide"><span>Intitulé *</span><input id="d-titre" required value="${esc(d.titre)}"></label>
+      <label class="f"><span>Type</span><select id="d-type">${opt(TYPES,d.type)}</select></label>
+      <label class="f"><span>Demandeur</span><input id="d-demandeur" value="${esc(d.demandeur)}"></label>
+      <label class="f"><span>Responsable</span><select id="d-resp"><option value="">— Non affectée —</option>${opt(people,d.responsable)}</select></label>
+      <label class="f"><span>Statut</span><select id="d-statut">${Object.entries(STATUTS).map(([k,l])=>`<option value="${k}" ${d.statut===k?"selected":""}>${l}</option>`).join("")}</select></label>
+      <label class="f"><span>Demandée le *</span><input id="d-creee" type="date" value="${esc(d.creee_le)}"></label>
+      <label class="f"><span>Démarrée le</span><input id="d-demarree" type="date" value="${esc(d.demarree_le)}"></label>
+      <label class="f"><span>Échéance</span><input id="d-echeance" type="date" value="${esc(d.echeance)}"></label>
+      <label class="f"><span>Livrée le</span><input id="d-livree" type="date" value="${esc(d.livree_le)}"></label>
+      <label class="f"><span>Temps estimé (h)</span><input id="d-estime" inputmode="decimal" value="${esc(d.estime_h)}"></label>
+      <label class="f"><span>Temps passé (h)</span><input id="d-passe" inputmode="decimal" value="${esc(d.passe_h)}"></label>
+      <label class="f"><span>Cause d'attente / blocage</span><select id="d-blocage">${BLOCAGES.map(b=>`<option value="${esc(b)}" ${b===(d.blocage||"")?"selected":""}>${b||"Aucune"}</option>`).join("")}</select></label>
+      <label class="f"><span>Jours d'attente (cumul)</span><input id="d-attente" inputmode="decimal" value="${esc(d.attente_j)}"></label>
+      <label class="f"><span>Satisfaction (1 à 5)</span><select id="d-satis"><option value="">Non notée</option>${[1,2,3,4,5].map(n=>`<option ${+d.satisfaction===n?"selected":""}>${n}</option>`).join("")}</select></label>
+      <label class="f" style="flex-direction:row;align-items:center;gap:8px;padding-top:20px"><input id="d-reprise" type="checkbox" style="width:auto" ${d.reprise===true?"checked":""}><span>A dû être reprise</span></label>
+      <label class="f wide"><span>Commentaire</span><textarea id="d-comment" rows="2">${esc(d.commentaire)}</textarea></label>
+    </div>
+    <p id="d-err" class="chip crit" hidden></p>
+    <div class="actions">${isNew?"":`<button type="button" class="btn danger" id="d-del">Supprimer</button><span class="grow" style="flex:1"></span>`}<button type="button" class="btn" data-close="1">Annuler</button><button class="btn primary" type="submit">${isNew?"Ajouter":"Enregistrer"}</button></div>
+  </form></div>`;
+  $("#d-titre").focus();
+  const f=$("#dform");
+  f.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const g=id=>$("#"+id).value.trim();
+    const o={titre:g("d-titre"),type:g("d-type"),demandeur:g("d-demandeur"),responsable:g("d-resp"),statut:g("d-statut"),creee_le:g("d-creee"),demarree_le:g("d-demarree"),echeance:g("d-echeance"),livree_le:g("d-livree"),estime_h:num(g("d-estime")),passe_h:num(g("d-passe")),blocage:g("d-blocage"),attente_j:num(g("d-attente")),satisfaction:num(g("d-satis")),reprise:$("#d-reprise").checked,commentaire:g("d-comment")};
+    if(o.statut==="livre" && !o.livree_le) o.livree_le=fd(todayT());
+    if((o.statut==="encours"||o.statut==="livre") && !o.demarree_le) o.demarree_le=o.creee_le;
+    const e1 = !o.titre ? "Indiquez un intitulé." : !pd(o.creee_le) ? "Indiquez la date de la demande." :
+      (o.demarree_le&&pd(o.demarree_le)<pd(o.creee_le)) ? "La date de démarrage précède la date de demande." :
+      (o.livree_le&&pd(o.livree_le)<pd(o.demarree_le||o.creee_le)) ? "La date de livraison précède le démarrage." : "";
+    if(e1){ const p=$("#d-err"); p.textContent=e1; p.hidden=false; return; }
+    if(d.exemple) o.exemple=true;
+    o.maj=new Date().toISOString();
+    try{ await put("demandes", d.id||uid(), o); closeModal(); toast(isNew?"Demande ajoutée":"Demande enregistrée"); }catch(x){ err(x); }
+  });
+  const dl=$("#d-del");
+  if(dl) dl.addEventListener("click",async()=>{
+    if(dl.dataset.sure!=="1"){ dl.dataset.sure="1"; dl.textContent="Confirmer la suppression"; return; }
+    try{ await del("demandes",d.id); closeModal(); toast("Demande supprimée"); }catch(x){ err(x); }
+  });
+}
+function closeModal(){ $("#modal").innerHTML=""; }
+
+/* ---------- CSV ---------- */
+const COLS=["titre","type","demandeur","responsable","statut","creee_le","demarree_le","echeance","livree_le","estime_h","passe_h","blocage","attente_j","satisfaction","reprise","commentaire"];
+function toCSV(){
+  const q=v=>{ const s=v==null?"":String(v); return /[;"\n]/.test(s)?`"${s.replace(/"/g,'""')}"`:s; };
+  return [COLS.join(";"),...S.demandes.map(d=>COLS.map(k=>q(k==="statut"?STATUTS[d.statut]||d.statut:k==="reprise"?(d.reprise?"oui":"non"):d[k])).join(";"))].join("\n");
+}
+function parseCSV(text){
+  const sep = (text.split("\n")[0].match(/;/g)||[]).length >= (text.split("\n")[0].match(/,/g)||[]).length ? ";" : ",";
+  const rows=[]; let row=[], cur="", q=false;
+  for(let i=0;i<text.length;i++){ const ch=text[i];
+    if(q){ if(ch==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
+    else if(ch==='"') q=true; else if(ch===sep){row.push(cur);cur="";} else if(ch==="\n"){row.push(cur);rows.push(row);row=[];cur="";} else if(ch!=="\r") cur+=ch; }
+  if(cur||row.length){row.push(cur);rows.push(row);}
+  const norm=s=>s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z_]/g,"");
+  const head=rows.shift().map(norm);
+  const stMap=Object.fromEntries(Object.entries(STATUTS).map(([k,l])=>[norm(l.split(" ")[0]),k]));
+  const toISO=s=>{ s=(s||"").trim(); let m=/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})/.exec(s); if(m) return `${m[3]}-${m[2].padStart(2,"0")}-${m[1].padStart(2,"0")}`; m=/^(\d{4}-\d{2}-\d{2})/.exec(s); return m?m[1]:""; };
+  const out=[];
+  rows.filter(r=>r.some(x=>x.trim())).forEach(r=>{
+    const o={}; head.forEach((h,i)=>{ if(COLS.includes(h)) o[h]=(r[i]||"").trim(); });
+    if(!o.titre) return;
+    ["creee_le","demarree_le","echeance","livree_le"].forEach(k=>o[k]=toISO(o[k]));
+    ["estime_h","passe_h","attente_j","satisfaction"].forEach(k=>o[k]=num(o[k]));
+    const s=norm(o.statut||""); o.statut = STATUTS[s]? s : stMap[s] || (o.livree_le?"livre":o.demarree_le?"encours":"backlog");
+    o.reprise = /^(oui|yes|1|true|vrai)$/i.test(o.reprise||"");
+    if(!o.creee_le) return; out.push(o);
+  });
+  return out;
+}
+function openImport(){
+  $("#modal").innerHTML=`<div class="overlay" data-close="1"><div class="modal">
+   <div style="display:flex;justify-content:space-between;gap:8px"><h2>Importer des demandes</h2><button class="btn small" data-close="1">Fermer</button></div>
+   <p class="muted" style="margin:0">Exportez vos tickets depuis votre outil (GLPI, Jira, tableur…) en CSV, séparateur « ; » ou « , ». La première ligne doit contenir ces colonnes (les autres sont ignorées, seules <b>titre</b> et <b>creee_le</b> sont obligatoires). Dates au format JJ/MM/AAAA ou AAAA-MM-JJ.</p>
+   <code class="mono" style="font-size:.78rem;background:var(--surface-2);padding:8px;border-radius:6px;overflow-x:auto;white-space:nowrap;display:block">${COLS.join(";")}</code>
+   <label class="f"><span>Fichier CSV</span><input type="file" id="i-file" accept=".csv,text/csv,text/plain"></label>
+   <label class="f"><span>ou collez le contenu</span><textarea id="i-text" rows="6" placeholder="titre;type;responsable;creee_le;…"></textarea></label>
+   <p id="i-msg" class="muted" style="margin:0"></p>
+   <div class="actions"><button class="btn" data-close="1">Annuler</button><button class="btn primary" id="i-go">Importer</button></div>
+  </div></div>`;
+  $("#i-file").addEventListener("change",e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ $("#i-text").value=r.result; preview(); }; r.readAsText(f); });
+  const preview=()=>{ try{ const n=parseCSV($("#i-text").value).length; $("#i-msg").textContent=n?`${n} demande(s) reconnue(s).`:"Aucune ligne reconnue : vérifiez la ligne d'en-tête."; }catch(e){ $("#i-msg").textContent="Contenu illisible."; } };
+  $("#i-text").addEventListener("input",preview);
+  $("#i-go").addEventListener("click",async()=>{
+    let rows=[]; try{ rows=parseCSV($("#i-text").value); }catch(e){}
+    if(!rows.length){ $("#i-msg").textContent="Rien à importer : vérifiez la ligne d'en-tête."; return; }
+    $("#i-go").disabled=true; $("#i-msg").textContent=`Import de ${rows.length} demande(s)…`;
+    try{ for(const r of rows){ r.maj=new Date().toISOString(); await put("demandes",uid(),r); } closeModal(); toast(`${rows.length} demande(s) importée(s)`); }catch(x){ err(x); $("#i-go").disabled=false; }
+  });
+}
+async function doExport(){
+  const csv="﻿"+toCSV();
+  let dl=null; try{ dl=await window.claude?.use?.("downloads"); }catch(e){}
+  if(dl){ try{ await dl.save({filename:`demandes-pole-technique-${fd(todayT())}.csv`, data:new Blob([csv],{type:"text/csv"})}); return; }catch(e){ if(e&&e.code==="cancelled") return; } }
+  $("#modal").innerHTML=`<div class="overlay" data-close="1"><div class="modal"><h2>Export CSV</h2><p class="muted">Copiez ce contenu dans un fichier .csv.</p><textarea rows="10" readonly id="x-csv">${esc(csv.slice(1))}</textarea><div class="actions"><button class="btn" id="x-copy">Copier</button><button class="btn primary" data-close="1">Fermer</button></div></div></div>`;
+  $("#x-copy").addEventListener("click",()=>{ const t=$("#x-csv"); navigator.clipboard.writeText(t.value).then(()=>toast("Copié"),()=>{ t.select(); }); });
+}
+
+/* ---------- vue Retours ---------- */
+function viewRetours(){
+  const list=S.retours.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+  return `<div class="grid2">
+  <form class="panel stack" id="rform">
+    <div><h2>Noter un retour</h2><p class="q muted" style="margin:4px 0 0">Les chiffres montrent où ça bloque ; les personnes expliquent pourquoi. Notez ici ce que disent l'équipe et les demandeurs (point d'équipe, rétrospective, entretien).</p></div>
+    <div class="fgrid">
+      <label class="f"><span>Date</span><input type="date" id="r-date" value="${fd(todayT())}"></label>
+      <label class="f"><span>Source</span><select id="r-src"><option>Équipe technique</option><option>Demandeur / client</option><option>Management</option></select></label>
+      <label class="f"><span>Dimension</span><select id="r-dim">${Object.entries(DIMS).map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></label>
+      <label class="f wide"><span>Constat *</span><textarea id="r-constat" rows="2" placeholder="Ex. : les demandes de validation restent sans réponse plusieurs jours"></textarea></label>
+      <label class="f wide"><span>Cause perçue</span><textarea id="r-cause" rows="2"></textarea></label>
+      <label class="f wide"><span>Idée d'amélioration</span><textarea id="r-idee" rows="2"></textarea></label>
+    </div>
+    <div class="actions"><button class="btn primary" type="submit">Enregistrer le retour</button></div>
+  </form>
+  <section class="stack">
+    <h2>${list.length} retour(s)</h2>
+    ${list.map(r=>`<div class="panel" style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center"><span class="mono muted">${frDate(r.date)}</span><span class="chip">${esc(r.source)}</span><span class="chip info">${esc(DIMS[r.dimension]||r.dimension)}</span><span class="grow" style="flex:1"></span><button class="btn small" data-act="delr" data-id="${esc(r.id)}">Supprimer</button></div>
+      <div><b style="font-weight:500">${esc(r.constat)}</b></div>${r.cause?`<div class="muted"><b>Cause :</b> ${esc(r.cause)}</div>`:""}${r.idee?`<div class="muted"><b>Idée :</b> ${esc(r.idee)}</div>`:""}</div>`).join("") || `<div class="panel muted">Aucun retour pour l'instant.</div>`}
+  </section></div>`;
+}
+
+/* ---------- vue Réglages ---------- */
+function viewReglages(){
+  const c=cfg();
+  return `<div class="stack" style="gap:20px">
+  <section class="panel stack">
+    <div><div class="eyebrow">Étape 1</div><h2>Périmètre et raison d'être du pôle</h2></div>
+    <div class="fgrid">
+      <label class="f wide"><span>Raison d'être (pourquoi le pôle existe)</span><textarea data-p="raison" rows="2" placeholder="Ex. : garantir la disponibilité des outils et livrer les évolutions demandées par les métiers">${esc(c.perimetre.raison)}</textarea></label>
+      <label class="f"><span>Entrées (ce qui arrive)</span><textarea data-p="entrees" rows="3" placeholder="Incidents, demandes d'évolution, projets…">${esc(c.perimetre.entrees)}</textarea></label>
+      <label class="f"><span>Transformation (ce que fait le pôle)</span><textarea data-p="transformation" rows="3" placeholder="Diagnostic, développement, intervention, recette…">${esc(c.perimetre.transformation)}</textarea></label>
+      <label class="f"><span>Sorties (ce qui est livré)</span><textarea data-p="sorties" rows="3" placeholder="Service rétabli, fonctionnalité en production…">${esc(c.perimetre.sorties)}</textarea></label>
+    </div>
+  </section>
+  <section class="panel stack">
+    <div><h2>Équipe et capacité</h2><p class="muted" style="margin:4px 0 0">Capacité = heures réellement disponibles par semaine pour les demandes (hors réunions, congés moyens, tâches transverses).</p></div>
+    <div class="stack" id="members">${c.membres.map((m,i)=>`<div class="member">
+      <label class="f"><span>Nom</span><input data-m="${i}" data-k="nom" value="${esc(m.nom)}"></label>
+      <label class="f"><span>Rôle</span><input data-m="${i}" data-k="role" value="${esc(m.role)}"></label>
+      <label class="f"><span>h / semaine</span><input data-m="${i}" data-k="capacite" inputmode="decimal" value="${esc(m.capacite)}"></label>
+      <button class="btn small danger" data-act="delm" data-i="${i}">Retirer</button></div>`).join("") || `<p class="muted">Aucun membre.</p>`}</div>
+    <div><button class="btn" data-act="addm">Ajouter une personne</button></div>
+    <label class="f" style="max-width:240px"><span>Heures ouvrées par jour</span><input id="c-hj" inputmode="decimal" value="${esc(c.heuresJour)}"></label>
+  </section>
+  <section class="panel stack">
+    <div><div class="eyebrow">Étape 2</div><h2>Indicateurs clés et cibles</h2><p class="muted" style="margin:4px 0 0">Cochez 3 à 5 indicateurs, en couvrant plusieurs dimensions (volume, délai, qualité…). Tous restent calculés dans le tableau de bord ; les cochés apparaissent en tête. Laissez la cible vide si vous préférez d'abord établir la ligne de base.</p></div>
+    <p class="chip ${c.kpis.length>=3&&c.kpis.length<=5?"ok":"warn"}">${c.kpis.length} sélectionné(s)</p>
+    <div class="kpipick">${Object.entries(KPI).map(([k,K])=>`
+      <input type="checkbox" data-kpi="${k}" ${c.kpis.includes(k)?"checked":""} ${!c.kpis.includes(k)&&c.kpis.length>=5?"disabled":""} style="width:auto" id="k-${k}">
+      <label for="k-${k}"><b style="font-weight:500">${K.label}</b> <span class="chip dimtag">${DIMS[K.dim]}</span><div class="muted" style="font-size:.8rem">${K.help}</div></label>
+      <label class="f"><span>Cible ${K.sens==="haut"?"≥":"≤"} (${esc(K.unit||"nb")})</span><input data-cible="${k}" inputmode="decimal" value="${esc(cible(k)??"")}"></label>`).join("")}</div>
+  </section>
+  <section class="panel stack">
+    <div><div class="eyebrow">Étape 3</div><h2>Lignes de base</h2></div>
+    ${S.baselines.length?`<div class="tablewrap"><table><thead><tr><th>Date</th><th>Période</th>${Object.keys(KPI).slice(0,6).map(k=>`<th class="n">${KPI[k].label}</th>`).join("")}<th></th></tr></thead><tbody>${S.baselines.slice().sort((a,b)=>String(b.date).localeCompare(String(a.date))).map(b=>`<tr><td class="mono">${frDate(b.date)}</td><td>${b.periode} sem.</td>${Object.keys(KPI).slice(0,6).map(k=>`<td class="n">${kpiValue(k,b.valeurs?.[k])}</td>`).join("")}<td><button class="btn small" data-act="delb" data-id="${esc(b.id)}">Supprimer</button></td></tr>`).join("")}</tbody></table></div>`:`<p class="muted">Aucune. Mesurez quelques semaines sans changer le fonctionnement, puis figez la ligne de base depuis le tableau de bord.</p>`}
+  </section>
+  <section class="panel stack"><h2>Données</h2><div class="actions" style="justify-content:flex-start"><button class="btn" data-act="seed">Charger le jeu d'exemple</button><button class="btn danger" data-act="purge">Supprimer les exemples</button></div></section>
+  </div>`;
+}
+
+/* ---------- vue Méthode ---------- */
+function viewMethode(){
+  return `<div class="prose">
+  <h2 style="margin-top:0">Ce que mesure l'outil</h2>
+  <p>Chaque demande traitée par le pôle porte quelques dates (demande, démarrage, échéance, livraison), un temps estimé et passé, une éventuelle cause d'attente, une reprise et une note de satisfaction. Tous les indicateurs en découlent ; aucune saisie supplémentaire n'est nécessaire.</p>
+  </div>
+  <div class="steps" style="margin:12px 0 24px">
+    <div class="panel"><b>1</b><b style="color:var(--ink);font-family:var(--f-body)">Périmètre</b><p class="muted" style="margin:6px 0 0">Raison d'être, entrées, transformation, sorties. Onglet Réglages.</p></div>
+    <div class="panel"><b>2</b><b style="color:var(--ink);font-family:var(--f-body)">3 à 5 indicateurs</b><p class="muted" style="margin:6px 0 0">Un de volume, un de délai, un de qualité au minimum. Onglet Réglages.</p></div>
+    <div class="panel"><b>3</b><b style="color:var(--ink);font-family:var(--f-body)">Ligne de base</b><p class="muted" style="margin:6px 0 0">4 à 8 semaines de mesure sans rien changer, puis « Figer la ligne de base ».</p></div>
+    <div class="panel"><b>4</b><b style="color:var(--ink);font-family:var(--f-body)">Collecte régulière</b><p class="muted" style="margin:6px 0 0">Import CSV hebdomadaire depuis l'outil de tickets ; revue des leviers en point d'équipe.</p></div>
+  </div>
+  <div class="tablewrap" style="margin-bottom:24px"><table><thead><tr><th>Dimension</th><th>Question</th><th>Indicateurs</th></tr></thead><tbody>
+  ${Object.entries(DIMS).map(([d,l])=>`<tr><td><b style="font-weight:500">${l}</b></td><td class="t muted">${{charge:"Combien de travail pèse sur le pôle ?",efficacite:"Atteint-on l'objectif ?",efficience:"À quel coût en ressources ?",qualite:"Le résultat est-il bon et stable ?",flux:"À quelle vitesse ça circule, où ça bloque ?",equilibrage:"La charge est-elle bien répartie ?"}[d]}</td><td class="t">${Object.values(KPI).filter(k=>k.dim===d).map(k=>k.label).join(", ")}</td></tr>`).join("")}
+  </tbody></table></div>
+  <div class="prose">
+  <h2>Les pièges à éviter</h2>
+  <ul>
+    <li><b>Loi de Goodhart.</b> Ne transformez pas un indicateur en objectif individuel : si l'on juge sur le débit, les demandes difficiles seront évitées. Regardez toujours un indicateur de délai et un de qualité ensemble.</li>
+    <li><b>Activité contre impact.</b> Les heures passées mesurent l'effort, pas le résultat. Le tableau de bord met en tête les livraisons, les délais et les reprises.</li>
+    <li><b>Médiane plutôt que moyenne.</b> Les durées sont calculées en médiane pour qu'un dossier exceptionnel ne fausse pas la lecture.</li>
+    <li><b>Le retour humain.</b> Un goulot repéré dans les chiffres se comprend en parlant avec les personnes concernées. Notez ces échanges dans l'onglet Retours humains.</li>
+  </ul>
+  <h2>Définitions de calcul</h2>
+  <ul>
+    <li><b>Lead time</b> : livraison − demande, en jours calendaires. <b>Temps de cycle</b> : livraison − démarrage.</li>
+    <li><b>Efficience du flux</b> : temps passé ÷ (lead time en jours ouvrés × heures ouvrées par jour), moyenne des demandes livrées.</li>
+    <li><b>Stock de travail</b> : somme de (estimé − passé) sur les demandes ouvertes ÷ capacité hebdomadaire. Sans estimation, 4 h sont retenues par défaut.</li>
+    <li><b>Déséquilibre</b> : écart-type ÷ moyenne du stock de travail par personne.</li>
+    <li>La période (4 à 26 semaines) s'applique aux demandes livrées et arrivées ; les demandes ouvertes sont toujours prises en compte.</li>
+  </ul></div>`;
+}
+
+/* ---------- jeu d'exemple ---------- */
+/*GEN-START*/
+function exemples(T){
+  let s=42; const r=()=>{ s=(s*16807)%2147483647; return (s-1)/2147483646; };
+  const pick=a=>a[Math.floor(r()*a.length)];
+  const membres=[{nom:"Camille",role:"Lead technique",capacite:28},{nom:"Yanis",role:"Technicien support",capacite:32},{nom:"Inès",role:"Développeuse",capacite:30},{nom:"Hugo",role:"Technicien terrain",capacite:30}];
+  const sujets={"Incident":["Panne imprimante étage 2","VPN coupé pour l'équipe commerciale","Erreur 500 sur l'intranet","Serveur de fichiers saturé","Badge d'accès refusé","Messagerie lente"],
+    "Demande de service":["Création compte nouvel arrivant","Installation poste de travail","Droits d'accès dossier RH","Configuration téléphone","Licence logiciel de CAO","Changement d'imprimante par défaut"],
+    "Évolution":["Export Excel du reporting ventes","Champ « SIRET » dans le CRM","Tableau de bord stock","Connexion SSO à l'outil RH","Automatiser la relance factures"],
+    "Projet":["Migration messagerie","Renouvellement parc PC","Refonte du site carrière"],
+    "Maintenance préventive":["Mise à jour serveurs","Test restauration sauvegardes","Contrôle onduleurs"]};
+  const w={"Incident":.34,"Demande de service":.3,"Évolution":.2,"Projet":.06,"Maintenance préventive":.1};
+  const typ=()=>{ let x=r(),a=0; for(const k in w){ a+=w[k]; if(x<a) return k; } return "Incident"; };
+  const est={"Incident":[2,6],"Demande de service":[1,4],"Évolution":[8,24],"Projet":[30,60],"Maintenance préventive":[3,8]};
+  const sla={"Incident":2,"Demande de service":5,"Évolution":15,"Projet":40,"Maintenance préventive":10};
+  const dem=["Service commercial","Comptabilité","RH","Direction","Logistique","Marketing"];
+  const out=[]; const f=t=>new Date(t).toISOString().slice(0,10); const D=86400000;
+  for(let i=0;i<64;i++){
+    const t=typ(), ago= i>=50 ? Math.floor(r()*16) : Math.floor(r()*80), cree=T-ago*D;
+    const resp = t==="Évolution"||t==="Projet" ? (r()<.75?"Inès":"Camille") : t==="Incident" ? (r()<.55?"Yanis":pick(["Hugo","Camille"])) : pick(["Yanis","Hugo","Hugo","Camille"]);
+    const e=Math.round(est[t][0]+r()*(est[t][1]-est[t][0]));
+    let wait=Math.floor(r()*(t==="Incident"?1:7)); if(resp==="Inès") wait+=Math.floor(r()*12); if(i>=50&&r()<.5) wait+=14; else if(i>=50) wait+=4;
+    const blocage = r()<.38 ? pick(["Attente validation","Attente validation","Attente demandeur","Attente fournisseur / pièce","Attente autre équipe","Environnement / outil indisponible"]) : "";
+    const attente = blocage ? Math.round(1+r()*(blocage==="Attente validation"?9:5)) : null;
+    const work=Math.max(1,Math.round(e/4*(0.8+r()*.9)));
+    const start=cree+wait*D, liv=start+(work+(attente||0))*D;
+    const o={titre:pick(sujets[t]),type:t,demandeur:pick(dem),responsable:resp,creee_le:f(cree),echeance:f(cree+sla[t]*D),estime_h:e,blocage,attente_j:attente,exemple:true,commentaire:""};
+    if(liv<=T){ o.statut="livre"; o.demarree_le=f(start); o.livree_le=f(liv); o.passe_h=Math.round(e*(0.8+r()*.9)*10)/10; o.reprise=r()<.13; o.satisfaction= r()<.7 ? Math.max(1,Math.min(5,Math.round(3.2+r()*2-(o.reprise?1.5:0)))) : null; }
+    else if(start<=T){ o.statut= blocage&&r()<.6?"bloque":"encours"; o.demarree_le=f(start); o.passe_h=Math.round(e*r()*.7*10)/10; o.reprise=false; o.satisfaction=null; }
+    else { o.statut="backlog"; o.demarree_le=""; o.passe_h=0; o.reprise=false; o.satisfaction=null; }
+    o.livree_le=o.livree_le||"";
+    out.push(o);
+  }
+  const retours=[{date:f(T-12*D),source:"Équipe technique",dimension:"flux",constat:"Les évolutions restent bloquées plusieurs jours en attente de validation métier.",cause:"Pas de valideur désigné côté demandeur.",idee:"Nommer un valideur par demande et convenir d'un délai de réponse de 48 h."},
+    {date:f(T-5*D),source:"Demandeur / client",dimension:"qualite",constat:"Deux livraisons du CRM ont dû être corrigées après mise en production.",cause:"Recette faite par le développeur seul.",idee:"Recette croisée avant chaque mise en production."}];
+  return {membres,demandes:out,retours};
+}
+/*GEN-END*/
+async function seed(){
+  const ex=exemples(todayT()), c=cfg();
+  try{
+    if(!c.membres.length) await saveConfig(Object.assign(c,{membres:ex.membres}));
+    for(const d of ex.demandes) await put("demandes",uid(),d);
+    for(const r of ex.retours) await put("retours",uid(),{...r,exemple:true});
+    toast("Jeu d'exemple chargé");
+  }catch(x){ err(x); }
+}
+let purgeArm=0;
+async function purge(btn){
+  if(Date.now()-purgeArm>4000){ purgeArm=Date.now(); btn.textContent="Cliquer à nouveau pour confirmer"; return; }
+  try{
+    for(const d of S.demandes.filter(d=>d.exemple)) await del("demandes",d.id);
+    for(const r of S.retours.filter(r=>r.exemple)) await del("retours",r.id);
+    toast("Exemples supprimés");
+  }catch(x){ err(x); }
+}
+
+/* ---------- interactions ---------- */
+let toastT;
+function toast(m){ clearTimeout(toastT); let t=$(".toast"); if(!t){ t=document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); document.body.appendChild(t); } t.textContent=m; toastT=setTimeout(()=>t.remove(),2600); }
+
+document.addEventListener("click",async e=>{
+  const t=e.target.closest("[data-tab],[data-act],[data-close]"); if(!t) return;
+  if(t.dataset.close && e.target!==t && !e.target.closest("button[data-close]")) return;
+  if(t.dataset.close){ closeModal(); return; }
+  if(t.dataset.tab){ tab=t.dataset.tab; render(); window.scrollTo(0,0); return; }
+  const a=t.dataset.act, c=cfg();
+  if(a==="new") openForm(null);
+  else if(a==="edit") openForm(S.demandes.find(d=>d.id===t.dataset.id));
+  else if(a==="import") openImport();
+  else if(a==="export") doExport();
+  else if(a==="seed") seed();
+  else if(a==="purge") purge(t);
+  else if(a==="baseline"){
+    const R=compute(c.periode), id=fd(todayT());
+    try{ await put("baselines",id,{date:id,periode:c.periode,valeurs:R.m}); toast("Ligne de base figée"); }catch(x){ err(x); }
+  }
+  else if(a==="delb"){ try{ await del("baselines",t.dataset.id); }catch(x){ err(x); } }
+  else if(a==="delr"){ try{ await del("retours",t.dataset.id); }catch(x){ err(x); } }
+  else if(a==="addm"){ c.membres=[...c.membres,{nom:"",role:"",capacite:30}]; saveConfig(c); }
+  else if(a==="delm"){ c.membres=c.membres.filter((_,i)=>i!==+t.dataset.i); saveConfig(c); }
+});
+document.addEventListener("change",e=>{
+  const el=e.target, c=cfg();
+  if(el.id==="periode"){ c.periode=+el.value; saveConfig(c); if(!db) return; S.config=c; render(); }
+  else if(el.id==="f-statut"){ filt.statut=el.value; render(); }
+  else if(el.id==="f-resp"){ filt.resp=el.value; render(); }
+  else if(el.dataset.p){ c.perimetre[el.dataset.p]=el.value; saveConfig(c); }
+  else if(el.dataset.m!=null && el.dataset.k){ const m=c.membres.map(x=>({...x})); m[+el.dataset.m][el.dataset.k]= el.dataset.k==="capacite"? num(el.value) : el.value; c.membres=m; saveConfig(c); }
+  else if(el.id==="c-hj"){ c.heuresJour=num(el.value)||7; saveConfig(c); }
+  else if(el.dataset.kpi){ const k=el.dataset.kpi; c.kpis = el.checked ? [...c.kpis.filter(x=>x!==k),k].slice(0,5) : c.kpis.filter(x=>x!==k); saveConfig(c); if(db){ S.config=c; } el.blur(); }
+  else if(el.dataset.cible){ c.cibles[el.dataset.cible]= el.value.trim()===""? "" : num(el.value); saveConfig(c); }
+});
+let qT;
+document.addEventListener("input",e=>{ if(e.target.id==="f-q"){ clearTimeout(qT); qT=setTimeout(()=>{ filt.q=e.target.value; render(); const i=$("#f-q"); if(i){ i.focus(); i.setSelectionRange(i.value.length,i.value.length); } },250); } });
+document.addEventListener("submit",async e=>{
+  if(e.target.id!=="rform") return; e.preventDefault();
+  const g=id=>$("#"+id).value.trim();
+  if(!g("r-constat")){ toast("Décrivez le constat."); return; }
+  try{ await put("retours",uid(),{date:g("r-date")||fd(todayT()),source:g("r-src"),dimension:g("r-dim"),constat:g("r-constat"),cause:g("r-cause"),idee:g("r-idee")}); e.target.reset(); toast("Retour enregistré"); }catch(x){ err(x); }
+});
+document.addEventListener("keydown",e=>{ if(e.key==="Escape" && $("#modal").innerHTML) closeModal(); });
+/* infobulles */
+const tip=$("#tip");
+document.addEventListener("pointermove",e=>{
+  const t=e.target.closest&&e.target.closest("[data-tip]");
+  if(!t){ tip.hidden=true; return; }
+  tip.textContent=t.getAttribute("data-tip"); tip.hidden=false;
+  const w=tip.offsetWidth, x=Math.min(window.innerWidth-w-8, e.clientX+12), y=e.clientY+16;
+  tip.style.left=Math.max(8,x)+"px"; tip.style.top=y+"px";
+});
+document.addEventListener("pointerleave",()=>tip.hidden=true);
+
+init();
+</script>
